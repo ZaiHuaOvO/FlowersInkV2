@@ -1,0 +1,22 @@
+.layout {
+  min-height: 100vh;
+}
+
+nz-header {
+  position: fixed;
+  width: 100%;
+  background: #fff;
+}
+
+nz-content {
+  margin-top: 64px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+nz-footer {
+  text-align: center;
+  padding: 0;
+}

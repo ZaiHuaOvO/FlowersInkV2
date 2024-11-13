@@ -1,0 +1,26 @@
+<div class="header" nz-flex nzJustify="space-between">
+    <div class="logo" nz-flex nzAlign="center" nzJustify="center" nzGap="middle">
+        <nz-avatar nzSize="small" nzIcon="user" nzSrc="assets/img/猫娘.jpg"></nz-avatar>
+        <h3>花墨</h3>
+    </div>
+    <div>
+        <ul nz-menu nzMode="horizontal">
+            @for (menu of MenuList; track $index) {
+            <li nz-menu-item *ngIf="menu.child?.length == 0; else elseChild">
+                <span nz-icon [nzType]="menu.icon" nzTheme="fill"></span>
+                {{ menu.title }}
+            </li>
+
+            <ng-template #elseChild>
+                <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzTheme="outline" nzPlacement="bottomCenter">
+                    <ul>
+                        @for (childs of menu.child; track $index) {
+                        <li nz-menu-item>{{ childs.title }}</li>
+                        }
+                    </ul>
+                </li>
+            </ng-template>
+            }
+        </ul>
+    </div>
+</div>

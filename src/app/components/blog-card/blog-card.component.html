@@ -1,0 +1,5 @@
+<div class="blog_card" nz-flex [nzGap]="'small'" nzAlign="start" nzJustify="center" [nzVertical]="true">
+  <h4 nz-typography> {{blog.title}} </h4>
+  <p nz-typography nzEllipsis [nzContent]="blog.content" [nzEllipsisRows]="2"></p>
+  <span nz-typography nzType="secondary">{{ blog.date | date:'yyyy-MM-dd' }}</span>
+</div>

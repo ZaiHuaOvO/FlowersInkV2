@@ -1,13 +1,28 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { MenuService, NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [
+    RouterModule,
+    NzIconModule,
+    NzLayoutModule,
+    NzMenuModule,
+    NzFlexModule,
+    HeaderComponent,
+    FooterComponent,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'FlowersInkV2';
+  isCollapsed = false;
 }

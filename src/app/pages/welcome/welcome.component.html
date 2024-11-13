@@ -1,0 +1,13 @@
+<div class="welcome" nz-flex>
+    <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
+        <div class="flower_card" nz-flex nzJustify="center" nzAlign="center">
+            <h1 nz-typography class="welcome_title">花墨的精选文章</h1>
+        </div>
+        <div *ngFor="let item of data" class="flower_card">
+            <flower-blog-card [blog]="item"></flower-blog-card>
+        </div>
+    </div>
+    <div class="me">
+        <flower-me-card></flower-me-card>
+    </div>
+</div>

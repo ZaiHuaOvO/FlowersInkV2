@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* 全局卡片样式，适用于文章、点滴等 */
+.flower_card {
+    box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
+    border-radius: 10px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.flower_card:hover {
+    background-color: #d9d9d6;
+}
