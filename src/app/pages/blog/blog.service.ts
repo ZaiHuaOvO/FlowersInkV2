@@ -6,10 +6,10 @@ import { HttpService } from '../../services/http.service';
 @Injectable({
   providedIn: 'root',
 })
-export class WelcomeService {
+export class BlogService {
   constructor(private http: HttpService) {}
 
-  getBlogs(data?: any): Observable<object> {
+  getBlogs(data: any): Observable<object> {
     return this.http.get(API.BLOG, data);
   }
 

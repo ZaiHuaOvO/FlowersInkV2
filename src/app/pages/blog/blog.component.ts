@@ -1,0 +1,72 @@
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { BlogCardComponent } from '../../components/blog-card/blog-card.component';
+import { MeCardComponent } from '../../components/me-card/me-card.component';
+import { WelcomeService } from '../welcome/welcome.service';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+
+@Component({
+  selector: 'app-blog',
+  templateUrl: './blog.component.html',
+  styleUrls: ['./blog.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    NzFlexModule,
+    NzSpinModule,
+    NzTimelineModule,
+    NzTypographyModule,
+  ],
+})
+export class BlogComponent implements OnInit {
+  data: any[] = [];
+  loading = true;
+  constructor(private welcome: WelcomeService) {}
+
+  ngOnInit() {
+    this.loading = true;
+    this.welcome.getBlogs().subscribe((res: any) => {
+      const data = res['data'].data;
+      this.data = this.processAndGroupData(data);
+      console.log('this.data: ', this.data);
+      this.loading = false;
+    });
+  }
+
+  processAndGroupData(dataArray: any[]) {
+    // 按 date 排序，从新到旧
+    dataArray.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
+    // 将所有博客按年份分组
+    const groupedData = dataArray.reduce((acc, item) => {
+      const date = new Date(item.date);
+      const year = date.getFullYear().toString();
+      const time = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(
+        date.getDate()
+      ).padStart(2, '0')}`;
+
+      // 为每个数据项新增 time 字段
+      item.time = time;
+
+      // 如果当前年份在分组对象中不存在，则创建一个新数组
+      if (!acc[year]) {
+        acc[year] = { year, data: [] };
+      }
+
+      // 将当前数据项加入到对应年份的 data 数组中
+      acc[year].data.push(item);
+
+      return acc;
+    }, {} as Record<string, { year: string; data: any[] }>);
+
+    // 将分组结果转换为数组格式并按年份从新到旧排序
+    return Object.values(groupedData).sort(
+      (a: any, b: any) => parseInt(b.year) - parseInt(a.year)
+    );
+  }
+}

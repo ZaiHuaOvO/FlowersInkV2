@@ -6,7 +6,7 @@
     <div>
         <ul nz-menu nzMode="horizontal">
             @for (menu of MenuList; track $index) {
-            <li nz-menu-item *ngIf="menu.child?.length == 0; else elseChild">
+            <li nz-menu-item *ngIf="menu.child?.length == 0; else elseChild" [routerLink]="[menu.url]">
                 <span nz-icon [nzType]="menu.icon" nzTheme="fill"></span>
                 {{ menu.title }}
             </li>
@@ -15,7 +15,7 @@
                 <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzTheme="outline" nzPlacement="bottomCenter">
                     <ul>
                         @for (childs of menu.child; track $index) {
-                        <li nz-menu-item>{{ childs.title }}</li>
+                        <li nz-menu-item class="item_child" [routerLink]="[childs.url]">{{ childs.title }}</li>
                         }
                     </ul>
                 </li>

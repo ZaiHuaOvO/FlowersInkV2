@@ -1,0 +1,16 @@
+<div class="welcome" nz-flex nzJustify="center" [nzVertical]="true">
+  <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
+    <ng-container *ngFor="let item of data">
+      <div class="blog">
+        <h2 nz-typography>{{item.year}}年</h2>
+        <nz-timeline>
+          <nz-timeline-item *ngFor="let blog of item.data">
+            <span nz-typography class="blog_title">{{ blog.time | date:'MM-dd' }} {{blog.title}}</span>
+          </nz-timeline-item>
+        </nz-timeline>
+      </div>
+    </ng-container>
+  </div>
+  <div class="me">
+  </div>
+</div>
