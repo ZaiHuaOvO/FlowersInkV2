@@ -7,6 +7,8 @@ import { MeCardComponent } from '../../components/me-card/me-card.component';
 import { WelcomeService } from '../welcome/welcome.service';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-blog',
@@ -19,6 +21,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzSpinModule,
     NzTimelineModule,
     NzTypographyModule,
+    NzInputModule,
+    NzIconModule,
   ],
 })
 export class BlogComponent implements OnInit {
@@ -31,7 +35,6 @@ export class BlogComponent implements OnInit {
     this.welcome.getBlogs().subscribe((res: any) => {
       const data = res['data'].data;
       this.data = this.processAndGroupData(data);
-      console.log('this.data: ', this.data);
       this.loading = false;
     });
   }

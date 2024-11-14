@@ -1,16 +1,27 @@
-<div class="welcome" nz-flex nzJustify="center" [nzVertical]="true">
+<div class="welcome" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
   <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
+    <div class="search card" nz-flex nzAlign="center" nzJustify="center">
+      <nz-input-group [nzSuffix]="suffixIconSearch">
+        <!-- TODO:自动匹配搜索 -->
+        <input type="text" nz-input placeholder="想要搜点儿什么?" />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <span nz-icon nzType="search"></span>
+      </ng-template>
+    </div>
     <ng-container *ngFor="let item of data">
-      <div class="blog">
+      <div class="blog card">
         <h2 nz-typography>{{item.year}}年</h2>
         <nz-timeline>
           <nz-timeline-item *ngFor="let blog of item.data">
-            <span nz-typography class="blog_title">{{ blog.time | date:'MM-dd' }} {{blog.title}}</span>
+            <div nz-flex nzGap="middle">
+              <span nz-typography class="blog_time" nzType="secondary">{{ blog.time | date:'MM-dd' }}</span>
+              <span nz-typography class="blog_title"><span *ngIf="blog.type">[{{ blog.type
+                  }}]</span>{{blog.title}}</span>
+            </div>
           </nz-timeline-item>
         </nz-timeline>
       </div>
     </ng-container>
-  </div>
-  <div class="me">
   </div>
 </div>

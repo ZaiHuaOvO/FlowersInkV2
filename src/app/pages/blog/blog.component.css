@@ -8,19 +8,21 @@
 .content {
     width: 60%;
     min-height: 500px;
-    margin-left: 9.5%;
-}
-
-.me {
-    width: 20%;
-    min-height: 200px;
-    position: fixed;
-    right: 9.5%;
 }
 
 .blog {
     padding: 24px;
-    box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
-    border-radius: 10px;
-    background-color: #fff;
+}
+
+.search {
+    width: 100%;
+    padding: 12px;
+}
+
+.blog_title {
+    cursor: pointer;
+}
+
+.blog_title:hover {
+    color: #B1D9FF;
 }
