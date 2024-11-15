@@ -8,6 +8,8 @@ nz-header {
   position: fixed;
   width: 100%;
   background: #fff;
+  /* 导航永远在上层 */
+  z-index: 999;
 }
 
 nz-content {

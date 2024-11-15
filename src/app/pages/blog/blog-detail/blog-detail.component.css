@@ -1,0 +1,46 @@
+.article {
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 500px;
+    padding: 24px;
+}
+
+.content {
+    width: 60%;
+    min-height: 500px;
+    margin-left: 9.5%;
+}
+
+.me {
+    width: 20%;
+    min-height: 200px;
+    position: fixed;
+    right: 9.5%;
+}
+
+.me_box {
+    padding: 24px;
+}
+
+.search {
+    width: 100%;
+    padding: 12px;
+    height: auto;
+}
+
+.tag {
+    width: 100%;
+}
+
+.menu {
+    margin-top: 12px;
+}
+
+nz-page-header {
+    border: 0;
+    border-radius: 10px;
+}
+
+nz-anchor {
+    padding: 12px;
+}

@@ -11,6 +11,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-blog',
@@ -26,6 +27,7 @@ import { debounceTime } from 'rxjs';
     NzTypographyModule,
     NzInputModule,
     NzIconModule,
+    RouterModule,
   ],
 })
 export class BlogComponent implements OnInit {

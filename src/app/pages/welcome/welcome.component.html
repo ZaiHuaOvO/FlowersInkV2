@@ -4,7 +4,8 @@
     </div>
     <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
         <div *ngFor="let item of data" class="flower_card">
-            <flower-blog-card [blog]="item" [loading]="loading"></flower-blog-card>
+            <flower-blog-card [blog]="item" [loading]="loading"
+                [routerLink]="['/blog/blog-detail/' + item.id]"></flower-blog-card>
         </div>
     </div>
     <div class="me">

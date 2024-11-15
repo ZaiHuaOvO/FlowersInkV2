@@ -40,17 +40,17 @@ export class HeaderComponent implements OnInit {
       icon: 'align-left',
       child: [
         {
-          title: '文章',
+          title: '技术文章',
           icon: '',
           url: '/blog/article',
         },
         {
-          title: '问题',
+          title: '问题记录',
           icon: '',
           url: '/blog/question',
         },
         {
-          title: '归档',
+          title: '文归档',
           icon: '',
           url: '/blog/all',
         },

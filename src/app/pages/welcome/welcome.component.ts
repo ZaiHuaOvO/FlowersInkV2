@@ -7,6 +7,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { BlogCardComponent } from '../../components/blog-card/blog-card.component';
 import { MeCardComponent } from '../../components/me-card/me-card.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -20,6 +21,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     BlogCardComponent,
     MeCardComponent,
     NzTypographyModule,
+    RouterModule,
   ],
 })
 export class WelcomeComponent implements OnInit {
