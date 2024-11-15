@@ -9,7 +9,7 @@ import { HttpService } from '../../services/http.service';
 export class BlogService {
   constructor(private http: HttpService) {}
 
-  getBlogs(data: any): Observable<object> {
+  getBlogs(data?: any): Observable<object> {
     return this.http.get(API.BLOG, data);
   }
 

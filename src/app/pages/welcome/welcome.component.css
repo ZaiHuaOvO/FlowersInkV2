@@ -16,10 +16,15 @@
     min-height: 200px;
     position: fixed;
     right: 9.5%;
+    margin-top: 90px;
 }
 
 .welcome_title {
-    margin: 5px;
+    margin: 10px;
+    padding: 12px 0 12px 0px;
+    border-bottom: 1px solid grey;
+    height: 70px;
+    min-height: 70px;
 }
 
 .flower_card_title {

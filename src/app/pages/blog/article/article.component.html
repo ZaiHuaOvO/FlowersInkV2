@@ -1,0 +1,29 @@
+<div class="article" nz-flex [nzVertical]="true">
+    <div nz-flex nzJustify="center" nzAlign="center">
+        <h1 nz-typography class="title">技术文章</h1>
+    </div>
+    <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
+        <div *ngFor="let item of data" class="flower_card">
+            <flower-blog-card [blog]="item" [loading]="loading"></flower-blog-card>
+        </div>
+        <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"
+            (nzPageIndexChange)="pageChange($event)"></nz-pagination>
+    </div>
+    <div class="me">
+        <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+                <input type="text" nz-input placeholder="搜索文章" [formControl]="searchControl" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+            <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
+                <h5 nz-typography>文章标签</h5>
+                <div nz-flex nzWrap="wrap">
+                    <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
+                        (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

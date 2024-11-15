@@ -2,13 +2,13 @@
   <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
     <div class="search card" nz-flex nzAlign="center" nzJustify="center">
       <nz-input-group [nzSuffix]="suffixIconSearch">
-        <!-- TODO:自动匹配搜索 -->
-        <input type="text" nz-input placeholder="想要搜点儿什么?" />
+        <input type="text" nz-input placeholder="想要搜点儿什么?" [formControl]="searchControl" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <span nz-icon nzType="search"></span>
       </ng-template>
     </div>
+    <!-- <nz-spin [nzTip]="'正在努力加载中٩(๑>◡<๑)۶'" [nzSpinning]="loading"></nz-spin> -->
     <ng-container *ngFor="let item of data">
       <div class="blog card">
         <h2 nz-typography>{{item.year}}年</h2>
@@ -21,6 +21,7 @@
             </div>
           </nz-timeline-item>
         </nz-timeline>
+
       </div>
     </ng-container>
   </div>

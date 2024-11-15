@@ -12,9 +12,16 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { MenuService } from 'ng-zorro-antd/menu';
 import * as AllIcons from '@ant-design/icons-angular/icons';
+import { NzConfig } from 'ng-zorro-antd/core/config';
 
 const icons: any[] = Object.values(AllIcons);
 registerLocaleData(zh);
+
+// ng-zorro全局配置项
+const ngZorroConfig: NzConfig = {
+  // 注意组件名称没有 nz 前缀
+  pagination: { nzSimple: true },
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [

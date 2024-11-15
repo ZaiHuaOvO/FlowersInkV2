@@ -1,0 +1,35 @@
+<div class="article" nz-flex [nzVertical]="true">
+    <div nz-flex nzJustify="center" nzAlign="center">
+        <h1 nz-typography class="title">开发问题记录</h1>
+    </div>
+    <div class="content" nz-flex [nzVertical]="true" nzAlign="center">
+        <nz-spin [nzTip]="'正在努力加载中٩(๑>◡<๑)۶'" [nzSpinning]="loading">
+            <nz-collapse nzAccordion nzGhost nzBordered="false" nz-flex nzGap="small" [nzVertical]="true">
+                @for (panel of data; track panel) {
+                <nz-collapse-panel [nzHeader]="panel.title" class="card">
+                    <p style="margin:0;" nz-typography>{{panel.content}}</p>
+                </nz-collapse-panel>
+                }
+            </nz-collapse>
+            <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"
+                (nzPageIndexChange)="pageChange($event)"></nz-pagination>
+        </nz-spin>
+    </div>
+    <div class="me">
+        <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+                <input type="text" nz-input placeholder="搜索问题" [formControl]="searchControl" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+            <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
+                <h5 nz-typography>问题标签</h5>
+                <div nz-flex nzWrap="wrap">
+                    <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
+                        (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

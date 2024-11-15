@@ -1,10 +1,10 @@
-<div class="welcome" nz-flex>
-    <div *ngIf="!loading" class="content" nz-flex nzGap="middle" [nzVertical]="true">
-        <div class="flower_card_title" nz-flex nzJustify="center" nzAlign="center">
-            <h1 nz-typography class="welcome_title">花墨的精选文章</h1>
-        </div>
+<div class="welcome" nz-flex [nzVertical]="true">
+    <div nz-flex nzJustify="center" nzAlign="center">
+        <h1 nz-typography class="welcome_title">花墨的精选文章</h1>
+    </div>
+    <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
         <div *ngFor="let item of data" class="flower_card">
-            <flower-blog-card [blog]="item"></flower-blog-card>
+            <flower-blog-card [blog]="item" [loading]="loading"></flower-blog-card>
         </div>
     </div>
     <div class="me">

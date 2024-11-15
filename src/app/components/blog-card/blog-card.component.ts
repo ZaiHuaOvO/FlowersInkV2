@@ -2,6 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @Component({
@@ -14,11 +15,13 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzFlexModule,
     NzDividerModule,
     NzTypographyModule,
+    NzSkeletonModule,
     DatePipe,
   ],
 })
 export class BlogCardComponent implements OnInit {
   @Input() blog: any;
+  @Input() loading: boolean = true;
   constructor() {}
 
   ngOnInit() {}

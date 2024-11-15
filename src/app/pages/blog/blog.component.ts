@@ -9,6 +9,8 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-blog',
@@ -17,6 +19,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   standalone: true,
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     NzFlexModule,
     NzSpinModule,
     NzTimelineModule,
@@ -27,16 +30,35 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 })
 export class BlogComponent implements OnInit {
   data: any[] = [];
+  count = 0;
   loading = true;
-  constructor(private welcome: WelcomeService) {}
+  searchControl = new FormControl('');
+  constructor(private welcome: WelcomeService) {
+    // 添加防抖，设置时间为500ms
+    this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
+      this.getBlog();
+    });
+  }
 
   ngOnInit() {
     this.loading = true;
-    this.welcome.getBlogs().subscribe((res: any) => {
-      const data = res['data'].data;
-      this.data = this.processAndGroupData(data);
-      this.loading = false;
-    });
+    this.getBlog();
+  }
+
+  getBlog(): void {
+    this.loading = true;
+    this.welcome
+      .getBlogs({
+        title: this.searchControl.value,
+      })
+      .subscribe((res: any) => {
+        const data = res['data'].data;
+        this.data = this.processAndGroupData(data);
+        this.count = res['data'].count;
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      });
   }
 
   processAndGroupData(dataArray: any[]) {

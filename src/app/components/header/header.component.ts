@@ -42,10 +42,12 @@ export class HeaderComponent implements OnInit {
         {
           title: '文章',
           icon: '',
+          url: '/blog/article',
         },
         {
           title: '问题',
           icon: '',
+          url: '/blog/question',
         },
         {
           title: '归档',

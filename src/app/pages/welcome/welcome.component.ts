@@ -19,6 +19,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzSpinModule,
     BlogCardComponent,
     MeCardComponent,
+    NzTypographyModule,
   ],
 })
 export class WelcomeComponent implements OnInit {
@@ -26,11 +27,17 @@ export class WelcomeComponent implements OnInit {
   loading = true;
   constructor(private welcome: WelcomeService) {}
 
-  ngOnInit() {
-    this.loading = true;
+  ngOnInit() {}
+
+  ngAfterViewInit(): void {
+    this.data = [];
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
     this.welcome.getBlogs().subscribe((res: any) => {
       this.data = res['data'].data;
-      this.loading = false;
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
     });
   }
 }
