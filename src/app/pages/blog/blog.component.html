@@ -1,5 +1,5 @@
-<div class="welcome" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
-  <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
+<div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
+  <div class="content" nz-flex nzGap="middle" nzJustify="start" [nzVertical]="true">
     <flower-blog-title [title]="'文归档'"></flower-blog-title>
     <div class="search card" nz-flex nzAlign="center" nzJustify="center">
       <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -9,22 +9,24 @@
         <span nz-icon nzType="search"></span>
       </ng-template>
     </div>
-    <!-- <nz-spin [nzTip]="'正在努力加载中٩(๑>◡<๑)۶'" [nzSpinning]="loading"></nz-spin> -->
-    <ng-container *ngFor="let item of data">
-      <div class="blog card">
-        <h2 nz-typography>{{item.year}}年</h2>
-        <nz-timeline>
-          <nz-timeline-item *ngFor="let blog of item.data">
-            <div nz-flex nzGap="middle">
-              <span nz-typography class="blog_time" nzType="secondary">{{ blog.time | date:'MM月dd日' }}</span>
-              <span nz-typography class="blog_title" [routerLink]="['/blog/blog-detail/' + item.id]"><span
-                  *ngIf="blog.type">[{{ blog.type
-                  }}]</span>{{blog.title}}</span>
-            </div>
-          </nz-timeline-item>
-        </nz-timeline>
-
+    <nz-spin [nzTip]="'再花在努力加载中……'" [nzSpinning]="loading">
+      <div nz-flex nzAlign="center" [nzVertical]="true" nzGap="middle">
+        <ng-container *ngFor="let item of data">
+          <div class="blog card">
+            <h2 nz-typography>{{item.year}}年</h2>
+            <nz-timeline>
+              <nz-timeline-item *ngFor="let blog of item.data">
+                <div nz-flex nzGap="middle">
+                  <span nz-typography class="blog_time" nzType="secondary">{{ blog.time | date:'MM月dd日' }}</span>
+                  <span nz-typography class="blog_title" [routerLink]="['/blog/blog-detail/' + item.id]"><span
+                      *ngIf="blog.type">[{{ blog.type
+                      }}]</span>{{blog.title}}</span>
+                </div>
+              </nz-timeline-item>
+            </nz-timeline>
+          </div>
+        </ng-container>
       </div>
-    </ng-container>
+    </nz-spin>
   </div>
 </div>

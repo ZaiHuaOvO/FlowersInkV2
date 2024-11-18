@@ -61,7 +61,7 @@ export class BlogComponent implements OnInit {
         this.count = res['data'].count;
         setTimeout(() => {
           this.loading = false;
-        }, 500);
+        }, 1000);
       });
   }
 

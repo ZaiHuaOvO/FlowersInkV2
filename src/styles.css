@@ -70,10 +70,12 @@
     width: 5px;
 }
 
+/* 加载文字设置 */
 .ant-spin-text {
     color: #000;
     font-family: "ZCOOL KuaiLe", sans-serif;
     font-weight: 400;
     font-style: normal;
-    padding-top: 10px !important;
+    padding-top: 5px !important;
+    top: auto !important;
 }
