@@ -4,6 +4,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @Component({
@@ -18,11 +19,17 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzTypographyModule,
     NzDividerModule,
     NzIconModule,
+    NzTagModule,
   ],
 })
 export class MeCardComponent implements OnInit {
-  @Input() data: any[] = [];
-  constructor() {}
+  @Input() count = {
+    article: 0,
+    question: 0,
+  };
+  constructor() {
+    console.log('datcounta: ', this.count);
+  }
 
   ngOnInit() {}
 }

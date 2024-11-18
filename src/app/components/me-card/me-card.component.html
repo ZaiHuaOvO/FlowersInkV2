@@ -10,12 +10,12 @@
 <div class="me" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
   <div nz-flex nzJustify="space-between" nzAlign="center">
     <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
-      <span nz-typography>12篇</span>
+      <span nz-typography><nz-tag nzColor="blue">{{count.article}}篇</nz-tag></span>
       <span nz-typography>文章发布</span>
     </div>
     <nz-divider nzType="vertical"></nz-divider>
     <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
-      <span nz-typography>165个</span>
+      <span nz-typography><nz-tag nzColor="red">{{count.question}}个</nz-tag></span>
       <span nz-typography>问题记录</span>
     </div>
     <!-- <nz-divider nzType="vertical"></nz-divider>

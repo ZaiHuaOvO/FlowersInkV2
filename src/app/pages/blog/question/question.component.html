@@ -6,10 +6,20 @@
             <nz-collapse style="max-width: 100vw;" nzAccordion nzGhost nzBordered="false" nz-flex nzGap="small"
                 [nzVertical]="true">
                 @for (panel of data; track panel) {
-                <nz-collapse-panel [nzHeader]="panel.title" class="card">
+                <nz-collapse-panel [nzHeader]="titleBox" class="card">
                     <markdown style="max-width: 55vw;width: 55vw;" id="currentAnchor" [data]="panel.content" lineNumbers
                         lineHighlight commandLine emoji mermaid clipboard></markdown>
                 </nz-collapse-panel>
+                <ng-template #titleBox>
+                    <div nz-flex nzJustify="space-between">
+                        <div nz-flex>
+                            <span nz-typography>{{panel.title}}</span>
+                            <nz-divider nzType="vertical"></nz-divider>
+                            <span nz-typography nzType="secondary">{{panel.tag}}</span>
+                        </div>
+                        <span nz-typography nzType="secondary">{{panel.date | date:'yyyy年MM月dd日'}}</span>
+                    </div>
+                </ng-template>
                 }
             </nz-collapse>
             <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"
