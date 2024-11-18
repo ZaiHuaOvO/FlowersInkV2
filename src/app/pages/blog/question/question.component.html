@@ -38,7 +38,7 @@
                 <h5 nz-typography>问题标签</h5>
                 <div nz-flex nzWrap="wrap" nzGap="small">
                     <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
-                        (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
+                        (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}个</nz-tag>
                 </div>
             </div>
         </div>
