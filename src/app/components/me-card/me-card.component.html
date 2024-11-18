@@ -19,8 +19,10 @@
       <span nz-typography>问题记录</span>
     </div>
   </div>
-  <button class="amazon-button" role="button">关于我 <span nz-icon nzType="smile" nzTheme="outline"></span></button>
-  <button class="amazon-button" role="button">关于网站 <span nz-icon nzType="cloud" nzTheme="outline"></span></button>
+  <button class="amazon-button" role="button" [routerLink]="['/about/me']">关于我 <span nz-icon nzType="smile"
+      nzTheme="outline"></span></button>
+  <button class="amazon-button" role="button" [routerLink]="['/about/website']">关于网站 <span nz-icon nzType="cloud"
+      nzTheme="outline"></span></button>
   <button class="amazon-button" role="button">留言板 <span nz-icon nzType="edit" nzTheme="outline"></span></button>
   <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
     <span nz-typography>花墨已运行&nbsp;&nbsp;<nz-tag nzColor="green">{{info.day}}</nz-tag>天</span>

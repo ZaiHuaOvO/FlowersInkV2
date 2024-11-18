@@ -79,3 +79,23 @@
     padding-top: 5px !important;
     top: auto !important;
 }
+
+/* 更换p的全局字体 */
+.ant-typography p {
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.noto-sans-sc {
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* 折叠面板和文字对齐 */
+.ant-collapse-header {
+    padding-left: 0 !important;
+}

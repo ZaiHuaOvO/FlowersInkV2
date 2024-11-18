@@ -1,0 +1,34 @@
+.me {
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 500px;
+    padding: 24px;
+}
+
+.content {
+    width: 60%;
+    min-height: 500px;
+    margin-top: 12px;
+    padding: 24px 72px 24px 72px;
+}
+
+.img {
+    width: 60%;
+    object-fit: contain;
+}
+
+.img_box {
+    width: 100%;
+}
+
+nz-divider {
+    width: 40%;
+    min-width: 40%;
+}
+
+article {
+
+    p {
+        font-size: 16px;
+    }
+}

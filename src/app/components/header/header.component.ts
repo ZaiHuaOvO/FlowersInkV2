@@ -77,10 +77,12 @@ export class HeaderComponent implements OnInit {
         {
           title: '关于我',
           icon: '',
+          url: '/about/me',
         },
         {
           title: '关于网站',
           icon: '',
+          url: '/about/websitee',
         },
       ],
     },

@@ -12,4 +12,9 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/blog/blog.routes').then((m) => m.BLOG_ROUTES),
   },
+  {
+    path: 'about',
+    loadChildren: () =>
+      import('./pages/about/about.routes').then((m) => m.ABOUT_ROUTES),
+  },
 ];
