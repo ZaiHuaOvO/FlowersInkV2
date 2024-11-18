@@ -66,3 +66,12 @@ nz-option {
 .ant-collapse>.ant-collapse-item:last-child>.ant-collapse-header {
     border-radius: 10px;
 }
+
+.anwser {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.anwser::-webkit-scrollbar {
+    display: none;
+}
