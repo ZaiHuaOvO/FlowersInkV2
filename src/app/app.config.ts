@@ -1,8 +1,17 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  inject,
+  TemplateRef,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+import {
+  DomSanitizer,
+  provideClientHydration,
+  SafeHtml,
+} from '@angular/platform-browser';
 import { provideNzIcons } from './icons-provider';
 import { zh_CN, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -20,7 +29,6 @@ registerLocaleData(zh);
 
 // ng-zorro全局配置项
 const ngZorroConfig: NzConfig = {
-  // 注意组件名称没有 nz 前缀
   pagination: { nzSimple: true },
 };
 

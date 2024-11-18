@@ -75,7 +75,7 @@ export class QuestionComponent implements OnInit {
         this.count = res['data'].count;
         this.tagList = this.general.getTagList(this.data);
         setTimeout(() => {
-          this.loading = false;
+          // this.loading = false;
         }, 500);
       });
   }

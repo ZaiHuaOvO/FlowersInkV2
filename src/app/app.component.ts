@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -7,6 +7,8 @@ import { MenuService, NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { NzConfigService } from 'ng-zorro-antd/core/config';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @Component({
   selector: 'app-root',
@@ -19,10 +21,20 @@ import { FooterComponent } from './components/footer/footer.component';
     NzFlexModule,
     HeaderComponent,
     FooterComponent,
+    NzTypographyModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  @ViewChild('loadingTemplate', { static: true })
+  loadingTemplate!: TemplateRef<any>;
+
   isCollapsed = false;
+
+  constructor(private nzConfigService: NzConfigService) {}
+
+  ngAfterViewInit(): void {
+    this.nzConfigService.set('spin', { nzIndicator: this.loadingTemplate });
+  }
 }
