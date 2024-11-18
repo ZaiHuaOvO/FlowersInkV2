@@ -2,7 +2,14 @@
   <ng-container *ngIf="!loading;else NzSkeleton">
     <h4 nz-typography> {{blog.title}} </h4>
     <p nz-typography nzEllipsis [nzContent]="blog.content" [nzEllipsisRows]="2"></p>
-    <span nz-typography nzType="secondary">{{blog.type}} | {{blog.tag}}&nbsp;{{ blog.date | date:'yyyy-MM-dd' }}</span>
+    <div class="blog_msg" nz-flex nzAlign="center" nzJustify="space-between">
+      <div nz-flex nzAlign="center" nzGap="small">
+        <span nz-typography nzType="secondary">{{blog.type}} | {{blog.tag}} </span>
+        <span nz-typography nzType="secondary"><span nz-icon nzType="eye" nzTheme="outline"></span>
+          {{blog.views}}</span>
+      </div>
+      <span nz-typography nzType="secondary">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
+    </div>
   </ng-container>
 
   <ng-template #NzSkeleton>

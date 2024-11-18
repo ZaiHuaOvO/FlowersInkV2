@@ -8,6 +8,7 @@ import { BlogCardComponent } from '../../components/blog-card/blog-card.componen
 import { MeCardComponent } from '../../components/me-card/me-card.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { RouterModule } from '@angular/router';
+import { BlogTitleComponent } from '../../components/blog-title/blog-title.component';
 
 @Component({
   selector: 'app-welcome',
@@ -22,6 +23,7 @@ import { RouterModule } from '@angular/router';
     MeCardComponent,
     NzTypographyModule,
     RouterModule,
+    BlogTitleComponent,
   ],
 })
 export class WelcomeComponent implements OnInit {

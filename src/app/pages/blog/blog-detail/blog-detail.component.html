@@ -6,14 +6,19 @@
             </ng-template>
             <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
                 <span nz-typography nzType="secondary">
-                    发布于{{ data.date | date:'yyyy-MM-dd'}}
+                    标签：{{data.tag}}
                 </span>
                 <nz-divider nzType="vertical"></nz-divider>
                 <span nz-typography nzType="secondary">
                     阅读量：{{data.views}}次
                 </span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <span nz-typography nzType="secondary">
+                    发布于{{ data.date | date:'yyyy年MM月dd日'}}
+                </span>
             </nz-page-header-extra>
         </nz-page-header>
+        <flower-blog-title [title]="data.title"></flower-blog-title>
         <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
             commandLine emoji mermaid clipboard></markdown>
     </div>

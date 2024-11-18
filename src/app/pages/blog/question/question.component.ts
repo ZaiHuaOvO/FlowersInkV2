@@ -17,6 +17,8 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { debounceTime } from 'rxjs';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { GeneralService } from '../../../services/general.service';
+import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'flower-question',
@@ -35,6 +37,8 @@ import { GeneralService } from '../../../services/general.service';
     NzCollapseModule,
     NzSkeletonModule,
     NzSpinModule,
+    BlogTitleComponent,
+    MarkdownModule,
   ],
   templateUrl: './question.component.html',
   styleUrl: './question.component.css',

@@ -1,3 +1,7 @@
 .blog_card {
     padding: 24px;
 }
+
+.blog_msg {
+    width: 100%;
+}

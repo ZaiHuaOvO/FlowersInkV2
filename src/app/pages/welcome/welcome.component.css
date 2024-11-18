@@ -9,6 +9,7 @@
     width: 60%;
     min-height: 500px;
     margin-left: 9.5%;
+    margin-top: 12px;
 }
 
 .me {
@@ -16,7 +17,7 @@
     min-height: 200px;
     position: fixed;
     right: 9.5%;
-    margin-top: 90px;
+    margin-top: 102px;
 }
 
 .welcome_title {
@@ -25,6 +26,8 @@
     border-bottom: 1px solid grey;
     height: 70px;
     min-height: 70px;
+    width: 50vw;
+    text-align: center;
 }
 
 .flower_card_title {

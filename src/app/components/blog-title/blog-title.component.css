@@ -1,0 +1,12 @@
+.title {
+    margin: 10px;
+    padding: 12px 0 12px 0px;
+    border-bottom: 1px solid lightgrey;
+    height: 70px;
+    min-height: 70px;
+    width: 40vw;
+    text-align: center;
+    font-size: 38px;
+    font-weight: bold;
+    line-height: 1.23;
+}

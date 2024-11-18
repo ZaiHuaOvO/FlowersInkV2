@@ -16,6 +16,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { GeneralService } from '../../../services/general.service';
 import { debounceTime } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
 
 @Component({
   selector: 'flower-article',
@@ -34,6 +35,7 @@ import { RouterModule } from '@angular/router';
     NzDividerModule,
     NzPaginationModule,
     RouterModule,
+    BlogTitleComponent,
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',

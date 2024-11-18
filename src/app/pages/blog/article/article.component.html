@@ -1,7 +1,5 @@
 <div class="article" nz-flex [nzVertical]="true">
-    <div nz-flex nzJustify="center" nzAlign="center">
-        <h1 nz-typography class="title">技术文章</h1>
-    </div>
+    <flower-blog-title [title]="'技术文章'"></flower-blog-title>
     <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
         <div *ngFor="let item of data" class="flower_card">
             <flower-blog-card [blog]="item" [loading]="loading"
@@ -20,7 +18,7 @@
             </ng-template>
             <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
                 <h5 nz-typography>文章标签</h5>
-                <div nz-flex nzWrap="wrap">
+                <div nz-flex nzWrap="wrap" nzGap="small">
                     <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
                         (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
                 </div>

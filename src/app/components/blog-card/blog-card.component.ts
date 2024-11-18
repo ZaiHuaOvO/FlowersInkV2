@@ -2,6 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
@@ -16,6 +17,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzDividerModule,
     NzTypographyModule,
     NzSkeletonModule,
+    NzIconModule,
     DatePipe,
   ],
 })

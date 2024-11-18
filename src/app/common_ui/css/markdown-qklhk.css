@@ -353,8 +353,8 @@ pre[class*="language-"] {
 
     li code,
     pre code {
-        color: #0C0C0C;
-        background-color: #F8F8F8;
+        color: #fff;
+        background-color: black;
     }
 
     p code {

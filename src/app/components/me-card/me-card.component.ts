@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -21,6 +21,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   ],
 })
 export class MeCardComponent implements OnInit {
+  @Input() data: any[] = [];
   constructor() {}
 
   ngOnInit() {}

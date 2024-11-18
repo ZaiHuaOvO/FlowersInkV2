@@ -26,6 +26,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
+import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
 
 @Component({
   selector: 'flower-blog-detail',
@@ -44,6 +45,7 @@ import { NzAnchorModule } from 'ng-zorro-antd/anchor';
     NzAvatarModule,
     NzAnchorModule,
     DatePipe,
+    BlogTitleComponent,
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
