@@ -11,7 +11,7 @@ export const API = {
   // 博客分类
   TYPE: '/blog/type',
   // 网站信息
-  INFO: '/site/visit',
+  INFO: '/blog/site/visit',
   // 博客信息
   DAY_INFO: '/blog/info',
   // 点滴

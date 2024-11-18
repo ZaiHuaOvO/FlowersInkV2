@@ -23,13 +23,13 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   ],
 })
 export class MeCardComponent implements OnInit {
-  @Input() count = {
+  @Input() info = {
     article: 0,
     question: 0,
+    day: 0,
+    lastUpdateTime: '',
   };
-  constructor() {
-    console.log('datcounta: ', this.count);
-  }
+  constructor() {}
 
   ngOnInit() {}
 }

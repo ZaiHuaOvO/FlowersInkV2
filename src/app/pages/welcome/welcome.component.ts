@@ -29,16 +29,22 @@ import { BlogTitleComponent } from '../../components/blog-title/blog-title.compo
 export class WelcomeComponent implements OnInit {
   data: any[] = [];
   loading = true;
-  count = {
+  info = {
     article: 0,
     question: 0,
+    day: 0,
+    lastUpdateTime: '',
   };
-  constructor(
-    private welcome: WelcomeService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private welcome: WelcomeService, private cdr: ChangeDetectorRef) {
+    this.welcome.visitWeb();
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.welcome.getWebInfo().subscribe((res: any) => {
+      this.info.day = res['data'].runDays;
+      this.info.lastUpdateTime = res['data'].lastUpdateTime;
+    });
+  }
 
   ngAfterViewInit(): void {
     this.data = [];
@@ -46,11 +52,10 @@ export class WelcomeComponent implements OnInit {
     //Add 'implements AfterViewInit' to the class.
     this.welcome.getBlogs().subscribe((res: any) => {
       this.data = this.processedData(res['data'].data);
-      console.log('this.data: ', this.data);
-      this.count.article = this.data.filter(
+      this.info.article = this.data.filter(
         (item) => item.type === '文章'
       ).length;
-      this.count.question = this.data.filter(
+      this.info.question = this.data.filter(
         (item) => item.type === '问题'
       ).length;
       this.cdr.detectChanges();

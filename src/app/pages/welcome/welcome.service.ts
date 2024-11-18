@@ -20,4 +20,12 @@ export class WelcomeService {
   getTags(): Observable<object> {
     return this.http.get(API.TAG);
   }
+
+  visitWeb(): Observable<object> {
+    return this.http.post(API.INFO, {});
+  }
+
+  getWebInfo(): Observable<object> {
+    return this.http.get(API.DAY_INFO);
+  }
 }
