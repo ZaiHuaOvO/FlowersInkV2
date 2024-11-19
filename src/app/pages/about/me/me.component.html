@@ -1,35 +1,101 @@
 <div class="me" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
     <div class="content card" nz-flex [nzVertical]="true">
         <h1 nz-typography>关于我</h1>
-        <img nz-image width="250px" nzSrc="assets/img/web/小雏菊.png" alt="">
+        <img nz-image width="200px" nzSrc="assets/img/web/小雏菊.png" alt="">
         <nz-divider></nz-divider>
         <article nz-typography>
             <h4 nz-typography>你好，我叫再花，一名定居于成都的前端工程师，很高兴认识你</h4>
-            <h4 nz-typography>是的，再花就是我的网名、圈名、笔名，是我在网络上的另一个名字</h4>
+            <h4 nz-typography>是的，再花就是我的网名、圈名、笔名、游戏角色名，是我在网络上的另一个名字</h4>
             <nz-collapse nzGhost>
-                <nz-collapse-panel [nzHeader]="header" nzShowArrow="false">
+                <nz-collapse-panel [nzHeader]="header" nzShowArrow="false" (nzActiveChange)="isAcive =!isAcive">
                     <p nz-typography>念初中的时候我父亲热衷于栽培兰花，至今为止似乎就开过一次花，而我正好有幸成为了见证者。</p>
                     <p nz-typography>某一天下午，父亲坐在木板凳上欣赏着作为自己杰作的花朵，絮絮叨叨的对我讲述着兰花和人之品性的关系。</p>
                     <p nz-typography>16岁时，我陷入了人生低谷并写下了一篇遗书，安排了我的文具、试卷、小说在我死后何去何从，</p>
                     <p nz-typography>署名的时候我犯了难，毕竟「地瓜弹」「冰霜之龙」这样的呆瓜网名作为一个将死之人生命中的最后几个字，未免有点太残忍了。</p>
-                    <p nz-typography>这时候我的脑海里又浮现出了那天下午的父亲和兰花，</p>
+                    <p nz-typography>这时候我的脑海里又浮现出了那天下午的父亲和兰花，兰花一生唯一的一朵花在太阳下摇摇欲坠</p>
                     <p nz-typography>真想再见一次花开啊。</p>
                     <p nz-typography>充满文艺酸臭味的内心促使着我的手签下了那个伴随了我十年的名字：</p>
                     <p nz-typography>「再花」</p>
                 </nz-collapse-panel>
                 <ng-template #header>
                     <div nz-flex nzAlign="center">
-                        <h4 nz-typography>名字的由来</h4><span nz-typography nzType="secondary">「感兴趣可点击展开」</span>
+                        <h4 nz-typography>名字的由来</h4><span nz-typography nzType="secondary"> 「{{ isAcive ? '点击展开' :
+                            '点击收起' }}」</span>
                     </div>
                 </ng-template>
             </nz-collapse>
             <nz-divider></nz-divider>
-            <p nz-typography>开始写自我介绍的时候我突然感到一丝惶恐，突然对曾经初高中开学站在讲台上拘谨且自卑的我感同身受</p>
-            <p nz-typography>当时的我面对着陌生的同班同学，总觉得自己远不如对方</p>
-            <p nz-typography>现在的我面对着网络，总觉得自己的文字和网站漏洞百出、难登大雅之堂</p>
-            <p nz-typography>但我妻子已经告诉了我无数次：“对自己，先肯定”</p>
-            <p nz-typography>是的，先肯定！再花🐂🍺！</p>
+            <nz-collapse nzGhost>
+                <nz-collapse-panel [nzHeader]="header1" nzShowArrow="false" (nzActiveChange)="isAcive1 =!isAcive1">
+                    <p nz-typography>开始写自我介绍的时候我突然感到一丝惶恐，突然对曾经初高中开学站在讲台上拘谨且自卑的我感同身受</p>
+                    <p nz-typography>当时的我面对着陌生的同班同学，总觉得自己远不如对方</p>
+                    <p nz-typography>现在的我面对着网络，总觉得自己的文字和网站漏洞百出、难登大雅之堂</p>
+                    <p nz-typography>但我妻子已经告诉了我无数次：“对自己，先肯定，做一件事之前永远不要先否定自己”</p>
+                    <p nz-typography>于是我再次像曾经无数次鼓起勇气面对一页白纸，提起笔</p>
+                </nz-collapse-panel>
+                <ng-template #header1>
+                    <div nz-flex nzAlign="center">
+                        <h2 nz-typography>前言</h2>
+                        <span nz-typography nzType="secondary"> 「{{ isAcive1 ? '点击展开' :
+                            '点击收起' }}」</span>
+                    </div>
+                </ng-template>
+            </nz-collapse>
+            <nz-divider></nz-divider>
 
+            <h2 nz-typography>我的爱好</h2>
+            <div nz-flex nzAlign="center">
+                <h3 nz-typography>游戏</h3>
+                <span nz-typography nzType="secondary">「游戏一定是我人生中最大的爱好，从小陪伴我至今。」</span>
+            </div>
+            <p nz-typography>我的游戏涉猎范围极广，各平台、各类型均有所游玩</p>
+            <p nz-typography>目前已经基本脱离手游坑（不想花钱），日常游玩较多的是PS5，白金狗一只</p>
+            <div nz-typography>
+                <ul>
+                    <li>
+                        <span nz-typography>最喜欢的游戏类型：<strong>动作，角色扮演，策略</strong></span>
+                    </li>
+                    <li>
+                        <span nz-typography>最喜欢的游戏：<strong>《只狼》《群星》《死亡搁浅》</strong></span>
+                    </li>
+                    <li>
+                        <span nz-typography>最近通关的游戏：<strong>《最终幻想16》</strong></span>
+                    </li>
+                    <li>
+                        <span nz-typography>最近正在玩的游戏：和老婆一起玩<strong>《咩咩启示录》</strong></span>
+                    </li>
+                    <li>
+                        <span nz-typography>玩的最久的游戏：<strong>《最终幻想14》</strong></span>
+                    </li>
+                </ul>
+            </div>
+
+            <div nz-flex nzAlign="center">
+                <h3 nz-typography>看书</h3>
+                <span nz-typography nzType="secondary">「虽然现在已经很少看书，但我确实一直有这个爱好」</span>
+            </div>
+            <p nz-typography>成为牛马之后，下班后身心俱疲，只想用娱乐填补内心空虚</p>
+            <p nz-typography>说来也惭愧，已经许久未完整看过一本纸质书了</p>
+            <p nz-typography>好在最近妻子给我买了一块小巧的iPad mini，作为电子阅读器非常方便，希望慢慢将这个爱好重新拿起来</p>
+            <div nz-typography>
+                <ul>
+                    <li>
+                        <span nz-typography>最喜欢的书籍类型：<strong>心理学、悬疑推理，日本轻小说</strong></span>
+                    </li>
+                    <li>
+                        <span nz-typography>最喜欢的书籍：<strong>《梦的解析》</strong></span>
+                    </li>
+                    <li>
+                        <span nz-typography>最喜欢的作家：<strong>高铭</strong></span>
+                    </li>
+                    <li>
+                        <span nz-typography>正在阅读的书籍：<strong>《了不起的我》</strong></span>
+                    </li>
+                    <li>
+                        <span nz-typography>下一本准备读的书：<strong>《蛤蟆先生去看心理医生》</strong></span>
+                    </li>
+                </ul>
+            </div>
         </article>
     </div>
 </div>

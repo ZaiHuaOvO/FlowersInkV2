@@ -19,4 +19,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
   templateUrl: './me.component.html',
   styleUrl: './me.component.css',
 })
-export class MeComponent {}
+export class MeComponent {
+  isAcive: boolean = true;
+  isAcive1: boolean = true;
+}
