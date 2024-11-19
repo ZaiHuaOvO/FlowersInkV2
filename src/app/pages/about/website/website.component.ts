@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
@@ -14,6 +15,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzDividerModule,
     NzTypographyModule,
     NzCollapseModule,
+    NzIconModule,
   ],
   templateUrl: './website.component.html',
   styleUrl: './website.component.css',

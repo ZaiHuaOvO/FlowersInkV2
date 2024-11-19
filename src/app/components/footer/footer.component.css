@@ -16,3 +16,10 @@
 .text:hover {
     color: grey;
 }
+
+.ant-typography {
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}

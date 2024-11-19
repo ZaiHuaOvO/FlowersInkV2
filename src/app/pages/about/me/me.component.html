@@ -4,6 +4,22 @@
             <h1 nz-typography>关于我</h1>
             <img nz-image width="200px" nzSrc="assets/img/web/小雏菊.png" alt="">
             <nz-divider></nz-divider>
+            <nz-collapse nzGhost>
+                <nz-collapse-panel [nzHeader]="header1" nzShowArrow="false" (nzActiveChange)="isAcive1 =!isAcive1">
+                    <p nz-typography>开始写自我介绍的时候我突然感到一丝惶恐，突然对曾经初高中开学站在讲台上拘谨且自卑的我感同身受</p>
+                    <p nz-typography>当时的我面对着陌生的同班同学，总觉得自己远不如对方</p>
+                    <p nz-typography>现在的我面对着网络，总觉得自己的文字和网站漏洞百出、难登大雅之堂</p>
+                    <p nz-typography>但我妻子已经告诉了我无数次：“对自己，先肯定，做一件事之前永远不要先否定自己”</p>
+                    <p nz-typography>于是我再次像曾经无数次鼓起勇气面对一页白纸，提起笔</p>
+                </nz-collapse-panel>
+                <ng-template #header1>
+                    <div nz-flex nzAlign="center">
+                        <h2 nz-typography>前言</h2>
+                        <span nz-typography nzType="secondary"> 「{{ isAcive1 ? '点击展开' :
+                            '点击收起' }}」</span>
+                    </div>
+                </ng-template>
+            </nz-collapse>
             <h4 nz-typography>你好，我叫再花，一名定居于成都的前端工程师，很高兴认识你</h4>
             <h4 nz-typography>是的，再花就是我的网名、圈名、笔名、游戏角色名，是我在网络上的另一个名字</h4>
             <nz-collapse nzGhost>
@@ -24,23 +40,8 @@
                     </div>
                 </ng-template>
             </nz-collapse>
-            <nz-divider></nz-divider>
-            <nz-collapse nzGhost>
-                <nz-collapse-panel [nzHeader]="header1" nzShowArrow="false" (nzActiveChange)="isAcive1 =!isAcive1">
-                    <p nz-typography>开始写自我介绍的时候我突然感到一丝惶恐，突然对曾经初高中开学站在讲台上拘谨且自卑的我感同身受</p>
-                    <p nz-typography>当时的我面对着陌生的同班同学，总觉得自己远不如对方</p>
-                    <p nz-typography>现在的我面对着网络，总觉得自己的文字和网站漏洞百出、难登大雅之堂</p>
-                    <p nz-typography>但我妻子已经告诉了我无数次：“对自己，先肯定，做一件事之前永远不要先否定自己”</p>
-                    <p nz-typography>于是我再次像曾经无数次鼓起勇气面对一页白纸，提起笔</p>
-                </nz-collapse-panel>
-                <ng-template #header1>
-                    <div nz-flex nzAlign="center">
-                        <h2 nz-typography>前言</h2>
-                        <span nz-typography nzType="secondary"> 「{{ isAcive1 ? '点击展开' :
-                            '点击收起' }}」</span>
-                    </div>
-                </ng-template>
-            </nz-collapse>
+            <!-- <nz-divider></nz-divider> -->
+
             <nz-divider></nz-divider>
 
             <h2 nz-typography>我的爱好</h2>
@@ -99,10 +100,13 @@
             <h2 nz-typography>联系方式</h2>
             <nz-collapse nzGhost>
                 <nz-collapse-panel [nzHeader]="header2" nzShowArrow="false" (nzActiveChange)="isAcive2 =!isAcive2">
-                    <p nz-typography><a href="https://www.zhihu.com/people/zai-hua-14-76">「知乎」</a>发言、评论、分享生活的地方（尤其是秀恩爱）
+                    <p nz-typography><a href="https://www.zhihu.com/people/zai-hua-14-76"
+                            target="_blank">「知乎」</a>发言、评论、分享生活的地方（尤其是秀恩爱）
                     </p>
-                    <p nz-typography><a href="https://juejin.cn/user/4002664676073741">「掘金」</a>（发表技术相关的博客）</p>
-                    <p nz-typography><a href="https://github.com/ZaiHuaOvO">「Github」</a>（目前主要用于存放源代码、没有怎么经营）</p>
+                    <p nz-typography><a href="https://juejin.cn/user/4002664676073741"
+                            target="_blank">「掘金」</a>（发表技术相关的博客）</p>
+                    <p nz-typography><a href="https://github.com/ZaiHuaOvO"
+                            target="_blank">「Github」</a>（目前主要用于存放源代码、没有怎么经营）</p>
                 </nz-collapse-panel>
                 <ng-template #header2>
                     <div nz-flex nzAlign="center">
@@ -112,8 +116,16 @@
                     </div>
                 </ng-template>
             </nz-collapse>
-            <p nz-typography>qq：446840401（日常社交和交流的工具）</p>
-            <p nz-typography>vx：zaihua_huahua（主要工作用，是备用社交工具）</p>
+            <p nz-typography>qq：446840401（日常社交和交流的工具）<a nz-popover [nzPopoverContent]="qqQRCode"
+                    nzPopoverPlacement="bottom">查看QQ二维码</a></p>
+            <ng-template #qqQRCode>
+                <img nz-image width="250px" height="250px" nzSrc="../../../assets/img/QRCode/qq.png">
+            </ng-template>
+            <p nz-typography>vx：zaihua_huahua（主要工作用，是备用社交工具）<a nz-popover [nzPopoverContent]="wxQRCode"
+                    nzPopoverPlacement="bottom">查看微信二维码</a></p>
+            <ng-template #wxQRCode>
+                <img nz-image width="250px" height="250px" nzSrc="../../../assets/img/QRCode/wx.png">
+            </ng-template>
         </article>
     </div>
 </div>

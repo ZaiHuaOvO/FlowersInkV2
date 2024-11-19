@@ -44,7 +44,11 @@ import { MarkdownModule } from 'ngx-markdown';
   styleUrl: './question.component.css',
 })
 export class QuestionComponent implements OnInit {
-  data: any[] = [];
+  data: any[] = [
+    {
+      title: '未加载',
+    },
+  ];
   page = 1;
   count = 0;
   tag = '';

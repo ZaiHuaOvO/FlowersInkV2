@@ -36,6 +36,7 @@ import { BlogTitleComponent } from '../../../components/blog-title/blog-title.co
     NzPaginationModule,
     RouterModule,
     BlogTitleComponent,
+    NzSpinModule,
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',

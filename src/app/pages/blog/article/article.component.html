@@ -1,12 +1,17 @@
 <div class="article" nz-flex [nzVertical]="true">
     <flower-blog-title [title]="'技术文章'"></flower-blog-title>
-    <div class="content" nz-flex nzGap="middle" [nzVertical]="true">
-        <div *ngFor="let item of data" class="flower_card">
-            <flower-blog-card [blog]="item" [loading]="loading"
-                [routerLink]="['/blog/blog-detail/' + item.id]"></flower-blog-card>
-        </div>
-        <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"
-            (nzPageIndexChange)="pageChange($event)"></nz-pagination>
+    <div class="content" nz-flex [nzVertical]="true">
+        <nz-spin [nzTip]="'技术文章正在努力赶来中'" [nzSpinning]="loading">
+            <div nz-flex nzGap="middle" [nzVertical]="true">
+                <div *ngFor="let item of data" class="flower_card">
+                    <flower-blog-card [blog]="item" [loading]="loading"
+                        [routerLink]="['/blog/blog-detail/' + item.id]"></flower-blog-card>
+                </div>
+                <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"
+                    (nzPageIndexChange)="pageChange($event)"></nz-pagination>
+            </div>
+        </nz-spin>
+
     </div>
     <div class="me">
         <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
