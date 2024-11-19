@@ -18,7 +18,7 @@
               <nz-timeline-item *ngFor="let blog of item.data">
                 <div nz-flex nzGap="middle">
                   <span nz-typography class="blog_time" nzType="secondary">{{ blog.time | date:'MM月dd日' }}</span>
-                  <span nz-typography class="blog_title" [routerLink]="['/blog/blog-detail/' + item.id]"><span
+                  <span nz-typography class="blog_title" [routerLink]="['/blog/blog-detail/' + blog.id]"><span
                       *ngIf="blog.type">[{{ blog.type
                       }}]</span>{{blog.title}}</span>
                 </div>

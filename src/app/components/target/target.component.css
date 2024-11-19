@@ -11,11 +11,37 @@
     top: 100px
 }
 
-.targe_icon {
-    cursor: pointer;
+.target_icon,
+.text-span {
+    transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+    position: absolute;
+    /* 让文字和头像重叠 */
 }
 
-.targe_icon:hover {
-    background-color: #fff;
-    color: black;
+.fade-in {
+    opacity: 1;
+    visibility: visible;
+}
+
+.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.item-container {
+    position: relative;
+    /* 让内部元素相对定位 */
+    display: inline-block;
+    /* 确保容器是块状 */
+    width: 50px;
+    /* 根据 nz-avatar 的宽度调整 */
+    height: 32px;
+    /* 同上 */
+    min-width: 100px;
+    display: flex;
+    /* 启用 flexbox 布局 */
+    align-items: center;
+    /* 垂直居中 */
+    justify-content: center;
+    /* 水平居中 */
 }

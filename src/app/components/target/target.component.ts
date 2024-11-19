@@ -24,21 +24,25 @@ import { filter } from 'rxjs';
   styleUrl: './target.component.css',
 })
 export class TargetComponent implements OnInit {
+  showText = false;
   routeList = [
     {
       title: '关于我',
-      icon: 'user',
+      icon: 'smile',
       url: '/about/me',
+      showText: false,
     },
     {
       title: '关于网站',
-      icon: 'appstore',
+      icon: 'cloud',
       url: '/about/website',
+      showText: false,
     },
     {
       title: '留言板',
       icon: 'form',
       url: '/about/message',
+      showText: false,
     },
   ];
   isPage: string = '';
