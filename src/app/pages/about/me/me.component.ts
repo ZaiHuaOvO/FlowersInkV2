@@ -22,4 +22,5 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 export class MeComponent {
   isAcive: boolean = true;
   isAcive1: boolean = true;
+  isAcive2: boolean = true;
 }

@@ -1,9 +1,9 @@
 <div class="me" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
     <div class="content card" nz-flex [nzVertical]="true">
-        <h1 nz-typography>关于我</h1>
-        <img nz-image width="200px" nzSrc="assets/img/web/小雏菊.png" alt="">
-        <nz-divider></nz-divider>
         <article nz-typography>
+            <h1 nz-typography>关于我</h1>
+            <img nz-image width="200px" nzSrc="assets/img/web/小雏菊.png" alt="">
+            <nz-divider></nz-divider>
             <h4 nz-typography>你好，我叫再花，一名定居于成都的前端工程师，很高兴认识你</h4>
             <h4 nz-typography>是的，再花就是我的网名、圈名、笔名、游戏角色名，是我在网络上的另一个名字</h4>
             <nz-collapse nzGhost>
@@ -96,6 +96,24 @@
                     </li>
                 </ul>
             </div>
+            <h2 nz-typography>联系方式</h2>
+            <nz-collapse nzGhost>
+                <nz-collapse-panel [nzHeader]="header2" nzShowArrow="false" (nzActiveChange)="isAcive2 =!isAcive2">
+                    <p nz-typography><a href="https://www.zhihu.com/people/zai-hua-14-76">「知乎」</a>发言、评论、分享生活的地方（尤其是秀恩爱）
+                    </p>
+                    <p nz-typography><a href="https://juejin.cn/user/4002664676073741">「掘金」</a>（发表技术相关的博客）</p>
+                    <p nz-typography><a href="https://github.com/ZaiHuaOvO">「Github」</a>（目前主要用于存放源代码、没有怎么经营）</p>
+                </nz-collapse-panel>
+                <ng-template #header2>
+                    <div nz-flex nzAlign="center">
+                        <h3 nz-typography>我的各种社区主页</h3>
+                        <span nz-typography nzType="secondary"> 「{{ isAcive2 ? '点击展开' :
+                            '点击收起' }}」</span>
+                    </div>
+                </ng-template>
+            </nz-collapse>
+            <p nz-typography>qq：446840401（日常社交和交流的工具）</p>
+            <p nz-typography>vx：zaihua_huahua（主要工作用，是备用社交工具）</p>
         </article>
     </div>
 </div>

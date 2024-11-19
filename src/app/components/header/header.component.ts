@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit {
         {
           title: '关于网站',
           icon: '',
-          url: '/about/websitee',
+          url: '/about/website',
         },
       ],
     },
