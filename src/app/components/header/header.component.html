@@ -9,7 +9,7 @@
             @for (menu of MenuList; track $index) {
             <li nz-menu-item *ngIf="menu.child?.length == 0; else elseChild" [routerLink]="[menu.url]">
                 <span nz-icon [nzType]="menu.icon" nzTheme="fill"></span>
-                {{ menu.title }}
+                &nbsp;&nbsp;{{ menu.title }}
             </li>
 
             <ng-template #elseChild>

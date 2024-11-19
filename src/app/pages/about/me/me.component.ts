@@ -6,6 +6,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { TargetComponent } from '../../../components/target/target.component';
+import { MeCardComponent } from '../../../components/me-card/me-card.component';
 
 @Component({
   selector: 'flower-me',
@@ -17,6 +19,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzTypographyModule,
     NzCollapseModule,
     NzPopoverModule,
+    TargetComponent,
+    MeCardComponent,
   ],
   templateUrl: './me.component.html',
   styleUrl: './me.component.css',

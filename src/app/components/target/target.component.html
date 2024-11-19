@@ -1,0 +1,12 @@
+<div class="target">
+    <!-- <ul nz-menu nzMode="inline">
+        <li *ngFor="let item of routeList" nz-menu-item nzMatchRouter [routerLink]="item.url">
+            <span nz-typography class="noto-sans-sc">{{item.title}}</span>
+        </li>
+    </ul> -->
+    <div nz-flex [nzVertical]="true" nzGap="large" nzAlign="end">
+        <nz-avatar class="targe_icon" *ngFor="let item of routeList" [nzIcon]="item.icon" [routerLink]="item.url"
+            nz-popover nzType="primary" [nzPopoverContent]="item.title" nzPopoverPlacement="left"
+            [ngStyle]="{ 'background-color': item.url == this.router.url ?  '#fff' : '#CCCCCC','color': item.url == this.router.url ?  '#000' : '#fff' }"></nz-avatar>
+    </div>
+</div>

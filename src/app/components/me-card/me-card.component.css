@@ -10,3 +10,7 @@
 .name {
     margin-top: 0;
 }
+
+.point_tag {
+    cursor: pointer;
+}

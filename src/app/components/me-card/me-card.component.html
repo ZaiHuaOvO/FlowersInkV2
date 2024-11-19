@@ -10,13 +10,21 @@
 <div class="me" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
   <div nz-flex nzJustify="space-between" nzAlign="center">
     <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
-      <span nz-typography><nz-tag nzColor="blue">{{info.article}}篇</nz-tag></span>
+      <span nz-typography class="point_tag"><nz-tag nzColor="blue"
+          [routerLink]="['/blog/article/']">{{info.article}}篇</nz-tag></span>
       <span nz-typography>文章发布</span>
     </div>
     <nz-divider nzType="vertical"></nz-divider>
     <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
-      <span nz-typography><nz-tag nzColor="red">{{info.question}}个</nz-tag></span>
+      <span nz-typography class="point_tag"><nz-tag nzColor="red"
+          [routerLink]="['/blog/question/']">{{info.question}}个</nz-tag></span>
       <span nz-typography>问题记录</span>
+    </div>
+    <nz-divider nzType="vertical"></nz-divider>
+    <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
+      <span nz-typography class="point_tag"><nz-tag nzColor="green"
+          [routerLink]="['/about/website/']">{{info.day}}天</nz-tag></span>
+      <span nz-typography>网站运行</span>
     </div>
   </div>
   <button class="amazon-button" role="button" [routerLink]="['/about/me']">关于我 <span nz-icon nzType="smile"
@@ -24,9 +32,10 @@
   <button class="amazon-button" role="button" [routerLink]="['/about/website']">关于网站 <span nz-icon nzType="cloud"
       nzTheme="outline"></span></button>
   <button class="amazon-button" role="button">留言板 <span nz-icon nzType="edit" nzTheme="outline"></span></button>
-  <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
-    <span nz-typography>花墨已运行&nbsp;&nbsp;<nz-tag nzColor="green">{{info.day}}</nz-tag>天</span>
-    <span nz-typography>上次更新于&nbsp;&nbsp;<nz-tag nzColor="green">{{info.lastUpdateTime |
-        date:'yyyy年MM月dd日 HH时mm分ss秒'}}</nz-tag></span>
-  </div>
+  <!-- <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
+    <span nz-typography>花墨已运行&nbsp;&nbsp;<nz-tag nzColor="green" class="point_tag"
+        [routerLink]="['/about/website/']">{{info.day}}</nz-tag>天</span>
+    <span nz-typography>上次更新于&nbsp;&nbsp;{{info.lastUpdateTime |
+      date:'yyyy年MM月dd日 HH时mm分ss秒'}}</span>
+  </div> -->
 </div>

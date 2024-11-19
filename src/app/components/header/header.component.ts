@@ -84,6 +84,11 @@ export class HeaderComponent implements OnInit {
           icon: '',
           url: '/about/website',
         },
+        {
+          title: '留言板',
+          icon: '',
+          url: '/about/message',
+        },
       ],
     },
   ];

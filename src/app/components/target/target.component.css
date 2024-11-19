@@ -1,0 +1,21 @@
+[nz-menu] {
+    border-radius: 10px !important;
+}
+
+.target {
+    width: 10%;
+    height: auto;
+    position: fixed;
+    left: 9.5%;
+    /* 标题70px高+距离10*2+左边内容12px */
+    top: 100px
+}
+
+.targe_icon {
+    cursor: pointer;
+}
+
+.targe_icon:hover {
+    background-color: #fff;
+    color: black;
+}
