@@ -20,7 +20,6 @@ import { MeCardComponent } from '../../../components/me-card/me-card.component';
     NzCollapseModule,
     NzPopoverModule,
     TargetComponent,
-    MeCardComponent,
   ],
   templateUrl: './me.component.html',
   styleUrl: './me.component.css',

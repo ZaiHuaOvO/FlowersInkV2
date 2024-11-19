@@ -7,16 +7,18 @@
     <div>
         <ul nz-menu nzMode="horizontal">
             @for (menu of MenuList; track $index) {
-            <li nz-menu-item *ngIf="menu.child?.length == 0; else elseChild" [routerLink]="[menu.url]">
+            <li nz-menu-item *ngIf="menu.child?.length == 0; else elseChild" [routerLink]="[menu.url]" nzMatchRouter>
                 <span nz-icon [nzType]="menu.icon" nzTheme="fill"></span>
                 &nbsp;&nbsp;{{ menu.title }}
             </li>
 
             <ng-template #elseChild>
-                <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzTheme="outline" nzPlacement="bottomCenter">
+                <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzTheme="outline" nzPlacement="bottomCenter"
+                    nzMatchRouter>
                     <ul>
                         @for (childs of menu.child; track $index) {
-                        <li nz-menu-item class="item_child" [routerLink]="[childs.url]">{{ childs.title }}</li>
+                        <li nz-menu-item class="item_child" nzMatchRouter [routerLink]="[childs.url]">{{ childs.title }}
+                        </li>
                         }
                     </ul>
                 </li>
