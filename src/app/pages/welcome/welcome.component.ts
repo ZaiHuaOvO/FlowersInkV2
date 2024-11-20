@@ -50,18 +50,24 @@ export class WelcomeComponent implements OnInit {
     this.data = [];
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
+    this.welcome
+      .getBlogs({ star: true, type: '文章' })
+      .subscribe((res: any) => {
+        this.data = this.processedData(res['data'].data);
+        this.cdr.detectChanges();
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      });
     this.welcome.getBlogs().subscribe((res: any) => {
-      this.data = this.processedData(res['data'].data);
-      this.info.article = this.data.filter(
-        (item) => item.type === '文章'
+      const data = this.processedData(res['data'].data);
+      this.info.article = data.filter(
+        (item: any) => item.type === '文章'
       ).length;
-      this.info.question = this.data.filter(
-        (item) => item.type === '问题'
+      this.info.question = data.filter(
+        (item: any) => item.type === '问题'
       ).length;
       this.cdr.detectChanges();
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
     });
   }
 

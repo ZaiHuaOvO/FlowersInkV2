@@ -56,7 +56,7 @@ export class MessageComponent {
         this.count = res['data'].count;
         setTimeout(() => {
           this.loading = false;
-        }, 1000);
+        }, 500);
       });
   }
 

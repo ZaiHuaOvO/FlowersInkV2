@@ -80,7 +80,7 @@ export class QuestionComponent implements OnInit {
         this.tagList = this.general.getTagList(this.data);
         setTimeout(() => {
           this.loading = false;
-        }, 1000);
+        }, 500);
       });
   }
 
