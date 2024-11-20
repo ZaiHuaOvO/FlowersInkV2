@@ -5,7 +5,8 @@
         <h1 nz-typography>留言板</h1>
         <nz-spin [nzTip]="'留言正在赶来中'" [nzSpinning]="loading">
             <div nz-flex [nzVertical]="true">
-                <nz-list [nzDataSource]="data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+                <nz-list [nzDataSource]="data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'"
+                    nzNoResult="居然没有留言(T⌓T)">
                     <ng-template #item let-item>
                         <nz-comment [nzAuthor]="name" [nzDatetime]="date">
                             <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="imageUrl(item.avatar)" [nzSize]="42"

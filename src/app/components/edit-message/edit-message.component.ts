@@ -67,7 +67,7 @@ export class EditMessageComponent {
                 content: null,
               };
               this.msg.success(res['msg'] + '请耐心等待再花审核');
-              this.messageList.getMessage();
+              // this.messageList.getMessage();
             }
             this.loading = false;
           });
