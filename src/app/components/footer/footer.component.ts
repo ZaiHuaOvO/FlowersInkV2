@@ -19,6 +19,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   ],
 })
 export class FooterComponent implements OnInit {
+  email = 'ZyZy1724@gmail.com';
   constructor() {}
 
   ngOnInit() {}

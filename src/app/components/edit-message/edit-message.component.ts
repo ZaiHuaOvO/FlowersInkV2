@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -12,6 +12,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { GeneralService } from '../../services/general.service';
 import { ApiLimiterService } from '../../services/api-limiter.service';
 import { MessageComponent } from '../../pages/about/message/message.component';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'flower-edit-message',
@@ -25,6 +27,8 @@ import { MessageComponent } from '../../pages/about/message/message.component';
     NzInputModule,
     NzTypographyModule,
     NzSpinModule,
+    NzModalModule,
+    NzIconModule,
   ],
   templateUrl: './edit-message.component.html',
   styleUrl: './edit-message.component.css',
@@ -39,10 +43,18 @@ export class EditMessageComponent {
   loading = false;
   isName: any;
   isContent = '';
+  email = 'ZyZy1724@gmail.com';
+
+  @ViewChild('contanctMsg', { static: true })
+  contanctMsg!: TemplateRef<any>;
+
+  @ViewChild('contanctContent', { static: true })
+  contanctContent!: TemplateRef<any>;
 
   constructor(
     private about: AboutService,
     private msg: NzMessageService,
+    private modal: NzModalService,
     private general: GeneralService,
     private limiter: ApiLimiterService,
     private messageList: MessageComponent
@@ -54,7 +66,7 @@ export class EditMessageComponent {
       if (this.general.isNotEmpty(this.form.content)) {
         const message = this.limiter.canCallApi();
         if (message) {
-          this.msg.info(`留言有一分钟冷却，请等待${message}再尝试`); // 提示用户剩余时间
+          this.msg.info(`留言有一分钟冷却，请等待 ${message}秒后再尝试`); // 提示用户剩余时间
           this.loading = false;
           return;
         } else {
@@ -66,8 +78,9 @@ export class EditMessageComponent {
                 url: '',
                 content: null,
               };
-              this.msg.success(res['msg'] + '请耐心等待再花审核');
-              // this.messageList.getMessage();
+              this.msg.success(this.contanctMsg, {
+                nzDuration: 5000,
+              });
             }
             this.loading = false;
           });
@@ -80,5 +93,15 @@ export class EditMessageComponent {
       this.msg.info('请输入你的名字');
       this.loading = false;
     }
+  }
+
+  msgModal(): void {
+    this.modal.create({
+      nzTitle: '再花的联系方式',
+      nzContent: this.contanctContent,
+      nzFooter: [],
+      nzMaskClosable: false,
+      nzClosable: false,
+    });
   }
 }

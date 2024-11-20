@@ -27,6 +27,20 @@
         </div>
         <div nz-flex nzJustify="end">
             <button class="amazon-button" style="width: 200px;" (click)="submit()">发布</button>
+            <button class="amazon-button" style="width: 200px;" (click)="msgModal()">发布</button>
         </div>
     </div>
 </nz-spin>
+
+<ng-template #contanctMsg>
+    <span>留言成功，再花正火速赶来审核中</span><a (click)="msgModal()">「我要催催再花」</a>
+</ng-template>
+<ng-template #contanctContent>
+    <div nz-typography>
+        <ul>
+            <li><span nz-icon nzType="qq" nzTheme="outline"></span>：<strong>446840401</strong></li>
+            <li><span nz-icon nzType="wechat" nzTheme="outline"></span>：<strong>zaihua_huahua</strong></li>
+            <li><span nz-icon nzType="mail" nzTheme="outline"></span>：<strong>{{email}}</strong></li>
+        </ul>
+    </div>
+</ng-template>
