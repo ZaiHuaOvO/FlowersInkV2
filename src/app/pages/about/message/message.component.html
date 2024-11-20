@@ -24,6 +24,8 @@
                         </nz-comment>
                     </ng-template>
                 </nz-list>
+                <nz-pagination [nzPageIndex]="page" [nzTotal]="count" nzSimple
+                    nzHideOnSinglePage="true"></nz-pagination>
                 <nz-divider></nz-divider>
                 <flower-edit-message></flower-edit-message>
             </div>

@@ -11,6 +11,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { EditMessageComponent } from '../../../components/edit-message/edit-message.component';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @Component({
   selector: 'flower-message',
@@ -28,6 +29,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzDividerModule,
     NzSpinModule,
     DatePipe,
+    NzPaginationModule,
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.css',
@@ -35,18 +37,27 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 export class MessageComponent {
   data: any[] = [];
   loading = true;
+  page = 1;
+  count = 0;
   constructor(private about: AboutService) {
     this.getMessage();
   }
 
   getMessage(): void {
     this.loading = true;
-    this.about.getMessageList().subscribe((res: any) => {
-      this.data = res['data'].data;
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
-    });
+    this.about
+      .getMessageList({
+        isApproved: true,
+        pageSize: 30,
+        page: this.page,
+      })
+      .subscribe((res: any) => {
+        this.data = res['data'].data;
+        this.count = res['data'].count;
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
+      });
   }
 
   navigateToUrl(url: string): void {
