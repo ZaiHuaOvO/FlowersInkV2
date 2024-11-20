@@ -97,6 +97,12 @@
     font-style: normal;
 }
 
+.zcool-kuaile-regular {
+    font-family: "ZCOOL KuaiLe", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* 折叠面板和文字对齐 */
 .ant-collapse-header {
     padding-left: 0 !important;

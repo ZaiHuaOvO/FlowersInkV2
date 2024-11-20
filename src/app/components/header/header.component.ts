@@ -61,13 +61,15 @@ export class HeaderComponent implements OnInit {
       icon: 'heart',
       child: [
         {
-          title: '我老婆',
+          title: '老婆',
           icon: '',
+          url: '/life/heart',
         },
-        {
-          title: '美食',
-          icon: '',
-        },
+        // {
+        //   title: '美食',
+        //   icon: '',
+        //   url: '/life/food',
+        // },
       ],
     },
     {

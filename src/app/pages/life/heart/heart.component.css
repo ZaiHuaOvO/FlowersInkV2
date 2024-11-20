@@ -1,0 +1,40 @@
+.heart {
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 500px;
+    padding: 24px;
+}
+
+.content {
+    width: 60vw;
+    min-height: 500px;
+    margin-top: 12px;
+}
+
+.life {
+    padding: 24px;
+    width: 100%;
+}
+
+.ant-typography h1 {
+    margin-bottom: 0 !important;
+}
+
+/* 避免折叠面板最后一项没有圆角 */
+.ant-collapse-borderless>.ant-collapse-item:last-child,
+.ant-collapse-borderless>.ant-collapse-item:last-child .ant-collapse-header {
+    border-radius: 10px;
+}
+
+.ant-collapse-item:last-child>.ant-collapse-content,
+.ant-collapse>.ant-collapse-item:last-child,
+.ant-collapse>.ant-collapse-item:last-child>.ant-collapse-header {
+    border-radius: 10px;
+}
+
+.img_card {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    border-radius: 10px;
+    width: 100%;
+    cursor: pointer;
+}

@@ -13,6 +13,11 @@ export const routes: Routes = [
       import('./pages/blog/blog.routes').then((m) => m.BLOG_ROUTES),
   },
   {
+    path: 'life',
+    loadChildren: () =>
+      import('./pages/life/life.routes').then((m) => m.LIFE_ROUTES),
+  },
+  {
     path: 'about',
     loadChildren: () =>
       import('./pages/about/about.routes').then((m) => m.ABOUT_ROUTES),
