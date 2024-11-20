@@ -1,0 +1,32 @@
+<nz-spin [nzTip]="'留言发布中'" [nzSpinning]="loading">
+    <div nz-flex [nzVertical]="true" nzGap="small">
+        <div>
+            <div nz-row nzJustify="space-between">
+                <div nz-col nzSpan="5" nz-flex nzAlign="center">
+                    <span nz-typography class="form_title"><strong style="color: red;">*</strong>名字：</span>
+                    <input nz-input type="text" [(ngModel)]="form.name" placeholder="你的名字" [nzStatus]="isName">
+                </div>
+                <div nz-col nzSpan="9" nz-flex nzAlign="center">
+                    <span nz-typography class="form_title">头像：</span>
+                    <input nz-input type="text" [(ngModel)]="form.avatar" placeholder="公开头像地址，不填是猫猫头">
+                </div>
+                <div nz-col nzSpan="9" nz-flex nzAlign="center">
+                    <span nz-typography class="form_title">网址：</span>
+                    <input nz-input type="text" [(ngModel)]="form.url" placeholder="你的个人网站有效跳转链接">
+                </div>
+            </div>
+        </div>
+        <div>
+            <div nz-flex nzAlign="start">
+                <span nz-typography class="form_title"><strong style="color: red;">*</strong>留言：</span>
+                <nz-textarea-count [nzMaxCharacterCount]="200">
+                    <textarea nz-input type="text" [(ngModel)]="form.content"
+                        placeholder="想在花墨留下什么痕迹？留言会在再花人工审核后才会显示哦OvO"></textarea>
+                </nz-textarea-count>
+            </div>
+        </div>
+        <div nz-flex nzJustify="end">
+            <button class="amazon-button" style="width: 200px;" (click)="submit()">发射留言</button>
+        </div>
+    </div>
+</nz-spin>

@@ -58,6 +58,13 @@ export class HttpService {
       .pipe(catchError(this.handleError));
   }
 
+  // 通用 PATCH 方法
+  patch<T>(url: string, body: any): Observable<T> {
+    return this.http
+      .patch<T>(this.api + url, body, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
   // 通用 DELETE 方法
   delete<T>(url: string): Observable<T> {
     return this.http

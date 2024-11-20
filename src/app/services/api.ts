@@ -24,4 +24,6 @@ export const API = {
   IMAGE: '/upload',
   // 图片上传
   IMAGE_UPLOAD: '/upload/image',
+  // 留言板
+  MESSAGE: '/site/message',
 };

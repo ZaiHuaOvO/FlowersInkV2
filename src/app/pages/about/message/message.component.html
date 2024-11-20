@@ -3,5 +3,31 @@
     <flower-target></flower-target>
     <div class="content card" nz-flex [nzVertical]="true">
         <h1 nz-typography>留言板</h1>
+        <nz-spin [nzTip]="'留言正在赶来中'" [nzSpinning]="loading">
+            <div nz-flex [nzVertical]="true">
+                <nz-list [nzDataSource]="data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+                    <ng-template #item let-item>
+                        <nz-comment [nzAuthor]="name" [nzDatetime]="date">
+                            <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="imageUrl(item.avatar)" [nzSize]="42"
+                                (click)="navigateToUrl(item.url)"></nz-avatar>
+                            <nz-comment-content>
+                                <p class="content_text noto-sans-sc">{{ item.content }}</p>
+                            </nz-comment-content>
+                            <ng-template #name>
+                                <span *ngIf="!item.url" class="name noto-sans-sc">{{item.name}}</span>
+                                <a class="url_name noto-sans-sc" *ngIf="item.url"
+                                    (click)="navigateToUrl(item.url)">{{item.name}}</a>
+                            </ng-template>
+                            <ng-template #date>
+                                <span>{{item.createDate | date:'yyyy年MM月dd日'}}</span>
+                            </ng-template>
+                        </nz-comment>
+                    </ng-template>
+                </nz-list>
+                <nz-divider></nz-divider>
+                <flower-edit-message></flower-edit-message>
+            </div>
+        </nz-spin>
     </div>
+
 </div>

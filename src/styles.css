@@ -81,11 +81,12 @@
 }
 
 /* 更换p的全局字体 */
-.ant-typography p span,
+.ant-typography p,
+.ant-typography span,
 .ant-menu-title-content {
     font-family: "Noto Sans SC", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 500;
+    font-weight: 400;
     font-style: normal;
 }
 
@@ -99,4 +100,10 @@
 /* 折叠面板和文字对齐 */
 .ant-collapse-header {
     padding-left: 0 !important;
+}
+
+/* 评论中的avatar图片宽高取消默认32px */
+.ant-comment-avatar img {
+    width: 100% !important;
+    height: 100% !important;
 }

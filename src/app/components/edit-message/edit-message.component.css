@@ -1,0 +1,14 @@
+.form_title {
+    min-width: 50px;
+}
+
+textarea,
+nz-textarea-count {
+    width: 100%;
+    min-height: 150px;
+}
+
+input,
+textarea {
+    border-radius: 10px;
+}

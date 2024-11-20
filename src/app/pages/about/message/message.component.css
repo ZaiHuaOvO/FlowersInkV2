@@ -11,3 +11,21 @@
     margin-top: 12px;
     padding: 24px 72px 24px 72px;
 }
+
+.url_name {
+    color: #1890FF;
+    font-size: 14px !important;
+}
+
+.url_name:hover {
+    color: black;
+}
+
+.name {
+    font-size: 14px !important;
+}
+
+.content_text {
+    font-size: 16px !important;
+    font-weight: 500;
+}

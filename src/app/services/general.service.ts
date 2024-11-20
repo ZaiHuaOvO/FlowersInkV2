@@ -62,4 +62,20 @@ export class GeneralService {
     } while (newColor === lastColor); // 确保颜色不会连续重复
     return newColor;
   }
+
+  isNotEmpty(value: any): boolean {
+    if (value === null || value === undefined) {
+      return false; // null 或 undefined
+    }
+
+    if (Array.isArray(value) && value.length === 0) {
+      return false; // 空数组
+    }
+
+    if (typeof value === 'string' && value.trim() === '') {
+      return false; // 空字符串或全是空格
+    }
+
+    return true; // 其他情况下，返回 true
+  }
 }

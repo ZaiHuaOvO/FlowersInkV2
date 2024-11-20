@@ -9,15 +9,11 @@ import { HttpService } from '../../services/http.service';
 export class AboutService {
   constructor(private http: HttpService) {}
 
-  getBlogs(data?: any): Observable<object> {
-    return this.http.get(API.BLOG, data);
+  getMessageList(data?: any): Observable<object> {
+    return this.http.get(API.MESSAGE, data);
   }
 
-  getBlogDetail(Id: string): Observable<object> {
-    return this.http.get(API.BLOG + `/${Id}`);
-  }
-
-  getTags(): Observable<object> {
-    return this.http.get(API.TAG);
+  addMessage(data?: any): Observable<object> {
+    return this.http.post(API.MESSAGE, data);
   }
 }
