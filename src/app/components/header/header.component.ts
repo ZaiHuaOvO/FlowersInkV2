@@ -5,6 +5,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { QuickDown } from '../../common_ui/animations/animation';
 
 interface MenuItem {
   title: string;
@@ -26,6 +27,7 @@ interface MenuItem {
     NzFlexModule,
     NzAvatarModule,
   ],
+  animations: [QuickDown],
 })
 export class HeaderComponent implements OnInit {
   MenuList: MenuItem[] = [

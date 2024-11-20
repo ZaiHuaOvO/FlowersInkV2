@@ -27,6 +27,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
+import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 
 @Component({
   selector: 'flower-blog-detail',
@@ -49,6 +50,7 @@ import { BlogTitleComponent } from '../../../components/blog-title/blog-title.co
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
+  animations: [SlowUp, QuickUp],
 })
 export class BlogDetailComponent implements OnInit {
   data: any = {};

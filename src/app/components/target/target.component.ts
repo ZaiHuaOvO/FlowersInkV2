@@ -7,6 +7,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { filter } from 'rxjs';
+import { SlowLeft } from '../../common_ui/animations/animation';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'flower-target',

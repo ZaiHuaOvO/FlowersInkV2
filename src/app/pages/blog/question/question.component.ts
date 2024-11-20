@@ -19,6 +19,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { GeneralService } from '../../../services/general.service';
 import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 
 @Component({
   selector: 'flower-question',
@@ -42,6 +43,7 @@ import { MarkdownModule } from 'ngx-markdown';
   ],
   templateUrl: './question.component.html',
   styleUrl: './question.component.css',
+  animations: [SlowUp, QuickUp],
 })
 export class QuestionComponent implements OnInit {
   data: any[] = [

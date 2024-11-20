@@ -17,6 +17,7 @@ import { GeneralService } from '../../../services/general.service';
 import { debounceTime } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
+import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 
 @Component({
   selector: 'flower-article',
@@ -40,6 +41,7 @@ import { BlogTitleComponent } from '../../../components/blog-title/blog-title.co
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',
+  animations: [SlowUp, QuickUp],
 })
 export class ArticleComponent implements OnInit {
   data: any[] = [];

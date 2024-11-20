@@ -13,6 +13,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../components/blog-title/blog-title.component';
+import { SlowUp, QuickUp } from '../../common_ui/animations/animation';
 
 @Component({
   selector: 'app-blog',
@@ -31,6 +32,7 @@ import { BlogTitleComponent } from '../../components/blog-title/blog-title.compo
     RouterModule,
     BlogTitleComponent,
   ],
+  animations: [SlowUp, QuickUp],
 })
 export class BlogComponent implements OnInit {
   data: any[] = [];

@@ -12,6 +12,7 @@ import { EditMessageComponent } from '../../../components/edit-message/edit-mess
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { QuickUp } from '../../../common_ui/animations/animation';
 
 @Component({
   selector: 'flower-message',
@@ -33,6 +34,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.css',
+  animations: [QuickUp],
 })
 export class MessageComponent {
   data: any[] = [];

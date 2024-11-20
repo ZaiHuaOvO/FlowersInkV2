@@ -1,7 +1,7 @@
 <div class="article" nz-flex [nzVertical]="true">
     <flower-blog-title [title]="'开发问题记录'"></flower-blog-title>
 
-    <div class="content" nz-flex [nzVertical]="true" nzAlign="center">
+    <div class="content" nz-flex [nzVertical]="true" nzAlign="center" @QuickUp>
         <nz-spin [nzTip]="'问题正在努力赶来中'" [nzSpinning]="loading">
             <nz-collapse style="max-width: 100vw;" nzAccordion nzGhost nzBordered="false" nz-flex nzGap="small"
                 [nzVertical]="true">
@@ -26,7 +26,7 @@
                 (nzPageIndexChange)="pageChange($event)"></nz-pagination>
         </nz-spin>
     </div>
-    <div class="me">
+    <div class="me" @SlowUp>
         <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
             <nz-input-group [nzSuffix]="suffixIconSearch">
                 <input type="text" nz-input placeholder="搜索问题" [formControl]="searchControl" />

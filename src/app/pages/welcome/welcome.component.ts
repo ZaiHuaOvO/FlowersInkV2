@@ -9,6 +9,7 @@ import { MeCardComponent } from '../../components/me-card/me-card.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../components/blog-title/blog-title.component';
+import { QuickUp, SlowUp } from '../../common_ui/animations/animation';
 
 @Component({
   selector: 'app-welcome',
@@ -25,6 +26,7 @@ import { BlogTitleComponent } from '../../components/blog-title/blog-title.compo
     RouterModule,
     BlogTitleComponent,
   ],
+  animations: [SlowUp, QuickUp],
 })
 export class WelcomeComponent implements OnInit {
   data: any[] = [];

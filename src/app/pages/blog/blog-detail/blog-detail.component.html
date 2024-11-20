@@ -1,5 +1,5 @@
 <div class="article" nz-flex [nzVertical]="true">
-    <div class="content card" nz-flex nzGap="middle" [nzVertical]="true">
+    <div class="content card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp>
         <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
             <ng-template #backTitle>
                 <span nz-typography style="cursor: pointer;" (click)="onBack()">返回</span>
@@ -22,7 +22,7 @@
         <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
             commandLine emoji mermaid clipboard></markdown>
     </div>
-    <div class="me">
+    <div class="me" @SlowUp>
         <div class="me_box card" nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
             <nz-avatar [nzSize]="96" nzSrc="../../../assets/img/web/再花猫猫头.png" nzShape="square"></nz-avatar>
             <div nz-flex [nzVertical]="true">

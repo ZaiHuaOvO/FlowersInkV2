@@ -1,7 +1,7 @@
 <div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
   <div class="content" nz-flex nzGap="middle" nzJustify="start" [nzVertical]="true">
     <flower-blog-title [title]="'文归档'"></flower-blog-title>
-    <div class="search card" nz-flex nzAlign="center" nzJustify="center">
+    <div class="search card" nz-flex nzAlign="center" nzJustify="center" @QuickUp>
       <nz-input-group [nzSuffix]="suffixIconSearch">
         <input type="text" nz-input placeholder="想要搜点儿什么?" [formControl]="searchControl" />
       </nz-input-group>
@@ -9,7 +9,7 @@
         <span nz-icon nzType="search"></span>
       </ng-template>
     </div>
-    <nz-spin [nzTip]="'归档正在努力赶来中'" [nzSpinning]="loading">
+    <nz-spin [nzTip]="'归档正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
       <div nz-flex nzAlign="center" [nzVertical]="true" nzGap="middle">
         <ng-container *ngFor="let item of data">
           <div class="blog card">

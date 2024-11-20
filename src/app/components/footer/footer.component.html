@@ -2,9 +2,20 @@
 
     <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
         <!-- <span nz-typography>联系方式</span> -->
-        <span nz-typography class="text"><span nz-icon nzType="qq" nzTheme="outline"></span>：446840401</span>
-        <span nz-typography class="text"><span nz-icon nzType="wechat" nzTheme="outline"></span>：zaihua_huahua</span>
-        <span nz-typography class="text"><span nz-icon nzType="mail" nzTheme="outline"></span>：{{email}}</span>
+        <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top"><span nz-icon
+                nzType="qq" nzTheme="outline"></span>：446840401</span>
+        <ng-template #qqQRCode>
+            <img nz-image width="250px" height="250px" nzSrc="../../../assets/img/QRCode/qq.png">
+        </ng-template>
+
+        <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="bottom"><span
+                nz-icon nzType="wechat" nzTheme="outline"></span>：zaihua_huahua</span>
+        <ng-template #wxQRCode>
+            <img nz-image width="250px" height="250px" nzSrc="../../../assets/img/QRCode/wx.png">
+        </ng-template>
+
+        <span nz-typography class="text" (click)="copyEmail()"><span nz-icon nzType="mail"
+                nzTheme="outline"></span>：{{email}}</span>
     </div>
 
     <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">

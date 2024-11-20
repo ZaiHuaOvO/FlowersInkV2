@@ -1,7 +1,7 @@
 <div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
     <!-- 绝对定位的导航 -->
     <flower-target></flower-target>
-    <div class="content card" nz-flex [nzVertical]="true">
+    <div class="content card" nz-flex [nzVertical]="true" @QuickUp>
         <h1 nz-typography>留言板</h1>
         <nz-spin [nzTip]="'留言正在赶来中'" [nzSpinning]="loading">
             <div nz-flex [nzVertical]="true">
