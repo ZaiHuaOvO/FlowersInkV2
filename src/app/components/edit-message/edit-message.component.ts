@@ -99,7 +99,7 @@ export class EditMessageComponent {
     this.modal.create({
       nzTitle: '再花的联系方式',
       nzContent: this.contanctContent,
-      // nzFooter: [],
+      nzFooter: null,
       nzMaskClosable: true,
       nzClosable: false,
     });
