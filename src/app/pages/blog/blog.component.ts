@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -32,6 +32,7 @@ import { WindowService } from '../../services/window.service';
     NzIconModule,
     RouterModule,
     BlogTitleComponent,
+    DatePipe,
   ],
   animations: [SlowUp, QuickUp],
 })
