@@ -83,9 +83,8 @@ export class BlogComponent implements OnInit {
     const groupedData = dataArray.reduce((acc, item) => {
       const date = new Date(item.date);
       const year = date.getFullYear().toString();
-      const time = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(
-        date.getDate()
-      ).padStart(2, '0')}`;
+      const time = `${String(date.getMonth() + 1).padStart(2, '0')}月
+      ${String(date.getDate()).padStart(2, '0')}日`;
 
       // 为每个数据项新增 time 字段
       item.time = time;
