@@ -6,6 +6,7 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { QuickDown } from '../../common_ui/animations/animation';
+import { WindowService } from '../../services/window.service';
 
 interface MenuItem {
   title: string;
@@ -96,7 +97,12 @@ export class HeaderComponent implements OnInit {
       ],
     },
   ];
-  constructor() {}
-
+  isMobile: boolean = false;
+  constructor(private window: WindowService) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
+  }
+  // [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'9.5%'}"
   ngOnInit() {}
 }

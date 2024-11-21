@@ -13,6 +13,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { QuickUp } from '../../../common_ui/animations/animation';
+import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'flower-message',
@@ -41,7 +42,11 @@ export class MessageComponent {
   loading = true;
   page = 1;
   count = 0;
-  constructor(private about: AboutService) {
+  isMobile: boolean = false;
+  constructor(private about: AboutService, private window: WindowService) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
     this.getMessage();
   }
 

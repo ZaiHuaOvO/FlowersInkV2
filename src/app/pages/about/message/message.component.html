@@ -1,18 +1,22 @@
-<div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
+<div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true"
+    [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
     <!-- 绝对定位的导航 -->
-    <flower-target></flower-target>
-    <div class="content card" nz-flex [nzVertical]="true" @QuickUp>
+    <flower-target *ngIf="!isMobile"></flower-target>
+    <div class="content card" nz-flex [nzVertical]="true" @QuickUp
+        [ngStyle]="{'width':isMobile ?'100%':'60%','padding':isMobile ?'24px':'48px'}">
         <h1 nz-typography>留言板</h1>
         <nz-spin [nzTip]="'留言正在赶来中'" [nzSpinning]="loading">
             <div nz-flex [nzVertical]="true">
+                <flower-edit-message></flower-edit-message>
+                <nz-divider></nz-divider>
                 <nz-list [nzDataSource]="data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'"
                     nzNoResult="居然没有留言(T⌓T)">
                     <ng-template #item let-item>
                         <nz-comment [nzAuthor]="name" [nzDatetime]="date">
-                            <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="imageUrl(item.avatar)" [nzSize]="42"
-                                (click)="navigateToUrl(item.url)"></nz-avatar>
+                            <!-- <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="imageUrl(item.avatar)" [nzSize]="42"
+                                (click)="navigateToUrl(item.url)"></nz-avatar> -->
                             <nz-comment-content>
-                                <p class="content_text noto-sans-sc">{{ item.content }}</p>
+                                <p style="padding-left: 20px;" class="content_text noto-sans-sc">{{ item.content }}</p>
                             </nz-comment-content>
                             <ng-template #name>
                                 <span *ngIf="!item.url" class="name noto-sans-sc">{{item.name}}</span>
@@ -27,8 +31,6 @@
                 </nz-list>
                 <nz-pagination [nzPageIndex]="page" [nzTotal]="count" nzSimple
                     nzHideOnSinglePage="true"></nz-pagination>
-                <nz-divider></nz-divider>
-                <flower-edit-message></flower-edit-message>
             </div>
         </nz-spin>
     </div>

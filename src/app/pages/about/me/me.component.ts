@@ -11,17 +11,21 @@ import { MeCardComponent } from '../../../components/me-card/me-card.component';
 import { QuickUp, SlowLeft } from '../../../common_ui/animations/animation';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { WindowService } from '../../../services/window.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'flower-me',
   standalone: true,
   imports: [
+    CommonModule,
     NzFlexModule,
     NzImageModule,
     NzDividerModule,
     NzTypographyModule,
     NzCollapseModule,
     NzPopoverModule,
+    RouterModule,
     TargetComponent,
   ],
   templateUrl: './me.component.html',
@@ -32,4 +36,10 @@ export class MeComponent {
   isAcive: boolean = true;
   isAcive1: boolean = true;
   isAcive2: boolean = true;
+  isMobile: boolean = false;
+  constructor(private window: WindowService) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
+  }
 }

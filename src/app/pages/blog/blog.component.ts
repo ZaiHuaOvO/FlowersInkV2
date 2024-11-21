@@ -14,6 +14,7 @@ import { debounceTime } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../components/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../common_ui/animations/animation';
+import { WindowService } from '../../services/window.service';
 
 @Component({
   selector: 'app-blog',
@@ -39,7 +40,11 @@ export class BlogComponent implements OnInit {
   count = 0;
   loading = true;
   searchControl = new FormControl('');
-  constructor(private welcome: WelcomeService) {
+  isMobile: boolean = false;
+  constructor(private welcome: WelcomeService, private window: WindowService) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
     // 添加防抖，设置时间为500ms
     this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getBlog();

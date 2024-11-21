@@ -27,3 +27,7 @@
 .blog_title:hover {
     color: #2F9BFF;
 }
+
+.blog_time {
+    min-width: 60px;
+}

@@ -5,10 +5,36 @@
 textarea,
 nz-textarea-count {
     width: 100%;
-    min-height: 150px;
+    min-height: 100px;
 }
 
-input,
+/* input, */
 textarea {
-    border-radius: 10px;
+    border-radius: 10px !important;
+}
+
+nz-select {
+    border-radius: 10px 0 0 10px;
+}
+
+.toolbar {
+    padding-top: 4px;
+    width: 100%;
+}
+
+.emoji {
+    width: 50px;
+}
+
+.submit {
+    width: 100px;
+}
+
+.ant-popover-inner {
+    max-width: 200px !important;
+}
+
+.ant-popover-inner-content {
+    max-width: 200px !important;
+
 }

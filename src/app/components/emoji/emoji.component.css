@@ -1,0 +1,21 @@
+.emoji {
+    width: 50px;
+}
+
+.ant-popover-inner {
+    max-width: 200px !important;
+}
+
+.ant-popover-inner-content {
+    max-width: 200px !important;
+
+}
+
+.emoji_text {
+    width: 19.23px;
+    cursor: pointer;
+}
+
+.emoji_text:hover {
+    background-color: lightgrey;
+}

@@ -20,6 +20,7 @@ import { GeneralService } from '../../../services/general.service';
 import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
+import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'flower-question',
@@ -61,7 +62,15 @@ export class QuestionComponent implements OnInit {
   readonly cardStyle = {
     background: '#fff',
   };
-  constructor(private blog: BlogService, private general: GeneralService) {
+  isMobile: boolean = false;
+  constructor(
+    private blog: BlogService,
+    private general: GeneralService,
+    private window: WindowService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
     // 添加防抖，设置时间为500ms
     this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getBlog();

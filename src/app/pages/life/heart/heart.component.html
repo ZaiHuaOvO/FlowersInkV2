@@ -1,12 +1,14 @@
-<div class="heart" nz-flex [nzVertical]="true" nzAlign="center">
+<div class="heart" nz-flex [nzVertical]="true" nzJustify="center" nzAlign="center">
     <flower-blog-title class="zcool-kuaile-regular" [title]="'再花和方方老婆的时间轴'"></flower-blog-title>
-    <nz-spin [nzTip]="'狗粮正在努力赶来中'" [nzSpinning]="loading">
-        <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true">
+
+    <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
+        [ngStyle]="{'width':isMobile ?'100%':'60%'}">
+        <nz-spin [nzTip]="'狗粮正在努力赶来中'" [nzSpinning]="loading">
             <nz-collapse nzAccordion style="max-width: 100vw;border-radius: 10px;" nzGhost nzBordered="false" nz-flex
                 nzGap="small" [nzVertical]="true">
                 @for (panel of data; track panel) {
                 <nz-collapse-panel [nzActive]="panel.active" [nzHeader]="yearBox" class="card" nzShowArrow="false">
-                    <nz-timeline>
+                    <nz-timeline *ngIf="!isMobile">
                         <ng-container *ngFor="let item of panel.data">
                             <nz-timeline-item [nzColor]="getAccentColor(item.tag[0])" [nzLabel]="DateLabel"
                                 [nzPosition]="item.tag[0] == '事件' ? 'right' : 'left'">
@@ -50,7 +52,7 @@
                     </nz-timeline>
 
                     <!-- 手机端 -->
-                    <!-- <nz-timeline>
+                    <nz-timeline *ngIf="isMobile">
                         <ng-container *ngFor="let item of panel.data">
                             <nz-timeline-item [nzColor]="getAccentColor(item.tag[0])">
                                 <nz-card class="img_card" (click)="getLifeDetailMobile(item)">
@@ -77,16 +79,16 @@
                                 <h5 nz-typography>「{{item.date | date: 'yyyy-M-d'}}」&nbsp;</h5>
                             </ng-template>
                         </ng-container>
-                    </nz-timeline> -->
+                    </nz-timeline>
                 </nz-collapse-panel>
                 <ng-template #yearBox>
                     <div nz-flex nzJustify="center">
-                        <h1 nz-typography style="margin-bottom: 0 !important" class="zcool-kuaile-regular">
-                            {{panel.year}}年</h1>
+                        <h2 nz-typography style="margin-bottom: 0 !important" class="zcool-kuaile-regular">
+                            {{panel.year}}年</h2>
                     </div>
                 </ng-template>
                 }
             </nz-collapse>
-        </div>
-    </nz-spin>
+        </nz-spin>
+    </div>
 </div>

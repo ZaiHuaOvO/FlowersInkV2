@@ -15,6 +15,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { LifeDialogComponent } from './life-dialog/life-dialog.component';
 import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
+import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'flower-heart',
@@ -41,7 +42,15 @@ import { BlogTitleComponent } from '../../../components/blog-title/blog-title.co
 export class HeartComponent {
   data: any[] = [];
   loading = true;
-  constructor(private life: LifeService, private modal: NzModalService) {
+  isMobile: boolean = false;
+  constructor(
+    private life: LifeService,
+    private modal: NzModalService,
+    private window: WindowService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
     this.getLife();
   }
   getLife(): void {

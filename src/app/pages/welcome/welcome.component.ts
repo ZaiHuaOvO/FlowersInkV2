@@ -10,6 +10,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../components/blog-title/blog-title.component';
 import { QuickUp, SlowUp } from '../../common_ui/animations/animation';
+import { WindowService } from '../../services/window.service';
 
 @Component({
   selector: 'app-welcome',
@@ -37,7 +38,15 @@ export class WelcomeComponent implements OnInit {
     day: 0,
     lastUpdateTime: '',
   };
-  constructor(private welcome: WelcomeService, private cdr: ChangeDetectorRef) {
+  isMobile: boolean = false;
+  constructor(
+    private welcome: WelcomeService,
+    private cdr: ChangeDetectorRef,
+    private window: WindowService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
     this.welcome.visitWeb();
   }
 

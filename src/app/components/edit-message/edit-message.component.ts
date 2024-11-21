@@ -14,6 +14,12 @@ import { ApiLimiterService } from '../../services/api-limiter.service';
 import { MessageComponent } from '../../pages/about/message/message.component';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { emojiArray } from '../../ts/emoji';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { EmojiComponent } from '../emoji/emoji.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { WindowService } from '../../services/window.service';
 
 @Component({
   selector: 'flower-edit-message',
@@ -29,6 +35,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzSpinModule,
     NzModalModule,
     NzIconModule,
+    NzPopoverModule,
+    NzPaginationModule,
+    EmojiComponent,
+    NzSelectModule,
   ],
   templateUrl: './edit-message.component.html',
   styleUrl: './edit-message.component.css',
@@ -38,7 +48,7 @@ export class EditMessageComponent {
     name: null,
     avatar: '',
     url: '',
-    content: null,
+    content: '',
   };
   loading = false;
   isName: any;
@@ -51,14 +61,21 @@ export class EditMessageComponent {
   @ViewChild('contanctContent', { static: true })
   contanctContent!: TemplateRef<any>;
 
+  showToolbar = false; // 控制工具栏显示
+  commentText = ''; // 存储评论文本
+  isMobile: boolean = false;
   constructor(
     private about: AboutService,
     private msg: NzMessageService,
     private modal: NzModalService,
     private general: GeneralService,
     private limiter: ApiLimiterService,
-    private messageList: MessageComponent
-  ) {}
+    private window: WindowService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
+  }
   submit(): void {
     this.loading = true;
 
@@ -76,7 +93,7 @@ export class EditMessageComponent {
                 name: null,
                 avatar: '',
                 url: '',
-                content: null,
+                content: '',
               };
               this.msg.success(this.contanctMsg, {
                 nzDuration: 5000,
@@ -103,5 +120,16 @@ export class EditMessageComponent {
       nzMaskClosable: true,
       nzClosable: false,
     });
+  }
+
+  // 添加 emoji
+  triggerEmoji(emoji: string) {
+    this.commentText += emoji;
+  }
+
+  onEmojiSelected(emoji: string): void {
+    this.form.content += emoji;
+    console.log('Selected Emoji:', emoji);
+    // 在这里可以调用其他逻辑或函数
   }
 }

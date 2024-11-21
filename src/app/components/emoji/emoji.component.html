@@ -1,0 +1,14 @@
+<div style="width: 50px;">
+    <button class="emoji amazon-button" nz-popover [(nzPopoverVisible)]="visible" nzPopoverTrigger="click"
+        nzPopoverPlacement="bottom" [nzPopoverContent]="contentTemplate"><span nz-icon nzType="smile"
+            nzTheme="outline"></span></button>
+    <ng-template #contentTemplate>
+        <div style="width: 200px;">
+            <div nz-flex nzWrap="wrap">
+                <p class="emoji_text" *ngFor="let emoji of currentPageData" (click)="onEmojiClick(emoji)">{{emoji}}</p>
+            </div>
+            <nz-pagination nzSimple [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="emojiArray.length"
+                (nzPageIndexChange)="onPageChange($event)" nzHideOnSinglePage="false"></nz-pagination>
+        </div>
+    </ng-template>
+</div>

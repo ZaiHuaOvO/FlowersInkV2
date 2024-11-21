@@ -18,6 +18,7 @@ import { debounceTime } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
+import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'flower-article',
@@ -66,7 +67,15 @@ export class ArticleComponent implements OnInit {
     'gold',
     'lime',
   ];
-  constructor(private blog: BlogService, private general: GeneralService) {
+  isMobile: boolean = false;
+  constructor(
+    private blog: BlogService,
+    private general: GeneralService,
+    private window: WindowService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
     // 添加防抖，设置时间为500ms
     this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getBlog();

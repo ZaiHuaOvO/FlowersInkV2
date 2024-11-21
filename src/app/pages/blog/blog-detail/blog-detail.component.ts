@@ -28,6 +28,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
+import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'flower-blog-detail',
@@ -67,13 +68,19 @@ export class BlogDetailComponent implements OnInit {
   }> = [];
   currentAnchor: string | undefined;
   targetOffset: number = 0;
+  isMobile: boolean = false;
   constructor(
     private blog: BlogService,
     private general: GeneralService,
     private activateInfo: ActivatedRoute,
     private el: ElementRef,
-    @Inject(PLATFORM_ID) private platformId: object // 注入 PLATFORM_ID 以检测运行平台
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: object, // 注入 PLATFORM_ID 以检测运行平台
+    private window: WindowService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
+  }
 
   ngOnInit() {
     this.getBlogDetail();

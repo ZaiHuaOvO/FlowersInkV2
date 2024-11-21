@@ -10,6 +10,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzBackTopModule } from 'ng-zorro-antd/back-top';
+import { WindowService } from './services/window.service';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,15 @@ export class AppComponent {
 
   isCollapsed = false;
 
-  constructor(private nzConfigService: NzConfigService) {}
+  isMobile: boolean = false;
+  constructor(
+    private nzConfigService: NzConfigService,
+    private window: WindowService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
+  }
 
   ngAfterViewInit(): void {
     this.nzConfigService.set('spin', { nzIndicator: this.loadingTemplate });

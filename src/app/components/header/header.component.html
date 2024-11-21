@@ -1,9 +1,10 @@
-<div class="header" nz-flex nzJustify="space-between" @QuickDown>
-    <div class="logo" nz-flex nzAlign="center" nzJustify="center" nzGap="middle">
+<div class="header" nz-flex nzJustify="space-between" @QuickDown *ngIf="!isMobile">
+    <div nz-flex nzAlign="center" nzJustify="center">
         <!-- <nz-avatar nzSize="small" nzIcon="user" nzSrc="assets/img/web/猫娘.jpg" [nzSize]="48"></nz-avatar> -->
         <img width="56px" src="assets/img/web/再花猫猫女仆欢呼.GIF" alt="">
         <!-- <h3>花墨</h3> -->
-        <!-- <img class="logo" src="assets/img/web/logo.png" alt=""> -->
+        <!-- <span style="font-size: 24px;">🌸</span> -->
+        <img class="logo" src="assets/img/web/logo.png" alt="">
     </div>
     <div>
         <ul nz-menu nzMode="horizontal">
@@ -27,4 +28,27 @@
             }
         </ul>
     </div>
+</div>
+
+<div class="header" nz-flex nzJustify="center" @QuickDown *ngIf="isMobile">
+    <ul nz-menu nzMode="horizontal">
+        @for (menu of MenuList; track $index) {
+        <li nz-menu-item *ngIf="menu.child?.length == 0; else elseChild" [routerLink]="[menu.url]" nzMatchRouter>
+            <span nz-icon [nzType]="menu.icon" nzTheme="fill"></span>
+            &nbsp;&nbsp;{{ menu.title }}
+        </li>
+
+        <ng-template #elseChild>
+            <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzTheme="outline" nzPlacement="bottomCenter"
+                nzMatchRouter>
+                <ul>
+                    @for (childs of menu.child; track $index) {
+                    <li nz-menu-item class="item_child" nzMatchRouter [routerLink]="[childs.url]">{{ childs.title }}
+                    </li>
+                    }
+                </ul>
+            </li>
+        </ng-template>
+        }
+    </ul>
 </div>

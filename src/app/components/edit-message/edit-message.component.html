@@ -1,38 +1,50 @@
 <nz-spin [nzTip]="'留言发布中'" [nzSpinning]="loading">
     <div nz-flex [nzVertical]="true" nzGap="small">
         <div>
-            <div nz-row nzJustify="space-between">
-                <div nz-col nzSpan="5" nz-flex nzAlign="center">
-                    <span nz-typography class="form_title"><strong style="color: red;">*</strong>名字：</span>
-                    <input nz-input type="text" [(ngModel)]="form.name" placeholder="你的名字" [nzStatus]="isName">
+            <div nz-flex nzAlign="start" [nzVertical]="true">
+                <!-- <span nz-typography class="form_title"><strong style="color: red;">*</strong>留言：</span> -->
+                <textarea nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.content" placeholder="">
+                    </textarea>
+
+                <div class="toolbar" *ngIf="showToolbar && !isMobile" nz-flex nzJustify="space-between">
+                    <flower-emoji (emojiSelected)="onEmojiSelected($event)"></flower-emoji>
+                    <div nz-flex nzJustify="end" nzGap="small">
+                        <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 200px;">
+                            <input type="text" [(ngModel)]="form.name" nz-input placeholder="怎么称呼你？" />
+                        </nz-input-group>
+                        <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
+
+                        <nz-input-group [nzPrefix]="prefixTemplateCloud" style="border-radius: 10px;width: 200px;">
+                            <input type="text" nz-input [(ngModel)]="form.url" placeholder="若有个人网站可填写" />
+                        </nz-input-group>
+                        <ng-template #prefixTemplateCloud><span nz-icon nzType="cloud"></span></ng-template>
+
+                        <button class="submit amazon-button" (click)="submit()">发布</button>
+                    </div>
                 </div>
-                <div nz-col nzSpan="9" nz-flex nzAlign="center">
-                    <span nz-typography class="form_title">头像：</span>
-                    <input nz-input type="text" [(ngModel)]="form.avatar" placeholder="你的公开头像地址，不填就是猫猫头">
-                </div>
-                <div nz-col nzSpan="9" nz-flex nzAlign="center">
-                    <span nz-typography class="form_title">网址：</span>
-                    <input nz-input type="text" [(ngModel)]="form.url" placeholder="你的个人网站有效跳转链接">
+
+                <div class="toolbar" *ngIf="showToolbar && isMobile" nz-flex nzJustify="space-between">
+                    <div nz-flex nzJustify="end" nzGap="small">
+                        <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 30%;">
+                            <input type="text" [(ngModel)]="form.name" nz-input placeholder="称呼" />
+                        </nz-input-group>
+                        <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
+
+                        <nz-input-group [nzPrefix]="prefixTemplateCloud" style="border-radius: 10px;width: 60%;">
+                            <input type="text" nz-input [(ngModel)]="form.url" placeholder="个人网站地址(若有)" />
+                        </nz-input-group>
+                        <ng-template #prefixTemplateCloud><span nz-icon nzType="cloud"></span></ng-template>
+
+                        <button class="submit amazon-button" (click)="submit()">发布</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div>
-            <div nz-flex nzAlign="start">
-                <span nz-typography class="form_title"><strong style="color: red;">*</strong>留言：</span>
-                <nz-textarea-count [nzMaxCharacterCount]="200">
-                    <textarea nz-input type="text" [(ngModel)]="form.content"
-                        placeholder="想在花墨留下什么痕迹？提些什么建议？留言会经再花人工审核后才会显示哦OvO"></textarea>
-                </nz-textarea-count>
-            </div>
-        </div>
-        <div nz-flex nzJustify="end">
-            <button class="amazon-button" style="width: 200px;" (click)="submit()">发布</button>
         </div>
     </div>
 </nz-spin>
 
 <ng-template #contanctMsg>
-    <span>留言成功，再花正火速赶来审核中</span><a (click)="msgModal()">「我要催催再花」</a>
+    <span>留言成功，再花(可能)正火速赶来审核中</span><a (click)="msgModal()">「催催再花」</a>
 </ng-template>
 <ng-template #contanctContent>
     <div nz-typography>
