@@ -2,9 +2,9 @@
   <nz-avatar [nzSize]="128" nzSrc="assets/img/web/再花猫猫头.png" nzShape="square"></nz-avatar>
   <h5 nz-typography class="name">再花</h5>
   <div>
-    <p nz-typography>你好，我是再花，一名前端工程师，欢迎来到「花墨」</p>
-    <p nz-typography>这里是我分享技术文章、记录生活点滴的地方。</p>
-    <p nz-typography>希望你能在这里收获「知识」或者「好心情」</p>
+    <p nz-typography>你好，我是再花，欢迎来到「花墨」</p>
+    <p nz-typography>这里是我分享技术文章、生活点滴的地方。</p>
+    <p nz-typography>希望你能在这里收获知识或者好心情</p>
   </div>
 </div>
 <div class="me" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
@@ -31,7 +31,8 @@
       nzTheme="outline"></span></button>
   <button class="amazon-button" role="button" [routerLink]="['/about/website']">关于网站 <span nz-icon nzType="cloud"
       nzTheme="outline"></span></button>
-  <button class="amazon-button" role="button">留言板 <span nz-icon nzType="edit" nzTheme="outline"></span></button>
+  <button class="amazon-button" role="button" [routerLink]="['/about/message']">留言板 <span nz-icon nzType="edit"
+      nzTheme="outline"></span></button>
   <!-- <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
     <span nz-typography>花墨已运行&nbsp;&nbsp;<nz-tag nzColor="green" class="point_tag"
         [routerLink]="['/about/website/']">{{info.day}}</nz-tag>天</span>
