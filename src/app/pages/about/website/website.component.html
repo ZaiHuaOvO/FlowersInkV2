@@ -39,7 +39,7 @@
                 </ul>
             </div>
             <p nz-typography>网站源码开源地址：<a href="https://github.com/ZaiHuaOvO/FlowersInkV2" target="_blank">
-                    <span nz-icon nzType="github" nzTheme="outline"></span>
+                    <span nz-icon nzType="github" nzTheme="outline"></span>花墨
                 </a></p>
             <p nz-typography>本网站的代码已尽我所能的做到
                 <mark>项目结构清晰</mark>、
@@ -47,13 +47,22 @@
                 <mark>代码精简</mark>，
                 如需学习请自取（给个Star更好）
             </p>
-
-            <h2 nz-typography>网站的建站历程</h2>
-            <p nz-typography>待补充</p>
             <h2 nz-typography>特别鸣谢</h2>
             <p nz-typography>感谢我老婆
-                <strong style="color: red;">方方大人</strong>对于我建站行为的支持，工作繁忙的同时也在样式、功能等设计方面给予了许多建设性建议，老婆大人万岁！
+                <strong style="color: red;">方方大人</strong>&nbsp;对于我建站行为的支持，工作繁忙的同时也在样式、功能等设计方面给予了许多建设性建议，老婆大人万岁！
             </p>
+
+            <h2 nz-typography>网站的建站历程</h2>
+            <div>
+                <nz-timeline>
+                    <nz-timeline-item nzColor="green" *ngFor="let item of websiteTimeline">
+                        <div nz-flex nzGap="middle">
+                            <p nz-typography nzType="secondary">{{ item.date }}</p>
+                            <p nz-typography>{{ item.title }}</p>
+                        </div>
+                    </nz-timeline-item>
+                </nz-timeline>
+            </div>
 
         </article>
         <a nz-typography style="text-align: end;" [routerLink]="['/about/message']" *ngIf="isMobile">前往「留言板」=></a>

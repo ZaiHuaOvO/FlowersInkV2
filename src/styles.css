@@ -122,3 +122,7 @@ nz-spin {
 .ant-card-meta-description {
     white-space: pre-line
 }
+
+.ant-typography ul li {
+    padding: 0 !important;
+}

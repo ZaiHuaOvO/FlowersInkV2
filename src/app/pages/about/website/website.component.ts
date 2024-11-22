@@ -10,6 +10,7 @@ import { QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 
 @Component({
   selector: 'flower-website',
@@ -24,6 +25,7 @@ import { RouterModule } from '@angular/router';
     NzIconModule,
     RouterModule,
     TargetComponent,
+    NzTimelineModule,
   ],
   templateUrl: './website.component.html',
   styleUrl: './website.component.css',
@@ -31,6 +33,33 @@ import { RouterModule } from '@angular/router';
 })
 export class WebsiteComponent {
   isMobile: boolean = false;
+
+  websiteTimeline = [
+    {
+      date: '2024年10月10日',
+      title: '项目第一次在云服务器ECS上部署',
+    },
+    {
+      date: '2024年10月17日',
+      title: '域名通过工商局备案',
+    },
+    {
+      date: '2024年10月21日',
+      title: '域名通过公安联网备案',
+    },
+    {
+      date: '2024年11月06日',
+      title: '花墨正式进入运营',
+    },
+    {
+      date: '2024年11月13日',
+      title: '花墨2.0立项',
+    },
+    {
+      date: '2024年11月21日',
+      title: '花墨2.0完成开发并上线',
+    },
+  ];
   constructor(private window: WindowService) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
