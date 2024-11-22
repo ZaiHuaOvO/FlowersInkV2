@@ -117,3 +117,8 @@
 nz-spin {
     min-width: 50vw;
 }
+
+/* 卡片文字自动换行 */
+.ant-card-meta-description {
+    white-space: pre-line
+}
