@@ -9,7 +9,7 @@
   <meta name="description" content="花墨是一个已婚前端工程师的个人网站，重在记录和分享，这里分享站长原创的前后端开发、计算机软硬件等技术文章，以及记录和自己老婆的幸福日常。">
   <meta name="author" content="再花">
   <meta name="keywords" content="前端,后端,Angular,个人网站">
-  <Meta name="Robots" Content="Nofollow">
+  <meta name="robots" content="index, follow">
   <!--
     all：文件将被检索，且页面上的链接可以被查询；
     none：文件将不被检索，且页面上的链接不可以被查询；(和 "noindex, no follow" 起相同作用)
@@ -18,7 +18,15 @@
     noindex：文件将不被检索，但页面上的链接可以被查询；(不让robot/spider登录)
     nofollow：文件将不被检索，页面上的链接可以被查询。(不让robot/spider顺着此页的连接往下探找)
   -->
+
+  <!-- Open Graph 标签 -->
+  <meta property="og:title" content="花墨">
+  <meta property="og:description" content="花墨是一个已婚前端工程师的个人网站，分享原创前后端开发技术文章及幸福日常。">
+  <meta property="og:image" content="https://api.flowersink.com/img/logo.png">
+  <meta property="og:url" content="https://flowersink.com">
+  <meta property="og:type" content="website">
   <meta name="theme-color" content="#ffffff" />
+
   <link rel="icon" type="image/x-icon" href="https://api.flowersink.com/img/logo.png">
   <link rel="canonical" href="https://flowersink.com" />
 
@@ -31,6 +39,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "花墨",
+      "url": "https://flowersink.com",
+      "description": "花墨是一个已婚前端工程师的个人网站，分享原创前后端开发技术文章及幸福日常。",
+      "publisher": {
+        "@type": "Organization",
+        "name": "花墨",
+        "logo": "https://api.flowersink.com/img/logo.png"
+      }
+    }
+    </script>
+
 </head>
 
 <body>
