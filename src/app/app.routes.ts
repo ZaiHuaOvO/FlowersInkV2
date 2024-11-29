@@ -22,4 +22,10 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/about/about.routes').then((m) => m.ABOUT_ROUTES),
   },
+  // 通配符路由，用于匹配所有未定义路由
+  {
+    path: '**',
+    loadChildren: () =>
+      import('./pages/error/error.routes').then((m) => m.ERROR_ROUTES),
+  },
 ];

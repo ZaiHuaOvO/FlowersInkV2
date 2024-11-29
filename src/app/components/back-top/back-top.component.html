@@ -1,0 +1,12 @@
+<nz-back-top [nzTemplate]="backTop"></nz-back-top>
+<ng-template #backTop>
+    <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()">
+        <!-- 图标 -->
+        <span nz-icon nzType="arrow-up" nzTheme="outline" [ngStyle]="{'color': isHovered ? 'gray' : 'black'}">
+        </span>
+
+        <!-- 图片 -->
+        <img [src]="isHovered ? 'assets/img/web/再花方长贴贴趴趴.png' : 'assets/img/web/再花趴趴.png'" alt="" width="75px">
+    </div>
+</ng-template>

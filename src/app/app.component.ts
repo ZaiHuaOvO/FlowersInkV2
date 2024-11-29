@@ -11,6 +11,7 @@ import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzBackTopModule } from 'ng-zorro-antd/back-top';
 import { WindowService } from './services/window.service';
+import { BackTopComponent } from './components/back-top/back-top.component';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,8 @@ import { WindowService } from './services/window.service';
     FooterComponent,
     NzTypographyModule,
     NzBackTopModule,
+    CommonModule,
+    BackTopComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -36,6 +39,7 @@ export class AppComponent {
   isCollapsed = false;
 
   isMobile: boolean = false;
+  isHovered = false;
   constructor(
     private nzConfigService: NzConfigService,
     private window: WindowService
@@ -47,5 +51,13 @@ export class AppComponent {
 
   ngAfterViewInit(): void {
     this.nzConfigService.set('spin', { nzIndicator: this.loadingTemplate });
+  }
+
+  onMouseEnter() {
+    this.isHovered = true;
+  }
+
+  onMouseLeave() {
+    this.isHovered = false;
   }
 }
