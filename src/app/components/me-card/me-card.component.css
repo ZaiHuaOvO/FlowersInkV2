@@ -14,3 +14,8 @@
 .point_tag {
     cursor: pointer;
 }
+
+.me_box {
+    width: 100%;
+    padding: 12px;
+}

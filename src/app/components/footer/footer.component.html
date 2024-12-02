@@ -1,35 +1,55 @@
-<div class="footer" nz-flex nzJustify="center" nzAlign="center" nzGap="large">
+<div class="footer_box" nz-flex nzJustify="center" nzAlign="center">
+    <div class="footer" nz-flex nzJustify="space-between" nzAlign="start" nzGap="large"
+        [ngStyle]="{'width': isMobile?'100%':'40%'}">
+        <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
+            <span nz-typography>站内索引</span>
+            <a nz-typography class="text" nz-popconfirm [nzPopconfirmTitle]="titleTpl" nzOkText="是" nzCancelText="否"
+                [nzIcon]="iconTpl" (nzOnConfirm)="confirm()"
+                (nzOnCancel)="cancel()"><flower-rss></flower-rss>&nbsp;RSS订阅</a>
+            <a nz-typography class="text" (click)="sitemap()"><flower-sitemap></flower-sitemap>&nbsp;站点地图</a>
 
-    <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
-        <!-- <span nz-typography>联系方式</span> -->
-        <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top"><span nz-icon
-                nzType="qq" nzTheme="outline"></span>：446840401</span>
-        <ng-template #qqQRCode>
-            <img width="250px" height="250px" src="assets/img/QRCode/qq.png">
-        </ng-template>
+            <ng-template #titleTpl>
+                <span nz-typography>您会使用RSS吗？如果不会点“否”可阅读我写的教程。</span>
+            </ng-template>
 
-        <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="bottom"><span
-                nz-icon nzType="wechat" nzTheme="outline"></span>：zaihua_huahua</span>
-        <ng-template #wxQRCode>
-            <img width="250px" height="250px" src="assets/img/QRCode/wx.png">
-        </ng-template>
-
-        <span nz-typography class="text" (click)="copyEmail()"><span nz-icon nzType="mail"
-                nzTheme="outline"></span>：{{email}}</span>
-    </div>
-
-    <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
-        <span nz-typography nz-flex nzAlign="center">
-            © 2024 再花🌸
-            <nz-divider nzType="vertical"></nz-divider>
-            <span nz-icon nzType="github" nzTheme="outline"></span>
-        </span>
-        <a nz-typography class="text" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2024104191号</a>
-        <div nz-flex nzAlign="center">
-            <nz-avatar [nzSize]="16" nzSrc="assets/img/web/备案图标.png" nzShape="square"></nz-avatar>
-            <a nz-typography class="text" href="https://beian.mps.gov.cn/#/query/webSearch?code=51011202000914"
-                rel="noreferrer" target="_blank">川公网安备51011202000914</a>
+            <ng-template #iconTpl>
+                <flower-rss></flower-rss>
+            </ng-template>
         </div>
-    </div>
 
+        <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+            <span nz-typography>联系方式</span>
+            <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top"><span
+                    nz-icon nzType="qq" nzTheme="outline"></span>&nbsp;446840401</span>
+            <ng-template #qqQRCode>
+                <img width="250px" height="250px" src="assets/img/QRCode/qq.png">
+            </ng-template>
+
+            <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="bottom"><span
+                    nz-icon nzType="wechat" nzTheme="outline"></span>&nbsp;zaihua_huahua</span>
+            <ng-template #wxQRCode>
+                <img width="250px" height="250px" src="assets/img/QRCode/wx.png">
+            </ng-template>
+
+            <span nz-typography class="text" (click)="copyEmail()"><span nz-icon nzType="mail"
+                    nzTheme="outline"></span>&nbsp;{{email}}</span>
+        </div>
+
+        <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+            <span nz-typography nz-flex nzAlign="center">
+                <span nz-typography> © 2024 再花 <nz-avatar style="padding-bottom: 2px;" [nzSize]="16"
+                        nzSrc="https://api.flowersink.com/img/再花趴趴.png" nzShape="square"></nz-avatar>
+                </span>
+                <nz-divider nzType="vertical"></nz-divider>
+                <span nz-icon nzType="github" nzTheme="outline"></span>
+            </span>
+            <a nz-typography class="text" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2024104191号</a>
+            <div nz-flex nzAlign="center">
+                <nz-avatar [nzSize]="16" nzSrc="assets/img/web/备案图标.png" nzShape="square"></nz-avatar>
+                <a nz-typography class="text" href="https://beian.mps.gov.cn/#/query/webSearch?code=51011202000914"
+                    rel="noreferrer" target="_blank">川公网安备51011202000914</a>
+            </div>
+        </div>
+
+    </div>
 </div>

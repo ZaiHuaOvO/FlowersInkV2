@@ -7,6 +7,7 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { RssComponent } from '../rss/rss.component';
 
 @Component({
   selector: 'flower-me-card',

@@ -1,9 +1,9 @@
 export const API = {
   // 测试区
-  // BASE_URL: 'http://localhost:8000',
+  BASE_URL: 'http://localhost:8000',
 
   // 正式区
-  BASE_URL: 'https://api.flowersink.com',
+  // BASE_URL: 'https://api.flowersink.com',
 
   // 博客
   BLOG: '/blog',

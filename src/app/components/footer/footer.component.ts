@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -6,6 +6,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { RssComponent } from '../rss/rss.component';
+import { SitemapComponent } from '../sitemap/sitemap.component';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { WindowService } from '../../services/window.service';
 
 @Component({
   selector: 'flower-footer',
@@ -13,17 +18,30 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   styleUrls: ['./footer.component.css'],
   standalone: true,
   imports: [
+    CommonModule,
     NzFlexModule,
     NzDividerModule,
     NzIconModule,
     NzAvatarModule,
     NzTypographyModule,
     NzPopoverModule,
+    NzPopconfirmModule,
+    RssComponent,
+    SitemapComponent,
   ],
 })
 export class FooterComponent implements OnInit {
   email = 'ZyZy1724@gmail.com';
-  constructor(private msg: NzMessageService) {}
+  isMobile: boolean = false;
+  constructor(
+    private msg: NzMessageService,
+    @Inject(PLATFORM_ID) private platformId: object, // 注入 PLATFORM_ID 以检测运行平台
+    private window: WindowService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
+  }
 
   ngOnInit() {}
 
@@ -34,5 +52,23 @@ export class FooterComponent implements OnInit {
         this.msg.success('已复制邮箱地址，欢迎邮件(๑＞ڡ＜)☆');
       })
       .catch((error) => {});
+  }
+
+  confirm(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.open('https://api.flowersink.com/rss');
+    }
+  }
+
+  cancel(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.open('https://www.flowersink.com/blog/blog-detail/30');
+    }
+  }
+
+  sitemap(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.open('https://api.flowersink.com/sitemap');
+    }
   }
 }

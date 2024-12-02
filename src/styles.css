@@ -83,7 +83,8 @@
 /* 更换p的全局字体 */
 .ant-typography p,
 .ant-typography span,
-.ant-menu-title-content {
+.ant-menu-title-content,
+.ant-btn {
     font-family: "Noto Sans SC", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
