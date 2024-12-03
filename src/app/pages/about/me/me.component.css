@@ -21,10 +21,10 @@
     width: 100%;
 }
 
-nz-divider {
+/* nz-divider {
     width: 40%;
     min-width: 40%;
-}
+} */
 
 article {
 
@@ -40,4 +40,8 @@ article {
     left: 9.5%;
     /* 标题70px高+距离10*2+左边内容12px */
     top: 100px
+}
+
+.ant-collapse>.ant-collapse-item>.ant-collapse-header {
+    padding: 0 !important;
 }

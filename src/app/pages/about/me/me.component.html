@@ -6,131 +6,79 @@
         [ngStyle]="{'width':isMobile ?'100%':'60%','padding':isMobile ?'24px':'48px'}">
         <article nz-typography>
             <h1 nz-typography>关于我</h1>
-            <img nzDisablePreview="true" nz-image width="300px" nzSrc="assets/img/web/猫娘全身.jpg" alt="">
-            <!-- <nz-divider></nz-divider> -->
-            <nz-collapse nzGhost>
-                <nz-collapse-panel [nzHeader]="header1" nzShowArrow="false" (nzActiveChange)="isAcive1 =!isAcive1">
-                    <p nz-typography>开始写自我介绍的时候我突然感到一丝惶恐，突然对曾经初高中开学站在讲台上拘谨且自卑的我感同身受</p>
-                    <p nz-typography>当时的我面对着陌生的同班同学，总觉得自己远不如对方</p>
-                    <p nz-typography>现在的我面对着网络，总觉得自己的文字和网站漏洞百出、难登大雅之堂</p>
-                    <p nz-typography>但我妻子已经告诉了我无数次：“对自己，先肯定，做一件事之前永远不要先否定自己”</p>
-                    <p nz-typography>于是我再次像曾经无数次鼓起勇气面对一页白纸，提起笔</p>
-                </nz-collapse-panel>
-                <ng-template #header1>
-                    <div nz-flex nzAlign="center">
-                        <h2 nz-typography>前言</h2>
-                        <span nz-typography nzType="secondary"> 「{{ isAcive1 ? '点击展开' :
-                            '点击收起' }}」</span>
-                    </div>
-                </ng-template>
-            </nz-collapse>
-            <h4 nz-typography>你好，我叫再花，一名定居于成都的前端工程师，很高兴认识你</h4>
-            <h4 nz-typography>是的，再花就是我的网名、圈名、笔名、游戏角色名，是我在网络上的另一个名字</h4>
-            <nz-collapse nzGhost>
-                <nz-collapse-panel [nzHeader]="header" nzShowArrow="false" (nzActiveChange)="isAcive =!isAcive">
-                    <p nz-typography>念初中的时候我父亲热衷于栽培兰花，至今为止似乎就开过一次花，而我正好有幸成为了见证者。</p>
-                    <p nz-typography>某一天下午，父亲坐在木板凳上欣赏着作为自己杰作的花朵，絮絮叨叨的对我讲述着兰花和人之品性的关系。</p>
-                    <p nz-typography>16岁时，我陷入了人生低谷并写下了一篇遗书，安排了我的文具、试卷、小说在我死后何去何从，</p>
-                    <p nz-typography>署名的时候我犯了难，毕竟「地瓜弹」「冰霜之龙」这样的呆瓜网名作为一个将死之人生命中的最后几个字，未免有点太残忍了。</p>
-                    <p nz-typography>这时候我的脑海里又浮现出了那天下午的父亲和兰花，兰花一生唯一中的一朵花在太阳下摇摇欲坠</p>
-                    <p nz-typography>真想再见一次花开啊。</p>
-                    <p nz-typography>充满文艺酸臭味的内心促使着我的手签下了那个伴随了我十年的名字：</p>
-                    <p nz-typography>「再花」</p>
-                </nz-collapse-panel>
-                <ng-template #header>
-                    <div nz-flex nzAlign="center">
-                        <h4 nz-typography>名字的由来</h4><span nz-typography nzType="secondary"> 「{{ isAcive ? '点击展开' :
-                            '点击收起' }}」</span>
-                    </div>
-                </ng-template>
-            </nz-collapse>
-            <!-- <nz-divider></nz-divider> -->
-
-            <nz-divider></nz-divider>
-
-            <h2 nz-typography>我的爱好</h2>
-            <div nz-flex nzAlign="center">
-                <h3 nz-typography>游戏</h3>
-                <span nz-typography nzType="secondary">「游戏一定是我人生中最大的爱好，从小陪伴我至今。」</span>
-            </div>
-            <p nz-typography>我的游戏涉猎范围极广，各平台、各类型均有所游玩</p>
-            <p nz-typography>目前已经基本脱离手游坑（不想花钱），日常游玩较多的是PS5，白金狗一只</p>
-            <div nz-typography>
-                <ul>
-                    <li>
-                        <span nz-typography>最喜欢的游戏类型：<strong>动作，角色扮演，策略</strong></span>
-                    </li>
-                    <li>
-                        <span nz-typography>最喜欢的游戏：<strong>《只狼》《群星》《死亡搁浅》</strong></span>
-                    </li>
-                    <li>
-                        <span nz-typography>最近通关的游戏：<strong>《最终幻想16》</strong></span>
-                    </li>
-                    <li>
-                        <span nz-typography>最近正在玩的游戏：和老婆一起玩<strong>《咩咩启示录》</strong></span>
-                    </li>
-                    <li>
-                        <span nz-typography>玩的最久的游戏：<strong>《最终幻想14》</strong></span>
-                    </li>
-                </ul>
-            </div>
-
-            <div nz-flex nzAlign="center">
-                <h3 nz-typography>看书</h3>
-                <span nz-typography nzType="secondary">「虽然现在已经很少看书，但我确实一直有这个爱好」</span>
-            </div>
-            <p nz-typography>成为牛马之后，下班后身心俱疲，只想用娱乐填补内心空虚</p>
-            <p nz-typography>说来也惭愧，已经许久未完整看过一本纸质书了</p>
-            <p nz-typography>好在最近妻子给我买了一块小巧的iPad mini，作为电子阅读器非常方便，希望慢慢将这个爱好重新拿起来</p>
-            <div nz-typography>
-                <ul>
-                    <li>
-                        <span nz-typography>最喜欢的书籍类型：<strong>心理学、悬疑推理，日本轻小说</strong></span>
-                    </li>
-                    <li>
-                        <span nz-typography>最喜欢的书籍：<strong>《梦的解析》</strong></span>
-                    </li>
-                    <li>
-                        <span nz-typography>最喜欢的作家：<strong>高铭</strong></span>
-                    </li>
-                    <li>
-                        <span nz-typography>正在阅读的书籍：<strong>《了不起的我》</strong></span>
-                    </li>
-                    <li>
-                        <span nz-typography>下一本准备读的书：<strong>《蛤蟆先生去看心理医生》</strong></span>
-                    </li>
-                </ul>
-            </div>
-            <h2 nz-typography>联系方式</h2>
-            <nz-collapse nzGhost>
-                <nz-collapse-panel [nzHeader]="header2" nzShowArrow="false" (nzActiveChange)="isAcive2 =!isAcive2">
+            <img nzDisablePreview="true" nz-image width="300px" nzSrc="https://api.flowersink.com/img/猫娘全身.jpg" alt="">
+            <h2 nz-typography>介绍</h2>
+            <p nz-typography>我叫再花，一名定居于成都的前端工程师</p>
+            <p nz-typography nzType="secondary">再花这个名字来源我人生最低谷的一段时期，意味着“想再见一次花开”</p>
+            <p nz-typography>兴趣爱好主要是游戏、读书、写作，立志从一个无趣的呆瓜进化为有趣的灵魂</p>
+            <p nz-typography>已婚，网站中的各个角落和设计都或多或少有我妻子的参与</p>
+            <p nz-typography nzType="secondary">网站中频繁出现的“粽发黄瞳猫娘”是我的虚拟人设，一位女仆咖啡厅的女仆店长</p>
+            <!-- 爱好 -->
+            <h2 nz-typography>爱好</h2>
+            <ul>
+                <li>
+                    <h3>游戏</h3>
+                    <p>游戏曾带给我一次又一次的感悟、深思和眼泪，在孤独一人的时候给予了我无数的陪伴，甚至我的妻子与我也是游戏中相识</p>
+                    <p>我喜欢的游戏：《只狼》《死亡搁浅》《群星》</p>
+                </li>
+                <li>
+                    <h3>读书</h3>
+                    <p>我尤其钟爱纸质书，纸质书所带来的知识的厚重总是给我满满的满足感。然而电子化的便利性也无可替代，时间的稀缺让我只能选择iPad来尽可能利用碎片化来提升阅读的时间</p>
+                    <p>我喜欢的书籍类型：心理学、悬疑推理、科幻</p>
+                </li>
+                <li>
+                    <h3>写作</h3>
+                    <p>在小学的时候我就热爱上了用钢笔在纸上书写的感觉，并练就了（自认为的）一手好字。直到现在我依旧喜欢撰写博客、攻略之类的文章，书写记录并分享总是我热衷于做的一件事情</p>
+                    <p>在作为技术初学者的时候，我热衷于用抽象复杂的语言来展示自己的高深和熟练，随着知识的摄取我逐渐感觉到自己的无知。现在我在试着用尽可能通俗的大白话去讲解我自己所掌握的技术</p>
+                </li>
+            </ul>
+            <h2 nz-typography>设备</h2>
+            <ul>
+                <li>
+                    <p nz-typography>iPhone 13</p>
+                </li>
+                <li>
+                    <p nz-typography>Macbook Pro 14英寸(M3)
+                        <span nz-typography nzType="secondary">（老婆送的，主要用于生产力）</span>
+                    </p>
+                </li>
+                <li>
+                    <p nz-typography>R5 3600X + RTX 4070Ti
+                        <span nz-typography nzType="secondary">（游戏专用，也会用来当mac的副屏）</span>
+                    </p>
+                </li>
+                <li>
+                    <p nz-typography>iPad mini 7
+                        <span nz-typography nzType="secondary">（老婆送的，电子阅读器+手游启动器）</span>
+                    </p>
+                </li>
+                <li>
+                    <p nz-typography>Apple Watch SE</p>
+                </li>
+            </ul>
+            <h2 nz-typography>社区</h2>
+            <p>具体联系方式可见网站底部</p>
+            <ul>
+                <li>
                     <p nz-typography><a rel="nofollow" href="https://www.zhihu.com/people/zai-hua-14-76"
                             target="_blank">「知乎」</a>发言、评论、分享生活的地方（尤其是秀恩爱）
                     </p>
+                </li>
+                <li>
                     <p nz-typography><a rel="nofollow" href="https://juejin.cn/user/4002664676073741"
-                            target="_blank">「掘金」</a>（发表技术相关的博客）</p>
+                            target="_blank">「掘金」</a>发表技术相关的博客</p>
+                </li>
+                <li>
                     <p nz-typography><a rel="nofollow" href="https://github.com/ZaiHuaOvO"
-                            target="_blank">「Github」</a>（目前主要用于存放源代码、没有怎么经营）</p>
-                </nz-collapse-panel>
-                <ng-template #header2>
-                    <div nz-flex nzAlign="center">
-                        <h3 nz-typography>我的各种社区主页</h3>
-                        <span nz-typography nzType="secondary"> 「{{ isAcive2 ? '点击展开' :
-                            '点击收起' }}」</span>
-                    </div>
-                </ng-template>
-            </nz-collapse>
-            <p nz-typography>qq：446840401（日常社交和交流的工具）<a nz-popover [nzPopoverContent]="qqQRCode"
-                    nzPopoverPlacement="bottom">查看QQ二维码</a></p>
-            <ng-template #qqQRCode>
-                <img nz-image width="250px" height="250px" nzSrc="../../../assets/img/QRCode/qq.png">
-            </ng-template>
-            <p nz-typography>vx：zaihua_huahua（主要工作用，是备用社交工具）<a nz-popover [nzPopoverContent]="wxQRCode"
-                    nzPopoverPlacement="bottom">查看微信二维码</a></p>
-            <ng-template #wxQRCode>
-                <img nz-image width="250px" height="250px" nzSrc="../../../assets/img/QRCode/wx.png">
-            </ng-template>
+                            target="_blank">「Github」</a>目前主要用于存放源代码、没有怎么经营</p>
+                </li>
+            </ul>
+            <nz-divider></nz-divider>
+            <p nz-typography style="text-align: end;">再花</p>
+            <p nz-typography style="text-align: end;">2024年12月3日</p>
+            <p nz-typography style="text-align: end;" *ngIf="isMobile">
+                <a [routerLink]="['/about/website']">前往「关于网站」</a>
+            </p>
         </article>
-        <a nz-typography style="text-align: end;" [routerLink]="['/about/website']" *ngIf="isMobile">前往「关于网站」=></a>
     </div>
 </div>

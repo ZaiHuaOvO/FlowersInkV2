@@ -37,7 +37,7 @@ export class WebsiteComponent {
   websiteTimeline = [
     {
       date: '2024年10月10日',
-      title: '项目第一次在云服务器ECS上部署',
+      title: '项目在云服务器上部署',
     },
     {
       date: '2024年10月17日',
@@ -49,15 +49,19 @@ export class WebsiteComponent {
     },
     {
       date: '2024年11月06日',
-      title: '花墨正式进入运营',
+      title: '正式进入运营',
     },
     {
       date: '2024年11月13日',
-      title: '花墨2.0立项',
+      title: '花墨2.0（重写计划）立项',
     },
     {
       date: '2024年11月21日',
       title: '花墨2.0完成开发并上线',
+    },
+    {
+      date: '2024年12月02日',
+      title: '开启RSS订阅',
     },
   ];
   constructor(private window: WindowService) {

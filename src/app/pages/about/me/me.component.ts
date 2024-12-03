@@ -36,6 +36,13 @@ export class MeComponent {
   isAcive: boolean = true;
   isAcive1: boolean = true;
   isAcive2: boolean = true;
+  isAcive3: boolean = true;
+  isAcive4: boolean = true;
+  isAcive5: boolean = true;
+  isAcive6: boolean = true;
+  isAcive7: boolean = true;
+  isAcive8: boolean = true;
+  isAcive9: boolean = true;
   isMobile: boolean = false;
   constructor(private window: WindowService) {
     this.window.isMobile$.subscribe((isMobile) => {
