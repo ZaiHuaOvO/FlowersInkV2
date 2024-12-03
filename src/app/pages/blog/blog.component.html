@@ -1,6 +1,6 @@
 <div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
-  <div class="content" nz-flex nzGap="middle" nzJustify="start" [nzVertical]="true"
-    [ngStyle]="{'width':isMobile ?'100%':'60%'}">
+  <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
+    [ngStyle]="{'width':isMobile ?'90vw':'60vw'}">
     <flower-blog-title [title]="'文归档'"></flower-blog-title>
     <div class="search card" nz-flex nzAlign="center" nzJustify="center" @QuickUp>
       <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -18,7 +18,7 @@
             <nz-timeline>
               <nz-timeline-item *ngFor="let blog of item.data">
                 <div nz-flex nzGap="middle">
-                  <span nz-typography class="blog_time" nzType="secondary">{{ blog.time }}</span>
+                  <span nz-typography class="blog_time" nzType="secondary">{{ blog.date | date:'yyyy-MM-dd' }}</span>
                   <span nz-typography class="blog_title" [routerLink]="['/blog/blog-detail/' + blog.id]"><span
                       *ngIf="blog.type">[{{ blog.type
                       }}]</span>{{blog.title}}</span>

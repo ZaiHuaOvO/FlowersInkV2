@@ -1,4 +1,4 @@
-<div class="article" nz-flex [nzVertical]="true">
+<div class="article" nz-flex [nzVertical]="true" nzAlign="center">
     <flower-blog-title [title]="'技术文章'"></flower-blog-title>
     <div class="search card" @QuickUp *ngIf="isMobile">
         <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -8,9 +8,9 @@
     <ng-template #suffixIconSearch>
         <span nz-icon nzType="search"></span>
     </ng-template>
-    <div class="content" nz-flex [nzVertical]="true" @QuickUp
-        [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'9.5%'}">
-        <nz-spin [nzTip]="'技术文章正在努力赶来中'" [nzSpinning]="loading">
+    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
+        [ngStyle]="{'width':isMobile ?'100%':'80%'}">
+        <nz-spin [nzTip]="'技术文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
             <div nz-flex nzGap="middle" [nzVertical]="true">
                 <div *ngFor="let item of data" class="flower_card">
                     <flower-blog-card [blog]="item" [loading]="loading"
@@ -20,23 +20,25 @@
                     (nzPageIndexChange)="pageChange($event)"></nz-pagination>
             </div>
         </nz-spin>
-
-    </div>
-    <div class="me" @SlowUp *ngIf="!isMobile">
-        <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
-            <nz-input-group [nzSuffix]="suffixIconSearch">
-                <input type="text" nz-input placeholder="搜索文章" [formControl]="searchControl" />
-            </nz-input-group>
-            <ng-template #suffixIconSearch>
-                <span nz-icon nzType="search"></span>
-            </ng-template>
-            <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
-                <h5 nz-typography>文章标签</h5>
-                <div nz-flex nzWrap="wrap" nzGap="small">
-                    <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
-                        (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
+        <div class="me" @SlowUp *ngIf="!isMobile">
+            <nz-affix [nzOffsetTop]="72">
+                <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
+                    <nz-input-group [nzSuffix]="suffixIconSearch">
+                        <input type="text" nz-input placeholder="搜索文章" [formControl]="searchControl" />
+                    </nz-input-group>
+                    <ng-template #suffixIconSearch>
+                        <span nz-icon nzType="search"></span>
+                    </ng-template>
+                    <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
+                        <h5 nz-typography>文章标签</h5>
+                        <div nz-flex nzWrap="wrap" nzGap="small">
+                            <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
+                                (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </nz-affix>
         </div>
     </div>
+
 </div>

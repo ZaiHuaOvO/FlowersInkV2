@@ -19,6 +19,7 @@ import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
 
 @Component({
   selector: 'flower-article',
@@ -39,6 +40,7 @@ import { WindowService } from '../../../services/window.service';
     RouterModule,
     BlogTitleComponent,
     NzSpinModule,
+    NzAffixModule,
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',

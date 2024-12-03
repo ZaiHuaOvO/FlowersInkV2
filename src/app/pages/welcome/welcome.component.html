@@ -1,8 +1,8 @@
 <div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
     <flower-blog-title [title]="'花墨的精选文章'"></flower-blog-title>
-    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="large" @QuickUp
+    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
         [ngStyle]="{'width':isMobile ?'100%':'80%'}">
-        <nz-spin [nzTip]="'精选文章正在努力赶来中'" [nzSpinning]="loading">
+        <nz-spin [nzTip]="'精选文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
             <div nz-flex nzGap="middle" [nzVertical]="true">
                 <div *ngFor="let item of data" class="flower_card">
                     <flower-blog-card [blog]="item" [loading]="loading"

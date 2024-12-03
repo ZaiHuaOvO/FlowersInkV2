@@ -21,6 +21,7 @@ import { BlogTitleComponent } from '../../../components/blog-title/blog-title.co
 import { MarkdownModule } from 'ngx-markdown';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
 
 @Component({
   selector: 'flower-question',
@@ -41,6 +42,7 @@ import { WindowService } from '../../../services/window.service';
     NzSpinModule,
     BlogTitleComponent,
     MarkdownModule,
+    NzAffixModule,
   ],
   templateUrl: './question.component.html',
   styleUrl: './question.component.css',

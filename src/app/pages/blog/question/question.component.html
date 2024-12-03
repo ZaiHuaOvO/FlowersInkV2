@@ -1,4 +1,4 @@
-<div class="article" nz-flex [nzVertical]="true">
+<div class="article" nz-flex [nzVertical]="true" nzAlign="center">
     <flower-blog-title [title]="'开发问题记录'"></flower-blog-title>
     <div class="search card" @QuickUp *ngIf="isMobile">
         <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -8,11 +8,11 @@
             <span nz-icon nzType="search"></span>
         </ng-template>
     </div>
-    <div class="content" nz-flex [nzVertical]="true" nzAlign="center" @QuickUp
-        [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'9.5%'}">
+    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
+        [ngStyle]="{'width':isMobile ?'100%':'80%'}">
         <nz-spin [nzTip]="'问题正在努力赶来中'" [nzSpinning]="loading" [ngStyle]="{'width':isMobile ?'90vw':'auto'}">
-            <nz-collapse style="max-width: 100vw;" nzAccordion nzGhost nzBordered="false" nz-flex nzGap="small"
-                [nzVertical]="true">
+            <nz-collapse [ngStyle]="{'width':isMobile ?'100%':'60vw'}" nzAccordion nzGhost nzBordered="false" nz-flex
+                nzGap="small" [nzVertical]="true" @QuickUp>
                 @for (panel of data; track panel) {
                 <nz-collapse-panel [nzHeader]="titleBox" class="anwser card" nzShowArrow="false">
                     <markdown style="max-width: 55vw;width: 55vw;" id="currentAnchor" [data]="panel.content" lineNumbers
@@ -33,22 +33,24 @@
             <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"
                 (nzPageIndexChange)="pageChange($event)"></nz-pagination>
         </nz-spin>
-    </div>
-    <div class="me" @SlowUp *ngIf="!isMobile">
-        <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
-            <nz-input-group [nzSuffix]="suffixIconSearch">
-                <input type="text" nz-input placeholder="搜索问题" [formControl]="searchControl" />
-            </nz-input-group>
-            <ng-template #suffixIconSearch>
-                <span nz-icon nzType="search"></span>
-            </ng-template>
-            <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
-                <h5 nz-typography>问题标签</h5>
-                <div nz-flex nzWrap="wrap" nzGap="small">
-                    <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
-                        (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}个</nz-tag>
+        <div class="me" @SlowUp *ngIf="!isMobile">
+            <nz-affix [nzOffsetTop]="72">
+                <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
+                    <nz-input-group [nzSuffix]="suffixIconSearch">
+                        <input type="text" nz-input placeholder="搜索问题" [formControl]="searchControl" />
+                    </nz-input-group>
+                    <ng-template #suffixIconSearch>
+                        <span nz-icon nzType="search"></span>
+                    </ng-template>
+                    <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
+                        <h5 nz-typography>问题标签</h5>
+                        <div nz-flex nzWrap="wrap" nzGap="small">
+                            <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
+                                (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}个</nz-tag>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </nz-affix>
         </div>
     </div>
 </div>

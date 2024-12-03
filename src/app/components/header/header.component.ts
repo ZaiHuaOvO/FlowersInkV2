@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
     },
     {
       title: '技术',
-      icon: 'align-left',
+      icon: 'edit',
       child: [
         {
           title: '技术文章',
