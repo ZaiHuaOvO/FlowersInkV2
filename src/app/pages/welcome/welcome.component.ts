@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../components/blog-title/blog-title.component';
 import { QuickUp, SlowUp } from '../../common_ui/animations/animation';
 import { WindowService } from '../../services/window.service';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
 
 @Component({
   selector: 'app-welcome',
@@ -26,6 +27,7 @@ import { WindowService } from '../../services/window.service';
     NzTypographyModule,
     RouterModule,
     BlogTitleComponent,
+    NzAffixModule,
   ],
   animations: [SlowUp, QuickUp],
 })

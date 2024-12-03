@@ -1,7 +1,7 @@
-<div class="welcome" nz-flex [nzVertical]="true">
+<div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
     <flower-blog-title [title]="'花墨的精选文章'"></flower-blog-title>
-    <div class="content" nz-flex [nzVertical]="true" nzJustify="start" nzAlign="center" @QuickUp
-        [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'9.5%'}">
+    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="large" @QuickUp
+        [ngStyle]="{'width':isMobile ?'100%':'80%'}">
         <nz-spin [nzTip]="'精选文章正在努力赶来中'" [nzSpinning]="loading">
             <div nz-flex nzGap="middle" [nzVertical]="true">
                 <div *ngFor="let item of data" class="flower_card">
@@ -10,9 +10,10 @@
                 </div>
             </div>
         </nz-spin>
-    </div>
-    <div class="me" @SlowUp *ngIf="!isMobile">
-        <a nz-typography style="text-align: end;" [routerLink]="['/about/website']" *ngIf="isMobile">前往「关于网站」=></a>
-        <flower-me-card [info]="info"></flower-me-card>
+        <div class="me" @SlowUp *ngIf="!isMobile">
+            <nz-affix [nzOffsetTop]="72">
+                <flower-me-card [info]="info"></flower-me-card>
+            </nz-affix>
+        </div>
     </div>
 </div>
