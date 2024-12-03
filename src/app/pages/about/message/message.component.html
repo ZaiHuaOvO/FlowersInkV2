@@ -3,7 +3,7 @@
     <!-- 绝对定位的导航 -->
     <flower-target *ngIf="!isMobile"></flower-target>
     <div class="content card" nz-flex [nzVertical]="true" @QuickUp
-        [ngStyle]="{'width':isMobile ?'100%':'60%','padding':isMobile ?'24px':'48px'}">
+        [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
         <h1 nz-typography>留言板</h1>
         <nz-spin [nzTip]="'留言正在赶来中'" [nzSpinning]="loading">
             <div nz-flex [nzVertical]="true">
