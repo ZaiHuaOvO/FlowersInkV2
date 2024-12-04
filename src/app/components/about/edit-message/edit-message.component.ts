@@ -7,19 +7,19 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { AboutService } from '../../pages/about/about.service';
+import { AboutService } from '../../../pages/about/about.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { GeneralService } from '../../services/general.service';
-import { ApiLimiterService } from '../../services/api-limiter.service';
-import { MessageComponent } from '../../pages/about/message/message.component';
+import { GeneralService } from '../../../services/general.service';
+import { ApiLimiterService } from '../../../services/api-limiter.service';
+import { MessageComponent } from '../../../pages/about/message/message.component';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { emojiArray } from '../../ts/emoji';
+import { emojiArray } from '../../../ts/emoji';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { EmojiComponent } from '../emoji/emoji.component';
+import { EmojiComponent } from '../../website/emoji/emoji.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { WindowService } from '../../services/window.service';
+import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'flower-edit-message',

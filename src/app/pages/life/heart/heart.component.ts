@@ -14,7 +14,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { LifeDialogComponent } from './life-dialog/life-dialog.component';
-import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
+import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { WindowService } from '../../../services/window.service';
 
 @Component({

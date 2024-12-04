@@ -6,11 +6,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { RssComponent } from '../rss/rss.component';
-import { SitemapComponent } from '../sitemap/sitemap.component';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { WindowService } from '../../services/window.service';
+import { RssComponent } from '../rss/rss.component';
+import { WindowService } from '../../../services/window.service';
+import { SitemapComponent } from '../sitemap/sitemap.component';
 
 @Component({
   selector: 'flower-footer',

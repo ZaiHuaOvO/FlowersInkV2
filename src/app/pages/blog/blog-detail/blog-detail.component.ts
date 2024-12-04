@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { BlogCardComponent } from '../../../components/blog-card/blog-card.component';
-import { MeCardComponent } from '../../../components/me-card/me-card.component';
+import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
+import { MeCardComponent } from '../../../components/website/me-card/me-card.component';
 import { BlogService } from '../blog.service';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -26,7 +26,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
-import { BlogTitleComponent } from '../../../components/blog-title/blog-title.component';
+import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 

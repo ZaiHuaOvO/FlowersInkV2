@@ -5,13 +5,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { MenuService, NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/website/header/header.component';
+import { FooterComponent } from './components/website/footer/footer.component';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzBackTopModule } from 'ng-zorro-antd/back-top';
 import { WindowService } from './services/window.service';
-import { BackTopComponent } from './components/back-top/back-top.component';
+import { BackTopComponent } from './components/website/back-top/back-top.component';
 
 @Component({
   selector: 'app-root',

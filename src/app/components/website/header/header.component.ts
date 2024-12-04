@@ -5,8 +5,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { QuickDown } from '../../common_ui/animations/animation';
-import { WindowService } from '../../services/window.service';
+import { QuickDown } from '../../../common_ui/animations/animation';
+import { WindowService } from '../../../services/window.service';
 
 interface MenuItem {
   title: string;

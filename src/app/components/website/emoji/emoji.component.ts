@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, output } from '@angular/core';
-import { emojiArray } from '../../ts/emoji';
+import { emojiArray } from '../../../ts/emoji';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
