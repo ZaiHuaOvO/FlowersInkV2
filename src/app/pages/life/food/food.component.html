@@ -1,1 +1,34 @@
-<p>food works!</p>
+<div class="food" nz-flex [nzVertical]="true" nzAlign="center">
+    <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
+        [ngStyle]="{'width':isMobile ?'90vw':'75vw'}">
+        <flower-blog-title [title]="'再花和方长的美食合集'"></flower-blog-title>
+        <nz-affix [nzOffsetTop]="88">
+            <div class="search card" nz-flex nzAlign="center" nzJustify="center" nzGap="small" @QuickUp>
+                <nz-input-group [nzSuffix]="suffixIconSearch" style="border-radius: 10px;">
+                    <input type="text" nz-input placeholder="搜索美食" [formControl]="searchControl" />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                    <span nz-icon nzType="search"></span>
+                </ng-template>
+
+                <button style="width: 125px;" class="amazon-button" (click)="FoodMenu(foodMenu)">美食收录</button>
+            </div>
+        </nz-affix>
+        <nz-spin [nzTip]="'美食正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
+            <div style="width: 100%;" nz-flex nzAlign="center" nzJustify="center">
+                <flower-food-waterfall [data]="data" *ngIf="data.length > 0; else noData"></flower-food-waterfall>
+                <ng-template #noData>
+                    <flower-nodata></flower-nodata>
+                </ng-template>
+            </div>
+        </nz-spin>
+    </div>
+</div>
+
+<ng-template #foodMenu>
+    <ul>
+        <li *ngFor="let item of foodMenuList">
+            <p nz-typography class="food_menu noto-sans-sc" (click)="FoodImage(item.img)">{{ item.title }}</p>
+        </li>
+    </ul>
+</ng-template>

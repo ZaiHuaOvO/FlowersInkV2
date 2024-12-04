@@ -131,9 +131,8 @@ export class HeartComponent {
     this.modal.create({
       // nzTitle: '点滴',
       nzContent: LifeDialogComponent,
-      nzStyle: { width: '100vw' },
+      nzStyle: { width: '90vw' },
       nzData: i,
-      nzCentered: true,
       nzKeyboard: true,
       nzMaskClosable: true,
       nzClosable: false,

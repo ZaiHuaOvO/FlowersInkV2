@@ -1,0 +1,73 @@
+.food {
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 500px;
+    padding: 24px;
+}
+
+.content {
+    width: 80%;
+    min-height: 500px;
+}
+
+.blog {
+    padding: 24px;
+    width: 100%;
+}
+
+.search {
+    width: 40vw;
+    padding: 12px;
+    min-width: 300px;
+}
+
+.blog_title {
+    cursor: pointer;
+}
+
+.blog_title:hover {
+    color: #2F9BFF;
+}
+
+.blog_time {
+    min-width: 70px;
+}
+
+.waterfall-container {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    /* 设置列数的最小宽度为200px，自适应宽度变化 */
+    padding: 16px;
+}
+
+.waterfall-item {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.waterfall-item:hover {
+    transform: translateY(-8px);
+}
+
+.waterfall-item img {
+    width: 100%;
+    height: auto;
+    /* 高度自适应 */
+    display: block;
+}
+
+.waterfall-item .content {
+    padding: 8px 16px;
+}
+
+.food_menu {
+    cursor: pointer;
+}
+
+.food_menu:hover {
+    color: grey;
+}
