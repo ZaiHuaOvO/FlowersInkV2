@@ -1,7 +1,7 @@
 <div class="footer_box" nz-flex nzJustify="center" nzAlign="center">
-    <div class="footer" nz-flex nzJustify="space-between" nzAlign="start" nzGap="large"
+    <div class="footer" nz-flex nzJustify="center" nzAlign="start" nzGap="large"
         [ngStyle]="{'width': isMobile?'100%':'40%'}">
-        <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
+        <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
             <span nz-typography>站内索引</span>
             <a nz-typography class="text" nz-popconfirm [nzPopconfirmTitle]="titleTpl" nzOkText="是" nzCancelText="否"
                 [nzIcon]="iconTpl" (nzOnConfirm)="confirm()"
@@ -17,7 +17,7 @@
             </ng-template>
         </div>
 
-        <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+        <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
             <span nz-typography>联系方式</span>
             <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top"><span
                     nz-icon nzType="qq" nzTheme="outline"></span>&nbsp;446840401</span>
@@ -35,7 +35,7 @@
                     nzTheme="outline"></span>&nbsp;{{email}}</span>
         </div>
 
-        <div nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+        <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
             <span nz-typography nz-flex nzAlign="center">
                 <span nz-typography> © 2024 再花 <nz-avatar style="padding-bottom: 2px;" [nzSize]="16"
                         nzSrc="https://api.flowersink.com/img/再花趴趴.png" nzShape="square"></nz-avatar>

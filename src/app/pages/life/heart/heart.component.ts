@@ -57,6 +57,7 @@ export class HeartComponent {
     this.loading = true;
     this.life
       .getLifeList({
+        title: '',
         tag: ['事件', '美食', '日常'],
       })
       .subscribe((res: any) => {
