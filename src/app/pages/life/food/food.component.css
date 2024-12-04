@@ -71,3 +71,21 @@
 .food_menu:hover {
     color: grey;
 }
+
+.target {
+    width: 10%;
+    height: 100%;
+    position: fixed;
+    left: 1.5vw;
+    /* 标题70px高+距离10*2+左边内容12px */
+    top: 267px
+}
+
+[nz-menu] {
+    border-radius: 10px !important;
+}
+
+.target_text {
+    padding-left: 12px !important;
+    text-align: center;
+}

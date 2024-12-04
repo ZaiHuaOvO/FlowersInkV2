@@ -22,6 +22,7 @@ import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { FoodWaterfallComponent } from '../../../components/life/food-waterfall/food-waterfall.component';
 import { NodataComponent } from '../../../components/website/nodata/nodata.component';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 @Component({
   selector: 'flower-food',
@@ -41,6 +42,7 @@ import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
     FoodWaterfallComponent,
     NodataComponent,
     NzImageModule,
+    NzMenuModule,
   ],
   templateUrl: './food.component.html',
   styleUrl: './food.component.css',
@@ -52,6 +54,8 @@ export class FoodComponent implements OnInit {
   isMobile: boolean = false;
   searchControl = new FormControl('');
   foodMenuList: any[] = [];
+  tagList: any[] = [];
+  targetList: any[] = [];
   constructor(
     private life: LifeService,
     private modal: NzModalService,
@@ -69,15 +73,44 @@ export class FoodComponent implements OnInit {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.getFood();
-    this.getFoodMenu();
+    this.getFoodTag();
   }
   getFood(): void {
     this.loading = true;
     this.life
       .getLifeList({
         title: this.searchControl.value,
-        tag: '美食',
+        tag: this.tagList,
+      })
+      .subscribe((res: any) => {
+        this.data = res['data'].data;
+        this.FoodTitle();
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 250);
+      });
+  }
+
+  getFoodTag(): void {
+    this.loading = true;
+    this.life.getLifeTag().subscribe((res: any) => {
+      this.tagList = res['data']
+        .map((item: any) => item.label)
+        .filter((tag: string) => tag.startsWith('美食-'));
+      this.targetList = this.tagList.map(
+        (tag) => tag.replace('美食-', '') // 去掉 "美食-" 前缀
+      );
+      this.getFood();
+    });
+  }
+
+  getFoodMenu(tag: any): void {
+    this.loading = true;
+    this.life
+      .getLifeList({
+        title: this.searchControl.value,
+        tag: tag,
       })
       .subscribe((res: any) => {
         this.data = res['data'].data;
@@ -88,32 +121,17 @@ export class FoodComponent implements OnInit {
       });
   }
 
-  getFoodMenu(): void {
-    this.life
-      .getLifeList({
-        tag: '美食',
-      })
-      .subscribe((res: any) => {
-        const data = res['data'].data;
-        this.foodMenuList = data.map((item: any) => {
-          return {
-            title: item.title,
-            img: [
-              {
-                src: item['image_first'][0].url,
-                width: '50vw',
-                height: 'auto',
-                alt: '',
-              },
-            ],
-          };
-        });
-      });
+  FoodTitle(): any {
+    this.data.forEach((item: any) => {
+      if (item.title.includes('+')) {
+        item.title = item.title.replace('+', ' \n ');
+      }
+    });
   }
 
   FoodMenu(foodMenu: TemplateRef<{}>): void {
     this.modal.create({
-      nzTitle: '再花和方长的美食全收录',
+      nzTitle: '美食全收录',
       nzContent: foodMenu,
       nzFooter: null,
       nzMaskClosable: true,

@@ -16,4 +16,8 @@ export class LifeService {
   addMessage(data?: any): Observable<object> {
     return this.http.post(API.MESSAGE, data);
   }
+
+  getLifeTag(data?: any): Observable<object> {
+    return this.http.get(API.LIFE_TAG, data);
+  }
 }

@@ -4,6 +4,8 @@
     column-gap: 24px;
     /* 列间距 */
     padding: 24px;
+    height: auto !important;
+    max-height: none !important;
 }
 
 .waterfall-item {
@@ -17,7 +19,9 @@
     display: inline-block;
     /* 使卡片成为独立的块 */
     width: 100%;
-    /* 确保宽度为列的宽度 */
+    /* 确保宽度为列的宽度 *
+    /* 由内容决定高度 */
+    height: auto !important;/
 }
 
 .waterfall-item img {
@@ -34,4 +38,5 @@
 
 .food_name {
     margin-top: 12px;
+    text-align: center;
 }

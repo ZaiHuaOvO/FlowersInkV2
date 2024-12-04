@@ -55,16 +55,20 @@ export class HeartComponent {
   }
   getLife(): void {
     this.loading = true;
-    this.life.getLifeList().subscribe((res: any) => {
-      const data = res['data'].data;
-      this.data = this.processAndGroupData(data);
-      // 设置面板默认第一个展开
-      this.data[0].active = true;
+    this.life
+      .getLifeList({
+        tag: ['事件', '美食', '日常'],
+      })
+      .subscribe((res: any) => {
+        const data = res['data'].data;
+        this.data = this.processAndGroupData(data);
+        // 设置面板默认第一个展开
+        this.data[0].active = true;
 
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
-    });
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
+      });
   }
   processAndGroupData(dataArray: any[]) {
     // 按 date 排序，从新到旧

@@ -1,6 +1,14 @@
 <nz-card style="width:100%; " [nzActions]="[img]">
-  <nz-card-meta [nzTitle]="'「'+nzModalData.title+'」'" [nzDescription]="nzModalData.content + ''"></nz-card-meta>
+  <nz-card-meta [nzTitle]="title" [nzDescription]="nzModalData.content + ''"></nz-card-meta>
 </nz-card>
+
+<ng-template #title>
+  <h5 nz-typography style="text-align: center;">
+    「{{nzModalData.title}}」
+  </h5>
+</ng-template>
+
+
 <ng-template #img>
   <div nz-flex [nzVertical]="true">
     <nz-image-group>
@@ -17,5 +25,4 @@
       {{ nzModalData.date | date: 'yyyy年M月d日' }}
     </h5>
   </div>
-
 </ng-template>

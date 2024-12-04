@@ -1,7 +1,7 @@
 <div class="food" nz-flex [nzVertical]="true" nzAlign="center">
     <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
         [ngStyle]="{'width':isMobile ?'90vw':'75vw'}">
-        <flower-blog-title [title]="'再花和方长的美食合集'"></flower-blog-title>
+        <flower-blog-title [title]="'养猪秘籍'"></flower-blog-title>
         <nz-affix [nzOffsetTop]="88">
             <div class="search card" nz-flex nzAlign="center" nzJustify="center" nzGap="small" @QuickUp>
                 <nz-input-group [nzSuffix]="suffixIconSearch" style="border-radius: 10px;">
@@ -10,8 +10,6 @@
                 <ng-template #suffixIconSearch>
                     <span nz-icon nzType="search"></span>
                 </ng-template>
-
-                <button style="width: 125px;" class="amazon-button" (click)="FoodMenu(foodMenu)">美食收录</button>
             </div>
         </nz-affix>
         <nz-spin [nzTip]="'美食正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
@@ -25,10 +23,16 @@
     </div>
 </div>
 
-<ng-template #foodMenu>
-    <ul>
-        <li *ngFor="let item of foodMenuList">
-            <p nz-typography class="food_menu noto-sans-sc" (click)="FoodImage(item.img)">{{ item.title }}</p>
+<div class="card" *ngIf="!isMobile" class="target" nz-flex [nzVertical]="true" nzGap="large">
+    <ul nz-menu nzMode="inline" nzTheme="light">
+        <li class="target_text" nz-menu-item (click)="getFoodMenu(tagList)" nzSelected>
+            全部
         </li>
+        <ng-container *ngFor="let item of targetList">
+            <li class="target_text" nz-menu-item (click)="getFoodMenu(['美食-'+item])">
+                <!-- <span nz-icon nzType="mail"></span> -->
+                <span nz-typography style="text-align: center;">{{item}}</span>
+            </li>
+        </ng-container>
     </ul>
-</ng-template>
+</div>
