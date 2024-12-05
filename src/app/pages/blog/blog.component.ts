@@ -62,6 +62,7 @@ export class BlogComponent implements OnInit {
     this.welcome
       .getBlogs({
         title: this.searchControl.value,
+        type: '文章',
       })
       .subscribe((res: any) => {
         const data = res['data'].data;

@@ -13,6 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { WindowService } from '../../../services/window.service';
 import { RouterModule } from '@angular/router';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'flower-me',
@@ -27,6 +28,7 @@ import { RouterModule } from '@angular/router';
     NzPopoverModule,
     RouterModule,
     TargetComponent,
+    NzIconModule,
   ],
   templateUrl: './me.component.html',
   styleUrl: './me.component.css',
