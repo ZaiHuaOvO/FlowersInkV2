@@ -1,0 +1,38 @@
+.book {
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 500px;
+    padding: 24px;
+}
+
+.content {
+    width: 80%;
+    min-height: 500px;
+}
+
+.blog {
+    padding: 24px;
+    width: 100%;
+}
+
+.search {
+    width: 40vw;
+    padding: 12px;
+    min-width: 300px;
+}
+
+.blog_title {
+    cursor: pointer;
+}
+
+.blog_title:hover {
+    color: #2F9BFF;
+}
+
+.blog_time {
+    min-width: 70px;
+}
+
+nz-tag {
+    margin: 8px;
+}

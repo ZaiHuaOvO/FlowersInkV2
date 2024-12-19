@@ -27,4 +27,8 @@ export const API = {
   IMAGE_UPLOAD: '/upload/image',
   // 留言板
   MESSAGE: '/site/message',
+  // 书籍
+  BOOK: '/world/book',
+  // 书籍列表
+  BOOK_LIST: '/world/book/list',
 };

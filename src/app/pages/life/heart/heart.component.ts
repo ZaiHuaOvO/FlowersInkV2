@@ -68,7 +68,7 @@ export class HeartComponent {
 
         setTimeout(() => {
           this.loading = false;
-        }, 1000);
+        }, 500);
       });
   }
   processAndGroupData(dataArray: any[]) {

@@ -95,7 +95,9 @@
 .ant-typography p,
 .ant-typography span,
 .ant-menu-title-content,
-.ant-btn {
+.ant-btn,
+p,
+span {
     font-family: "Noto Sans SC", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;

@@ -1,0 +1,23 @@
+<div class="book" nz-flex [nzVertical]="true" nzAlign="center">
+    <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
+        [ngStyle]="{'width':isMobile ?'90vw':'90vw'}">
+        <flower-blog-title [title]="'再花的图书馆'"></flower-blog-title>
+        <nz-spin [nzTip]="'书籍正在努力赶来中'" [nzSpinning]="loading">
+            <div style="width: 100%;" nz-flex nzAlign="center" nzJustify="center" [nzGap]="30" [nzVertical]="true">
+                <div @QuickUp nz-flex [nzVertical]="true" nzAlign="center" nzGap="small" class="noto-sans-sc">
+                    <span nz-typography>
+                        共读完<nz-tag nzColor="green">{{totalBooks}}</nz-tag>本
+                        <nz-divider nzType="vertical"></nz-divider>
+                        阅读时长<nz-tag nzColor="blue">{{totalReadingTime}}</nz-tag>小时
+                    </span>
+                    <span nz-typography nzType="secondary">注:统计开始于2024年12月</span>
+                </div>
+                <div @SlowUp nz-flex nzWrap="wrap" [nzGap]="25" nzAlign="start" nzJustify="center">
+                    <ng-container *ngFor="let book of data">
+                        <flower-book-card [book]="book" [routerLink]="['/world/book/' + book.id]"></flower-book-card>
+                    </ng-container>
+                </div>
+            </div>
+        </nz-spin>
+    </div>
+</div>

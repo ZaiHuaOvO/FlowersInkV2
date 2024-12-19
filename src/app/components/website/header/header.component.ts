@@ -76,6 +76,17 @@ export class HeaderComponent implements OnInit {
       ],
     },
     {
+      title: '见闻',
+      icon: 'bulb',
+      child: [
+        {
+          title: '书籍',
+          icon: '',
+          url: '/world/book',
+        },
+      ],
+    },
+    {
       title: '关于',
       icon: 'user',
       child: [

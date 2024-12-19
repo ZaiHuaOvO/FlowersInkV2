@@ -1,6 +1,5 @@
 <div class="footer_box" nz-flex nzJustify="center" nzAlign="center">
-    <div class="footer" nz-flex nzJustify="center" nzAlign="start" nzGap="large"
-        [ngStyle]="{'width': isMobile?'100%':'40%'}">
+    <div class="footer" nz-flex nzJustify="center" nzAlign="start" [ngStyle]="{'width': isMobile?'100%':'40%'}">
         <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
             <span nz-typography>站内索引</span>
             <a nz-typography class="text" nz-popconfirm [nzPopconfirmTitle]="titleTpl" nzOkText="是" nzCancelText="否"

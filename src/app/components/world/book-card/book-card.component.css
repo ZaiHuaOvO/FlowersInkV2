@@ -1,0 +1,18 @@
+.card {
+    padding: 24px;
+    width: 300px;
+}
+
+.content {
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.content:hover {
+    transform: translateY(-8px);
+}
+
+.book_name {
+    font-weight: bolder;
+    font-size: large;
+}

@@ -1,0 +1,48 @@
+<div class="article" nz-flex [nzVertical]="true" [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
+    <div class="content card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
+        [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'9.5%'}">
+        <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
+            <ng-template #backTitle>
+                <span nz-typography style="cursor: pointer;" (click)="onBack()">返回</span>
+            </ng-template>
+            <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center" *ngIf="!isMobile">
+                <span nz-typography nzType="secondary">
+                    读完于{{ data.finishDate | date:'yyyy年MM月dd日'}}
+                </span>
+            </nz-page-header-extra>
+        </nz-page-header>
+        <flower-blog-title [title]="data.name" *ngIf="isMobile"></flower-blog-title>
+        <p style="text-align: center;" nz-typography nzType="secondary" *ngIf="isMobile">
+            读完于{{ data.finishDate | date:'yyyy年MM月dd日'}}
+        </p>
+        <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
+            commandLine emoji mermaid clipboard></markdown>
+    </div>
+    <div class="me" @SlowUp *ngIf="!isMobile">
+        <div class="me_box card" nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
+            <img *ngIf="data.img?.length > 0" nz-image nzDisablePreview="true" [nzSrc]="data.img[0].url" alt=""
+                [height]="96">
+            <div nz-flex [nzVertical]="true">
+                <h5 nz-typography>{{data.name}}</h5>
+                <span nz-typography>{{data.author}}</span>
+            </div>
+        </div>
+        <div class="menu card">
+            <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
+            <nz-divider style="margin: 0;"></nz-divider>
+            <nz-anchor [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
+                <nz-link *ngFor="let anchor of anchors" [nzHref]="anchor.href" [nzTitle]="anchor.title">
+                    <nz-link *ngFor="let subAnchor of anchor.children" [nzHref]="subAnchor.href"
+                        [nzTitle]="subAnchor.title">
+                        <nz-link *ngFor="let subSubAnchor of subAnchor.children" [nzHref]="subSubAnchor.href"
+                            [nzTitle]="subSubAnchor.title">
+                            <nz-link *ngFor="let subSubSubAnchor of subSubAnchor.children"
+                                [nzHref]="subSubSubAnchor.href" [nzTitle]="subSubSubAnchor.title">
+                            </nz-link>
+                        </nz-link>
+                    </nz-link>
+                </nz-link>
+            </nz-anchor>
+        </div>
+    </div>
+</div>

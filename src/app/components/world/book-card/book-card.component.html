@@ -1,0 +1,10 @@
+<nz-ribbon [nzText]="book.content?'有笔记':'笔记待补充'" [nzColor]="book.content?'green':'red'">
+    <div class="card" nz-flex [nzGap]="25" [ngClass]="book.content?'content':'no_content'">
+        <img nz-image nzDisablePreview="true" [nzSrc]="book.img[0].url" alt="" [height]="125">
+        <div nz-flex [nzVertical]="true" nzJustify="center" nzGap="small">
+            <span nz-typography class="book_name">{{book.name}}</span>
+            <span nz-typography class="book_author">{{book.author}}</span>
+            <span nz-typography nzType="secondary">读完于{{book.finishDate | date:'yyyy-MM-dd'}}</span>
+        </div>
+    </div>
+</nz-ribbon>
