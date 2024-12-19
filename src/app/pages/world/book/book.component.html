@@ -14,7 +14,8 @@
                 </div>
                 <div @SlowUp nz-flex nzWrap="wrap" [nzGap]="25" nzAlign="start" nzJustify="center">
                     <ng-container *ngFor="let book of data">
-                        <flower-book-card [book]="book" [routerLink]="['/world/book/' + book.id]"></flower-book-card>
+                        <flower-book-card [book]="book"
+                            [routerLink]="book.content ? ['/world/book/' + book.id] : []"></flower-book-card>
                     </ng-container>
                 </div>
             </div>
