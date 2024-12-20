@@ -32,7 +32,7 @@ export class BookCardComponent {
     let color = '';
     switch (status) {
       case '在读':
-        color = 'yello';
+        color = 'yellow';
         break;
       case '已读':
         color = 'blue';

@@ -10,9 +10,10 @@
     </div>
 </nz-ribbon>
 <ng-template #ribbon_text>
-    <div nz-flex class="noto-sans-sc">
-        <span nz-typography>{{book.readingTime | number:'1.1'}}小时</span>
-        <nz-divider nzType="vertical"></nz-divider>
-        <span nz-typography>{{book.status}}</span>
+    <div nz-flex class="noto-sans-sc " nzJustify="center">
+        <span nz-typography class="ribbon_text" *ngIf="book.readingTime > 0">{{book.readingTime |
+            number:'1.1'}}小时</span>
+        <nz-divider nzType="vertical" *ngIf="book.readingTime > 0"></nz-divider>
+        <span nz-typography class="ribbon_text">{{book.status}}</span>
     </div>
 </ng-template>
