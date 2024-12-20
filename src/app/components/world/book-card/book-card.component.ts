@@ -27,4 +27,22 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 })
 export class BookCardComponent {
   @Input() book: any;
+
+  getColor(status: string): string {
+    let color = '';
+    switch (status) {
+      case '在读':
+        color = 'yello';
+        break;
+      case '已读':
+        color = 'blue';
+        break;
+      case '有笔记':
+        color = 'green';
+        break;
+      default:
+        break;
+    }
+    return color;
+  }
 }
