@@ -1,0 +1,47 @@
+<div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true"
+    [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
+    <div class="content card" nz-flex [nzVertical]="true" nzGap="middle" @QuickUp
+        [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
+        <h1 nz-typography>友情链接</h1>
+
+        <nz-alert style="border-radius: 10px;" nzType="success" [nzMessage]="linkTitle"
+            [nzDescription]="linkContent"></nz-alert>
+        <ng-template #linkTitle>
+            <h4 nz-typography>拒绝「单向」「低质」「失效」友链，且不定期清理。</h4>
+            <h4 nz-typography>申请格式如下</h4>
+        </ng-template>
+        <ng-template #linkContent>
+            <article nz-typography style="font-size: 16px;">
+                <span nz-typography>网站名：花墨</span><br>
+                <span nz-typography>网站头像：https://api.flowersink.com/img/logo.png</span><br>
+                <span nz-typography>网站地址：https://flowersink.com</span><br>
+                <span nz-typography>网站描述：一个喜欢写作,分享生活的已婚前端的个人网站</span><br>
+                <span nz-typography>联系邮箱：{{email}}</span>
+            </article>
+        </ng-template>
+
+        <nz-spin [nzTip]="'友链正在赶来中'" [nzSpinning]="loading">
+            <div nz-row [nzGutter]="[16,16]">
+                <ng-container *ngFor="let link of links">
+                    <div nz-col nzSpan="8" *ngIf="!isMobile">
+                        <flower-link-card [link]="link"></flower-link-card>
+                    </div>
+
+                    <div nz-col nzSpan="24" *ngIf="isMobile">
+                        <flower-link-card [link]="link"></flower-link-card>
+                    </div>
+                </ng-container>
+            </div>
+        </nz-spin>
+
+        <div nz-flex [nzVertical]="true">
+            <div nz-flex nzAlign="start" [nzVertical]="true">
+                <!-- <span nz-typography class="form_title"><strong style="color: red;">*</strong>留言：</span> -->
+                <textarea nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="content"></textarea>
+                <div class="toolbar" *ngIf="showToolbar" nz-flex nzJustify="end">
+                    <button class="submit amazon-button" (click)="submit()">申请</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

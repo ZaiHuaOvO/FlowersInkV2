@@ -87,6 +87,12 @@ export class HeaderComponent implements OnInit {
       ],
     },
     {
+      title: '友链',
+      icon: 'link',
+      url: '/link',
+      child: [],
+    },
+    {
       title: '关于',
       icon: 'user',
       child: [

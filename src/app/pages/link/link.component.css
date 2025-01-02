@@ -1,0 +1,17 @@
+textarea {
+    width: 100%;
+    min-height: 100px;
+}
+
+textarea {
+    border-radius: 10px !important;
+}
+
+.toolbar {
+    padding-top: 4px;
+    width: 100%;
+}
+
+.submit {
+    width: 100px;
+}
