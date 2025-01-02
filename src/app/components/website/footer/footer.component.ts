@@ -8,9 +8,10 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RssComponent } from '../rss/rss.component';
+import { RssComponent } from '../svg/rss/rss.component';
 import { WindowService } from '../../../services/window.service';
 import { SitemapComponent } from '../sitemap/sitemap.component';
+import { PlanetComponent } from '../svg/planet/planet.component';
 
 @Component({
   selector: 'flower-footer',
@@ -28,6 +29,7 @@ import { SitemapComponent } from '../sitemap/sitemap.component';
     NzPopconfirmModule,
     RssComponent,
     SitemapComponent,
+    PlanetComponent,
   ],
 })
 export class FooterComponent implements OnInit {

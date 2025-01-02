@@ -1,6 +1,11 @@
 <div class="footer_box" nz-flex nzJustify="center" nzAlign="center">
     <div class="footer" nz-flex nzJustify="center" nzAlign="start" [ngStyle]="{'width': isMobile?'100%':'40%'}">
         <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
+            <span nz-typography>站外导航</span>
+            <a nz-typography class="text" href="https://travel.moe/go.html?travel=on" title="异次元之旅-跃迁-我们一起去萌站成员的星球旅行吧！"
+                target="_blank"><flower-planet></flower-planet>&nbsp;异次元之旅</a>
+        </div>
+        <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
             <span nz-typography>站内索引</span>
             <a nz-typography class="text" nz-popconfirm [nzPopconfirmTitle]="titleTpl" nzOkText="是" nzCancelText="否"
                 [nzIcon]="iconTpl" (nzOnConfirm)="confirm()"
@@ -45,6 +50,7 @@
             </span>
             <a nz-typography class="text" href="https://icp.gov.moe/?keyword=20250510"
                 target="_blank">萌ICP备20250510号</a>
+
             <a nz-typography class="text" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2024104191号</a>
             <div nz-flex nzAlign="center">
                 <nz-avatar [nzSize]="16" nzSrc="assets/img/web/备案图标.png" nzShape="square"></nz-avatar>

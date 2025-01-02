@@ -21,7 +21,7 @@
     width: 100%;
     /* 确保宽度为列的宽度 *
     /* 由内容决定高度 */
-    height: auto !important;/
+    height: auto !important;
 }
 
 .waterfall-item img {
