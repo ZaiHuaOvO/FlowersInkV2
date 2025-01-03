@@ -39,18 +39,18 @@ export class HeaderComponent implements OnInit {
       child: [],
     },
     {
-      title: '技术',
+      title: '写作',
       icon: 'edit',
       child: [
         {
-          title: '技术文章',
+          title: '技术',
           icon: '',
           url: '/blog/article',
         },
         {
-          title: '问题记录',
+          title: '随笔',
           icon: '',
-          url: '/blog/question',
+          url: '/blog/essay',
         },
         {
           title: '文归档',

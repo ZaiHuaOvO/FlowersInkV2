@@ -1,0 +1,44 @@
+<div class="article" nz-flex [nzVertical]="true" nzAlign="center">
+    <flower-blog-title [title]="'随笔'"></flower-blog-title>
+    <div class="search card" @QuickUp *ngIf="isMobile">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input type="text" nz-input placeholder="搜索随笔" [formControl]="searchControl" />
+        </nz-input-group>
+    </div>
+    <ng-template #suffixIconSearch>
+        <span nz-icon nzType="search"></span>
+    </ng-template>
+    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
+        [ngStyle]="{'width':isMobile ?'100%':'80%'}">
+        <nz-spin [nzTip]="'随笔正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
+            <div nz-flex nzGap="middle" [nzVertical]="true">
+                <div *ngFor="let item of data" class="flower_card">
+                    <flower-blog-card [blog]="item" [loading]="loading"
+                        [routerLink]="['/blog/blog-detail/' + item.id]"></flower-blog-card>
+                </div>
+                <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"
+                    (nzPageIndexChange)="pageChange($event)"></nz-pagination>
+            </div>
+        </nz-spin>
+        <div class="me" @SlowUp *ngIf="!isMobile">
+            <nz-affix [nzOffsetTop]="72">
+                <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
+                    <nz-input-group [nzSuffix]="suffixIconSearch">
+                        <input type="text" nz-input placeholder="搜索随笔" [formControl]="searchControl" />
+                    </nz-input-group>
+                    <ng-template #suffixIconSearch>
+                        <span nz-icon nzType="search"></span>
+                    </ng-template>
+                    <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
+                        <h5 nz-typography>随笔标签</h5>
+                        <div nz-flex nzWrap="wrap" nzGap="small">
+                            <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
+                                (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
+                        </div>
+                    </div>
+                </div>
+            </nz-affix>
+        </div>
+    </div>
+
+</div>
