@@ -59,26 +59,31 @@ export class HeaderComponent implements OnInit {
         },
       ],
     },
-    {
-      title: '生活',
-      icon: 'heart',
-      child: [
-        // {
-        //   title: '老婆',
-        //   icon: '',
-        //   url: '/life/heart',
-        // },
-        {
-          title: '美食',
-          icon: '',
-          url: '/life/food',
-        },
-      ],
-    },
+    // {
+    //   title: '生活',
+    //   icon: 'heart',
+    //   child: [
+    //     // {
+    //     //   title: '老婆',
+    //     //   icon: '',
+    //     //   url: '/life/heart',
+    //     // },
+    //     {
+    //       title: '美食',
+    //       icon: '',
+    //       url: '/life/food',
+    //     },
+    //   ],
+    // },
     {
       title: '见闻',
       icon: 'bulb',
       child: [
+        {
+          title: '美食',
+          icon: '',
+          url: '/world/food',
+        },
         {
           title: '书籍',
           icon: '',

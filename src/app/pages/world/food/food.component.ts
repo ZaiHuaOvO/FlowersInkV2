@@ -16,7 +16,7 @@ import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { WindowService } from '../../../services/window.service';
-import { LifeService } from '../life.service';
+import { LifeService } from '../../life/life.service';
 import { debounceTime } from 'rxjs';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { FoodWaterfallComponent } from '../../../components/life/food-waterfall/food-waterfall.component';
