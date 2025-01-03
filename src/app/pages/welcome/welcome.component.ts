@@ -70,14 +70,9 @@ export class WelcomeComponent implements OnInit {
         this.loading = false;
       }, 1000);
     });
-    this.welcome.getBlogs({ type: '文章' }).subscribe((res: any) => {
+    this.welcome.getBlogs().subscribe((res: any) => {
       const data = this.processedData(res['data'].data);
       this.info.article = data.length;
-      this.cdr.detectChanges();
-    });
-    this.welcome.getBlogs({ type: '问题' }).subscribe((res: any) => {
-      const data = this.processedData(res['data'].data);
-      this.info.question = data.length;
       this.cdr.detectChanges();
     });
   }
