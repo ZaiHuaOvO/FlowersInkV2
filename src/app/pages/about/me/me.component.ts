@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { WindowService } from '../../../services/window.service';
 import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'flower-me',
@@ -46,9 +47,19 @@ export class MeComponent {
   isAcive8: boolean = true;
   isAcive9: boolean = true;
   isMobile: boolean = false;
-  constructor(private window: WindowService) {
+  email = 'ZyZy1724@gmail.com';
+  constructor(private window: WindowService, private msg: NzMessageService) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
     });
+  }
+
+  copyEmail(): void {
+    navigator.clipboard
+      .writeText(this.email)
+      .then(() => {
+        this.msg.success('已复制邮箱地址，欢迎邮件(๑＞ڡ＜)☆');
+      })
+      .catch((error) => {});
   }
 }

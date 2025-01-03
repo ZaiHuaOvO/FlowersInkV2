@@ -33,8 +33,47 @@
                     <p>在作为技术初学者的时候，我热衷于用抽象复杂的语言来展示自己的高深和熟练，随着知识的摄取我逐渐感觉到自己的无知。现在我在试着用尽可能通俗的大白话去讲解我自己所掌握的技术</p>
                 </li>
             </ul>
-            <h2 nz-typography>社区</h2>
-            <p>具体联系方式可见网站底部</p>
+            <h2 nz-typography *ngIf="!isMobile">社区</h2>
+            <h2 nz-typography *ngIf="isMobile">社区及联系方式</h2>
+            <p *ngIf="!isMobile">具体联系方式可见网站底部</p>
+
+            <ul *ngIf="isMobile">
+                <li>
+                    <p nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top">
+                        <a>
+                            <span nz-icon nzType="qq" nzTheme="outline"></span>
+                            「QQ」
+                        </a>
+                        446840401
+                    </p>
+                </li>
+                <li>
+                    <p nz-typography nz-popover [nzPopoverContent]="wxQRCode" nzPopoverPlacemen="bottom">
+                        <a>
+                            <span nz-icon nzType="wechat" nzTheme="outline"></span>
+                            「微信」
+                        </a>
+                        zaihua_huahua
+                    </p>
+                </li>
+                <li>
+                    <p nz-typography (click)="copyEmail()">
+                        <a>
+                            <span nz-icon nzType="mail" nzTheme="outline"></span>
+                            「邮箱」
+                        </a>{{email}}
+                    </p>
+                </li>
+            </ul>
+            <ng-template #qqQRCode>
+                <img width="250px" height="250px" src="assets/img/QRCode/qq.png">
+            </ng-template>
+
+            <ng-template #wxQRCode>
+                <img width="250px" height="250px" src="assets/img/QRCode/wx.png">
+            </ng-template>
+
+
             <ul>
                 <li>
                     <p nz-typography><a rel="nofollow" href="https://www.zhihu.com/people/zai-hua-14-76"

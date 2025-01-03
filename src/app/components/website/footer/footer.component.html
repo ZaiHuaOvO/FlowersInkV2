@@ -1,6 +1,6 @@
 <div class="footer_box" nz-flex nzJustify="center" nzAlign="center">
     <div class="footer" nz-flex nzJustify="center" nzAlign="start" [ngStyle]="{'width': isMobile?'100%':'40%'}">
-        <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
+        <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
             <span nz-typography>站外导航</span>
             <a nz-typography class="text" href="https://travel.moe/go.html?travel=on" title="异次元之旅-跃迁-我们一起去萌站成员的星球旅行吧！"
                 target="_blank">
@@ -27,7 +27,7 @@
             </ng-template>
         </div>
 
-        <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+        <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
             <span nz-typography>联系方式</span>
             <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top"><span
                     nz-icon nzType="qq" nzTheme="outline"></span>&nbsp;446840401</span>

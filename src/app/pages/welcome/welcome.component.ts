@@ -70,7 +70,7 @@ export class WelcomeComponent implements OnInit {
         this.cdr.detectChanges();
         setTimeout(() => {
           this.loading = false;
-        }, 500);
+        }, 1000);
       });
     this.welcome.getBlogs({ type: '文章' }).subscribe((res: any) => {
       const data = this.processedData(res['data'].data);
