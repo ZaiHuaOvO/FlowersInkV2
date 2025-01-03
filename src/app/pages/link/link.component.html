@@ -3,22 +3,23 @@
     <div class="content card" nz-flex [nzVertical]="true" nzGap="middle" @QuickUp
         [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
         <h1 nz-typography>友情链接</h1>
-
+        <p nz-typography nzType="secondary">友链就像桥梁,将我的孤岛展现给全世界</p>
         <nz-alert style="border-radius: 10px;" nzType="success" [nzMessage]="linkTitle"
             [nzDescription]="linkContent"></nz-alert>
         <ng-template #linkTitle>
-            <h4 nz-typography>拒绝「单向」「低质」「失效」友链，且不定期清理。</h4>
+            <h4 nz-typography>拒绝「单向」「低质」「失效」友链，不定期清理。</h4>
             <h4 nz-typography>申请格式如下</h4>
         </ng-template>
         <ng-template #linkContent>
             <article nz-typography style="font-size: 16px;">
-                <span nz-typography>网站名：花墨</span><br>
-                <span nz-typography>网站头像：https://api.flowersink.com/img/logo.png</span><br>
+                <span nz-typography>网站名称：花墨</span><br>
+                <span nz-typography>网站头像地址：https://api.flowersink.com/img/logo.png</span><br>
                 <span nz-typography>网站地址：https://flowersink.com</span><br>
-                <span nz-typography>网站描述：一个喜欢写作,分享生活的已婚前端的个人网站</span><br>
+                <span nz-typography>网站描述：一个喜欢写作、分享生活的已婚前端的个人网站</span><br>
                 <span nz-typography>联系邮箱：{{email}}</span>
             </article>
         </ng-template>
+        <nz-divider></nz-divider>
 
         <nz-spin [nzTip]="'友链正在赶来中'" [nzSpinning]="loading">
             <div nz-row [nzGutter]="[16,16]">
@@ -34,10 +35,20 @@
             </div>
         </nz-spin>
 
+        <nz-divider></nz-divider>
+
         <div nz-flex [nzVertical]="true">
-            <div nz-flex nzAlign="start" [nzVertical]="true">
-                <!-- <span nz-typography class="form_title"><strong style="color: red;">*</strong>留言：</span> -->
-                <textarea nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="content"></textarea>
+            <div nz-flex nzAlign="start" [nzVertical]="true" [ngStyle]="{'width':isMobile ?'100%':'33%'}" nzGap="small">
+                <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
+                    placeholder="网站名称">
+                <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.logo" name="logo"
+                    placeholder="网站头像地址">
+                <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
+                    placeholder="网站地址">
+                <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
+                    name="description" placeholder="网站描述">
+                <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
+                    placeholder="联系邮箱(可选)">
                 <div class="toolbar" *ngIf="showToolbar" nz-flex nzJustify="end">
                     <button class="submit amazon-button" (click)="submit()">申请</button>
                 </div>
@@ -45,3 +56,10 @@
         </div>
     </div>
 </div>
+
+<ng-template #linkMsg>
+    <p nz-typography>申请成功，感谢认可(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</p>
+    <p nz-typography>注意：请确保您已将<strong>花墨</strong>添至您网站的友链中</p>
+    <p nz-typography>再花会在1-5个工作日内通过您的联系邮箱通知结果(若有)</p>
+    <p nz-typography>有任何问题可通过底部的联系方式联系再花</p>
+</ng-template>

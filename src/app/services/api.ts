@@ -31,4 +31,6 @@ export const API = {
   BOOK: '/world/book',
   // 书籍列表
   BOOK_LIST: '/world/book/list',
+  // 友链
+  LINK: '/site/link',
 };

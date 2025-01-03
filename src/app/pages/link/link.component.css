@@ -7,6 +7,10 @@ textarea {
     border-radius: 10px !important;
 }
 
+input {
+    border-radius: 10px !important;
+}
+
 .toolbar {
     padding-top: 4px;
     width: 100%;

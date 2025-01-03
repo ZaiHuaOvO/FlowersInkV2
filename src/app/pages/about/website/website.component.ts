@@ -63,6 +63,10 @@ export class WebsiteComponent {
       date: '2024年12月02日',
       title: '开启RSS订阅',
     },
+    {
+      date: '2025年01月03日',
+      title: '加入友链社区,新增友链功能',
+    },
   ];
   constructor(private window: WindowService) {
     this.window.isMobile$.subscribe((isMobile) => {
