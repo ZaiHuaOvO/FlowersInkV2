@@ -45,4 +45,10 @@ export class BookCardComponent {
     }
     return color;
   }
+
+  handleClick(event: MouseEvent, status: string): void {
+    if (status !== '有笔记') {
+      event.preventDefault(); // 阻止默认的跳转行为
+    }
+  }
 }
