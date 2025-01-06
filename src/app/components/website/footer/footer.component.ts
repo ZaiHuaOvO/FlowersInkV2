@@ -55,22 +55,4 @@ export class FooterComponent implements OnInit {
       })
       .catch((error) => {});
   }
-
-  confirm(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      window.open('https://api.flowersink.com/rss');
-    }
-  }
-
-  cancel(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      window.open('https://www.flowersink.com/blog/blog-detail/30');
-    }
-  }
-
-  sitemap(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      window.open('https://api.flowersink.com/sitemap');
-    }
-  }
 }
