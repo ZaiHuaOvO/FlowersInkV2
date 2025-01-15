@@ -11,8 +11,9 @@
     margin-top: 0;
 }
 
-.point_tag {
+.ant-tag {
     cursor: pointer;
+    margin: 0 !important;
 }
 
 .me_box {

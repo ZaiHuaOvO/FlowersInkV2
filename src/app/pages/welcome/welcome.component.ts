@@ -36,6 +36,7 @@ export class WelcomeComponent implements OnInit {
   loading = true;
   info = {
     article: 0,
+    essay: 0,
     question: 0,
     day: 0,
     lastUpdateTime: '',
@@ -72,7 +73,11 @@ export class WelcomeComponent implements OnInit {
     });
     this.welcome.getBlogs().subscribe((res: any) => {
       const data = this.processedData(res['data'].data);
-      this.info.article = data.length;
+      // this.info.article = data.length;
+      this.info.article = data.filter(
+        (item: any) => item.type === '文章'
+      ).length;
+      this.info.essay = data.filter((item: any) => item.type === '随笔').length;
       this.cdr.detectChanges();
     });
   }

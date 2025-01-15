@@ -29,3 +29,7 @@
     font-size: 16px !important;
     font-weight: 500;
 }
+
+nz-spin {
+    min-width: 1vw !important;
+}

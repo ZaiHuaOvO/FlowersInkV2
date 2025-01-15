@@ -28,6 +28,7 @@ import { RssComponent } from '../svg/rss/rss.component';
 export class MeCardComponent implements OnInit {
   @Input() info = {
     article: 0,
+    essay: 0,
     question: 0,
     day: 0,
     lastUpdateTime: '',
