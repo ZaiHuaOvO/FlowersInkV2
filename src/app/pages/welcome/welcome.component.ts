@@ -71,15 +71,21 @@ export class WelcomeComponent implements OnInit {
         this.loading = false;
       }, 1000);
     });
-    this.welcome.getBlogs().subscribe((res: any) => {
-      const data = this.processedData(res['data'].data);
-      // this.info.article = data.length;
-      this.info.article = data.filter(
-        (item: any) => item.type === '文章'
-      ).length;
-      this.info.essay = data.filter((item: any) => item.type === '随笔').length;
-      this.cdr.detectChanges();
-    });
+    this.welcome
+      .getBlogs({
+        limit: 999,
+      })
+      .subscribe((val: any) => {
+        const data = this.processedData(val['data'].data);
+        // this.info.article = data.length;
+        this.info.article = data.filter(
+          (item: any) => item.type === '文章'
+        ).length;
+        this.info.essay = data.filter(
+          (item: any) => item.type === '随笔'
+        ).length;
+        this.cdr.detectChanges();
+      });
   }
 
   processedData(data: any): any {
