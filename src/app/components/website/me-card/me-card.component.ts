@@ -33,6 +33,7 @@ export class MeCardComponent implements OnInit {
     day: 0,
     lastUpdateTime: '',
   };
+  @Input() numLoading = true;
   constructor() {}
 
   ngOnInit() {}

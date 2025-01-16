@@ -10,14 +10,25 @@
 <div class="me" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
   <div nz-flex nzJustify="space-between" nzAlign="center">
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
-      <span nz-typography class="point_tag"><nz-tag nzColor="blue"
-          [routerLink]="['/blog/article']">{{info.article}}篇</nz-tag></span>
+      <span nz-typography class="point_tag"><nz-tag nzColor="blue" [routerLink]="['/blog/article']">
+          <ng-container *ngIf="numLoading; else elseTemplate1">
+            …
+          </ng-container>
+          <ng-template #elseTemplate1>
+            {{info.article}}
+          </ng-template>
+          篇</nz-tag></span>
       <span nz-typography>技术文章</span>
     </div>
     <nz-divider nzType="vertical"></nz-divider>
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
-      <span nz-typography class="point_tag"><nz-tag nzColor="pink"
-          [routerLink]="['/blog/essay']">{{info.essay}}篇</nz-tag></span>
+      <span nz-typography class="point_tag"><nz-tag nzColor="pink" [routerLink]="['/blog/essay']">
+          <ng-container *ngIf="numLoading; else elseTemplate2">
+            …
+          </ng-container>
+          <ng-template #elseTemplate2>
+            {{info.essay}}
+          </ng-template>篇</nz-tag></span>
       <span nz-typography>随笔杂文</span>
     </div>
     <nz-divider nzType="vertical"></nz-divider>

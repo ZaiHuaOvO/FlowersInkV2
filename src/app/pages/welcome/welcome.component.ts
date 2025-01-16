@@ -34,6 +34,7 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
 export class WelcomeComponent implements OnInit {
   data: any[] = [];
   loading = true;
+  numLoading = true;
   info = {
     article: 0,
     essay: 0,
@@ -84,6 +85,7 @@ export class WelcomeComponent implements OnInit {
         this.info.essay = data.filter(
           (item: any) => item.type === '随笔'
         ).length;
+        this.numLoading = false;
         this.cdr.detectChanges();
       });
   }
