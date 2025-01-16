@@ -4,11 +4,7 @@
         [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
         <h1 nz-typography>友情链接</h1>
         <p nz-typography nzType="secondary">友链就像桥梁,将我的孤岛展现给全世界</p>
-        <nz-alert style="border-radius: 10px;" nzType="success" [nzMessage]="linkTitle"
-            [nzDescription]="linkContent"></nz-alert>
-        <ng-template #linkTitle>
-            <h4 nz-typography>拒绝「单向」「低质」「失效」「非HTTPS」友链，不定期清理。</h4>
-        </ng-template>
+        <nz-alert style="border-radius: 10px;" nzType="success" [nzDescription]="linkContent"></nz-alert>
         <ng-template #linkContent>
             <article nz-typography style="font-size: 16px;">
                 <span nz-typography>网站名称：花墨</span><br>
@@ -35,8 +31,57 @@
         </nz-spin>
 
         <nz-divider></nz-divider>
-
-        <div nz-flex [nzVertical]="true">
+        <div nz-row [nzGutter]="[16,16]" *ngIf="!isMobile">
+            <div nz-col nzSpan="16">
+                <nz-alert style="border-radius: 10px;" nzType="info" [nzMessage]="linkTitle"
+                    [nzDescription]="linkNote"></nz-alert>
+                <ng-template #linkTitle>
+                    <h4 nz-typography>友链申请须知</h4>
+                </ng-template>
+                <ng-template #linkNote>
+                    <article nz-typography style="font-size: 16px;">
+                        <p nz-typography>1.请确保您已将<mark>「花墨」</mark>添加至友链列表，请勿单向友链</p>
+                        <p nz-typography>
+                            3.您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong></p>
+                        <p nz-typography>4.您的网站应当<strong>运行稳定</strong>，在未提前告知的情况下，若1个月内多次出现无法正常访问则会被取消友链</p>
+                        <p nz-typography>5.对于网站的样式、交互、设计有一定要求，不喜好排版杂乱、交互不适、BUG过多的网站</p>
+                    </article>
+                </ng-template>
+            </div>
+            <div nz-col nzSpan="8">
+                <div nz-flex nzAlign="start" [nzVertical]="true" [ngStyle]="{'width':isMobile ?'100%':'100%'}"
+                    nzGap="small">
+                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
+                        placeholder="网站名称">
+                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.logo" name="logo"
+                        placeholder="网站头像地址">
+                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
+                        placeholder="网站地址">
+                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
+                        name="description" placeholder="网站描述">
+                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
+                        placeholder="联系邮箱(可选)">
+                    <div class="toolbar" *ngIf="showToolbar" nz-flex nzJustify="end">
+                        <button class="submit amazon-button" (click)="submit()">申请</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div nz-flex [nzVertical]="true" *ngIf="isMobile" nzGap="middle">
+            <nz-alert style="border-radius: 10px;" nzType="info" [nzMessage]="linkTitle"
+                [nzDescription]="linkNote"></nz-alert>
+            <ng-template #linkTitle>
+                <h4 nz-typography>友链申请须知</h4>
+            </ng-template>
+            <ng-template #linkNote>
+                <article nz-typography style="font-size: 16px;">
+                    <p nz-typography>1.请确保您已将<mark>「花墨」</mark>添加至友链列表，请勿单向友链</p>
+                    <p nz-typography>
+                        3.您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong></p>
+                    <p nz-typography>4.您的网站应当<strong>运行稳定</strong>，在未提前告知的情况下，若1个月内多次出现无法正常访问则会被取消友链</p>
+                    <p nz-typography>5.对于网站的样式、交互、设计有一定要求，不喜好排版杂乱、交互不适、BUG过多的网站</p>
+                </article>
+            </ng-template>
             <div nz-flex nzAlign="start" [nzVertical]="true" [ngStyle]="{'width':isMobile ?'100%':'33%'}" nzGap="small">
                 <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
                     placeholder="网站名称">
@@ -57,8 +102,7 @@
 </div>
 
 <ng-template #linkMsg>
-    <p nz-typography>申请成功，感谢认可(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</p>
-    <p nz-typography>注意：请确保您已将<strong>花墨</strong>添至您网站的友链中</p>
+    <p nz-typography>申请成功，感谢您对「花墨」的认可(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</p>
     <p nz-typography>再花会在1-5个工作日内通过您的联系邮箱通知结果(若有)</p>
     <p nz-typography>有任何问题可通过底部的联系方式联系再花</p>
 </ng-template>
