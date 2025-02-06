@@ -1,5 +1,6 @@
-<div class="article" nz-flex [nzVertical]="true" [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
-    <div class="content card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
+<div class="article editor" nz-flex [nzVertical]="true" [ngStyle]="{'padding':isMobile ?'4px':'24px'}"
+    (scroll)="onScroll('editor')" #editor>
+    <div class="content  card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
         [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'9.5%'}">
         <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
             <ng-template #backTitle>
@@ -43,7 +44,7 @@
         <div class="menu card">
             <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
             <nz-divider style="margin: 0;"></nz-divider>
-            <nz-anchor [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
+            <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
                 <nz-link *ngFor="let anchor of anchors" [nzHref]="anchor.href" [nzTitle]="anchor.title">
                     <nz-link *ngFor="let subAnchor of anchor.children" [nzHref]="subAnchor.href"
                         [nzTitle]="subAnchor.title">

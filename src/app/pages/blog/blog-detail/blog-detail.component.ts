@@ -5,6 +5,7 @@ import {
   Inject,
   OnInit,
   PLATFORM_ID,
+  ViewChild,
 } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -69,6 +70,11 @@ export class BlogDetailComponent implements OnInit {
   currentAnchor: string | undefined;
   targetOffset: number = 0;
   isMobile: boolean = false;
+  private isSyncing = false;
+
+  @ViewChild('editor', { static: true })
+  editorRef!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('viewer', { static: true }) viewerRef!: ElementRef<HTMLDivElement>;
   constructor(
     private blog: BlogService,
     private general: GeneralService,
@@ -133,5 +139,29 @@ export class BlogDetailComponent implements OnInit {
 
   onBack(): void {
     history.go(-1);
+  }
+
+  onScroll(source: 'editor' | 'viewer'): void {
+    console.log('source: ', source);
+    if (this.isSyncing) return; // 防止递归调用
+
+    this.isSyncing = true;
+
+    const editor = this.editorRef.nativeElement;
+    const viewer = this.viewerRef.nativeElement;
+
+    const sourceElement = source === 'editor' ? editor : viewer;
+    const targetElement = source === 'editor' ? viewer : editor;
+
+    // 计算滚动比例
+    const scrollRatio =
+      sourceElement.scrollTop /
+      (sourceElement.scrollHeight - sourceElement.clientHeight);
+
+    // 应用滚动比例到目标元素
+    targetElement.scrollTop =
+      scrollRatio * (targetElement.scrollHeight - targetElement.clientHeight);
+
+    this.isSyncing = false;
   }
 }
