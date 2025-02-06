@@ -67,6 +67,10 @@ export class WebsiteComponent {
       date: '2025年01月03日',
       title: '加入友链社区「萌国」和「开往」,新增友链功能',
     },
+    {
+      date: '未完待续',
+      title: '',
+    },
   ];
   constructor(private window: WindowService) {
     this.window.isMobile$.subscribe((isMobile) => {
