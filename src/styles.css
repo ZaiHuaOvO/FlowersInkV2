@@ -2,6 +2,44 @@
 
 @import url('app/common_ui/css/markdown-qklhk.css');
 
+/* 主色调：棕色 */
+:root {
+    --ant-primary-color: #8B4513;
+    --ant-primary-color-hover: #A0522D;
+    --ant-primary-color-active: #5E2A0C;
+    --ant-primary-color-outline: rgba(139, 69, 19, 0.2);
+}
+
+::ng-deep .ant-menu {
+    background-color: #8B4513 !important;
+}
+
+::ng-deep .ant-menu-item {
+    color: white !important;
+}
+
+::ng-deep .ant-menu-item:hover {
+    background-color: #A0522D !important;
+}
+
+::ng-deep .ant-menu-submenu {
+    background-color: #8B4513 !important;
+}
+
+::ng-deep .ant-menu-submenu .ant-menu-item {
+    color: white !important;
+}
+
+::ng-deep .ant-menu-submenu .ant-menu-item:hover {
+    background-color: #A0522D !important;
+}
+
+::ng-deep .anticon {
+    color: white !important;
+}
+
+
+
 @font-face {
     font-family: '微软雅黑';
     /* 自定义的字体名称 */
@@ -96,6 +134,8 @@
 .ant-typography span,
 .ant-menu-title-content,
 .ant-btn,
+span,
+a,
 p {
     font-family: "Noto Sans SC", sans-serif;
     font-optical-sizing: auto;
@@ -138,4 +178,8 @@ nz-spin {
 
 .ant-typography ul li {
     padding: 0 !important;
+}
+
+.ant-layout-header {
+    height: 48px !important;
 }

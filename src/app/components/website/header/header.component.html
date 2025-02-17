@@ -1,12 +1,12 @@
-<div class="header" nz-flex nzJustify="space-between" @QuickDown *ngIf="!isMobile">
-    <div nz-flex nzAlign="center" nzJustify="center">
+<div class="header" nz-flex nzJustify="center" @QuickDown *ngIf="!isMobile">
+    <!-- <div nz-flex nzAlign="center" nzJustify="center">
         <img width="56px" src="https://api.flowersink.com/img/再花猫猫女仆欢呼.GIF" alt="">
         <img class="logo" src="assets/img/web/logo2.png" alt="">
-    </div>
+    </div> -->
     <div>
-        <ul nz-menu nzMode="horizontal">
+        <!-- <ul nz-menu nzMode="horizontal">
             @for (menu of MenuList; track $index) {
-            <li nz-menu-item *ngIf="menu.child?.length == 0; else elseChild" [routerLink]="[menu.url]" nzMatchRouter>
+            <li  *ngIf="menu.child?.length == 0; else elseChild" [routerLink]="[menu.url]" nzMatchRouter>
                 <span nz-icon [nzType]="menu.icon" nzTheme="outline"></span>
                 &nbsp;&nbsp;{{ menu.title }}
             </li>
@@ -23,7 +23,35 @@
                 </li>
             </ng-template>
             }
-        </ul>
+        </ul> -->
+        <nav class="menu">
+            <ul nz-flex nzGap="large" nzAlign="center" nzJustify="center">
+                <ng-container *ngFor="let item of MenuList">
+                    <li nz-flex nzAlign="center" nzJustify="center" class="menu-item"
+                        [class.active]="isActive(item.url) || isParentActive(item.URL)"
+                        [class.parent]="item.child?.length == 0">
+
+                        <a [routerLink]="item.url" class="menu-link" nz-dropdown [nzDropdownMenu]="menu">
+                            <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+                            &nbsp;
+                            {{ item.title }}
+                        </a>
+
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div nz-flex [nzVertical]="true" class="submenu" nzJustify="center" nzAlign="center"
+                                nzGap="middle">
+                                <ng-container *ngFor="let sub of item.child">
+                                    <a [routerLink]="sub.url" class="submenu-item card"
+                                        [class.active]="isActive(sub.url)">{{
+                                        sub.title }}</a>
+                                </ng-container>
+                            </div>
+                        </nz-dropdown-menu>
+                    </li>
+                </ng-container>
+            </ul>
+        </nav>
+
     </div>
 </div>
 

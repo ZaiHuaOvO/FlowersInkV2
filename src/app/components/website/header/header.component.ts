@@ -1,18 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { QuickDown } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 interface MenuItem {
   title: string;
   icon: string;
   url?: string;
+  URL?: string;
   child?: MenuItem[];
+  showChildren?: boolean;
 }
 
 @Component({
@@ -27,6 +30,7 @@ interface MenuItem {
     NzMenuModule,
     NzFlexModule,
     NzAvatarModule,
+    NzDropDownModule
   ],
   animations: [QuickDown],
 })
@@ -37,10 +41,12 @@ export class HeaderComponent implements OnInit {
       icon: 'home',
       url: '/welcome',
       child: [],
+      showChildren: false
     },
     {
       title: '写作',
       icon: 'edit',
+      URL: 'blog',
       child: [
         {
           title: '技术',
@@ -58,26 +64,12 @@ export class HeaderComponent implements OnInit {
           url: '/blog/all',
         },
       ],
+      showChildren: false
     },
-    // {
-    //   title: '生活',
-    //   icon: 'heart',
-    //   child: [
-    //     // {
-    //     //   title: '老婆',
-    //     //   icon: '',
-    //     //   url: '/life/heart',
-    //     // },
-    //     {
-    //       title: '美食',
-    //       icon: '',
-    //       url: '/life/food',
-    //     },
-    //   ],
-    // },
     {
       title: '见闻',
       icon: 'bulb',
+      URL: 'world',
       child: [
         {
           title: '美食',
@@ -90,16 +82,19 @@ export class HeaderComponent implements OnInit {
           url: '/world/book',
         },
       ],
+      showChildren: false
     },
     {
       title: '友链',
       icon: 'link',
       url: '/link',
       child: [],
+      showChildren: false
     },
     {
       title: '关于',
       icon: 'user',
+      URL: 'about',
       child: [
         {
           title: '关于我',
@@ -117,14 +112,29 @@ export class HeaderComponent implements OnInit {
           url: '/about/message',
         },
       ],
+      showChildren: false
     },
   ];
   isMobile: boolean = false;
-  constructor(private window: WindowService) {
+  activeRoute = '';
+  constructor(private window: WindowService,
+    private router: Router
+  ) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
     });
+    this.router.events.subscribe(() => {
+      this.activeRoute = this.router.url;
+    });
   }
   // [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'9.5%'}"
-  ngOnInit() {}
+  ngOnInit() { }
+
+  isActive(url: any): boolean {
+    return this.activeRoute === url;
+  }
+
+  isParentActive(URL: any): boolean {
+    return this.activeRoute.includes(URL);
+  }
 }
