@@ -1,6 +1,6 @@
 <a class="blog_card" nz-flex [nzGap]="'small'" nzAlign="start" nzJustify="center" [nzVertical]="true">
   <ng-container *ngIf="!loading;else NzSkeleton">
-    <h4 nz-typography> {{blog.title}} </h4>
+    <h4 nz-typography style="color:#8B4513"> {{blog.title}} </h4>
     <p nz-typography nzEllipsis [nzContent]="blog.content" [nzEllipsisRows]="2"></p>
     <div class="blog_msg" nz-flex nzAlign="center" nzJustify="space-between">
       <div nz-flex nzAlign="center" nzGap="small">
