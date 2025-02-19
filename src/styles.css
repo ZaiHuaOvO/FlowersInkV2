@@ -99,7 +99,7 @@
 
 .amazon-button:focus {
     border-color: #008296;
-    box-shadow: #8B4513 0 2px 5px 0;
+    box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
     outline: 0;
 }
 
