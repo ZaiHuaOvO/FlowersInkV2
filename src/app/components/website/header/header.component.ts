@@ -71,11 +71,11 @@ export class HeaderComponent implements OnInit {
       icon: 'bulb',
       URL: 'world',
       child: [
-        {
-          title: '美食',
-          icon: '',
-          url: '/world/food',
-        },
+        // {
+        //   title: '美食',
+        //   icon: '',
+        //   url: '/world/food',
+        // },
         {
           title: '书籍',
           icon: '',

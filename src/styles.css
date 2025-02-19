@@ -99,7 +99,7 @@
 
 .amazon-button:focus {
     border-color: #008296;
-    box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+    box-shadow: #8B4513 0 2px 5px 0;
     outline: 0;
 }
 
@@ -182,4 +182,32 @@ nz-spin {
 
 .ant-layout-header {
     height: 48px !important;
+}
+
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    border-color: #8B4513 !important;
+}
+
+
+/* 修改input框的阴影颜色 */
+.ant-input-affix-wrapper-focused,
+.ant-input-affix-wrapper:focus {
+    border-color: #8B4513 !important;
+    box-shadow: 0 0 0 2px rgba(165, 42, 42, 0.2) !important;
+}
+
+/* 修改输入框焦点状态下的外发光 */
+:host ::ng-deep .ant-input:focus {
+    box-shadow: 0 0 0 2px rgba(165, 42, 42, 0.2) !important;
+    border-color: #8B4513 !important;
+    /* 可选：同时修改边框颜色 */
+}
+
+/* 如果使用的是InputGroup可能需要额外指定 */
+:host ::ng-deep .ant-input-affix-wrapper:focus-within {
+    box-shadow: 0 0 0 2px rgba(165, 42, 42, 0.2) !important;
+}
+
+.ant-typography a {
+    color: #8B4513 !important;
 }
