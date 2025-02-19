@@ -16,6 +16,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { WindowService } from '../../../services/window.service';
 import { WorldService } from '../world.service';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { GameCardComponent } from '../../../components/world/game-card/game-card.component';
 
 @Component({
   selector: 'flower-game',
@@ -36,6 +38,7 @@ import { WorldService } from '../world.service';
     NzTagModule,
     NzDividerModule,
     RouterModule,
+    GameCardComponent
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
@@ -63,7 +66,7 @@ export class GameComponent {
 
   getGame(): void {
     this.world.getGameList().subscribe((res: any) => {
-      this.data = res['data'].books;
+      this.data = res['data'].games;
       this.totalGames = res['data'].totalGames;
       this.totalPlayingTime = res['data'].totalPlayingTime;
       setTimeout(() => {

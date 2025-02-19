@@ -3,7 +3,7 @@
         [ngStyle]="{'width':isMobile ?'90vw':'90vw'}">
         <flower-blog-title [title]="'再花的游戏库'"></flower-blog-title>
         <nz-spin [nzTip]="'游戏正在努力赶来中'" [nzSpinning]="loading">
-
+            <flower-game-card *ngFor="let game of data" [game]="game"></flower-game-card>
         </nz-spin>
     </div>
 </div>

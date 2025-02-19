@@ -1,0 +1,24 @@
+<nz-card style="width:50%;" [nzCover]="coverTemplate" [nzActions]="[finishTime,time, img]">
+    <nz-card-meta [nzTitle]="nameTemplate" [nzDescription]="game.description"></nz-card-meta>
+</nz-card>
+<ng-template #nameTemplate>
+    <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center">
+        <div nz-flex nzJustify="center" nzAlign="center">
+            <nz-tag [nzColor]="colorList[game.platform]">{{game.platform}}</nz-tag>
+            <span nz-typography>{{game.name}}</span>
+        </div>
+        <nz-tag nzColor="#8B4513">{{game.tag}}</nz-tag>
+    </div>
+</ng-template>
+<ng-template #coverTemplate>
+    <img nz-image nzDisablePreview="true" [nzSrc]="game.imgFirst[0].url" />
+</ng-template>
+<ng-template #time>
+    <span nz-typography>游玩时长：{{game.time}}小时</span>
+</ng-template>
+<ng-template #finishTime>
+    <span nz-typography>通关于{{game.finishTime}}</span>
+</ng-template>
+<ng-template #img>
+    游戏截图
+</ng-template>
