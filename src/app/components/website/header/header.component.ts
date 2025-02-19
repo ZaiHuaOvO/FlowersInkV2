@@ -81,6 +81,11 @@ export class HeaderComponent implements OnInit {
           icon: '',
           url: '/world/book',
         },
+        {
+          title: '游戏',
+          icon: '',
+          url: '/world/game',
+        },
       ],
       showChildren: false
     },

@@ -7,7 +7,7 @@ import { HttpService } from '../../services/http.service';
   providedIn: 'root',
 })
 export class WorldService {
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) { }
 
   getBookList(data?: any): Observable<object> {
     return this.http.get(API.BOOK_LIST, data);
@@ -19,5 +19,9 @@ export class WorldService {
 
   getLifeTag(data?: any): Observable<object> {
     return this.http.get(API.LIFE_TAG, data);
+  }
+
+  getGameList(data?: any): Observable<object> {
+    return this.http.get(API.GAME_LIST, data);
   }
 }

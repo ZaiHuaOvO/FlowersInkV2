@@ -1,9 +1,9 @@
 export const API = {
   // 测试区
-  // BASE_URL: 'http://localhost:8000',
+  BASE_URL: 'http://localhost:8000',
 
   // 正式区
-  BASE_URL: 'https://api.flowersink.com',
+  // BASE_URL: 'https://api.flowersink.com',
 
   // 博客111
   BLOG: '/blog',
@@ -31,6 +31,10 @@ export const API = {
   BOOK: '/world/book',
   // 书籍列表
   BOOK_LIST: '/world/book/list',
+  // 游戏
+  GAME: '/world/GAME',
+  // 游戏列表
+  GAME_LIST: '/world/GAME/list',
   // 友链
   LINK: '/site/link',
 };

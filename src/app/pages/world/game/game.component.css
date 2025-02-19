@@ -1,0 +1,6 @@
+.game {
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 500px;
+    padding: 24px;
+}
