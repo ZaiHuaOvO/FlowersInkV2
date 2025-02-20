@@ -6,6 +6,8 @@ import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
+import { GamePicComponent } from './game-pic/game-pic.component';
 
 @Component({
   selector: 'flower-game-card',
@@ -17,7 +19,9 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzFlexModule,
     NzTypographyModule,
     NzImageModule,
-    DatePipe
+    DatePipe,
+    GamePicComponent,
+    NzDrawerModule
   ],
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.css'
@@ -31,21 +35,33 @@ export class GameCardComponent {
   }
   private nzImageService = inject(NzImageService);
   constructor(
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    private drawerService: NzDrawerService
   ) {
   }
   imgPreview(): void {
     if (this.game.img?.length === 0) {
       this.msg.info('再花还没有上传哦(〒︿〒)');
     } else {
-      const data = this.game.img.map((img: any) => {
-        return {
-          src: img.url
+      const data = this.game.img.map((img: any) => { return img.url });
+
+      // this.nzImageService.preview(data, { nzZoom: 1, nzRotate: 0 });
+      this.drawerService.create({
+        nzTitle: this.game.name + '游戏截图',
+        // nzFooter: 'Footer',
+        // nzExtra: 'Extra',
+        nzContent: GamePicComponent,
+        nzPlacement: 'bottom',
+        nzHeight: '50vh',
+        nzData: {
+          value: data
         }
       });
-
-      this.nzImageService.preview(data, { nzZoom: 1, nzRotate: 0 });
     }
   }
 
+  imgFirstPreview(img: any): void {
+    this.nzImageService.preview([{ src: img }], { nzZoom: 0.8, nzRotate: 0 });
+
+  }
 }

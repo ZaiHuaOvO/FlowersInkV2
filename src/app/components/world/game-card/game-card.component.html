@@ -1,4 +1,4 @@
-<nz-card [nzCover]="coverTemplate" [nzActions]="[finishDate,time, img,content]">
+<nz-card style="border-radius: 10px;" [nzCover]="coverTemplate" [nzActions]="[finishDate,time, img,content]">
     <nz-card-meta [nzTitle]="nameTemplate" [nzDescription]="game.description"></nz-card-meta>
 </nz-card>
 <ng-template #nameTemplate>
@@ -16,7 +16,8 @@
 </ng-template>
 <ng-template #coverTemplate>
     <div class="img-container">
-        <img nz-image class="imgFirst" nzDisablePreview="true" [nzSrc]="game.imgFirst[0].url" />
+        <img nz-image class="imgFirst" nzDisablePreview="true" (click)="imgFirstPreview(game.imgFirst[0].url)"
+            [nzSrc]="game.imgFirst[0].url" />
     </div>
 </ng-template>
 <ng-template #time>

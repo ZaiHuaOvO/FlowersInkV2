@@ -40,7 +40,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     NzDividerModule,
     RouterModule,
     GameCardComponent,
-    NzGridModule
+    NzGridModule,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'

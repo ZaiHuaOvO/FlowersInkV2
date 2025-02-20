@@ -17,7 +17,7 @@
 
 .img-container {
     width: 100%;
-    aspect-ratio: 192 / 108;
+    aspect-ratio: 192 / 72;
     /* 保持宽高比 */
     overflow: hidden;
     /* 裁剪多余部分 */

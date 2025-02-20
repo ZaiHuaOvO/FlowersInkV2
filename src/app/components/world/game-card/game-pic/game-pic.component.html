@@ -1,0 +1,7 @@
+<nz-row [nzGutter]="[12,12]">
+    <nz-col *ngFor="let img of this.nzData['value']" [nzSpan]="3">
+        <div class="img-container card">
+            <img nz-image class="imgFirst" [nzSrc]="img" />
+        </div>
+    </nz-col>
+</nz-row>
