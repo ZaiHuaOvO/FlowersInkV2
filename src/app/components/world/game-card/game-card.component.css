@@ -29,3 +29,7 @@
     object-fit: cover;
     /* 填充并裁剪 */
 }
+
+.ant-tag {
+    margin: 0 !important;
+}

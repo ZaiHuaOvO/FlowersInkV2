@@ -8,7 +8,7 @@
             <nz-tag nzColor="#8B4513">{{totalPlayingTime | number:'1.1'}}</nz-tag>小时
         </span>
         <nz-spin [nzTip]="'游戏正在努力赶来中'" [nzSpinning]="loading">
-            <nz-row [nzGutter]="24">
+            <nz-row [nzGutter]="[24,24]">
                 <nz-col *ngFor="let game of data; let i = index" [nzSpan]="isMobile ? 24 : 12">
                     <flower-game-card [game]="game"></flower-game-card>
                 </nz-col>

@@ -77,16 +77,18 @@ export class WelcomeComponent implements OnInit {
         limit: 999,
       })
       .subscribe((val: any) => {
-        const data = this.processedData(val['data'].data);
-        // this.info.article = data.length;
-        this.info.article = data.filter(
-          (item: any) => item.type === '文章'
-        ).length;
-        this.info.essay = data.filter(
-          (item: any) => item.type === '随笔'
-        ).length;
-        this.numLoading = false;
-        this.cdr.detectChanges();
+        if (val) {
+          const data = this.processedData(val['data'].data);
+          // this.info.article = data.length;
+          this.info.article = data.filter(
+            (item: any) => item.type === '文章'
+          ).length;
+          this.info.essay = data.filter(
+            (item: any) => item.type === '随笔'
+          ).length;
+          this.numLoading = false;
+          this.cdr.detectChanges();
+        }
       });
   }
 
