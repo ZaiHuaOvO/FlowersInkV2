@@ -18,6 +18,7 @@ import { WindowService } from '../../../services/window.service';
 import { WorldService } from '../world.service';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { GameCardComponent } from '../../../components/world/game-card/game-card.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 @Component({
   selector: 'flower-game',
@@ -38,7 +39,8 @@ import { GameCardComponent } from '../../../components/world/game-card/game-card
     NzTagModule,
     NzDividerModule,
     RouterModule,
-    GameCardComponent
+    GameCardComponent,
+    NzGridModule
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'

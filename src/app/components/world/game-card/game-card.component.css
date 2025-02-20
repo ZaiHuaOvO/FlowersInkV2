@@ -1,0 +1,31 @@
+.ant-tag {
+    border-radius: 5px !important;
+}
+
+.game_name {
+    font-weight: bolder;
+}
+
+.img_button:hover {
+    color: #8B4513;
+
+    &.content_text {
+        color: black;
+        cursor: default;
+    }
+}
+
+.img-container {
+    width: 100%;
+    aspect-ratio: 192 / 108;
+    /* 保持宽高比 */
+    overflow: hidden;
+    /* 裁剪多余部分 */
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 填充并裁剪 */
+}

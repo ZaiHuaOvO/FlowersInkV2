@@ -4,3 +4,7 @@
     min-height: 500px;
     padding: 24px;
 }
+
+.ant-tag {
+    margin: 0 !important;
+}

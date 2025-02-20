@@ -1,24 +1,34 @@
-<nz-card style="width:50%;" [nzCover]="coverTemplate" [nzActions]="[finishTime,time, img]">
+<nz-card [nzCover]="coverTemplate" [nzActions]="[finishDate,time, img,content]">
     <nz-card-meta [nzTitle]="nameTemplate" [nzDescription]="game.description"></nz-card-meta>
 </nz-card>
 <ng-template #nameTemplate>
-    <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center">
+    <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
         <div nz-flex nzJustify="center" nzAlign="center">
-            <nz-tag [nzColor]="colorList[game.platform]">{{game.platform}}</nz-tag>
-            <span nz-typography>{{game.name}}</span>
+            <nz-tag [nzColor]="colorList[game.platform]">
+                <span nz-typography style="color: #fff;">{{game.platform}}</span>
+            </nz-tag>
+            <span nz-typography class="game_name">{{game.name}}</span>
         </div>
-        <nz-tag nzColor="#8B4513">{{game.tag}}</nz-tag>
+        <nz-tag nzColor="#8B4513" *ngIf="game.tag !== ''">
+            <span nz-typography style="color: #fff;">{{game.tag}}</span>
+        </nz-tag>
     </div>
 </ng-template>
 <ng-template #coverTemplate>
-    <img nz-image nzDisablePreview="true" [nzSrc]="game.imgFirst[0].url" />
+    <div class="img-container">
+        <img nz-image class="imgFirst" nzDisablePreview="true" [nzSrc]="game.imgFirst[0].url" />
+    </div>
 </ng-template>
 <ng-template #time>
-    <span nz-typography>游玩时长：{{game.time}}小时</span>
+    <span nz-typography style="cursor: default;">游玩时长：{{game.time}}小时</span>
 </ng-template>
-<ng-template #finishTime>
-    <span nz-typography>通关于{{game.finishTime}}</span>
+<ng-template #finishDate>
+    <span nz-typography style="cursor: default;">通关于{{game.finishDate | date:'yyyy年MM月dd日'}}</span>
 </ng-template>
 <ng-template #img>
-    游戏截图
+    <span nz-typography class="img_button" (click)="imgPreview()">游戏截图</span>
+</ng-template>
+<ng-template #content>
+    <span nz-typography class="img_button" [ngClass]="{'content_text': !game.content}">玩后感：{{ game.content ?
+        '点击查看':'无'}}</span>
 </ng-template>
