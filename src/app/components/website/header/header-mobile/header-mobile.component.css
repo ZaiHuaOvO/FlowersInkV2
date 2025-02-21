@@ -1,0 +1,80 @@
+.menu {
+    /* margin-right: 48px; */
+    background: #fff;
+    width: 100%;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        height: 48px;
+    }
+
+
+
+    .menu-link {
+        border-radius: 10px;
+        padding: 5px;
+
+        a,
+        span {
+            text-decoration: none;
+            color: #8b4513;
+            display: flex;
+            align-items: center;
+        }
+
+
+        &.active {
+
+            background: #8b4513;
+
+            a,
+            span {
+                color: white;
+            }
+        }
+    }
+
+
+
+
+}
+
+.submenu {
+
+    .submenu-item {
+        width: 100%;
+        border-radius: 10px;
+        padding: 5px;
+
+        a,
+        span {
+            color: #a0522d;
+
+
+        }
+
+        &.active {
+            background: #8b4513;
+
+            a,
+            span {
+                color: white;
+            }
+        }
+    }
+}
+
+/* 在全局或组件CSS中添加 */
+.menu-link:focus,
+.submenu-item:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* 修复原有规则语法 */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+    outline: none !important;
+}

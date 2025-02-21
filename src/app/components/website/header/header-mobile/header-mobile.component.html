@@ -1,0 +1,26 @@
+<div class="menu" nz-flex [nzVertical]="true" nzGap="small">
+    <ng-container *ngFor="let item of this.nzData['value']">
+        <div nz-flex nzJustify="space-between" class="menu-link" [class.active]="isActive(item.url) "
+            [routerLink]="item.url">
+            <span [ngStyle]="{'color':item.URL ? 'black':'auto'}">
+                <span nz-icon [nzType]="item.icon" nzTheme="outline"
+                    [ngStyle]="{'color':item.URL ? 'black':'auto'}"></span>
+                &nbsp;
+                {{ item.title }}
+            </span>
+            <span *ngIf="item.child?.length == 0" nz-icon [nzType]="'right'" nzTheme="outline"></span>
+        </div>
+        <div nz-flex [nzVertical]="true" class="submenu" nzGap="small" *ngIf="item.child?.length > 0">
+            <ng-container *ngFor="let sub of item.child">
+                <div nz-flex nzJustify="space-between" class="submenu-item" [class.active]="isActive(sub.url)"
+                    [routerLink]="sub.url">
+                    <span>{{
+                        sub.title }}
+                    </span>
+                    <span nz-icon [nzType]="'right'" nzTheme="outline"></span>
+                </div>
+            </ng-container>
+        </div>
+        <nz-divider style="margin: 0 !important;"></nz-divider>
+    </ng-container>
+</div>

@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
@@ -9,6 +9,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { GamePicComponent } from './game-pic/game-pic.component';
 import { WindowService } from '../../../services/window.service';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @Component({
   selector: 'flower-game-card',
@@ -22,7 +23,8 @@ import { WindowService } from '../../../services/window.service';
     NzImageModule,
     DatePipe,
     GamePicComponent,
-    NzDrawerModule
+    NzDrawerModule,
+    NzDividerModule
   ],
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.css'
@@ -30,45 +32,44 @@ import { WindowService } from '../../../services/window.service';
 export class GameCardComponent {
   @Input() game: any;
   isMobile: boolean = false;
-
   colorList: any = {
     'PS5': '#092F94',
     'Steam': '#171A21',
   }
   private nzImageService = inject(NzImageService);
+  @ViewChild('time') time!: TemplateRef<any>;
+  @ViewChild('finishDate') finishDate!: TemplateRef<any>;
+  @ViewChild('imgPrivew') imgPrivew!: TemplateRef<any>;
+  @ViewChild('content') content!: TemplateRef<any>;
   constructor(
     private msg: NzMessageService,
     private drawerService: NzDrawerService,
     private window: WindowService,
-
   ) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
     });
   }
   imgPreview(): void {
-    if (this.game.img?.length === 0) {
-      this.msg.info('再花还没有上传哦(〒︿〒)');
-    } else {
-      const data = this.game.img.map((img: any) => { return img.url });
 
-      // this.nzImageService.preview(data, { nzZoom: 1, nzRotate: 0 });
-      this.drawerService.create({
-        nzTitle: this.game.name + '游戏截图',
-        // nzFooter: 'Footer',
-        // nzExtra: 'Extra',
-        nzContent: GamePicComponent,
-        nzPlacement: 'bottom',
-        nzHeight: this.isMobile ? '75vh' : '50vh',
-        nzData: {
-          value: data
-        }
-      });
-    }
+    const data = this.game.img.map((img: any) => { return img.url });
+
+    // this.nzImageService.preview(data, { nzZoom: 1, nzRotate: 0 });
+    this.drawerService.create({
+      nzTitle: this.game.name + '游戏截图',
+      // nzFooter: 'Footer',
+      // nzExtra: 'Extra',
+      nzContent: GamePicComponent,
+      nzPlacement: 'bottom',
+      nzHeight: this.isMobile ? '75vh' : '50vh',
+      nzData: {
+        value: data
+      }
+    });
   }
 
   imgFirstPreview(img: any): void {
     this.nzImageService.preview([{ src: img }], { nzZoom: 0.8, nzRotate: 0 });
-
   }
+
 }

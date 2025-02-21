@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -8,6 +8,8 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { QuickDown } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
+import { HeaderMobileComponent } from './header-mobile/header-mobile.component';
 
 interface MenuItem {
   title: string;
@@ -30,7 +32,8 @@ interface MenuItem {
     NzMenuModule,
     NzFlexModule,
     NzAvatarModule,
-    NzDropDownModule
+    NzDropDownModule,
+    NzDrawerModule
   ],
   animations: [QuickDown],
 })
@@ -122,8 +125,12 @@ export class HeaderComponent implements OnInit {
   ];
   isMobile: boolean = false;
   activeRoute = '';
+  @ViewChild('mobileMenuTitle', { static: true })
+  mobileMenuTitle!: TemplateRef<any>;
   constructor(private window: WindowService,
-    private router: Router
+    private router: Router,
+    private drawerService: NzDrawerService,
+
   ) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
@@ -141,5 +148,20 @@ export class HeaderComponent implements OnInit {
 
   isParentActive(URL: any): boolean {
     return this.activeRoute.includes(URL);
+  }
+
+  mobileMenu(): void {
+    this.drawerService.create({
+      nzTitle: this.mobileMenuTitle,
+      // nzFooter: 'Footer',
+      // nzExtra: 'Extra',
+      nzClosable: false,
+      nzContent: HeaderMobileComponent,
+      nzPlacement: 'left',
+      nzWidth: '60vw',
+      nzData: {
+        value: this.MenuList
+      }
+    });
   }
 }

@@ -57,24 +57,15 @@
     </div>
 </div>
 
-<div class="header" nz-flex nzJustify="center" @QuickDown *ngIf="isMobile">
-    <ul nz-menu nzMode="horizontal">
-        @for (menu of MenuList; track $index) {
-        <li nz-menu-item *ngIf="menu.child?.length == 0; else elseChild" [routerLink]="[menu.url]" nzMatchRouter>
-            <span nz-icon [nzType]="menu.icon" nzTheme="outline"></span>
-            &nbsp;&nbsp;
-        </li>
-
-        <ng-template #elseChild>
-            <li nz-submenu [nzIcon]="menu.icon" nzTheme="outline" nzPlacement="bottomCenter" nzMatchRouter>
-                <ul>
-                    @for (childs of menu.child; track $index) {
-                    <li nz-menu-item class="item_child" nzMatchRouter [routerLink]="[childs.url]">{{ childs.title }}
-                    </li>
-                    }
-                </ul>
-            </li>
-        </ng-template>
-        }
-    </ul>
+<div class="header" nz-flex nzJustify="space-between" nzAlign="center" @QuickDown *ngIf="isMobile">
+    <a style="color: #8b4513;" nz-dropdown (click)="mobileMenu()">
+        <span nz-icon nzType="menu" nzTheme="outline"></span>
+        &nbsp;
+        导航
+    </a>
+    <img width="48px" src="https://api.flowersink.com/img/再花猫猫女仆欢呼.GIF" alt="">
 </div>
+
+<ng-template #mobileMenuTitle>
+    <span nz-typography style="color: #8b4513;">花墨导航</span>
+</ng-template>

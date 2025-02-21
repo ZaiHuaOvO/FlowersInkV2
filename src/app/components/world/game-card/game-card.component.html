@@ -1,4 +1,4 @@
-<nz-card style="border-radius: 10px;" [nzCover]="coverTemplate" [nzActions]="[finishDate,time, img,content]">
+<nz-card style="border-radius: 10px;" [nzCover]="coverTemplate" [nzActions]="[actions]">
     <nz-card-meta [nzTitle]="nameTemplate" [nzDescription]="game.description"></nz-card-meta>
 </nz-card>
 <ng-template #nameTemplate>
@@ -13,6 +13,7 @@
             <span nz-typography style="color: #fff;">{{game.tag}}</span>
         </nz-tag>
     </div>
+
 </ng-template>
 <ng-template #coverTemplate>
     <div class="img-container">
@@ -20,17 +21,16 @@
             [nzSrc]="game.imgFirst[0].url" />
     </div>
 </ng-template>
-<ng-template #time>
-    <span nz-typography style="cursor: default;">游玩时长：<strong style="color: #8B4513;">{{game.time}}小时</strong></span>
-</ng-template>
-<ng-template #finishDate>
-    <span nz-typography style="cursor: default;">通关于<strong style="color: #8B4513;">{{game.finishDate |
-            date:'yyyy年MM月dd日'}}</strong></span>
-</ng-template>
-<ng-template #img>
-    <span nz-typography class="img_button" (click)="imgPreview()">游戏截图</span>
-</ng-template>
-<ng-template #content>
-    <span nz-typography class="img_button" [ngClass]="{'content_text': !game.content}">玩后感：{{ game.content ?
-        '点击查看':'无'}}</span>
+<ng-template #actions>
+    <div nz-flex nzJustify="space-evenly" nzAlign="center" style="cursor: default;">
+        <span nz-typography style="cursor: default;">总时长<br *ngIf="isMobile">
+            <strong style="color: #8B4513;">{{game.time}}小时</strong></span>
+        <span nz-typography style="cursor: default;">通关于<br *ngIf="isMobile">
+            <strong style="color: #8B4513;">{{game.finishDate |
+                date:'yyyy-MM-dd'}}</strong></span>
+
+        <span nz-typography class="img_button" (click)="imgPreview()" *ngIf="game.img?.length > 0">[游戏截图]</span>
+        <span nz-typography class="img_button" *ngIf="game.content"
+            [ngClass]="{'content_text': !game.content}">[玩后感]</span>
+    </div>
 </ng-template>

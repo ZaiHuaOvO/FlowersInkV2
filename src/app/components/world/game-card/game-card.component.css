@@ -6,6 +6,11 @@
     font-weight: bolder;
 }
 
+.img_button {
+    cursor: pointer;
+
+}
+
 .img_button:hover {
     color: #8B4513;
 
