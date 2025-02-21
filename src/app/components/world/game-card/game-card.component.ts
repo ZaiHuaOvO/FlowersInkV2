@@ -8,6 +8,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { GamePicComponent } from './game-pic/game-pic.component';
+import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'flower-game-card',
@@ -28,6 +29,7 @@ import { GamePicComponent } from './game-pic/game-pic.component';
 })
 export class GameCardComponent {
   @Input() game: any;
+  isMobile: boolean = false;
 
   colorList: any = {
     'PS5': '#092F94',
@@ -36,8 +38,13 @@ export class GameCardComponent {
   private nzImageService = inject(NzImageService);
   constructor(
     private msg: NzMessageService,
-    private drawerService: NzDrawerService
+    private drawerService: NzDrawerService,
+    private window: WindowService,
+
   ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
   }
   imgPreview(): void {
     if (this.game.img?.length === 0) {
@@ -52,7 +59,7 @@ export class GameCardComponent {
         // nzExtra: 'Extra',
         nzContent: GamePicComponent,
         nzPlacement: 'bottom',
-        nzHeight: '50vh',
+        nzHeight: this.isMobile ? '75vh' : '50vh',
         nzData: {
           value: data
         }
