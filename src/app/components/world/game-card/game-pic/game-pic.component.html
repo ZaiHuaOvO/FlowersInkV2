@@ -1,7 +1,10 @@
 <nz-row [nzGutter]="[12,12]">
-    <nz-col *ngFor="let img of this.nzData['value']" [nzSpan]="3">
-        <div class="img-container card">
-            <img nz-image class="imgFirst" [nzSrc]="img" />
-        </div>
+    <nz-col *ngFor="let img of images; let i = index" [nzSpan]="isMobile ? 12 : 4">
+        <nz-spin class="spin" [nzTip]="'图片加载中…'" [nzSpinning]="!img.loaded">
+            <div class="img-container card">
+                <img *ngIf="i <= currentIndex" nz-image class="imgFirst" [nzSrc]="img.url"
+                    (load)="img.loaded = true; onImageLoad(i)" />
+            </div>
+        </nz-spin>
     </nz-col>
 </nz-row>

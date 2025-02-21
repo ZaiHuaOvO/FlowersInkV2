@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NZ_DRAWER_DATA, NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
+import { WindowService } from '../../../../services/window.service';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'flower-game-pic',
@@ -12,15 +14,40 @@ import { NzImageModule } from 'ng-zorro-antd/image';
     NzFlexModule,
     NzImageModule,
     CommonModule,
-    NzGridModule
+    NzGridModule,
+    NzSpinModule
   ],
   templateUrl: './game-pic.component.html',
   styleUrl: './game-pic.component.css'
 })
-export class GamePicComponent {
-  nzData: { value: string } = inject(NZ_DRAWER_DATA);
-  constructor(private drawerRef: NzDrawerRef<string>) {
-    console.log(this.nzData);
+export class GamePicComponent implements OnInit {
+  nzData: { value: any } = inject(NZ_DRAWER_DATA);
+  isMobile: boolean = false;
+
+  images: Array<{ url: string, loaded: boolean }> = [];
+  currentIndex: number = 0;
+
+  constructor(
+    private drawerRef: NzDrawerRef<string>,
+    private window: WindowService,
+    private image: NzImageService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
+  }
+
+  ngOnInit() {
+    // 初始化图片数据，添加 loaded 状态
+    this.images = this.nzData['value'].map((url: string) => ({ url, loaded: false }));
+  }
+
+  onImageLoad(index: number) {
+    console.log('index: ', index);
+    // 当前图片加载完成后，递增索引以加载下一张
+    if (index === this.currentIndex) {
+      this.currentIndex++;
+    }
   }
 
   close(): void {
