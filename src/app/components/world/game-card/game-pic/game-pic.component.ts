@@ -6,6 +6,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { WindowService } from '../../../../services/window.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'flower-game-pic',
@@ -15,7 +17,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzImageModule,
     CommonModule,
     NzGridModule,
-    NzSpinModule
+    NzSpinModule,
+    NzTagModule
   ],
   templateUrl: './game-pic.component.html',
   styleUrl: './game-pic.component.css'
@@ -30,7 +33,8 @@ export class GamePicComponent implements OnInit {
   constructor(
     private drawerRef: NzDrawerRef<string>,
     private window: WindowService,
-    private image: NzImageService
+    private image: NzImageService,
+    private msg: NzMessageService
   ) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
@@ -43,7 +47,6 @@ export class GamePicComponent implements OnInit {
   }
 
   onImageLoad(index: number) {
-    console.log('index: ', index);
     // 当前图片加载完成后，递增索引以加载下一张
     if (index === this.currentIndex) {
       this.currentIndex++;
@@ -52,5 +55,10 @@ export class GamePicComponent implements OnInit {
 
   close(): void {
     this.drawerRef.close(this.nzData);
+  }
+
+  imgPreview(url: string): void {
+    this.msg.info('原图加载中，会比较慢哦(๑•́ ₃ •̀๑)');
+    this.image.preview([{ src: url }])
   }
 }

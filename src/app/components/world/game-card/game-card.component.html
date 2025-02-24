@@ -30,7 +30,19 @@
                 date:'yyyy-MM-dd'}}</strong></span>
 
         <span nz-typography class="img_button" (click)="imgPreview()" *ngIf="game.img?.length > 0">[游戏截图]</span>
-        <span nz-typography class="img_button" *ngIf="game.content"
+        <span nz-typography class="img_button" *ngIf="game.content" (click)="goToContent(game.content)"
             [ngClass]="{'content_text': !game.content}">[玩后感]</span>
     </div>
+</ng-template>
+
+<ng-template #extra>
+    <nz-tag nzColor="#8B4513">
+        <span nz-typography style="color: #fff;cursor: pointer;" (click)="imgDescription()">关于图片的说明</span>
+    </nz-tag>
+</ng-template>
+
+<ng-template #imgText>
+    <p nz-typography>抽屉中的游戏截图为保证网站加载速度而<mark>将4K原图二次压缩</mark>后的图片，约为300-500KB</p>
+    <p nz-typography>查看原图中的图片为一次压缩，<mark>画质依旧会有一定损失</mark>，约为3-4MB</p>
+    <p nz-typography>原图15+MB，未放在网站中，<mark>如有需求可联系再花</mark></p>
 </ng-template>

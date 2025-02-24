@@ -23,6 +23,7 @@ import { FoodWaterfallComponent } from '../../../components/life/food-waterfall/
 import { NodataComponent } from '../../../components/website/nodata/nodata.component';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'flower-food',
@@ -60,7 +61,8 @@ export class FoodComponent implements OnInit {
     private life: LifeService,
     private modal: NzModalService,
     private window: WindowService,
-    private image: NzImageService
+    private image: NzImageService,
+    private msg: NzMessageService
   ) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
@@ -141,6 +143,7 @@ export class FoodComponent implements OnInit {
   }
 
   FoodImage(img: any): void {
-    this.image.preview(img);
+    this.msg.info('原图加载中，会比较慢哦')
+    window.open(img, '_blank');
   }
 }

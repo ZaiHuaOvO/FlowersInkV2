@@ -28,6 +28,7 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
     RouterModule,
     BlogTitleComponent,
     NzAffixModule,
+    NzDividerModule
   ],
   animations: [SlowUp, QuickUp],
 })

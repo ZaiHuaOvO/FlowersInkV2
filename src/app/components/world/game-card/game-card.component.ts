@@ -22,7 +22,6 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzTypographyModule,
     NzImageModule,
     DatePipe,
-    GamePicComponent,
     NzDrawerModule,
     NzDividerModule
   ],
@@ -41,6 +40,8 @@ export class GameCardComponent {
   @ViewChild('finishDate') finishDate!: TemplateRef<any>;
   @ViewChild('imgPrivew') imgPrivew!: TemplateRef<any>;
   @ViewChild('content') content!: TemplateRef<any>;
+  @ViewChild('extra') extra!: TemplateRef<any>;
+  @ViewChild('imgText') imgText!: TemplateRef<any>;
   constructor(
     private msg: NzMessageService,
     private drawerService: NzDrawerService,
@@ -58,7 +59,7 @@ export class GameCardComponent {
     this.drawerService.create({
       nzTitle: this.game.name + '游戏截图',
       // nzFooter: 'Footer',
-      // nzExtra: 'Extra',
+      nzExtra: this.extra,
       nzContent: GamePicComponent,
       nzPlacement: 'bottom',
       nzHeight: this.isMobile ? '75vh' : '50vh',
@@ -70,6 +71,16 @@ export class GameCardComponent {
 
   imgFirstPreview(img: any): void {
     this.nzImageService.preview([{ src: img }], { nzZoom: 0.8, nzRotate: 0 });
+  }
+
+  goToContent(url: string): void {
+    window.open(url, '_blank')
+  }
+
+  imgDescription(): void {
+    this.msg.info(this.imgText, {
+      nzDuration: 8000
+    });
   }
 
 }
