@@ -1,0 +1,21 @@
+<div style="width: 50px;">
+    <button class="emoji amazon-button" nz-popover [(nzPopoverVisible)]="visible" nzPopoverTrigger="click"
+        nzPopoverPlacement="top" [nzPopoverContent]="contentTemplate"><span nz-icon nzType="message"
+            nzTheme="outline"></span></button>
+    <ng-template #contentTemplate>
+        <div [ngStyle]="{'width':isMobile ?'100vw':'55vw'}">
+            <div nz-row [nzGutter]="[16]">
+                <ng-container *ngFor="let emoji of commentArray">
+                    <div nz-col [nzSpan]="isMobile ? 8 :4" *ngIf="!isMobile" nz-flex [nzVertical]="true"
+                        nzJustify="center" nzAlign="center">
+                        <div class="img-container" nz-tooltip [nzTooltipTitle]="emoji.description"
+                            (click)="onEmojiClick(emoji)">
+                            <img nzDisablePreview="true" nz-image nzSrc="assets/img/comment/{{emoji.key}}.png">
+                        </div>
+                        <span nz-typography>{{emoji.text}}</span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </ng-template>
+</div>

@@ -7,7 +7,7 @@ import { HttpService } from '../../services/http.service';
   providedIn: 'root',
 })
 export class BlogService {
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) { }
 
   getBlogs(data?: any): Observable<object> {
     return this.http.get(API.BLOG, data);
@@ -15,6 +15,10 @@ export class BlogService {
 
   getBlogDetail(Id: string): Observable<object> {
     return this.http.get(API.BLOG + `/${Id}`);
+  }
+
+  comment(Id: string, data: any): Observable<object> {
+    return this.http.post(API.BLOG + `/${Id}/comment`, data);
   }
 
   getTags(): Observable<object> {

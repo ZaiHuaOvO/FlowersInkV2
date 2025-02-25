@@ -30,6 +30,10 @@ import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
+import { BlogCommentComponent } from '../../../components/blog/blog-comment/blog-comment.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { commentArray } from '../../../ts/comment-emoji';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'flower-blog-detail',
@@ -49,6 +53,8 @@ import { WindowService } from '../../../services/window.service';
     NzAnchorModule,
     DatePipe,
     BlogTitleComponent,
+    BlogCommentComponent,
+    NzToolTipModule
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
@@ -71,6 +77,7 @@ export class BlogDetailComponent implements OnInit {
   targetOffset: number = 0;
   isMobile: boolean = false;
   private isSyncing = false;
+  commentArray: any[] = commentArray
 
   @ViewChild('editor', { static: true })
   editorRef!: ElementRef<HTMLTextAreaElement>;
@@ -81,7 +88,8 @@ export class BlogDetailComponent implements OnInit {
     private activateInfo: ActivatedRoute,
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId: object, // 注入 PLATFORM_ID 以检测运行平台
-    private window: WindowService
+    private window: WindowService,
+    private msg: NzMessageService
   ) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
@@ -98,6 +106,7 @@ export class BlogDetailComponent implements OnInit {
       .getBlogDetail(this.activateInfo.snapshot.params['id'])
       .subscribe((res: any) => {
         this.data = res['data'];
+        this.getComment();
         this.markdownContent = this.data.content;
         this.loading = false;
       });
@@ -163,5 +172,38 @@ export class BlogDetailComponent implements OnInit {
       scrollRatio * (targetElement.scrollHeight - targetElement.clientHeight);
 
     this.isSyncing = false;
+  }
+
+  comment(emoji: any): void {
+    this.blog.comment(this.activateInfo.snapshot.params['id'], {
+      emojiType: emoji['key'],
+    }).subscribe((res: any) => {
+      if (res['data'].success) {
+        this.msg.info(res['data']['msg']);
+        this.commentArray.forEach(item => {
+          if (item.key === emoji['key']) {
+            item.count++;
+          }
+        })
+      } else {
+        this.msg.error(res['data']['msg']);
+      }
+    })
+  }
+
+  getComment(): void {
+    const data: any[] = this.data['comment']
+    // 创建一个以 emojiType 为键的映射
+    const countMap = data.reduce((map, item) => {
+      map[item.emojiType] = item.count;
+      return map;
+    }, {});
+
+    // 遍历A数组并将B的count填入A对应的key
+    this.commentArray.forEach(item => {
+      if (countMap[item.key] !== undefined) {
+        item.count = countMap[item.key];
+      }
+    });
   }
 }

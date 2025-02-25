@@ -15,9 +15,10 @@ export class HttpService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
+    withCredentials: true, // ✅ 添加此行以携带 Cookie
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // 通用 GET 方法
   get<T>(url: string, paramsObj?: any): Observable<T> {

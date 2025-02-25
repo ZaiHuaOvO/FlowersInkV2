@@ -44,3 +44,11 @@ nz-page-header {
 nz-anchor {
     padding: 12px;
 }
+
+.comment-button {
+    width: 50px;
+
+    span {
+        font-size: 16px;
+    }
+}

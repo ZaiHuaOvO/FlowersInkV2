@@ -6,9 +6,17 @@
       <div nz-flex nzAlign="center" nzGap="small">
         <span nz-typography nzType="secondary">{{blog.type}} | {{blog.tag}} </span>
         <span nz-typography nzType="secondary"><span nz-icon nzType="eye" nzTheme="outline"></span>
-          {{blog.views}}</span>
+          {{blog.views}} | </span>
+
+        <span nz-typography nzType="secondary">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
       </div>
-      <span nz-typography nzType="secondary">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
+      <div nz-flex nzJustify="center">
+        <ng-container *ngFor="let item of commentArray">
+          <nz-tag nz-tooltip [nzTooltipTitle]="item.description" style="border-radius: 5px;"><span
+              nz-typography>{{item.value}}
+              {{item.count}}</span></nz-tag>
+        </ng-container>
+      </div>
     </div>
   </ng-container>
 

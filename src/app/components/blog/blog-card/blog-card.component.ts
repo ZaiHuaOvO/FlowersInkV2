@@ -5,6 +5,9 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { commentArray } from '../../../ts/comment-emoji';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'flower-blog-card',
@@ -19,12 +22,34 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzSkeletonModule,
     NzIconModule,
     DatePipe,
+    NzTagModule,
+    NzToolTipModule
   ],
 })
 export class BlogCardComponent implements OnInit {
   @Input() blog: any;
   @Input() loading: boolean = true;
-  constructor() {}
+  commentArray: any[] = commentArray
 
-  ngOnInit() {}
+  constructor() { }
+
+  ngOnInit() {
+    this.getComment()
+  }
+
+  getComment(): void {
+    const data: any[] = this.blog['comment']
+    // 创建一个以 emojiType 为键的映射
+    const countMap = data.reduce((map, item) => {
+      map[item.emojiType] = item.count;
+      return map;
+    }, {});
+
+    this.commentArray.forEach(item => {
+      if (countMap[item.key] !== undefined) {
+        item.count = countMap[item.key];
+      }
+    });
+
+  }
 }

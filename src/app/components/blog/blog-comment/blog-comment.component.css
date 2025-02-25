@@ -1,0 +1,42 @@
+.emoji {
+    width: 50px;
+
+    span {
+        font-size: 16px;
+    }
+}
+
+.ant-popover-inner {
+    max-width: 200px !important;
+}
+
+.ant-popover-inner-content {
+    max-width: 200px !important;
+
+}
+
+.emoji_text {
+    width: 19.23px;
+    cursor: pointer;
+}
+
+.img-container:hover {
+    background-color: lightgrey;
+}
+
+.img-container {
+    width: 100%;
+    padding: 8px;
+    aspect-ratio: 1 / 1;
+    /* 保持宽高比 */
+    overflow: hidden;
+    /* 裁剪多余部分 */
+    cursor: pointer;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 填充并裁剪 */
+}

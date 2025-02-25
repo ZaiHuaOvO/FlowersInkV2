@@ -32,6 +32,17 @@
         <flower-blog-title [title]="data.title"></flower-blog-title>
         <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
             commandLine emoji mermaid clipboard></markdown>
+        <nz-divider></nz-divider>
+        <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
+            <div nz-flex nzJustify="center">
+                <ng-container *ngFor="let item of commentArray">
+                    <nz-tag nz-tooltip [nzTooltipTitle]="item.description"
+                        style="border-radius: 5px;cursor: default;"><span nz-typography>{{item.value}}
+                            {{item.count}}</span></nz-tag>
+                </ng-container>
+            </div>
+            <flower-blog-comment [data]="data.comment" (emojiSelected)="comment($event)"></flower-blog-comment>
+        </div>
     </div>
     <div class="me" @SlowUp *ngIf="!isMobile">
         <div class="me_box card" nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
