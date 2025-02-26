@@ -31,14 +31,18 @@ export class BlogCardComponent implements OnInit {
   @Input() loading: boolean = true;
   commentArray: any[] = commentArray
 
-  constructor() { }
-
-  ngOnInit() {
-    this.getComment()
+  constructor() {
+    this.commentArray.forEach(item => {
+      item.count = 0
+    })
   }
 
-  getComment(): void {
-    const data: any[] = this.blog['comment']
+  ngOnInit() {
+  }
+
+  getComment(blog: any): any {
+    const data: any[] = blog
+    const commentArray = this.commentArray;
     if (data?.length > 0) {
       // 创建一个以 emojiType 为键的映射
       const countMap = data.reduce((map, item) => {
@@ -46,11 +50,13 @@ export class BlogCardComponent implements OnInit {
         return map;
       }, {});
 
-      this.commentArray.forEach(item => {
+      commentArray.forEach(item => {
         if (countMap[item.key] !== undefined) {
           item.count = countMap[item.key];
         }
       });
     }
+
+    return blog ? commentArray : [];
   }
 }
