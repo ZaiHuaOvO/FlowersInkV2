@@ -1,5 +1,6 @@
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Inject,
@@ -60,7 +61,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
   styleUrl: './blog-detail.component.css',
   animations: [SlowUp, QuickUp],
 })
-export class BlogDetailComponent implements OnInit {
+export class BlogDetailComponent implements OnInit, AfterViewInit {
+  Id: any;
   data: any = {};
   page = 1;
   count = 0;
@@ -78,6 +80,7 @@ export class BlogDetailComponent implements OnInit {
   isMobile: boolean = false;
   private isSyncing = false;
   commentArray: any[] = commentArray
+  displayCommentArray: any[] = [];
 
   @ViewChild('editor', { static: true })
   editorRef!: ElementRef<HTMLTextAreaElement>;
@@ -97,13 +100,16 @@ export class BlogDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.Id = this.activateInfo.snapshot.params['id']
+  }
+  ngAfterViewInit(): void {
     this.getBlogDetail();
   }
 
   getBlogDetail(): void {
     this.loading = true;
     this.blog
-      .getBlogDetail(this.activateInfo.snapshot.params['id'])
+      .getBlogDetail(this.Id)
       .subscribe((res: any) => {
         this.data = res['data'];
         this.getComment();
@@ -192,20 +198,17 @@ export class BlogDetailComponent implements OnInit {
   }
 
   getComment(): void {
-    const data: any[] = this.data['comment']
-    if (data?.length > 0) {
-      // 创建一个以 emojiType 为键的映射
-      const countMap = data.reduce((map, item) => {
-        map[item.emojiType] = item.count;
-        return map;
-      }, {});
+    const data: any[] = this.data['comment'];
 
-      // 遍历A数组并将B的count填入A对应的key
-      this.commentArray.forEach(item => {
-        if (countMap[item.key] !== undefined) {
-          item.count = countMap[item.key];
-        }
-      });
-    }
+    const countMap = (data ?? []).reduce((map, item) => {
+      map[item.emojiType] = item.count;
+      return map;
+    }, {} as Record<string, number>);
+
+    this.displayCommentArray = this.commentArray.map(item => ({
+      ...item,
+      count: countMap[item.key] ?? 0,
+    }));
   }
+
 }

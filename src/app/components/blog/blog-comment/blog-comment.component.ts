@@ -36,6 +36,7 @@ export class BlogCommentComponent implements OnInit {
   visible: boolean = false;
   commentArray: any[] = commentArray
   isMobile: boolean = false;
+
   constructor(
     private window: WindowService
   ) {
