@@ -32,6 +32,9 @@
         <flower-blog-title [title]="data.title"></flower-blog-title>
         <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
             commandLine emoji mermaid clipboard></markdown>
+        <div nz-flex nzAlign="center" nzJustify="center">
+            <a *ngIf="!data.title" style="color:#8B4513" (click)="getBlogDetail()">博客未刷新请点我=v=</a>
+        </div>
         <nz-divider></nz-divider>
         <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
             <div nz-flex nzJustify="center">

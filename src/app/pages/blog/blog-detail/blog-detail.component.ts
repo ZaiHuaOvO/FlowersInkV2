@@ -100,10 +100,14 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.Id = this.activateInfo.snapshot.params['id']
+    this.activateInfo.paramMap.subscribe(params => {
+      this.Id = params.get('id');
+      if (this.Id && isPlatformBrowser(this.platformId)) {
+        this.getBlogDetail();
+      }
+    });
   }
   ngAfterViewInit(): void {
-    this.getBlogDetail();
   }
 
   getBlogDetail(): void {
