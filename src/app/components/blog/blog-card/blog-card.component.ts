@@ -30,42 +30,37 @@ export class BlogCardComponent implements OnInit {
   @Input() blog: any;
   @Input() loading: boolean = true;
   commentArray: any[] = commentArray
+  emojiTags: { [blogId: string]: any[] } = {};
 
   constructor() {
-    this.commentArray.forEach(item => {
-      item.count = 0
-    })
+
   }
 
   ngOnInit() {
-    this.commentArray.forEach(item => {
-      item.count = 0
-    })
+    if (this.blog?.id && this.blog?.comment) {
+      this.emojiTags[this.blog.id] = this.buildCommentTags(this.blog.comment);
+    }
   }
 
-  getComment(blog: any): any {
-    const data: any[] = blog;
-    // 每次都创建 commentArray 的深拷贝（包括 key/value/text/description）
-    const commentArray = this.commentArray.map(item => ({
+  buildCommentTags(commentData: any[]): any[] {
+    const tagList = this.commentArray.map(item => ({
       ...item,
-      count: 0, // 初始化 count
+      count: 0
     }));
 
-    if (data?.length > 0) {
-      // 创建一个以 emojiType 为键的映射
-      const countMap = data.reduce((map, item) => {
+    if (commentData?.length > 0) {
+      const countMap = commentData.reduce((map, item) => {
         map[item.emojiType] = item.count;
         return map;
-      }, {} as { [key: string]: number });
+      }, {} as Record<string, number>);
 
-      commentArray.forEach(item => {
+      tagList.forEach(item => {
         if (countMap[item.key] !== undefined) {
           item.count = countMap[item.key];
         }
       });
     }
 
-    return blog ? commentArray : [];
+    return tagList;
   }
-
 }
