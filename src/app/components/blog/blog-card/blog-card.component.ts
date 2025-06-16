@@ -41,18 +41,22 @@ export class BlogCardComponent implements OnInit {
     this.commentArray.forEach(item => {
       item.count = 0
     })
-    this.blog = [];
   }
 
   getComment(blog: any): any {
-    const data: any[] = blog
-    const commentArray = this.commentArray;
+    const data: any[] = blog;
+    // 每次都创建 commentArray 的深拷贝（包括 key/value/text/description）
+    const commentArray = this.commentArray.map(item => ({
+      ...item,
+      count: 0, // 初始化 count
+    }));
+
     if (data?.length > 0) {
       // 创建一个以 emojiType 为键的映射
       const countMap = data.reduce((map, item) => {
         map[item.emojiType] = item.count;
         return map;
-      }, {});
+      }, {} as { [key: string]: number });
 
       commentArray.forEach(item => {
         if (countMap[item.key] !== undefined) {
@@ -63,4 +67,5 @@ export class BlogCardComponent implements OnInit {
 
     return blog ? commentArray : [];
   }
+
 }
