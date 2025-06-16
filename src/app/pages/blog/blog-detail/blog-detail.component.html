@@ -1,7 +1,7 @@
 <div class="article editor" nz-flex [nzVertical]="true" [ngStyle]="{'padding':isMobile ?'4px':'24px'}"
     (scroll)="onScroll('editor')" #editor>
-    <div class="content  card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
-        [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'9.5%'}">
+    <div class="content card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
+        [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'8%'}">
         <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
             <ng-template #backTitle>
                 <span nz-typography style="cursor: pointer;" (click)="onBack()">返回</span>

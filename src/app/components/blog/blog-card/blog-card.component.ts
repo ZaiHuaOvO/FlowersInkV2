@@ -38,6 +38,10 @@ export class BlogCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.commentArray.forEach(item => {
+      item.count = 0
+    })
+    this.blog = [];
   }
 
   getComment(blog: any): any {
