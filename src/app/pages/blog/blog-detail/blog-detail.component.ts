@@ -55,7 +55,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     DatePipe,
     BlogTitleComponent,
     BlogCommentComponent,
-    NzToolTipModule
+    NzToolTipModule,
+    NzSpinModule
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
@@ -185,6 +186,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
   comment(emoji: any): void {
+    this.loading = true;
     this.blog.comment(this.activateInfo.snapshot.params['id'], {
       emojiType: emoji['key'],
     }).subscribe((res: any) => {
@@ -194,9 +196,11 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
           if (item.key === emoji['key']) {
             item.count++;
           }
+          this.getBlogDetail();
         })
       } else {
         this.msg.error(res['data']['msg']);
+        this.loading = false;
       }
     })
   }

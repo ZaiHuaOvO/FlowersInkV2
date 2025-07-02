@@ -14,7 +14,7 @@ export class BlogService {
   }
 
   getBlogDetail(Id: string): Observable<object> {
-    return this.http.get(API.BLOG + `/${Id}`);
+    return this.http.get(API.BLOG + `/detail/${Id}`);
   }
 
   comment(Id: string, data: any): Observable<object> {

@@ -29,31 +29,31 @@
                 </span>
             </nz-page-header-extra>
         </nz-page-header>
-        <flower-blog-title [title]="data.title"></flower-blog-title>
-        <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
-            commandLine emoji mermaid clipboard></markdown>
-        <div nz-flex nzAlign="center" nzJustify="center">
-            <a *ngIf="!data.title" style="color:#8B4513" (click)="getBlogDetail()">博客未刷新请点我=v=</a>
-        </div>
-        <nz-divider></nz-divider>
-        <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
-            <div nz-flex nzJustify="center">
-                <ng-container *ngFor="let item of displayCommentArray">
-                    <nz-tag *ngIf="item.count > 0" nz-tooltip [nzTooltipTitle]="item.description"
-                        style="border-radius: 5px;cursor: default;">
-                        <span nz-typography>{{item.value}} {{item.count}}</span>
-                    </nz-tag>
-                </ng-container>
+        <nz-spin [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
+
+            <flower-blog-title [title]="data.title"></flower-blog-title>
+            <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
+                commandLine emoji mermaid clipboard></markdown>
+            <nz-divider></nz-divider>
+            <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
+                <div nz-flex nzJustify="center">
+                    <ng-container *ngFor="let item of displayCommentArray">
+                        <nz-tag *ngIf="item.count > 0" nz-tooltip [nzTooltipTitle]="item.description"
+                            style="border-radius: 5px;cursor: default;">
+                            <span nz-typography>{{item.value}} {{item.count}}</span>
+                        </nz-tag>
+                    </ng-container>
+                </div>
+                <flower-blog-comment [data]="data.comment" (emojiSelected)="comment($event)"></flower-blog-comment>
             </div>
-            <flower-blog-comment [data]="data.comment" (emojiSelected)="comment($event)"></flower-blog-comment>
-        </div>
+        </nz-spin>
     </div>
     <div class="me" @SlowUp *ngIf="!isMobile">
         <div class="me_box card" nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
             <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
             <div nz-flex [nzVertical]="true">
                 <h5 nz-typography>再花</h5>
-                <span nz-typography nzType="secondary">前端工程师</span>
+                <span nz-typography nzType="secondary">猫猫头前端工程师</span>
             </div>
         </div>
         <div class="menu card">
