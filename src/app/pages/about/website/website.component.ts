@@ -76,6 +76,10 @@ export class WebsiteComponent {
       title: '评论功能上线',
     },
     {
+      date: '2025年06月14日',
+      title: '好朋友增加至5位，好耶！',
+    },
+    {
       date: '未完待续',
       title: '',
     },
