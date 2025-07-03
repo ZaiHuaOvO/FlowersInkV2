@@ -8,6 +8,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { commentArray } from '../../../ts/comment-emoji';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { WindowService } from '../../../services/window.service';
 
 @Component({
   selector: 'flower-blog-card',
@@ -31,9 +32,14 @@ export class BlogCardComponent implements OnInit {
   @Input() loading: boolean = true;
   commentArray: any[] = commentArray
   emojiTags: { [blogId: string]: any[] } = {};
+  isMobile: boolean = false;
 
-  constructor() {
-
+  constructor(
+    private window: WindowService
+  ) {
+    this.window.isMobile$.subscribe((isMobile) => {
+      this.isMobile = isMobile;
+    });
   }
 
   ngOnInit() {
