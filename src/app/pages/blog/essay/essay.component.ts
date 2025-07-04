@@ -94,10 +94,20 @@ export class EssayComponent implements OnInit {
       .subscribe((res: any) => {
         this.data = res['data'].data;
         this.count = res['data'].count;
-        this.tagList = this.general.getTagList(this.data);
         setTimeout(() => {
           this.loading = false;
         }, 500);
+      });
+
+    this.blog
+      .getBlogs({
+        type: '随笔',
+        page: null,
+        tag: null,
+        title: null,
+      })
+      .subscribe((res: any) => {
+        this.tagList = this.general.getTagList(res['data'].data);
       });
   }
 
