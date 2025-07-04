@@ -89,6 +89,7 @@ export class EssayComponent implements OnInit {
         type: '随笔',
         page: this.page,
         tag: this.tag,
+        limit: 10,
         title: this.searchControl.value,
       })
       .subscribe((res: any) => {
@@ -102,9 +103,9 @@ export class EssayComponent implements OnInit {
     this.blog
       .getBlogs({
         type: '随笔',
-        page: null,
-        tag: null,
-        title: null,
+        page: '',
+        tag: '',
+        title: '',
       })
       .subscribe((res: any) => {
         this.tagList = this.general.getTagList(res['data'].data);

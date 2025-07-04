@@ -90,6 +90,7 @@ export class ArticleComponent implements OnInit {
         type: '文章',
         page: this.page,
         tag: this.tag,
+        limit: 10,
         title: this.searchControl.value,
       })
       .subscribe((res: any) => {
@@ -103,11 +104,12 @@ export class ArticleComponent implements OnInit {
     this.blog
       .getBlogs({
         type: '文章',
-        page: null,
-        tag: null,
-        title: null,
+        page: '',
+        tag: '',
+        title: '',
       })
       .subscribe((res: any) => {
+        console.log('res: ', res);
         this.tagList = this.general.getTagList(res['data'].data);
       });
   }
