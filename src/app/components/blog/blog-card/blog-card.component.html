@@ -10,7 +10,7 @@
 
         <span nz-typography nzType="secondary">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
       </div>
-      <div nz-flex nzJustify="end" nzWrap="wrap" [ngStyle]="{width:isMobile?'200px':'400px'}">
+      <div *ngIf="!isMobile" nz-flex nzJustify="end" nzWrap="wrap" [ngStyle]="{width:isMobile?'200px':'400px'}">
         <ng-container *ngFor="let item of emojiTags[blog.id]">
           <nz-tag *ngIf="item.count > 0" nz-tooltip [nzTooltipTitle]="item.description" style="border-radius: 5px;">
             <span nz-typography>{{item.value}} {{item.count}}</span>

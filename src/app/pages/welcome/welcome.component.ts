@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { WelcomeService } from './welcome.service';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -12,6 +12,9 @@ import { BlogTitleComponent } from '../../components/blog/blog-title/blog-title.
 import { QuickUp, SlowUp } from '../../common_ui/animations/animation';
 import { WindowService } from '../../services/window.service';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @Component({
   selector: 'app-welcome',
@@ -28,7 +31,9 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
     RouterModule,
     BlogTitleComponent,
     NzAffixModule,
-    NzDividerModule
+    NzDividerModule,
+    NzModalModule,
+    NzTagModule
   ],
   animations: [SlowUp, QuickUp],
 })
@@ -44,10 +49,15 @@ export class WelcomeComponent implements OnInit {
     lastUpdateTime: '',
   };
   isMobile: boolean = false;
+  @ViewChild('more', { static: true })
+  more!: TemplateRef<any>;
+
   constructor(
     private welcome: WelcomeService,
     private cdr: ChangeDetectorRef,
-    private window: WindowService
+    private window: WindowService,
+    private modal: NzModalService,
+    private msg: NzMessageService
   ) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
@@ -105,4 +115,19 @@ export class WelcomeComponent implements OnInit {
     });
     return processedData;
   }
+
+  detail(): void {
+    this.modal.create({ nzContent: this.more, nzFooter: [] },);
+  }
+
+  copy(value: string): void {
+    navigator.clipboard
+      .writeText(value)
+      .then(() => {
+        this.msg.success('已复制联系方式，感谢老师扩列(๑＞ڡ＜)☆');
+      })
+      .catch((error) => { });
+  }
 }
+
+

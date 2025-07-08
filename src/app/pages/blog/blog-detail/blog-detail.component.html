@@ -29,7 +29,7 @@
                 </span>
             </nz-page-header-extra>
         </nz-page-header>
-        <nz-spin [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" style="min-width: none !important;">
+        <nz-spin [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" style="min-width: 50vw !important;">
 
             <flower-blog-title [title]="data.title"></flower-blog-title>
             <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
