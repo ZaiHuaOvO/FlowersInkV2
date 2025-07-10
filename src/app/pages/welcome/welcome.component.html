@@ -1,6 +1,6 @@
 <div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
-    <h5 nz-typography nzType="secondary"><strong>BW</strong>来的老师请点-><a nz-button nzType="link"
-            style="color:#C28100;font-weight: bold;" (click)="detail()">「查看更多」</a></h5>
+    <!-- <h5 nz-typography nzType="secondary"><strong>BW</strong>来的老师请点-><a nz-button nzType="link"
+            style="color:#C28100;font-weight: bold;" (click)="detail()">「查看更多」</a></h5> -->
     <flower-blog-title [title]="'花墨的精选文章'"></flower-blog-title>
     <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
         [ngStyle]="{'width':isMobile ?'100%':'80%'}">
@@ -26,14 +26,15 @@
         <nz-divider></nz-divider>
         <h5 nz-typography>自我介绍</h5>
         <p nz-typography>
-            叭叭啦叭叭，你好呀这里是<mark>再花</mark>。<br>
+            叭叭啦叭叭，你好呀这里是<mark>再花</mark>，这里是我的个人网站<mark>花墨</mark><br>
             漫展里与我同行的是我的妻子<mark>方长</mark>，我俩都是<strong>游戏宅</strong>（什么都玩），偶尔会看看番但强度不高。<br>
-            除了游戏，我比较偏向<strong>技术宅</strong>，喜欢开发小东西（例如本网站）、视频剪辑。<br>
+            除了游戏，我比较偏向<strong>技术宅</strong>，喜欢开发小东西（例如本网站）、视频剪辑。关于我的更多信息可以查看本站的 <a nz-button nzType="link"
+                [routerLink]="'/about/me'" target="_blank">[关于我]</a><br>
             方长是<strong>手工娘</strong>，喜欢拼豆（还有乐高、手链等手工）。同时也是<strong>厨娘</strong>，本花的专属饲养员=v=
         </p>
         <h5 nz-typography>扩列相关</h5>
         <p nz-typography>
-            我们定居成都，是第一次参加BW这种大型漫展，后续可能也会去世界线、萤火虫、cp、游戏粉丝节之类的（也可能会出cos）<br>
+            我们定居<strong>成都</strong>，是第一次参加BW这种大型漫展，后续可能也会去世界线、萤火虫、cp、游戏粉丝节之类的（也可能会出cos）<br>
             我比较社牛，方长略微社恐（但熟了就社牛），都很欢迎老师扩列。<br>
             再花QQ：446840401 <a nz-button nzType="link" (click)="copy('446840401')">[复制]</a><br>
             方长QQ：1127654182 <a nz-button nzType="link" (click)="copy('1127654182')">[复制]</a>
@@ -41,8 +42,7 @@
         <h5 nz-typography>返图说明</h5>
         <p nz-typography>
             我和方长的拍摄经验有限，但已经尽可能做足了功课，若拍的不好还请见谅QAQ<br>
-            返图可以添加 <mark>方长QQ</mark><a nz-button nzType="link" (click)="copy('1127654182')">[复制]</a>
-            后获取以下任意返图，也可以全要（若有）<br>
+            返图可以添加 <mark>方长QQ</mark> 后获取以下任意返图，也可以全要（若有）<br>
         </p>
         <ul nz-typography>
             <li>照片原图</li>

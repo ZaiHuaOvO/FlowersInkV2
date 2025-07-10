@@ -124,7 +124,7 @@ export class WelcomeComponent implements OnInit {
     navigator.clipboard
       .writeText(value)
       .then(() => {
-        this.msg.success('已复制联系方式，感谢老师扩列(๑＞ڡ＜)☆');
+        this.msg.success('已复制联系方式，好耶(๑＞ڡ＜)☆');
       })
       .catch((error) => { });
   }
