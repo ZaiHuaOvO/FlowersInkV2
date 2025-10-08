@@ -10,9 +10,9 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RssComponent } from '../svg/rss/rss.component';
 import { WindowService } from '../../../services/window.service';
-import { SitemapComponent } from '../sitemap/sitemap.component';
-import { PlanetComponent } from '../svg/planet/planet.component';
 import { Forever } from '../svg/forever/forever';
+import { SitemapComponent } from '../svg/sitemap/sitemap.component';
+import { PlanetComponent } from '../svg/planet/planet.component';
 
 @Component({
   selector: 'flower-footer',
