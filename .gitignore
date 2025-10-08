@@ -40,3 +40,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+.VSCodeCounter/2025-09-23_14-36-22/details.md
+.VSCodeCounter/2025-09-23_14-36-22/diff-details.md
+.VSCodeCounter/2025-09-23_14-36-22/diff.csv
+.VSCodeCounter/2025-09-23_14-36-22/diff.md
+.VSCodeCounter/2025-09-23_14-36-22/diff.txt
+.VSCodeCounter/2025-09-23_14-36-22/results.csv
+.VSCodeCounter/2025-09-23_14-36-22/results.json
+.VSCodeCounter/2025-09-23_14-36-22/results.md
+.VSCodeCounter/2025-09-23_14-36-22/results.txt
