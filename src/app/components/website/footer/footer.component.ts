@@ -12,6 +12,7 @@ import { RssComponent } from '../svg/rss/rss.component';
 import { WindowService } from '../../../services/window.service';
 import { SitemapComponent } from '../sitemap/sitemap.component';
 import { PlanetComponent } from '../svg/planet/planet.component';
+import { Forever } from '../svg/forever/forever';
 
 @Component({
   selector: 'flower-footer',
@@ -30,6 +31,7 @@ import { PlanetComponent } from '../svg/planet/planet.component';
     RssComponent,
     SitemapComponent,
     PlanetComponent,
+    Forever,
   ],
 })
 export class FooterComponent implements OnInit {
@@ -45,7 +47,7 @@ export class FooterComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   copyEmail(): void {
     navigator.clipboard
@@ -53,6 +55,6 @@ export class FooterComponent implements OnInit {
       .then(() => {
         this.msg.success('已复制邮箱地址，欢迎邮件(๑＞ڡ＜)☆');
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }
 }
