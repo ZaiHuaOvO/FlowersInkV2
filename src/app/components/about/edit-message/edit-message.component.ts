@@ -129,7 +129,6 @@ export class EditMessageComponent {
 
   onEmojiSelected(emoji: string): void {
     this.form.content += emoji;
-    console.log('Selected Emoji:', emoji);
     // 在这里可以调用其他逻辑或函数
   }
 }

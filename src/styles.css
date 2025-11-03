@@ -216,6 +216,13 @@ nz-spin {
 .emoji {
     font-family: "Noto Emoji", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 700;
+    font-weight: 500;
     font-style: normal;
+    color: #8B4513
+}
+
+.emoji_count {
+    font-weight: 500;
+    font-style: normal;
+    color: #8B4513
 }

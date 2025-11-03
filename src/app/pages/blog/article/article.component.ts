@@ -109,7 +109,6 @@ export class ArticleComponent implements OnInit {
         title: '',
       })
       .subscribe((res: any) => {
-        console.log('res: ', res);
         this.tagList = this.general.getTagList(res['data'].data);
       });
   }

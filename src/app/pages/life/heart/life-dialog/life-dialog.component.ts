@@ -27,7 +27,6 @@ export class LifeDialogComponent implements OnInit {
 
   textImageData: any[] = [];
   constructor() {
-    console.log('nzModalData: ', this.nzModalData);
     let i = 0;
     this.nzModalData.image.forEach((element: any) => {
       if (i < 9) {
@@ -37,7 +36,7 @@ export class LifeDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   getColSpan(totalImages: number, index: number): number {
     if (totalImages === 1) {

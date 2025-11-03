@@ -53,7 +53,7 @@ export class WebsiteComponent {
     },
     {
       date: '2024年11月13日',
-      title: '花墨2.0（重写计划）立项',
+      title: '花墨2.0重写计划立项',
     },
     {
       date: '2024年11月21日',
@@ -78,6 +78,10 @@ export class WebsiteComponent {
     {
       date: '2025年06月14日',
       title: '好朋友增加至5位，好耶！',
+    },
+    {
+      date: '2025年10月10日',
+      title: '建站一周年，加入十年之约',
     },
     {
       date: '未完待续',

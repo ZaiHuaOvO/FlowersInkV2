@@ -162,7 +162,6 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
   onScroll(source: 'editor' | 'viewer'): void {
-    console.log('source: ', source);
     if (this.isSyncing) return; // 防止递归调用
 
     this.isSyncing = true;

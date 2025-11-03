@@ -13,7 +13,7 @@
       <div *ngIf="!isMobile" nz-flex nzJustify="end" nzWrap="wrap" [ngStyle]="{width:isMobile?'200px':'400px'}">
         <ng-container *ngFor="let item of emojiTags[blog.id]">
           <nz-tag *ngIf="item.count > 0" nz-tooltip [nzTooltipTitle]="item.description" style="border-radius: 5px;">
-            <span nz-typography class="emoji">{{item.value}}{{item.count}}</span>
+            <span class="emoji">{{item.value}}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
           </nz-tag>
         </ng-container>
       </div>

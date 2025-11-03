@@ -88,7 +88,6 @@ export class WelcomeComponent implements OnInit {
         limit: 999,
       })
       .subscribe((val: any) => {
-        console.log('val: ', val);
         if (val) {
           const data = this.processedData(val['data'].data);
           // this.info.article = data.length;
