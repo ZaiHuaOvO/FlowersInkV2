@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -26,7 +26,6 @@ interface MenuItem {
   styleUrls: ['./header.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     NzIconModule,
     NzMenuModule,
@@ -34,7 +33,7 @@ interface MenuItem {
     NzAvatarModule,
     NzDropDownModule,
     NzDrawerModule
-  ],
+],
   animations: [QuickDown],
 })
 export class HeaderComponent implements OnInit {

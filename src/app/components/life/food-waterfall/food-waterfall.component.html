@@ -1,14 +1,14 @@
 <div class="card waterfall-container">
-    <ng-container *ngFor="let item of data">
-        <div class="waterfall-item" (click)="isMobile ? getLifeDetailMobile(item) : getLifeDetail(item)">
-            <img class="card" [src]="item.image_first[0].url" [alt]="item.title" />
-            <div class="food_name">
-                <h5 nz-typography style="white-space: pre-wrap; text-align: center;" class="noto-sans-sc">{{ item.title
-                    }}</h5>
-                <p nz-typography nzType="secondary" nzEllipsis nzEllipsisRows="2" [nzContent]="item.content"></p>
-            </div>
-        </div>
-    </ng-container>
+  @for (item of data; track item) {
+    <div class="waterfall-item" (click)="isMobile ? getLifeDetailMobile(item) : getLifeDetail(item)">
+      <img class="card" [src]="item.image_first[0].url" [alt]="item.title" />
+      <div class="food_name">
+        <h5 nz-typography style="white-space: pre-wrap; text-align: center;" class="noto-sans-sc">{{ item.title
+        }}</h5>
+        <p nz-typography nzType="secondary" nzEllipsis nzEllipsisRows="2" [nzContent]="item.content"></p>
+      </div>
+    </div>
+  }
 
 
 </div>

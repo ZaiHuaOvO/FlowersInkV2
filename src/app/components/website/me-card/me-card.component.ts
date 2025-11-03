@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -15,15 +15,14 @@ import { RssComponent } from '../svg/rss/rss.component';
   styleUrls: ['./me-card.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     NzFlexModule,
     NzAvatarModule,
     NzTypographyModule,
     NzDividerModule,
     NzIconModule,
-    NzTagModule,
-  ],
+    NzTagModule
+],
 })
 export class MeCardComponent implements OnInit {
   @Input() info = {

@@ -13,12 +13,12 @@
   <div nz-flex [nzVertical]="true">
     <nz-image-group>
       <div nz-row nzFlex nzGap="small" nzWrap="wrap" nzJustify="start" style="padding: 12px; width: 100%;">
-        <ng-container *ngFor="let item of nzModalData.image; let i = index">
+        @for (item of nzModalData.image; track item; let i = $index) {
           <!-- 根据图片数量动态设置 nzSpan -->
           <nz-col [nzSpan]="getColSpan(nzModalData.image.length, i)">
             <img class="life_img" nz-image [nzSrc]="item.url" />
           </nz-col>
-        </ng-container>
+        }
       </div>
     </nz-image-group>
     <h5 nz-typography nzType="secondary" style="text-align: end; margin-right: 25px;">

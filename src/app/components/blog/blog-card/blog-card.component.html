@@ -1,26 +1,28 @@
 <a class="blog_card" nz-flex [nzGap]="'small'" nzAlign="start" nzJustify="center" [nzVertical]="true">
-  <ng-container *ngIf="!loading;else NzSkeleton">
+  @if (!loading) {
     <h4 nz-typography style="color:#8B4513"> {{blog.title}} </h4>
     <p nz-typography nzEllipsis [nzContent]="blog.content" [nzEllipsisRows]="2"></p>
     <div class="blog_msg" nz-flex nzAlign="center" nzJustify="space-between">
       <div nz-flex nzAlign="center" nzGap="small">
         <span nz-typography nzType="secondary">{{blog.type}} | {{blog.tag}} </span>
         <span nz-typography nzType="secondary"><span nz-icon nzType="eye" nzTheme="outline"></span>
-          {{blog.views}} | </span>
-
-        <span nz-typography nzType="secondary">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
-      </div>
-      <div *ngIf="!isMobile" nz-flex nzJustify="end" nzWrap="wrap" [ngStyle]="{width:isMobile?'200px':'400px'}">
-        <ng-container *ngFor="let item of emojiTags[blog.id]">
-          <nz-tag *ngIf="item.count > 0" nz-tooltip [nzTooltipTitle]="item.description" style="border-radius: 5px;">
-            <span class="emoji">{{item.value}}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
-          </nz-tag>
-        </ng-container>
-      </div>
+      {{blog.views}} | </span>
+      <span nz-typography nzType="secondary">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
     </div>
-  </ng-container>
+    @if (!isMobile) {
+      <div nz-flex nzJustify="end" nzWrap="wrap" [ngStyle]="{width:isMobile?'200px':'400px'}">
+        @for (item of emojiTags[blog.id]; track item) {
+          @if (item.count > 0) {
+            <nz-tag nz-tooltip [nzTooltipTitle]="item.description" style="border-radius: 5px;">
+              <span class="emoji">{{item.value}}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
+            </nz-tag>
+          }
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <nz-skeleton [nzActive]="loading"></nz-skeleton>
+}
 
-  <ng-template #NzSkeleton>
-    <nz-skeleton [nzActive]="loading"></nz-skeleton>
-  </ng-template>
 </a>

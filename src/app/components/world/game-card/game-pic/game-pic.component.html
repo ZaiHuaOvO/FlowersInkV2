@@ -1,19 +1,23 @@
 <nz-row [nzGutter]="[12,12]">
-    <nz-col *ngFor="let img of images; let i = index" [nzSpan]="isMobile ? 12 : 4" nz-flex [nzVertical]="true"
-        nzJustify="center">
-        <nz-spin class="spin" [nzTip]="'图片加载中…'" [nzSpinning]="!img.loaded" nzGap="small">
-            <div class="img-container card">
-                <nz-image-group>
-                    <img *ngIf="i <= currentIndex" nz-image class="imgFirst" [nzSrc]="img.url"
-                        (load)="img.loaded = true; onImageLoad(i)" />
-                </nz-image-group>
-                <nz-tag nzColor="#8B4513" class="view-btn"
-                    (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</nz-tag>
-            </div>
-        </nz-spin>
-        <!-- <nz-tag nzColor="#8B4513" *ngIf="i <= currentIndex">
-            <span nz-typography style="color: #fff;" class="img_button"
-                (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</span>
-        </nz-tag> -->
-    </nz-col>
+  @for (img of images; track img; let i = $index) {
+    <nz-col [nzSpan]="isMobile ? 12 : 4" nz-flex [nzVertical]="true"
+      nzJustify="center">
+      <nz-spin class="spin" [nzTip]="'图片加载中…'" [nzSpinning]="!img.loaded" nzGap="small">
+        <div class="img-container card">
+          <nz-image-group>
+            @if (i <= currentIndex) {
+              <img nz-image class="imgFirst" [nzSrc]="img.url"
+                (load)="img.loaded = true; onImageLoad(i)" />
+            }
+          </nz-image-group>
+          <nz-tag nzColor="#8B4513" class="view-btn"
+          (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</nz-tag>
+        </div>
+      </nz-spin>
+      <!-- <nz-tag nzColor="#8B4513" *ngIf="i <= currentIndex">
+      <span nz-typography style="color: #fff;" class="img_button"
+      (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</span>
+    </nz-tag> -->
+  </nz-col>
+}
 </nz-row>

@@ -1,78 +1,94 @@
 <div class="article editor" nz-flex [nzVertical]="true" [ngStyle]="{'padding':isMobile ?'4px':'24px'}"
-    (scroll)="onScroll('editor')" #editor>
-    <div class="content card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
-        [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'8%'}">
-        <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
-            <ng-template #backTitle>
-                <span nz-typography style="cursor: pointer;" (click)="onBack()">返回</span>
-            </ng-template>
-            <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center" *ngIf="!isMobile">
-                <span nz-typography nzType="secondary">
-                    标签：{{data.tag}}
-                </span>
-                <nz-divider nzType="vertical"></nz-divider>
-                <span nz-typography nzType="secondary">
-                    阅读量：{{data.views}}次
-                </span>
-                <nz-divider nzType="vertical"></nz-divider>
-                <span nz-typography nzType="secondary">
-                    发布于{{ data.date | date:'yyyy年MM月dd日'}}
-                </span>
-            </nz-page-header-extra>
-            <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center" *ngIf="isMobile">
-                <span nz-typography nzType="secondary">
-                    {{data.tag}}
-                </span>
-                <nz-divider nzType="vertical"></nz-divider>
-                <span nz-typography nzType="secondary">
-                    {{ data.date | date:'yyyy年MM月dd日'}}
-                </span>
-            </nz-page-header-extra>
-        </nz-page-header>
-        <nz-spin [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" style="min-width: 50vw !important;">
+  (scroll)="onScroll('editor')" #editor>
+  <div class="content card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
+    [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'8%'}">
+    <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
+      <ng-template #backTitle>
+        <span nz-typography style="cursor: pointer;" (click)="onBack()">返回</span>
+      </ng-template>
+      @if (!isMobile) {
+        <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
+          <span nz-typography nzType="secondary">
+            标签：{{data.tag}}
+          </span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <span nz-typography nzType="secondary">
+            阅读量：{{data.views}}次
+          </span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <span nz-typography nzType="secondary">
+            发布于{{ data.date | date:'yyyy年MM月dd日'}}
+          </span>
+        </nz-page-header-extra>
+      }
+      @if (isMobile) {
+        <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
+          <span nz-typography nzType="secondary">
+            {{data.tag}}
+          </span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <span nz-typography nzType="secondary">
+            {{ data.date | date:'yyyy年MM月dd日'}}
+          </span>
+        </nz-page-header-extra>
+      }
+    </nz-page-header>
+    <nz-spin [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" style="min-width: 50vw !important;">
 
-            <flower-blog-title [title]="data.title"></flower-blog-title>
-            <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
-                commandLine emoji mermaid clipboard></markdown>
-            <nz-divider></nz-divider>
-            <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
-                <div nz-flex nzJustify="center">
-                    <ng-container *ngFor="let item of displayCommentArray">
-                        <nz-tag *ngIf="item.count > 0" nz-tooltip [nzTooltipTitle]="item.description"
-                            style="border-radius: 5px;cursor: default;">
-                            <span class="emoji">{{item.value}}</span>&nbsp;<span
-                                class="emoji_count">{{item.count}}</span>
-                        </nz-tag>
-                    </ng-container>
-                </div>
-                <flower-blog-comment [data]="data.comment" (emojiSelected)="comment($event)"></flower-blog-comment>
-            </div>
-        </nz-spin>
+      <flower-blog-title [title]="data.title"></flower-blog-title>
+      <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
+      commandLine emoji mermaid clipboard></markdown>
+      <nz-divider></nz-divider>
+      <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
+        <div nz-flex nzJustify="center">
+          @for (item of displayCommentArray; track item) {
+            @if (item.count > 0) {
+              <nz-tag nz-tooltip [nzTooltipTitle]="item.description"
+                style="border-radius: 5px;cursor: default;">
+                <span class="emoji">{{item.value}}</span>&nbsp;<span
+              class="emoji_count">{{item.count}}</span>
+            </nz-tag>
+          }
+        }
+      </div>
+      <flower-blog-comment [data]="data.comment" (emojiSelected)="comment($event)"></flower-blog-comment>
     </div>
-    <div class="me" @SlowUp *ngIf="!isMobile">
-        <div class="me_box card" nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
-            <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
-            <div nz-flex [nzVertical]="true">
-                <h5 nz-typography>再花</h5>
-                <span nz-typography nzType="secondary">猫猫头前端工程师</span>
-            </div>
-        </div>
-        <div class="menu card">
-            <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
-            <nz-divider style="margin: 0;"></nz-divider>
-            <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
-                <nz-link *ngFor="let anchor of anchors" [nzHref]="anchor.href" [nzTitle]="anchor.title">
-                    <nz-link *ngFor="let subAnchor of anchor.children" [nzHref]="subAnchor.href"
-                        [nzTitle]="subAnchor.title">
-                        <nz-link *ngFor="let subSubAnchor of subAnchor.children" [nzHref]="subSubAnchor.href"
-                            [nzTitle]="subSubAnchor.title">
-                            <nz-link *ngFor="let subSubSubAnchor of subSubAnchor.children"
-                                [nzHref]="subSubSubAnchor.href" [nzTitle]="subSubSubAnchor.title">
-                            </nz-link>
-                        </nz-link>
-                    </nz-link>
-                </nz-link>
-            </nz-anchor>
-        </div>
+  </nz-spin>
+</div>
+@if (!isMobile) {
+  <div class="me" @SlowUp>
+    <div class="me_box card" nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
+      <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
+      <div nz-flex [nzVertical]="true">
+        <h5 nz-typography>再花</h5>
+        <span nz-typography nzType="secondary">猫猫头前端工程师</span>
+      </div>
     </div>
+    <div class="menu card">
+      <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
+      <nz-divider style="margin: 0;"></nz-divider>
+      <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
+        @for (anchor of anchors; track anchor) {
+          <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
+            @for (subAnchor of anchor.children; track subAnchor) {
+              <nz-link [nzHref]="subAnchor.href"
+                [nzTitle]="subAnchor.title">
+                @for (subSubAnchor of subAnchor.children; track subSubAnchor) {
+                  <nz-link [nzHref]="subSubAnchor.href"
+                    [nzTitle]="subSubAnchor.title">
+                    @for (subSubSubAnchor of subSubAnchor.children; track subSubSubAnchor) {
+                      <nz-link
+                        [nzHref]="subSubSubAnchor.href" [nzTitle]="subSubSubAnchor.title">
+                      </nz-link>
+                    }
+                  </nz-link>
+                }
+              </nz-link>
+            }
+          </nz-link>
+        }
+      </nz-anchor>
+    </div>
+  </div>
+}
 </div>

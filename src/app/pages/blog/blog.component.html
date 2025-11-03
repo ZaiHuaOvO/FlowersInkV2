@@ -12,20 +12,24 @@
     </div>
     <nz-spin [nzTip]="'归档正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
       <div nz-flex nzAlign="center" [nzVertical]="true" nzGap="middle">
-        <ng-container *ngFor="let item of data">
+        @for (item of data; track item) {
           <div class="blog card">
             <h2 nz-typography>{{item.year}}年</h2>
             <nz-timeline>
-              <nz-timeline-item *ngFor="let blog of item.data">
-                <div nz-flex nzGap="middle">
-                  <span nz-typography class="blog_time" nzType="secondary">{{ blog.date | date:'yyyy-MM-dd' }}</span>
-                  <span nz-typography class="blog_title" [routerLink]="['/blog/blog-detail/' + blog.id]"><span
-                      *ngIf="blog.type"></span>{{blog.title}}</span>
-                </div>
-              </nz-timeline-item>
+              @for (blog of item.data; track blog) {
+                <nz-timeline-item>
+                  <div nz-flex nzGap="middle">
+                    <span nz-typography class="blog_time" nzType="secondary">{{ blog.date | date:'yyyy-MM-dd' }}</span>
+                    <span nz-typography class="blog_title" [routerLink]="['/blog/blog-detail/' + blog.id]">@if (blog.type) {
+                      <span
+                      ></span>
+                    }{{blog.title}}</span>
+                  </div>
+                </nz-timeline-item>
+              }
             </nz-timeline>
           </div>
-        </ng-container>
+        }
       </div>
     </nz-spin>
   </div>

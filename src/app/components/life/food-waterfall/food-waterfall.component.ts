@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   Component,
   HostListener,
@@ -14,7 +14,7 @@ import { WindowService } from '../../../services/window.service';
 @Component({
   selector: 'flower-food-waterfall',
   standalone: true,
-  imports: [CommonModule, NzTypographyModule, NzModalModule],
+  imports: [NzTypographyModule, NzModalModule],
   templateUrl: './food-waterfall.component.html',
   styleUrl: './food-waterfall.component.css',
 })

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input } from '@angular/core';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -9,12 +9,11 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   selector: 'flower-link-card',
   standalone: true,
   imports: [
-    CommonModule,
     NzFlexModule,
     NzDividerModule,
     NzTypographyModule,
-    NzImageModule,
-  ],
+    NzImageModule
+],
   templateUrl: './link-card.component.html',
   styleUrl: './link-card.component.css',
 })

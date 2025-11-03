@@ -3,19 +3,18 @@ import { emojiArray } from '../../../ts/emoji';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { CommonModule } from '@angular/common';
+
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'flower-emoji',
   standalone: true,
   imports: [
-    CommonModule,
     NzFlexModule,
     NzPopoverModule,
     NzPaginationModule,
-    NzIconModule,
-  ],
+    NzIconModule
+],
   templateUrl: './emoji.component.html',
   styleUrl: './emoji.component.css',
 })

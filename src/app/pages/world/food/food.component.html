@@ -1,38 +1,41 @@
 <div class="food" nz-flex [nzVertical]="true" nzAlign="center">
-    <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
-        [ngStyle]="{'width':isMobile ?'90vw':'75vw'}">
-        <flower-blog-title [title]="'养猪秘籍'"></flower-blog-title>
-        <nz-affix [nzOffsetTop]="88">
-            <div class="search card" nz-flex nzAlign="center" nzJustify="center" nzGap="small" @QuickUp>
-                <nz-input-group [nzSuffix]="suffixIconSearch" style="border-radius: 10px;">
-                    <input type="text" nz-input placeholder="搜索美食" [formControl]="searchControl" />
-                </nz-input-group>
-                <ng-template #suffixIconSearch>
-                    <span nz-icon nzType="search"></span>
-                </ng-template>
-            </div>
-        </nz-affix>
-        <nz-spin [nzTip]="'美食正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
-            <div style="width: 100%;" nz-flex nzAlign="center" nzJustify="center">
-                <flower-food-waterfall [data]="data" *ngIf="data.length > 0; else noData"></flower-food-waterfall>
-                <ng-template #noData>
-                    <flower-nodata></flower-nodata>
-                </ng-template>
-            </div>
-        </nz-spin>
-    </div>
+  <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
+    [ngStyle]="{'width':isMobile ?'90vw':'75vw'}">
+    <flower-blog-title [title]="'养猪秘籍'"></flower-blog-title>
+    <nz-affix [nzOffsetTop]="88">
+      <div class="search card" nz-flex nzAlign="center" nzJustify="center" nzGap="small" @QuickUp>
+        <nz-input-group [nzSuffix]="suffixIconSearch" style="border-radius: 10px;">
+          <input type="text" nz-input placeholder="搜索美食" [formControl]="searchControl" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <span nz-icon nzType="search"></span>
+        </ng-template>
+      </div>
+    </nz-affix>
+    <nz-spin [nzTip]="'美食正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
+      <div style="width: 100%;" nz-flex nzAlign="center" nzJustify="center">
+        @if (data.length > 0) {
+          <flower-food-waterfall [data]="data"></flower-food-waterfall>
+        } @else {
+          <flower-nodata></flower-nodata>
+        }
+      </div>
+    </nz-spin>
+  </div>
 </div>
 
-<div class="card" *ngIf="!isMobile" class="target" nz-flex [nzVertical]="true" nzGap="large">
+@if (!isMobile) {
+  <div class="card" class="target" nz-flex [nzVertical]="true" nzGap="large">
     <ul nz-menu nzMode="inline" nzTheme="light">
-        <li class="target_text" nz-menu-item (click)="getFoodMenu(tagList)" nzSelected>
-            全部
+      <li class="target_text" nz-menu-item (click)="getFoodMenu(tagList)" nzSelected>
+        全部
+      </li>
+      @for (item of targetList; track item) {
+        <li class="target_text" nz-menu-item (click)="getFoodMenu(['美食-'+item])">
+          <!-- <span nz-icon nzType="mail"></span> -->
+          <span nz-typography style="text-align: center;">{{item}}</span>
         </li>
-        <ng-container *ngFor="let item of targetList">
-            <li class="target_text" nz-menu-item (click)="getFoodMenu(['美食-'+item])">
-                <!-- <span nz-icon nzType="mail"></span> -->
-                <span nz-typography style="text-align: center;">{{item}}</span>
-            </li>
-        </ng-container>
+      }
     </ul>
-</div>
+  </div>
+}

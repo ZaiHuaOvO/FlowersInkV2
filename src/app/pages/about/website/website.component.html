@@ -1,81 +1,87 @@
 <div class="website" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true"
-    [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
-    <flower-target *ngIf="!isMobile"></flower-target>
-    <div class="content card" nz-flex [nzVertical]="true" @QuickUp
-        [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
-        <article nz-typography>
-            <h1 nz-typography style="color:#8B4513">关于网站</h1>
-            <p nz-typography nzType="secondary">你的指尖，蕴含改变世界的力量。</p>
-            <p nz-typography nzType="secondary">如果你对花墨的发展感到好奇，欢迎访问<a
-                    href="https://docs.qq.com/sheet/DY3BEZlZtaUNRVEZk?tab=BB08J2" target="_blank">《花墨开发升级计划》</a></p>
-            <h2 nz-typography>网站诞生的原因</h2>
-            <p nz-typography>我是一个非常喜欢记录的人</p>
-            <p nz-typography>从学生时代的日记、笔记，到现在的记账、拍照、游戏视频剪辑，我总是希望将生命中的美好记录成册。</p>
-            <p nz-typography>我是一个非常喜欢分享的人</p>
-            <p nz-typography>我总是主动积极的发朋友圈、找朋友聊天、在知乎掘金等社区发表言论，我总是希望将自己的记忆和经验分享出去。</p>
-            <br>
-            <p nz-typography>某一天，我在掘金阅读了一篇文章《零碎时间建站》，这篇文章让我想起了曾经大学时因高考失利而堕落摆烂的自己</p>
-            <p nz-typography>为了满足那时候的自己心中无数次“我想写一个自己的个人网站”的愿望，也为了「记录」和「分享」</p>
-            <p nz-typography>「花墨」应邀而来</p>
+  [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
+  @if (!isMobile) {
+    <flower-target></flower-target>
+  }
+  <div class="content card" nz-flex [nzVertical]="true" @QuickUp
+    [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
+    <article nz-typography>
+      <h1 nz-typography style="color:#8B4513">关于网站</h1>
+      <p nz-typography nzType="secondary">你的指尖，蕴含改变世界的力量。</p>
+      <p nz-typography nzType="secondary">如果你对花墨的发展感到好奇，欢迎访问<a
+      href="https://docs.qq.com/sheet/DY3BEZlZtaUNRVEZk?tab=BB08J2" target="_blank">《花墨开发升级计划》</a></p>
+      <h2 nz-typography>网站诞生的原因</h2>
+      <p nz-typography>我是一个非常喜欢记录的人</p>
+      <p nz-typography>从学生时代的日记、笔记，到现在的记账、拍照、游戏视频剪辑，我总是希望将生命中的美好记录成册。</p>
+      <p nz-typography>我是一个非常喜欢分享的人</p>
+      <p nz-typography>我总是主动积极的发朋友圈、找朋友聊天、在知乎掘金等社区发表言论，我总是希望将自己的记忆和经验分享出去。</p>
+      <br>
+        <p nz-typography>某一天，我在掘金阅读了一篇文章《零碎时间建站》，这篇文章让我想起了曾经大学时因高考失利而堕落摆烂的自己</p>
+        <p nz-typography>为了满足那时候的自己心中无数次“我想写一个自己的个人网站”的愿望，也为了「记录」和「分享」</p>
+        <p nz-typography>「花墨」应邀而来</p>
 
-            <h2 nz-typography>网站名称(域名)的含义</h2>
-            <p nz-typography>我的网站项目名和域名为：FlowersInk，含义是「花(Flower)的(`s)墨(Ink)」</p>
-            <p nz-typography>相比于现在非常便利的电子化，我总是书写、纸质书一直情有独钟，提笔书写在纸上所带来知识的厚重感，电子化很难替代</p>
-            <p nz-typography>但电子化是时代趋势，纸质书笔只能作为一种闲暇之余的爱好，于是我将敲击键盘看作是另一种形式的“书写”。</p>
-            <p nz-typography>「再花想要挥洒笔墨的地方」，故名为「花墨」</p>
+        <h2 nz-typography>网站名称(域名)的含义</h2>
+        <p nz-typography>我的网站项目名和域名为：FlowersInk，含义是「花(Flower)的(`s)墨(Ink)」</p>
+        <p nz-typography>相比于现在非常便利的电子化，我总是书写、纸质书一直情有独钟，提笔书写在纸上所带来知识的厚重感，电子化很难替代</p>
+        <p nz-typography>但电子化是时代趋势，纸质书笔只能作为一种闲暇之余的爱好，于是我将敲击键盘看作是另一种形式的“书写”。</p>
+        <p nz-typography>「再花想要挥洒笔墨的地方」，故名为「花墨」</p>
 
-            <h2 nz-typography>网站为什么没有评论功能</h2>
-            <p nz-typography>现代的互联网社区环境充满着浮躁，许多人看到文字就想评论，看到评论就想抨击，作为作者灵魂载体的文字反倒被忽略了</p>
-            <p nz-typography>本站作为我分享和记录的平台，我更希望所有人能够沉浸于我所写的文字中</p>
-            <p nz-typography>在这里你只需要保持当初对于文字的初心：阅读和思考</p>
+        <h2 nz-typography>网站为什么没有评论功能</h2>
+        <p nz-typography>现代的互联网社区环境充满着浮躁，许多人看到文字就想评论，看到评论就想抨击，作为作者灵魂载体的文字反倒被忽略了</p>
+        <p nz-typography>本站作为我分享和记录的平台，我更希望所有人能够沉浸于我所写的文字中</p>
+        <p nz-typography>在这里你只需要保持当初对于文字的初心：阅读和思考</p>
 
-            <h2 nz-typography>网站的技术栈</h2>
-            <div nz-typography>
-                <ul>
-                    <li>
-                        <p nz-typography>前端：基于Angular17开发（目前已更新至v20），使用了ng-zorro、ngx-markdown等库</p>
-                    </li>
-                    <li>
-                        <p nz-typography>后端：使用NestJS开发</p>
-                    </li>
-                    <li>
-                        <p nz-typography>数据库和服务器：MySQL、阿里云ECS</p>
-                    </li>
-                    <li>
-                        <p nz-typography>样式风格：在功能完善的情况下追求极简和舒适的交互</p>
-                    </li>
-                </ul>
-            </div>
-            <p nz-typography>网站源码开源地址：<a rel="nofollow" href="https://github.com/ZaiHuaOvO/FlowersInkV2"
-                    target="_blank">
-                    <span nz-icon nzType="github" nzTheme="outline"></span>花墨
-                </a></p>
-            <p nz-typography>本网站的代码已尽我所能的做到项目结构清晰、模块化开发、代码精简，如需学习请自取（请给再花Star谢谢喵）
-            </p>
-            <h2 nz-typography>特别鸣谢</h2>
-            <p nz-typography>感谢我老婆
-                <img src="https://api.flowersink.com/img/方长趴趴.png" style="width: 40px;" alt="">
-                <strong style="color: red;">方方大人</strong>&nbsp;
-                对于我建站行为的大力支持，工作繁忙却在样式、功能等设计方面给予了许多建设性建议，老婆大人万岁！
-            </p>
-            <h2 nz-typography>网站的建站历程</h2>
-            <div>
-                <nz-timeline>
-                    <nz-timeline-item nzColor="green" *ngFor="let item of websiteTimeline">
-                        <div nz-flex nzGap="middle">
-                            <p nz-typography nzType="secondary">{{ item.date }}</p>
-                            <p nz-typography>{{ item.title }}</p>
-                        </div>
-                    </nz-timeline-item>
-                </nz-timeline>
-            </div>
-            <nz-divider></nz-divider>
-            <p nz-typography style="text-align: end;">花墨</p>
-            <p nz-typography style="text-align: end;">2024年01月03日</p>
-            <p nz-typography style="text-align: end;" *ngIf="isMobile">
-                <a [routerLink]="['/about/message']">前往「留言板」</a>
-            </p>
+        <h2 nz-typography>网站的技术栈</h2>
+        <div nz-typography>
+          <ul>
+            <li>
+              <p nz-typography>前端：基于Angular17开发（目前已更新至v20），使用了ng-zorro、ngx-markdown等库</p>
+            </li>
+            <li>
+              <p nz-typography>后端：使用NestJS开发</p>
+            </li>
+            <li>
+              <p nz-typography>数据库和服务器：MySQL、阿里云ECS</p>
+            </li>
+            <li>
+              <p nz-typography>样式风格：在功能完善的情况下追求极简和舒适的交互</p>
+            </li>
+          </ul>
+        </div>
+        <p nz-typography>网站源码开源地址：<a rel="nofollow" href="https://github.com/ZaiHuaOvO/FlowersInkV2"
+          target="_blank">
+          <span nz-icon nzType="github" nzTheme="outline"></span>花墨
+        </a></p>
+        <p nz-typography>本网站的代码已尽我所能的做到项目结构清晰、模块化开发、代码精简，如需学习请自取（请给再花Star谢谢喵）
+        </p>
+        <h2 nz-typography>特别鸣谢</h2>
+        <p nz-typography>感谢我老婆
+          <img src="https://api.flowersink.com/img/方长趴趴.png" style="width: 40px;" alt="">
+          <strong style="color: red;">方方大人</strong>&nbsp;
+          对于我建站行为的大力支持，工作繁忙却在样式、功能等设计方面给予了许多建设性建议，老婆大人万岁！
+        </p>
+        <h2 nz-typography>网站的建站历程</h2>
+        <div>
+          <nz-timeline>
+            @for (item of websiteTimeline; track item) {
+              <nz-timeline-item nzColor="green">
+                <div nz-flex nzGap="middle">
+                  <p nz-typography nzType="secondary">{{ item.date }}</p>
+                  <p nz-typography>{{ item.title }}</p>
+                </div>
+              </nz-timeline-item>
+            }
+          </nz-timeline>
+        </div>
+        <nz-divider></nz-divider>
+        <p nz-typography style="text-align: end;">花墨</p>
+        <p nz-typography style="text-align: end;">2024年01月03日</p>
+        @if (isMobile) {
+          <p nz-typography style="text-align: end;">
+            <a [routerLink]="['/about/message']">前往「留言板」</a>
+          </p>
+        }
 
-        </article>
+      </article>
     </div>
-</div>
+  </div>

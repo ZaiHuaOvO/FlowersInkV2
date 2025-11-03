@@ -11,41 +11,40 @@
   <div nz-flex nzJustify="space-between" nzAlign="center">
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag"><nz-tag nzColor="#8B4513" [routerLink]="['/blog/article']">
-          <ng-container *ngIf="numLoading; else elseTemplate1">
-            …
-          </ng-container>
-          <ng-template #elseTemplate1>
-            {{info.article}}
-          </ng-template>
-          篇</nz-tag></span>
+        @if (numLoading) {
+          …
+        } @else {
+          {{info.article}}
+        }
+      篇</nz-tag></span>
       <span nz-typography>技术文章</span>
     </div>
     <nz-divider nzType="vertical"></nz-divider>
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag"><nz-tag nzColor="#8B4513" [routerLink]="['/blog/essay']">
-          <ng-container *ngIf="numLoading; else elseTemplate2">
-            …
-          </ng-container>
-          <ng-template #elseTemplate2>
-            {{info.essay}}
-          </ng-template>篇</nz-tag></span>
+        @if (numLoading) {
+          …
+        } @else {
+          {{info.essay}}
+        }
+      篇</nz-tag></span>
       <span nz-typography>随笔杂文</span>
     </div>
     <nz-divider nzType="vertical"></nz-divider>
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag"><nz-tag nzColor="#8B4513"
-          [routerLink]="['/about/website']">{{info.day}}天</nz-tag></span>
+      [routerLink]="['/about/website']">{{info.day}}天</nz-tag></span>
       <span nz-typography>网站运行</span>
     </div>
   </div>
   <button class="amazon-button" role="button" [routerLink]="['/about/me']"><span class="emoji">▶︎了解再花◀︎</span></button>
   <button class="amazon-button" role="button" [routerLink]="['/about/website']"><span
-      class="emoji">▶︎了解花墨◀︎</span></button>
+  class="emoji">▶︎了解花墨◀︎</span></button>
   <!-- <button class="amazon-button" role="button" [routerLink]="['/about/message']"><span class="emoji">▶︎留言板◀︎</span></button> -->
   <!-- <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
-    <span nz-typography>花墨已运行&nbsp;&nbsp;<nz-tag nzColor="green" class="point_tag"
-        [routerLink]="['/about/website/']">{{info.day}}</nz-tag>天</span>
-    <span nz-typography>上次更新于&nbsp;&nbsp;{{info.lastUpdateTime |
-      date:'yyyy年MM月dd日 HH时mm分ss秒'}}</span>
-  </div> -->
+  <span nz-typography>花墨已运行&nbsp;&nbsp;<nz-tag nzColor="green" class="point_tag"
+  [routerLink]="['/about/website/']">{{info.day}}</nz-tag>天</span>
+  <span nz-typography>上次更新于&nbsp;&nbsp;{{info.lastUpdateTime |
+  date:'yyyy年MM月dd日 HH时mm分ss秒'}}</span>
+</div> -->
 </div>

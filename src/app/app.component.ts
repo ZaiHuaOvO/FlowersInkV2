@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -26,9 +26,8 @@ import { BackTopComponent } from './components/website/back-top/back-top.compone
     FooterComponent,
     NzTypographyModule,
     NzBackTopModule,
-    CommonModule,
-    BackTopComponent,
-  ],
+    BackTopComponent
+],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })

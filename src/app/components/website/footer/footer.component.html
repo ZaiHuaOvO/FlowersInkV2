@@ -1,77 +1,79 @@
 <div class="footer_box" nz-flex nzJustify="center" nzAlign="center">
-    <div class="footer" nz-flex nzJustify="center" nzAlign="start" [ngStyle]="{'width': isMobile?'100%':'40%'}">
+  <div class="footer" nz-flex nzJustify="center" nzAlign="start" [ngStyle]="{'width': isMobile?'100%':'40%'}">
+    <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+      <span nz-typography>站外导航</span>
+      <a nz-typography class="text" href="https://www.foreverblog.cn/go.html" target="_blank">
+        <flower-forever></flower-forever>
+        &nbsp;虫洞
+      </a>
+      <a nz-typography class="text" href="https://www.travellings.cn/go.html" target="_blank" rel="noopener"
+        title="开往-友链接力">
+        <span nz-icon nzType="car" nzTheme="outline"></span>&nbsp;开往
+      </a>
+      <a nz-typography class="text" href="https://www.boyouquan.com/blogs/flowersink.com" target="_blank"
+        rel="noopener" title="博友圈">
+        <img [width]="12" [height]="12" src="https://www.boyouquan.com/assets/images/sites/logo/logo-small.png"
+          alt="">&nbsp;博友圈
+        </a>
+        <a nz-typography class="text" href="https://storeweb.cn/site/o/2297" target="_blank" rel="noopener"
+          title="个站商店">
+          <img [width]="12" [height]="12" src="https://upload.storeweb.cn/image/logo.png" alt="">&nbsp;个站商店
+        </a>
+        <a nz-typography class="text" href="https://travel.moe/go.html?travel=on" title="异次元之旅-跃迁-我们一起去萌站成员的星球旅行吧！"
+          rel="noopener" target="_blank">
+          <flower-planet></flower-planet>&nbsp;异次元之旅
+        </a>
+      </div>
+      @if (!isMobile) {
         <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
-            <span nz-typography>站外导航</span>
-            <a nz-typography class="text" href="https://www.foreverblog.cn/go.html" target="_blank">
-                <flower-forever></flower-forever>
-                &nbsp;虫洞
-            </a>
-            <a nz-typography class="text" href="https://www.travellings.cn/go.html" target="_blank" rel="noopener"
-                title="开往-友链接力">
-                <span nz-icon nzType="car" nzTheme="outline"></span>&nbsp;开往
-            </a>
-            <a nz-typography class="text" href="https://www.boyouquan.com/blogs/flowersink.com" target="_blank"
-                rel="noopener" title="博友圈">
-                <img [width]="12" [height]="12" src="https://www.boyouquan.com/assets/images/sites/logo/logo-small.png"
-                    alt="">&nbsp;博友圈
-            </a>
-            <a nz-typography class="text" href="https://storeweb.cn/site/o/2297" target="_blank" rel="noopener"
-                title="个站商店">
-                <img [width]="12" [height]="12" src="https://upload.storeweb.cn/image/logo.png" alt="">&nbsp;个站商店
-            </a>
-            <a nz-typography class="text" href="https://travel.moe/go.html?travel=on" title="异次元之旅-跃迁-我们一起去萌站成员的星球旅行吧！"
-                rel="noopener" target="_blank">
-                <flower-planet></flower-planet>&nbsp;异次元之旅
-            </a>
-        </div>
-        <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
-            <span nz-typography>站内索引</span>
-            <div nz-flex>
-                <a nz-typography class="text"
-                    href="https://api.flowersink.com/rss"><flower-rss></flower-rss>&nbsp;RSS订阅</a>
-                <a href="https://www.flowersink.com/blog/blog-detail/30" class="text">[教程]</a>
+          <span nz-typography>站内索引</span>
+          <div nz-flex>
+            <a nz-typography class="text"
+              href="https://api.flowersink.com/rss"><flower-rss></flower-rss>&nbsp;RSS订阅</a>
+              <a href="https://www.flowersink.com/blog/blog-detail/30" class="text">[教程]</a>
             </div>
             <a nz-typography class="text"
-                href="https://api.flowersink.com/sitemap.xml"><flower-sitemap></flower-sitemap>&nbsp;站点地图</a>
-        </div>
-
-        <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small" *ngIf="!isMobile">
-            <span nz-typography>联系方式</span>
-            <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top"><span
-                    nz-icon nzType="qq" nzTheme="outline"></span>&nbsp;446840401</span>
-            <ng-template #qqQRCode>
-                <img width="250px" height="250px" src="assets/img/QRCode/qq.png">
-            </ng-template>
-
-            <span nz-typography class="text" nz-popover [nzPopoverContent]="wxQRCode" nzPopoverPlacemen="bottom"><span
-                    nz-icon nzType="wechat" nzTheme="outline"></span>&nbsp;zaihua_huahua</span>
-            <ng-template #wxQRCode>
-                <img width="250px" height="250px" src="assets/img/QRCode/wx.png">
-            </ng-template>
-
-            <span nz-typography class="text" (click)="copyEmail()"><span nz-icon nzType="mail"
-                    nzTheme="outline"></span>&nbsp;{{email}}</span>
-        </div>
-
-        <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
-            <span nz-typography nz-flex nzAlign="center">
-                <span nz-typography> © 2024 - 2025 再花 <nz-avatar style="padding-bottom: 2px;" [nzSize]="16"
-                        nzSrc="https://api.flowersink.com/img/再花趴趴.png" nzShape="square"></nz-avatar>
-                </span>
-                <nz-divider nzType="vertical"></nz-divider>
-                <span nz-icon nzType="github" nzTheme="outline" style="cursor: pointer;"
-                    href="https://github.com/ZaiHuaOvO"></span>
-            </span>
-            <a nz-typography class="text" href="https://icp.gov.moe/?keyword=20250510"
-                target="_blank">萌ICP备20250510号</a>
-
-            <a nz-typography class="text" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2024104191号</a>
-            <div nz-flex nzAlign="center">
-                <nz-avatar [nzSize]="16" nzSrc="assets/img/web/备案图标.png" nzShape="square"></nz-avatar>
-                <a nz-typography class="text" href="https://beian.mps.gov.cn/#/query/webSearch?code=51011202000914"
-                    rel="noreferrer" target="_blank">川公网安备51011202000914</a>
+              href="https://api.flowersink.com/sitemap.xml"><flower-sitemap></flower-sitemap>&nbsp;站点地图</a>
             </div>
+          }
+
+          @if (!isMobile) {
+            <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+              <span nz-typography>联系方式</span>
+              <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top"><span
+              nz-icon nzType="qq" nzTheme="outline"></span>&nbsp;446840401</span>
+              <ng-template #qqQRCode>
+                <img width="250px" height="250px" src="assets/img/QRCode/qq.png">
+              </ng-template>
+              <span nz-typography class="text" nz-popover [nzPopoverContent]="wxQRCode" nzPopoverPlacemen="bottom"><span
+              nz-icon nzType="wechat" nzTheme="outline"></span>&nbsp;zaihua_huahua</span>
+              <ng-template #wxQRCode>
+                <img width="250px" height="250px" src="assets/img/QRCode/wx.png">
+              </ng-template>
+              <span nz-typography class="text" (click)="copyEmail()"><span nz-icon nzType="mail"
+              nzTheme="outline"></span>&nbsp;{{email}}</span>
+            </div>
+          }
+
+          <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+            <span nz-typography nz-flex nzAlign="center">
+              <span nz-typography> © 2024 - 2025 再花 <nz-avatar style="padding-bottom: 2px;" [nzSize]="16"
+              nzSrc="https://api.flowersink.com/img/再花趴趴.png" nzShape="square"></nz-avatar>
+            </span>
+            <nz-divider nzType="vertical"></nz-divider>
+            <span nz-icon nzType="github" nzTheme="outline" style="cursor: pointer;"
+            href="https://github.com/ZaiHuaOvO"></span>
+          </span>
+          <a nz-typography class="text" href="https://icp.gov.moe/?keyword=20250510"
+          target="_blank">萌ICP备20250510号</a>
+
+          <a nz-typography class="text" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2024104191号</a>
+          <div nz-flex nzAlign="center">
+            <nz-avatar [nzSize]="16" nzSrc="assets/img/web/备案图标.png" nzShape="square"></nz-avatar>
+            <a nz-typography class="text" href="https://beian.mps.gov.cn/#/query/webSearch?code=51011202000914"
+            rel="noreferrer" target="_blank">川公网安备51011202000914</a>
+          </div>
         </div>
 
+      </div>
     </div>
-</div>
