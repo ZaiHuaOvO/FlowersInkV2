@@ -40,7 +40,7 @@
                     <ng-container *ngFor="let item of displayCommentArray">
                         <nz-tag *ngIf="item.count > 0" nz-tooltip [nzTooltipTitle]="item.description"
                             style="border-radius: 5px;cursor: default;">
-                            <span nz-typography>{{item.value}} {{item.count}}</span>
+                            <span nz-typography class="emoji">{{item.value}} {{item.count}}</span>
                         </nz-tag>
                     </ng-container>
                 </div>

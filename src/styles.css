@@ -211,3 +211,11 @@ nz-spin {
 .ant-typography a {
     color: #8B4513 !important;
 }
+
+
+.emoji {
+    font-family: "Noto Emoji", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
