@@ -6,11 +6,12 @@
   <div>
     <!-- <ul nz-menu nzMode="horizontal">
     @for (menu of MenuList; track $index) {
-      <li  *ngIf="menu.child?.length == 0; else elseChild" [routerLink]="[menu.url]" nzMatchRouter>
-        <span nz-icon [nzType]="menu.icon" nzTheme="outline"></span>
-        &nbsp;&nbsp;{{ menu.title }}
-      </li>
-      <ng-template #elseChild>
+      @if (menu.child?.length == 0) {
+        <li [routerLink]="[menu.url]" nzMatchRouter>
+          <span nz-icon [nzType]="menu.icon" nzTheme="outline"></span>
+          &nbsp;&nbsp;{{ menu.title }}
+        </li>
+      } @else {
         <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzTheme="outline" nzPlacement="bottomCenter"
           nzMatchRouter>
           <ul>
@@ -20,7 +21,7 @@
             }
           </ul>
         </li>
-      </ng-template>
+      }
     }
   </ul> -->
   <nav class="menu">

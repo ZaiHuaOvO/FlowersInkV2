@@ -6,7 +6,8 @@
                 <textarea nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.content" placeholder="">
                     </textarea>
 
-                <div class="toolbar" *ngIf="showToolbar && !isMobile" nz-flex nzJustify="space-between">
+                @if (showToolbar && !isMobile) {
+                <div class="toolbar" nz-flex nzJustify="space-between">
                     <flower-emoji (emojiSelected)="onEmojiSelected($event)"></flower-emoji>
                     <div nz-flex nzJustify="end" nzGap="small">
                         <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 200px;">
@@ -22,8 +23,10 @@
                         <button class="submit amazon-button" (click)="submit()">发布</button>
                     </div>
                 </div>
+                }
 
-                <div class="toolbar" *ngIf="showToolbar && isMobile" nz-flex nzJustify="space-between">
+                @if (showToolbar && isMobile) {
+                <div class="toolbar" nz-flex nzJustify="space-between">
                     <div nz-flex nzJustify="end" nzGap="small">
                         <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 30%;">
                             <input type="text" [(ngModel)]="form.name" nz-input placeholder="称呼" />
@@ -38,6 +41,7 @@
                         <button class="submit amazon-button" (click)="submit()">发布</button>
                     </div>
                 </div>
+                }
             </div>
         </div>
     </div>

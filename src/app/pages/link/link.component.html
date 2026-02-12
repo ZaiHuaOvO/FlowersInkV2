@@ -18,20 +18,25 @@
 
         <nz-spin [nzTip]="'友链正在赶来中'" [nzSpinning]="loading">
             <div nz-row [nzGutter]="[16,16]">
-                <ng-container *ngFor="let link of links">
-                    <div nz-col nzSpan="8" *ngIf="!isMobile">
+                @for (link of links; track link) {
+                    @if (!isMobile) {
+                    <div nz-col nzSpan="8">
                         <flower-link-card [link]="link"></flower-link-card>
                     </div>
+                    }
 
-                    <div nz-col nzSpan="24" *ngIf="isMobile">
+                    @if (isMobile) {
+                    <div nz-col nzSpan="24">
                         <flower-link-card [link]="link"></flower-link-card>
                     </div>
-                </ng-container>
+                    }
+                }
             </div>
         </nz-spin>
 
         <nz-divider></nz-divider>
-        <div nz-row [nzGutter]="[16,16]" *ngIf="!isMobile">
+        @if (!isMobile) {
+        <div nz-row [nzGutter]="[16,16]">
             <div nz-col nzSpan="16">
                 <nz-alert style="border-radius: 10px;" nzType="info" [nzMessage]="linkTitle"
                     [nzDescription]="linkNote"></nz-alert>
@@ -61,13 +66,17 @@
                         name="description" placeholder="网站描述">
                     <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
                         placeholder="联系邮箱(可选)">
-                    <div class="toolbar" *ngIf="showToolbar" nz-flex nzJustify="end">
+                    @if (showToolbar) {
+                    <div class="toolbar" nz-flex nzJustify="end">
                         <button class="submit amazon-button" (click)="submit()">申请</button>
                     </div>
+                    }
                 </div>
             </div>
         </div>
-        <div nz-flex [nzVertical]="true" *ngIf="isMobile" nzGap="middle">
+        }
+        @if (isMobile) {
+        <div nz-flex [nzVertical]="true" nzGap="middle">
             <nz-alert style="border-radius: 10px;" nzType="info" [nzMessage]="linkTitle"
                 [nzDescription]="linkNote"></nz-alert>
             <ng-template #linkTitle>
@@ -95,11 +104,14 @@
                     <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
                         placeholder="联系邮箱(可选)">
                 </nz-input-group>
-                <div class="toolbar" *ngIf="showToolbar" nz-flex nzJustify="end">
+                @if (showToolbar) {
+                <div class="toolbar" nz-flex nzJustify="end">
                     <button class="submit amazon-button" (click)="submit()">申请</button>
                 </div>
+                }
             </div>
         </div>
+        }
     </div>
 </div>
 

@@ -8,8 +8,9 @@
                 nzGap="small" [nzVertical]="true">
                 @for (panel of data; track panel) {
                 <nz-collapse-panel [nzActive]="panel.active" [nzHeader]="yearBox" class="card" nzShowArrow="false">
-                    <nz-timeline *ngIf="!isMobile">
-                        <ng-container *ngFor="let item of panel.data">
+                    @if (!isMobile) {
+                        <nz-timeline>
+                            @for (item of panel.data; track item) {
                             <nz-timeline-item [nzColor]="getAccentColor(item.tag[0])" [nzLabel]="DateLabel"
                                 [nzPosition]="item.tag[0] == '事件' ? 'right' : 'left'">
 
@@ -18,15 +19,15 @@
                                         [nzDescription]="contentTemplate"></nz-card-meta>
                                 </nz-card>
                                 <ng-template #contentTemplate>
-                                    <div nz-flex nzAlign="start" nzJustify="space-between"
-                                        *ngIf="item.tag[0] == '事件';else elseTemplate">
-                                        <nz-avatar style="min-width: 48px;" [nzSize]="48"
-                                            [nzSrc]="item.image_first[0].url"></nz-avatar>
-                                        <p style="font-size: 14px !important;color:rgb(100, 100, 100);margin: 0;"
-                                            nz-typography nzEllipsis [nzContent]="item.content" [nzEllipsisRows]="2">
-                                        </p>
-                                    </div>
-                                    <ng-template #elseTemplate>
+                                    @if (item.tag[0] == '事件') {
+                                        <div nz-flex nzAlign="start" nzJustify="space-between">
+                                            <nz-avatar style="min-width: 48px;" [nzSize]="48"
+                                                [nzSrc]="item.image_first[0].url"></nz-avatar>
+                                            <p style="font-size: 14px !important;color:rgb(100, 100, 100);margin: 0;"
+                                                nz-typography nzEllipsis [nzContent]="item.content" [nzEllipsisRows]="2">
+                                            </p>
+                                        </div>
+                                    } @else {
                                         <div nz-flex nzAlign="start" nzJustify="space-between">
                                             <p style="font-size: 14px !important;color:rgb(100, 100, 100);margin: 0;"
                                                 nz-typography nzEllipsis [nzContent]="item.content"
@@ -34,7 +35,7 @@
                                             <nz-avatar style="min-width: 48px;" [nzSize]="48"
                                                 [nzSrc]="item.image_first[0].url"></nz-avatar>
                                         </div>
-                                    </ng-template>
+                                    }
                                 </ng-template>
                                 <ng-template #LifeTtile>
                                     <h4 nz-typography
@@ -48,12 +49,14 @@
                                 <h5 nz-typography>「{{item.date | date: 'yyyy年MM月dd日'}}」&nbsp;
                                 </h5>
                             </ng-template>
-                        </ng-container>
-                    </nz-timeline>
+                            }
+                        </nz-timeline>
+                    }
 
                     <!-- 手机端 -->
-                    <nz-timeline *ngIf="isMobile">
-                        <ng-container *ngFor="let item of panel.data">
+                    @if (isMobile) {
+                        <nz-timeline>
+                            @for (item of panel.data; track item) {
                             <nz-timeline-item [nzColor]="getAccentColor(item.tag[0])">
                                 <nz-card class="img_card" (click)="getLifeDetailMobile(item)">
                                     <nz-card-meta [nzTitle]="LifeTtile"
@@ -78,8 +81,9 @@
                             <ng-template #DateLabel>
                                 <h5 nz-typography>「{{item.date | date: 'yyyy-M-d'}}」&nbsp;</h5>
                             </ng-template>
-                        </ng-container>
-                    </nz-timeline>
+                            }
+                        </nz-timeline>
+                    }
                 </nz-collapse-panel>
                 <ng-template #yearBox>
                     <div nz-flex nzJustify="center">

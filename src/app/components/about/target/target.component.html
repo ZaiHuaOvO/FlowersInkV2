@@ -1,8 +1,10 @@
 <div class="target" nz-flex [nzVertical]="true" nzGap="large">
   <!-- <ul nz-menu nzMode="inline">
-  <li *ngFor="let item of routeList" nz-menu-item nzMatchRouter [routerLink]="item.url">
-    <span nz-typography class="noto-sans-sc">{{item.title}}</span>
-  </li>
+  @for (item of routeList; track item) {
+    <li nz-menu-item nzMatchRouter [routerLink]="item.url">
+      <span nz-typography class="noto-sans-sc">{{item.title}}</span>
+    </li>
+  }
 </ul> -->
 <div nz-flex [nzVertical]="true" nzAlign="end" nzGap="middle">
   @for (item of routeList; track item) {

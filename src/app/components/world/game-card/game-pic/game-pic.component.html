@@ -14,10 +14,12 @@
           (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</nz-tag>
         </div>
       </nz-spin>
-      <!-- <nz-tag nzColor="#8B4513" *ngIf="i <= currentIndex">
+      <!-- @if (i <= currentIndex) {
+      <nz-tag nzColor="#8B4513">
       <span nz-typography style="color: #fff;" class="img_button"
       (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</span>
-    </nz-tag> -->
+    </nz-tag>
+    } -->
   </nz-col>
 }
 </nz-row>

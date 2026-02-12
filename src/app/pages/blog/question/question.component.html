@@ -1,6 +1,7 @@
 <div class="article" nz-flex [nzVertical]="true" nzAlign="center">
     <flower-blog-title [title]="'开发问题记录'"></flower-blog-title>
-    <div class="search card" @QuickUp *ngIf="isMobile">
+    @if (isMobile) {
+    <div class="search card" @QuickUp>
         <nz-input-group [nzSuffix]="suffixIconSearch">
             <input type="text" nz-input placeholder="搜索问题" [formControl]="searchControl" />
         </nz-input-group>
@@ -8,6 +9,7 @@
             <span nz-icon nzType="search"></span>
         </ng-template>
     </div>
+    }
     <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
         [ngStyle]="{'width':isMobile ?'100%':'80%'}">
         <nz-spin [nzTip]="'问题正在努力赶来中'" [nzSpinning]="loading" [ngStyle]="{'width':isMobile ?'90vw':'auto'}">
@@ -33,7 +35,8 @@
             <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"
                 (nzPageIndexChange)="pageChange($event)"></nz-pagination>
         </nz-spin>
-        <div class="me" @SlowUp *ngIf="!isMobile">
+        @if (!isMobile) {
+        <div class="me" @SlowUp>
             <nz-affix [nzOffsetTop]="72">
                 <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
                     <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -45,12 +48,15 @@
                     <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
                         <h5 nz-typography>问题标签</h5>
                         <div nz-flex nzWrap="wrap" nzGap="small">
-                            <nz-tag *ngFor="let tag of tagList" [nzColor]="tag.color"
+                            @for (tag of tagList; track tag) {
+                            <nz-tag [nzColor]="tag.color"
                                 (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}个</nz-tag>
+                            }
                         </div>
                     </div>
                 </div>
             </nz-affix>
         </div>
+        }
     </div>
 </div>
