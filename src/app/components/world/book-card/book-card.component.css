@@ -1,22 +1,30 @@
 .card {
-    padding: 24px;
-    width: 300px;
+  padding: 24px;
+  width: 300px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .content {
-    transition: transform 0.3s;
-    cursor: pointer;
+  cursor: pointer;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, background-color 0.28s ease;
 }
 
 .content:hover {
-    transform: translateY(-8px);
+  transform: translateY(-2px);
+  background: var(--fi-surface-soft);
+  box-shadow: 0 16px 30px rgba(58, 39, 22, 0.15);
+}
+
+.no_content {
+  cursor: default;
 }
 
 .book_name {
-    font-weight: bolder;
-    font-size: large;
+  font-weight: 700;
+  font-size: large;
 }
 
 .ribbon_text {
-    color: white
+  color: #fff;
 }

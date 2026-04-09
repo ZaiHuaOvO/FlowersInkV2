@@ -96,9 +96,7 @@ export class ArticleComponent implements OnInit {
       .subscribe((res: any) => {
         this.data = res['data'].data;
         this.count = res['data'].count;
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
+        this.loading = false;
       });
 
     this.blog
@@ -125,9 +123,7 @@ export class ArticleComponent implements OnInit {
       .subscribe((res: any) => {
         this.data = res['data'].data;
         this.count = res['data'].count;
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
+        this.loading = false;
       });
   }
 

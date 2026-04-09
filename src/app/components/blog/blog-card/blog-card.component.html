@@ -14,7 +14,7 @@
         @for (item of emojiTags[blog.id]; track item) {
           @if (item.count > 0) {
             <nz-tag nz-tooltip [nzTooltipTitle]="item.description" style="border-radius: 5px;">
-              <span class="emoji">{{item.value}}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
+              <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
             </nz-tag>
           }
         }

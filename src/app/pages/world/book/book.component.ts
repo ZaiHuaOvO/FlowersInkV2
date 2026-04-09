@@ -74,9 +74,7 @@ export class BookComponent implements OnInit {
       this.data = res['data'].books;
       this.totalBooks = res['data'].totalBooks;
       this.totalReadingTime = res['data'].totalReadingTime;
-      setTimeout(() => {
-        this.loading = false;
-      }, 500);
+      this.loading = false;
     });
   }
 }

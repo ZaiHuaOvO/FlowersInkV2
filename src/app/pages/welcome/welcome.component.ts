@@ -79,9 +79,7 @@ export class WelcomeComponent implements OnInit {
     this.welcome.getBlogs({ star: true }).subscribe((res: any) => {
       this.data = this.processedData(res['data'].data);
       this.cdr.detectChanges();
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
+      this.loading = false;
     });
     this.welcome
       .getBlogs({

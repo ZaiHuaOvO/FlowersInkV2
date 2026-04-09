@@ -88,9 +88,7 @@ export class QuestionComponent implements OnInit {
         this.data = res['data'].data;
         this.count = res['data'].count;
         this.tagList = this.general.getTagList(this.data);
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
+        this.loading = false;
       });
   }
 
@@ -106,9 +104,7 @@ export class QuestionComponent implements OnInit {
       .subscribe((res: any) => {
         this.data = res['data'].data;
         this.count = res['data'].count;
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
+        this.loading = false;
       });
   }
 

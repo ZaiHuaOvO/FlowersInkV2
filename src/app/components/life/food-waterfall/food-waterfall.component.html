@@ -1,7 +1,13 @@
 <div class="card waterfall-container">
   @for (item of data; track item) {
     <div class="waterfall-item" (click)="isMobile ? getLifeDetailMobile(item) : getLifeDetail(item)">
-      <img class="card" [src]="item.image_first[0].url" [alt]="item.title" />
+      <img
+        loading="lazy"
+        decoding="async"
+        class="card"
+        [src]="item.image_first[0].url"
+        [alt]="item.title"
+      />
       <div class="food_name">
         <h5 nz-typography style="white-space: pre-wrap; text-align: center;" class="noto-sans-sc">{{ item.title
         }}</h5>

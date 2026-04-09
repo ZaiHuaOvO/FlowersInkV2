@@ -1,262 +1,262 @@
 #currentAnchor {
-    --vp-c-brand: #dfa636;
-    --vp-c-brand-light: #ebd08d;
-    --vp-c-brand-dark: #b68524;
-    --vp-c-text-1: #2c3e50;
-    --vp-c-text-2: #6a8bad;
-    --vp-c-border: #eaecef;
-    --vp-code-bg: #161618;
-    --vp-code-fg: #f3f3f3;
-    --vp-font-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --vp-font-mono: "Fira Code", "JetBrains Mono", source-code-pro, Menlo, Monaco, Consolas, monospace;
+  --vp-c-brand-1: #8b5a2b;
+  --vp-c-brand-2: #7a4d23;
+  --vp-c-brand-3: #6a411d;
+  --vp-c-text-1: #2f2117;
+  --vp-c-text-2: #6f5c49;
+  --vp-c-text-3: #8f7b67;
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-soft: #fbf6ef;
+  --vp-c-border: #e5e7eb;
+  --vp-c-divider: #eceff3;
+  --vp-code-bg: #2a1f18;
+  --vp-code-fg: #f8eee1;
+  --vp-font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
+    "Source Han Sans SC", sans-serif;
+  --vp-font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+
+  font-family: var(--vp-font-base);
+  font-size: 15.75px;
+  line-height: 1.72;
+  font-weight: 400;
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* -------------------
-   功能性样式 & BUG 修复区
-   ------------------- */
-.markdown-clipboard-button {
-    background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.2s;
-    z-index: 10;
+#currentAnchor > *:first-child {
+  margin-top: 0;
 }
 
-/* [关键修复] 隐藏乱码头，同时确保不误删代码块内容 */
-.command-line-prompt,
-.command-line,
-#currentAnchor pre::before,
-#currentAnchor code::before {
-    display: none !important;
-    content: none !important;
+#currentAnchor > *:last-child {
+  margin-bottom: 0;
 }
 
-/* -------------------
-   全局排版
-   ------------------- */
-#currentAnchor {
-    font-family: var(--vp-font-base);
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--vp-c-text-1);
-    background-color: #fff;
-    overflow-wrap: break-word;
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* -------------------
-   标题 (Heading) - 带趴趴图片 (已修复垂直居中)
-   ------------------- */
 #currentAnchor h1,
 #currentAnchor h2,
-#currentAnchor h3 {
-    position: relative;
-    font-weight: 600;
-    color: var(--vp-c-text-1);
-    line-height: 1.3;
+#currentAnchor h3,
+#currentAnchor h4,
+#currentAnchor h5,
+#currentAnchor h6 {
+  color: var(--vp-c-text-1);
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: 0;
 }
 
 #currentAnchor h1 {
-    font-size: 30px;
-    padding-left: 35px;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    color: #664900;
-}
-
-#currentAnchor h1::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 55%;
-    transform: translateY(-50%);
-    width: 28px;
-    height: 22px;
-    background-image: url("https://api.flowersink.com/img/再花趴趴.png");
-    background-size: contain;
-    background-repeat: no-repeat;
+  font-size: 2.05rem;
+  margin: 0 0 1.1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--vp-c-divider);
 }
 
 #currentAnchor h2 {
-    font-size: 24px;
-    padding-left: 28px;
-    margin-top: 1.2em;
-    margin-bottom: 0.5em;
-}
-
-#currentAnchor h2::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 22px;
-    height: 18px;
-    background-image: url("https://api.flowersink.com/img/方长趴趴.png");
-    background-size: contain;
-    background-repeat: no-repeat;
+  font-size: 1.55rem;
+  margin: 2.25rem 0 1rem;
+  padding-top: 0.25rem;
 }
 
 #currentAnchor h3 {
-    font-size: 20px;
-    margin-top: 32px;
-    border-left: 4px solid var(--vp-c-brand);
-    padding-left: 12px;
+  font-size: 1.22rem;
+  margin: 1.75rem 0 0.8rem;
 }
 
-/* -------------------
-   引用块 - 灰色极简风
-   ------------------- */
-#currentAnchor blockquote {
-    margin: 16px 0;
-    padding: 4px 0 4px 18px;
-    border-left: 4px solid #d0d7de;
-    background-color: transparent;
-    color: var(--vp-c-text-2);
+#currentAnchor h4,
+#currentAnchor h5,
+#currentAnchor h6 {
+  font-size: 1rem;
+  margin: 1.25rem 0 0.65rem;
 }
 
-#currentAnchor blockquote p {
-    margin: 0;
-    font-size: 15px;
-}
-
-/* -------------------
-   代码样式 (Code) - 增加行号支持
-   ------------------- */
-
-/* 行内代码 */
-#currentAnchor p code,
-#currentAnchor li code {
-    font-family: var(--vp-font-mono);
-    font-size: 0.85em;
-    color: var(--vp-c-brand-dark);
-    background-color: rgba(223, 166, 54, 0.1);
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-/* 代码块容器 */
+#currentAnchor p,
+#currentAnchor ul,
+#currentAnchor ol,
+#currentAnchor blockquote,
+#currentAnchor table,
 #currentAnchor pre {
-    display: block !important;
-    background-color: var(--vp-code-bg) !important;
-    color: var(--vp-code-fg);
-    font-family: var(--vp-font-mono);
-    font-size: 14px;
-    line-height: 1.5;
-    padding: 20px 24px 20px 50px !important;
-    /* 左侧留出更多空间给行号 */
-    margin: 16px 0;
-    border-radius: 8px;
-    overflow-x: auto;
-    position: relative;
-    /* 开启 CSS 计数器 */
-    counter-reset: line-numbering;
+  margin: 1.05rem 0;
 }
 
-/* 代码块内部每一行 (针对 ngx-markdown 渲染出的行) */
-#currentAnchor pre code {
-    display: block;
-    /* 必须为 block 才能正确计数行 */
-    background: transparent !important;
-    color: inherit !important;
-    padding: 0;
-    margin: 0;
-    position: relative;
-    border: none !important;
-    /* [解决需求] 删掉原本讨厌的左边竖线 */
+#currentAnchor p {
+  color: var(--vp-c-text-1);
+  line-height: 1.72;
+  letter-spacing: 0;
+  font-weight: 400;
 }
 
-/* [核心] 使用 CSS 伪元素模拟行号和竖线 */
-#currentAnchor pre code span.line {
-    display: block;
-}
-
-/* 如果你的插件每一行都有 span.line，下面的代码会自动加上数字和那条竖线 */
-#currentAnchor pre code::before {
-    /* 如果 ngx-markdown 渲染的是整块文字，这一行会在左侧显示 1 */
-    /* 如果是分行渲染，则会自动递增 */
-    counter-increment: line-numbering;
-    content: counter(line-numbering);
-    position: absolute;
-    left: -35px;
-    /* 数字的位置 */
-    width: 20px;
-    text-align: right;
-    color: rgba(255, 255, 255, 0.3);
-    /* 行号颜色偏暗 */
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    /* [解决需求] 这就是你想要的竖线，现在它在行号右边 */
-    padding-right: 10px;
-    pointer-events: none;
-}
-
-/* -------------------
-   列表与表格
-   ------------------- */
 #currentAnchor ul,
 #currentAnchor ol {
-    padding-left: 1.4em;
-    margin: 12px 0;
+  padding-left: 1.25rem;
 }
 
 #currentAnchor li {
-    margin-bottom: 6px;
+  margin: 0.35rem 0;
+}
+
+#currentAnchor li > ul,
+#currentAnchor li > ol {
+  margin-top: 0.35rem;
+}
+
+#currentAnchor blockquote {
+  padding: 0.15rem 1rem;
+  border-left: 3px solid var(--vp-c-brand-1);
+  background: var(--vp-c-bg-soft);
+  border-radius: 0 8px 8px 0;
+}
+
+#currentAnchor blockquote p {
+  color: var(--vp-c-text-2);
+}
+
+#currentAnchor a {
+  color: var(--vp-c-brand-1);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+#currentAnchor a:hover {
+  color: var(--vp-c-brand-2);
+}
+
+#currentAnchor p code,
+#currentAnchor li code,
+#currentAnchor td code {
+  font-family: var(--vp-font-mono);
+  font-size: 0.85em;
+  color: var(--vp-c-brand-2);
+  background: #f6ede4;
+  border: 1px solid var(--vp-c-border);
+  border-radius: 6px;
+  padding: 0.15rem 0.45rem;
+}
+
+#currentAnchor pre {
+  position: relative;
+  background: var(--vp-code-bg);
+  color: var(--vp-code-fg);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2.2rem 1rem 1rem;
+  overflow-x: auto;
+}
+
+#currentAnchor pre code {
+  font-family: var(--vp-font-mono);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: inherit;
+  background: transparent !important;
+  border: 0;
+  padding: 0;
+  white-space: pre;
+}
+
+#currentAnchor .markdown-clipboard-toolbar {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+#currentAnchor .markdown-clipboard-toolbar.hover {
+  opacity: 1;
+}
+
+#currentAnchor .markdown-clipboard-toolbar .markdown-clipboard-button {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#currentAnchor .markdown-clipboard-toolbar .markdown-clipboard-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+#currentAnchor hr {
+  border: 0;
+  border-top: 1px solid var(--vp-c-divider);
+  margin: 2rem 0;
 }
 
 #currentAnchor table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: block;
+  overflow-x: auto;
+}
+
+#currentAnchor thead th {
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-weight: 600;
 }
 
 #currentAnchor th,
 #currentAnchor td {
-    border: 1px solid var(--vp-c-border);
-    padding: 10px 16px;
-    font-size: 14px;
+  border: 1px solid var(--vp-c-border);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  white-space: nowrap;
 }
 
-#currentAnchor th {
-    background-color: #f8f9fa;
-}
-
-/* -------------------
-   图片与分割线
-   ------------------- */
 #currentAnchor img {
-    max-width: 100%;
-    border-radius: 6px;
-    margin: 20px auto;
-    display: block;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.25rem auto;
+  border-radius: 10px;
+  border: 1px solid var(--vp-c-border);
 }
 
-/* -------------------
-   超链接样式
-   ------------------- */
-#currentAnchor a {
-    color: #8b5a2b;
-    /* 棕色 */
-    text-decoration: underline;
-    /* 强制下划线 */
-    text-underline-offset: 3px;
-    /* 下划线与文字间距 */
-    text-decoration-thickness: 1.5px;
-    transition: color 0.2s ease;
+#currentAnchor kbd {
+  font-family: var(--vp-font-mono);
+  font-size: 0.8em;
+  border-radius: 6px;
+  border: 1px solid var(--vp-c-border);
+  background: #f8efe6;
+  padding: 0.1rem 0.4rem;
 }
 
-/* hover 效果 */
-#currentAnchor a:hover {
-    color: #5c3b1e;
-    /* 深一点的棕色 */
+#currentAnchor details {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--vp-c-border);
+  border-radius: 10px;
+  background: var(--vp-c-bg-soft);
 }
 
-/* 强制覆盖标题里的超链接 */
-#currentAnchor h1 a,
-#currentAnchor h2 a,
-#currentAnchor h3 a {
-    color: #8b5a2b !important;
-    text-decoration: underline !important;
+#currentAnchor summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  #currentAnchor {
+    font-size: 15px;
+    line-height: 1.68;
+  }
+
+  #currentAnchor h1 {
+    font-size: 1.75rem;
+  }
+
+  #currentAnchor h2 {
+    font-size: 1.4rem;
+  }
+
+  #currentAnchor h3 {
+    font-size: 1.15rem;
+  }
 }

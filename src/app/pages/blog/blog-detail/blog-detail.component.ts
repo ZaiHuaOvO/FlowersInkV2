@@ -34,6 +34,7 @@ import { WindowService } from '../../../services/window.service';
 import { BlogCommentComponent } from '../../../components/blog/blog-comment/blog-comment.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { commentArray } from '../../../ts/comment-emoji';
+import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
@@ -72,7 +73,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   loading = true;
   markdownContent: string = '';
   anchors: Array<{
-    children: any;
+    children: Array<{ href: string; title: string }>;
     href: string;
     title: string;
   }> = [];
@@ -91,7 +92,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     private general: GeneralService,
     private activateInfo: ActivatedRoute,
     private el: ElementRef,
-    @Inject(PLATFORM_ID) private platformId: object, // 注入 PLATFORM_ID 以检测运行平台
+    @Inject(PLATFORM_ID) private platformId: object, // Detect runtime platform.
     private window: WindowService,
     private msg: NzMessageService
   ) {
@@ -127,12 +128,14 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
   generateAnchors(): void {
-    const headings = this.el.nativeElement.querySelectorAll('h1, h2, h3, h4');
+    const headings = this.el.nativeElement.querySelectorAll(
+      '#currentAnchor h1, #currentAnchor h2'
+    );
     this.anchors = [];
 
-    let currentH1: { children: any; href: string; title: string } | null = null;
-    let currentH2: { children: any; href: string; title: string } | null = null;
-    let currentH3: { children: any; href: string; title: string } | null = null;
+    let currentH1:
+      | { children: Array<{ href: string; title: string }>; href: string; title: string }
+      | null = null;
 
     headings.forEach((heading: HTMLElement, index: number) => {
       const id = `heading-${index}`;
@@ -142,17 +145,13 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
       if (tagName === 'h1') {
         currentH1 = { href: `#${id}`, title: heading.innerText, children: [] };
         this.anchors.push(currentH1);
-        currentH2 = null; // Reset currentH2 when a new H1 is found
-        currentH3 = null; // Reset currentH3 when a new H1 is found
-      } else if (tagName === 'h2' && currentH1) {
-        currentH2 = { href: `#${id}`, title: heading.innerText, children: [] };
-        currentH1.children.push(currentH2);
-        currentH3 = null; // Reset currentH3 when a new H2 is found
-      } else if (tagName === 'h3' && currentH2) {
-        currentH3 = { href: `#${id}`, title: heading.innerText, children: [] };
-        currentH2.children.push(currentH3);
-      } else if (tagName === 'h4' && currentH3) {
-        currentH3.children.push({ href: `#${id}`, title: heading.innerText });
+      } else if (tagName === 'h2') {
+        const h2Anchor = { href: `#${id}`, title: heading.innerText };
+        if (currentH1) {
+          currentH1.children.push(h2Anchor);
+        } else {
+          this.anchors.push({ ...h2Anchor, children: [] });
+        }
       }
     });
   }
@@ -162,7 +161,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
   onScroll(source: 'editor' | 'viewer'): void {
-    if (this.isSyncing) return; // 防止递归调用
+    if (this.isSyncing) return; // Guard against recursive sync.
 
     this.isSyncing = true;
 
@@ -172,12 +171,12 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     const sourceElement = source === 'editor' ? editor : viewer;
     const targetElement = source === 'editor' ? viewer : editor;
 
-    // 计算滚动比例
+    // Compute scroll ratio.
     const scrollRatio =
       sourceElement.scrollTop /
       (sourceElement.scrollHeight - sourceElement.clientHeight);
 
-    // 应用滚动比例到目标元素
+    // Apply ratio to target element.
     targetElement.scrollTop =
       scrollRatio * (targetElement.scrollHeight - targetElement.clientHeight);
 
@@ -218,4 +217,9 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     }));
   }
 
+  emojiSymbol(key: string): string {
+    return getCommentEmojiSymbol(key);
+  }
+
 }
+

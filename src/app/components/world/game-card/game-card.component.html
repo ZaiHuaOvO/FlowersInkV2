@@ -19,8 +19,15 @@
 </ng-template>
 <ng-template #coverTemplate>
   <div class="img-container">
-    <img nz-image class="imgFirst" nzDisablePreview="true" (click)="imgFirstPreview(game.imgFirst[0].url)"
-      [nzSrc]="game.imgFirst[0].url" />
+    <img
+      loading="lazy"
+      decoding="async"
+      nz-image
+      class="imgFirst"
+      nzDisablePreview="true"
+      (click)="imgFirstPreview(game.imgFirst[0].url)"
+      [nzSrc]="game.imgFirst[0].url"
+    />
     </div>
   </ng-template>
   <ng-template #actions>

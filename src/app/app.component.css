@@ -1,23 +1,22 @@
 .layout {
   min-height: 100vh;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
+  background: var(--fi-bg);
 }
 
 nz-header {
   position: fixed;
+  inset: 0 0 auto 0;
   width: 100%;
-  background: #fff;
-  /* 导航永远在上层 */
   z-index: 999;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--fi-border);
 }
 
 nz-content {
   margin-top: 48px;
-}
-
-nz-breadcrumb {
-  margin: 16px 0;
 }
 
 nz-footer {

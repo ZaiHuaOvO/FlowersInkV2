@@ -30,7 +30,14 @@
         <li nz-flex nzAlign="center" nzJustify="center" class="menu-item"
           [class.active]="isActive(item.url) || isParentActive(item.URL)"
           [class.parent]="item.child?.length == 0">
-          <a [routerLink]="item.url" class="menu-link" nz-dropdown [nzDropdownMenu]="menu">
+          <a
+            [routerLink]="item.url"
+            class="menu-link"
+            nz-dropdown
+            [nzDropdownMenu]="menu"
+            [nzTrigger]="'hover'"
+            [nzPlacement]="'bottomCenter'"
+          >
             <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
             &nbsp;
             {{ item.title }}

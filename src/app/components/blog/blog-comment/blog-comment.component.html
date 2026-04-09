@@ -8,15 +8,25 @@
         @for (emoji of commentArray; track emoji) {
           <div nz-col [nzSpan]="isMobile ? 8 :4" nz-flex [nzVertical]="true" nzJustify="center"
             nzAlign="center">
-            <div class="img-container" nz-tooltip [nzTooltipTitle]="emoji.description"
-              (click)="onEmojiClick(emoji)">
-              <img nzDisablePreview="true" nz-image
-                nzSrc="https://api.flowersink.com/uploads/{{emoji.key}}.png">
-              </div>
-              <span nz-typography>{{emoji.text}}</span>
-            </div>
-          }
-        </div>
+            <button
+              class="emoji-option"
+              nz-tooltip
+              [nzTooltipTitle]="emoji.description"
+              type="button"
+              (click)="onEmojiClick(emoji)"
+            >
+              <img
+                class="emoji-option-image"
+                loading="lazy"
+                decoding="async"
+                [src]="'https://api.flowersink.com/uploads/' + emoji.key + '.png'"
+                [alt]="emoji.text"
+              >
+            </button>
+            <span nz-typography class="emoji-option-text">{{emoji.text}}</span>
+          </div>
+        }
       </div>
-    </ng-template>
-  </div>
+    </div>
+  </ng-template>
+</div>

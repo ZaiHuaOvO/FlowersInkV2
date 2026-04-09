@@ -1,42 +1,76 @@
 .emoji {
-    width: 50px;
+  width: 50px;
+}
 
-    span {
-        font-size: 16px;
-    }
+.emoji span {
+  font-size: 16px;
 }
 
 .ant-popover-inner {
-    max-width: 200px !important;
+  max-width: 200px !important;
 }
 
 .ant-popover-inner-content {
-    max-width: 200px !important;
-
+  max-width: 200px !important;
 }
 
-.emoji_text {
-    width: 19.23px;
-    cursor: pointer;
+.emoji-option {
+  width: 100%;
+  padding: 8px;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--fi-border);
+  border-radius: 10px;
+  background: var(--fi-surface);
+  color: var(--fi-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.img-container:hover {
-    background-color: lightgrey;
+.emoji-option:hover {
+  background: var(--fi-surface-soft);
+  border-color: #d1d5db;
+  transform: translateY(-1px);
 }
 
-.img-container {
-    width: 100%;
-    padding: 8px;
-    aspect-ratio: 1 / 1;
-    /* 保持宽高比 */
-    overflow: hidden;
-    /* 裁剪多余部分 */
-    cursor: pointer;
+.emoji-option:active {
+  transform: translateY(0);
 }
 
-.img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* 填充并裁剪 */
+.emoji-option:focus-visible {
+  outline: none;
+  border-color: var(--fi-primary);
+  box-shadow: 0 0 0 3px var(--fi-primary-outline);
+}
+
+.emoji-option,
+.emoji-option * {
+  cursor: pointer;
+}
+
+.emoji-option-symbol {
+  pointer-events: none;
+  line-height: 1;
+  font-size: 23px;
+  font-family: 'Segoe UI Symbol', 'Noto Sans Symbols 2', var(--fi-font-base);
+}
+
+.emoji-option-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.emoji-option-text {
+  display: block;
+  margin-top: 6px;
+  max-width: 100%;
+  text-align: center;
+  line-height: 1.35;
+  color: var(--fi-text-muted);
+  font-size: 12px;
+  word-break: break-word;
 }

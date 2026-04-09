@@ -9,6 +9,7 @@ import { commentArray } from '../../../ts/comment-emoji';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { WindowService } from '../../../services/window.service';
+import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
 
 @Component({
   selector: 'flower-blog-card',
@@ -24,19 +25,17 @@ import { WindowService } from '../../../services/window.service';
     NzIconModule,
     DatePipe,
     NzTagModule,
-    NzToolTipModule
+    NzToolTipModule,
   ],
 })
 export class BlogCardComponent implements OnInit {
   @Input() blog: any;
   @Input() loading: boolean = true;
-  commentArray: any[] = commentArray
+  commentArray: any[] = commentArray;
   emojiTags: { [blogId: string]: any[] } = {};
   isMobile: boolean = false;
 
-  constructor(
-    private window: WindowService
-  ) {
+  constructor(private window: WindowService) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
     });
@@ -49,9 +48,9 @@ export class BlogCardComponent implements OnInit {
   }
 
   buildCommentTags(commentData: any[]): any[] {
-    const tagList = this.commentArray.map(item => ({
+    const tagList = this.commentArray.map((item) => ({
       ...item,
-      count: 0
+      count: 0,
     }));
 
     if (commentData?.length > 0) {
@@ -60,7 +59,7 @@ export class BlogCardComponent implements OnInit {
         return map;
       }, {} as Record<string, number>);
 
-      tagList.forEach(item => {
+      tagList.forEach((item) => {
         if (countMap[item.key] !== undefined) {
           item.count = countMap[item.key];
         }
@@ -68,5 +67,9 @@ export class BlogCardComponent implements OnInit {
     }
 
     return tagList;
+  }
+
+  emojiSymbol(key: string): string {
+    return getCommentEmojiSymbol(key);
   }
 }

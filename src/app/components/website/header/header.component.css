@@ -1,71 +1,81 @@
 .header {
-    width: 100%;
-    height: 48px;
-}
-
-/* 删除导航栏的下边框 */
-[nz-menu] {
-    border: none !important;
-    line-height: 48px;
+  width: 100%;
+  height: 48px;
 }
 
 .logo {
-    height: 48px;
+  height: 48px;
 }
 
 .menu {
-    /* margin-right: 48px; */
-    background: #fff;
-    width: 100%;
+  width: 100%;
+}
 
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        height: 48px;
-    }
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 48px;
+}
 
-    .menu-item {
-        border-radius: 10px;
-        padding: 5px 10px 5px 10px;
-        position: relative;
-        height: 32px;
-        cursor: pointer;
+.menu .menu-item {
+  height: 34px;
+  border-radius: 10px;
+  padding: 4px 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
 
+.menu .menu-item:hover {
+  background: #f3e8dc;
+  border-color: var(--fi-border);
+}
 
+.menu .menu-link {
+  text-decoration: none;
+  color: var(--fi-primary);
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
 
-        .menu-link {
-            text-decoration: none;
-            color: #8b4513;
-            display: flex;
-            align-items: center;
-        }
+.menu .menu-item.active {
+  background: var(--fi-primary);
+  border-color: var(--fi-primary);
+}
 
-        &.active {
-            background: #8b4513;
-            color: white;
-
-            .menu-link {
-                color: white;
-            }
-        }
-    }
-
+.menu .menu-item.active .menu-link {
+  color: #ffffff;
 }
 
 .submenu {
+  min-width: 170px;
+  width: 100%;
+  padding: 4px 0;
+  margin: 0 auto;
+}
 
-    .submenu-item {
-        width: 200%;
-        background-color: #fff;
-        border-radius: 10px;
-        color: #a0522d;
-        padding: 5px;
-        text-align: center;
+.submenu .submenu-item {
+  width: 132px;
+  display: block;
+  margin: 0 auto;
+  text-decoration: none;
+  background: var(--fi-surface);
+  border: 1px solid var(--fi-border);
+  border-radius: 10px;
+  color: var(--fi-primary);
+  padding: 6px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
 
-        &.active {
-            background: #8b4513;
-            color: white;
-        }
-    }
+.submenu .submenu-item:hover {
+  background: var(--fi-surface-soft);
+}
+
+.submenu .submenu-item.active {
+  background: var(--fi-primary);
+  border-color: var(--fi-primary);
+  color: #ffffff;
 }

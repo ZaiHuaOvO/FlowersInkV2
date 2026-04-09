@@ -29,26 +29,34 @@ export class BookCardComponent {
   @Input() book: any;
 
   getColor(status: string): string {
-    let color = '';
-    switch (status) {
-      case '在读':
-        color = 'yellow';
-        break;
-      case '已读':
-        color = 'blue';
-        break;
-      case '有笔记':
-        color = 'green';
-        break;
-      default:
-        break;
+    if (!status) {
+      return 'default';
     }
-    return color;
+    if (status.includes('笔记')) {
+      return 'green';
+    }
+    if (status.includes('在读')) {
+      return 'gold';
+    }
+    if (status.includes('已读')) {
+      return 'blue';
+    }
+    return 'default';
   }
 
-  handleClick(event: MouseEvent, status: string): void {
-    if (status !== '有笔记') {
-      event.preventDefault(); // 阻止默认的跳转行为
+  hasNote(target = this.book): boolean {
+    if (!target) {
+      return false;
+    }
+    if (typeof target.content === 'string') {
+      return target.content.trim().length > 0;
+    }
+    return Boolean(target.content);
+  }
+
+  handleClick(event: MouseEvent, hasNote: boolean): void {
+    if (!hasNote) {
+      event.preventDefault();
     }
   }
 }

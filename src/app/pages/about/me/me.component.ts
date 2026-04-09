@@ -7,9 +7,7 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { TargetComponent } from '../../../components/about/target/target.component';
-import { MeCardComponent } from '../../../components/website/me-card/me-card.component';
-import { QuickUp, SlowLeft } from '../../../common_ui/animations/animation';
-import { BrowserModule } from '@angular/platform-browser';
+import { QuickUp } from '../../../common_ui/animations/animation';
 import { CommonModule } from '@angular/common';
 import { WindowService } from '../../../services/window.service';
 import { RouterModule } from '@angular/router';

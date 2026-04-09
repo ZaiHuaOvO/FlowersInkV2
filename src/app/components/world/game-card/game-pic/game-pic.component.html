@@ -6,8 +6,14 @@
         <div class="img-container card">
           <nz-image-group>
             @if (i <= currentIndex) {
-              <img nz-image class="imgFirst" [nzSrc]="img.url"
-                (load)="img.loaded = true; onImageLoad(i)" />
+              <img
+                loading="lazy"
+                decoding="async"
+                nz-image
+                class="imgFirst"
+                [nzSrc]="img.url"
+                (load)="img.loaded = true; onImageLoad(i)"
+              />
             }
           </nz-image-group>
           <nz-tag nzColor="#8B4513" class="view-btn"

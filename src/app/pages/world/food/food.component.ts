@@ -87,10 +87,7 @@ export class FoodComponent implements OnInit {
       .subscribe((res: any) => {
         this.data = res['data'].data;
         this.FoodTitle();
-
-        setTimeout(() => {
-          this.loading = false;
-        }, 250);
+        this.loading = false;
       });
   }
 
@@ -116,10 +113,7 @@ export class FoodComponent implements OnInit {
       })
       .subscribe((res: any) => {
         this.data = res['data'].data;
-
-        setTimeout(() => {
-          this.loading = false;
-        }, 250);
+        this.loading = false;
       });
   }
 

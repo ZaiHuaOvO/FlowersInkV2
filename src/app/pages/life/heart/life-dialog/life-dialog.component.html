@@ -16,7 +16,13 @@
         @for (item of nzModalData.image; track item; let i = $index) {
           <!-- 根据图片数量动态设置 nzSpan -->
           <nz-col [nzSpan]="getColSpan(nzModalData.image.length, i)">
-            <img class="life_img" nz-image [nzSrc]="item.url" />
+            <img
+              loading="lazy"
+              decoding="async"
+              class="life_img"
+              nz-image
+              [nzSrc]="item.url"
+            />
           </nz-col>
         }
       </div>

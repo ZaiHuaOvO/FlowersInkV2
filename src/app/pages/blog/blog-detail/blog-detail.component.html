@@ -1,7 +1,7 @@
 <div class="article editor" nz-flex [nzVertical]="true" [ngStyle]="{'padding':isMobile ?'4px':'24px'}"
   (scroll)="onScroll('editor')" #editor>
   <div class="content card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
-    [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'8%'}">
+    [ngStyle]="{'width':isMobile ?'100%':'63%','margin-left' :isMobile ?'0':'5%'}">
     <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
       <ng-template #backTitle>
         <span nz-typography style="cursor: pointer;" (click)="onBack()">返回</span>
@@ -36,15 +36,19 @@
     <nz-spin [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" style="min-width: 50vw !important; padding: 0 24px 0 24px;">
 
       <flower-blog-title [title]="data.title"></flower-blog-title>
-      <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" lineNumbers lineHighlight
-        commandLine emoji mermaid clipboard></markdown>
+      <markdown
+        id="currentAnchor"
+        [data]="markdownContent"
+        (ready)="generateAnchors()"
+        clipboard
+      ></markdown>
       <nz-divider></nz-divider>
       <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
         <div nz-flex nzJustify="center">
           @for (item of displayCommentArray; track item) {
           @if (item.count > 0) {
           <nz-tag nz-tooltip [nzTooltipTitle]="item.description" style="border-radius: 5px;cursor: default;">
-            <span class="emoji">{{item.value}}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
+            <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
           </nz-tag>
           }
           }
@@ -69,16 +73,7 @@
         @for (anchor of anchors; track anchor) {
         <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
           @for (subAnchor of anchor.children; track subAnchor) {
-          <nz-link [nzHref]="subAnchor.href" [nzTitle]="subAnchor.title">
-            @for (subSubAnchor of subAnchor.children; track subSubAnchor) {
-            <nz-link [nzHref]="subSubAnchor.href" [nzTitle]="subSubAnchor.title">
-              @for (subSubSubAnchor of subSubAnchor.children; track subSubSubAnchor) {
-              <nz-link [nzHref]="subSubSubAnchor.href" [nzTitle]="subSubSubAnchor.title">
-              </nz-link>
-              }
-            </nz-link>
-            }
-          </nz-link>
+          <nz-link [nzHref]="subAnchor.href" [nzTitle]="subAnchor.title"></nz-link>
           }
         </nz-link>
         }

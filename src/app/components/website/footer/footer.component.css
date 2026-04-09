@@ -1,32 +1,30 @@
 .footer_box {
-    width: 100%;
-    min-height: 100px;
-    background-color: #F0F2F5;
-    border-top: 1px solid lightgrey;
-    padding: 24px 12px 48px 12px
+  width: 100%;
+  min-height: 100px;
+  background: var(--fi-bg);
+  border-top: 1px solid var(--fi-border);
+  padding: 24px 12px 48px;
 }
 
 .footer {
-    width: 40%;
-
+  width: 40%;
 }
 
 .text {
-    color: #000;
-    font-size: 12px;
-    cursor: pointer;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
+  color: var(--fi-text);
+  font-size: 12px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
 
 .text:hover {
-    color: grey;
+  color: var(--fi-primary);
 }
 
 .ant-typography {
-    font-family: "Noto Sans SC", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
+  font-family: var(--fi-font-base);
+  font-weight: 500;
 }

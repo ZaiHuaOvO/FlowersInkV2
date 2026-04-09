@@ -1,24 +1,15 @@
-<div class="target" nz-flex [nzVertical]="true" nzGap="large">
-  <!-- <ul nz-menu nzMode="inline">
-  @for (item of routeList; track item) {
-    <li nz-menu-item nzMatchRouter [routerLink]="item.url">
-      <span nz-typography class="noto-sans-sc">{{item.title}}</span>
-    </li>
+<div class="target" nz-flex [nzVertical]="true" nzGap="10px" role="navigation" aria-label="about-nav">
+  @for (item of routeList; track item.url) {
+    <a
+      class="target-item"
+      [routerLink]="item.url"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [attr.title]="item.title"
+      [attr.aria-label]="item.title"
+    >
+      <span class="target-symbol" aria-hidden="true">{{ item.symbol }}</span>
+      <span class="target-title">{{ item.title }}</span>
+    </a>
   }
-</ul> -->
-<div nz-flex [nzVertical]="true" nzAlign="end" nzGap="middle">
-  @for (item of routeList; track item) {
-    <div class="item-container" (mouseenter)="item.showText = true" (mouseleave)="item.showText = false">
-      <nz-avatar class="target_icon" [nzIcon]="item.icon" [routerLink]="item.url" nz-popover nzType="primary"
-        [nzPopoverContent]="item.title" nzPopoverPlacement="left" [nzPopoverMouseEnterDelay]="0.3"
-        [ngStyle]="{ 'background-color': item.url === router.url ? '#fff' : '#CCCCCC', 'color': item.url === router.url ? '#000' : '#fff' }"
-      [ngClass]="{'fade-out': item.showText, 'fade-in': !item.showText}"></nz-avatar>
-      <span class="text-span" [ngClass]="{'fade-in': item.showText, 'fade-out': !item.showText}"
-        class="amazon-button" role="button" [routerLink]="item.url">
-        <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
-        {{item.title}}
-      </span>
-    </div>
-  }
-</div>
 </div>

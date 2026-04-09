@@ -61,9 +61,7 @@ export class MessageComponent {
       .subscribe((res: any) => {
         this.data = res['data'].data;
         this.count = res['data'].count;
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
+        this.loading = false;
       });
   }
 

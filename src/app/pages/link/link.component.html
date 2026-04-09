@@ -4,7 +4,7 @@
         [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
         <h1 nz-typography style="color:#8B4513">好朋友的链接</h1>
         <p nz-typography nzType="secondary">友链就像桥梁，将我的孤岛展现给全世界</p>
-        <nz-alert style="border-radius: 10px;" nzType="success" [nzDescription]="linkContent"></nz-alert>
+        <nz-alert class="fi-alert fi-alert-soft" nzType="success" [nzDescription]="linkContent"></nz-alert>
         <ng-template #linkContent>
             <article nz-typography style="font-size: 16px;">
                 <span nz-typography>网站名称：花墨</span><br>
@@ -38,7 +38,7 @@
         @if (!isMobile) {
         <div nz-row [nzGutter]="[16,16]">
             <div nz-col nzSpan="16">
-                <nz-alert style="border-radius: 10px;" nzType="info" [nzMessage]="linkTitle"
+                <nz-alert class="fi-alert fi-alert-soft" nzType="info" [nzMessage]="linkTitle"
                     [nzDescription]="linkNote"></nz-alert>
                 <ng-template #linkTitle>
                     <h4 nz-typography>友链申请须知</h4>
@@ -77,7 +77,7 @@
         }
         @if (isMobile) {
         <div nz-flex [nzVertical]="true" nzGap="middle">
-            <nz-alert style="border-radius: 10px;" nzType="info" [nzMessage]="linkTitle"
+            <nz-alert class="fi-alert fi-alert-soft" nzType="info" [nzMessage]="linkTitle"
                 [nzDescription]="linkNote"></nz-alert>
             <ng-template #linkTitle>
                 <h4 nz-typography>友链申请须知</h4>

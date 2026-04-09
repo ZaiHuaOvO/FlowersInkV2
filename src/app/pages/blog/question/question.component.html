@@ -17,8 +17,7 @@
                 nzGap="small" [nzVertical]="true" @QuickUp>
                 @for (panel of data; track panel) {
                 <nz-collapse-panel [nzHeader]="titleBox" class="anwser card" nzShowArrow="false">
-                    <markdown style="max-width: 55vw;width: 55vw;" id="currentAnchor" [data]="panel.content" lineNumbers
-                        lineHighlight commandLine emoji mermaid clipboard></markdown>
+                    <markdown style="max-width: 100%; width: 100%;" id="currentAnchor" [data]="panel.content" clipboard></markdown>
                 </nz-collapse-panel>
                 <ng-template #titleBox>
                     <div nz-flex nzJustify="space-between">

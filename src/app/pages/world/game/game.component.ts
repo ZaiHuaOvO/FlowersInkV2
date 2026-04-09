@@ -71,9 +71,7 @@ export class GameComponent {
       this.data = res['data'].games;
       this.totalGames = res['data'].totalGames;
       this.totalPlayingTime = res['data'].totalPlayingTime;
-      setTimeout(() => {
-        this.loading = false;
-      }, 500);
+      this.loading = false;
     });
   }
 

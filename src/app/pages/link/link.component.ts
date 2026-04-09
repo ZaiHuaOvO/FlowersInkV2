@@ -85,9 +85,7 @@ export class LinkComponent {
       })
       .subscribe((res: any) => {
         this.links = res['data'].data;
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
+        this.loading = false;
       });
   }
 

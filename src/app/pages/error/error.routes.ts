@@ -1,4 +1,9 @@
 import { Routes } from '@angular/router';
-import { ErrorComponent } from './error.component';
 
-export const ERROR_ROUTES: Routes = [{ path: '', component: ErrorComponent }];
+export const ERROR_ROUTES: Routes = [
+  {
+    path: '',
+    loadComponent: () =>
+      import('./error.component').then((m) => m.ErrorComponent),
+  },
+];

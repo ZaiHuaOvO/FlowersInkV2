@@ -1,47 +1,68 @@
-[nz-menu] {
-    border-radius: 10px !important;
-}
-
 .target {
-    width: 10%;
-    height: auto;
-    position: fixed;
-    left: 4.5%;
-    /* 标题70px高+距离10*2+左边内容12px */
-    top: 100px
+  width: fit-content;
+  position: fixed;
+  left: 4.5%;
+  top: 102px;
+  z-index: 10;
 }
 
-.target_icon,
-.text-span {
-    transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
-    position: absolute;
-    /* 让文字和头像重叠 */
+.target-item {
+  width: 136px;
+  min-height: 38px;
+  border-radius: 11px;
+  border: 1px solid var(--fi-border);
+  background: var(--fi-surface);
+  color: var(--fi-primary);
+  box-shadow: var(--fi-shadow);
+  text-decoration: none;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.fade-in {
-    opacity: 1;
-    visibility: visible;
+.target-item,
+.target-item * {
+  cursor: pointer;
 }
 
-.fade-out {
-    opacity: 0;
-    visibility: hidden;
+.target-item:hover {
+  background: var(--fi-surface-soft);
+  border-color: #d1d5db;
+  transform: translateY(-1px);
 }
 
-.item-container {
-    position: relative;
-    /* 让内部元素相对定位 */
-    display: inline-block;
-    /* 确保容器是块状 */
-    width: 50px;
-    /* 根据 nz-avatar 的宽度调整 */
-    height: 32px;
-    /* 同上 */
-    min-width: 100px;
-    display: flex;
-    /* 启用 flexbox 布局 */
-    align-items: center;
-    /* 垂直居中 */
-    justify-content: center;
-    /* 水平居中 */
+.target-item:active {
+  transform: translateY(0);
+}
+
+.target-item.active {
+  background: var(--fi-primary);
+  border-color: var(--fi-primary);
+  color: #fff;
+}
+
+.target-symbol,
+.target-title {
+  pointer-events: none;
+}
+
+.target-symbol {
+  width: 16px;
+  flex: 0 0 16px;
+  text-align: center;
+  line-height: 1;
+  font-size: 14px;
+  font-family: 'Segoe UI Symbol', 'Noto Sans Symbols 2', var(--fi-font-base);
+}
+
+.target-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
 }
