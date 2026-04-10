@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API } from '../../services/api';
 import { HttpService } from '../../services/http.service';
+import { HTTP_CACHE_TTL } from '../../shared/constants/http-cache.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -10,15 +11,19 @@ export class WelcomeService {
   constructor(private http: HttpService) {}
 
   getBlogs(data?: any): Observable<object> {
-    return this.http.get(API.BLOG, data);
+    return this.http.getCached(API.BLOG, data, HTTP_CACHE_TTL.LIST);
   }
 
   getBlogDetail(Id: string): Observable<object> {
-    return this.http.get(API.BLOG + `/${Id}`);
+    return this.http.getCached(
+      API.BLOG + `/${Id}`,
+      undefined,
+      HTTP_CACHE_TTL.DETAIL
+    );
   }
 
   getTags(): Observable<object> {
-    return this.http.get(API.TAG);
+    return this.http.getCached(API.TAG, undefined, HTTP_CACHE_TTL.LONG);
   }
 
   visitWeb(): Observable<object> {
@@ -26,6 +31,6 @@ export class WelcomeService {
   }
 
   getWebInfo(): Observable<object> {
-    return this.http.get(API.DAY_INFO);
+    return this.http.getCached(API.DAY_INFO, undefined, HTTP_CACHE_TTL.SHORT);
   }
 }

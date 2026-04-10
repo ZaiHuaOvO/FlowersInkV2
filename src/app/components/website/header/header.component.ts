@@ -9,7 +9,6 @@ import { QuickDown } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
-import { HeaderMobileComponent } from './header-mobile/header-mobile.component';
 
 interface MenuItem {
   title: string;
@@ -149,7 +148,11 @@ export class HeaderComponent implements OnInit {
     return this.activeRoute.includes(URL);
   }
 
-  mobileMenu(): void {
+  async mobileMenu(): Promise<void> {
+    const { HeaderMobileComponent } = await import(
+      './header-mobile/header-mobile.component'
+    );
+
     this.drawerService.create({
       nzTitle: this.mobileMenuTitle,
       // nzFooter: 'Footer',

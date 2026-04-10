@@ -23,3 +23,7 @@ nz-footer {
   text-align: center;
   padding: 0;
 }
+
+.footer-placeholder {
+  min-height: 160px;
+}

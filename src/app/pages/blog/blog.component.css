@@ -22,12 +22,18 @@
 
 .blog_title {
     cursor: pointer;
+    color: var(--fi-text);
+    transition: color 0.2s ease;
 }
 
 .blog_title:hover {
-    color: #2F9BFF;
+    color: var(--fi-primary);
 }
 
 .blog_time {
-    min-width: 70px;
+    min-width: 96px;
+}
+
+.fi-brown-timeline {
+    padding-top: 2px;
 }

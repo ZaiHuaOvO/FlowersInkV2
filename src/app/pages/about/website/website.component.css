@@ -27,3 +27,11 @@ article {
         font-size: 16px;
     }
 }
+
+.website-timeline .timeline-date {
+    min-width: 120px;
+}
+
+.website-timeline .timeline-title {
+    color: var(--fi-text);
+}

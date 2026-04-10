@@ -15,12 +15,12 @@
         @for (item of data; track item) {
           <div class="blog card">
             <h2 nz-typography>{{item.year}}年</h2>
-            <nz-timeline>
+            <nz-timeline class="fi-brown-timeline">
               @for (blog of item.data; track blog) {
-                <nz-timeline-item>
-                  <div nz-flex nzGap="middle">
-                    <span nz-typography class="blog_time" nzType="secondary">{{ blog.date | date:'yyyy-MM-dd' }}</span>
-                    <span nz-typography class="blog_title" [routerLink]="['/blog/blog-detail/' + blog.id]">@if (blog.type) {
+                <nz-timeline-item nzColor="#8b5a2b">
+                  <div class="timeline-row">
+                    <span nz-typography class="blog_time timeline-date" nzType="secondary">{{ blog.date | date:'yyyy-MM-dd' }}</span>
+                    <span nz-typography class="blog_title timeline-title" [routerLink]="['/blog/blog-detail/' + blog.id]">@if (blog.type) {
                       <span
                       ></span>
                     }{{blog.title}}</span>

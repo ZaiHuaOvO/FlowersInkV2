@@ -62,12 +62,12 @@
         </p>
         <h2 nz-typography>网站的建站历程</h2>
         <div>
-          <nz-timeline>
+          <nz-timeline class="fi-brown-timeline website-timeline">
             @for (item of websiteTimeline; track item) {
-              <nz-timeline-item nzColor="green">
-                <div nz-flex nzGap="middle">
-                  <p nz-typography nzType="secondary">{{ item.date }}</p>
-                  <p nz-typography>{{ item.title }}</p>
+              <nz-timeline-item nzColor="#8b5a2b">
+                <div class="timeline-row">
+                  <p nz-typography nzType="secondary" class="timeline-date">{{ item.date }}</p>
+                  <p nz-typography class="timeline-title">{{ item.title }}</p>
                 </div>
               </nz-timeline-item>
             }

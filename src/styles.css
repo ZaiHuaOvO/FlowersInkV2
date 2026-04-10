@@ -1,4 +1,36 @@
-@import url('app/common_ui/css/markdown-zaihua.css');
+﻿@import url('app/common_ui/css/markdown-zaihua.css');
+
+@font-face {
+  font-family: "InterVar";
+  src: url("assets/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "InterVar";
+  src: url("assets/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NotoSansSCVar";
+  src: url("assets/fonts/Noto_Sans_SC/NotoSansSC-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NotoEmojiVar";
+  src: url("assets/fonts/Noto_Emoji/NotoEmoji-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
 
 :root {
   --fi-bg: #efe4d8;
@@ -13,7 +45,7 @@
   --fi-primary-active: #6a411d;
   --fi-primary-outline: rgba(139, 90, 43, 0.18);
   --fi-shadow: 0 10px 26px rgba(58, 39, 22, 0.1);
-  --fi-font-base: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --fi-font-base: "InterVar", "NotoSansSCVar", "NotoEmojiVar", "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
   --fi-font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
 }
 
@@ -24,6 +56,7 @@ body {
   color: var(--fi-text);
   background: var(--fi-bg) !important;
   font-family: var(--fi-font-base);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -32,6 +65,23 @@ app-root {
   display: block;
   min-height: 100vh;
   background: var(--fi-bg) !important;
+}
+
+button,
+input,
+textarea,
+select,
+.ant-typography,
+.ant-btn,
+.ant-input,
+.ant-menu,
+.ant-dropdown-menu,
+.ant-tag,
+.ant-card,
+.ant-timeline,
+.ant-page-header-heading,
+.ant-page-header-content {
+  font-family: var(--fi-font-base);
 }
 
 * {
@@ -156,7 +206,6 @@ nz-content {
 
 .ant-spin-text {
   color: var(--fi-text);
-  font-family: var(--fi-font-base);
 }
 
 .ant-collapse-header {
@@ -179,10 +228,68 @@ nz-content {
 }
 
 .emoji {
-  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", var(--fi-font-base);
+  font-family: "NotoEmojiVar", "Segoe UI Symbol", "Noto Sans Symbols 2", var(--fi-font-base);
   font-variant-emoji: text;
 }
 
 nz-spin {
   min-width: 60vw;
+}
+
+.fi-brown-timeline .ant-timeline-item-head {
+  width: 10px;
+  height: 10px;
+  border-width: 2px;
+  border-color: var(--fi-primary) !important;
+  color: var(--fi-primary) !important;
+  background: #f8efe5 !important;
+  box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.12);
+  left: -0.5px
+}
+
+.fi-brown-timeline .ant-timeline-item-tail {
+  border-left: 2px solid #dcc3a7 !important;
+}
+
+.fi-brown-timeline .ant-timeline-item-content {
+  margin-left: 20px;
+  padding-bottom: 14px;
+}
+
+.fi-brown-timeline .timeline-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 24px;
+}
+
+.fi-brown-timeline .timeline-row>* {
+  margin: 0 !important;
+  line-height: 1.6 !important;
+}
+
+.fi-brown-timeline .timeline-date {
+  min-width: 110px;
+  color: var(--fi-text-muted) !important;
+  white-space: nowrap;
+}
+
+.website-timeline.ant-timeline .ant-timeline-item-head {
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-width: 2px;
+  box-shadow: none;
+}
+
+.website-timeline.ant-timeline .ant-timeline-item-tail {
+  left: 8px;
+  top: 12px;
+  border-left-width: 1px;
+  height: calc(100% - 12px);
+}
+
+.website-timeline.ant-timeline .ant-timeline-item-content {
+  margin-left: 26px;
 }
