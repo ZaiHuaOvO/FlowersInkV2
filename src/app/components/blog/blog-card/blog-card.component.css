@@ -5,3 +5,11 @@
 .blog_msg {
     width: 100%;
 }
+
+.blog_meta_text {
+    color: #8a6a49 !important;
+}
+
+.blog_meta_text .anticon {
+    color: #8a6a49 !important;
+}

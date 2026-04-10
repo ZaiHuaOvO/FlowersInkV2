@@ -30,18 +30,18 @@ export class BookCardComponent {
 
   getColor(status: string): string {
     if (!status) {
-      return 'default';
+      return '#b98552';
     }
     if (status.includes('笔记')) {
-      return 'green';
+      return '#7a4d23';
     }
     if (status.includes('在读')) {
-      return 'gold';
+      return '#a97441';
     }
     if (status.includes('已读')) {
-      return 'blue';
+      return '#c79664';
     }
-    return 'default';
+    return '#b98552';
   }
 
   hasNote(target = this.book): boolean {
@@ -60,3 +60,4 @@ export class BookCardComponent {
     }
   }
 }
+

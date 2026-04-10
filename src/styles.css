@@ -62,6 +62,23 @@ a:hover {
   box-shadow: var(--fi-shadow) !important;
 }
 
+.ant-tag,
+.ant-tag-has-color {
+  margin: 0 !important;
+  color: #8a6a49 !important;
+  background: #f6eee4 !important;
+  border-color: #dcc3a7 !important;
+  transition: all 0.2s ease;
+}
+
+.ant-tag:hover,
+.ant-tag-has-color:hover {
+  color: #7a4d23 !important;
+  background: #f0e1d1 !important;
+  border-color: #cda983 !important;
+  cursor: pointer;
+}
+
 .flower_card {
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;

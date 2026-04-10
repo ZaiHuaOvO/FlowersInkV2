@@ -11,7 +11,7 @@
 }
 
 .text {
-  color: var(--fi-text);
+  color: var(--fi-primary-active);
   font-size: 12px;
   cursor: pointer;
   letter-spacing: 0.5px;
@@ -21,10 +21,15 @@
 }
 
 .text:hover {
-  color: var(--fi-primary);
+  color: var(--fi-primary-hover);
 }
 
 .ant-typography {
   font-family: var(--fi-font-base);
   font-weight: 500;
+  color: var(--fi-primary-active);
+}
+
+.footer_box :is(.anticon, .text, a, span) {
+  color: var(--fi-primary-active);
 }

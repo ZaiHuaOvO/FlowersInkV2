@@ -9,6 +9,7 @@
 
 .link_name {
     font-weight: bolder;
+    color: var(--fi-primary-active);
 }
 
 .content {

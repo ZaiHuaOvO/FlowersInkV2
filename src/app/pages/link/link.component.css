@@ -35,30 +35,36 @@ input {
     box-shadow: 0 0 0 2px rgba(165, 42, 42, 0.2) !important;
 }
 
-:host ::ng-deep .fi-alert.ant-alert {
+:host ::ng-deep nz-alert.fi-alert .ant-alert {
     border-radius: 10px !important;
-    border: 1px solid var(--fi-border) !important;
-    background: #fffdf9 !important;
+    border: 1px solid #dcc3a7 !important;
+    background: #f6eee4 !important;
     box-shadow: var(--fi-shadow);
 }
 
-:host ::ng-deep .fi-alert.ant-alert .ant-alert-icon {
-    color: var(--fi-primary) !important;
+:host ::ng-deep nz-alert.fi-alert .ant-alert-icon {
+    color: #8b5a2b !important;
 }
 
-:host ::ng-deep .fi-alert.ant-alert .ant-alert-message,
-:host ::ng-deep .fi-alert.ant-alert .ant-alert-description,
-:host ::ng-deep .fi-alert.ant-alert .ant-typography,
-:host ::ng-deep .fi-alert.ant-alert p,
-:host ::ng-deep .fi-alert.ant-alert span,
-:host ::ng-deep .fi-alert.ant-alert li,
-:host ::ng-deep .fi-alert.ant-alert strong {
-    color: var(--fi-text) !important;
+:host ::ng-deep nz-alert.fi-alert .ant-alert-message,
+:host ::ng-deep nz-alert.fi-alert .ant-alert-description,
+:host ::ng-deep nz-alert.fi-alert .ant-typography,
+:host ::ng-deep nz-alert.fi-alert p,
+:host ::ng-deep nz-alert.fi-alert span,
+:host ::ng-deep nz-alert.fi-alert h1,
+:host ::ng-deep nz-alert.fi-alert h2,
+:host ::ng-deep nz-alert.fi-alert h3,
+:host ::ng-deep nz-alert.fi-alert h4,
+:host ::ng-deep nz-alert.fi-alert h5,
+:host ::ng-deep nz-alert.fi-alert h6,
+:host ::ng-deep nz-alert.fi-alert li,
+:host ::ng-deep nz-alert.fi-alert strong {
+    color: #7a5536 !important;
 }
 
-:host ::ng-deep .fi-alert.ant-alert mark {
-    color: var(--fi-primary) !important;
-    background: #f6eee4 !important;
+:host ::ng-deep nz-alert.fi-alert mark {
+    color: #8b5a2b !important;
+    background: #ead7c3 !important;
     border-radius: 4px;
     padding: 0 4px;
 }
