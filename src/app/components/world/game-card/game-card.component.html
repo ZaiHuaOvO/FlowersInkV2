@@ -5,13 +5,13 @@
   <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
     <div nz-flex nzJustify="center" nzAlign="center" nzGap="small">
       <nz-tag [nzColor]="colorList[game.platform]">
-        <span nz-typography style="color: #fff;">{{game.platform}}</span>
+        <span nz-typography class="game-tag-text">{{game.platform}}</span>
       </nz-tag>
       <span nz-typography class="game_name">{{game.name}}</span>
     </div>
     @if (game.tag !== '') {
       <nz-tag nzColor="#8B4513">
-        <span nz-typography style="color: #fff;">{{game.tag}}</span>
+        <span nz-typography class="game-tag-text">{{game.tag}}</span>
       </nz-tag>
     }
   </div>
@@ -32,34 +32,37 @@
   </ng-template>
   <ng-template #actions>
     <div nz-flex nzJustify="space-evenly" nzAlign="center" style="cursor: default;">
-      <span nz-typography style="cursor: default;">总时长@if (isMobile) {
-        <br>
-        }
-        <strong style="color: #8B4513;">{{game.time}}小时</strong></span>
-        <span nz-typography style="cursor: default;">通关于@if (isMobile) {
+      <span nz-typography style="cursor: default;">总时长
+        @if (isMobile) {
           <br>
-          }
-          <strong style="color: #8B4513;">{{game.finishDate |
-          date:'yyyy-MM-dd'}}</strong></span>
+        }
+        <strong style="color: #8B4513;">{{game.time}}小时</strong>
+      </span>
+      <span nz-typography style="cursor: default;">通关于
+        @if (isMobile) {
+          <br>
+        }
+        <strong style="color: #8B4513;">{{game.finishDate | date:'yyyy-MM-dd'}}</strong>
+      </span>
 
-          @if (game.img?.length > 0) {
-            <span nz-typography class="img_button" (click)="imgPreview()">[游戏截图]</span>
-          }
-          @if (game.content) {
-            <span nz-typography class="img_button" (click)="goToContent(game.content)"
-            [ngClass]="{'content_text': !game.content}">[玩后感]</span>
-          }
-        </div>
-      </ng-template>
+      @if (game.img?.length > 0) {
+        <span nz-typography class="img_button" (click)="imgPreview()">[游戏截图]</span>
+      }
+      @if (game.content) {
+        <span nz-typography class="img_button" (click)="goToContent(game.content)" [ngClass]="{'content_text': !game.content}">[玩后感]</span>
+      }
+    </div>
+  </ng-template>
 
       <ng-template #extra>
         <nz-tag nzColor="#8B4513">
-          <span nz-typography style="color: #fff;cursor: pointer;" (click)="imgDescription()">关于图片的说明</span>
+          <span nz-typography class="game-tag-text game-tag-clickable" (click)="imgDescription()">关于图片的说明</span>
         </nz-tag>
       </ng-template>
 
       <ng-template #imgText>
-        <p nz-typography>抽屉中的游戏截图为保证网站加载速度而<mark>将4K原图二次压缩</mark>后的图片，约为300-500KB</p>
-        <p nz-typography>查看原图中的图片为一次压缩，<mark>画质依旧会有一定损失</mark>，约为3-4MB</p>
-        <p nz-typography>原图15+MB，未放在网站中，<mark>如有需求可联系再花</mark></p>
+        <p nz-typography>抽屉中的游戏截图为保证网站加载速度，使用了 <mark>压缩后的图片</mark>，单张约 300-500KB。</p>
+        <p nz-typography>点击查看原图时展示的是一次压缩版本，<mark>画质会有一定损失</mark>，单张约 2-4MB。</p>
+        <p nz-typography>未压缩原图（15MB+）不放在站内，如有需要可 <mark>联系再花获取</mark>。</p>
       </ng-template>
+

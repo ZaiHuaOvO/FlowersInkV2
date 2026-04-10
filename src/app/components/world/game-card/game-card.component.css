@@ -6,6 +6,14 @@
     font-weight: bolder;
 }
 
+.game-tag-text {
+    color: var(--fi-primary-hover, #7a4d23);
+}
+
+.game-tag-clickable {
+    cursor: pointer;
+}
+
 .img_button {
     cursor: pointer;
 

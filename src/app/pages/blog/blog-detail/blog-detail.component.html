@@ -36,7 +36,7 @@
     <nz-spin [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" style="min-width: 50vw !important; padding: 0 24px 0 24px;">
 
       <flower-blog-title [title]="data.title"></flower-blog-title>
-      <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" clipboard></markdown>
+      <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady"></markdown>
       <nz-divider></nz-divider>
       <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
         <div nz-flex nzJustify="center" nzGap="small">

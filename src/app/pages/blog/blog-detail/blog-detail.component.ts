@@ -36,6 +36,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { commentArray } from '../../../ts/comment-emoji';
 import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
 
 @Component({
   selector: 'flower-blog-detail',
@@ -83,6 +84,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   private isSyncing = false;
   commentArray: any[] = commentArray
   displayCommentArray: any[] = [];
+  markdownReady = false;
 
   @ViewChild('editor', { static: true })
   editorRef!: ElementRef<HTMLTextAreaElement>;
@@ -102,6 +104,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.initMarkdownRuntime();
     this.activateInfo.paramMap.subscribe(params => {
       this.Id = params.get('id');
       if (this.Id && isPlatformBrowser(this.platformId)) {
@@ -110,6 +113,19 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     });
   }
   ngAfterViewInit(): void {
+  }
+
+  private async initMarkdownRuntime(): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    try {
+      await ensureMarkdownRuntimeLoaded();
+      this.markdownReady = true;
+    } catch {
+      this.markdownReady = false;
+    }
   }
 
   getBlogDetail(): void {

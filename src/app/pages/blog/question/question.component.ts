@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
@@ -19,6 +19,7 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
 import { GeneralService } from '../../../services/general.service';
 import { WindowService } from '../../../services/window.service';
 import { BlogService } from '../blog.service';
+import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
 
 @Component({
   selector: 'flower-question',
@@ -62,10 +63,12 @@ export class QuestionComponent implements OnInit {
     background: '#fff',
   };
   isMobile: boolean = false;
+  markdownReady = false;
   constructor(
     private blog: BlogService,
     private general: GeneralService,
-    private window: WindowService
+    private window: WindowService,
+    @Inject(PLATFORM_ID) private platformId: object
   ) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
@@ -77,6 +80,7 @@ export class QuestionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initMarkdownRuntime();
     this.blog
       .getBlogs({
         type: '问题',
@@ -90,6 +94,19 @@ export class QuestionComponent implements OnInit {
         this.tagList = this.general.getTagList(this.data);
         this.loading = false;
       });
+  }
+
+  private async initMarkdownRuntime(): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    try {
+      await ensureMarkdownRuntimeLoaded();
+      this.markdownReady = true;
+    } catch {
+      this.markdownReady = false;
+    }
   }
 
   getBlog(): void {
