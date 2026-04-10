@@ -4,10 +4,10 @@
   nzTheme="outline"></span></button>
   <ng-template #contentTemplate>
     <div [ngStyle]="{'width':isMobile ?'100vw':'55vw'}">
-      <div nz-row [nzGutter]="[16]">
+      <div fl-row [style.--fl-gutter-x.px]="16" [style.--fl-gutter-y.px]="0">
         @for (emoji of commentArray; track emoji) {
-          <div nz-col [nzSpan]="isMobile ? 8 :4" nz-flex [nzVertical]="true" nzJustify="center"
-            nzAlign="center">
+          <div fl-col [attr.fl-col-span]="isMobile ? 8 :4" fl-flex fl-vertical="true" fl-justify="center"
+            fl-align="center">
             <button
               class="emoji-option"
               nz-tooltip

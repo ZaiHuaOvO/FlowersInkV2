@@ -1,16 +1,14 @@
 import { CommonModule } from '@angular/common';
+import { FlTagComponent } from '../../../fl-ui/fl-tag/fl-tag.component';
+import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { MarkdownModule } from 'ngx-markdown';
 import { debounceTime } from 'rxjs';
@@ -27,20 +25,17 @@ import { BlogService } from '../blog.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NzFlexModule,
     NzInputModule,
     NzIconModule,
-    NzTagModule,
+    FlTagComponent,
     NzTypographyModule,
-    NzDividerModule,
+    FlDividerComponent,
     NzPaginationModule,
     NzCollapseModule,
-    NzSkeletonModule,
     NzSpinModule,
     BlogTitleComponent,
     MarkdownModule,
-    NzAffixModule,
-  ],
+    NzAffixModule],
   templateUrl: './question.component.html',
   styleUrl: './question.component.css',
   animations: [SlowUp, QuickUp],
@@ -49,8 +44,7 @@ export class QuestionComponent implements OnInit {
   data: any[] = [
     {
       title: '未加载',
-    },
-  ];
+    }];
   page = 1;
   count = 0;
   tag = '';

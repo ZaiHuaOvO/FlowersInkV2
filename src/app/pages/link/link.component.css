@@ -35,28 +35,28 @@ input {
     box-shadow: 0 0 0 2px rgba(165, 42, 42, 0.2) !important;
 }
 
-:host ::ng-deep .fi-alert.ant-alert {
+:host ::ng-deep fl-alert.fi-alert {
     border-radius: 10px !important;
     border: 1px solid var(--fi-border) !important;
     background: #fffdf9 !important;
     box-shadow: var(--fi-shadow);
 }
 
-:host ::ng-deep .fi-alert.ant-alert .ant-alert-icon {
+:host ::ng-deep fl-alert.fi-alert .fl-alert-icon {
     color: var(--fi-primary) !important;
 }
 
-:host ::ng-deep .fi-alert.ant-alert .ant-alert-message,
-:host ::ng-deep .fi-alert.ant-alert .ant-alert-description,
-:host ::ng-deep .fi-alert.ant-alert .ant-typography,
-:host ::ng-deep .fi-alert.ant-alert p,
-:host ::ng-deep .fi-alert.ant-alert span,
-:host ::ng-deep .fi-alert.ant-alert li,
-:host ::ng-deep .fi-alert.ant-alert strong {
+:host ::ng-deep fl-alert.fi-alert .fl-alert-message,
+:host ::ng-deep fl-alert.fi-alert .fl-alert-description,
+:host ::ng-deep fl-alert.fi-alert .ant-typography,
+:host ::ng-deep fl-alert.fi-alert p,
+:host ::ng-deep fl-alert.fi-alert span,
+:host ::ng-deep fl-alert.fi-alert li,
+:host ::ng-deep fl-alert.fi-alert strong {
     color: var(--fi-text) !important;
 }
 
-:host ::ng-deep .fi-alert.ant-alert mark {
+:host ::ng-deep fl-alert.fi-alert mark {
     color: var(--fi-primary) !important;
     background: #f6eee4 !important;
     border-radius: 4px;

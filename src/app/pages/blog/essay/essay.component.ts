@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FlTagComponent } from '../../../fl-ui/fl-tag/fl-tag.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { GeneralService } from '../../../services/general.service';
@@ -7,14 +8,11 @@ import { BlogService } from '../blog.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
@@ -27,20 +25,17 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    NzFlexModule,
     NzInputModule,
     BlogCardComponent,
     NzIconModule,
-    NzTagModule,
+    FlTagComponent,
     NzTypographyModule,
     NzSelectModule,
-    NzDividerModule,
     NzPaginationModule,
     RouterModule,
     BlogTitleComponent,
     NzSpinModule,
-    NzAffixModule,
-  ],
+    NzAffixModule],
   templateUrl: './essay.component.html',
   styleUrl: './essay.component.css',
   animations: [SlowUp, QuickUp],
@@ -66,8 +61,7 @@ export class EssayComponent implements OnInit {
     'magenta',
     'volcano',
     'gold',
-    'lime',
-  ];
+    'lime'];
   isMobile: boolean = false;
   constructor(
     private blog: BlogService,

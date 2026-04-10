@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -27,9 +25,7 @@ import { WindowService } from '../../../services/window.service';
   imports: [
     CommonModule,
     FormsModule,
-    NzFlexModule,
     NzFormModule,
-    NzGridModule,
     NzInputModule,
     NzTypographyModule,
     NzSpinModule,
@@ -38,8 +34,7 @@ import { WindowService } from '../../../services/window.service';
     NzPopoverModule,
     NzPaginationModule,
     EmojiComponent,
-    NzSelectModule,
-  ],
+    NzSelectModule],
   templateUrl: './edit-message.component.html',
   styleUrl: './edit-message.component.css',
 })

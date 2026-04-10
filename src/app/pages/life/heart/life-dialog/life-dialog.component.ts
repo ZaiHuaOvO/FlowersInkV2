@@ -1,8 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -14,13 +12,10 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   standalone: true,
   imports: [
     CommonModule,
-    NzFlexModule,
     NzCardModule,
     NzImageModule,
-    NzGridModule,
     NzTypographyModule,
-    DatePipe,
-  ],
+    DatePipe],
 })
 export class LifeDialogComponent implements OnInit {
   nzModalData?: any = inject(NZ_MODAL_DATA);

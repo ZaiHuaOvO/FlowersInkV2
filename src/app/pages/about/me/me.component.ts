@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
@@ -19,16 +18,14 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   standalone: true,
   imports: [
     CommonModule,
-    NzFlexModule,
     NzImageModule,
-    NzDividerModule,
+    FlDividerComponent,
     NzTypographyModule,
     NzCollapseModule,
     NzPopoverModule,
     RouterModule,
     TargetComponent,
-    NzIconModule,
-  ],
+    NzIconModule],
   templateUrl: './me.component.html',
   styleUrl: './me.component.css',
   animations: [QuickUp],

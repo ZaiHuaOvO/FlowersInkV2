@@ -27,5 +27,4 @@ export const BLOG_ROUTES: Routes = [
       import('./blog-detail/blog-detail.component').then(
         (m) => m.BlogDetailComponent
       ),
-  },
-];
+  }];

@@ -1,0 +1,57 @@
+:host {
+  display: block;
+  border: 1px solid var(--fi-border);
+  border-radius: 10px;
+  background: #fffdf9;
+  color: var(--fi-text);
+  box-shadow: var(--fi-shadow);
+}
+
+.fl-alert-shell {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.fl-alert-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  border: 1px solid currentColor;
+  margin-top: 2px;
+}
+
+.fl-alert-body {
+  min-width: 0;
+}
+
+.fl-alert-message {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.fl-alert-description {
+  line-height: 1.7;
+}
+
+.fl-alert-info .fl-alert-icon {
+  color: #8b5a2b;
+}
+
+.fl-alert-success .fl-alert-icon {
+  color: #4f8a44;
+}
+
+.fl-alert-warning .fl-alert-icon {
+  color: #c0822b;
+}
+
+.fl-alert-error .fl-alert-icon {
+  color: #bf4d3f;
+}
+

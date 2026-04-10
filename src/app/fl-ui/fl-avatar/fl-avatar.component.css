@@ -1,0 +1,32 @@
+:host {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.fl-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #f3ebe2;
+  color: #8b5a2b;
+  flex-shrink: 0;
+}
+
+.fl-avatar.fl-avatar-square {
+  border-radius: 8px;
+}
+
+.fl-avatar > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fl-avatar-fallback {
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1;
+}
+

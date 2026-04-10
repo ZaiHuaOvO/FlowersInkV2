@@ -1,9 +1,8 @@
 import { CommonModule, DatePipe } from '@angular/common';
+import { FlDividerComponent } from '../../fl-ui/fl-divider/fl-divider.component';
+import { FlAlertComponent } from '../../fl-ui/fl-alert/fl-alert.component';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
@@ -15,10 +14,8 @@ import { WindowService } from '../../services/window.service';
 import { FormsModule } from '@angular/forms';
 import { SlowUp, QuickUp } from '../../common_ui/animations/animation';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { LinkCardComponent } from '../../components/link/link-card/link-card.component';
-import { NzGridModule } from 'ng-zorro-antd/grid';
 import { LinkService } from './link.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -28,19 +25,15 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   imports: [
     CommonModule,
     FormsModule,
-    NzFlexModule,
     NzTypographyModule,
     NzIconModule,
     NzCommentModule,
     NzListModule,
-    NzAvatarModule,
-    NzDividerModule,
+    FlDividerComponent,
     NzSpinModule,
     NzInputModule,
-    NzAlertModule,
-    LinkCardComponent,
-    NzGridModule,
-  ],
+    FlAlertComponent,
+    LinkCardComponent],
   templateUrl: './link.component.html',
   styleUrl: './link.component.css',
   animations: [SlowUp, QuickUp],
@@ -57,8 +50,7 @@ export class LinkComponent {
       logo: 'https://api.flowersink.com/img/logo.png',
       url: 'https://flowersink.com',
       description: '一个喜欢写作,分享生活的已婚前端的个人网站',
-    },
-  ];
+    }];
 
   form: any = {
     name: '',

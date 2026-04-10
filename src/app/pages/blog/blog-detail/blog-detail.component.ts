@@ -1,4 +1,7 @@
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
+import { FlTagComponent } from '../../../fl-ui/fl-tag/fl-tag.component';
+import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
+import { FlAvatarComponent } from '../../../fl-ui/fl-avatar/fl-avatar.component';
 import {
   AfterViewInit,
   Component,
@@ -8,7 +11,6 @@ import {
   PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
 import { MeCardComponent } from '../../../components/website/me-card/me-card.component';
@@ -16,17 +18,14 @@ import { BlogService } from '../blog.service';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { GeneralService } from '../../../services/general.service';
 import { debounceTime } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
@@ -44,14 +43,13 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    NzFlexModule,
     NzIconModule,
-    NzTagModule,
+    FlTagComponent,
     NzTypographyModule,
-    NzDividerModule,
+    FlDividerComponent,
     MarkdownModule,
     NzPageHeaderModule,
-    NzAvatarModule,
+    FlAvatarComponent,
     NzAnchorModule,
     DatePipe,
     BlogTitleComponent,
@@ -222,4 +220,3 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
 }
-

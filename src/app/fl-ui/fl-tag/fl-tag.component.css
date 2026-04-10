@@ -1,0 +1,25 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 22px;
+  padding: 0 7px;
+  border: 1px solid #d8c2ab;
+  border-radius: 6px;
+  background: #fffaf4;
+  color: #8b5a2b;
+  font-size: 12px;
+  line-height: 20px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+:host:hover {
+  background: #f5e8da;
+  border-color: #b78f66;
+  color: #7a4d23;
+  transform: translateY(-1px);
+}

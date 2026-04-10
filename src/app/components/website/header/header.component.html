@@ -1,7 +1,7 @@
 @if (!isMobile) {
-  <div class="header" nz-flex nzJustify="space-between" @QuickDown>
+  <div class="header" fl-flex fl-justify="space-between" @QuickDown>
     <img class="logo" src="assets/img/web/logo2.png" alt="">
-    <!-- <div nz-flex nzAlign="center" nzJustify="center">
+    <!-- <div fl-flex fl-align="center" fl-justify="center">
   </div> -->
   <div>
     <!-- <ul nz-menu nzMode="horizontal">
@@ -25,9 +25,9 @@
     }
   </ul> -->
   <nav class="menu">
-    <ul nz-flex nzGap="large" nzAlign="center" nzJustify="center">
+    <ul fl-flex fl-gap="large" fl-align="center" fl-justify="center">
       @for (item of MenuList; track item) {
-        <li nz-flex nzAlign="center" nzJustify="center" class="menu-item"
+        <li fl-flex fl-align="center" fl-justify="center" class="menu-item"
           [class.active]="isActive(item.url) || isParentActive(item.URL)"
           [class.parent]="item.child?.length == 0">
           <a
@@ -43,8 +43,8 @@
             {{ item.title }}
           </a>
           <nz-dropdown-menu #menu="nzDropdownMenu">
-            <div nz-flex [nzVertical]="true" class="submenu" nzJustify="center" nzAlign="center"
-              nzGap="middle">
+            <div fl-flex fl-vertical="true" class="submenu" fl-justify="center" fl-align="center"
+              fl-gap="middle">
               @for (sub of item.child; track sub) {
                 <a [routerLink]="sub.url" class="submenu-item card"
                   [class.active]="isActive(sub.url)">{{
@@ -57,14 +57,14 @@
     </ul>
   </nav>
 </div>
-<div nz-flex nzJustify="center" nzAlign="center" style="width: 160px;height: 48px;">
+<div fl-flex fl-justify="center" fl-align="center" style="width: 160px;height: 48px;">
   <img width="48px" src="https://api.flowersink.com/img/再花猫猫女仆欢呼.GIF" alt="">
 </div>
 </div>
 }
 
 @if (isMobile) {
-  <div class="header" nz-flex nzJustify="space-between" nzAlign="center" @QuickDown>
+  <div class="header" fl-flex fl-justify="space-between" fl-align="center" @QuickDown>
     <a style="color: #8b4513;" nz-dropdown (click)="mobileMenu()">
       <span nz-icon nzType="menu" nzTheme="outline"></span>
       &nbsp;

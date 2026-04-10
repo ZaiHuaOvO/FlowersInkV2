@@ -4,7 +4,7 @@
   nzTheme="outline"></span></button>
   <ng-template #contentTemplate>
     <div style="width: 200px;">
-      <div nz-flex nzWrap="wrap">
+      <div fl-flex fl-wrap="wrap">
         @for (emoji of currentPageData; track emoji) {
           <p class="emoji_text" (click)="onEmojiClick(emoji)">{{emoji}}</p>
         }

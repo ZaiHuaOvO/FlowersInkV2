@@ -1,29 +1,24 @@
 import { CommonModule, DatePipe } from '@angular/common';
+import { FlTagComponent } from '../../../fl-ui/fl-tag/fl-tag.component';
 import { AfterViewInit, Component, inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { GamePicComponent } from './game-pic/game-pic.component';
 import { WindowService } from '../../../services/window.service';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-
 @Component({
   selector: 'flower-game-card',
   standalone: true,
   imports: [
     CommonModule,
     NzCardModule,
-    NzTagModule,
-    NzFlexModule,
+    FlTagComponent,
     NzTypographyModule,
     NzImageModule,
     DatePipe,
-    NzDrawerModule,
-    NzDividerModule
+    NzDrawerModule
   ],
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.css'

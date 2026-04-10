@@ -1,4 +1,4 @@
-<div class="article" nz-flex [nzVertical]="true" nzAlign="center">
+<div class="article" fl-flex fl-vertical="true" fl-align="center">
     <flower-blog-title [title]="'随笔'"></flower-blog-title>
     @if (isMobile) {
     <div class="search card" @QuickUp>
@@ -10,10 +10,10 @@
         <span nz-icon nzType="search"></span>
     </ng-template>
     }
-    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
+    <div class="content" fl-flex fl-justify="center" fl-align="start" fl-gap="middle"
         [ngStyle]="{'width':isMobile ?'100%':'80%'}">
         <nz-spin [nzTip]="'随笔正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
-            <div nz-flex nzGap="middle" [nzVertical]="true">
+            <div fl-flex fl-gap="middle" fl-vertical="true">
                 @for (item of data; track item) {
                 <div class="flower_card">
                     <flower-blog-card [blog]="item" [loading]="loading"
@@ -27,19 +27,19 @@
         @if (!isMobile) {
         <div class="me" @SlowUp>
             <nz-affix [nzOffsetTop]="72">
-                <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
+                <div class="search card" fl-flex fl-align="center" fl-justify="start" fl-vertical="true" style="gap: 12px;">
                     <nz-input-group [nzSuffix]="suffixIconSearch">
                         <input type="text" nz-input placeholder="搜索随笔" [formControl]="searchControl" />
                     </nz-input-group>
                     <ng-template #suffixIconSearch>
                         <span nz-icon nzType="search"></span>
                     </ng-template>
-                    <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
+                    <div class="tag" fl-flex fl-align="start" fl-justify="start" fl-vertical="true">
                         <h5 nz-typography>随笔标签</h5>
-                        <div nz-flex nzWrap="wrap" nzGap="small">
+                        <div fl-flex fl-wrap="wrap" fl-gap="small">
                             @for (tag of tagList; track tag) {
-                            <nz-tag [nzColor]="tag.color"
-                                (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
+                            <fl-tag [nzColor]="tag.color"
+                                (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</fl-tag>
                             }
                         </div>
                     </div>

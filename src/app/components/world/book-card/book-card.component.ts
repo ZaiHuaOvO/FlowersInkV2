@@ -1,11 +1,9 @@
 import { CommonModule, DatePipe } from '@angular/common';
+import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
+import { FlRibbonComponent } from '../../../fl-ui/fl-ribbon/fl-ribbon.component';
 import { Component, Input } from '@angular/core';
-import { NzBadgeModule } from 'ng-zorro-antd/badge';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule } from 'ng-zorro-antd/image';
-import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @Component({
@@ -13,15 +11,12 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   standalone: true,
   imports: [
     CommonModule,
-    NzFlexModule,
-    NzDividerModule,
+    FlRibbonComponent,
+    FlDividerComponent,
     NzTypographyModule,
-    NzSkeletonModule,
     NzIconModule,
     NzImageModule,
-    NzBadgeModule,
-    DatePipe,
-  ],
+    DatePipe],
   templateUrl: './book-card.component.html',
   styleUrl: './book-card.component.css',
 })

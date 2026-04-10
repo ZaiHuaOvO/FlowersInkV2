@@ -1,7 +1,5 @@
 
 import { Component, Input } from '@angular/core';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
@@ -9,8 +7,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   selector: 'flower-link-card',
   standalone: true,
   imports: [
-    NzFlexModule,
-    NzDividerModule,
     NzTypographyModule,
     NzImageModule
 ],

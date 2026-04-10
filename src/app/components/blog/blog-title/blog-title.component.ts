@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @Component({
@@ -8,7 +6,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   templateUrl: './blog-title.component.html',
   styleUrls: ['./blog-title.component.css'],
   standalone: true,
-  imports: [NzFlexModule, NzTypographyModule, NzDividerModule],
+  imports: [NzTypographyModule],
 })
 export class BlogTitleComponent implements OnInit {
   @Input() title: string = '';

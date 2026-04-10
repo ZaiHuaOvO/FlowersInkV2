@@ -1,6 +1,6 @@
-<div class="menu" nz-flex [nzVertical]="true" nzGap="small">
+<div class="menu" fl-flex fl-vertical="true" fl-gap="small">
   @for (item of this.nzData['value']; track item) {
-    <div nz-flex nzJustify="space-between" class="menu-link" [class.active]="isActive(item.url) "
+    <div fl-flex fl-justify="space-between" class="menu-link" [class.active]="isActive(item.url) "
       [routerLink]="item.url">
       <span [ngStyle]="{'color':item.URL ? 'black':'auto'}">
         <span nz-icon [nzType]="item.icon" nzTheme="outline"
@@ -13,9 +13,9 @@
       }
     </div>
     @if (item.child?.length > 0) {
-      <div nz-flex [nzVertical]="true" class="submenu" nzGap="small">
+      <div fl-flex fl-vertical="true" class="submenu" fl-gap="small">
         @for (sub of item.child; track sub) {
-          <div nz-flex nzJustify="space-between" class="submenu-item" [class.active]="isActive(sub.url)"
+          <div fl-flex fl-justify="space-between" class="submenu-item" [class.active]="isActive(sub.url)"
             [routerLink]="sub.url">
             <span>{{
               sub.title }}
@@ -25,6 +25,6 @@
         }
       </div>
     }
-    <nz-divider style="margin: 0 !important;"></nz-divider>
+    <fl-divider style="margin: 0 !important;"></fl-divider>
   }
 </div>

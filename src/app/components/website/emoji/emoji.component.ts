@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output, output } from '@angular/core';
 import { emojiArray } from '../../../ts/emoji';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
@@ -10,7 +9,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   selector: 'flower-emoji',
   standalone: true,
   imports: [
-    NzFlexModule,
     NzPopoverModule,
     NzPaginationModule,
     NzIconModule

@@ -1,15 +1,15 @@
 <nz-spin [nzTip]="'留言发布中'" [nzSpinning]="loading">
-    <div nz-flex [nzVertical]="true" nzGap="small">
+    <div fl-flex fl-vertical="true" fl-gap="small">
         <div>
-            <div nz-flex nzAlign="start" [nzVertical]="true">
+            <div fl-flex fl-align="start" fl-vertical="true">
                 <!-- <span nz-typography class="form_title"><strong style="color: red;">*</strong>留言：</span> -->
                 <textarea nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.content" placeholder="">
                     </textarea>
 
                 @if (showToolbar && !isMobile) {
-                <div class="toolbar" nz-flex nzJustify="space-between">
+                <div class="toolbar" fl-flex fl-justify="space-between">
                     <flower-emoji (emojiSelected)="onEmojiSelected($event)"></flower-emoji>
-                    <div nz-flex nzJustify="end" nzGap="small">
+                    <div fl-flex fl-justify="end" fl-gap="small">
                         <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 200px;">
                             <input type="text" [(ngModel)]="form.name" nz-input placeholder="怎么称呼你？" />
                         </nz-input-group>
@@ -26,8 +26,8 @@
                 }
 
                 @if (showToolbar && isMobile) {
-                <div class="toolbar" nz-flex nzJustify="space-between">
-                    <div nz-flex nzJustify="end" nzGap="small">
+                <div class="toolbar" fl-flex fl-justify="space-between">
+                    <div fl-flex fl-justify="end" fl-gap="small">
                         <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 30%;">
                             <input type="text" [(ngModel)]="form.name" nz-input placeholder="称呼" />
                         </nz-input-group>
