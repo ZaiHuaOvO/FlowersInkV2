@@ -1,10 +1,10 @@
-<div class="me" fl-flex fl-align="center" fl-justify="center" fl-vertical="true"
+<div class="me" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true"
   [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
   <!-- 绝对定位的导航 -->
   @if (!isMobile) {
     <flower-target></flower-target>
   }
-  <div class="content card" fl-flex fl-vertical="true" @QuickUp
+  <div class="content card" nz-flex [nzVertical]="true" @QuickUp
     [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
     <article nz-typography>
       <h1 nz-typography style="color:#8B4513">关于我</h1>
@@ -147,7 +147,7 @@
       </p>
     </li>
   </ul>
-  <fl-divider></fl-divider>
+  <nz-divider></nz-divider>
   <p nz-typography style="text-align: end;">再花</p>
   <p nz-typography style="text-align: end;">2024年12月3日</p>
   @if (isMobile) {

@@ -11,7 +11,8 @@ const icons = [
   MenuFoldOutline,
   MenuUnfoldOutline,
   DashboardOutline,
-  FormOutline];
+  FormOutline,
+];
 
 export function provideNzIcons(icons: any[]): EnvironmentProviders {
   return importProvidersFrom(NzIconModule.forRoot(icons));

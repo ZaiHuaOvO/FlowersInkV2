@@ -1,10 +1,12 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { FlTagComponent } from '../../../fl-ui/fl-tag/fl-tag.component';
-import { FlSkeletonComponent } from '../../../fl-ui/fl-skeleton/fl-skeleton.component';
 import { Component, Input, OnInit } from '@angular/core';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { commentArray } from '../../../ts/comment-emoji';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { WindowService } from '../../../services/window.service';
 import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
@@ -16,12 +18,15 @@ import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbo
   standalone: true,
   imports: [
     CommonModule,
+    NzFlexModule,
+    NzDividerModule,
     NzTypographyModule,
-    FlSkeletonComponent,
+    NzSkeletonModule,
     NzIconModule,
     DatePipe,
-    FlTagComponent,
-    NzToolTipModule],
+    NzTagModule,
+    NzToolTipModule,
+  ],
 })
 export class BlogCardComponent implements OnInit {
   @Input() blog: any;

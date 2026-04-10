@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { debounceTime } from 'rxjs';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -25,6 +26,7 @@ import { WelcomeService } from '../welcome/welcome.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    NzFlexModule,
     NzSpinModule,
     NzTimelineModule,
     NzTypographyModule,
@@ -32,7 +34,8 @@ import { WelcomeService } from '../welcome/welcome.service';
     NzIconModule,
     RouterModule,
     BlogTitleComponent,
-    DatePipe],
+    DatePipe,
+  ],
   animations: [SlowUp, QuickUp],
 })
 export class BlogComponent implements OnInit {

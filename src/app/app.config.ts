@@ -42,5 +42,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FormsModule, MarkdownModule.forRoot()),
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
-    provideNzConfig(ngZorroConfig)],
+    provideNzConfig(ngZorroConfig),
+  ],
 };

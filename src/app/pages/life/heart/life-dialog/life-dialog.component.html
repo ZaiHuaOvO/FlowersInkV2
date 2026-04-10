@@ -10,12 +10,12 @@
 
 
 <ng-template #img>
-  <div fl-flex fl-vertical="true">
+  <div nz-flex [nzVertical]="true">
     <nz-image-group>
-      <div fl-row fl-flex fl-gap="small" fl-wrap="wrap" fl-justify="start" style="padding: 12px; width: 100%;">
+      <div nz-row nzFlex nzGap="small" nzWrap="wrap" nzJustify="start" style="padding: 12px; width: 100%;">
         @for (item of nzModalData.image; track item; let i = $index) {
           <!-- 根据图片数量动态设置 nzSpan -->
-          <div fl-col [attr.fl-col-span]="getColSpan(nzModalData.image.length, i)">
+          <nz-col [nzSpan]="getColSpan(nzModalData.image.length, i)">
             <img
               loading="lazy"
               decoding="async"
@@ -23,7 +23,7 @@
               nz-image
               [nzSrc]="item.url"
             />
-          </div>
+          </nz-col>
         }
       </div>
     </nz-image-group>

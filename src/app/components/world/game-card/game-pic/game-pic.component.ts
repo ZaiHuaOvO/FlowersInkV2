@@ -1,19 +1,23 @@
 
 import { Component, inject, OnInit } from '@angular/core';
-import { FlTagComponent } from '../../../../fl-ui/fl-tag/fl-tag.component';
 import { NZ_DRAWER_DATA, NzDrawerRef } from 'ng-zorro-antd/drawer';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { WindowService } from '../../../../services/window.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'flower-game-pic',
   standalone: true,
   imports: [
+    NzFlexModule,
     NzImageModule,
+    NzGridModule,
     NzSpinModule,
-    FlTagComponent
+    NzTagModule
 ],
   templateUrl: './game-pic.component.html',
   styleUrl: './game-pic.component.css'

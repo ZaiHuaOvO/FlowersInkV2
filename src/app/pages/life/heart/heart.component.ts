@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { FlAvatarComponent } from '../../../fl-ui/fl-avatar/fl-avatar.component';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
@@ -26,6 +27,7 @@ import { LifeDialogComponent } from './life-dialog/life-dialog.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    NzFlexModule,
     NzSpinModule,
     NzTimelineModule,
     NzTypographyModule,
@@ -33,10 +35,11 @@ import { LifeDialogComponent } from './life-dialog/life-dialog.component';
     NzIconModule,
     RouterModule,
     NzCollapseModule,
-    FlAvatarComponent,
+    NzAvatarModule,
     NzCardModule,
     NzModalModule,
-    BlogTitleComponent],
+    BlogTitleComponent,
+  ],
   templateUrl: './heart.component.html',
   styleUrl: './heart.component.css',
 })

@@ -1,39 +1,39 @@
-﻿<div class="article editor" fl-flex fl-vertical="true" [ngStyle]="{'padding':isMobile ?'4px':'24px'}"
+<div class="article editor" nz-flex [nzVertical]="true" [ngStyle]="{'padding':isMobile ?'4px':'24px'}"
   (scroll)="onScroll('editor')" #editor>
-  <div class="content card" fl-flex fl-gap="middle" fl-vertical="true" @QuickUp
+  <div class="content card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
     [ngStyle]="{'width':isMobile ?'100%':'63%','margin-left' :isMobile ?'0':'5%'}">
     <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
       <ng-template #backTitle>
         <span nz-typography style="cursor: pointer;" (click)="onBack()">返回</span>
       </ng-template>
       @if (!isMobile) {
-      <nz-page-header-extra fl-flex fl-align="center" fl-justify="center">
+      <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
         <span nz-typography nzType="secondary">
           标签：{{data.tag}}
         </span>
-        <fl-divider nzType="vertical"></fl-divider>
+        <nz-divider nzType="vertical"></nz-divider>
         <span nz-typography nzType="secondary">
           阅读量：{{data.views}}次
         </span>
-        <fl-divider nzType="vertical"></fl-divider>
+        <nz-divider nzType="vertical"></nz-divider>
         <span nz-typography nzType="secondary">
           发布于{{ data.date | date:'yyyy年MM月dd日'}}
         </span>
       </nz-page-header-extra>
       }
       @if (isMobile) {
-      <nz-page-header-extra fl-flex fl-align="center" fl-justify="center">
+      <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
         <span nz-typography nzType="secondary">
           {{data.tag}}
         </span>
-        <fl-divider nzType="vertical"></fl-divider>
+        <nz-divider nzType="vertical"></nz-divider>
         <span nz-typography nzType="secondary">
           {{ data.date | date:'yyyy年MM月dd日'}}
         </span>
       </nz-page-header-extra>
       }
     </nz-page-header>
-    <nz-spin [nzTip]="'博客正在赶来中...'" [nzSpinning]="loading" style="min-width: 50vw !important; padding: 0 24px 0 24px;">
+    <nz-spin [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" style="min-width: 50vw !important; padding: 0 24px 0 24px;">
 
       <flower-blog-title [title]="data.title"></flower-blog-title>
       <markdown
@@ -42,14 +42,14 @@
         (ready)="generateAnchors()"
         clipboard
       ></markdown>
-      <fl-divider></fl-divider>
-      <div fl-flex fl-justify="center" fl-align="center" fl-vertical="true" fl-gap="small">
-        <div fl-flex fl-justify="center" fl-wrap="wrap" fl-gap="small">
+      <nz-divider></nz-divider>
+      <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
+        <div nz-flex nzJustify="center">
           @for (item of displayCommentArray; track item) {
           @if (item.count > 0) {
-          <fl-tag nz-tooltip [nzTooltipTitle]="item.description" style="border-radius: 5px;">
+          <nz-tag nz-tooltip [nzTooltipTitle]="item.description" style="border-radius: 5px;cursor: default;">
             <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
-          </fl-tag>
+          </nz-tag>
           }
           }
         </div>
@@ -59,16 +59,16 @@
   </div>
   @if (!isMobile) {
   <div class="me" @SlowUp>
-    <div class="me_box card" fl-flex fl-align="center" fl-justify="start" fl-gap="middle">
-      <fl-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></fl-avatar>
-      <div fl-flex fl-vertical="true">
+    <div class="me_box card" nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
+      <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
+      <div nz-flex [nzVertical]="true">
         <h5 nz-typography>再花</h5>
         <span nz-typography nzType="secondary">猫猫头前端工程师</span>
       </div>
     </div>
     <div class="menu card">
       <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
-      <fl-divider style="margin: 0;"></fl-divider>
+      <nz-divider style="margin: 0;"></nz-divider>
       <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
         @for (anchor of anchors; track anchor) {
         <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
@@ -82,7 +82,3 @@
   </div>
   }
 </div>
-
-
-
-

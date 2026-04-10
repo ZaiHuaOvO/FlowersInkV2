@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { FlDividerComponent } from '../../../../fl-ui/fl-divider/fl-divider.component';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NZ_DRAWER_DATA, NzDrawerRef } from 'ng-zorro-antd/drawer';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
@@ -11,10 +12,11 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   standalone: true,
   imports: [
     CommonModule,
+    NzFlexModule,
     NzTypographyModule,
     RouterModule,
     NzIconModule,
-    FlDividerComponent
+    NzDividerModule
   ],
   templateUrl: './header-mobile.component.html',
   styleUrl: './header-mobile.component.css'

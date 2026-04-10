@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
-import { FlAvatarComponent } from '../../../fl-ui/fl-avatar/fl-avatar.component';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
@@ -20,16 +21,18 @@ import { PlanetComponent } from '../svg/planet/planet.component';
   standalone: true,
   imports: [
     CommonModule,
-    FlDividerComponent,
+    NzFlexModule,
+    NzDividerModule,
     NzIconModule,
-    FlAvatarComponent,
+    NzAvatarModule,
     NzTypographyModule,
     NzPopoverModule,
     NzPopconfirmModule,
     RssComponent,
     SitemapComponent,
     PlanetComponent,
-    Forever],
+    Forever,
+  ],
 })
 export class FooterComponent implements OnInit {
   email = 'ZyZy1724@gmail.com';

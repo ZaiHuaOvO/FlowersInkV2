@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { FlTagComponent } from '../../../fl-ui/fl-tag/fl-tag.component';
 import { Component, OnInit } from '@angular/core';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
 import { MeCardComponent } from '../../../components/website/me-card/me-card.component';
@@ -8,8 +8,10 @@ import { BlogService } from '../blog.service';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { GeneralService } from '../../../services/general.service';
 import { debounceTime } from 'rxjs';
@@ -26,17 +28,20 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    NzFlexModule,
     NzInputModule,
     BlogCardComponent,
     NzIconModule,
-    FlTagComponent,
+    NzTagModule,
     NzTypographyModule,
     NzSelectModule,
+    NzDividerModule,
     NzPaginationModule,
     RouterModule,
     BlogTitleComponent,
     NzSpinModule,
-    NzAffixModule],
+    NzAffixModule,
+  ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',
   animations: [SlowUp, QuickUp],
@@ -62,7 +67,8 @@ export class ArticleComponent implements OnInit {
     'magenta',
     'volcano',
     'gold',
-    'lime'];
+    'lime',
+  ];
   isMobile: boolean = false;
   constructor(
     private blog: BlogService,

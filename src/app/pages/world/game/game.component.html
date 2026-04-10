@@ -1,20 +1,20 @@
-<div class="game" fl-flex fl-vertical="true" fl-align="center">
-  <div class="content" fl-flex fl-gap="middle" fl-justify="start" fl-align="center" fl-vertical="true"
+<div class="game" nz-flex [nzVertical]="true" nzAlign="center">
+  <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
     [ngStyle]="{'width':isMobile ?'90vw':'90vw'}">
     <flower-blog-title [title]="'再花的游戏库'"></flower-blog-title>
     <span nz-typography>共记录
-      <fl-tag nzColor="#8B4513">{{totalGames}}</fl-tag>
+      <nz-tag nzColor="#8B4513">{{totalGames}}</nz-tag>
       款游戏，时长
-      <fl-tag nzColor="#8B4513">{{totalPlayingTime | number:'1.1'}}</fl-tag>小时
+      <nz-tag nzColor="#8B4513">{{totalPlayingTime | number:'1.1'}}</nz-tag>小时
     </span>
     <nz-spin [nzTip]="'游戏正在努力赶来中'" [nzSpinning]="loading">
-      <div fl-row [style.--fl-gutter-x.px]="24" [style.--fl-gutter-y.px]="24">
+      <nz-row [nzGutter]="[24,24]">
         @for (game of data; track game; let i = $index) {
-          <div fl-col [attr.fl-col-span]="isMobile ? 24 : 12">
+          <nz-col [nzSpan]="isMobile ? 24 : 12">
             <flower-game-card [game]="game"></flower-game-card>
-          </div>
+          </nz-col>
         }
-      </div>
+      </nz-row>
     </nz-spin>
   </div>
 </div>

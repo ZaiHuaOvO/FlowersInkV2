@@ -2,17 +2,17 @@
   <nz-card-meta [nzTitle]="nameTemplate" [nzDescription]="game.description"></nz-card-meta>
 </nz-card>
 <ng-template #nameTemplate>
-  <div fl-flex fl-vertical="true" fl-align="center" fl-justify="center" fl-gap="small">
-    <div fl-flex fl-justify="center" fl-align="center" fl-gap="small">
-      <fl-tag [nzColor]="colorList[game.platform]">
+  <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
+    <div nz-flex nzJustify="center" nzAlign="center" nzGap="small">
+      <nz-tag [nzColor]="colorList[game.platform]">
         <span nz-typography style="color: #fff;">{{game.platform}}</span>
-      </fl-tag>
+      </nz-tag>
       <span nz-typography class="game_name">{{game.name}}</span>
     </div>
     @if (game.tag !== '') {
-      <fl-tag nzColor="#8B4513">
+      <nz-tag nzColor="#8B4513">
         <span nz-typography style="color: #fff;">{{game.tag}}</span>
-      </fl-tag>
+      </nz-tag>
     }
   </div>
 
@@ -31,7 +31,7 @@
     </div>
   </ng-template>
   <ng-template #actions>
-    <div fl-flex fl-justify="space-evenly" fl-align="center" style="cursor: default;">
+    <div nz-flex nzJustify="space-evenly" nzAlign="center" style="cursor: default;">
       <span nz-typography style="cursor: default;">总时长@if (isMobile) {
         <br>
         }
@@ -53,9 +53,9 @@
       </ng-template>
 
       <ng-template #extra>
-        <fl-tag nzColor="#8B4513">
+        <nz-tag nzColor="#8B4513">
           <span nz-typography style="color: #fff;cursor: pointer;" (click)="imgDescription()">关于图片的说明</span>
-        </fl-tag>
+        </nz-tag>
       </ng-template>
 
       <ng-template #imgText>

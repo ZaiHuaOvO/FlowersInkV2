@@ -4,6 +4,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { MenuService, NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { HeaderComponent } from './components/website/header/header.component';
 import { FooterComponent } from './components/website/footer/footer.component';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
@@ -20,6 +21,7 @@ import { BackTopComponent } from './components/website/back-top/back-top.compone
     NzIconModule,
     NzLayoutModule,
     NzMenuModule,
+    NzFlexModule,
     HeaderComponent,
     FooterComponent,
     NzTypographyModule,

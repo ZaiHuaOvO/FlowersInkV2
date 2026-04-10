@@ -1,10 +1,10 @@
-<div class="message" fl-flex fl-align="center" fl-justify="center" fl-vertical="true"
+<div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true"
     [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
-    <div class="content card" fl-flex fl-vertical="true" fl-gap="middle" @QuickUp
+    <div class="content card" nz-flex [nzVertical]="true" nzGap="middle" @QuickUp
         [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
         <h1 nz-typography style="color:#8B4513">好朋友的链接</h1>
         <p nz-typography nzType="secondary">友链就像桥梁，将我的孤岛展现给全世界</p>
-        <fl-alert class="fi-alert fi-alert-soft" nzType="success" [nzDescription]="linkContent"></fl-alert>
+        <nz-alert class="fi-alert fi-alert-soft" nzType="success" [nzDescription]="linkContent"></nz-alert>
         <ng-template #linkContent>
             <article nz-typography style="font-size: 16px;">
                 <span nz-typography>网站名称：花墨</span><br>
@@ -14,19 +14,19 @@
                 <span nz-typography>联系邮箱：{{email}}</span>
             </article>
         </ng-template>
-        <fl-divider></fl-divider>
+        <nz-divider></nz-divider>
 
         <nz-spin [nzTip]="'友链正在赶来中'" [nzSpinning]="loading">
-            <div fl-row [style.--fl-gutter-x.px]="16" [style.--fl-gutter-y.px]="16">
+            <div nz-row [nzGutter]="[16,16]">
                 @for (link of links; track link) {
                     @if (!isMobile) {
-                    <div fl-col fl-col-span="8">
+                    <div nz-col nzSpan="8">
                         <flower-link-card [link]="link"></flower-link-card>
                     </div>
                     }
 
                     @if (isMobile) {
-                    <div fl-col fl-col-span="24">
+                    <div nz-col nzSpan="24">
                         <flower-link-card [link]="link"></flower-link-card>
                     </div>
                     }
@@ -34,12 +34,12 @@
             </div>
         </nz-spin>
 
-        <fl-divider></fl-divider>
+        <nz-divider></nz-divider>
         @if (!isMobile) {
-        <div fl-row [style.--fl-gutter-x.px]="16" [style.--fl-gutter-y.px]="16">
-            <div fl-col fl-col-span="16">
-                <fl-alert class="fi-alert fi-alert-soft" nzType="info" [nzMessage]="linkTitle"
-                    [nzDescription]="linkNote"></fl-alert>
+        <div nz-row [nzGutter]="[16,16]">
+            <div nz-col nzSpan="16">
+                <nz-alert class="fi-alert fi-alert-soft" nzType="info" [nzMessage]="linkTitle"
+                    [nzDescription]="linkNote"></nz-alert>
                 <ng-template #linkTitle>
                     <h4 nz-typography>友链申请须知</h4>
                 </ng-template>
@@ -53,9 +53,9 @@
                     </article>
                 </ng-template>
             </div>
-            <div fl-col fl-col-span="8">
-                <div fl-flex fl-align="start" fl-vertical="true" [ngStyle]="{'width':isMobile ?'100%':'100%'}"
-                    fl-gap="small">
+            <div nz-col nzSpan="8">
+                <div nz-flex nzAlign="start" [nzVertical]="true" [ngStyle]="{'width':isMobile ?'100%':'100%'}"
+                    nzGap="small">
                     <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
                         placeholder="网站名称">
                     <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.logo" name="logo"
@@ -67,7 +67,7 @@
                     <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
                         placeholder="联系邮箱(可选)">
                     @if (showToolbar) {
-                    <div class="toolbar" fl-flex fl-justify="end">
+                    <div class="toolbar" nz-flex nzJustify="end">
                         <button class="submit amazon-button" (click)="submit()">申请</button>
                     </div>
                     }
@@ -76,9 +76,9 @@
         </div>
         }
         @if (isMobile) {
-        <div fl-flex fl-vertical="true" fl-gap="middle">
-            <fl-alert class="fi-alert fi-alert-soft" nzType="info" [nzMessage]="linkTitle"
-                [nzDescription]="linkNote"></fl-alert>
+        <div nz-flex [nzVertical]="true" nzGap="middle">
+            <nz-alert class="fi-alert fi-alert-soft" nzType="info" [nzMessage]="linkTitle"
+                [nzDescription]="linkNote"></nz-alert>
             <ng-template #linkTitle>
                 <h4 nz-typography>友链申请须知</h4>
             </ng-template>
@@ -91,7 +91,7 @@
                     <p nz-typography>4.对于网站的样式、交互、设计有一定要求，不喜好排版杂乱、交互不适、BUG过多的网站</p>
                 </article>
             </ng-template>
-            <div fl-flex fl-align="start" fl-vertical="true" [ngStyle]="{'width':isMobile ?'100%':'33%'}" fl-gap="small">
+            <div nz-flex nzAlign="start" [nzVertical]="true" [ngStyle]="{'width':isMobile ?'100%':'33%'}" nzGap="small">
                 <nz-input-group>
                     <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
                         placeholder="网站名称">
@@ -105,7 +105,7 @@
                         placeholder="联系邮箱(可选)">
                 </nz-input-group>
                 @if (showToolbar) {
-                <div class="toolbar" fl-flex fl-justify="end">
+                <div class="toolbar" nz-flex nzJustify="end">
                     <button class="submit amazon-button" (click)="submit()">申请</button>
                 </div>
                 }

@@ -1,8 +1,8 @@
-<div fl-row [style.--fl-gutter-x.px]="12" [style.--fl-gutter-y.px]="12">
+<nz-row [nzGutter]="[12,12]">
   @for (img of images; track img; let i = $index) {
-    <div fl-col [attr.fl-col-span]="isMobile ? 12 : 4" fl-flex fl-vertical="true"
-      fl-justify="center">
-      <nz-spin class="spin" [nzTip]="'图片加载中…'" [nzSpinning]="!img.loaded" fl-gap="small">
+    <nz-col [nzSpan]="isMobile ? 12 : 4" nz-flex [nzVertical]="true"
+      nzJustify="center">
+      <nz-spin class="spin" [nzTip]="'图片加载中…'" [nzSpinning]="!img.loaded" nzGap="small">
         <div class="img-container card">
           <nz-image-group>
             @if (i <= currentIndex) {
@@ -16,16 +16,16 @@
               />
             }
           </nz-image-group>
-          <fl-tag nzColor="#8B4513" class="view-btn"
-          (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</fl-tag>
+          <nz-tag nzColor="#8B4513" class="view-btn"
+          (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</nz-tag>
         </div>
       </nz-spin>
       <!-- @if (i <= currentIndex) {
-      <fl-tag nzColor="#8B4513">
+      <nz-tag nzColor="#8B4513">
       <span nz-typography style="color: #fff;" class="img_button"
       (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</span>
-    </fl-tag>
+    </nz-tag>
     } -->
-  </div>
+  </nz-col>
 }
-</div>
+</nz-row>

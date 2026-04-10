@@ -1,8 +1,8 @@
-<fl-ribbon [nzText]="ribbon_text" [nzColor]="getColor(book.status)">
+<nz-ribbon [nzText]="ribbon_text" [nzColor]="getColor(book.status)">
   <a
     class="card"
-    fl-flex
-    [style.gap.px]="25"
+    nz-flex
+    [nzGap]="25"
     [ngClass]="hasNote(book) ? 'content' : 'no_content'"
     [href]="hasNote(book) ? book.content : null"
     target="_blank"
@@ -17,7 +17,7 @@
       alt=""
       [height]="125"
     >
-    <div fl-flex fl-vertical="true" fl-justify="center" fl-gap="small" class="noto-sans-sc">
+    <div nz-flex [nzVertical]="true" nzJustify="center" nzGap="small" class="noto-sans-sc">
       <span nz-typography class="book_name">{{book.name}}</span>
       <span nz-typography class="book_author">{{book.author}}</span>
       @if (book.finishDate) {
@@ -25,15 +25,15 @@
       }
     </div>
   </a>
-</fl-ribbon>
+</nz-ribbon>
 
 <ng-template #ribbon_text>
-  <div fl-flex class="noto-sans-sc" fl-justify="center">
+  <div nz-flex class="noto-sans-sc" nzJustify="center">
     @if (book.readingTime > 0) {
       <span nz-typography class="ribbon_text">{{book.readingTime | number:'1.1'}} 小时</span>
     }
     @if (book.readingTime > 0) {
-      <fl-divider nzType="vertical"></fl-divider>
+      <nz-divider nzType="vertical"></nz-divider>
     }
     <span nz-typography class="ribbon_text">{{book.status}}</span>
   </div>

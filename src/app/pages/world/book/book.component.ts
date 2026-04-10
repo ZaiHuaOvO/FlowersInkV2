@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FlTagComponent } from '../../../fl-ui/fl-tag/fl-tag.component';
-import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { debounceTime } from 'rxjs';
@@ -9,6 +7,7 @@ import { WorldService } from '../world.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -18,6 +17,8 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
 import { FoodWaterfallComponent } from '../../../components/life/food-waterfall/food-waterfall.component';
 import { NodataComponent } from '../../../components/website/nodata/nodata.component';
 import { QuickUp, SlowUp } from '../../../common_ui/animations/animation';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { BookCardComponent } from '../../../components/world/book-card/book-card.component';
 import { RouterModule } from '@angular/router';
 
@@ -28,6 +29,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    NzFlexModule,
     NzInputModule,
     NzIconModule,
     NzTypographyModule,
@@ -37,10 +39,11 @@ import { RouterModule } from '@angular/router';
     NzAffixModule,
     NzImageModule,
     NzMenuModule,
-    FlTagComponent,
-    FlDividerComponent,
+    NzTagModule,
+    NzDividerModule,
     BookCardComponent,
-    RouterModule],
+    RouterModule,
+  ],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css',
   animations: [SlowUp, QuickUp],

@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TargetComponent } from '../../../components/about/target/target.component';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { AboutService } from '../about.service';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { CommonModule, DatePipe } from '@angular/common';
 import { EditMessageComponent } from '../../../components/about/edit-message/edit-message.component';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { QuickUp } from '../../../common_ui/animations/animation';
@@ -18,16 +20,19 @@ import { WindowService } from '../../../services/window.service';
   standalone: true,
   imports: [
     CommonModule,
+    NzFlexModule,
     NzTypographyModule,
     NzIconModule,
     TargetComponent,
     NzCommentModule,
     NzListModule,
+    NzAvatarModule,
     EditMessageComponent,
-    FlDividerComponent,
+    NzDividerModule,
     NzSpinModule,
     DatePipe,
-    NzPaginationModule],
+    NzPaginationModule,
+  ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.css',
   animations: [QuickUp],

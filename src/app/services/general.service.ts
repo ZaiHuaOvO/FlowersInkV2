@@ -17,7 +17,8 @@ export class GeneralService {
     'magenta',
     'volcano',
     'gold',
-    'lime'];
+    'lime',
+  ];
   constructor() {}
 
   getTagList(dataArray: { tag: string }[]) {

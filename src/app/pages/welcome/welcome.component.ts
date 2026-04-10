@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FlDividerComponent } from '../../fl-ui/fl-divider/fl-divider.component';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { WelcomeService } from './welcome.service';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BlogCardComponent } from '../../components/blog/blog-card/blog-card.component';
@@ -13,6 +14,8 @@ import { WindowService } from '../../services/window.service';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+
 @Component({
   selector: 'app-welcome',
   standalone: true,
@@ -20,6 +23,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrls: ['./welcome.component.css'],
   imports: [
     CommonModule,
+    NzFlexModule,
     NzSpinModule,
     BlogCardComponent,
     MeCardComponent,
@@ -27,8 +31,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     RouterModule,
     BlogTitleComponent,
     NzAffixModule,
-    FlDividerComponent,
-    NzModalModule
+    NzDividerModule,
+    NzModalModule,
+    NzTagModule
   ],
   animations: [SlowUp, QuickUp],
 })
@@ -122,4 +127,5 @@ export class WelcomeComponent implements OnInit {
       .catch((error) => { });
   }
 }
+
 

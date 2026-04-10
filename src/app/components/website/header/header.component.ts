@@ -1,6 +1,8 @@
 
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { QuickDown } from '../../../common_ui/animations/animation';
@@ -27,6 +29,8 @@ interface MenuItem {
     RouterModule,
     NzIconModule,
     NzMenuModule,
+    NzFlexModule,
+    NzAvatarModule,
     NzDropDownModule,
     NzDrawerModule
 ],
@@ -60,7 +64,8 @@ export class HeaderComponent implements OnInit {
           title: '文归档',
           icon: '',
           url: '/blog/all',
-        }],
+        },
+      ],
       showChildren: false
     },
     {
@@ -82,7 +87,8 @@ export class HeaderComponent implements OnInit {
           title: '游戏',
           icon: '',
           url: '/world/game',
-        }],
+        },
+      ],
       showChildren: false
     },
     {
@@ -111,9 +117,11 @@ export class HeaderComponent implements OnInit {
           title: '留言板',
           icon: '',
           url: '/about/message',
-        }],
+        },
+      ],
       showChildren: false
-    }];
+    },
+  ];
   isMobile: boolean = false;
   activeRoute = '';
   @ViewChild('mobileMenuTitle', { static: true })

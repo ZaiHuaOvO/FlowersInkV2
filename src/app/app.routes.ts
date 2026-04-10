@@ -37,4 +37,5 @@ export const routes: Routes = [
     path: '**',
     loadChildren: () =>
       import('./pages/error/error.routes').then((m) => m.ERROR_ROUTES),
-  }];
+  },
+];

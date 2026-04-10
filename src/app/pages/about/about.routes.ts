@@ -14,4 +14,5 @@ export const ABOUT_ROUTES: Routes = [
     path: 'message',
     loadComponent: () =>
       import('./message/message.component').then((m) => m.MessageComponent),
-  }];
+  },
+];

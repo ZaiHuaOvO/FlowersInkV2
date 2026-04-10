@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -16,14 +17,16 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
   standalone: true,
   imports: [
     CommonModule,
+    NzFlexModule,
     NzImageModule,
-    FlDividerComponent,
+    NzDividerModule,
     NzTypographyModule,
     NzCollapseModule,
     NzIconModule,
     RouterModule,
     TargetComponent,
-    NzTimelineModule],
+    NzTimelineModule,
+  ],
   templateUrl: './website.component.html',
   styleUrl: './website.component.css',
   animations: [QuickUp],
@@ -83,7 +86,8 @@ export class WebsiteComponent {
     {
       date: '未完待续',
       title: '',
-    }];
+    },
+  ];
   constructor(private window: WindowService) {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;

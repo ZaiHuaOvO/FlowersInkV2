@@ -1,9 +1,9 @@
-<div class="website" fl-flex fl-align="center" fl-justify="center" fl-vertical="true"
+<div class="website" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true"
   [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
   @if (!isMobile) {
     <flower-target></flower-target>
   }
-  <div class="content card" fl-flex fl-vertical="true" @QuickUp
+  <div class="content card" nz-flex [nzVertical]="true" @QuickUp
     [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
     <article nz-typography>
       <h1 nz-typography style="color:#8B4513">关于网站</h1>
@@ -65,7 +65,7 @@
           <nz-timeline>
             @for (item of websiteTimeline; track item) {
               <nz-timeline-item nzColor="green">
-                <div fl-flex fl-gap="middle">
+                <div nz-flex nzGap="middle">
                   <p nz-typography nzType="secondary">{{ item.date }}</p>
                   <p nz-typography>{{ item.title }}</p>
                 </div>
@@ -73,7 +73,7 @@
             }
           </nz-timeline>
         </div>
-        <fl-divider></fl-divider>
+        <nz-divider></nz-divider>
         <p nz-typography style="text-align: end;">花墨</p>
         <p nz-typography style="text-align: end;">2024年01月03日</p>
         @if (isMobile) {

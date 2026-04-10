@@ -1,11 +1,13 @@
 
 import { Component, Input, OnInit } from '@angular/core';
-import { FlTagComponent } from '../../../fl-ui/fl-tag/fl-tag.component';
-import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
-import { FlAvatarComponent } from '../../../fl-ui/fl-avatar/fl-avatar.component';
 import { RouterModule } from '@angular/router';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { RssComponent } from '../svg/rss/rss.component';
 
 @Component({
   selector: 'flower-me-card',
@@ -14,11 +16,12 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   standalone: true,
   imports: [
     RouterModule,
-    FlAvatarComponent,
+    NzFlexModule,
+    NzAvatarModule,
     NzTypographyModule,
-    FlDividerComponent,
+    NzDividerModule,
     NzIconModule,
-    FlTagComponent
+    NzTagModule
 ],
 })
 export class MeCardComponent implements OnInit {

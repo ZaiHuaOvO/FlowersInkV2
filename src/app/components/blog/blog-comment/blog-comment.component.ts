@@ -1,20 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { commentArray } from '../../../ts/comment-emoji';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 import { WindowService } from '../../../services/window.service';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+
 @Component({
   selector: 'flower-blog-comment',
   standalone: true,
   imports: [
     CommonModule,
+    NzFlexModule,
     NzPopoverModule,
     NzPaginationModule,
     NzIconModule,
-    NzToolTipModule],
+    NzGridModule,
+    NzToolTipModule,
+    NzTagModule,
+  ],
   templateUrl: './blog-comment.component.html',
   styleUrl: './blog-comment.component.css',
 })

@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { FlTagComponent } from '../../../fl-ui/fl-tag/fl-tag.component';
-import { FlDividerComponent } from '../../../fl-ui/fl-divider/fl-divider.component';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
@@ -31,6 +32,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    NzFlexModule,
     NzInputModule,
     NzIconModule,
     NzTypographyModule,
@@ -41,7 +43,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     FoodWaterfallComponent,
     NodataComponent,
     NzImageModule,
-    NzMenuModule],
+    NzMenuModule,
+  ],
   templateUrl: './food.component.html',
   styleUrl: './food.component.css',
   animations: [SlowUp, QuickUp],
