@@ -3,7 +3,7 @@
         <div>
             <div nz-flex nzAlign="start" [nzVertical]="true">
                 <!-- <span nz-typography class="form_title"><strong style="color: red;">*</strong>留言：</span> -->
-                <textarea nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.content" placeholder="">
+                <textarea nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.content" placeholder="">
                     </textarea>
 
                 @if (showToolbar && !isMobile) {
@@ -11,16 +11,16 @@
                     <flower-emoji (emojiSelected)="onEmojiSelected($event)"></flower-emoji>
                     <div nz-flex nzJustify="end" nzGap="small">
                         <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 200px;">
-                            <input type="text" [(ngModel)]="form.name" nz-input placeholder="怎么称呼你？" />
+                            <input type="text" [(ngModel)]="form.name" nz-input flInput placeholder="怎么称呼你？" />
                         </nz-input-group>
                         <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
 
                         <nz-input-group [nzPrefix]="prefixTemplateCloud" style="border-radius: 10px;width: 200px;">
-                            <input type="text" nz-input [(ngModel)]="form.url" placeholder="若有个人网站可填写" />
+                            <input type="text" nz-input flInput [(ngModel)]="form.url" placeholder="若有个人网站可填写" />
                         </nz-input-group>
                         <ng-template #prefixTemplateCloud><span nz-icon nzType="cloud"></span></ng-template>
 
-                        <button class="submit amazon-button" (click)="submit()">发布</button>
+                        <fl-button class="submit" (click)="submit()">发布</fl-button>
                     </div>
                 </div>
                 }
@@ -29,16 +29,16 @@
                 <div class="toolbar" nz-flex nzJustify="space-between">
                     <div nz-flex nzJustify="end" nzGap="small">
                         <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 30%;">
-                            <input type="text" [(ngModel)]="form.name" nz-input placeholder="称呼" />
+                            <input type="text" [(ngModel)]="form.name" nz-input flInput placeholder="称呼" />
                         </nz-input-group>
                         <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
 
                         <nz-input-group [nzPrefix]="prefixTemplateCloud" style="border-radius: 10px;width: 60%;">
-                            <input type="text" nz-input [(ngModel)]="form.url" placeholder="个人网站地址(若有)" />
+                            <input type="text" nz-input flInput [(ngModel)]="form.url" placeholder="个人网站地址(若有)" />
                         </nz-input-group>
                         <ng-template #prefixTemplateCloud><span nz-icon nzType="cloud"></span></ng-template>
 
-                        <button class="submit amazon-button" (click)="submit()">发布</button>
+                        <fl-button class="submit" (click)="submit()">发布</fl-button>
                     </div>
                 </div>
                 }

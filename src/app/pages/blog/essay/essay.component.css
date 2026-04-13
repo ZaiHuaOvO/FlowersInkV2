@@ -1,19 +1,25 @@
 .article {
-    width: 100vw;
-    max-width: 100vw;
-    min-height: 500px;
-    padding: 24px;
+    width: 100%;
+    max-width: 100%;
+    min-height: calc(100vh - 48px);
+    padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
 }
 
 .content {
-    width: 80%;
-    min-height: 500px;
-    margin-top: 12px;
+    width: min(var(--fi-page-max), 100%);
+    min-height: 420px;
+    margin-top: var(--fi-space-3);
+}
+
+.content>nz-spin {
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .me {
-    width: 40%;
-    min-width: 300px;
+    flex: 0 0 clamp(280px, 28vw, 360px);
+    width: clamp(280px, 31vw, 360px);
+    min-width: 280px;
     min-height: 200px;
 }
 
@@ -29,7 +35,7 @@
 
 .search {
     width: 100%;
-    padding: 12px;
+    padding: var(--fi-space-3);
     height: auto;
 }
 
@@ -42,7 +48,7 @@ nz-tag {
 }
 
 nz-tag:hover {
-    background: #fff;
+    background: var(--fi-surface-soft);
 }
 
 nz-select {
@@ -51,4 +57,15 @@ nz-select {
 
 nz-option {
     font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .article {
+        padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
+    }
+
+    .content {
+        margin-top: var(--fi-space-2);
+        min-height: auto;
+    }
 }

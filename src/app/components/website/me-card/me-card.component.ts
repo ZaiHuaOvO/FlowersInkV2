@@ -8,6 +8,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { RssComponent } from '../svg/rss/rss.component';
+import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
 
 @Component({
   selector: 'flower-me-card',
@@ -21,8 +22,9 @@ import { RssComponent } from '../svg/rss/rss.component';
     NzTypographyModule,
     NzDividerModule,
     NzIconModule,
-    NzTagModule
-],
+    NzTagModule,
+    FlButtonComponent,
+  ],
 })
 export class MeCardComponent implements OnInit {
   @Input() info = {

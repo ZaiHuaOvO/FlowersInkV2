@@ -1,16 +1,32 @@
 .me {
     width: 100%;
-    padding: 12px;
-    box-shadow: var(--fi-shadow);
+    padding: var(--fi-space-3);
+    box-shadow: var(--fi-shadow-soft);
     border: 1px solid var(--fi-border);
-    border-radius: 14px;
+    border-radius: var(--fi-radius-md);
     background-color: var(--fi-surface);
-    margin-bottom: 12px;
+    margin-bottom: var(--fi-space-3);
+    transition: box-shadow 0.24s ease, transform 0.24s ease;
+}
+
+.me:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--fi-shadow);
 }
 
 .name {
     margin-top: 0;
     color: #8B4513;
+}
+
+.intro-text {
+    width: 100%;
+}
+
+.stat-row {
+    width: max-content;
+    max-width: 100%;
+    margin-inline: auto;
 }
 
 .ant-tag {
@@ -20,5 +36,5 @@
 
 .me_box {
     width: 100%;
-    padding: 12px;
+    padding: var(--fi-space-3);
 }

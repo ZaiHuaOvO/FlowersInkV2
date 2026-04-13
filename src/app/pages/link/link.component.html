@@ -56,19 +56,19 @@
             <div nz-col nzSpan="8">
                 <div nz-flex nzAlign="start" [nzVertical]="true" [ngStyle]="{'width':isMobile ?'100%':'100%'}"
                     nzGap="small">
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
                         placeholder="网站名称">
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.logo" name="logo"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.logo" name="logo"
                         placeholder="网站头像地址">
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
                         placeholder="网站地址">
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
                         name="description" placeholder="网站描述">
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
                         placeholder="联系邮箱(可选)">
                     @if (showToolbar) {
                     <div class="toolbar" nz-flex nzJustify="end">
-                        <button class="submit amazon-button" (click)="submit()">申请</button>
+                        <fl-button class="submit" (click)="submit()">申请</fl-button>
                     </div>
                     }
                 </div>
@@ -93,20 +93,20 @@
             </ng-template>
             <div nz-flex nzAlign="start" [nzVertical]="true" [ngStyle]="{'width':isMobile ?'100%':'33%'}" nzGap="small">
                 <nz-input-group>
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
                         placeholder="网站名称">
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.logo" name="logo"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.logo" name="logo"
                         placeholder="网站头像地址">
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
                         placeholder="网站地址">
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
                         name="description" placeholder="网站描述">
-                    <input nz-input type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
                         placeholder="联系邮箱(可选)">
                 </nz-input-group>
                 @if (showToolbar) {
                 <div class="toolbar" nz-flex nzJustify="end">
-                    <button class="submit amazon-button" (click)="submit()">申请</button>
+                    <fl-button class="submit" (click)="submit()">申请</fl-button>
                 </div>
                 }
             </div>

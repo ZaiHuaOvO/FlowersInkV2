@@ -4,7 +4,7 @@
     <flower-blog-title [title]="'文归档'"></flower-blog-title>
     <div class="search card" nz-flex nzAlign="center" nzJustify="center" @QuickUp>
       <nz-input-group [nzSuffix]="suffixIconSearch">
-        <input type="text" nz-input placeholder="想要搜点儿什么?" [formControl]="searchControl" />
+        <input type="text" nz-input flInput placeholder="想要搜点儿什么?" [formControl]="searchControl" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <span nz-icon nzType="search"></span>

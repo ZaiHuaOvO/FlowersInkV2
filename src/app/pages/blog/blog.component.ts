@@ -17,6 +17,7 @@ import {
 } from '../../shared/utils/date-grouping.util';
 import { WindowService } from '../../services/window.service';
 import { WelcomeService } from '../welcome/welcome.service';
+import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
 
 @Component({
   selector: 'app-blog',
@@ -35,6 +36,7 @@ import { WelcomeService } from '../welcome/welcome.service';
     RouterModule,
     BlogTitleComponent,
     DatePipe,
+    FlInputDirective,
   ],
   animations: [SlowUp, QuickUp],
 })

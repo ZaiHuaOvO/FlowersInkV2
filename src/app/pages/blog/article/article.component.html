@@ -3,15 +3,14 @@
     @if (isMobile) {
     <div class="search card" @QuickUp>
         <nz-input-group [nzSuffix]="suffixIconSearch">
-            <input type="text" nz-input placeholder="搜索文章" [formControl]="searchControl" />
+            <input type="text" nz-input flInput placeholder="搜索文章" [formControl]="searchControl" />
         </nz-input-group>
     </div>
     <ng-template #suffixIconSearch>
         <span nz-icon nzType="search"></span>
     </ng-template>
     }
-    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
-        [ngStyle]="{'width':isMobile ?'100%':'80%'}">
+    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle">
         <nz-spin [nzTip]="'技术文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
             <div nz-flex nzGap="middle" [nzVertical]="true">
                 @for (item of data; track item) {
@@ -29,7 +28,7 @@
             <nz-affix [nzOffsetTop]="72">
                 <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
                     <nz-input-group [nzSuffix]="suffixIconSearch">
-                        <input type="text" nz-input placeholder="搜索文章" [formControl]="searchControl" />
+                        <input type="text" nz-input flInput placeholder="搜索文章" [formControl]="searchControl" />
                     </nz-input-group>
                     <ng-template #suffixIconSearch>
                         <span nz-icon nzType="search"></span>

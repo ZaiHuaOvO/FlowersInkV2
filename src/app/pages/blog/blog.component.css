@@ -1,23 +1,23 @@
 .welcome {
-    width: 100vw;
-    max-width: 100vw;
-    min-height: 500px;
-    padding: 24px;
+    width: 100%;
+    max-width: 100%;
+    min-height: calc(100vh - 48px);
+    padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
 }
 
 .content {
-    width: 60%;
-    min-height: 500px;
+    width: min(var(--fi-page-max-narrow), 100%);
+    min-height: 420px;
 }
 
 .blog {
-    padding: 24px;
+    padding: clamp(18px, 2.2vw, 24px);
     width: 100%;
 }
 
 .search {
     width: 100%;
-    padding: 12px;
+    padding: var(--fi-space-3);
 }
 
 .blog_title {
@@ -36,4 +36,14 @@
 
 .fi-brown-timeline {
     padding-top: 2px;
+}
+
+@media (max-width: 768px) {
+    .welcome {
+        padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
+    }
+
+    .content {
+        min-height: auto;
+    }
 }

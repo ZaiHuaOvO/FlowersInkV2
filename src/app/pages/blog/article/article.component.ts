@@ -20,6 +20,7 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
+import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 
 @Component({
   selector: 'flower-article',
@@ -41,6 +42,7 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
     BlogTitleComponent,
     NzSpinModule,
     NzAffixModule,
+    FlInputDirective,
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',

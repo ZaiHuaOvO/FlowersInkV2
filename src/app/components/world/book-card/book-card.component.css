@@ -1,19 +1,21 @@
 .card {
-  padding: 24px;
+  padding: clamp(18px, 2.2vw, 24px);
   width: 300px;
   text-decoration: none;
   color: inherit;
+  border-radius: var(--fi-radius-md);
+  box-shadow: var(--fi-shadow-soft);
 }
 
 .content {
   cursor: pointer;
-  transition: transform 0.28s ease, box-shadow 0.28s ease, background-color 0.28s ease;
+  transition: transform 0.24s ease, box-shadow 0.24s ease, background-color 0.24s ease;
 }
 
 .content:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   background: var(--fi-surface-soft);
-  box-shadow: 0 16px 30px rgba(58, 39, 22, 0.15);
+  box-shadow: var(--fi-shadow-hover);
 }
 
 .no_content {

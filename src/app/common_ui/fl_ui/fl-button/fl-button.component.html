@@ -1,0 +1,15 @@
+<button
+  class="fl-button"
+  [class.fl-button--solid]="variant === 'solid'"
+  [class.fl-button--outline]="variant === 'outline'"
+  [class.fl-button--ghost]="variant === 'ghost'"
+  [class.fl-button--sm]="size === 'sm'"
+  [class.fl-button--md]="size === 'md'"
+  [class.fl-button--lg]="size === 'lg'"
+  [class.fl-button--block]="block"
+  [attr.type]="type"
+  [disabled]="disabled"
+  [routerLink]="routerLink"
+>
+  <ng-content></ng-content>
+</button>

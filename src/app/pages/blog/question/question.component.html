@@ -3,7 +3,7 @@
     @if (isMobile) {
     <div class="search card" @QuickUp>
         <nz-input-group [nzSuffix]="suffixIconSearch">
-            <input type="text" nz-input placeholder="搜索问题" [formControl]="searchControl" />
+            <input type="text" nz-input flInput placeholder="搜索问题" [formControl]="searchControl" />
         </nz-input-group>
         <ng-template #suffixIconSearch>
             <span nz-icon nzType="search"></span>
@@ -39,7 +39,7 @@
             <nz-affix [nzOffsetTop]="72">
                 <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
                     <nz-input-group [nzSuffix]="suffixIconSearch">
-                        <input type="text" nz-input placeholder="搜索问题" [formControl]="searchControl" />
+                        <input type="text" nz-input flInput placeholder="搜索问题" [formControl]="searchControl" />
                     </nz-input-group>
                     <ng-template #suffixIconSearch>
                         <span nz-icon nzType="search"></span>

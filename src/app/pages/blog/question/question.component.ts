@@ -20,6 +20,7 @@ import { GeneralService } from '../../../services/general.service';
 import { WindowService } from '../../../services/window.service';
 import { BlogService } from '../blog.service';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
+import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 
 @Component({
   selector: 'flower-question',
@@ -41,6 +42,7 @@ import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runt
     BlogTitleComponent,
     MarkdownModule,
     NzAffixModule,
+    FlInputDirective,
   ],
   templateUrl: './question.component.html',
   styleUrl: './question.component.css',

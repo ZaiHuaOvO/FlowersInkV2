@@ -1,14 +1,14 @@
-textarea {
+.message {
     width: 100%;
-    min-height: 100px;
+    max-width: 100%;
+    min-height: calc(100vh - 48px);
+    padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
 }
 
-textarea {
-    border-radius: 10px !important;
-}
-
-input {
-    border-radius: 10px !important;
+.content {
+    width: min(var(--fi-page-max), 100%);
+    min-height: 420px;
+    margin-top: var(--fi-space-3);
 }
 
 .toolbar {
@@ -17,29 +17,14 @@ input {
 }
 
 .submit {
-    width: 100px;
-}
-
-:host ::ng-deep .ant-input:hover {
-    box-shadow: 0 0 0 2px rgba(165, 42, 42, 0.2) !important;
-    border-color: #8B4513 !important;
-}
-
-:host ::ng-deep .ant-input:focus {
-    box-shadow: 0 0 0 2px rgba(165, 42, 42, 0.2) !important;
-    border-color: #8B4513 !important;
-}
-
-/* 如果使用的是InputGroup可能需要额外指定 */
-:host ::ng-deep .ant-input-affix-wrapper:focus-within {
-    box-shadow: 0 0 0 2px rgba(165, 42, 42, 0.2) !important;
+    width: 108px;
 }
 
 :host ::ng-deep nz-alert.fi-alert .ant-alert {
-    border-radius: 10px !important;
+    border-radius: var(--fi-radius-sm) !important;
     border: 1px solid #dcc3a7 !important;
     background: #f6eee4 !important;
-    box-shadow: var(--fi-shadow);
+    box-shadow: var(--fi-shadow-soft);
 }
 
 :host ::ng-deep nz-alert.fi-alert .ant-alert-icon {
@@ -67,4 +52,15 @@ input {
     background: #ead7c3 !important;
     border-radius: 4px;
     padding: 0 4px;
+}
+
+@media (max-width: 768px) {
+    .message {
+        padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
+    }
+
+    .content {
+        margin-top: var(--fi-space-2);
+        min-height: auto;
+    }
 }

@@ -24,6 +24,7 @@ import { NodataComponent } from '../../../components/website/nodata/nodata.compo
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 
 @Component({
   selector: 'flower-food',
@@ -44,6 +45,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     NodataComponent,
     NzImageModule,
     NzMenuModule,
+    FlInputDirective,
   ],
   templateUrl: './food.component.html',
   styleUrl: './food.component.css',

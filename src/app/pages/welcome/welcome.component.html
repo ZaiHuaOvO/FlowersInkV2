@@ -2,8 +2,7 @@
   <!-- <h5 nz-typography nzType="secondary"><strong>BW</strong>来的老师请点-><a nz-button nzType="link"
 style="color:#C28100;font-weight: bold;" (click)="detail()">「查看更多」</a></h5> -->
 <flower-blog-title [title]="'花墨的精选文章'"></flower-blog-title>
-<div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
-  [ngStyle]="{'width':isMobile ?'100%':'80%'}">
+<div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle">
   <nz-spin [nzTip]="'精选文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
     <div nz-flex nzGap="middle" [nzVertical]="true">
       @for (item of data; track item) {

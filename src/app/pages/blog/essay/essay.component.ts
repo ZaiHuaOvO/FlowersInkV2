@@ -19,6 +19,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
+import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 
 @Component({
   selector: 'flower-essay',
@@ -40,6 +41,7 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
     BlogTitleComponent,
     NzSpinModule,
     NzAffixModule,
+    FlInputDirective,
   ],
   templateUrl: './essay.component.html',
   styleUrl: './essay.component.css',

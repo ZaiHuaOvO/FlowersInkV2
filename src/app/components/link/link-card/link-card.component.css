@@ -1,10 +1,13 @@
 .card {
-    padding: 24px;
+    padding: clamp(18px, 2.2vw, 24px);
+    border-radius: var(--fi-radius-md);
+    box-shadow: var(--fi-shadow-soft);
+    transition: box-shadow 0.24s ease, background-color 0.24s ease;
 }
 
 .card:hover {
     background-color: var(--fi-surface-soft);
-    box-shadow: 0 16px 30px rgba(58, 39, 22, 0.15);
+    box-shadow: var(--fi-shadow-hover);
 }
 
 .link_name {
@@ -13,10 +16,10 @@
 }
 
 .content {
-    transition: transform 0.3s;
+    transition: transform 0.26s ease;
     cursor: pointer;
 }
 
 .content:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
 }

@@ -20,6 +20,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { EmojiComponent } from '../../website/emoji/emoji.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { WindowService } from '../../../services/window.service';
+import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
+import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 
 @Component({
   selector: 'flower-edit-message',
@@ -39,6 +41,8 @@ import { WindowService } from '../../../services/window.service';
     NzPaginationModule,
     EmojiComponent,
     NzSelectModule,
+    FlButtonComponent,
+    FlInputDirective,
   ],
   templateUrl: './edit-message.component.html',
   styleUrl: './edit-message.component.css',
