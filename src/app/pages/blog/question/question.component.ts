@@ -21,6 +21,7 @@ import { WindowService } from '../../../services/window.service';
 import { BlogService } from '../blog.service';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
+import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'flower-question',
@@ -43,6 +44,7 @@ import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.dir
     MarkdownModule,
     NzAffixModule,
     FlInputDirective,
+    FlCardDirective,
   ],
   templateUrl: './question.component.html',
   styleUrl: './question.component.css',

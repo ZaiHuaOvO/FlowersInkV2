@@ -8,11 +8,13 @@
 |---|---|---|---|
 | `fl-button` | 通用按钮（CTA、提交、路由跳转） | `src/app/common_ui/fl_ui/fl-button/fl-button.component.ts` | [前往](#fl-button) |
 | `fl-input` | 通用输入样式指令（输入框、文本域） | `src/app/common_ui/fl_ui/fl-input/fl-input.directive.ts` | [前往](#fl-input) |
+| `fl-card` | 通用卡片样式指令（静态/悬浮） | `src/app/common_ui/fl_ui/fl-card/fl-card.directive.ts` | [前往](#fl-card) |
 
 ## 目录
 
 - [`fl-button`](#fl-button)
 - [`fl-input`](#fl-input)
+- [`fl-card`](#fl-card)
 
 ## `fl-button`
 
@@ -115,3 +117,47 @@ export class ExampleComponent {}
 | `--fi-input-border-color` | 输入框边框色 |
 | `--fi-primary` | 焦点主色 |
 | `--fi-primary-outline` | 焦点阴影色 |
+
+## `fl-card`
+
+### 路径
+
+- `src/app/common_ui/fl_ui/fl-card/fl-card.directive.ts`
+
+### 用法
+
+```ts
+import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
+
+@Component({
+  standalone: true,
+  imports: [FlCardDirective],
+})
+export class ExampleComponent {}
+```
+
+### 示例
+
+```html
+<div flCard>静态卡片</div>
+<div flCard flCardHover>可悬浮卡片</div>
+```
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+|---|---|---|---|
+| `flCardHover` | 启用 hover 交互 | `boolean` | `false` |
+
+### 主题变量
+
+变量来源: `src/styles.css`
+
+| CSS 变量 | 说明 |
+|---|---|
+| `--fi-surface` | 卡片背景 |
+| `--fi-border` | 卡片边框色 |
+| `--fi-radius-md` | 卡片圆角 |
+| `--fi-shadow-soft` | 默认阴影 |
+| `--fi-shadow-hover` | Hover 阴影 |
+| `--fi-surface-soft` | Hover 背景 |

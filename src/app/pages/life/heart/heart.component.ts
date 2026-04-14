@@ -20,6 +20,7 @@ import {
 import { WindowService } from '../../../services/window.service';
 import { LifeService } from '../life.service';
 import { LifeDialogComponent } from './life-dialog/life-dialog.component';
+import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'flower-heart',
@@ -39,6 +40,7 @@ import { LifeDialogComponent } from './life-dialog/life-dialog.component';
     NzCardModule,
     NzModalModule,
     BlogTitleComponent,
+    FlCardDirective,
   ],
   templateUrl: './heart.component.html',
   styleUrl: './heart.component.css',

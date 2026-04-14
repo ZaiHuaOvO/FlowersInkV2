@@ -1,7 +1,7 @@
 <div class="article" nz-flex [nzVertical]="true" nzAlign="center">
     <flower-blog-title [title]="'开发问题记录'"></flower-blog-title>
     @if (isMobile) {
-    <div class="search card" @QuickUp>
+    <div class="search" flCard @QuickUp>
         <nz-input-group [nzSuffix]="suffixIconSearch">
             <input type="text" nz-input flInput placeholder="搜索问题" [formControl]="searchControl" />
         </nz-input-group>
@@ -16,7 +16,7 @@
             <nz-collapse [ngStyle]="{'width':isMobile ?'100%':'60vw'}" nzAccordion nzGhost nzBordered="false" nz-flex
                 nzGap="small" [nzVertical]="true" @QuickUp>
                 @for (panel of data; track panel) {
-                <nz-collapse-panel [nzHeader]="titleBox" class="anwser card" nzShowArrow="false">
+                <nz-collapse-panel [nzHeader]="titleBox" class="anwser" flCard nzShowArrow="false">
                     <markdown style="max-width: 100%; width: 100%;" id="currentAnchor" [data]="panel.content" [clipboard]="markdownReady"></markdown>
                 </nz-collapse-panel>
                 <ng-template #titleBox>
@@ -37,7 +37,7 @@
         @if (!isMobile) {
         <div class="me" @SlowUp>
             <nz-affix [nzOffsetTop]="72">
-                <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
+                <div class="search" flCard nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
                     <nz-input-group [nzSuffix]="suffixIconSearch">
                         <input type="text" nz-input flInput placeholder="搜索问题" [formControl]="searchControl" />
                     </nz-input-group>

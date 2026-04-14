@@ -8,6 +8,7 @@ import { WindowService } from '../../../../services/window.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { FlCardDirective } from '../../../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'flower-game-pic',
@@ -17,7 +18,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     NzImageModule,
     NzGridModule,
     NzSpinModule,
-    NzTagModule
+    NzTagModule,
+    FlCardDirective,
 ],
   templateUrl: './game-pic.component.html',
   styleUrl: './game-pic.component.css'

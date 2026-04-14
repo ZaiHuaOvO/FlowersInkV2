@@ -21,6 +21,7 @@ import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
+import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'flower-article',
@@ -43,6 +44,7 @@ import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.dir
     NzSpinModule,
     NzAffixModule,
     FlInputDirective,
+    FlCardDirective,
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',

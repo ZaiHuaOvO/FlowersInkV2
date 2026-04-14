@@ -3,7 +3,7 @@
     <nz-col [nzSpan]="isMobile ? 12 : 4" nz-flex [nzVertical]="true"
       nzJustify="center">
       <nz-spin class="spin" [nzTip]="'图片加载中…'" [nzSpinning]="!img.loaded" nzGap="small">
-        <div class="img-container card">
+        <div class="img-container" flCard>
           <nz-image-group>
             @if (i <= currentIndex) {
               <img

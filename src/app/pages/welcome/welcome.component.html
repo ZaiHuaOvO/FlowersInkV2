@@ -6,7 +6,7 @@ style="color:#C28100;font-weight: bold;" (click)="detail()">「查看更多」</
   <nz-spin [nzTip]="'精选文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
     <div nz-flex nzGap="middle" [nzVertical]="true">
       @for (item of data; track item) {
-        <div class="flower_card">
+        <div flCard flCardHover>
           <flower-blog-card [blog]="item" [loading]="loading"
           [routerLink]="['/blog/blog-detail/' + item.id]"></flower-blog-card>
         </div>

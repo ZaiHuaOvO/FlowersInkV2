@@ -1,10 +1,9 @@
-.card {
+.book-card {
   padding: clamp(18px, 2.2vw, 24px);
   width: 300px;
   text-decoration: none;
   color: inherit;
   border-radius: var(--fi-radius-md);
-  box-shadow: var(--fi-shadow-soft);
 }
 
 .content {

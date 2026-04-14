@@ -63,6 +63,7 @@
   text-decoration: none;
   background: var(--fi-surface);
   border: 1px solid var(--fi-border);
+  box-shadow: none;
   border-radius: 10px;
   color: var(--fi-primary);
   padding: 6px;

@@ -13,6 +13,7 @@ import { WindowService } from '../../../services/window.service';
 import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'flower-me',
@@ -28,6 +29,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     RouterModule,
     TargetComponent,
     NzIconModule,
+    FlCardDirective,
   ],
   templateUrl: './me.component.html',
   styleUrl: './me.component.css',

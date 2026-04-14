@@ -11,6 +11,7 @@ import { WindowService } from '../../../services/window.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'flower-website',
@@ -26,6 +27,7 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
     RouterModule,
     TargetComponent,
     NzTimelineModule,
+    FlCardDirective,
   ],
   templateUrl: './website.component.html',
   styleUrl: './website.component.css',

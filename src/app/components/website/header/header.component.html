@@ -46,7 +46,7 @@
             <div nz-flex [nzVertical]="true" class="submenu" nzJustify="center" nzAlign="center"
               nzGap="middle">
               @for (sub of item.child; track sub) {
-                <a [routerLink]="sub.url" class="submenu-item card"
+                <a [routerLink]="sub.url" class="submenu-item" flCard
                   [class.active]="isActive(sub.url)">{{
                 sub.title }}</a>
               }

@@ -9,6 +9,7 @@ import { QuickDown } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
+import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 interface MenuItem {
   title: string;
@@ -31,7 +32,8 @@ interface MenuItem {
     NzFlexModule,
     NzAvatarModule,
     NzDropDownModule,
-    NzDrawerModule
+    NzDrawerModule,
+    FlCardDirective,
 ],
   animations: [QuickDown],
 })

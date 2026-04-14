@@ -23,6 +23,7 @@ import { LinkService } from './link.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
 import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
+import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'flower-link',
@@ -44,6 +45,7 @@ import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.direct
     NzGridModule,
     FlButtonComponent,
     FlInputDirective,
+    FlCardDirective,
   ],
   templateUrl: './link.component.html',
   styleUrl: './link.component.css',

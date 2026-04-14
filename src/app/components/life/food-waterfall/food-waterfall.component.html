@@ -1,10 +1,9 @@
-<div class="card waterfall-container">
+<div class="waterfall-container" flCard>
   @for (item of data; track item) {
     <div class="waterfall-item" (click)="isMobile ? getLifeDetailMobile(item) : getLifeDetail(item)">
       <img
         loading="lazy"
         decoding="async"
-        class="card"
         [src]="item.image_first[0].url"
         [alt]="item.title"
       />

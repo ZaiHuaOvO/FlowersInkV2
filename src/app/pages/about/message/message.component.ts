@@ -14,6 +14,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
+import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'flower-message',
@@ -32,6 +33,7 @@ import { WindowService } from '../../../services/window.service';
     NzSpinModule,
     DatePipe,
     NzPaginationModule,
+    FlCardDirective,
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.css',

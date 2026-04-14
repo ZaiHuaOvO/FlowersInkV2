@@ -1,7 +1,7 @@
 <div class="article" nz-flex [nzVertical]="true" nzAlign="center">
     <flower-blog-title [title]="'随笔'"></flower-blog-title>
     @if (isMobile) {
-    <div class="search card" @QuickUp>
+    <div class="search" flCard @QuickUp>
         <nz-input-group [nzSuffix]="suffixIconSearch">
             <input type="text" nz-input flInput placeholder="搜索随笔" [formControl]="searchControl" />
         </nz-input-group>
@@ -14,7 +14,7 @@
         <nz-spin [nzTip]="'随笔正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
             <div nz-flex nzGap="middle" [nzVertical]="true">
                 @for (item of data; track item) {
-                <div class="flower_card">
+                <div flCard flCardHover>
                     <flower-blog-card [blog]="item" [loading]="loading"
                         [routerLink]="['/blog/blog-detail/' + item.id]"></flower-blog-card>
                 </div>
@@ -26,7 +26,7 @@
         @if (!isMobile) {
         <div class="me" @SlowUp>
             <nz-affix [nzOffsetTop]="72">
-                <div class="search card" nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
+                <div class="search" flCard nz-flex nzAlign="center" nzJustify="start" [nzVertical]="true" nzGap="12px">
                     <nz-input-group [nzSuffix]="suffixIconSearch">
                         <input type="text" nz-input flInput placeholder="搜索随笔" [formControl]="searchControl" />
                     </nz-input-group>

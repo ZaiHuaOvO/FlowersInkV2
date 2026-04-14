@@ -2,7 +2,7 @@
   <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
     [ngStyle]="{'width':isMobile ?'90vw':'60vw'}">
     <flower-blog-title [title]="'文归档'"></flower-blog-title>
-    <div class="search card" nz-flex nzAlign="center" nzJustify="center" @QuickUp>
+    <div class="search" flCard nz-flex nzAlign="center" nzJustify="center" @QuickUp>
       <nz-input-group [nzSuffix]="suffixIconSearch">
         <input type="text" nz-input flInput placeholder="想要搜点儿什么?" [formControl]="searchControl" />
       </nz-input-group>
@@ -13,7 +13,7 @@
     <nz-spin [nzTip]="'归档正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
       <div nz-flex nzAlign="center" [nzVertical]="true" nzGap="middle">
         @for (item of data; track item) {
-          <div class="blog card">
+          <div class="blog" flCard>
             <h2 nz-typography>{{item.year}}年</h2>
             <nz-timeline class="fi-brown-timeline">
               @for (blog of item.data; track blog) {

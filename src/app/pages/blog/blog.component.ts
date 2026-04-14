@@ -18,6 +18,7 @@ import {
 import { WindowService } from '../../services/window.service';
 import { WelcomeService } from '../welcome/welcome.service';
 import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
+import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'app-blog',
@@ -37,6 +38,7 @@ import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.direct
     BlogTitleComponent,
     DatePipe,
     FlInputDirective,
+    FlCardDirective,
   ],
   animations: [SlowUp, QuickUp],
 })

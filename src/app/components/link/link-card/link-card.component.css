@@ -1,13 +1,6 @@
-.card {
+.link-card {
     padding: clamp(18px, 2.2vw, 24px);
     border-radius: var(--fi-radius-md);
-    box-shadow: var(--fi-shadow-soft);
-    transition: box-shadow 0.24s ease, background-color 0.24s ease;
-}
-
-.card:hover {
-    background-color: var(--fi-surface-soft);
-    box-shadow: var(--fi-shadow-hover);
 }
 
 .link_name {

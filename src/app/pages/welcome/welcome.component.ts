@@ -15,6 +15,7 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'app-welcome',
@@ -33,7 +34,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzAffixModule,
     NzDividerModule,
     NzModalModule,
-    NzTagModule
+    NzTagModule,
+    FlCardDirective,
   ],
   animations: [SlowUp, QuickUp],
 })

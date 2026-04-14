@@ -7,7 +7,7 @@
             <nz-collapse nzAccordion style="max-width: 100vw;border-radius: 10px;" nzGhost nzBordered="false" nz-flex
                 nzGap="small" [nzVertical]="true">
                 @for (panel of data; track panel) {
-                <nz-collapse-panel [nzActive]="panel.active" [nzHeader]="yearBox" class="card" nzShowArrow="false">
+                <nz-collapse-panel [nzActive]="panel.active" [nzHeader]="yearBox" flCard nzShowArrow="false">
                     @if (!isMobile) {
                         <nz-timeline>
                             @for (item of panel.data; track item) {

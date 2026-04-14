@@ -113,8 +113,7 @@ a:hover {
   color: var(--fi-primary-hover);
 }
 
-.flower_card,
-.card {
+.fl-card-surface {
   background: var(--fi-surface);
   border: 1px solid var(--fi-border);
   border-radius: var(--fi-radius-md);
@@ -145,12 +144,12 @@ a:hover {
   cursor: pointer;
 }
 
-.flower_card {
+.fl-card-hover {
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.flower_card:hover {
+.fl-card-hover:hover {
   transform: translateY(-2px);
   background: var(--fi-surface-soft);
   box-shadow: var(--fi-shadow-hover);

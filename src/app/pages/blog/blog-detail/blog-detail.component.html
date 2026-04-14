@@ -1,6 +1,6 @@
 <div class="article editor" nz-flex [nzVertical]="true" [ngStyle]="{'padding':isMobile ?'4px':'24px'}"
   (scroll)="onScroll('editor')" #editor>
-  <div class="content card" nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
+  <div class="content" flCard nz-flex nzGap="middle" [nzVertical]="true" @QuickUp
     [ngStyle]="{'width':isMobile ?'100%':'63%','margin-left' :isMobile ?'0':'5%'}">
     <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
       <ng-template #backTitle>
@@ -54,14 +54,14 @@
   </div>
   @if (!isMobile) {
   <div class="me" @SlowUp>
-    <div class="me_box card" nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
+    <div class="me_box" flCard nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
       <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
       <div nz-flex [nzVertical]="true">
         <h5 nz-typography>再花</h5>
         <span nz-typography nzType="secondary">猫猫头前端工程师</span>
       </div>
     </div>
-    <div class="menu card">
+    <div class="menu" flCard>
       <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
       <nz-divider style="margin: 0;"></nz-divider>
       <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">

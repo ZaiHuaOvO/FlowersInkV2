@@ -1,6 +1,8 @@
 <nz-ribbon [nzText]="ribbon_text" [nzColor]="getColor(book.status)">
   <a
-    class="card"
+    class="book-card"
+    flCard
+    [flCardHover]="hasNote(book)"
     nz-flex
     [nzGap]="25"
     [ngClass]="hasNote(book) ? 'content' : 'no_content'"

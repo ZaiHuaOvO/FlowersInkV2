@@ -37,6 +37,7 @@ import { commentArray } from '../../../ts/comment-emoji';
 import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
+import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 
 @Component({
   selector: 'flower-blog-detail',
@@ -58,7 +59,8 @@ import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runt
     BlogTitleComponent,
     BlogCommentComponent,
     NzToolTipModule,
-    NzSpinModule
+    NzSpinModule,
+    FlCardDirective,
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
