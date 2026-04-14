@@ -5,6 +5,10 @@
     padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
 }
 
+.game-content {
+    width: min(90vw, var(--fi-page-max));
+}
+
 .ant-tag {
     margin: 0 !important;
 }
@@ -12,5 +16,9 @@
 @media (max-width: 768px) {
     .game {
         padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
+    }
+
+    .game-content {
+        width: 90vw;
     }
 }

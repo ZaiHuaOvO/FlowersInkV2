@@ -9,10 +9,5 @@
 }
 
 .content {
-    transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
     cursor: pointer;
-}
-
-.content:hover {
-    transform: translateY(var(--fi-motion-lift-card));
 }

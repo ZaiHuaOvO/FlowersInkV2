@@ -10,6 +10,10 @@
     min-height: 420px;
 }
 
+.book-content {
+    width: min(90vw, var(--fi-page-max));
+}
+
 .blog {
     padding: clamp(18px, 2.2vw, 24px);
     width: 100%;
@@ -40,5 +44,9 @@ nz-tag {
 
     .content {
         min-height: auto;
+    }
+
+    .book-content {
+        width: 90vw;
     }
 }
