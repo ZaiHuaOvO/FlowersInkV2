@@ -22,6 +22,7 @@ import { WindowService } from '../../../services/window.service';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 
 @Component({
   selector: 'flower-article',
@@ -45,6 +46,7 @@ import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.direct
     NzAffixModule,
     FlInputDirective,
     FlCardDirective,
+    FlTagDirective,
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',
@@ -58,21 +60,6 @@ export class ArticleComponent implements OnInit {
   tagList: any[] = [];
   loading = true;
   searchControl = new FormControl('');
-  colors = [
-    'pink',
-    'red',
-    'yellow',
-    'orange',
-    'cyan',
-    'green',
-    'blue',
-    'purple',
-    'geekblue',
-    'magenta',
-    'volcano',
-    'gold',
-    'lime',
-  ];
   isMobile: boolean = false;
   constructor(
     private blog: BlogService,

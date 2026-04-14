@@ -1,6 +1,6 @@
-# FlowersInk UI (`fl_ui`)
+﻿# FlowersInk UI (`fl_ui`)
 
-统一维护站内可复用 UI 组件（Angular Standalone），服务于深棕/浅棕/白色主题。
+统一维护站内可复用 UI 组件（Angular Standalone）。
 
 ## 组件索引
 
@@ -9,12 +9,14 @@
 | `fl-button` | 通用按钮（CTA、提交、路由跳转） | `src/app/common_ui/fl_ui/fl-button/fl-button.component.ts` | [前往](#fl-button) |
 | `fl-input` | 通用输入样式指令（输入框、文本域） | `src/app/common_ui/fl_ui/fl-input/fl-input.directive.ts` | [前往](#fl-input) |
 | `fl-card` | 通用卡片样式指令（静态/悬浮） | `src/app/common_ui/fl_ui/fl-card/fl-card.directive.ts` | [前往](#fl-card) |
+| `fl-tag` | 通用标签样式指令（soft/outline/solid） | `src/app/common_ui/fl_ui/fl-tag/fl-tag.directive.ts` | [前往](#fl-tag) |
 
 ## 目录
 
 - [`fl-button`](#fl-button)
 - [`fl-input`](#fl-input)
 - [`fl-card`](#fl-card)
+- [`fl-tag`](#fl-tag)
 
 ## `fl-button`
 
@@ -42,7 +44,6 @@ export class ExampleComponent {}
 <fl-button>默认按钮</fl-button>
 <fl-button variant="solid">主要按钮</fl-button>
 <fl-button variant="ghost">轻量按钮</fl-button>
-
 <fl-button [routerLink]="['/about/me']">了解再花</fl-button>
 <fl-button type="submit">发布</fl-button>
 <fl-button [block]="true">铺满容器</fl-button>
@@ -55,26 +56,24 @@ export class ExampleComponent {}
 | `variant` | 视觉变体 | `'outline' \| 'solid' \| 'ghost'` | `'outline'` |
 | `size` | 尺寸 | `'sm' \| 'md' \| 'lg'` | `'md'` |
 | `type` | 原生按钮类型 | `'button' \| 'submit' \| 'reset'` | `'button'` |
-| `disabled` | 禁用态 | `boolean` | `false` |
+| `disabled` | 禁用状态 | `boolean` | `false` |
 | `block` | 是否铺满容器 | `boolean` | `false` |
 | `routerLink` | Angular 路由跳转 | `string \| readonly string[] \| any[] \| null` | `null` |
 
 ### 主题变量
 
-变量来源: `src/styles.css`
+变量来源：`src/styles.css`
 
 | CSS 变量 | 说明 |
 |---|---|
-| `--fi-primary` | 主棕色 |
-| `--fi-primary-hover` | Hover 主色 |
-| `--fi-primary-active` | Active 主色 |
-| `--fi-primary-outline` | Focus 描边色 |
-| `--fi-surface` | 按钮底色 |
-| `--fi-surface-soft` | Hover 背景色 |
+| `--fi-primary` | 主题主色 |
+| `--fi-primary-hover` | hover 主色 |
+| `--fi-primary-active` | active 主色 |
+| `--fi-primary-outline` | focus 外发光 |
+| `--fi-surface` | 按钮背景 |
+| `--fi-surface-soft` | hover 背景 |
 | `--fi-border` | 边框色 |
-| `--fi-radius-sm` | 按钮圆角 |
-| `--fi-font-base` | 字体栈 |
-| `--fi-space-3` | 横向间距 |
+| `--fi-radius-sm` | 圆角 |
 
 ## `fl-input`
 
@@ -109,14 +108,14 @@ export class ExampleComponent {}
 
 ### 主题变量
 
-变量来源: `src/styles.css`
+变量来源：`src/styles.css`
 
 | CSS 变量 | 说明 |
 |---|---|
-| `--fi-input-radius` | 输入框圆角（默认 `5px`） |
+| `--fi-input-radius` | 输入框圆角 |
 | `--fi-input-border-color` | 输入框边框色 |
-| `--fi-primary` | 焦点主色 |
-| `--fi-primary-outline` | 焦点阴影色 |
+| `--fi-primary` | focus 主色 |
+| `--fi-primary-outline` | focus 阴影色 |
 
 ## `fl-card`
 
@@ -151,13 +150,62 @@ export class ExampleComponent {}
 
 ### 主题变量
 
-变量来源: `src/styles.css`
+变量来源：`src/styles.css`
 
 | CSS 变量 | 说明 |
 |---|---|
 | `--fi-surface` | 卡片背景 |
-| `--fi-border` | 卡片边框色 |
+| `--fi-border` | 卡片边框 |
 | `--fi-radius-md` | 卡片圆角 |
 | `--fi-shadow-soft` | 默认阴影 |
-| `--fi-shadow-hover` | Hover 阴影 |
-| `--fi-surface-soft` | Hover 背景 |
+| `--fi-shadow-hover` | hover 阴影 |
+| `--fi-surface-soft` | hover 背景 |
+
+## `fl-tag`
+
+### 路径
+
+- `src/app/common_ui/fl_ui/fl-tag/fl-tag.directive.ts`
+
+### 用法
+
+```ts
+import { FlTagDirective } from '../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+
+@Component({
+  standalone: true,
+  imports: [FlTagDirective],
+})
+export class ExampleComponent {}
+```
+
+### 示例
+
+```html
+<nz-tag flTag>默认标签</nz-tag>
+<nz-tag flTag flTagVariant="outline">描边标签</nz-tag>
+<nz-tag flTag flTagVariant="solid">实色标签</nz-tag>
+<nz-tag flTag flTagInteractive (click)="onSelect()">可交互标签</nz-tag>
+```
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+|---|---|---|---|
+| `flTag` | 启用 Tag 主题样式 | `'' \| boolean` | `''` |
+| `flTagVariant` | 标签视觉变体 | `'soft' \| 'outline' \| 'solid'` | `'soft'` |
+| `flTagInteractive` | 启用 hover/pointer 交互 | `boolean` | `false` |
+
+### 主题变量
+
+变量来源：`src/styles.css`
+
+| CSS 变量 | 说明 |
+|---|---|
+| `--fi-tag-radius` | Tag 圆角 |
+| `--fi-tag-bg` | 默认背景 |
+| `--fi-tag-border` | 默认边框 |
+| `--fi-tag-text` | 默认文字色 |
+| `--fi-tag-bg-hover` | hover 背景 |
+| `--fi-tag-border-hover` | hover 边框 |
+| `--fi-tag-text-hover` | hover 文字色 |

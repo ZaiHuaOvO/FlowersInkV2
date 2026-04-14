@@ -1,4 +1,4 @@
-<div class="me" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
+﻿<div class="me" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
   <nz-avatar [nzSize]="128" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
   <h5 nz-typography class="name">再花</h5>
   <div class="intro-text">
@@ -7,46 +7,54 @@
     <p nz-typography>希望你能在这里收获知识或者好心情</p>
   </div>
 </div>
+
 <div class="me" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
   <div class="stat-row" nz-flex nzJustify="center" nzAlign="center" nzGap="small">
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
-      <span nz-typography class="point_tag"><nz-tag nzColor="#8B4513" [routerLink]="['/blog/article']">
-        @if (numLoading) {
-          …
-        } @else {
-          {{info.article}}
-        }
-      篇</nz-tag></span>
+      <span nz-typography class="point_tag">
+        <nz-tag flTag flTagInteractive [routerLink]="['/blog/article']">
+          @if (numLoading) {
+          ...
+          } @else {
+          {{ info.article }}
+          }
+          篇
+        </nz-tag>
+      </span>
       <span nz-typography>技术文章</span>
     </div>
+
     <nz-divider nzType="vertical"></nz-divider>
+
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
-      <span nz-typography class="point_tag"><nz-tag nzColor="#8B4513" [routerLink]="['/blog/essay']">
-        @if (numLoading) {
-          …
-        } @else {
-          {{info.essay}}
-        }
-      篇</nz-tag></span>
+      <span nz-typography class="point_tag">
+        <nz-tag flTag flTagInteractive [routerLink]="['/blog/essay']">
+          @if (numLoading) {
+          ...
+          } @else {
+          {{ info.essay }}
+          }
+          篇
+        </nz-tag>
+      </span>
       <span nz-typography>随笔杂文</span>
     </div>
+
     <nz-divider nzType="vertical"></nz-divider>
+
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
-      <span nz-typography class="point_tag"><nz-tag nzColor="#8B4513"
-      [routerLink]="['/about/website']">{{info.day}}天</nz-tag></span>
+      <span nz-typography class="point_tag">
+        <nz-tag flTag flTagInteractive [routerLink]="['/about/website']">{{ info.day }}天</nz-tag>
+      </span>
       <span nz-typography>网站运行</span>
     </div>
   </div>
+
   <fl-button [block]="true" [routerLink]="['/about/me']">
-    <span class="emoji">▶︎了解再花◀︎</span>
+    <span class="emoji">▶了解再花◀</span>
   </fl-button>
+
   <fl-button [block]="true" [routerLink]="['/about/website']">
-    <span class="emoji">▶︎了解花墨◀︎</span>
+    <span class="emoji">▶了解花墨◀</span>
   </fl-button>
-  <!-- <div nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
-  <span nz-typography>花墨已运行&nbsp;&nbsp;<nz-tag nzColor="green" class="point_tag"
-  [routerLink]="['/about/website/']">{{info.day}}</nz-tag>天</span>
-  <span nz-typography>上次更新于&nbsp;&nbsp;{{info.lastUpdateTime |
-  date:'yyyy年MM月dd日 HH时mm分ss秒'}}</span>
-</div> -->
 </div>

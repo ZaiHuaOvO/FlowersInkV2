@@ -22,6 +22,7 @@ import { BlogService } from '../blog.service';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 
 @Component({
   selector: 'flower-question',
@@ -45,6 +46,7 @@ import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.direct
     NzAffixModule,
     FlInputDirective,
     FlCardDirective,
+    FlTagDirective,
   ],
   templateUrl: './question.component.html',
   styleUrl: './question.component.css',

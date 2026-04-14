@@ -21,6 +21,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { BookCardComponent } from '../../../components/world/book-card/book-card.component';
 import { RouterModule } from '@angular/router';
+import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 
 @Component({
   selector: 'flower-book',
@@ -43,6 +44,7 @@ import { RouterModule } from '@angular/router';
     NzDividerModule,
     BookCardComponent,
     RouterModule,
+    FlTagDirective,
   ],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css',

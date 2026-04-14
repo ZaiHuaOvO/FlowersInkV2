@@ -4,13 +4,13 @@
 <ng-template #nameTemplate>
   <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
     <div nz-flex nzJustify="center" nzAlign="center" nzGap="small">
-      <nz-tag [nzColor]="colorList[game.platform]">
+      <nz-tag flTag flTagVariant="outline">
         <span nz-typography class="game-tag-text">{{game.platform}}</span>
       </nz-tag>
       <span nz-typography class="game_name">{{game.name}}</span>
     </div>
     @if (game.tag !== '') {
-      <nz-tag nzColor="#8B4513">
+      <nz-tag flTag>
         <span nz-typography class="game-tag-text">{{game.tag}}</span>
       </nz-tag>
     }
@@ -55,7 +55,7 @@
   </ng-template>
 
       <ng-template #extra>
-        <nz-tag nzColor="#8B4513">
+        <nz-tag flTag flTagInteractive>
           <span nz-typography class="game-tag-text game-tag-clickable" (click)="imgDescription()">关于图片的说明</span>
         </nz-tag>
       </ng-template>

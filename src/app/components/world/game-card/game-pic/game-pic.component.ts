@@ -9,6 +9,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FlCardDirective } from '../../../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 
 @Component({
   selector: 'flower-game-pic',
@@ -20,6 +21,7 @@ import { FlCardDirective } from '../../../../common_ui/fl_ui/fl-card/fl-card.dir
     NzSpinModule,
     NzTagModule,
     FlCardDirective,
+    FlTagDirective,
 ],
   templateUrl: './game-pic.component.html',
   styleUrl: './game-pic.component.css'

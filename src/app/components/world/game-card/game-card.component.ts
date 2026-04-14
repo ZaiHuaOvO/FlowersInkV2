@@ -10,6 +10,7 @@ import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { GamePicComponent } from './game-pic/game-pic.component';
 import { WindowService } from '../../../services/window.service';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 
 @Component({
   selector: 'flower-game-card',
@@ -23,7 +24,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzImageModule,
     DatePipe,
     NzDrawerModule,
-    NzDividerModule
+    NzDividerModule,
+    FlTagDirective,
   ],
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.css'
@@ -31,10 +33,6 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 export class GameCardComponent {
   @Input() game: any;
   isMobile: boolean = false;
-  colorList: any = {
-    'PS5': '#092F94',
-    'Steam': '#171A21',
-  }
   private nzImageService = inject(NzImageService);
   @ViewChild('time') time!: TemplateRef<any>;
   @ViewChild('finishDate') finishDate!: TemplateRef<any>;

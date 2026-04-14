@@ -16,16 +16,10 @@
               />
             }
           </nz-image-group>
-          <nz-tag nzColor="#8B4513" class="view-btn"
+          <nz-tag flTag flTagVariant="solid" flTagInteractive class="view-btn"
           (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</nz-tag>
         </div>
-      </nz-spin>
-      <!-- @if (i <= currentIndex) {
-      <nz-tag nzColor="#8B4513">
-      <span nz-typography style="color: #fff;" class="img_button"
-      (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</span>
-    </nz-tag>
-    } -->
+    </nz-spin>
   </nz-col>
 }
 </nz-row>

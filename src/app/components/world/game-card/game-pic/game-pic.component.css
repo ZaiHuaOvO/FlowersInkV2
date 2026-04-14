@@ -29,15 +29,34 @@
     position: absolute;
     top: 8px;
     right: 4px;
-    /* padding: 4px 8px; */
-    /* font-size: 12px; */
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
     opacity: 0;
     transition: opacity 0.3s ease;
+}
+
+.view-btn .ant-tag {
+    margin: 0 !important;
+    background: rgba(0, 0, 0, 0.68) !important;
+    border-color: rgba(0, 0, 0, 0.68) !important;
+    color: #fff !important;
+}
+
+.view-btn.ant-tag,
+nz-tag.view-btn {
+    margin: 0 !important;
+    background: rgba(0, 0, 0, 0.68) !important;
+    border-color: rgba(0, 0, 0, 0.68) !important;
+    color: #fff !important;
+}
+
+.view-btn .ant-tag:hover {
+    background: rgba(0, 0, 0, 0.78) !important;
+    border-color: rgba(0, 0, 0, 0.78) !important;
+}
+
+.view-btn.ant-tag:hover,
+nz-tag.view-btn:hover {
+    background: rgba(0, 0, 0, 0.78) !important;
+    border-color: rgba(0, 0, 0, 0.78) !important;
 }
 
 .img-container:hover .view-btn {

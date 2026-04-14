@@ -37,7 +37,7 @@
                         <h5 nz-typography>随笔标签</h5>
                         <div nz-flex nzWrap="wrap" nzGap="small">
                             @for (tag of tagList; track tag) {
-                            <nz-tag [nzColor]="tag.color"
+                            <nz-tag flTag flTagInteractive
                                 (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
                             }
                         </div>
