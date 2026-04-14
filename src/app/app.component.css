@@ -15,6 +15,10 @@ nz-header {
   border-bottom: 1px solid var(--fi-border);
 }
 
+nz-header.app-header {
+  padding: 0 20px;
+}
+
 nz-content {
   margin-top: 48px;
 }
@@ -26,4 +30,9 @@ nz-footer {
 
 .footer-placeholder {
   min-height: 160px;
+}
+
+.global-loading-icon {
+  width: 80px;
+  height: 80px;
 }

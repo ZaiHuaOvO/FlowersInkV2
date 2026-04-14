@@ -9,7 +9,7 @@ nz-textarea-count {
 }
 
 nz-select {
-    border-radius: 10px 0 0 10px;
+    border-radius: var(--fi-radius-sm) 0 0 var(--fi-radius-sm);
 }
 
 .toolbar {
@@ -23,6 +23,22 @@ nz-select {
 
 .submit {
     width: 100px;
+}
+
+.message-input-group {
+    border-radius: var(--fi-input-radius);
+}
+
+.message-input-group--desktop {
+    width: 200px;
+}
+
+.message-input-group--mobile-name {
+    width: 30%;
+}
+
+.message-input-group--mobile-url {
+    width: 60%;
 }
 
 .ant-popover-inner {

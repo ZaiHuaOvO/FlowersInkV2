@@ -1,16 +1,16 @@
-<div class="me" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
-  <nz-avatar [nzSize]="128" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
+<div class="me me-profile" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
+  <nz-avatar class="me-avatar" [nzSize]="128" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
   <h5 nz-typography class="name">再花</h5>
   <div class="intro-text">
-    <p nz-typography>你好，我是再花，欢迎来到「花墨」</p>
-    <p nz-typography>这里是我分享技术文章、生活点滴的地方。</p>
-    <p nz-typography>希望你能在这里收获知识或者好心情</p>
+    <p nz-typography class="intro-line">你好，我是再花，欢迎来到「花墨」</p>
+    <p nz-typography class="intro-line">这里是我分享技术文章、生活点滴的地方。</p>
+    <p nz-typography class="intro-line">希望你能在这里收获知识或者好心情</p>
   </div>
 </div>
 
-<div class="me" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
+<div class="me me-actions" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
   <div class="stat-row" nz-flex nzJustify="center" nzAlign="center" nzGap="small">
-    <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
+    <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag">
         <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/blog/article']">
           @if (numLoading) {
@@ -21,12 +21,12 @@
           篇
         </nz-tag>
       </span>
-      <span nz-typography>技术文章</span>
+      <span nz-typography class="stat-label">技术文章</span>
     </div>
 
     <nz-divider nzType="vertical"></nz-divider>
 
-    <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
+    <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag">
         <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/blog/essay']">
           @if (numLoading) {
@@ -37,16 +37,16 @@
           篇
         </nz-tag>
       </span>
-      <span nz-typography>随笔杂文</span>
+      <span nz-typography class="stat-label">随笔杂文</span>
     </div>
 
     <nz-divider nzType="vertical"></nz-divider>
 
-    <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
+    <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag">
         <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/about/website']">{{ info.day }}天</nz-tag>
       </span>
-      <span nz-typography>网站运行</span>
+      <span nz-typography class="stat-label">网站运行</span>
     </div>
   </div>
 

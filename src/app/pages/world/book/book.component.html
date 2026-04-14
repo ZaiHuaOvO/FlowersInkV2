@@ -3,7 +3,7 @@
     [ngStyle]="{'width':isMobile ?'90vw':'90vw'}">
     <flower-blog-title [title]="'再花的图书馆'"></flower-blog-title>
     <nz-spin [nzTip]="'书籍正在努力赶来中'" [nzSpinning]="loading">
-      <div style="width: 100%;" nz-flex nzAlign="center" nzJustify="center" [nzGap]="30" [nzVertical]="true">
+      <div class="book-main" nz-flex nzAlign="center" nzJustify="center" [nzGap]="30" [nzVertical]="true">
         <div @QuickUp nz-flex [nzVertical]="true" nzAlign="center" nzGap="small" class="noto-sans-sc">
           <span nz-typography>
             共读完<nz-tag flTag flTagVariant="outline">{{totalBooks}}</nz-tag>本

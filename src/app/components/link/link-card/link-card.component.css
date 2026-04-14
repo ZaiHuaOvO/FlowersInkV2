@@ -9,10 +9,10 @@
 }
 
 .content {
-    transition: transform 0.26s ease;
+    transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
     cursor: pointer;
 }
 
 .content:hover {
-    transform: translateY(-4px);
+    transform: translateY(var(--fi-motion-lift-card));
 }

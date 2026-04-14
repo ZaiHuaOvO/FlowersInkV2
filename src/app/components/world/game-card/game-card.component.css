@@ -1,13 +1,25 @@
-.ant-tag {
-    border-radius: 5px !important;
-}
-
 .game_name {
     font-weight: bolder;
 }
 
 .game-tag-text {
     color: var(--fi-primary-hover, #7a4d23);
+}
+
+.game-card-surface {
+    border-radius: var(--fi-radius-sm);
+}
+
+.game-actions {
+    cursor: default;
+}
+
+.game-info {
+    cursor: default;
+}
+
+.game-metric {
+    color: var(--fi-primary);
 }
 
 .game-tag-clickable {

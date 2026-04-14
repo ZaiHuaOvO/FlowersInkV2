@@ -1,0 +1,104 @@
+@font-face {
+  font-family: "InterVar";
+  src: url("../../../assets/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "InterVar";
+  src: url("../../../assets/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NotoSansSCVar";
+  src: url("../../../assets/fonts/Noto_Sans_SC/NotoSansSC-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NotoEmojiVar";
+  src: url("../../../assets/fonts/Noto_Emoji/NotoEmoji-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+:root {
+  --fi-bg: #efe4d8;
+  --fi-bg-soft: #f1e7da;
+  --fi-surface: #ffffff;
+  --fi-surface-soft: #fcf8f2;
+  --fi-border: #e5e7eb;
+  --fi-text: #2f2117;
+  --fi-text-muted: #7a6756;
+  --fi-primary: #8b5a2b;
+  --fi-primary-hover: #7a4d23;
+  --fi-primary-active: #6a411d;
+  --fi-primary-outline: rgba(139, 90, 43, 0.18);
+  --fi-shadow: 0 10px 26px rgba(58, 39, 22, 0.1);
+  --fi-shadow-soft: 0 8px 18px rgba(58, 39, 22, 0.08);
+  --fi-shadow-hover: 0 16px 30px rgba(58, 39, 22, 0.15);
+  --fi-radius-sm: 10px;
+  --fi-radius-md: 14px;
+  --fi-radius-lg: 18px;
+  --fi-radius-xs: 8px;
+  --fi-space-1: 4px;
+  --fi-space-2: 8px;
+  --fi-space-3: 12px;
+  --fi-space-4: 16px;
+  --fi-space-5: 20px;
+  --fi-space-6: 24px;
+  --fi-space-7: 32px;
+  --fi-page-max: 1180px;
+  --fi-page-max-narrow: 980px;
+
+  --fi-input-radius: 5px;
+  --fi-input-border-color: #d8c8b8;
+
+  --fi-tag-radius: 6px;
+  --fi-tag-bg: #f4e7d8;
+  --fi-tag-border: #d8bd9d;
+  --fi-tag-text: #7b5530;
+  --fi-tag-bg-hover: #ead7bf;
+  --fi-tag-border-hover: #cda983;
+  --fi-tag-text-hover: #6a421f;
+
+  --fi-alert-bg: #f8efe5;
+  --fi-alert-border: #d6bc9d;
+  --fi-alert-text: #6f4b2a;
+  --fi-alert-icon: #8b5a2b;
+  --fi-alert-mark-bg: #ead7c3;
+  --fi-alert-mark-text: #8b5a2b;
+  --fi-alert-bg-strong: #8b5a2b;
+  --fi-alert-border-strong: #8b5a2b;
+  --fi-alert-text-strong: #fffaf5;
+
+  --fi-form-bg: #ffffff;
+  --fi-form-bg-hover: #fffdf9;
+  --fi-form-bg-disabled: #f5f1eb;
+  --fi-form-text: var(--fi-text);
+  --fi-form-placeholder: #a88b73;
+  --fi-form-border: #d8c8b8;
+  --fi-form-border-hover: #cda983;
+  --fi-form-border-focus: var(--fi-primary);
+  --fi-form-disabled-border: #e1d7ca;
+  --fi-form-disabled-text: #b39a84;
+  --fi-form-focus-ring: 0 0 0 2px var(--fi-primary-outline);
+
+  --fi-motion-fast: 0.16s;
+  --fi-motion-normal: 0.24s;
+  --fi-motion-slow: 0.32s;
+  --fi-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --fi-motion-lift: 0px;
+  --fi-motion-lift-card: -2px;
+
+  --fi-font-base: "InterVar", "NotoSansSCVar", "NotoEmojiVar", "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+  --fi-font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+}

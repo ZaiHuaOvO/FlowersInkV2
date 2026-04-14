@@ -2,6 +2,11 @@
   width: 50px;
 }
 
+.comment-emoji-trigger {
+  width: 50px;
+  margin-bottom: 32px;
+}
+
 .emoji span {
   font-size: 16px;
 }
@@ -19,20 +24,22 @@
   padding: 8px;
   aspect-ratio: 1 / 1;
   border: 1px solid var(--fi-border);
-  border-radius: 10px;
+  border-radius: var(--fi-radius-sm);
   background: var(--fi-surface);
   color: var(--fi-primary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition: transform var(--fi-motion-fast) var(--fi-ease-standard),
+    background-color var(--fi-motion-fast) var(--fi-ease-standard),
+    border-color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 .emoji-option:hover {
   background: var(--fi-surface-soft);
   border-color: #d1d5db;
-  transform: translateY(-1px);
+  transform: translateY(var(--fi-motion-lift));
 }
 
 .emoji-option:active {

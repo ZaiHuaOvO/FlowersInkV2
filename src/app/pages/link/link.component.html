@@ -2,11 +2,11 @@
     [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
     <div class="content" flCard nz-flex [nzVertical]="true" nzGap="middle" @QuickUp
         [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
-        <h1 nz-typography style="color:#8B4513">好朋友的链接</h1>
+        <h1 nz-typography class="fi-page-title">好朋友的链接</h1>
         <p nz-typography nzType="secondary">友链就像桥梁，将我的孤岛展现给全世界</p>
         <nz-alert flAlert nzType="success" [nzDescription]="linkContent"></nz-alert>
         <ng-template #linkContent>
-            <article nz-typography style="font-size: 16px;">
+            <article nz-typography class="link-note">
                 <span nz-typography>网站名称：花墨</span><br>
                 <span nz-typography>LOGO地址：https://api.flowersink.com/img/logo.png</span><br>
                 <span nz-typography>网站地址：https://flowersink.com</span><br>
@@ -44,7 +44,7 @@
                     <h4 nz-typography>友链申请须知</h4>
                 </ng-template>
                 <ng-template #linkNote>
-                    <article nz-typography style="font-size: 16px;">
+                    <article nz-typography class="link-note">
                         <p nz-typography>1.请确保您已将<mark>「花墨」</mark>添加至友链列表，请勿单向友链</p>
                         <p nz-typography>
                             2.您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong></p>
@@ -83,7 +83,7 @@
                 <h4 nz-typography>友链申请须知</h4>
             </ng-template>
             <ng-template #linkNote>
-                <article nz-typography style="font-size: 16px;">
+                <article nz-typography class="link-note">
                     <p nz-typography>1.请确保您已将<mark>「花墨」</mark>添加至友链列表，请勿单向友链</p>
                     <p nz-typography>
                         2.您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong></p>

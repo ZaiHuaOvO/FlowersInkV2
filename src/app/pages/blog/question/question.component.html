@@ -17,11 +17,11 @@
                 nzGap="small" [nzVertical]="true" @QuickUp>
                 @for (panel of data; track panel) {
                 <nz-collapse-panel [nzHeader]="titleBox" class="anwser" flCard nzShowArrow="false">
-                    <markdown style="max-width: 100%; width: 100%;" id="currentAnchor" [data]="panel.content" [clipboard]="markdownReady"></markdown>
+                    <markdown class="question-markdown" id="currentAnchor" [data]="panel.content" [clipboard]="markdownReady"></markdown>
                 </nz-collapse-panel>
                 <ng-template #titleBox>
                     <div nz-flex nzJustify="space-between">
-                        <div nz-flex style="margin-left: 20px;">
+                        <div nz-flex class="question-title-wrap">
                             <span nz-typography>{{panel.title}}</span>
                             <nz-divider nzType="vertical"></nz-divider>
                             <span nz-typography nzType="secondary">{{panel.tag}}</span>

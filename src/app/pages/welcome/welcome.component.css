@@ -24,22 +24,6 @@
     min-height: 200px;
 }
 
-.welcome_title {
-    margin: 10px;
-    padding: 12px 0 12px 0px;
-    border-bottom: 1px solid grey;
-    height: 70px;
-    min-height: 70px;
-    width: 50vw;
-    text-align: center;
-}
-
-.flower_card_title {
-    box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
-    border-radius: 10px;
-    background-color: #fff;
-}
-
 @media (max-width: 768px) {
     .welcome {
         padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);

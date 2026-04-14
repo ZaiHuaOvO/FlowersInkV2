@@ -13,12 +13,12 @@
 }
 
 .url_name {
-    color: #1890FF;
+    color: var(--fi-primary);
     font-size: 14px !important;
 }
 
 .url_name:hover {
-    color: black;
+    color: var(--fi-primary-hover);
 }
 
 .name {
@@ -28,6 +28,18 @@
 .content_text {
     font-size: 16px !important;
     font-weight: 500;
+}
+
+.content_indent {
+    padding-left: 20px;
+}
+
+.message-spin {
+    width: 100%;
+}
+
+.message-editor {
+    width: 100%;
 }
 
 nz-spin {

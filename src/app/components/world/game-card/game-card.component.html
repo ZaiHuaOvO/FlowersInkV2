@@ -1,4 +1,4 @@
-<nz-card style="border-radius: 10px;" [nzCover]="coverTemplate" [nzActions]="[actions]">
+<nz-card class="game-card-surface" [nzCover]="coverTemplate" [nzActions]="[actions]">
   <nz-card-meta [nzTitle]="nameTemplate" [nzDescription]="game.description"></nz-card-meta>
 </nz-card>
 <ng-template #nameTemplate>
@@ -31,18 +31,18 @@
     </div>
   </ng-template>
   <ng-template #actions>
-    <div nz-flex nzJustify="space-evenly" nzAlign="center" style="cursor: default;">
-      <span nz-typography style="cursor: default;">总时长
+    <div class="game-actions" nz-flex nzJustify="space-evenly" nzAlign="center">
+      <span nz-typography class="game-info">总时长
         @if (isMobile) {
           <br>
         }
-        <strong style="color: #8B4513;">{{game.time}}小时</strong>
+        <strong class="game-metric">{{game.time}}小时</strong>
       </span>
-      <span nz-typography style="cursor: default;">通关于
+      <span nz-typography class="game-info">通关于
         @if (isMobile) {
           <br>
         }
-        <strong style="color: #8B4513;">{{game.finishDate | date:'yyyy-MM-dd'}}</strong>
+        <strong class="game-metric">{{game.finishDate | date:'yyyy-MM-dd'}}</strong>
       </span>
 
       @if (game.img?.length > 0) {

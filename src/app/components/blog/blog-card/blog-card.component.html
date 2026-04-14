@@ -1,6 +1,6 @@
 <a class="blog_card" nz-flex [nzGap]="'small'" nzAlign="start" nzJustify="center" [nzVertical]="true">
   @if (!loading) {
-  <h4 nz-typography style="color:#8B4513"> {{blog.title}} </h4>
+  <h4 nz-typography class="blog_title"> {{blog.title}} </h4>
   <p nz-typography nzEllipsis [nzContent]="blog.content" [nzEllipsisRows]="2"></p>
   <div class="blog_msg" nz-flex nzAlign="center" nzJustify="space-between">
     <div nz-flex nzAlign="center" nzGap="small" class="blog_meta_group">
@@ -10,7 +10,7 @@
       <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
     </div>
     @if (!isMobile) {
-    <div nz-flex nzJustify="end" nzGap="small" nzWrap="wrap" [ngStyle]="{width:isMobile?'200px':'400px'}">
+    <div class="emoji-strip" nz-flex nzJustify="end" nzGap="small" nzWrap="wrap">
       @for (item of emojiTags[blog.id]; track item) {
       @if (item.count > 0) {
       <nz-tag flTag flTagVariant="outline" nz-tooltip [nzTooltipTitle]="item.description">

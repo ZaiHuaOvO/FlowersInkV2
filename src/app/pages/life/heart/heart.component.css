@@ -1,14 +1,14 @@
 .heart {
-    width: 100vw;
-    max-width: 100vw;
-    min-height: 500px;
-    padding: 24px;
+    width: 100%;
+    max-width: 100%;
+    min-height: calc(100vh - 48px);
+    padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
 }
 
 .content {
-    width: 60vw;
-    min-height: 500px;
-    margin-top: 12px;
+    width: min(var(--fi-page-max-narrow), 100%);
+    min-height: 420px;
+    margin-top: var(--fi-space-3);
 }
 
 .life {
@@ -23,18 +23,37 @@
 /* 避免折叠面板最后一项没有圆角 */
 .ant-collapse-borderless>.ant-collapse-item:last-child,
 .ant-collapse-borderless>.ant-collapse-item:last-child .ant-collapse-header {
-    border-radius: 10px;
+    border-radius: var(--fi-radius-sm);
 }
 
 .ant-collapse-item:last-child>.ant-collapse-content,
 .ant-collapse>.ant-collapse-item:last-child,
 .ant-collapse>.ant-collapse-item:last-child>.ant-collapse-header {
-    border-radius: 10px;
+    border-radius: var(--fi-radius-sm);
 }
 
 .img_card {
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-    border-radius: 10px;
+    box-shadow: var(--fi-shadow-soft);
+    border-radius: var(--fi-radius-sm);
     width: 100%;
     cursor: pointer;
+}
+
+.heart-collapse {
+    max-width: 100%;
+    border-radius: var(--fi-radius-sm);
+}
+
+.life-avatar {
+    min-width: 48px;
+}
+
+.life-meta {
+    font-size: 14px !important;
+    color: var(--fi-text-muted) !important;
+    margin: 0;
+}
+
+.year-title {
+    margin-bottom: 0 !important;
 }

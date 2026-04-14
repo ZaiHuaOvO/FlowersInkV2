@@ -23,7 +23,7 @@
 .blog_title {
     cursor: pointer;
     color: var(--fi-text);
-    transition: color 0.2s ease;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 .blog_title:hover {

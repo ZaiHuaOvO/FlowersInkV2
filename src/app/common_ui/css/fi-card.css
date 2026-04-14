@@ -1,0 +1,54 @@
+.fl-card-surface {
+  background: var(--fi-surface);
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-md);
+  box-shadow: var(--fi-shadow-soft);
+}
+
+.ant-card {
+  border: 1px solid var(--fi-border) !important;
+  border-radius: var(--fi-radius-md) !important;
+  background: var(--fi-surface) !important;
+  box-shadow: var(--fi-shadow-soft) !important;
+}
+
+.fl-card-hover {
+  cursor: pointer;
+  transition: transform var(--fi-motion-normal) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-normal) var(--fi-ease-standard),
+    background-color var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+.fl-card-hover:hover {
+  transform: translateY(var(--fi-motion-lift-card));
+  background: var(--fi-surface-soft);
+  box-shadow: var(--fi-shadow-hover);
+}
+
+.fl-icon-button {
+  width: 50px;
+  min-height: 34px;
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-surface);
+  color: var(--fi-primary);
+  font-family: var(--fi-font-base);
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+    background-color var(--fi-motion-fast) var(--fi-ease-standard),
+    border-color var(--fi-motion-fast) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.fl-icon-button:hover {
+  background: var(--fi-surface-soft);
+  border-color: #d1d5db;
+  color: var(--fi-primary-hover);
+}
+
+.fl-icon-button:focus-visible {
+  outline: 0;
+  border-color: var(--fi-primary);
+  box-shadow: 0 0 0 3px var(--fi-primary-outline);
+}

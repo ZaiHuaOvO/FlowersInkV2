@@ -2,7 +2,7 @@
     <div nz-flex [nzVertical]="true" nzGap="small">
         <div>
             <div nz-flex nzAlign="start" [nzVertical]="true">
-                <!-- <span nz-typography class="form_title"><strong style="color: red;">*</strong>留言：</span> -->
+                <!-- <span nz-typography class="form_title"><strong>*</strong>留言：</span> -->
                 <textarea nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.content" placeholder="">
                     </textarea>
 
@@ -10,12 +10,12 @@
                 <div class="toolbar" nz-flex nzJustify="space-between">
                     <flower-emoji (emojiSelected)="onEmojiSelected($event)"></flower-emoji>
                     <div nz-flex nzJustify="end" nzGap="small">
-                        <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 200px;">
+                        <nz-input-group [nzPrefix]="prefixTemplateUser" class="message-input-group message-input-group--desktop">
                             <input type="text" [(ngModel)]="form.name" nz-input flInput placeholder="怎么称呼你？" />
                         </nz-input-group>
                         <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
 
-                        <nz-input-group [nzPrefix]="prefixTemplateCloud" style="border-radius: 10px;width: 200px;">
+                        <nz-input-group [nzPrefix]="prefixTemplateCloud" class="message-input-group message-input-group--desktop">
                             <input type="text" nz-input flInput [(ngModel)]="form.url" placeholder="若有个人网站可填写" />
                         </nz-input-group>
                         <ng-template #prefixTemplateCloud><span nz-icon nzType="cloud"></span></ng-template>
@@ -28,12 +28,12 @@
                 @if (showToolbar && isMobile) {
                 <div class="toolbar" nz-flex nzJustify="space-between">
                     <div nz-flex nzJustify="end" nzGap="small">
-                        <nz-input-group [nzPrefix]="prefixTemplateUser" style="border-radius: 10px;width: 30%;">
+                        <nz-input-group [nzPrefix]="prefixTemplateUser" class="message-input-group message-input-group--mobile-name">
                             <input type="text" [(ngModel)]="form.name" nz-input flInput placeholder="称呼" />
                         </nz-input-group>
                         <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
 
-                        <nz-input-group [nzPrefix]="prefixTemplateCloud" style="border-radius: 10px;width: 60%;">
+                        <nz-input-group [nzPrefix]="prefixTemplateCloud" class="message-input-group message-input-group--mobile-url">
                             <input type="text" nz-input flInput [(ngModel)]="form.url" placeholder="个人网站地址(若有)" />
                         </nz-input-group>
                         <ng-template #prefixTemplateCloud><span nz-icon nzType="cloud"></span></ng-template>

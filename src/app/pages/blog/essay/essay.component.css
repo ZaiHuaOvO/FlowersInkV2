@@ -23,16 +23,6 @@
     min-height: 200px;
 }
 
-.title {
-    margin: 10px;
-    padding: 12px 0 12px 0px;
-    border-bottom: 1px solid grey;
-    height: 70px;
-    min-height: 70px;
-    width: 50vw;
-    text-align: center;
-}
-
 .search {
     width: 100%;
     padding: var(--fi-space-3);
@@ -41,14 +31,6 @@
 
 .tag {
     width: 100%;
-}
-
-nz-tag {
-    cursor: pointer;
-}
-
-nz-tag:hover {
-    background: var(--fi-surface-soft);
 }
 
 nz-select {

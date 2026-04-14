@@ -21,20 +21,16 @@
     min-width: 300px;
 }
 
-.blog_title {
-    cursor: pointer;
-}
-
-.blog_title:hover {
-    color: #2F9BFF;
-}
-
 .blog_time {
     min-width: 70px;
 }
 
 nz-tag {
     margin: 8px;
+}
+
+.book-main {
+    width: 100%;
 }
 
 @media (max-width: 768px) {

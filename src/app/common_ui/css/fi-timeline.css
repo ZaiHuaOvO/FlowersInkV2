@@ -1,0 +1,57 @@
+.fi-brown-timeline .ant-timeline-item-head {
+  width: 10px;
+  height: 10px;
+  border-width: 2px;
+  border-color: var(--fi-primary) !important;
+  color: var(--fi-primary) !important;
+  background: #f8efe5 !important;
+  box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.12);
+  left: -0.5px;
+}
+
+.fi-brown-timeline .ant-timeline-item-tail {
+  border-left: 2px solid #dcc3a7 !important;
+}
+
+.fi-brown-timeline .ant-timeline-item-content {
+  margin-left: 20px;
+  padding-bottom: 14px;
+}
+
+.fi-brown-timeline .timeline-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 24px;
+}
+
+.fi-brown-timeline .timeline-row > * {
+  margin: 0 !important;
+  line-height: 1.6 !important;
+}
+
+.fi-brown-timeline .timeline-date {
+  min-width: 110px;
+  color: var(--fi-text-muted) !important;
+  white-space: nowrap;
+}
+
+.website-timeline.ant-timeline .ant-timeline-item-head {
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-width: 2px;
+  box-shadow: none;
+}
+
+.website-timeline.ant-timeline .ant-timeline-item-tail {
+  left: 8px;
+  top: 12px;
+  border-left-width: 1px;
+  height: calc(100% - 12px);
+}
+
+.website-timeline.ant-timeline .ant-timeline-item-content {
+  margin-left: 26px;
+}

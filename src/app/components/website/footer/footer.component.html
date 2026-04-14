@@ -1,6 +1,6 @@
 <div class="footer_box" nz-flex nzJustify="center" nzAlign="center">
   <div class="footer" nz-flex nzJustify="center" nzAlign="start" [ngStyle]="{'width': isMobile?'100%':'40%'}">
-    <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+    <div class="footer-col footer-col-sm" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
       <span nz-typography>站外导航</span>
       <a nz-typography class="text" href="https://www.foreverblog.cn/go.html" target="_blank">
         <flower-forever></flower-forever>
@@ -28,7 +28,7 @@
 
     </div>
     @if (!isMobile) {
-    <div style="min-width: 150px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+    <div class="footer-col footer-col-sm" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
       <span nz-typography>站内索引</span>
       <div nz-flex>
         <a nz-typography class="text" href="https://api.flowersink.com/rss"><flower-rss></flower-rss>&nbsp;RSS订阅</a>
@@ -40,7 +40,7 @@
     }
 
     @if (!isMobile) {
-    <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+    <div class="footer-col footer-col-lg" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
       <span nz-typography>联系方式</span>
       <span nz-typography class="text" nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top"><span nz-icon
           nzType="qq" nzTheme="outline"></span>&nbsp;446840401</span>
@@ -57,13 +57,13 @@
     </div>
     }
 
-    <div style="min-width: 200px;" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
+    <div class="footer-col footer-col-lg" nz-flex [nzVertical]="true" nzAlign="start" nzGap="small">
       <span nz-typography nz-flex nzAlign="center">
-        <span nz-typography> © 2024 - 2025 再花 <nz-avatar style="padding-bottom: 2px;" [nzSize]="16"
+        <span nz-typography> © 2024 - 2025 再花 <nz-avatar class="footer-inline-avatar" [nzSize]="16"
             nzSrc="https://api.flowersink.com/img/再花趴趴.png" nzShape="square"></nz-avatar>
         </span>
         <nz-divider nzType="vertical"></nz-divider>
-        <span nz-icon nzType="github" nzTheme="outline" style="cursor: pointer;"
+        <span nz-icon nzType="github" nzTheme="outline" class="footer-github-icon"
           href="https://github.com/ZaiHuaOvO"></span>
       </span>
       <a nz-typography class="text" href="https://icp.gov.moe/?keyword=20250510" target="_blank">萌ICP备20250510号</a>

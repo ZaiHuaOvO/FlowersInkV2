@@ -1,0 +1,80 @@
+nz-tag.fl-tag,
+nz-tag.fl-tag.ant-tag,
+.ant-tag.fl-tag,
+.ant-tag-has-color.fl-tag,
+nz-tag.fl-tag .ant-tag,
+nz-tag.fl-tag .ant-tag-has-color {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 !important;
+  color: var(--fi-tag-text) !important;
+  background: var(--fi-tag-bg) !important;
+  border-color: var(--fi-tag-border) !important;
+  border-radius: var(--fi-tag-radius) !important;
+  box-shadow: 0 1px 2px rgba(76, 49, 27, 0.08);
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+    background-color var(--fi-motion-fast) var(--fi-ease-standard),
+    border-color var(--fi-motion-fast) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-fast) var(--fi-ease-standard),
+    transform var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+nz-tag.fl-tag:hover,
+nz-tag.fl-tag:hover.ant-tag,
+nz-tag.fl-tag:hover .ant-tag,
+nz-tag.fl-tag:hover .ant-tag-has-color,
+.ant-tag.fl-tag:hover,
+.ant-tag-has-color.fl-tag:hover {
+  color: var(--fi-tag-text-hover) !important;
+  background: var(--fi-tag-bg-hover) !important;
+  border-color: var(--fi-tag-border-hover) !important;
+  box-shadow: 0 2px 6px rgba(76, 49, 27, 0.14);
+}
+
+nz-tag.fl-tag.fl-tag-outline .ant-tag,
+nz-tag.fl-tag.fl-tag-outline .ant-tag-has-color,
+nz-tag.fl-tag.fl-tag-outline,
+nz-tag.fl-tag.fl-tag-outline.ant-tag {
+  background: #ffffff !important;
+  color: var(--fi-primary) !important;
+  border-color: #d7c0a4 !important;
+  box-shadow: none;
+}
+
+nz-tag.fl-tag.fl-tag-solid .ant-tag,
+nz-tag.fl-tag.fl-tag-solid .ant-tag-has-color,
+nz-tag.fl-tag.fl-tag-solid,
+nz-tag.fl-tag.fl-tag-solid.ant-tag {
+  background: var(--fi-primary) !important;
+  color: #fef8f2 !important;
+  border-color: var(--fi-primary) !important;
+  box-shadow: 0 1px 4px rgba(76, 49, 27, 0.22);
+}
+
+nz-tag.fl-tag.fl-tag-interactive .ant-tag,
+nz-tag.fl-tag.fl-tag-interactive .ant-tag-has-color,
+nz-tag.fl-tag.fl-tag-interactive,
+nz-tag.fl-tag.fl-tag-interactive.ant-tag {
+  cursor: pointer;
+}
+
+nz-tag.fl-tag.fl-tag-interactive .ant-tag:hover,
+nz-tag.fl-tag.fl-tag-interactive .ant-tag-has-color:hover,
+nz-tag.fl-tag.fl-tag-interactive:hover,
+nz-tag.fl-tag.fl-tag-interactive.ant-tag:hover {
+  color: var(--fi-tag-text-hover) !important;
+  background: var(--fi-tag-bg-hover) !important;
+  border-color: var(--fi-tag-border-hover) !important;
+  transform: translateY(var(--fi-motion-lift));
+}
+
+nz-tag.fl-tag.fl-tag-solid.fl-tag-interactive .ant-tag:hover,
+nz-tag.fl-tag.fl-tag-solid.fl-tag-interactive .ant-tag-has-color:hover,
+nz-tag.fl-tag.fl-tag-solid.fl-tag-interactive:hover,
+nz-tag.fl-tag.fl-tag-solid.fl-tag-interactive.ant-tag:hover {
+  color: #fef8f2 !important;
+  background: var(--fi-primary-hover) !important;
+  border-color: var(--fi-primary-hover) !important;
+  box-shadow: 0 3px 8px rgba(76, 49, 27, 0.28);
+}

@@ -2,9 +2,9 @@
   @for (item of this.nzData['value']; track item) {
     <div nz-flex nzJustify="space-between" class="menu-link" [class.active]="isActive(item.url) "
       [routerLink]="item.url">
-      <span [ngStyle]="{'color':item.URL ? 'black':'auto'}">
+      <span [class.menu-parent-label]="item.URL">
         <span nz-icon [nzType]="item.icon" nzTheme="outline"
-        [ngStyle]="{'color':item.URL ? 'black':'auto'}"></span>
+        [class.menu-parent-label]="item.URL"></span>
         &nbsp;
         {{ item.title }}
       </span>
@@ -25,6 +25,6 @@
         }
       </div>
     }
-    <nz-divider style="margin: 0 !important;"></nz-divider>
+    <nz-divider class="mobile-menu-divider"></nz-divider>
   }
 </div>

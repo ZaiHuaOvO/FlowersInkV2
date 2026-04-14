@@ -1,5 +1,24 @@
+.life-dialog-card {
+    width: 100%;
+}
+
+.life-dialog-title {
+    text-align: center;
+}
+
+.life-dialog-images {
+    width: 100%;
+    padding: 12px;
+}
+
+.life-dialog-date {
+    text-align: end;
+    margin-right: 25px;
+}
+
 .life_img {
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    box-shadow: var(--fi-shadow-soft);
+    border-radius: var(--fi-radius-sm);
     padding: 5px;
     margin: 5px;
     object-fit: cover;
@@ -7,7 +26,7 @@
     height: auto;
     /* 保持宽高比为1:1 */
     aspect-ratio: 1;
-    transition: 0.5s ease;
+    transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
 .life_img:hover {

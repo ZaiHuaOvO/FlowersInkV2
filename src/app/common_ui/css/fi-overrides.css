@@ -1,0 +1,63 @@
+.ant-layout,
+.ant-layout-content,
+.ant-layout-footer,
+nz-content {
+  background: var(--fi-bg) !important;
+}
+
+.ant-layout-header {
+  height: 48px !important;
+}
+
+.ant-typography a {
+  color: var(--fi-primary) !important;
+}
+
+.ant-anchor-wrapper {
+  margin: 10px;
+  max-height: 50vh !important;
+}
+
+.ant-anchor-wrapper::-webkit-scrollbar-thumb {
+  background: #d1c1ae;
+}
+
+.ant-anchor-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ant-spin-text {
+  color: var(--fi-text);
+}
+
+.ant-dropdown {
+  animation-duration: var(--fi-motion-fast) !important;
+  animation-timing-function: var(--fi-ease-standard) !important;
+}
+
+.ant-drawer-content-wrapper,
+.ant-drawer-content {
+  transition-duration: var(--fi-motion-normal) !important;
+  transition-timing-function: var(--fi-ease-standard) !important;
+}
+
+.ant-drawer-content {
+  border-inline-start: 1px solid var(--fi-border);
+}
+
+.ant-collapse-header {
+  padding-left: 0 !important;
+}
+
+.ant-comment-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.ant-card-meta-description {
+  white-space: pre-line;
+}
+
+nz-spin {
+  min-width: 60vw;
+}

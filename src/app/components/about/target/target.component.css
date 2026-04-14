@@ -9,11 +9,11 @@
 .target-item {
   width: 136px;
   min-height: 38px;
-  border-radius: 11px;
+  border-radius: var(--fi-radius-sm);
   border: 1px solid var(--fi-border);
   background: var(--fi-surface);
   color: var(--fi-primary);
-  box-shadow: var(--fi-shadow);
+  box-shadow: var(--fi-shadow-soft);
   text-decoration: none;
   user-select: none;
   display: inline-flex;
@@ -22,7 +22,10 @@
   gap: 8px;
   padding: 8px 12px;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition: transform var(--fi-motion-fast) var(--fi-ease-standard),
+    background-color var(--fi-motion-fast) var(--fi-ease-standard),
+    border-color var(--fi-motion-fast) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 .target-item,
@@ -33,7 +36,8 @@
 .target-item:hover {
   background: var(--fi-surface-soft);
   border-color: #d1d5db;
-  transform: translateY(-1px);
+  transform: translateY(var(--fi-motion-lift));
+  box-shadow: var(--fi-shadow);
 }
 
 .target-item:active {

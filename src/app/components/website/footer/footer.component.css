@@ -10,6 +10,18 @@
   width: 40%;
 }
 
+.footer-col {
+  min-width: 150px;
+}
+
+.footer-col-sm {
+  min-width: 150px;
+}
+
+.footer-col-lg {
+  min-width: 200px;
+}
+
 .text {
   color: var(--fi-primary-active);
   font-size: 12px;
@@ -32,4 +44,12 @@
 
 .footer_box :is(.anticon, .text, a, span) {
   color: var(--fi-primary-active);
+}
+
+.footer-inline-avatar {
+  padding-bottom: 2px;
+}
+
+.footer-github-icon {
+  cursor: pointer;
 }

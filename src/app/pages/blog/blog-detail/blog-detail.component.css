@@ -9,7 +9,7 @@
   width: min(100%, 920px);
   min-height: 500px;
   margin-left: max(2%, 20px);
-  border-radius: 16px;
+  border-radius: var(--fi-radius-md);
 }
 
 .me {
@@ -39,7 +39,7 @@
 
 nz-page-header {
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--fi-radius-sm);
 }
 
 :host ::ng-deep .site-page-header .ant-typography-secondary {
@@ -87,6 +87,19 @@ nz-anchor {
 
 .comment-button span {
   font-size: 16px;
+}
+
+.back-link {
+  cursor: pointer;
+}
+
+.blog-detail-spin {
+  min-width: 50vw !important;
+  padding: 0 24px;
+}
+
+.menu-divider {
+  margin: 0;
 }
 
 @media (max-width: 1200px) {

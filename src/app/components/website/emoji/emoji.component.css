@@ -2,6 +2,14 @@
     width: 50px;
 }
 
+.emoji-trigger-wrap {
+    width: 50px;
+}
+
+.emoji-popover {
+    width: 200px;
+}
+
 .ant-popover-inner {
     max-width: 200px !important;
 }

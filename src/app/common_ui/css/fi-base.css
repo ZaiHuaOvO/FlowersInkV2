@@ -1,0 +1,66 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--fi-text);
+  background: var(--fi-bg) !important;
+  font-family: var(--fi-font-base);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+  background: var(--fi-bg) !important;
+}
+
+button,
+input,
+textarea,
+select,
+.ant-typography,
+.ant-btn,
+.ant-input,
+.ant-menu,
+.ant-dropdown-menu,
+.ant-tag,
+.ant-card,
+.ant-timeline,
+.ant-page-header-heading,
+.ant-page-header-content {
+  font-family: var(--fi-font-base);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--fi-primary);
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+a:hover {
+  color: var(--fi-primary-hover);
+}
+
+.fi-page-title {
+  color: var(--fi-primary) !important;
+}
+
+.fi-signature-line {
+  text-align: end;
+}
+
+.emoji,
+.emoji_count {
+  color: var(--fi-primary);
+  font-weight: 600;
+}
+
+.emoji {
+  font-family: "NotoEmojiVar", "Segoe UI Symbol", "Noto Sans Symbols 2", var(--fi-font-base);
+  font-variant-emoji: text;
+}

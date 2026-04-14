@@ -1,80 +1,76 @@
 .menu {
-    /* margin-right: 48px; */
-    background: #fff;
     width: 100%;
-
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        height: 48px;
-    }
-
-
-
-    .menu-link {
-        border-radius: 10px;
-        padding: 5px;
-
-        a,
-        span {
-            text-decoration: none;
-            color: #8b4513;
-            display: flex;
-            align-items: center;
-        }
-
-
-        &.active {
-
-            background: #8b4513;
-
-            a,
-            span {
-                color: white;
-            }
-        }
-    }
-
-
-
-
+    background: var(--fi-surface);
 }
 
-.submenu {
-
-    .submenu-item {
-        width: 100%;
-        border-radius: 10px;
-        padding: 5px;
-
-        a,
-        span {
-            color: #a0522d;
-
-
-        }
-
-        &.active {
-            background: #8b4513;
-
-            a,
-            span {
-                color: white;
-            }
-        }
-    }
+.menu-link {
+    width: 100%;
+    border-radius: var(--fi-radius-sm);
+    border: 1px solid transparent;
+    padding: 6px 8px;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+        background-color var(--fi-motion-fast) var(--fi-ease-standard),
+        border-color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
-/* 在全局或组件CSS中添加 */
-.menu-link:focus,
-.submenu-item:focus {
+.menu-link a,
+.menu-link span {
+    color: var(--fi-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.menu-link.active {
+    background: var(--fi-primary);
+    border-color: var(--fi-primary);
+}
+
+.menu-link.active a,
+.menu-link.active span {
+    color: #fff;
+}
+
+.menu-parent-label {
+    color: var(--fi-text) !important;
+}
+
+.submenu-item {
+    width: 100%;
+    border-radius: var(--fi-radius-sm);
+    border: 1px solid transparent;
+    padding: 6px 8px;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+        background-color var(--fi-motion-fast) var(--fi-ease-standard),
+        border-color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.submenu-item a,
+.submenu-item span {
+    color: var(--fi-primary);
+}
+
+.submenu-item.active {
+    background: var(--fi-primary);
+    border-color: var(--fi-primary);
+}
+
+.submenu-item.active a,
+.submenu-item.active span {
+    color: #fff;
+}
+
+.menu-link:focus-visible,
+.submenu-item:focus-visible {
     outline: none !important;
-    box-shadow: none !important;
+    box-shadow: 0 0 0 3px var(--fi-primary-outline) !important;
 }
 
-/* 修复原有规则语法 */
 a:focus:not(:focus-visible),
 button:focus:not(:focus-visible) {
     outline: none !important;
+}
+
+.mobile-menu-divider {
+    margin: 0 !important;
 }

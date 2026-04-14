@@ -260,3 +260,49 @@ export class ExampleComponent {}
 | `--fi-alert-bg-strong` | `solid` 背景 |
 | `--fi-alert-border-strong` | `solid` 边框 |
 | `--fi-alert-text-strong` | `solid` 文字色 |
+
+## Form State Spec
+
+Path: `src/styles.css`
+
+Use this spec for all future form controls (`input` / `textarea` / `nz-input-group` / `nz-select`) to keep state behavior consistent.
+
+### States
+
+| State | Rule |
+|---|---|
+| Default | `--fi-form-bg`, `--fi-form-border`, `--fi-form-text` |
+| Hover | `--fi-form-bg-hover`, `--fi-form-border-hover` |
+| Focus | `--fi-form-border-focus`, `--fi-form-focus-ring` |
+| Disabled | `--fi-form-bg-disabled`, `--fi-form-disabled-border`, `--fi-form-disabled-text` |
+| Placeholder | `--fi-form-placeholder` |
+
+### Tokens
+
+| CSS Variable | Purpose |
+|---|---|
+| `--fi-form-bg` | default background |
+| `--fi-form-bg-hover` | hover background |
+| `--fi-form-bg-disabled` | disabled background |
+| `--fi-form-text` | text color |
+| `--fi-form-placeholder` | placeholder color |
+| `--fi-form-border` | default border |
+| `--fi-form-border-hover` | hover border |
+| `--fi-form-border-focus` | focus border |
+| `--fi-form-disabled-border` | disabled border |
+| `--fi-form-disabled-text` | disabled text |
+| `--fi-form-focus-ring` | focus ring |
+
+## Motion Spec
+
+Path: `src/styles.css`
+
+Use the same motion tokens for cards/buttons/dropdowns/drawers to keep interaction rhythm consistent.
+
+| CSS Variable | Purpose |
+|---|---|
+| `--fi-motion-fast` | hover/focus quick feedback |
+| `--fi-motion-normal` | card/dropdown/drawer transition |
+| `--fi-motion-slow` | long transitions |
+| `--fi-ease-standard` | unified easing curve |
+| `--fi-motion-lift` | hover translate offset (set to `0px` for no lift) |

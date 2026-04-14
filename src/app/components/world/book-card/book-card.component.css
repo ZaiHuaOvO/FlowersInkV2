@@ -8,11 +8,13 @@
 
 .content {
   cursor: pointer;
-  transition: transform 0.24s ease, box-shadow 0.24s ease, background-color 0.24s ease;
+  transition: transform var(--fi-motion-normal) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-normal) var(--fi-ease-standard),
+    background-color var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
 .content:hover {
-  transform: translateY(-3px);
+  transform: translateY(var(--fi-motion-lift-card));
   background: var(--fi-surface-soft);
   box-shadow: var(--fi-shadow-hover);
 }

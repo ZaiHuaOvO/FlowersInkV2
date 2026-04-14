@@ -4,7 +4,7 @@
     [ngStyle]="{'width':isMobile ?'100%':'63%','margin-left' :isMobile ?'0':'5%'}">
     <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
       <ng-template #backTitle>
-        <span nz-typography style="cursor: pointer;" (click)="onBack()">返回</span>
+        <span nz-typography class="back-link" (click)="onBack()">返回</span>
       </ng-template>
       @if (!isMobile) {
       <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
@@ -33,7 +33,7 @@
       </nz-page-header-extra>
       }
     </nz-page-header>
-    <nz-spin [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" style="min-width: 50vw !important; padding: 0 24px 0 24px;">
+    <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
 
       <flower-blog-title [title]="data.title"></flower-blog-title>
       <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady"></markdown>
@@ -63,7 +63,7 @@
     </div>
     <div class="menu" flCard>
       <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
-      <nz-divider style="margin: 0;"></nz-divider>
+      <nz-divider class="menu-divider"></nz-divider>
       <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
         @for (anchor of anchors; track anchor) {
         <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">

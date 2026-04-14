@@ -36,6 +36,14 @@ article {
     color: var(--fi-text);
 }
 
+.thanks-avatar {
+    width: 40px;
+}
+
+.thanks-highlight {
+    color: #b42318;
+}
+
 @media (max-width: 768px) {
     .website {
         padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);

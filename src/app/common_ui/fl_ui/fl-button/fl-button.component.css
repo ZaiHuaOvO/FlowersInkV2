@@ -23,14 +23,18 @@
   letter-spacing: 0.01em;
   padding: 6px var(--fi-space-3);
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: background-color var(--fi-motion-fast) var(--fi-ease-standard),
+    border-color var(--fi-motion-fast) var(--fi-ease-standard),
+    color var(--fi-motion-fast) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-fast) var(--fi-ease-standard),
+    transform var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 .fl-button:hover:not(:disabled) {
   background: var(--fi-surface-soft);
   border-color: #d1d5db;
   color: var(--fi-primary-hover);
-  transform: translateY(-1px);
+  transform: translateY(var(--fi-motion-lift));
 }
 
 .fl-button:active:not(:disabled) {

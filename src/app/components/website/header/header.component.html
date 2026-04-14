@@ -57,7 +57,7 @@
     </ul>
   </nav>
 </div>
-<div nz-flex nzJustify="center" nzAlign="center" style="width: 160px;height: 48px;">
+<div class="avatar-slot" nz-flex nzJustify="center" nzAlign="center">
   <img width="48px" src="https://api.flowersink.com/img/再花猫猫女仆欢呼.GIF" alt="" loading="eager" decoding="async">
 </div>
 </div>
@@ -65,7 +65,7 @@
 
 @if (isMobile) {
   <div class="header" nz-flex nzJustify="space-between" nzAlign="center" @QuickDown>
-    <a style="color: #8b4513;" nz-dropdown (click)="mobileMenu()">
+    <a class="mobile-menu-trigger" nz-dropdown (click)="mobileMenu()">
       <span nz-icon nzType="menu" nzTheme="outline"></span>
       &nbsp;
       导航
@@ -75,6 +75,6 @@
 }
 
 <ng-template #mobileMenuTitle>
-  <span nz-typography style="color: #8b4513;">花墨导航</span>
+  <span nz-typography class="mobile-menu-title">花墨导航</span>
 </ng-template>
 
