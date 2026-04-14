@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -69,7 +69,7 @@ export class ArticleComponent implements OnInit {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
     });
-    // 添加防抖，设置时间为500ms
+    // 娣诲姞闃叉姈锛岃缃椂闂翠负500ms
     this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getBlog();
     });
@@ -78,7 +78,7 @@ export class ArticleComponent implements OnInit {
   ngOnInit() {
     this.blog
       .getBlogs({
-        type: '文章',
+        type: '鏂囩珷',
         page: this.page,
         tag: this.tag,
         limit: 10,
@@ -92,7 +92,7 @@ export class ArticleComponent implements OnInit {
 
     this.blog
       .getBlogs({
-        type: '文章',
+        type: '鏂囩珷',
         page: '',
         tag: '',
         title: '',
@@ -106,7 +106,7 @@ export class ArticleComponent implements OnInit {
     this.loading = true;
     this.blog
       .getBlogs({
-        type: '文章',
+        type: '鏂囩珷',
         page: this.page,
         tag: this.tag,
         title: this.searchControl.value,
@@ -124,7 +124,15 @@ export class ArticleComponent implements OnInit {
   }
 
   tagSelect(tag: string): void {
-    this.tag = tag == '全部' ? '' : tag;
+    this.tag = tag == '鍏ㄩ儴' ? '' : tag;
     this.getBlog();
   }
+
+  tagVariant(tagName: string): 'soft' | 'solid' {
+    if (tagName === '鍏ㄩ儴') {
+      return this.tag === '' ? 'solid' : 'soft';
+    }
+    return this.tag === tagName ? 'solid' : 'soft';
+  }
 }
+

@@ -13,7 +13,7 @@
     <div nz-flex nzJustify="end" nzGap="small" nzWrap="wrap" [ngStyle]="{width:isMobile?'200px':'400px'}">
       @for (item of emojiTags[blog.id]; track item) {
       @if (item.count > 0) {
-      <nz-tag flTag nz-tooltip [nzTooltipTitle]="item.description">
+      <nz-tag flTag flTagVariant="outline" nz-tooltip [nzTooltipTitle]="item.description">
         <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
       </nz-tag>
       }

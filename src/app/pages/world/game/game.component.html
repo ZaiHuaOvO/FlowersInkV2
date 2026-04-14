@@ -3,9 +3,9 @@
     [ngStyle]="{'width':isMobile ?'90vw':'90vw'}">
     <flower-blog-title [title]="'再花的游戏库'"></flower-blog-title>
     <span nz-typography>共记录
-      <nz-tag flTag>{{totalGames}}</nz-tag>
+      <nz-tag flTag flTagVariant="outline">{{totalGames}}</nz-tag>
       款游戏，时长
-      <nz-tag flTag>{{totalPlayingTime | number:'1.1'}}</nz-tag>小时
+      <nz-tag flTag flTagVariant="outline">{{totalPlayingTime | number:'1.1'}}</nz-tag>小时
     </span>
     <nz-spin [nzTip]="'游戏正在努力赶来中'" [nzSpinning]="loading">
       <nz-row [nzGutter]="[24,24]">

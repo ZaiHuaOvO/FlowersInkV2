@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { GeneralService } from '../../../services/general.service';
@@ -68,7 +68,7 @@ export class EssayComponent implements OnInit {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
     });
-    // 添加防抖，设置时间为500ms
+    // 娣诲姞闃叉姈锛岃缃椂闂翠负500ms
     this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getBlog();
     });
@@ -77,7 +77,7 @@ export class EssayComponent implements OnInit {
   ngOnInit() {
     this.blog
       .getBlogs({
-        type: '随笔',
+        type: '闅忕瑪',
         page: this.page,
         tag: this.tag,
         limit: 10,
@@ -91,7 +91,7 @@ export class EssayComponent implements OnInit {
 
     this.blog
       .getBlogs({
-        type: '随笔',
+        type: '闅忕瑪',
         page: '',
         tag: '',
         title: '',
@@ -105,7 +105,7 @@ export class EssayComponent implements OnInit {
     this.loading = true;
     this.blog
       .getBlogs({
-        type: '随笔',
+        type: '闅忕瑪',
         page: this.page,
         tag: this.tag,
         title: this.searchControl.value,
@@ -123,7 +123,15 @@ export class EssayComponent implements OnInit {
   }
 
   tagSelect(tag: string): void {
-    this.tag = tag == '全部' ? '' : tag;
+    this.tag = tag == '鍏ㄩ儴' ? '' : tag;
     this.getBlog();
   }
+
+  tagVariant(tagName: string): 'soft' | 'solid' {
+    if (tagName === '鍏ㄩ儴') {
+      return this.tag === '' ? 'solid' : 'soft';
+    }
+    return this.tag === tagName ? 'solid' : 'soft';
+  }
 }
+

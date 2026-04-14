@@ -10,7 +10,7 @@
       <span nz-typography class="game_name">{{game.name}}</span>
     </div>
     @if (game.tag !== '') {
-      <nz-tag flTag>
+      <nz-tag flTag flTagVariant="soft">
         <span nz-typography class="game-tag-text">{{game.tag}}</span>
       </nz-tag>
     }
@@ -55,7 +55,7 @@
   </ng-template>
 
       <ng-template #extra>
-        <nz-tag flTag flTagInteractive>
+        <nz-tag flTag flTagVariant="outline" flTagInteractive>
           <span nz-typography class="game-tag-text game-tag-clickable" (click)="imgDescription()">关于图片的说明</span>
         </nz-tag>
       </ng-template>

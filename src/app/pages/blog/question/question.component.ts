@@ -1,4 +1,4 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+﻿import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
@@ -79,7 +79,7 @@ export class QuestionComponent implements OnInit {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
     });
-    // 添加防抖，设置时间为500ms
+    // 娣诲姞闃叉姈锛岃缃椂闂翠负500ms
     this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getBlog();
     });
@@ -89,7 +89,7 @@ export class QuestionComponent implements OnInit {
     this.initMarkdownRuntime();
     this.blog
       .getBlogs({
-        type: '问题',
+        type: '闂',
         page: this.page,
         title: this.searchControl.value,
         tag: this.tag,
@@ -119,7 +119,7 @@ export class QuestionComponent implements OnInit {
     this.loading = true;
     this.blog
       .getBlogs({
-        type: '问题',
+        type: '闂',
         page: this.page,
         title: this.searchControl.value,
         tag: this.tag,
@@ -137,7 +137,15 @@ export class QuestionComponent implements OnInit {
   }
 
   tagSelect(tag: string): void {
-    this.tag = tag == '全部' ? '' : tag;
+    this.tag = tag == '鍏ㄩ儴' ? '' : tag;
     this.getBlog();
   }
+
+  tagVariant(tagName: string): 'soft' | 'solid' {
+    if (tagName === '鍏ㄩ儴') {
+      return this.tag === '' ? 'solid' : 'soft';
+    }
+    return this.tag === tagName ? 'solid' : 'soft';
+  }
 }
+

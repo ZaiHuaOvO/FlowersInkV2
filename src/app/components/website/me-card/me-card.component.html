@@ -12,7 +12,7 @@
   <div class="stat-row" nz-flex nzJustify="center" nzAlign="center" nzGap="small">
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag">
-        <nz-tag flTag flTagInteractive [routerLink]="['/blog/article']">
+        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/blog/article']">
           @if (numLoading) {
           ...
           } @else {
@@ -28,7 +28,7 @@
 
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag">
-        <nz-tag flTag flTagInteractive [routerLink]="['/blog/essay']">
+        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/blog/essay']">
           @if (numLoading) {
           ...
           } @else {
@@ -44,7 +44,7 @@
 
     <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag">
-        <nz-tag flTag flTagInteractive [routerLink]="['/about/website']">{{ info.day }}天</nz-tag>
+        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/about/website']">{{ info.day }}天</nz-tag>
       </span>
       <span nz-typography>网站运行</span>
     </div>
