@@ -1,4 +1,4 @@
-﻿export const API = {
+export const API = {
   // 测试区
   BASE_URL: 'http://localhost:8000',
 

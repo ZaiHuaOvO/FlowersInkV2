@@ -1,4 +1,4 @@
-﻿@import url('app/common_ui/css/markdown-zaihua.css');
+@import url('app/common_ui/css/markdown-zaihua.css');
 
 @font-face {
   font-family: "InterVar";
@@ -68,6 +68,15 @@
   --fi-tag-bg-hover: #ead7bf;
   --fi-tag-border-hover: #cda983;
   --fi-tag-text-hover: #6a421f;
+  --fi-alert-bg: #f8efe5;
+  --fi-alert-border: #d6bc9d;
+  --fi-alert-text: #6f4b2a;
+  --fi-alert-icon: #8b5a2b;
+  --fi-alert-mark-bg: #ead7c3;
+  --fi-alert-mark-text: #8b5a2b;
+  --fi-alert-bg-strong: #8b5a2b;
+  --fi-alert-border-strong: #8b5a2b;
+  --fi-alert-text-strong: #fffaf5;
   --fi-font-base: "InterVar", "NotoSansSCVar", "NotoEmojiVar", "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
   --fi-font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
 }
@@ -209,6 +218,66 @@ nz-tag.fl-tag.fl-tag-solid.fl-tag-interactive.ant-tag:hover {
   background: var(--fi-primary-hover) !important;
   border-color: var(--fi-primary-hover) !important;
   box-shadow: 0 3px 8px rgba(76, 49, 27, 0.28);
+}
+
+nz-alert.fl-alert-host .ant-alert {
+  border-radius: var(--fi-radius-sm) !important;
+  border: 1px solid var(--fi-alert-border) !important;
+  background: var(--fi-alert-bg) !important;
+  box-shadow: var(--fi-shadow-soft);
+}
+
+nz-alert.fl-alert-host .ant-alert-icon {
+  color: var(--fi-alert-icon) !important;
+}
+
+nz-alert.fl-alert-host .ant-alert-message,
+nz-alert.fl-alert-host .ant-alert-description,
+nz-alert.fl-alert-host .ant-typography,
+nz-alert.fl-alert-host p,
+nz-alert.fl-alert-host span,
+nz-alert.fl-alert-host h1,
+nz-alert.fl-alert-host h2,
+nz-alert.fl-alert-host h3,
+nz-alert.fl-alert-host h4,
+nz-alert.fl-alert-host h5,
+nz-alert.fl-alert-host h6,
+nz-alert.fl-alert-host li,
+nz-alert.fl-alert-host strong {
+  color: var(--fi-alert-text) !important;
+}
+
+nz-alert.fl-alert-host mark {
+  color: var(--fi-alert-mark-text) !important;
+  background: var(--fi-alert-mark-bg) !important;
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+nz-alert.fl-alert-host.fl-alert-outline .ant-alert {
+  background: #ffffff !important;
+}
+
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert {
+  background: var(--fi-alert-bg-strong) !important;
+  border-color: var(--fi-alert-border-strong) !important;
+}
+
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-icon,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-message,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description,
+nz-alert.fl-alert-host.fl-alert-solid .ant-typography,
+nz-alert.fl-alert-host.fl-alert-solid p,
+nz-alert.fl-alert-host.fl-alert-solid span,
+nz-alert.fl-alert-host.fl-alert-solid h1,
+nz-alert.fl-alert-host.fl-alert-solid h2,
+nz-alert.fl-alert-host.fl-alert-solid h3,
+nz-alert.fl-alert-host.fl-alert-solid h4,
+nz-alert.fl-alert-host.fl-alert-solid h5,
+nz-alert.fl-alert-host.fl-alert-solid h6,
+nz-alert.fl-alert-host.fl-alert-solid li,
+nz-alert.fl-alert-host.fl-alert-solid strong {
+  color: var(--fi-alert-text-strong) !important;
 }
 
 .fl-card-hover {

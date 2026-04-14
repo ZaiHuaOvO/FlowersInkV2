@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';

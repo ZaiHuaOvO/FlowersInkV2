@@ -1,4 +1,4 @@
-﻿import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { NzAffixModule } from 'ng-zorro-antd/affix';

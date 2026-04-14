@@ -24,6 +24,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
 import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { FlAlertDirective } from '../../common_ui/fl_ui/fl-alert/fl-alert.directive';
 
 @Component({
   selector: 'flower-link',
@@ -46,6 +47,7 @@ import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive
     FlButtonComponent,
     FlInputDirective,
     FlCardDirective,
+    FlAlertDirective,
   ],
   templateUrl: './link.component.html',
   styleUrl: './link.component.css',

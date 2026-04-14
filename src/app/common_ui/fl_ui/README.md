@@ -1,4 +1,4 @@
-﻿# FlowersInk UI (`fl_ui`)
+# FlowersInk UI (`fl_ui`)
 
 统一维护站内可复用 UI 组件（Angular Standalone）。
 
@@ -10,6 +10,7 @@
 | `fl-input` | 通用输入样式指令（输入框、文本域） | `src/app/common_ui/fl_ui/fl-input/fl-input.directive.ts` | [前往](#fl-input) |
 | `fl-card` | 通用卡片样式指令（静态/悬浮） | `src/app/common_ui/fl_ui/fl-card/fl-card.directive.ts` | [前往](#fl-card) |
 | `fl-tag` | 通用标签样式指令（soft/outline/solid） | `src/app/common_ui/fl_ui/fl-tag/fl-tag.directive.ts` | [前往](#fl-tag) |
+| `fl-alert` | 通用提示框样式指令（soft/outline/solid） | `src/app/common_ui/fl_ui/fl-alert/fl-alert.directive.ts` | [前往](#fl-alert) |
 
 ## 目录
 
@@ -17,6 +18,7 @@
 - [`fl-input`](#fl-input)
 - [`fl-card`](#fl-card)
 - [`fl-tag`](#fl-tag)
+- [`fl-alert`](#fl-alert)
 
 ## `fl-button`
 
@@ -209,3 +211,52 @@ export class ExampleComponent {}
 | `--fi-tag-bg-hover` | hover 背景 |
 | `--fi-tag-border-hover` | hover 边框 |
 | `--fi-tag-text-hover` | hover 文字色 |
+
+## `fl-alert`
+
+### 路径
+
+- `src/app/common_ui/fl_ui/fl-alert/fl-alert.directive.ts`
+
+### 用法
+
+```ts
+import { FlAlertDirective } from '../../common_ui/fl_ui/fl-alert/fl-alert.directive';
+
+@Component({
+  standalone: true,
+  imports: [FlAlertDirective],
+})
+export class ExampleComponent {}
+```
+
+### 示例
+
+```html
+<nz-alert flAlert nzType="info" [nzMessage]="title" [nzDescription]="content"></nz-alert>
+<nz-alert flAlert flAlertVariant="outline" nzType="success" [nzDescription]="content"></nz-alert>
+<nz-alert flAlert flAlertVariant="solid" nzType="warning" [nzDescription]="content"></nz-alert>
+```
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+|---|---|---|---|
+| `flAlert` | 启用 Alert 主题样式 | `'' \| boolean` | `''` |
+| `flAlertVariant` | 提示框视觉变体 | `'soft' \| 'outline' \| 'solid'` | `'soft'` |
+
+### 主题变量
+
+变量来源：`src/styles.css`
+
+| CSS 变量 | 说明 |
+|---|---|
+| `--fi-alert-bg` | 默认背景 |
+| `--fi-alert-border` | 默认边框 |
+| `--fi-alert-text` | 默认文字色 |
+| `--fi-alert-icon` | 图标色 |
+| `--fi-alert-mark-bg` | `mark` 背景色 |
+| `--fi-alert-mark-text` | `mark` 文字色 |
+| `--fi-alert-bg-strong` | `solid` 背景 |
+| `--fi-alert-border-strong` | `solid` 边框 |
+| `--fi-alert-text-strong` | `solid` 文字色 |

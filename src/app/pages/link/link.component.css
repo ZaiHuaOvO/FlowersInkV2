@@ -20,40 +20,6 @@
     width: 108px;
 }
 
-:host ::ng-deep nz-alert.fi-alert .ant-alert {
-    border-radius: var(--fi-radius-sm) !important;
-    border: 1px solid #dcc3a7 !important;
-    background: #f6eee4 !important;
-    box-shadow: var(--fi-shadow-soft);
-}
-
-:host ::ng-deep nz-alert.fi-alert .ant-alert-icon {
-    color: #8b5a2b !important;
-}
-
-:host ::ng-deep nz-alert.fi-alert .ant-alert-message,
-:host ::ng-deep nz-alert.fi-alert .ant-alert-description,
-:host ::ng-deep nz-alert.fi-alert .ant-typography,
-:host ::ng-deep nz-alert.fi-alert p,
-:host ::ng-deep nz-alert.fi-alert span,
-:host ::ng-deep nz-alert.fi-alert h1,
-:host ::ng-deep nz-alert.fi-alert h2,
-:host ::ng-deep nz-alert.fi-alert h3,
-:host ::ng-deep nz-alert.fi-alert h4,
-:host ::ng-deep nz-alert.fi-alert h5,
-:host ::ng-deep nz-alert.fi-alert h6,
-:host ::ng-deep nz-alert.fi-alert li,
-:host ::ng-deep nz-alert.fi-alert strong {
-    color: #7a5536 !important;
-}
-
-:host ::ng-deep nz-alert.fi-alert mark {
-    color: #8b5a2b !important;
-    background: #ead7c3 !important;
-    border-radius: 4px;
-    padding: 0 4px;
-}
-
 @media (max-width: 768px) {
     .message {
         padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
