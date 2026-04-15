@@ -11,9 +11,4 @@ export const WORLD_ROUTES: Routes = [
     loadComponent: () =>
       import('./game/game.component').then((m) => m.GameComponent),
   },
-  // {
-  //   path: 'food',
-  //   loadComponent: () =>
-  //     import('./food/food.component').then((m) => m.FoodComponent),
-  // },
 ];

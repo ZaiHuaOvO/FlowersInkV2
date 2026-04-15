@@ -79,7 +79,7 @@ export class QuestionComponent implements OnInit {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
     });
-    // 娣诲姞闃叉姈锛岃缃椂闂翠负500ms
+    // Debounce search input by 500ms to reduce request frequency.
     this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getBlog();
     });
@@ -89,7 +89,7 @@ export class QuestionComponent implements OnInit {
     this.initMarkdownRuntime();
     this.blog
       .getBlogs({
-        type: '闂',
+        type: '问题',
         page: this.page,
         title: this.searchControl.value,
         tag: this.tag,
@@ -119,7 +119,7 @@ export class QuestionComponent implements OnInit {
     this.loading = true;
     this.blog
       .getBlogs({
-        type: '闂',
+        type: '问题',
         page: this.page,
         title: this.searchControl.value,
         tag: this.tag,

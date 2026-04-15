@@ -1,7 +1,9 @@
 <div class="menu" nz-flex [nzVertical]="true" nzGap="small">
   @for (item of this.nzData['value']; track item) {
     <div nz-flex nzJustify="space-between" class="menu-link" [class.active]="isActive(item.url) "
-      [routerLink]="item.url">
+      [routerLink]="item.url"
+      (touchstart)="prefetchUrl(item.url, item.URL)"
+      (mouseenter)="prefetchUrl(item.url, item.URL)">
       <span [class.menu-parent-label]="item.URL">
         <span nz-icon [nzType]="item.icon" nzTheme="outline"
         [class.menu-parent-label]="item.URL"></span>
@@ -16,7 +18,9 @@
       <div nz-flex [nzVertical]="true" class="submenu" nzGap="small">
         @for (sub of item.child; track sub) {
           <div nz-flex nzJustify="space-between" class="submenu-item" [class.active]="isActive(sub.url)"
-            [routerLink]="sub.url">
+            [routerLink]="sub.url"
+            (touchstart)="prefetchUrl(sub.url)"
+            (mouseenter)="prefetchUrl(sub.url)">
             <span>{{
               sub.title }}
             </span>

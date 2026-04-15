@@ -10,10 +10,9 @@
         </ng-template>
     </div>
     }
-    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle"
-        [ngStyle]="{'width':isMobile ?'100%':'80%'}">
-        <nz-spin [nzTip]="'问题正在努力赶来中'" [nzSpinning]="loading" [ngStyle]="{'width':isMobile ?'90vw':'auto'}">
-            <nz-collapse [ngStyle]="{'width':isMobile ?'100%':'60vw'}" nzAccordion nzGhost nzBordered="false" nz-flex
+    <div class="content question-content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle">
+        <nz-spin class="question-spin" [nzTip]="'问题正在努力赶来中'" [nzSpinning]="loading">
+            <nz-collapse class="question-collapse" nzAccordion nzGhost nzBordered="false" nz-flex
                 nzGap="small" [nzVertical]="true" @QuickUp>
                 @for (panel of data; track panel) {
                 <nz-collapse-panel [nzHeader]="titleBox" class="anwser" flCard nzShowArrow="false">

@@ -1,10 +1,8 @@
-<div class="website" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true"
-  [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
+<div class="website" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
   @if (!isMobile) {
     <flower-target></flower-target>
   }
-  <div class="content" flCard nz-flex [nzVertical]="true" @QuickUp
-    [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
+  <div class="content" flCard nz-flex [nzVertical]="true" @QuickUp>
     <article nz-typography>
       <h1 nz-typography class="fi-page-title">关于网站</h1>
       <p nz-typography nzType="secondary">你的指尖，蕴含改变世界的力量。</p>

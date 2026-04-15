@@ -3,7 +3,7 @@
     nzPopoverPlacement="top" [nzPopoverContent]="contentTemplate"><span nz-icon nzType="message"
   nzTheme="outline"></span></button>
   <ng-template #contentTemplate>
-    <div [ngStyle]="{'width':isMobile ?'100vw':'55vw'}">
+    <div class="comment-emoji-panel">
       <div nz-row [nzGutter]="[16]">
         @for (emoji of commentArray; track emoji) {
           <div nz-col [nzSpan]="isMobile ? 8 :4" nz-flex [nzVertical]="true" nzJustify="center"

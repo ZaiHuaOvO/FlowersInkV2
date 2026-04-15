@@ -32,7 +32,6 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/link/link.routes').then((m) => m.LINK_ROUTES),
   },
-  // 通配符路由，用于匹配所有未定义路由
   {
     path: '**',
     loadChildren: () =>

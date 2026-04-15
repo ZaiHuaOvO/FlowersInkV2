@@ -28,11 +28,16 @@ nz-footer {
   padding: 0;
 }
 
-.footer-placeholder {
-  min-height: 160px;
+.global-loading-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
 }
 
 .global-loading-icon {
+  display: block;
   width: 80px;
   height: 80px;
+  object-fit: contain;
 }

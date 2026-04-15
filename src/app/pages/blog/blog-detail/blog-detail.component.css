@@ -1,15 +1,18 @@
 .article {
   width: 100%;
   min-height: calc(100vh - 48px);
-  padding: 20px;
+  padding: 24px;
   background: var(--fi-bg);
 }
 
 .content {
-  width: min(100%, 920px);
   min-height: 500px;
-  margin-left: max(2%, 20px);
   border-radius: var(--fi-radius-md);
+}
+
+.blog-detail-content {
+  width: min(63%, 920px);
+  margin-left: 5%;
 }
 
 .me {
@@ -103,7 +106,24 @@ nz-anchor {
 }
 
 @media (max-width: 1200px) {
-  .content {
+  .blog-detail-content {
     margin-left: 0;
+    width: min(100%, 920px);
+  }
+}
+
+@media (max-width: 768px) {
+  .article {
+    padding: 4px;
+  }
+
+  .blog-detail-content {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .blog-detail-spin {
+    min-width: auto !important;
+    padding: 0 var(--fi-space-3);
   }
 }

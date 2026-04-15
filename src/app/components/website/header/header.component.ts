@@ -10,6 +10,7 @@ import { WindowService } from '../../../services/window.service';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { RoutePrefetchService } from '../../../services/route-prefetch.service';
 
 interface MenuItem {
   title: string;
@@ -130,6 +131,7 @@ export class HeaderComponent implements OnInit {
   constructor(private window: WindowService,
     private router: Router,
     private drawerService: NzDrawerService,
+    private routePrefetchService: RoutePrefetchService,
 
   ) {
     this.window.isMobile$.subscribe((isMobile) => {
@@ -139,7 +141,6 @@ export class HeaderComponent implements OnInit {
       this.activeRoute = this.router.url;
     });
   }
-  // [ngStyle]="{'width':isMobile ?'100%':'60%','margin-left' :isMobile ?'0':'9.5%'}"
   ngOnInit() { }
 
   isActive(url: any): boolean {
@@ -148,6 +149,28 @@ export class HeaderComponent implements OnInit {
 
   isParentActive(URL: any): boolean {
     return this.activeRoute.includes(URL);
+  }
+
+  prefetchMenu(item: MenuItem): void {
+    const urls = new Set<string>();
+
+    if (item.url) {
+      urls.add(item.url);
+    }
+    if (!item.url && item.URL) {
+      urls.add(`/${item.URL}`);
+    }
+    for (const child of item.child ?? []) {
+      if (child.url) {
+        urls.add(child.url);
+      }
+    }
+
+    urls.forEach((url) => this.routePrefetchService.prefetchByUrl(url));
+  }
+
+  prefetchUrl(url: string | undefined): void {
+    this.routePrefetchService.prefetchByUrl(url);
   }
 
   async mobileMenu(): Promise<void> {

@@ -58,6 +58,28 @@ nz-content {
   white-space: pre-line;
 }
 
-nz-spin {
-  min-width: 60vw;
+.ant-spin-nested-loading > div > .ant-spin.ant-spin-spinning {
+  max-height: none !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ant-spin-dot-holder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ant-spin-text {
+  margin-top: 10px !important;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.ant-spin-nested-loading > div > .ant-spin.ant-spin-spinning .ant-spin-text {
+  position: static;
+  width: auto;
+  padding-top: 0;
 }

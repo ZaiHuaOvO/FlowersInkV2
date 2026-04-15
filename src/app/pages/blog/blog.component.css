@@ -10,6 +10,10 @@
     min-height: 420px;
 }
 
+.archive-content {
+    width: min(60vw, var(--fi-page-max-narrow));
+}
+
 .blog {
     padding: clamp(18px, 2.2vw, 24px);
     width: 100%;
@@ -18,6 +22,11 @@
 .search {
     width: 100%;
     padding: var(--fi-space-3);
+}
+
+.archive-spin {
+    width: 100%;
+    min-width: 0;
 }
 
 .blog_title {
@@ -45,5 +54,9 @@
 
     .content {
         min-height: auto;
+    }
+
+    .archive-content {
+        width: 90vw;
     }
 }

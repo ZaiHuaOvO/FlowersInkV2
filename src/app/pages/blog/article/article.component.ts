@@ -69,7 +69,7 @@ export class ArticleComponent implements OnInit {
     this.window.isMobile$.subscribe((isMobile) => {
       this.isMobile = isMobile;
     });
-    // 娣诲姞闃叉姈锛岃缃椂闂翠负500ms
+    // Debounce search input by 500ms to reduce request frequency.
     this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getBlog();
     });
@@ -78,7 +78,7 @@ export class ArticleComponent implements OnInit {
   ngOnInit() {
     this.blog
       .getBlogs({
-        type: '鏂囩珷',
+        type: '文章',
         page: this.page,
         tag: this.tag,
         limit: 10,
@@ -92,7 +92,7 @@ export class ArticleComponent implements OnInit {
 
     this.blog
       .getBlogs({
-        type: '鏂囩珷',
+        type: '文章',
         page: '',
         tag: '',
         title: '',
@@ -106,7 +106,7 @@ export class ArticleComponent implements OnInit {
     this.loading = true;
     this.blog
       .getBlogs({
-        type: '鏂囩珷',
+        type: '文章',
         page: this.page,
         tag: this.tag,
         title: this.searchControl.value,

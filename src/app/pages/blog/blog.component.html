@@ -1,6 +1,5 @@
 <div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
-  <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
-    [ngStyle]="{'width':isMobile ?'90vw':'60vw'}">
+  <div class="content archive-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true">
     <flower-blog-title [title]="'文归档'"></flower-blog-title>
     <div class="search" flCard nz-flex nzAlign="center" nzJustify="center" @QuickUp>
       <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -10,7 +9,7 @@
         <span nz-icon nzType="search"></span>
       </ng-template>
     </div>
-    <nz-spin [nzTip]="'归档正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
+    <nz-spin class="archive-spin" [nzTip]="'归档正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
       <div nz-flex nzAlign="center" [nzVertical]="true" nzGap="middle">
         @for (item of data; track item) {
           <div class="blog" flCard>

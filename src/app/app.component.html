@@ -6,23 +6,21 @@
     <router-outlet></router-outlet>
   </nz-content>
   <nz-footer>
-    @defer (on idle) {
-      <flower-footer></flower-footer>
-    } @placeholder {
-      <div class="footer-placeholder"></div>
-    }
+    <flower-footer></flower-footer>
   </nz-footer>
 </nz-layout>
 
-<!-- 全局替换加载图标 -->
+<!-- 全局自定义加载图标 -->
 <ng-template #loadingTemplate>
-  <div nz-flex nzAlign="center" nzJustify="center" nzGap="middle">
-    <img class="global-loading-icon" src="https://api.flowersink.com/img/再花猫猫女仆走路.GIF" loading="eager" decoding="async">
-  </div>
+  <span class="global-loading-indicator">
+    <img
+      class="global-loading-icon"
+      src="https://api.flowersink.com/img/再花猫猫女仆走路.GIF"
+      loading="eager"
+      decoding="async"
+    >
+  </span>
 </ng-template>
 
 <!-- 回到顶部 -->
-
-@defer (on idle) {
-  <flower-back-top></flower-back-top>
-}
+<flower-back-top></flower-back-top>

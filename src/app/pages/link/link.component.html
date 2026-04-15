@@ -1,7 +1,5 @@
-<div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true"
-    [ngStyle]="{'padding':isMobile ?'4px':'24px'}">
-    <div class="content" flCard nz-flex [nzVertical]="true" nzGap="middle" @QuickUp
-        [ngStyle]="{'width':isMobile ?'100%':'70vw','padding':isMobile ?'24px':'48px'}">
+<div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
+    <div class="content" flCard nz-flex [nzVertical]="true" nzGap="middle" @QuickUp>
         <h1 nz-typography class="fi-page-title">好朋友的链接</h1>
         <p nz-typography nzType="secondary">友链就像桥梁，将我的孤岛展现给全世界</p>
         <nz-alert flAlert nzType="success" [nzDescription]="linkContent"></nz-alert>

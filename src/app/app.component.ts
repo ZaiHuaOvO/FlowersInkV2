@@ -6,6 +6,7 @@ import { HeaderComponent } from './components/website/header/header.component';
 import { FooterComponent } from './components/website/footer/footer.component';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { BackTopComponent } from './components/website/back-top/back-top.component';
+import { RoutePrefetchService } from './services/route-prefetch.service';
 
 @Component({
   selector: 'app-root',
@@ -25,9 +26,13 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('loadingTemplate', { static: true })
   loadingTemplate!: TemplateRef<any>;
 
-  constructor(private nzConfigService: NzConfigService) {}
+  constructor(
+    private nzConfigService: NzConfigService,
+    private routePrefetchService: RoutePrefetchService
+  ) {}
 
   ngAfterViewInit(): void {
     this.nzConfigService.set('spin', { nzIndicator: this.loadingTemplate });
+    this.routePrefetchService.startIdlePreload();
   }
 }

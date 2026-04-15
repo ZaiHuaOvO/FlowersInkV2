@@ -29,7 +29,9 @@
       @for (item of MenuList; track item) {
         <li nz-flex nzAlign="center" nzJustify="center" class="menu-item"
           [class.active]="isActive(item.url) || isParentActive(item.URL)"
-          [class.parent]="item.child?.length == 0">
+          [class.parent]="item.child?.length == 0"
+          (mouseenter)="prefetchMenu(item)"
+          (focusin)="prefetchMenu(item)">
           <a
             [routerLink]="item.url"
             class="menu-link"
@@ -47,7 +49,9 @@
               nzGap="middle">
               @for (sub of item.child; track sub) {
                 <a [routerLink]="sub.url" class="submenu-item" flCard
-                  [class.active]="isActive(sub.url)">{{
+                  [class.active]="isActive(sub.url)"
+                  (mouseenter)="prefetchUrl(sub.url)"
+                  (focusin)="prefetchUrl(sub.url)">{{
                 sub.title }}</a>
               }
             </div>

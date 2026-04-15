@@ -6,9 +6,10 @@
 }
 
 .content {
-    width: min(var(--fi-page-max), 100%);
+    width: min(70vw, var(--fi-page-max));
     min-height: 420px;
     margin-top: var(--fi-space-3);
+    padding: clamp(22px, 3vw, 34px) clamp(18px, 5vw, 48px);
 }
 
 .toolbar {
@@ -30,7 +31,9 @@
     }
 
     .content {
+        width: 100%;
         margin-top: var(--fi-space-2);
         min-height: auto;
+        padding: var(--fi-space-6) var(--fi-space-4);
     }
 }

@@ -6,6 +6,7 @@ import { NZ_DRAWER_DATA, NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { RoutePrefetchService } from '../../../../services/route-prefetch.service';
 
 @Component({
   selector: 'flower-header-mobile',
@@ -29,6 +30,7 @@ export class HeaderMobileComponent {
     private drawerRef: NzDrawerRef<string>,
     private router: Router,
     private cdr: ChangeDetectorRef,
+    private routePrefetchService: RoutePrefetchService,
 
   ) {
     this.activeRoute = this.router.url;
@@ -45,6 +47,16 @@ export class HeaderMobileComponent {
 
   isParentActive(URL: any): boolean {
     return this.activeRoute.includes(URL);
+  }
+
+  prefetchUrl(url: string | undefined, parentUrl?: string): void {
+    if (url) {
+      this.routePrefetchService.prefetchByUrl(url);
+      return;
+    }
+    if (parentUrl) {
+      this.routePrefetchService.prefetchByUrl(`/${parentUrl}`);
+    }
   }
 
 }

@@ -11,6 +11,10 @@
     margin-top: var(--fi-space-3);
 }
 
+.heart-content {
+    width: 60%;
+}
+
 .life {
     padding: 24px;
     width: 100%;
@@ -56,4 +60,19 @@
 
 .year-title {
     margin-bottom: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .heart {
+        padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
+    }
+
+    .content {
+        margin-top: var(--fi-space-2);
+        min-height: auto;
+    }
+
+    .heart-content {
+        width: 100%;
+    }
 }
