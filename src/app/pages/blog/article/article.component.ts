@@ -123,13 +123,18 @@ export class ArticleComponent implements OnInit {
     this.getBlog();
   }
 
+  private isAllTag(tagName: string): boolean {
+    return tagName === (this.tagList[0]?.tag ?? '');
+  }
+
   tagSelect(tag: string): void {
-    this.tag = tag == '鍏ㄩ儴' ? '' : tag;
+    this.tag = this.isAllTag(tag) ? '' : tag;
+    this.page = 1;
     this.getBlog();
   }
 
   tagVariant(tagName: string): 'soft' | 'solid' {
-    if (tagName === '鍏ㄩ儴') {
+    if (this.isAllTag(tagName)) {
       return this.tag === '' ? 'solid' : 'soft';
     }
     return this.tag === tagName ? 'solid' : 'soft';
