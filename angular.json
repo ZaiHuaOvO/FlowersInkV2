@@ -67,6 +67,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": {
                 "fonts": false
               },
@@ -85,6 +91,12 @@
               "outputHashing": "all"
             },
             "production-fast": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": {
                 "fonts": false
               },
@@ -95,6 +107,18 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "test": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "prerender": false
             }
           },
           "defaultConfiguration": "production"
@@ -110,6 +134,9 @@
             },
             "development": {
               "buildTarget": "FlowersInkV2:build:development"
+            },
+            "test": {
+              "buildTarget": "FlowersInkV2:build:test"
             }
           },
           "defaultConfiguration": "development"
