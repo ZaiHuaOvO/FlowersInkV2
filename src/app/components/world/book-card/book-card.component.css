@@ -1,6 +1,6 @@
 .book-card {
   padding: clamp(18px, 2.2vw, 24px);
-  width: 300px;
+  width: 350px;
   text-decoration: none;
   color: inherit;
   border-radius: var(--fi-radius-md);

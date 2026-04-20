@@ -182,9 +182,10 @@
   gap: 12px;
 }
 
-.timeline-card-header h3 {
+.timeline-card-header h3,
+h4 {
   margin: 0;
-  font-size: 30px;
+  font-size: 24px;
   line-height: 1.2;
   color: #5c351a;
 }
@@ -221,7 +222,7 @@
 .card-source {
   margin: 10px 0 0;
   color: var(--fi-text-muted);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .card-content {
@@ -229,7 +230,7 @@
   white-space: pre-wrap;
   line-height: 1.8;
   color: var(--fi-text);
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .card-content-excerpt {
@@ -418,7 +419,8 @@
   padding: 18px;
 }
 
-.error-state h3 {
+.error-state h3,
+h4 {
   margin: 0;
   color: #9a3f2f;
 }
@@ -466,7 +468,8 @@
     padding: 16px;
   }
 
-  .timeline-card-header h3 {
+  .timeline-card-header h3,
+  h4 {
     font-size: 24px;
   }
 

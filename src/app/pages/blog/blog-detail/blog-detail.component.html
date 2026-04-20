@@ -27,16 +27,18 @@
 
       <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
         <flower-blog-title [title]="data.title"></flower-blog-title>
-        <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady"></markdown>
+        <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady">
+        </markdown>
         <nz-divider></nz-divider>
         <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
           <div nz-flex nzJustify="center" nzGap="small">
             @for (item of displayCommentArray; track item) {
-              @if (item.count > 0) {
-              <nz-tag flTag flTagVariant="outline" nz-tooltip [nzTooltipTitle]="item.description">
-                <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{ item.count }}</span>
-              </nz-tag>
-              }
+            @if (item.count > 0) {
+            <nz-tag flTag flTagVariant="outline" nz-tooltip [nzTooltipTitle]="item.description">
+              <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{ item.count
+                }}</span>
+            </nz-tag>
+            }
             }
           </div>
           <flower-blog-comment [data]="data.comment" (emojiSelected)="comment($event)"></flower-blog-comment>
@@ -47,7 +49,7 @@
     @if (!isMobile) {
     <aside class="me" @SlowUp>
       <div class="me_box" flCard nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
-        <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/鍐嶈姳鐚尗澶?png" nzShape="square"></nz-avatar>
+        <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/logo.png" nzShape="square"></nz-avatar>
         <div nz-flex [nzVertical]="true">
           <h5 nz-typography>再花</h5>
           <span nz-typography nzType="secondary">猫猫头前端工程师</span>

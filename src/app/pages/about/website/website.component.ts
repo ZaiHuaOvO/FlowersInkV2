@@ -94,6 +94,10 @@ export class WebsiteComponent {
       title: '统一并完善了花墨的主题样式和细节，花墨变得更好看了',
     },
     {
+      date: '2026年4月20日',
+      title: '点滴功能回归！开始碎碎念',
+    },
+    {
       date: '未完待续',
       title: '',
     },
