@@ -35,7 +35,7 @@ interface MenuItem {
     NzDropDownModule,
     NzDrawerModule,
     FlCardDirective,
-],
+  ],
   animations: [QuickDown],
 })
 export class HeaderComponent implements OnInit {
@@ -68,6 +68,13 @@ export class HeaderComponent implements OnInit {
           url: '/blog/all',
         },
       ],
+      showChildren: false
+    },
+    {
+      title: '点滴',
+      icon: 'heart',
+      url: '/life',
+      child: [],
       showChildren: false
     },
     {

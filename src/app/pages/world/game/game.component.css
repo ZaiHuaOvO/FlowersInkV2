@@ -6,7 +6,7 @@
 }
 
 .game-content {
-    width: min(90vw, var(--fi-page-max));
+    width: min(100%, var(--fi-page-max));
 }
 
 .ant-tag {
@@ -19,6 +19,6 @@
     }
 
     .game-content {
-        width: 90vw;
+        width: 100%;
     }
 }

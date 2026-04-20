@@ -1,5 +1,5 @@
 .fl-card-surface {
-  background: var(--fi-surface);
+  background: var(--fi-card-bg);
   border: 1px solid var(--fi-border);
   border-radius: var(--fi-radius-md);
   box-shadow: var(--fi-shadow-soft);
@@ -8,7 +8,7 @@
 .ant-card {
   border: 1px solid var(--fi-border) !important;
   border-radius: var(--fi-radius-md) !important;
-  background: var(--fi-surface) !important;
+  background: var(--fi-card-bg) !important;
   box-shadow: var(--fi-shadow-soft) !important;
 }
 
@@ -21,7 +21,7 @@
 
 .fl-card-hover:hover {
   transform: translateY(var(--fi-motion-lift-card));
-  background: var(--fi-surface-soft);
+  background: var(--fi-card-bg-hover);
   box-shadow: var(--fi-shadow-hover);
 }
 

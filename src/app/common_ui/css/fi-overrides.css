@@ -83,3 +83,8 @@ nz-content {
   width: auto;
   padding-top: 0;
 }
+
+.ant-layout-content,
+.ant-layout-content > * {
+  min-width: 0;
+}

@@ -111,7 +111,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     this.initMarkdownRuntime();
     this.activateInfo.paramMap.subscribe(params => {
       this.Id = params.get('id');
-      if (this.Id && isPlatformBrowser(this.platformId)) {
+      if (Number(this.Id) != 0 && isPlatformBrowser(this.platformId)) {
         this.getBlogDetail();
       }
     });

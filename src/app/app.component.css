@@ -2,7 +2,7 @@
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  background: var(--fi-bg);
+  background: #fff8f3;
 }
 
 nz-header {
@@ -10,9 +10,10 @@ nz-header {
   inset: 0 0 auto 0;
   width: 100%;
   z-index: 999;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--fi-border);
+  background: #fff8f4;
+  backdrop-filter: none;
+  border-bottom: 0;
+  box-shadow: 0 6px 18px rgba(92, 53, 26, 0.12);
 }
 
 nz-header.app-header {
@@ -21,6 +22,7 @@ nz-header.app-header {
 
 nz-content {
   margin-top: 48px;
+  background: #fff8f3;
 }
 
 nz-footer {

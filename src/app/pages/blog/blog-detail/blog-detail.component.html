@@ -1,78 +1,73 @@
-<div class="article editor blog-detail-page" nz-flex [nzVertical]="true"
-  (scroll)="onScroll('editor')" #editor>
-  <div class="content blog-detail-content" flCard nz-flex nzGap="middle" [nzVertical]="true" @QuickUp>
-    <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
-      <ng-template #backTitle>
-        <span nz-typography class="back-link" (click)="onBack()">返回</span>
-      </ng-template>
-      @if (!isMobile) {
-      <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
-        <span nz-typography nzType="secondary">
-          标签：{{data.tag}}
-        </span>
-        <nz-divider nzType="vertical"></nz-divider>
-        <span nz-typography nzType="secondary">
-          阅读量：{{data.views}}次
-        </span>
-        <nz-divider nzType="vertical"></nz-divider>
-        <span nz-typography nzType="secondary">
-          发布于{{ data.date | date:'yyyy年MM月dd日'}}
-        </span>
-      </nz-page-header-extra>
-      }
-      @if (isMobile) {
-      <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
-        <span nz-typography nzType="secondary">
-          {{data.tag}}
-        </span>
-        <nz-divider nzType="vertical"></nz-divider>
-        <span nz-typography nzType="secondary">
-          {{ data.date | date:'yyyy年MM月dd日'}}
-        </span>
-      </nz-page-header-extra>
-      }
-    </nz-page-header>
-    <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
+﻿<div class="article editor blog-detail-page" nz-flex [nzVertical]="true" (scroll)="onScroll('editor')" #editor>
+  <div class="blog-detail-shell">
+    <div class="content blog-detail-content" flCard nz-flex nzGap="middle" [nzVertical]="true" @QuickUp>
+      <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
+        <ng-template #backTitle>
+          <span nz-typography class="back-link" (click)="onBack()">返回</span>
+        </ng-template>
 
-      <flower-blog-title [title]="data.title"></flower-blog-title>
-      <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady"></markdown>
-      <nz-divider></nz-divider>
-      <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
-        <div nz-flex nzJustify="center" nzGap="small">
-          @for (item of displayCommentArray; track item) {
-          @if (item.count > 0) {
-          <nz-tag flTag flTagVariant="outline" nz-tooltip [nzTooltipTitle]="item.description">
-            <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
-          </nz-tag>
-          }
-          }
-        </div>
-        <flower-blog-comment [data]="data.comment" (emojiSelected)="comment($event)"></flower-blog-comment>
-      </div>
-    </nz-spin>
-  </div>
-  @if (!isMobile) {
-  <div class="me" @SlowUp>
-    <div class="me_box" flCard nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
-      <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
-      <div nz-flex [nzVertical]="true">
-        <h5 nz-typography>再花</h5>
-        <span nz-typography nzType="secondary">猫猫头前端工程师</span>
-      </div>
-    </div>
-    <div class="menu" flCard>
-      <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
-      <nz-divider class="menu-divider"></nz-divider>
-      <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
-        @for (anchor of anchors; track anchor) {
-        <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
-          @for (subAnchor of anchor.children; track subAnchor) {
-          <nz-link [nzHref]="subAnchor.href" [nzTitle]="subAnchor.title"></nz-link>
-          }
-        </nz-link>
+        @if (!isMobile) {
+        <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
+          <span nz-typography nzType="secondary">标签：{{ data.tag }}</span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <span nz-typography nzType="secondary">阅读量：{{ data.views }}次</span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <span nz-typography nzType="secondary">发布于{{ data.date | date:'yyyy年MM月dd日' }}</span>
+        </nz-page-header-extra>
         }
-      </nz-anchor>
+
+        @if (isMobile) {
+        <nz-page-header-extra nz-flex nzAlign="center" nzJustify="center">
+          <span nz-typography nzType="secondary">{{ data.tag }}</span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <span nz-typography nzType="secondary">{{ data.date | date:'yyyy年MM月dd日' }}</span>
+        </nz-page-header-extra>
+        }
+      </nz-page-header>
+
+      <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
+        <flower-blog-title [title]="data.title"></flower-blog-title>
+        <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady"></markdown>
+        <nz-divider></nz-divider>
+        <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
+          <div nz-flex nzJustify="center" nzGap="small">
+            @for (item of displayCommentArray; track item) {
+              @if (item.count > 0) {
+              <nz-tag flTag flTagVariant="outline" nz-tooltip [nzTooltipTitle]="item.description">
+                <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{ item.count }}</span>
+              </nz-tag>
+              }
+            }
+          </div>
+          <flower-blog-comment [data]="data.comment" (emojiSelected)="comment($event)"></flower-blog-comment>
+        </div>
+      </nz-spin>
     </div>
+
+    @if (!isMobile) {
+    <aside class="me" @SlowUp>
+      <div class="me_box" flCard nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
+        <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/鍐嶈姳鐚尗澶?png" nzShape="square"></nz-avatar>
+        <div nz-flex [nzVertical]="true">
+          <h5 nz-typography>再花</h5>
+          <span nz-typography nzType="secondary">猫猫头前端工程师</span>
+        </div>
+      </div>
+
+      <div class="menu" flCard>
+        <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
+        <nz-divider class="menu-divider"></nz-divider>
+        <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
+          @for (anchor of anchors; track anchor) {
+          <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
+            @for (subAnchor of anchor.children; track subAnchor) {
+            <nz-link [nzHref]="subAnchor.href" [nzTitle]="subAnchor.title"></nz-link>
+            }
+          </nz-link>
+          }
+        </nz-anchor>
+      </div>
+    </aside>
+    }
   </div>
-  }
 </div>

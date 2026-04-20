@@ -11,7 +11,7 @@
 }
 
 .book-content {
-    width: min(90vw, var(--fi-page-max));
+    width: min(100%, var(--fi-page-max));
 }
 
 .blog {
@@ -47,6 +47,6 @@ nz-tag {
     }
 
     .book-content {
-        width: 90vw;
+        width: 100%;
     }
 }

@@ -8,7 +8,7 @@
 }
 
 .comment-emoji-panel {
-  width: 55vw;
+  width: min(55vw, 560px);
 }
 
 .emoji span {

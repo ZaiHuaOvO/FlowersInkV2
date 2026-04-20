@@ -31,10 +31,12 @@
 }
 
 :root {
-  --fi-bg: #efe4d8;
-  --fi-bg-soft: #f1e7da;
+  --fi-bg: #fff8f3;
+  --fi-bg-soft: #fff8f3;
   --fi-surface: #ffffff;
   --fi-surface-soft: #fcf8f2;
+  --fi-card-bg: #ffffff;
+  --fi-card-bg-hover: #fcf8f2;
   --fi-border: #e5e7eb;
   --fi-text: #2f2117;
   --fi-text-muted: #7a6756;

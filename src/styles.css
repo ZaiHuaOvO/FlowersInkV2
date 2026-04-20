@@ -7,3 +7,8 @@
 @import url('app/common_ui/css/fi-overrides.css');
 @import url('app/common_ui/css/fi-timeline.css');
 @import url('app/common_ui/css/markdown-zaihua.css');
+
+html,
+body {
+  background: #fff8f3;
+}
