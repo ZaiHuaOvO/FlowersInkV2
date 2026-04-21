@@ -1,4 +1,8 @@
 .life-timeline-page {
+  --life-main-max-width: 700px;
+  --life-sidebar-left-width: 220px;
+  --life-sidebar-right-width: 250px;
+  --life-layout-gap: var(--fi-space-5);
   width: 100%;
   max-width: 100%;
   min-height: calc(100vh - 48px);
@@ -6,9 +10,11 @@
 }
 
 .life-timeline-content {
-  width: min(100%, 1380px);
+  width: min(100%, calc(var(--life-sidebar-left-width) + var(--life-main-max-width) + var(--life-sidebar-right-width) + (var(--life-layout-gap) * 2)));
+  margin-inline: auto;
+  justify-content: center;
   align-items: flex-start;
-  gap: var(--fi-space-5);
+  gap: var(--life-layout-gap);
 }
 
 .timeline-sidebar {
@@ -22,12 +28,12 @@
 }
 
 .timeline-sidebar-left {
-  width: 220px;
+  width: var(--life-sidebar-left-width);
   padding: 16px 14px;
 }
 
 .timeline-sidebar-right {
-  width: 250px;
+  width: var(--life-sidebar-right-width);
   padding: 16px 14px;
 }
 
@@ -92,7 +98,9 @@
 }
 
 .timeline-main {
-  flex: 1;
+  flex: 0 1 var(--life-main-max-width);
+  width: 100%;
+  max-width: var(--life-main-max-width);
   min-width: 0;
 }
 
@@ -168,6 +176,7 @@
 
 .timeline-card {
   width: 100%;
+  max-width: var(--life-main-max-width);
   border-radius: var(--fi-radius-md);
   border: 1px solid var(--fi-border);
   background: var(--fi-card-bg);
@@ -479,6 +488,7 @@ h4 {
 
   .image-grid {
     width: 100%;
+    max-width: var(--life-main-max-width);
   }
 
   .grid-default-three,

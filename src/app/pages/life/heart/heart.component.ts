@@ -1,4 +1,4 @@
-﻿import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
+import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -101,6 +101,8 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   tagCounter: Record<string, number> = {};
   totalItemCount = 0;
   private scrollAnimationFrame: number | null = null;
+  private isProgrammaticScroll = false;
+  private programmaticTargetSectionKey = '';
 
   @ViewChildren('monthSection') monthSectionRefs!: QueryList<ElementRef<HTMLElement>>;
 
@@ -503,6 +505,9 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
+    this.cancelActiveScroll();
+    this.isProgrammaticScroll = true;
+    this.programmaticTargetSectionKey = sectionKey;
     this.activeSectionKey = sectionKey;
     const targetElement = target.nativeElement as HTMLElement;
     const targetTop = targetElement.getBoundingClientRect().top + window.scrollY - 86;
@@ -517,10 +522,11 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     const startTop = window.scrollY || window.pageYOffset || 0;
     const delta = targetTop - startTop;
     if (Math.abs(delta) < 1) {
+      this.isProgrammaticScroll = false;
+      this.programmaticTargetSectionKey = '';
+      this.syncActiveSection();
       return;
     }
-
-    this.cancelActiveScroll();
     const startTime = performance.now();
 
     const step = (timestamp: number) => {
@@ -532,6 +538,9 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
         this.scrollAnimationFrame = window.requestAnimationFrame(step);
       } else {
         this.scrollAnimationFrame = null;
+        this.isProgrammaticScroll = false;
+        this.programmaticTargetSectionKey = '';
+        this.syncActiveSection();
       }
     };
 
@@ -539,11 +548,12 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private cancelActiveScroll(): void {
-    if (this.scrollAnimationFrame === null || !isPlatformBrowser(this.platformId)) {
-      return;
+    if (this.scrollAnimationFrame !== null && isPlatformBrowser(this.platformId)) {
+      window.cancelAnimationFrame(this.scrollAnimationFrame);
     }
-    window.cancelAnimationFrame(this.scrollAnimationFrame);
     this.scrollAnimationFrame = null;
+    this.isProgrammaticScroll = false;
+    this.programmaticTargetSectionKey = '';
   }
 
   private easeInOutCubic(x: number): number {
@@ -552,6 +562,13 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private syncActiveSection(): void {
     if (!isPlatformBrowser(this.platformId) || !this.monthSectionRefs?.length) {
+      return;
+    }
+
+    if (this.isProgrammaticScroll) {
+      if (this.programmaticTargetSectionKey) {
+        this.activeSectionKey = this.programmaticTargetSectionKey;
+      }
       return;
     }
 
