@@ -11,6 +11,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -61,6 +62,7 @@ interface YearNavigator {
   standalone: true,
   imports: [
     CommonModule,
+    NzAffixModule,
     NzFlexModule,
     NzSpinModule,
     NzTypographyModule,
@@ -88,6 +90,8 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   loading = true;
   isMobile = false;
   errorMessage = '';
+  affixOffsetTop = 84;
+  isAffixDisabled = true;
 
   private readonly imageService = inject(NzImageService);
   private readonly platformId = inject(PLATFORM_ID);

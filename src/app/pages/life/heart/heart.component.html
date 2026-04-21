@@ -1,7 +1,9 @@
 <div class="life-timeline-page" nz-flex [nzVertical]="true" nzAlign="center">
-  <div class="life-timeline-content" nz-flex nzGap="middle" nzJustify="center" nzAlign="start">
+  <div class="life-timeline-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="start">
     @if (!isMobile) {
-    <aside class="timeline-sidebar timeline-sidebar-left">
+    <div class="timeline-affix-left">
+      <nz-affix [nzOffsetTop]="affixOffsetTop">
+        <aside class="timeline-sidebar timeline-sidebar-left">
       @if (yearNavigator.length > 0) {
       <div class="year-nav-list">
         @for (yearBlock of yearNavigator; track yearBlock.year) {
@@ -24,6 +26,8 @@
       </div>
       }
     </aside>
+      </nz-affix>
+    </div>
     }
     <main class="timeline-main" @QuickUp>
       <flower-blog-title [title]="'再花的点滴'"></flower-blog-title>
@@ -90,7 +94,9 @@
       </nz-spin>
     </main>
     @if (!isMobile) {
-    <aside class="timeline-sidebar timeline-sidebar-right">
+    <div class="timeline-affix-right">
+      <nz-affix [nzOffsetTop]="affixOffsetTop">
+        <aside class="timeline-sidebar timeline-sidebar-right">
       <div class="tag-filter-list">
         @for (tagItem of tagFilters; track tagItem.value; let i = $index) {
         <button type="button" class="tag-filter-button" [class.active]="selectedTag === tagItem.value"
@@ -153,6 +159,8 @@
         <p>这里充满了再花的日常碎碎念</p>
       </div>
     </aside>
+      </nz-affix>
+    </div>
     }
   </div>
 </div>
