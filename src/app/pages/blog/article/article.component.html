@@ -12,7 +12,7 @@
     }
     <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle">
         <nz-spin [nzTip]="'技术文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
-            <div nz-flex nzGap="middle" [nzVertical]="true">
+            <div nz-flex nzGap="middle" [nzVertical]="true" [@RefreshUp]="listMotionTick">
                 @for (item of data; track item) {
                 <div flCard flCardHover>
                     <flower-blog-card [blog]="item" [loading]="loading"

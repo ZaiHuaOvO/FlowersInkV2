@@ -20,6 +20,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { GameCardComponent } from '../../../components/world/game-card/game-card.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { QuickUp } from '../../../common_ui/animations/animation';
 
 @Component({
   selector: 'flower-game',
@@ -45,7 +46,8 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     FlTagDirective,
   ],
   templateUrl: './game.component.html',
-  styleUrl: './game.component.css'
+  styleUrl: './game.component.css',
+  animations: [QuickUp],
 })
 export class GameComponent {
   data: any[] = [];

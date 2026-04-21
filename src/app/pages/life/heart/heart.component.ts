@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   OnInit,
   PLATFORM_ID,
   QueryList,
@@ -19,6 +20,7 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
 import { NodataComponent } from '../../../components/website/nodata/nodata.component';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { QuickUp, RefreshUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { LifeService } from '../life.service';
 
@@ -71,9 +73,10 @@ interface YearNavigator {
   ],
   templateUrl: './heart.component.html',
   styleUrl: './heart.component.css',
-  providers: [DatePipe]
+  providers: [DatePipe],
+  animations: [QuickUp, RefreshUp],
 })
-export class HeartComponent implements OnInit, AfterViewInit {
+export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly tagFilters: Array<{ label: string; value: LifeCategory }> = [
     { label: '全部', value: '' },
     { label: '美食', value: '美食' },
@@ -94,8 +97,10 @@ export class HeartComponent implements OnInit, AfterViewInit {
   sectionList: TimelineSection[] = [];
   yearNavigator: YearNavigator[] = [];
   activeSectionKey = '';
+  filterMotionTick = 0;
   tagCounter: Record<string, number> = {};
   totalItemCount = 0;
+  private scrollAnimationFrame: number | null = null;
 
   @ViewChildren('monthSection') monthSectionRefs!: QueryList<ElementRef<HTMLElement>>;
 
@@ -116,6 +121,10 @@ export class HeartComponent implements OnInit, AfterViewInit {
     this.monthSectionRefs.changes.subscribe(() => {
       this.syncActiveSection();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.cancelActiveScroll();
   }
 
   @HostListener('window:scroll')
@@ -290,6 +299,7 @@ export class HeartComponent implements OnInit, AfterViewInit {
 
     this.yearNavigator = this.buildYearNavigator(this.sectionList);
     this.activeSectionKey = this.sectionList[0]?.key ?? '';
+    this.filterMotionTick += 1;
 
     setTimeout(() => {
       this.syncActiveSection();
@@ -494,10 +504,50 @@ export class HeartComponent implements OnInit, AfterViewInit {
     }
 
     this.activeSectionKey = sectionKey;
-    target.nativeElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
+    const targetElement = target.nativeElement as HTMLElement;
+    const targetTop = targetElement.getBoundingClientRect().top + window.scrollY - 86;
+    this.smoothScrollTo(targetTop, 1000);
+  }
+
+  private smoothScrollTo(targetTop: number, durationMs: number): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const startTop = window.scrollY || window.pageYOffset || 0;
+    const delta = targetTop - startTop;
+    if (Math.abs(delta) < 1) {
+      return;
+    }
+
+    this.cancelActiveScroll();
+    const startTime = performance.now();
+
+    const step = (timestamp: number) => {
+      const progress = Math.min((timestamp - startTime) / durationMs, 1);
+      const easedProgress = this.easeInOutCubic(progress);
+      window.scrollTo(0, startTop + delta * easedProgress);
+
+      if (progress < 1) {
+        this.scrollAnimationFrame = window.requestAnimationFrame(step);
+      } else {
+        this.scrollAnimationFrame = null;
+      }
+    };
+
+    this.scrollAnimationFrame = window.requestAnimationFrame(step);
+  }
+
+  private cancelActiveScroll(): void {
+    if (this.scrollAnimationFrame === null || !isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    window.cancelAnimationFrame(this.scrollAnimationFrame);
+    this.scrollAnimationFrame = null;
+  }
+
+  private easeInOutCubic(x: number): number {
+    return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
   }
 
   private syncActiveSection(): void {

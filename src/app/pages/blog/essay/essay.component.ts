@@ -16,7 +16,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
+import { RefreshUp, SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
@@ -49,7 +49,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   ],
   templateUrl: './essay.component.html',
   styleUrl: './essay.component.css',
-  animations: [SlowUp, QuickUp],
+  animations: [SlowUp, QuickUp, RefreshUp],
 })
 export class EssayComponent implements OnInit {
   data: any[] = [];
@@ -58,6 +58,7 @@ export class EssayComponent implements OnInit {
   tag = '';
   tagList: any[] = [];
   loading = true;
+  listMotionTick = 0;
   searchControl = new FormControl('');
   isMobile: boolean = false;
   constructor(
@@ -87,6 +88,7 @@ export class EssayComponent implements OnInit {
         this.data = res['data'].data;
         this.count = res['data'].count;
         this.loading = false;
+        this.listMotionTick += 1;
       });
 
     this.blog
@@ -114,6 +116,7 @@ export class EssayComponent implements OnInit {
         this.data = res['data'].data;
         this.count = res['data'].count;
         this.loading = false;
+        this.listMotionTick += 1;
       });
   }
 

@@ -17,7 +17,7 @@ import { GeneralService } from '../../../services/general.service';
 import { debounceTime } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
-import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
+import { RefreshUp, SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
@@ -50,7 +50,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',
-  animations: [SlowUp, QuickUp],
+  animations: [SlowUp, QuickUp, RefreshUp],
 })
 export class ArticleComponent implements OnInit {
   data: any[] = [];
@@ -59,6 +59,7 @@ export class ArticleComponent implements OnInit {
   tag = '';
   tagList: any[] = [];
   loading = true;
+  listMotionTick = 0;
   searchControl = new FormControl('');
   isMobile: boolean = false;
   constructor(
@@ -88,6 +89,7 @@ export class ArticleComponent implements OnInit {
         this.data = res['data'].data;
         this.count = res['data'].count;
         this.loading = false;
+        this.listMotionTick += 1;
       });
 
     this.blog
@@ -115,6 +117,7 @@ export class ArticleComponent implements OnInit {
         this.data = res['data'].data;
         this.count = res['data'].count;
         this.loading = false;
+        this.listMotionTick += 1;
       });
   }
 

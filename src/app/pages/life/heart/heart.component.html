@@ -39,7 +39,7 @@
           <p>ATMOSPHERIC CHRONOLOGY</p>
         </header>
 
-        <div class="timeline-stream">
+        <div class="timeline-stream" [@RefreshUp]="filterMotionTick">
           @for (section of sectionList; track trackSection($index, section)) {
           <section class="month-section" [attr.data-section-key]="section.key" #monthSection>
             <h4 class="month-title">{{ section.label }}</h4>

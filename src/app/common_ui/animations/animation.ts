@@ -8,6 +8,17 @@ export const QuickUp = trigger('QuickUp', [
   ]),
 ]);
 
+// 鏀寔鐩稿悓鍖哄煙鐨勯噸鏂板埛鏂板姩鐢?
+export const RefreshUp = trigger('RefreshUp', [
+  transition('* => *', [
+    style({ opacity: 0, transform: 'translateY(16px)' }),
+    animate(
+      '260ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateY(0)' })
+    ),
+  ]),
+]);
+
 // 更加快速的从上往下平移
 export const QuickDown = trigger('QuickDown', [
   transition(':enter', [

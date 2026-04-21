@@ -14,7 +14,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { MarkdownModule } from 'ngx-markdown';
 import { debounceTime } from 'rxjs';
-import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
+import { RefreshUp, SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { GeneralService } from '../../../services/general.service';
 import { WindowService } from '../../../services/window.service';
@@ -50,7 +50,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   ],
   templateUrl: './question.component.html',
   styleUrl: './question.component.css',
-  animations: [SlowUp, QuickUp],
+  animations: [SlowUp, QuickUp, RefreshUp],
 })
 export class QuestionComponent implements OnInit {
   data: any[] = [
@@ -63,6 +63,7 @@ export class QuestionComponent implements OnInit {
   tag = '';
   tagList: any[] = [];
   loading = true;
+  listMotionTick = 0;
   selectedValue: string | null = null;
   searchControl = new FormControl('');
   readonly cardStyle = {
@@ -99,6 +100,7 @@ export class QuestionComponent implements OnInit {
         this.count = res['data'].count;
         this.tagList = this.general.getTagList(this.data);
         this.loading = false;
+        this.listMotionTick += 1;
       });
   }
 
@@ -128,6 +130,7 @@ export class QuestionComponent implements OnInit {
         this.data = res['data'].data;
         this.count = res['data'].count;
         this.loading = false;
+        this.listMotionTick += 1;
       });
   }
 
