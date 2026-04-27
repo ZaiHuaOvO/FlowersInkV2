@@ -390,7 +390,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
     return {
       id: Number(item?.id ?? 0),
-      title: String(item?.title ?? '').trim() || '未命名点滴',
+      title: String(item?.title ?? '').trim() || '',
       content: String(item?.content ?? '').trim(),
       source,
       date,
