@@ -17,17 +17,17 @@
         <nz-spin [nzTip]="'友链正在赶来中'" [nzSpinning]="loading">
             <div nz-row [nzGutter]="[16,16]">
                 @for (link of links; track link) {
-                    @if (!isMobile) {
-                    <div nz-col nzSpan="8">
-                        <flower-link-card [link]="link"></flower-link-card>
-                    </div>
-                    }
+                @if (!isMobile) {
+                <div nz-col nzSpan="8">
+                    <flower-link-card [link]="link"></flower-link-card>
+                </div>
+                }
 
-                    @if (isMobile) {
-                    <div nz-col nzSpan="24">
-                        <flower-link-card [link]="link"></flower-link-card>
-                    </div>
-                    }
+                @if (isMobile) {
+                <div nz-col nzSpan="24">
+                    <flower-link-card [link]="link"></flower-link-card>
+                </div>
+                }
                 }
             </div>
         </nz-spin>
@@ -36,8 +36,7 @@
         @if (!isMobile) {
         <div nz-row [nzGutter]="[16,16]">
             <div nz-col nzSpan="16">
-                <nz-alert flAlert nzType="info" [nzMessage]="linkTitle"
-                    [nzDescription]="linkNote"></nz-alert>
+                <nz-alert flAlert nzType="info" [nzMessage]="linkTitle" [nzDescription]="linkNote"></nz-alert>
                 <ng-template #linkTitle>
                     <h4 nz-typography>友链申请须知</h4>
                 </ng-template>
@@ -48,6 +47,7 @@
                             2.您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong></p>
                         <p nz-typography>3.您的网站应当<strong>运行稳定</strong>，未提前告知且多次无法正常访问则会被取消友链</p>
                         <p nz-typography>4.不喜好排版杂乱、交互不适、BUG过多的网站</p>
+                        <p nz-typography>5.希望博客有趣一些（例如纯技术分享就是不有趣）</p>
                     </article>
                 </ng-template>
             </div>
@@ -61,8 +61,8 @@
                         placeholder="网站地址">
                     <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
                         name="description" placeholder="网站描述">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
-                        placeholder="联系邮箱(可选)">
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
+                        name="email" placeholder="联系邮箱(可选)">
                     @if (showToolbar) {
                     <div class="toolbar" nz-flex nzJustify="end">
                         <fl-button class="submit" (click)="submit()">申请</fl-button>
@@ -74,8 +74,7 @@
         }
         @if (isMobile) {
         <div nz-flex [nzVertical]="true" nzGap="middle">
-            <nz-alert flAlert nzType="info" [nzMessage]="linkTitle"
-                [nzDescription]="linkNote"></nz-alert>
+            <nz-alert flAlert nzType="info" [nzMessage]="linkTitle" [nzDescription]="linkNote"></nz-alert>
             <ng-template #linkTitle>
                 <h4 nz-typography>友链申请须知</h4>
             </ng-template>
@@ -86,6 +85,7 @@
                         2.您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong></p>
                     <p nz-typography>3.您的网站应当<strong>运行稳定</strong>，在未提前告知的情况下，若1个月内多次出现无法正常访问则会被取消友链</p>
                     <p nz-typography>4.对于网站的样式、交互、设计有一定要求，不喜好排版杂乱、交互不适、BUG过多的网站</p>
+                    <p nz-typography>5.希望博客包含有趣的内容（例如纯技术分享就不太有趣）</p>
                 </article>
             </ng-template>
             <div nz-flex nzAlign="start" [nzVertical]="true" nzGap="small">
@@ -98,8 +98,8 @@
                         placeholder="网站地址">
                     <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
                         name="description" placeholder="网站描述">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email"
-                        placeholder="联系邮箱(可选)">
+                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
+                        name="email" placeholder="联系邮箱(可选)">
                 </nz-input-group>
                 @if (showToolbar) {
                 <div class="toolbar" nz-flex nzJustify="end">

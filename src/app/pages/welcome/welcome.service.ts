@@ -14,14 +14,6 @@ export class WelcomeService {
     return this.http.getCached(API.BLOG, data, HTTP_CACHE_TTL.LIST);
   }
 
-  getBlogDetail(Id: string): Observable<object> {
-    return this.http.getCached(
-      API.BLOG + `/${Id}`,
-      undefined,
-      HTTP_CACHE_TTL.DETAIL
-    );
-  }
-
   getTags(): Observable<object> {
     return this.http.getCached(API.TAG, undefined, HTTP_CACHE_TTL.LONG);
   }

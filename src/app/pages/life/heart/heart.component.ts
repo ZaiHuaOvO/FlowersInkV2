@@ -24,6 +24,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
 import { QuickUp, RefreshUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { LifeService } from '../life.service';
+import { inferOriginalImageUrl } from '../../../shared/utils/image-url.util';
 
 type LifeCategory = '美食' | '日常' | '游戏' | '摘抄' | '';
 
@@ -455,7 +456,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       return {
         previewUrl,
-        originalUrl: this.inferOriginalUrl(previewUrl),
+        originalUrl: inferOriginalImageUrl(previewUrl),
       };
     }
 
@@ -468,14 +469,8 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     const originalRaw = String(record['img_url'] ?? '').trim();
     return {
       previewUrl,
-      originalUrl: originalRaw || this.inferOriginalUrl(previewUrl),
+      originalUrl: originalRaw || inferOriginalImageUrl(previewUrl),
     };
-  }
-
-  private inferOriginalUrl(previewUrl: string): string {
-    return previewUrl.includes('compressed-')
-      ? previewUrl.replace('compressed-', '')
-      : previewUrl;
   }
 
   private parseDate(value: unknown): Date {

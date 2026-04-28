@@ -2,7 +2,7 @@
   @for (img of images; track img; let i = $index) {
     <nz-col [nzSpan]="isMobile ? 12 : 4" nz-flex [nzVertical]="true"
       nzJustify="center">
-      <nz-spin class="spin" [nzTip]="'图片加载中…'" [nzSpinning]="!img.loaded" nzGap="small">
+      <nz-spin class="spin" [nzTip]="'图片加载中'" [nzSpinning]="!img.loaded" nzGap="small">
         <div class="img-container" flCard>
           <nz-image-group>
             @if (i <= currentIndex) {
@@ -17,9 +17,9 @@
             }
           </nz-image-group>
           <nz-tag flTag flTagVariant="solid" flTagInteractive class="view-btn"
-          (click)="imgPreview(img.url.replace('compressed-', ''))">查看原图</nz-tag>
+            (click)="previewOriginal(img.url)">查看原图</nz-tag>
         </div>
-    </nz-spin>
-  </nz-col>
-}
+      </nz-spin>
+    </nz-col>
+  }
 </nz-row>

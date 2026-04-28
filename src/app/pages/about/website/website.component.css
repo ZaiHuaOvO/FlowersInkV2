@@ -56,3 +56,9 @@ article {
         padding: var(--fi-space-6) var(--fi-space-4);
     }
 }
+
+.timeline-row {
+    p {
+        font-size: 14px;
+    }
+}

@@ -5,9 +5,6 @@ import {
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import {
-  provideClientHydration,
-} from '@angular/platform-browser';
 import { provideNzIcons } from './icons-provider';
 import { zh_CN, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -27,7 +24,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
     provideRouter(routes),
-    provideClientHydration(),
     provideNzIcons(),
     provideNzI18n(zh_CN),
     provideAnimationsAsync(),

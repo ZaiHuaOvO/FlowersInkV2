@@ -52,16 +52,14 @@
             <article class="timeline-row">
               <span class="timeline-dot"></span>
               <article class="timeline-card" flCard>
+                @if (item.title) {
                 <header class="timeline-card-header">
                   <h4>{{ item.title }}</h4>
-                  <nz-tag flTag [flTagVariant]="'solid'" class="card-tag" [ngClass]="getTagClass(item.primaryTag)">
-                    {{ item.primaryTag || '未分类' }}
-                  </nz-tag>
                 </header>
+                }
 
-
-
-                <p class="card-content" [class.card-content-excerpt]="isExcerpt(item)">
+                <p class="card-content" [class.card-content-excerpt]="isExcerpt(item)"
+                  [class.card-content-no-title]="!item.title">
                   {{ item.content }}
                 </p>
 
@@ -83,7 +81,12 @@
                 @if (shouldShowSource(item)) {
                 <p class="card-source">来自：{{ item.source }}</p>
                 }
-                <footer class="card-time">{{ item.dateText }}</footer>
+                <footer class="timeline-card-meta">
+                  <span class="card-time">{{ item.dateText }}</span>
+                  <nz-tag flTag [flTagVariant]="'solid'" class="card-tag" [ngClass]="getTagClass(item.primaryTag)">
+                    {{ item.primaryTag || '未分类' }}
+                  </nz-tag>
+                </footer>
               </article>
             </article>
             }
