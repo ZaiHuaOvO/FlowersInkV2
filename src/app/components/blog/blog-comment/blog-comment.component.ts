@@ -29,6 +29,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 export class BlogCommentComponent {
   @Output() emojiSelected = new EventEmitter<any>();
   @Input() data: any[] = [];
+  @Input() disabled = false;
   visible: boolean = false;
   commentArray: any[] = commentArray;
   isMobile: boolean = false;
@@ -43,6 +44,11 @@ export class BlogCommentComponent {
   }
 
   onEmojiClick(emoji: any): void {
+    if (this.disabled) {
+      return;
+    }
+
+    this.visible = false;
     this.emojiSelected.emit(emoji);
   }
 }

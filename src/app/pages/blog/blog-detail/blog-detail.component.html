@@ -41,7 +41,11 @@
             }
             }
           </div>
-          <flower-blog-comment [data]="data.comment" (emojiSelected)="comment($event)"></flower-blog-comment>
+          <flower-blog-comment
+            [data]="data.comment"
+            [disabled]="commentSubmitting"
+            (emojiSelected)="comment($event)"
+          ></flower-blog-comment>
         </div>
       </nz-spin>
     </div>

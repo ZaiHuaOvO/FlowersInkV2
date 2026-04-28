@@ -1,0 +1,32 @@
+<div class="captcha-block" nz-flex [nzVertical]="true" nzGap="small">
+  <div class="captcha-header" nz-flex nzJustify="space-between" nzAlign="center" nzGap="small">
+    <span nz-typography class="captcha-title">验证码</span>
+    <fl-button size="sm" type="button" [disabled]="disabled || loading" (click)="refresh()">
+      换一题
+    </fl-button>
+  </div>
+
+  <nz-spin [nzSpinning]="loading">
+    <div class="captcha-body" nz-flex nzGap="small" nzWrap="wrap">
+      <div class="captcha-question">
+        <span nz-typography>{{ question || '正在生成题目...' }}</span>
+      </div>
+      <input
+        nz-input
+        flInput
+        type="text"
+        maxlength="20"
+        [(ngModel)]="answer"
+        [disabled]="disabled || loading"
+        placeholder="请输入结果"
+      />
+    </div>
+  </nz-spin>
+
+  @if (loadErrorMessage) {
+    <p nz-typography nzType="danger" class="captcha-error">{{ loadErrorMessage }}</p>
+  }
+  @else {
+    <p nz-typography nzType="secondary" class="captcha-hint">请输入上方算式结果后再提交</p>
+  }
+</div>

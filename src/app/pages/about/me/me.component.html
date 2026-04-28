@@ -34,14 +34,9 @@
           <p>在作为技术初学者的时候，我热衷于用抽象复杂的语言来展示自己的高深和熟练，随着知识的摄取我逐渐感觉到自己的无知。现在我更想用简洁易懂的大白话去讲清我所掌握的技术和经验。</p>
         </li>
       </ul>
-      @if (!isMobile) {
-      <h2 nz-typography>社区</h2>
-      }
-      @if (isMobile) {
+
       <h2 nz-typography>社区及联系方式</h2>
-      }
-      <p>具体联系方式可见网站底部</p>
-      <p>社交恐怖分子，不排斥交友，欢迎交流</p>
+      <p nz-typography nzType="secondary">社交恐怖分子，不排斥交友，欢迎交流</p>
       <ul>
         <li>
           <p nz-popover [nzPopoverContent]="qqQRCode" nzPopoverPlacemen="top">
@@ -65,7 +60,7 @@
           <p nz-typography (click)="copyEmail()">
             <a>
               <span nz-icon nzType="mail" nzTheme="outline"></span>
-              「邮箱」(点击复制)
+              「邮箱」
             </a>{{email}}
           </p>
         </li>
@@ -83,7 +78,7 @@
         <li>
           <p nz-typography><a rel="nofollow" href="https://www.zhihu.com/people/zai-hua-14-76" target="_blank">
               <span nz-icon nzType="zhihu" nzTheme="outline"></span>
-              「知乎」</a>发言、评论、分享生活的地方（几乎不更新了）
+              「知乎」</a>发言、评论、分享生活的地方<strong nz-typography nzType="secondary">[停更]</strong>
           </p>
         </li>
         <li>
@@ -96,12 +91,12 @@
                     fill="#8B4513" p-id="4252"></path>
                 </svg>
               </span>
-              「掘金」</a>发表技术相关的博客</p>
+              「掘金」</a>发表技术相关的博客<strong nz-typography nzType="secondary">[停更]</strong></p>
         </li>
         <li>
           <p nz-typography><a rel="nofollow" href="https://github.com/ZaiHuaOvO" target="_blank">
               <span nz-icon nzType="github" nzTheme="outline"></span>
-              「Github」</a>目前主要用于存放源代码</p>
+              「Github」</a>存放源代码、社区建设开发</p>
         </li>
         <li>
           <p nz-typography><a rel="nofollow" href="https://space.bilibili.com/37339368" target="_blank">

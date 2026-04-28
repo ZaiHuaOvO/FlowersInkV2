@@ -1,6 +1,6 @@
 <div class="comment-emoji-trigger">
   <button class="emoji fl-icon-button" nz-popover [(nzPopoverVisible)]="visible" nzPopoverTrigger="click"
-    nzPopoverPlacement="top" [nzPopoverContent]="contentTemplate"><span nz-icon nzType="message"
+    nzPopoverPlacement="top" [nzPopoverContent]="contentTemplate" [disabled]="disabled"><span nz-icon nzType="message"
       nzTheme="outline"></span></button>
   <ng-template #contentTemplate>
     <div class="comment-emoji-panel">
@@ -8,6 +8,7 @@
         @for (emoji of commentArray; track emoji) {
         <div nz-col [nzSpan]="isMobile ? 8 :4" nz-flex [nzVertical]="true" nzJustify="center" nzAlign="center">
           <button class="emoji-option" nz-tooltip [nzTooltipTitle]="emoji.description" type="button"
+            [disabled]="disabled"
             (click)="onEmojiClick(emoji)">
             <img class="emoji-option-image" loading="lazy" decoding="async"
               [src]="'https://api.flowersink.com/img/' + emoji.key + '.png'" [alt]="emoji.text">

@@ -1,0 +1,40 @@
+.captcha-block {
+  width: 100%;
+}
+
+.captcha-header {
+  width: 100%;
+}
+
+.captcha-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.captcha-body {
+  width: 100%;
+}
+
+.captcha-question {
+  min-width: 164px;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px dashed var(--fi-border);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-surface-soft);
+  color: var(--fi-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.captcha-body input {
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.captcha-hint,
+.captcha-error {
+  margin: 0;
+  font-size: 12px;
+}

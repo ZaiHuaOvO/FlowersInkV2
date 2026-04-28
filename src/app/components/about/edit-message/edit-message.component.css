@@ -17,6 +17,10 @@ nz-select {
     width: 100%;
 }
 
+.toolbar-actions {
+    flex: 1;
+}
+
 .emoji {
     width: 50px;
 }
@@ -47,5 +51,4 @@ nz-select {
 
 .ant-popover-inner-content {
     max-width: 200px !important;
-
 }

@@ -1,30 +1,29 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, TemplateRef, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { EditMessageComponent } from '../../components/about/edit-message/edit-message.component';
-import { TargetComponent } from '../../components/about/target/target.component';
-import { WindowService } from '../../services/window.service';
-import { FormsModule } from '@angular/forms';
 import { SlowUp, QuickUp } from '../../common_ui/animations/animation';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { NzCollapseModule } from 'ng-zorro-antd/collapse';
-import { LinkCardComponent } from '../../components/link/link-card/link-card.component';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { LinkService } from './link.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
-import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
-import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlAlertDirective } from '../../common_ui/fl_ui/fl-alert/fl-alert.directive';
+import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
+import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
+import { LinkCardComponent } from '../../components/link/link-card/link-card.component';
+import { SimpleCaptchaComponent } from '../../components/website/simple-captcha/simple-captcha.component';
+import { extractHttpErrorMessage } from '../../shared/utils/http-error-message.util';
+import { ApiLimiterService } from '../../services/api-limiter.service';
+import { WindowService } from '../../services/window.service';
+import { LinkService } from './link.service';
 
 @Component({
   selector: 'flower-link',
@@ -48,6 +47,7 @@ import { FlAlertDirective } from '../../common_ui/fl_ui/fl-alert/fl-alert.direct
     FlInputDirective,
     FlCardDirective,
     FlAlertDirective,
+    SimpleCaptchaComponent,
   ],
   templateUrl: './link.component.html',
   styleUrl: './link.component.css',
@@ -55,20 +55,26 @@ import { FlAlertDirective } from '../../common_ui/fl_ui/fl-alert/fl-alert.direct
 })
 export class LinkComponent {
   loading = true;
-  isMobile: boolean = false;
+  submitting = false;
+  isMobile = false;
   showToolbar = false;
-  content: any;
   email = 'ZyZy1724@gmail.com';
   links = [
     {
-      name: '花墨',
+      name: 'FlowersInk',
       logo: 'https://api.flowersink.com/img/logo.png',
       url: 'https://flowersink.com',
-      description: '一个喜欢写作,分享生活的已婚前端的个人网站',
+      description: 'A personal blog by Zaihua',
     },
   ];
 
-  form: any = {
+  form: {
+    description: string;
+    email: string;
+    logo: string;
+    name: string;
+    url: string;
+  } = {
     name: '',
     logo: '',
     url: '',
@@ -78,11 +84,16 @@ export class LinkComponent {
 
   @ViewChild('linkMsg', { static: true })
   linkMsg!: TemplateRef<any>;
+
+  @ViewChild(SimpleCaptchaComponent)
+  captchaComponent?: SimpleCaptchaComponent;
+
   constructor(
-    private window: WindowService,
+    private readonly window: WindowService,
     private readonly destroyRef: DestroyRef,
-    private link: LinkService,
-    private msg: NzMessageService
+    private readonly link: LinkService,
+    private readonly msg: NzMessageService,
+    private readonly limiter: ApiLimiterService,
   ) {
     this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
@@ -100,28 +111,61 @@ export class LinkComponent {
 
   submit(): void {
     if (this.isFormIncomplete()) {
-      this.msg.info('有信息未填,无法申请哦(´Ａ｀。)');
-    } else {
-      this.link.addLink(this.form).subscribe((res: any) => {
-        if (res) {
-          this.form = {
-            name: '',
-            logo: '',
-            url: '',
-            description: '',
-            email: '',
-          };
-          this.msg.success(this.linkMsg, { nzDuration: 10000 });
-        }
-      });
+      this.msg.info('Please complete the required fields');
+      return;
     }
+
+    if (!this.captchaComponent?.isReady) {
+      this.msg.info('Captcha is still loading');
+      return;
+    }
+
+    const captchaPayload = this.captchaComponent.buildPayload();
+    if (!captchaPayload) {
+      this.msg.info('Please answer the captcha');
+      return;
+    }
+
+    const cooldownMessage = this.limiter.canCallApi('site-link');
+    if (cooldownMessage) {
+      this.msg.info(`Please wait ${cooldownMessage} seconds before trying again`);
+      return;
+    }
+
+    this.submitting = true;
+    this.link
+      .addLink({
+        ...this.form,
+        ...captchaPayload,
+      })
+      .subscribe({
+        next: (res: any) => {
+          if (res) {
+            this.form = {
+              name: '',
+              logo: '',
+              url: '',
+              description: '',
+              email: '',
+            };
+            this.captchaComponent?.refresh();
+            this.msg.success(this.linkMsg, { nzDuration: 10000 });
+          }
+          this.submitting = false;
+        },
+        error: (error) => {
+          this.captchaComponent?.refresh();
+          this.msg.error(extractHttpErrorMessage(error, 'Link request failed'));
+          this.submitting = false;
+        },
+      });
   }
 
-  // 判断表单是否有未填项
   isFormIncomplete(): boolean {
-    // 遍历表单对象，检查字段值是否为空
     return Object.keys(this.form).some(
-      (key: any) => key !== 'email' && !this.form[key]?.trim()
+      (key) =>
+        key !== 'email' &&
+        !this.form[key as keyof typeof this.form]?.trim(),
     );
   }
 }

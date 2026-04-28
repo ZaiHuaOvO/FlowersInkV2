@@ -11,6 +11,7 @@ export const API = {
   LIFE: '/life',
   LIFE_YEAR: '/life/years',
   LIFE_TAG: '/life/tag',
+  CAPTCHA: '/site/captcha',
   MESSAGE: '/site/message',
   BOOK: '/world/book',
   BOOK_LIST: '/world/book/list',

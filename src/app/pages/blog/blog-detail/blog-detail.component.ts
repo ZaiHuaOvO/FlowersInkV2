@@ -39,6 +39,7 @@ import { commentArray } from '../../../ts/comment-emoji';
 import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
+import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 
@@ -91,6 +92,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   commentArray: any[] = commentArray
   displayCommentArray: any[] = [];
   markdownReady = false;
+  commentSubmitting = false;
   private readonly destroyRef: DestroyRef;
 
   @ViewChild('editor', { static: true })
@@ -148,6 +150,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
         this.getComment();
         this.markdownContent = this.data.content;
         this.loading = false;
+        this.commentSubmitting = false;
       });
     if (isPlatformBrowser(this.platformId)) {
       this.targetOffset = window.innerHeight / 2;
@@ -211,23 +214,28 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
   comment(emoji: any): void {
-    this.loading = true;
+    if (this.commentSubmitting) {
+      return;
+    }
+
+    this.commentSubmitting = true;
     this.blog.comment(this.activateInfo.snapshot.params['id'], {
       emojiType: emoji['key'],
-    }).subscribe((res: any) => {
-      if (res['data'].success) {
-        this.msg.info(res['data']['msg']);
-        this.commentArray.forEach(item => {
-          if (item.key === emoji['key']) {
-            item.count++;
-          }
+    }).subscribe({
+      next: (res: any) => {
+        if (res['data'].success) {
+          this.msg.info(res['data']['msg']);
           this.getBlogDetail();
-        })
-      } else {
-        this.msg.error(res['data']['msg']);
-        this.loading = false;
-      }
-    })
+        } else {
+          this.msg.error(res['data']['msg']);
+          this.commentSubmitting = false;
+        }
+      },
+      error: (error) => {
+        this.msg.error(extractHttpErrorMessage(error, 'Comment submit failed'));
+        this.commentSubmitting = false;
+      },
+    });
   }
 
   getComment(): void {

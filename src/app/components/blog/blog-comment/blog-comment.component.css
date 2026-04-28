@@ -50,6 +50,13 @@
   transform: translateY(0);
 }
 
+.emoji-option:disabled,
+.emoji:disabled {
+  opacity: 0.58;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .emoji-option:focus-visible {
   outline: none;
   border-color: var(--fi-primary);

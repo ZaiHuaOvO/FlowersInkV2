@@ -4,14 +4,15 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApiLimiterService {
-  private storageKey = 'lastApiCall';
+  private readonly storageKeyPrefix = 'lastApiCall';
 
   /**
    * 检查是否可以调用接口
    * @returns {string | null} 如果可以调用返回 null，否则返回剩余时间的提示
    */
-  canCallApi(): string | null {
-    const lastCallTime = Number(localStorage.getItem(this.storageKey));
+  canCallApi(scope: string = 'default'): string | null {
+    const storageKey = `${this.storageKeyPrefix}:${scope}`;
+    const lastCallTime = Number(localStorage.getItem(storageKey));
     const currentTime = Date.now();
 
     if (lastCallTime) {
@@ -25,7 +26,7 @@ export class ApiLimiterService {
     }
 
     // 更新调用时间
-    localStorage.setItem(this.storageKey, currentTime.toString());
+    localStorage.setItem(storageKey, currentTime.toString());
     return null;
   }
 }
