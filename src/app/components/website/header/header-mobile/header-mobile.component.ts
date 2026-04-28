@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterModule } from '@angular/router';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NZ_DRAWER_DATA, NzDrawerRef } from 'ng-zorro-antd/drawer';
@@ -24,20 +25,22 @@ import { RoutePrefetchService } from '../../../../services/route-prefetch.servic
 })
 export class HeaderMobileComponent {
   nzData: { value: any } = inject(NZ_DRAWER_DATA);
+  private readonly destroyRef = inject(DestroyRef);
   activeRoute = '';
 
   constructor(
     private drawerRef: NzDrawerRef<string>,
     private router: Router,
-    private cdr: ChangeDetectorRef,
     private routePrefetchService: RoutePrefetchService,
 
   ) {
     this.activeRoute = this.router.url;
-    this.router.events.subscribe(() => {
-      this.activeRoute = this.router.url;
-      this.drawerRef.close();
-    });
+    this.router.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.activeRoute = this.router.url;
+        this.drawerRef.close();
+      });
 
   }
 

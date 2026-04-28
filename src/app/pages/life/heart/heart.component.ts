@@ -2,6 +2,7 @@ import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
   OnDestroy,
@@ -11,6 +12,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
@@ -96,6 +98,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly imageService = inject(NzImageService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
   private allSections: TimelineSection[] = [];
 
   selectedTag: LifeCategory = '';
@@ -115,7 +118,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly lifeService: LifeService,
     private readonly windowService: WindowService,
   ) {
-    this.windowService.isMobile$.subscribe((isMobile) => {
+    this.windowService.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }
@@ -125,9 +128,11 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.monthSectionRefs.changes.subscribe(() => {
-      this.syncActiveSection();
-    });
+    this.monthSectionRefs.changes
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.syncActiveSection();
+      });
   }
 
   ngOnDestroy(): void {

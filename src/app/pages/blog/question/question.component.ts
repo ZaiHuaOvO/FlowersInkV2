@@ -1,5 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
@@ -71,19 +72,27 @@ export class QuestionComponent implements OnInit {
   };
   isMobile: boolean = false;
   markdownReady = false;
+  private readonly destroyRef: DestroyRef;
   constructor(
     private blog: BlogService,
     private general: GeneralService,
     private window: WindowService,
-    @Inject(PLATFORM_ID) private platformId: object
+    @Inject(PLATFORM_ID) private platformId: object,
+    destroyRef: DestroyRef
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.destroyRef = destroyRef;
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
     // Debounce search input by 500ms to reduce request frequency.
-    this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
-      this.getBlog();
-    });
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.getBlog();
+      });
   }
 
   ngOnInit() {

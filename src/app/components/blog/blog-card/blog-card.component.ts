@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -37,8 +37,11 @@ export class BlogCardComponent implements OnInit {
   emojiTags: { [blogId: string]: any[] } = {};
   isMobile: boolean = false;
 
-  constructor(private window: WindowService) {
-    this.window.isMobile$.subscribe((isMobile) => {
+  constructor(
+    private window: WindowService,
+    private readonly destroyRef: DestroyRef,
+  ) {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -45,8 +45,12 @@ export class MessageComponent {
   page = 1;
   count = 0;
   isMobile: boolean = false;
-  constructor(private about: AboutService, private window: WindowService) {
-    this.window.isMobile$.subscribe((isMobile) => {
+  constructor(
+    private about: AboutService,
+    private window: WindowService,
+    private readonly destroyRef: DestroyRef,
+  ) {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
     this.getMessage();

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
@@ -65,15 +66,18 @@ export class ArticleComponent implements OnInit {
   constructor(
     private blog: BlogService,
     private general: GeneralService,
-    private window: WindowService
+    private window: WindowService,
+    private readonly destroyRef: DestroyRef,
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
     // Debounce search input by 500ms to reduce request frequency.
-    this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
-      this.getBlog();
-    });
+    this.searchControl.valueChanges
+      .pipe(debounceTime(500), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.getBlog();
+      });
   }
 
   ngOnInit() {

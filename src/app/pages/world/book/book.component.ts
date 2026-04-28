@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { debounceTime } from 'rxjs';
@@ -60,9 +60,10 @@ export class BookComponent implements OnInit {
     private world: WorldService,
     private modal: NzModalService,
     private window: WindowService,
+    private readonly destroyRef: DestroyRef,
     private image: NzImageService
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }

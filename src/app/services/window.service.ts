@@ -1,8 +1,8 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DestroyRef, Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, fromEvent } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-import { isPlatformBrowser } from '@angular/common';
-import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -16,20 +16,18 @@ export class WindowService {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: object // 注入 PLATFORM_ID 以检测运行平台
+    @Inject(PLATFORM_ID) private platformId: object,
   ) {
     if (isPlatformBrowser(this.platformId)) {
       this.checkViewportWidth();
 
-      // 监听窗口大小变化，仅在浏览器环境中执行
       fromEvent(window, 'resize')
         .pipe(
           debounceTime(200),
-          map(() => this.checkViewportWidth())
+          map(() => this.checkViewportWidth()),
         )
         .subscribe();
     } else {
-      // 在服务器端，您可以设置一个默认值
       this.checkViewportWidth();
     }
   }
@@ -44,14 +42,28 @@ export class WindowService {
     }
   }
 
-  /**
-   * 获取当前窗口的宽度
-   * @returns number
-   */
   public getWindowWidth(): number {
     if (isPlatformBrowser(this.platformId)) {
       return window.innerWidth;
     }
-    return 0; // 默认值用于非浏览器环境
+    return 0;
+  }
+
+  bindIsMobile(
+    destroyRef: DestroyRef,
+    onChange: (isMobile: boolean) => void,
+  ): void {
+    this.isMobile$
+      .pipe(takeUntilDestroyed(destroyRef))
+      .subscribe(onChange);
+  }
+
+  bindWindowWidth(
+    destroyRef: DestroyRef,
+    onChange: (windowWidth: number) => void,
+  ): void {
+    this.windowWidth$
+      .pipe(takeUntilDestroyed(destroyRef))
+      .subscribe(onChange);
   }
 }

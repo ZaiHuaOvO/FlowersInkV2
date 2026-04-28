@@ -2,12 +2,14 @@ import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
   ElementRef,
   Inject,
   OnInit,
   PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
@@ -89,6 +91,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   commentArray: any[] = commentArray
   displayCommentArray: any[] = [];
   markdownReady = false;
+  private readonly destroyRef: DestroyRef;
 
   @ViewChild('editor', { static: true })
   editorRef!: ElementRef<HTMLTextAreaElement>;
@@ -100,21 +103,25 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId: object, // Detect runtime platform.
     private window: WindowService,
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    destroyRef: DestroyRef
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.destroyRef = destroyRef;
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }
 
   ngOnInit() {
     this.initMarkdownRuntime();
-    this.activateInfo.paramMap.subscribe(params => {
-      this.Id = params.get('id');
-      if (Number(this.Id) != 0 && isPlatformBrowser(this.platformId)) {
-        this.getBlogDetail();
-      }
-    });
+    this.activateInfo.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(params => {
+        this.Id = params.get('id');
+        if (Number(this.Id) != 0 && isPlatformBrowser(this.platformId)) {
+          this.getBlogDetail();
+        }
+      });
   }
   ngAfterViewInit(): void {
   }

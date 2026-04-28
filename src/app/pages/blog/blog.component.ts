@@ -1,5 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { debounceTime } from 'rxjs';
@@ -49,14 +50,20 @@ export class BlogComponent implements OnInit {
   searchControl = new FormControl('');
   isMobile = false;
 
-  constructor(private welcome: WelcomeService, private window: WindowService) {
-    this.window.isMobile$.subscribe((isMobile) => {
+  constructor(
+    private welcome: WelcomeService,
+    private window: WindowService,
+    private readonly destroyRef: DestroyRef,
+  ) {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
 
-    this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
-      this.getBlog();
-    });
+    this.searchControl.valueChanges
+      .pipe(debounceTime(500), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.getBlog();
+      });
   }
 
   ngOnInit(): void {

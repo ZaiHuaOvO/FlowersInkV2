@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { WelcomeService } from './welcome.service';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -58,10 +58,11 @@ export class WelcomeComponent implements OnInit {
     private welcome: WelcomeService,
     private cdr: ChangeDetectorRef,
     private window: WindowService,
+    private readonly destroyRef: DestroyRef,
     private modal: NzModalService,
     private msg: NzMessageService
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
     this.welcome.visitWeb();

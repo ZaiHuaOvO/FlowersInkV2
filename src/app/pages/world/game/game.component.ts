@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
@@ -59,9 +59,10 @@ export class GameComponent {
     private world: WorldService,
     private modal: NzModalService,
     private window: WindowService,
+    private readonly destroyRef: DestroyRef,
     private image: NzImageService
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }

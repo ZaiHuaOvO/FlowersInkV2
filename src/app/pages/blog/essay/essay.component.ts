@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { GeneralService } from '../../../services/general.service';
@@ -61,18 +62,26 @@ export class EssayComponent implements OnInit {
   listMotionTick = 0;
   searchControl = new FormControl('');
   isMobile: boolean = false;
+  private readonly destroyRef: DestroyRef;
   constructor(
     private blog: BlogService,
     private general: GeneralService,
-    private window: WindowService
+    private window: WindowService,
+    destroyRef: DestroyRef
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.destroyRef = destroyRef;
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
     // Debounce search input by 500ms to reduce request frequency.
-    this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe(() => {
-      this.getBlog();
-    });
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.getBlog();
+      });
   }
 
   ngOnInit() {

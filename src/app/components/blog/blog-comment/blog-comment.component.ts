@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Input, Output } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
@@ -33,8 +33,11 @@ export class BlogCommentComponent {
   commentArray: any[] = commentArray;
   isMobile: boolean = false;
 
-  constructor(private window: WindowService) {
-    this.window.isMobile$.subscribe((isMobile) => {
+  constructor(
+    private window: WindowService,
+    private readonly destroyRef: DestroyRef,
+  ) {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }

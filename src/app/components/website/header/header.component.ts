@@ -1,5 +1,5 @@
-
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -39,6 +39,7 @@ interface MenuItem {
   animations: [QuickDown],
 })
 export class HeaderComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   MenuList: MenuItem[] = [
     {
       title: '首页',
@@ -140,12 +141,14 @@ export class HeaderComponent implements OnInit {
     private routePrefetchService: RoutePrefetchService,
 
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
-    this.router.events.subscribe(() => {
-      this.activeRoute = this.router.url;
-    });
+    this.router.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.activeRoute = this.router.url;
+      });
   }
   ngOnInit() { }
 

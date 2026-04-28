@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -74,9 +74,10 @@ export class EditMessageComponent {
     private modal: NzModalService,
     private general: GeneralService,
     private limiter: ApiLimiterService,
-    private window: WindowService
+    private window: WindowService,
+    private readonly destroyRef: DestroyRef
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }

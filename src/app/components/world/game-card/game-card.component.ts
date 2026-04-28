@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { AfterViewInit, Component, inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
@@ -44,8 +44,9 @@ export class GameCardComponent {
     private msg: NzMessageService,
     private drawerService: NzDrawerService,
     private window: WindowService,
+    private readonly destroyRef: DestroyRef,
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }

@@ -1,18 +1,18 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, DestroyRef, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RssComponent } from '../svg/rss/rss.component';
 import { WindowService } from '../../../services/window.service';
 import { Forever } from '../svg/forever/forever';
-import { SitemapComponent } from '../svg/sitemap/sitemap.component';
 import { PlanetComponent } from '../svg/planet/planet.component';
+import { RssComponent } from '../svg/rss/rss.component';
+import { SitemapComponent } from '../svg/sitemap/sitemap.component';
 
 @Component({
   selector: 'flower-footer',
@@ -36,25 +36,27 @@ import { PlanetComponent } from '../svg/planet/planet.component';
 })
 export class FooterComponent implements OnInit {
   email = 'ZyZy1724@gmail.com';
-  isMobile: boolean = false;
+  isMobile = false;
+
   constructor(
     private msg: NzMessageService,
-    @Inject(PLATFORM_ID) private platformId: object, // 注入 PLATFORM_ID 以检测运行平台
-    private window: WindowService
+    @Inject(PLATFORM_ID) private platformId: object,
+    private window: WindowService,
+    private readonly destroyRef: DestroyRef,
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   copyEmail(): void {
     navigator.clipboard
       .writeText(this.email)
       .then(() => {
-        this.msg.success('已复制邮箱地址，欢迎邮件(๑＞ڡ＜)☆');
+        this.msg.success('已复制邮箱地址，欢迎邮件联系。');
       })
-      .catch((error) => { });
+      .catch(() => {});
   }
 }

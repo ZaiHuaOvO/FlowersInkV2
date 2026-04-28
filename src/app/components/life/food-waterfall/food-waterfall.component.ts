@@ -1,6 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   HostListener,
   Inject,
   Input,
@@ -27,13 +28,14 @@ export class FoodWaterfallComponent {
   constructor(
     private modal: NzModalService,
     private window: WindowService,
+    private readonly destroyRef: DestroyRef,
     @Inject(PLATFORM_ID) private platformId: object,
     @Inject(DOCUMENT) private document: Document
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
-    this.window.windowWidth$.subscribe((windowWidth) => {
+    this.window.bindWindowWidth(this.destroyRef, (windowWidth) => {
       this.windowWidth = windowWidth;
     });
   }

@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, TemplateRef, ViewChild } from '@angular/core';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -80,10 +80,11 @@ export class LinkComponent {
   linkMsg!: TemplateRef<any>;
   constructor(
     private window: WindowService,
+    private readonly destroyRef: DestroyRef,
     private link: LinkService,
     private msg: NzMessageService
   ) {
-    this.window.isMobile$.subscribe((isMobile) => {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
 

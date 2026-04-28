@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzImageModule } from 'ng-zorro-antd/image';
@@ -48,8 +48,12 @@ export class MeComponent {
   isAcive9: boolean = true;
   isMobile: boolean = false;
   email = 'ZyZy1724@gmail.com';
-  constructor(private window: WindowService, private msg: NzMessageService) {
-    this.window.isMobile$.subscribe((isMobile) => {
+  constructor(
+    private window: WindowService,
+    private readonly destroyRef: DestroyRef,
+    private msg: NzMessageService,
+  ) {
+    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }
