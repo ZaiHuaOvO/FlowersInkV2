@@ -111,31 +111,33 @@ export class LinkComponent {
 
   submit(): void {
     if (this.isFormIncomplete()) {
-      this.msg.info('Please complete the required fields');
+      this.msg.info('还有必填项没写完哦，补齐再来申请吧 (｡ì _ í｡)');
       return;
     }
 
     if (!this.captchaComponent?.isReady) {
-      this.msg.info('Captcha is still loading');
+      this.msg.info('验证码还在赶来的路上，再等等呀 (´ . .̫ . `)');
       return;
     }
 
     const captchaPayload = this.captchaComponent.buildPayload();
     if (!captchaPayload) {
-      this.msg.info('Please answer the captcha');
+      this.msg.info('验证码结果还没填呢，先算一下吧 (｀・ω・´)');
       return;
     }
 
     const cooldownMessage = this.limiter.canCallApi('site-link');
     if (cooldownMessage) {
-      this.msg.info(`Please wait ${cooldownMessage} seconds before trying again`);
+      this.msg.info(`刚提交过一次啦，${cooldownMessage} 秒后再试试吧 (＞＜)`);
       return;
     }
 
     this.submitting = true;
+    const normalizedEmail = this.form.email.trim();
     this.link
       .addLink({
         ...this.form,
+        email: normalizedEmail || undefined,
         ...captchaPayload,
       })
       .subscribe({
@@ -148,6 +150,7 @@ export class LinkComponent {
               description: '',
               email: '',
             };
+            this.limiter.markApiCall('site-link');
             this.captchaComponent?.refresh();
             this.msg.success(this.linkMsg, { nzDuration: 10000 });
           }
@@ -155,7 +158,12 @@ export class LinkComponent {
         },
         error: (error) => {
           this.captchaComponent?.refresh();
-          this.msg.error(extractHttpErrorMessage(error, 'Link request failed'));
+          this.msg.error(
+            extractHttpErrorMessage(
+              error,
+              '友链申请失败啦，稍后再试试吧 (╥﹏╥)',
+            ),
+          );
           this.submitting = false;
         },
       });

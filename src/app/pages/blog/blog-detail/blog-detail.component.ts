@@ -232,7 +232,9 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
         }
       },
       error: (error) => {
-        this.msg.error(extractHttpErrorMessage(error, 'Comment submit failed'));
+        this.msg.error(
+          extractHttpErrorMessage(error, '评论提交失败啦，稍后再试试吧 (╥﹏╥)'),
+        );
         this.commentSubmitting = false;
       },
     });

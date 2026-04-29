@@ -88,33 +88,33 @@ export class EditMessageComponent {
     this.loading = true;
 
     if (!this.general.isNotEmpty(this.form.name)) {
-      this.msg.info('Please enter your name');
+      this.msg.info('先留下名字吧，不然我会认不出你哦 (｡･ω･｡)');
       this.loading = false;
       return;
     }
 
     if (!this.general.isNotEmpty(this.form.content)) {
-      this.msg.info('Please enter a message');
+      this.msg.info('留言内容还空着呢，写点什么吧 (๑•̀ㅂ•́)و✧');
       this.loading = false;
       return;
     }
 
     if (!this.captchaComponent?.isReady) {
-      this.msg.info('Captcha is still loading');
+      this.msg.info('验证码还在赶来的路上，再等等呀 (´ . .̫ . `)');
       this.loading = false;
       return;
     }
 
     const captchaPayload = this.captchaComponent.buildPayload();
     if (!captchaPayload) {
-      this.msg.info('Please answer the captcha');
+      this.msg.info('验证码结果还没填哦，悄悄算一下吧 (｀・ω・´)');
       this.loading = false;
       return;
     }
 
     const cooldownMessage = this.limiter.canCallApi('site-message');
     if (cooldownMessage) {
-      this.msg.info(`Please wait ${cooldownMessage} seconds before posting again`);
+      this.msg.info(`刚发过一次啦，${cooldownMessage} 秒后再来试试吧 (＞＜)`);
       this.loading = false;
       return;
     }
@@ -133,6 +133,7 @@ export class EditMessageComponent {
               url: '',
               content: '',
             };
+            this.limiter.markApiCall('site-message');
             this.captchaComponent?.refresh();
             this.msg.success(this.contanctMsg, {
               nzDuration: 5000,
@@ -142,7 +143,12 @@ export class EditMessageComponent {
         },
         error: (error) => {
           this.captchaComponent?.refresh();
-          this.msg.error(extractHttpErrorMessage(error, 'Message submit failed'));
+          this.msg.error(
+            extractHttpErrorMessage(
+              error,
+              '留言提交失败啦，稍后再试试吧 (╥﹏╥)',
+            ),
+          );
           this.loading = false;
         },
       });
@@ -150,7 +156,7 @@ export class EditMessageComponent {
 
   msgModal(): void {
     this.modal.create({
-      nzTitle: 'Contact',
+      nzTitle: '再花的联系方式',
       nzContent: this.contanctContent,
       nzFooter: null,
       nzMaskClosable: true,

@@ -58,7 +58,7 @@
             <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description" name="description" placeholder="网站描述">
             <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email" placeholder="联系邮箱(可选)">
             @if (showToolbar) {
-              <flower-simple-captcha scene="link" [disabled]="submitting"></flower-simple-captcha>
+              <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
               <div class="toolbar" nz-flex nzJustify="end">
                 <fl-button class="submit" [disabled]="submitting" (click)="submit()">申请</fl-button>
               </div>
@@ -91,7 +91,7 @@
             <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email" name="email" placeholder="联系邮箱(可选)">
           </nz-input-group>
           @if (showToolbar) {
-            <flower-simple-captcha scene="link" [disabled]="submitting"></flower-simple-captcha>
+            <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
             <div class="toolbar" nz-flex nzJustify="end">
               <fl-button class="submit" [disabled]="submitting" (click)="submit()">申请</fl-button>
             </div>
