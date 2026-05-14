@@ -65,7 +65,6 @@ export class WelcomeComponent implements OnInit {
     this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
-    this.welcome.visitWeb();
   }
 
   ngOnInit() {
