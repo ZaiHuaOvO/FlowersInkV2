@@ -1,16 +1,45 @@
 <div class="game" nz-flex [nzVertical]="true" nzAlign="center">
   <div class="content game-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true" @QuickUp>
     <flower-blog-title [title]="'再花的游戏库'"></flower-blog-title>
-    <span nz-typography>共记录
-      <nz-tag flTag flTagVariant="outline">{{totalGames}}</nz-tag>
-      款游戏，时长
-      <nz-tag flTag flTagVariant="outline">{{totalPlayingTime | number:'1.1'}}</nz-tag>小时
-    </span>
+    <div class="game-toolbar">
+      <div class="game-toolbar__spacer" aria-hidden="true"></div>
+      <p nz-typography class="game-summary">
+        共记录
+        <strong class="game-summary__value">{{totalGames}}</strong>
+        款游戏，时长
+        <strong class="game-summary__value">{{totalPlayingTime | number:'1.1'}}</strong>
+        小时
+      </p>
+      <div class="game-layout-switch" aria-label="游戏卡片布局切换">
+        <fl-button
+          size="sm"
+          [variant]="viewMode === 'detailed' ? 'solid' : 'ghost'"
+          (click)="setViewMode('detailed')"
+        >
+          详细
+        </fl-button>
+        <fl-button
+          size="sm"
+          [variant]="viewMode === 'overview' ? 'solid' : 'ghost'"
+          (click)="setViewMode('overview')"
+        >
+          总览
+        </fl-button>
+      </div>
+    </div>
     <nz-spin [nzTip]="'游戏正在努力赶来中'" [nzSpinning]="loading">
-      <nz-row [nzGutter]="[24,24]">
+      <nz-row class="game-grid" [class.game-grid--overview]="viewMode === 'overview'" [nzGutter]="viewMode === 'overview' ? [20,20] : [24,24]">
         @for (game of data; track game; let i = $index) {
-          <nz-col [nzSpan]="isMobile ? 24 : 12">
-            <flower-game-card [game]="game"></flower-game-card>
+          <nz-col
+            class="game-grid__col"
+            [class.game-grid__col--overview]="viewMode === 'overview'"
+            [nzXs]="24"
+            [nzSm]="viewMode === 'overview' ? 12 : 24"
+            [nzMd]="viewMode === 'overview' ? 8 : 12"
+            [nzLg]="viewMode === 'overview' ? 8 : 12"
+            [nzXl]="viewMode === 'overview' ? 6 : 12"
+          >
+            <flower-game-card [game]="game" [viewMode]="viewMode"></flower-game-card>
           </nz-col>
         }
       </nz-row>

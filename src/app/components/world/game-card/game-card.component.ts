@@ -1,8 +1,8 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, DestroyRef, inject, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -11,6 +11,8 @@ import { GamePicComponent } from './game-pic/game-pic.component';
 import { WindowService } from '../../../services/window.service';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+
+type GameViewMode = 'detailed' | 'overview';
 
 @Component({
   selector: 'flower-game-card',
@@ -32,8 +34,8 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
 })
 export class GameCardComponent {
   @Input() game: any;
+  @Input() viewMode: GameViewMode = 'detailed';
   isMobile: boolean = false;
-  private nzImageService = inject(NzImageService);
   @ViewChild('time') time!: TemplateRef<any>;
   @ViewChild('finishDate') finishDate!: TemplateRef<any>;
   @ViewChild('imgPrivew') imgPrivew!: TemplateRef<any>;
@@ -68,10 +70,6 @@ export class GameCardComponent {
     });
   }
 
-  imgFirstPreview(img: any): void {
-    this.nzImageService.preview([{ src: img }], { nzZoom: 0.8, nzRotate: 0 });
-  }
-
   goToContent(url: string): void {
     window.open(url, '_blank')
   }
@@ -80,6 +78,39 @@ export class GameCardComponent {
     this.msg.info(this.imgText, {
       nzDuration: 8000
     });
+  }
+
+  get isOverview(): boolean {
+    return this.viewMode === 'overview';
+  }
+
+  get showTime(): boolean {
+    return this.currentPlayStatus !== 'playing' && this.game?.time !== null && this.game?.time !== undefined;
+  }
+
+  get statusLabel(): string {
+    if (this.currentPlayStatus === 'till_now') {
+      return '至今';
+    }
+    if (this.currentPlayStatus === 'abandoned') {
+      return '弃坑时间';
+    }
+    if (this.currentPlayStatus === 'completed') {
+      return '通关时间';
+    }
+    return '正在努力游玩中';
+  }
+
+  get showStatusDate(): boolean {
+    return this.currentPlayStatus === 'abandoned' || this.currentPlayStatus === 'completed';
+  }
+
+  get displayStatusDate(): string | null | undefined {
+    return this.game?.statusDate ?? this.game?.finishDate;
+  }
+
+  get currentPlayStatus(): 'till_now' | 'abandoned' | 'completed' | 'playing' {
+    return this.game?.playStatus ?? 'completed';
   }
 
 }

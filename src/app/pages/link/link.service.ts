@@ -14,6 +14,10 @@ export class LinkService {
     return this.http.getCached(API.LINK, data, HTTP_CACHE_TTL.LONG);
   }
 
+  getFriendArticles(data?: any): Observable<object> {
+    return this.http.getCached(API.LINK_ARTICLES, data, HTTP_CACHE_TTL.LIST);
+  }
+
   addLink(data?: any): Observable<object> {
     return this.http.post<object>(API.LINK, data).pipe(
       tap(() => {

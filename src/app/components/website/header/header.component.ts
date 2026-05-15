@@ -79,25 +79,10 @@ export class HeaderComponent implements OnInit {
       showChildren: false
     },
     {
-      title: '见闻',
+      title: '游戏',
       icon: 'bulb',
-      URL: 'world',
-      child: [
-        // {
-        //   title: '美食',
-        //   icon: '',
-        // },
-        {
-          title: '书籍',
-          icon: '',
-          url: '/world/book',
-        },
-        {
-          title: '游戏',
-          icon: '',
-          url: '/world/game',
-        },
-      ],
+      url: '/world/game',
+      child: [],
       showChildren: false
     },
     {

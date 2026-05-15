@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, DestroyRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
@@ -31,6 +31,7 @@ import { LinkService } from './link.service';
   imports: [
     CommonModule,
     FormsModule,
+    DatePipe,
     NzFlexModule,
     NzTypographyModule,
     NzIconModule,
@@ -55,10 +56,12 @@ import { LinkService } from './link.service';
 })
 export class LinkComponent {
   loading = true;
+  articleLoading = true;
   submitting = false;
   isMobile = false;
   showToolbar = false;
   email = 'ZyZy1724@gmail.com';
+  articleUpdatedAt = '';
   links = [
     {
       name: 'FlowersInk',
@@ -67,6 +70,13 @@ export class LinkComponent {
       description: 'A personal blog by Zaihua',
     },
   ];
+  friendArticles: Array<{
+    title: string;
+    link: string;
+    source: string;
+    sourceUrl: string;
+    publishDate: string;
+  }> = [];
 
   form: {
     description: string;
@@ -106,6 +116,26 @@ export class LinkComponent {
       .subscribe((res: any) => {
         this.links = res['data'].data;
         this.loading = false;
+      });
+
+    this.getFriendArticles();
+  }
+
+  getFriendArticles(): void {
+    this.articleLoading = true;
+    this.link
+      .getFriendArticles()
+      .subscribe({
+        next: (res: any) => {
+          this.friendArticles = res['data'].data ?? [];
+          this.articleUpdatedAt = res['data'].updatedAt ?? '';
+          this.articleLoading = false;
+        },
+        error: () => {
+          this.friendArticles = [];
+          this.articleUpdatedAt = '';
+          this.articleLoading = false;
+        },
       });
   }
 

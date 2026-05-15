@@ -1,5 +1,6 @@
 .game_name {
     font-weight: bolder;
+    color: var(--fi-primary-hover, #7a4d23);
 }
 
 .game-tag-text {
@@ -8,6 +9,10 @@
 
 .game-card-surface {
     border-radius: var(--fi-radius-sm);
+}
+
+.game-card-surface--overview {
+    overflow: hidden;
 }
 
 .game-actions {
@@ -43,18 +48,80 @@
 .img-container {
     width: 100%;
     aspect-ratio: 192 / 72;
-    /* 保持宽高比 */
     overflow: hidden;
-    /* 裁剪多余部分 */
+}
+
+.img-container--overview {
+    aspect-ratio: 192 / 74;
 }
 
 .img-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* 填充并裁剪 */
+}
+
+.game-overview-body {
+    align-items: flex-start;
+}
+
+.game-overview-title {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.game-platform-tag {
+    flex-shrink: 0;
+}
+
+.game-overview-name {
+    flex: 1;
+    color: var(--fi-primary-hover, #7a4d23);
+    font-size: 1.02rem;
+    font-weight: 800;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.game-overview-meta {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.game-overview-label {
+    color: var(--fi-text-secondary, #7f6c59);
+    font-size: 0.88rem;
+}
+
+.game-overview-label--full {
+    width: 100%;
+}
+
+.game-card-surface--overview .ant-card-body {
+    padding: 16px 18px 18px;
+}
+
+.game-card-surface--overview .ant-card-cover {
+    margin: 0;
 }
 
 .ant-tag {
     margin: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .game-overview-meta {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
 }

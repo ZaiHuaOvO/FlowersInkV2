@@ -1,13 +1,43 @@
-<nz-card class="game-card-surface" [nzCover]="coverTemplate" [nzActions]="[actions]">
-  <nz-card-meta [nzTitle]="nameTemplate" [nzDescription]="game.description"></nz-card-meta>
-</nz-card>
+@if (isOverview) {
+  <nz-card class="game-card-surface game-card-surface--overview" [nzCover]="coverTemplate">
+    <div class="game-overview-body" nz-flex [nzVertical]="true" nzGap="small">
+      <div class="game-overview-title">
+        <span nz-typography class="game-overview-name">{{game.name}}</span>
+        <nz-tag flTag flTagVariant="outline" class="game-platform-tag">
+          <span nz-typography class="game-tag-text">{{game.platform}}</span>
+        </nz-tag>
+      </div>
+      <div class="game-overview-meta">
+        @if (showTime) {
+          <span nz-typography class="game-overview-label">游戏时长</span>
+          <strong class="game-metric">{{game.time}}小时</strong>
+        } @else {
+          <span nz-typography class="game-overview-label game-overview-label--full">{{ statusLabel }}</span>
+        }
+      </div>
+      <div class="game-overview-meta">
+        @if (showStatusDate) {
+          <span nz-typography class="game-overview-label">{{ statusLabel }}</span>
+          <strong class="game-metric">{{displayStatusDate | date:'yyyy-MM-dd'}}</strong>
+        } @else if (currentPlayStatus === 'till_now') {
+          <span nz-typography class="game-overview-label game-overview-label--full">至今仍在游玩</span>
+        }
+      </div>
+    </div>
+  </nz-card>
+} @else {
+  <nz-card class="game-card-surface" [nzCover]="coverTemplate" [nzActions]="[actions]">
+    <nz-card-meta [nzTitle]="nameTemplate" [nzDescription]="game.description"></nz-card-meta>
+  </nz-card>
+}
+
 <ng-template #nameTemplate>
   <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
     <div nz-flex nzJustify="center" nzAlign="center" nzGap="small">
+      <span nz-typography class="game_name">{{game.name}}</span>
       <nz-tag flTag flTagVariant="outline">
         <span nz-typography class="game-tag-text">{{game.platform}}</span>
       </nz-tag>
-      <span nz-typography class="game_name">{{game.name}}</span>
     </div>
     @if (game.tag !== '') {
       <nz-tag flTag flTagVariant="soft">
@@ -15,54 +45,63 @@
       </nz-tag>
     }
   </div>
-
 </ng-template>
+
 <ng-template #coverTemplate>
-  <div class="img-container">
+  <div class="img-container" [class.img-container--overview]="isOverview">
     <img
       loading="lazy"
       decoding="async"
       nz-image
       class="imgFirst"
       nzDisablePreview="true"
-      (click)="imgFirstPreview(game.imgFirst[0].url)"
       [nzSrc]="game.imgFirst[0].url"
     />
-    </div>
-  </ng-template>
-  <ng-template #actions>
-    <div class="game-actions" nz-flex nzJustify="space-evenly" nzAlign="center">
+  </div>
+</ng-template>
+
+<ng-template #actions>
+  <div class="game-actions" nz-flex nzJustify="space-evenly" nzAlign="center">
+    @if (showTime) {
       <span nz-typography class="game-info">总时长
         @if (isMobile) {
           <br>
         }
         <strong class="game-metric">{{game.time}}小时</strong>
       </span>
-      <span nz-typography class="game-info">通关于
-        @if (isMobile) {
-          <br>
-        }
-        <strong class="game-metric">{{game.finishDate | date:'yyyy-MM-dd'}}</strong>
-      </span>
-
-      @if (game.img?.length > 0) {
-        <span nz-typography class="img_button" (click)="imgPreview()">[游戏截图]</span>
+    }
+    <span nz-typography class="game-info">
+      {{ currentPlayStatus === 'playing' ? '状态' : statusLabel }}
+      @if (isMobile && currentPlayStatus !== 'playing') {
+        <br>
       }
-      @if (game.content) {
-        <span nz-typography class="img_button" (click)="goToContent(game.content)" [ngClass]="{'content_text': !game.content}">[玩后感]</span>
+      @if (showStatusDate) {
+        <strong class="game-metric">{{displayStatusDate | date:'yyyy-MM-dd'}}</strong>
+      } @else if (currentPlayStatus === 'till_now') {
+        <strong class="game-metric">至今仍在游玩</strong>
+      } @else {
+        <strong class="game-metric">正在努力游玩中</strong>
       }
-    </div>
-  </ng-template>
+    </span>
 
-      <ng-template #extra>
-        <nz-tag flTag flTagVariant="outline" flTagInteractive>
-          <span nz-typography class="game-tag-text game-tag-clickable" (click)="imgDescription()">关于图片的说明</span>
-        </nz-tag>
-      </ng-template>
+    @if (game.img?.length > 0) {
+      <span nz-typography class="img_button" (click)="imgPreview()">[游戏截图]</span>
+    }
+    @if (game.content) {
+      <span nz-typography class="img_button" (click)="goToContent(game.content)" [ngClass]="{'content_text': !game.content}">[玩后感]</span>
+    }
+  </div>
+</ng-template>
 
-      <ng-template #imgText>
-        <p nz-typography>抽屉中的游戏截图为保证网站加载速度，使用了 <mark>压缩后的图片</mark>，单张约 300-500KB。</p>
-        <p nz-typography>点击查看原图时展示的是一次压缩版本，<mark>画质会有一定损失</mark>，单张约 2-4MB。</p>
-        <p nz-typography>未压缩原图（15MB+）不放在站内，如有需要可 <mark>联系再花获取</mark>。</p>
-      </ng-template>
+<ng-template #extra>
+  <nz-tag flTag flTagVariant="outline" flTagInteractive>
+    <span nz-typography class="game-tag-text game-tag-clickable" (click)="imgDescription()">关于图片的说明</span>
+  </nz-tag>
+</ng-template>
+
+<ng-template #imgText>
+  <p nz-typography>抽屉中的游戏截图为保证网站加载速度，使用了 <mark>压缩后的图片</mark>，单张约 300-500KB。</p>
+  <p nz-typography>点击查看原图时展示的是一次压缩版本，<mark>画质会有一定损失</mark>，单张约 2-4MB。</p>
+  <p nz-typography>未压缩原图（15MB+）不放在站内，如有需要可 <mark>联系再花获取</mark>。</p>
+</ng-template>
 

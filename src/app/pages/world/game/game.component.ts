@@ -19,8 +19,11 @@ import { WorldService } from '../world.service';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { GameCardComponent } from '../../../components/world/game-card/game-card.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { QuickUp } from '../../../common_ui/animations/animation';
+import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
+
+type GameViewMode = 'detailed' | 'overview';
+type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
 
 @Component({
   selector: 'flower-game',
@@ -43,7 +46,7 @@ import { QuickUp } from '../../../common_ui/animations/animation';
     RouterModule,
     GameCardComponent,
     NzGridModule,
-    FlTagDirective,
+    FlButtonComponent,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
@@ -55,6 +58,7 @@ export class GameComponent {
   isMobile: boolean = false;
   totalGames = 0;
   totalPlayingTime = 0;
+  viewMode: GameViewMode = 'detailed';
   constructor(
     private world: WorldService,
     private modal: NzModalService,
@@ -73,11 +77,50 @@ export class GameComponent {
 
   getGame(): void {
     this.world.getGameList().subscribe((res: any) => {
-      this.data = res['data'].games;
+      this.data = this.sortGamesByFinishDate(res['data'].games ?? []);
       this.totalGames = res['data'].totalGames;
       this.totalPlayingTime = res['data'].totalPlayingTime;
       this.loading = false;
     });
+  }
+
+  setViewMode(mode: GameViewMode): void {
+    this.viewMode = mode;
+  }
+
+  private sortGamesByFinishDate(games: any[]): any[] {
+    return [...games].sort((a, b) => {
+      const statusPriorityDiff = this.getStatusPriority(a?.playStatus) - this.getStatusPriority(b?.playStatus);
+      if (statusPriorityDiff !== 0) {
+        return statusPriorityDiff;
+      }
+
+      const dateDiff = this.getDateValue(b?.statusDate ?? b?.finishDate) - this.getDateValue(a?.statusDate ?? a?.finishDate);
+      if (dateDiff !== 0) {
+        return dateDiff;
+      }
+
+      return (b?.id ?? 0) - (a?.id ?? 0);
+    });
+  }
+
+  private getDateValue(value: string | null | undefined): number {
+    if (!value) {
+      return 0;
+    }
+
+    const timestamp = new Date(value).getTime();
+    return Number.isNaN(timestamp) ? 0 : timestamp;
+  }
+
+  private getStatusPriority(status: PlayStatus | undefined): number {
+    if (status === 'till_now') {
+      return 0;
+    }
+    if (status === 'abandoned' || status === 'completed') {
+      return 1;
+    }
+    return 2;
   }
 
 }

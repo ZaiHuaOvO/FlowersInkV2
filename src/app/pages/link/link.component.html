@@ -111,6 +111,49 @@
             </div>
         </div>
         }
+
+        <nz-divider></nz-divider>
+        <div class="friend-article-card" nz-flex [nzVertical]="true" nzGap="middle">
+            <div nz-flex nzJustify="space-between" nzAlign="center" class="friend-article-head">
+                <div nz-flex [nzVertical]="true" nzGap="small">
+                    <h3 nz-typography class="friend-article-title">好朋友的文章</h3>
+                    <p nz-typography nzType="secondary" class="friend-article-subtitle">
+                        只展示最新的30篇哦
+                    </p>
+                </div>
+                @if (articleUpdatedAt) {
+                <span nz-typography nzType="secondary" class="friend-article-updated">
+                    更新于 {{ articleUpdatedAt | date:'yyyy-MM-dd HH:mm' }}
+                </span>
+                }
+            </div>
+
+            <nz-spin [nzTip]="'朋友们的文章正在赶来中'" [nzSpinning]="articleLoading">
+                <div nz-flex [nzVertical]="true" nzGap="middle">
+                    @if (friendArticles.length) {
+                    <div nz-flex [nzVertical]="true" nzGap="small">
+                        @for (article of friendArticles; track article.link) {
+                        <a class="friend-article-item" flCard flCardHover nz-flex nzJustify="space-between" nzAlign="start"
+                            [href]="article.link" target="_blank" rel="noopener noreferrer">
+                            <div nz-flex [nzVertical]="true" nzGap="small" class="friend-article-main">
+                                <span nz-typography class="friend-article-item-title">{{ article.title }}</span>
+                                <div nz-flex nzWrap="wrap" nzGap="small" class="friend-article-meta">
+                                    <span nz-typography nzType="secondary">{{ article.source }}</span>
+                                    <span nz-typography nzType="secondary">
+                                        {{ article.publishDate | date:'yyyy-MM-dd HH:mm' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                        }
+                    </div>
+                    }
+                    @if (!friendArticles.length && !articleLoading) {
+                    <nz-alert flAlert nzType="info" nzMessage="暂时还没有抓到朋友们的新文章"></nz-alert>
+                    }
+                </div>
+            </nz-spin>
+        </div>
     </div>
 </div>
 

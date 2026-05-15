@@ -18,4 +18,5 @@ export const API = {
   GAME: '/world/game',
   GAME_LIST: '/world/game/list',
   LINK: '/site/link',
+  LINK_ARTICLES: '/site/link/articles',
 };
