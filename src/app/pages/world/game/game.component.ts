@@ -58,7 +58,7 @@ export class GameComponent {
   isMobile: boolean = false;
   totalGames = 0;
   totalPlayingTime = 0;
-  viewMode: GameViewMode = 'detailed';
+  viewMode: GameViewMode = 'overview';
   constructor(
     private world: WorldService,
     private modal: NzModalService,
@@ -114,13 +114,16 @@ export class GameComponent {
   }
 
   private getStatusPriority(status: PlayStatus | undefined): number {
-    if (status === 'till_now') {
+    if (status === 'playing') {
       return 0;
     }
-    if (status === 'abandoned' || status === 'completed') {
+    if (status === 'till_now') {
       return 1;
     }
-    return 2;
+    if (status === 'abandoned' || status === 'completed') {
+      return 2;
+    }
+    return 3;
   }
 
 }

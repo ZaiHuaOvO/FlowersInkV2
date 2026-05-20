@@ -27,6 +27,11 @@
     color: var(--fi-primary);
 }
 
+.game-status-emphasis {
+    color: var(--fi-primary);
+    font-weight: 700;
+}
+
 .game-tag-clickable {
     cursor: pointer;
 }
@@ -104,6 +109,10 @@
 
 .game-overview-label--full {
     width: 100%;
+}
+
+.game-overview-label--placeholder {
+    visibility: hidden;
 }
 
 .game-card-surface--overview .ant-card-body {

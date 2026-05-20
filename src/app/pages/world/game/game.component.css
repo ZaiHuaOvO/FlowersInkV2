@@ -51,6 +51,20 @@
     width: 100%;
 }
 
+.game-grid :is(.ant-col, .game-grid__col) {
+    display: flex;
+    justify-content: center;
+}
+
+.game-grid__col {
+    min-width: 0;
+}
+
+.game-spin {
+    width: 100%;
+    min-width: 0;
+}
+
 @media (min-width: 1280px) {
     .game-grid--overview>.game-grid__col--overview {
         flex: 0 0 25%;

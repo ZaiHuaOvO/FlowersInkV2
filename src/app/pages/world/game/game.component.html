@@ -27,8 +27,13 @@
         </fl-button>
       </div>
     </div>
-    <nz-spin [nzTip]="'游戏正在努力赶来中'" [nzSpinning]="loading">
-      <nz-row class="game-grid" [class.game-grid--overview]="viewMode === 'overview'" [nzGutter]="viewMode === 'overview' ? [20,20] : [24,24]">
+    <nz-spin class="game-spin" [nzTip]="'游戏正在努力赶来中'" [nzSpinning]="loading">
+      <nz-row
+        class="game-grid"
+        [class.game-grid--overview]="viewMode === 'overview'"
+        [nzGutter]="viewMode === 'overview' ? [20,20] : [24,24]"
+        nzJustify="center"
+      >
         @for (game of data; track game; let i = $index) {
           <nz-col
             class="game-grid__col"

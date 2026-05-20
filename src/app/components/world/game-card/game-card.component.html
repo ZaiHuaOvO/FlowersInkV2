@@ -12,7 +12,7 @@
           <span nz-typography class="game-overview-label">游戏时长</span>
           <strong class="game-metric">{{game.time}}小时</strong>
         } @else {
-          <span nz-typography class="game-overview-label game-overview-label--full">{{ statusLabel }}</span>
+          <span nz-typography class="game-overview-label game-overview-label--full game-status-emphasis">{{ statusLabel }}</span>
         }
       </div>
       <div class="game-overview-meta">
@@ -20,7 +20,11 @@
           <span nz-typography class="game-overview-label">{{ statusLabel }}</span>
           <strong class="game-metric">{{displayStatusDate | date:'yyyy-MM-dd'}}</strong>
         } @else if (currentPlayStatus === 'till_now') {
-          <span nz-typography class="game-overview-label game-overview-label--full">至今仍在游玩</span>
+          <span nz-typography class="game-overview-label game-overview-label--full game-status-emphasis">至今仍在游玩</span>
+        } @else if (currentPlayStatus === 'playing') {
+          <span nz-typography class="game-overview-label game-overview-label--placeholder" aria-hidden="true">
+            正在努力游玩中
+          </span>
         }
       </div>
     </div>
@@ -70,19 +74,23 @@
         <strong class="game-metric">{{game.time}}小时</strong>
       </span>
     }
-    <span nz-typography class="game-info">
-      {{ currentPlayStatus === 'playing' ? '状态' : statusLabel }}
-      @if (isMobile && currentPlayStatus !== 'playing') {
-        <br>
-      }
-      @if (showStatusDate) {
+    @if (showStatusDate) {
+      <span nz-typography class="game-info">
+        {{ statusLabel }}
+        @if (isMobile) {
+          <br>
+        }
         <strong class="game-metric">{{displayStatusDate | date:'yyyy-MM-dd'}}</strong>
-      } @else if (currentPlayStatus === 'till_now') {
-        <strong class="game-metric">至今仍在游玩</strong>
-      } @else {
-        <strong class="game-metric">正在努力游玩中</strong>
-      }
-    </span>
+      </span>
+    } @else if (currentPlayStatus === 'till_now') {
+      <span nz-typography class="game-info game-status-emphasis">
+        至今仍在游玩
+      </span>
+    } @else {
+      <span nz-typography class="game-info game-status-emphasis">
+        正在努力游玩中
+      </span>
+    }
 
     @if (game.img?.length > 0) {
       <span nz-typography class="img_button" (click)="imgPreview()">[游戏截图]</span>
