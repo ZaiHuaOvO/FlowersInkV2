@@ -23,6 +23,6 @@ export class WelcomeService {
   }
 
   getWebInfo(): Observable<object> {
-    return this.http.getCached(API.DAY_INFO, undefined, HTTP_CACHE_TTL.SHORT);
+    return this.http.getCached(API.SITE_INFO, undefined, HTTP_CACHE_TTL.SHORT);
   }
 }

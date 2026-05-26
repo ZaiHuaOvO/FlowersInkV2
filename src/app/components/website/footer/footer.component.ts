@@ -1,11 +1,9 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, DestroyRef, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { WindowService } from '../../../services/window.service';
@@ -20,36 +18,31 @@ import { SitemapComponent } from '../svg/sitemap/sitemap.component';
   styleUrls: ['./footer.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     NzFlexModule,
     NzDividerModule,
     NzIconModule,
     NzAvatarModule,
     NzTypographyModule,
     NzPopoverModule,
-    NzPopconfirmModule,
     RssComponent,
     SitemapComponent,
     PlanetComponent,
     Forever,
   ],
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   email = 'ZyZy1724@gmail.com';
   isMobile = false;
 
   constructor(
-    private msg: NzMessageService,
-    @Inject(PLATFORM_ID) private platformId: object,
-    private window: WindowService,
+    private readonly window: WindowService,
     private readonly destroyRef: DestroyRef,
+    private readonly msg: NzMessageService,
   ) {
     this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
   }
-
-  ngOnInit() {}
 
   copyEmail(): void {
     navigator.clipboard

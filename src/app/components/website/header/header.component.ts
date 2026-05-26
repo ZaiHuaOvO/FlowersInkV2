@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
     {
       title: '首页',
       icon: 'home',
-      url: '/welcome',
+      url: '/',
       child: [],
       showChildren: false
     },

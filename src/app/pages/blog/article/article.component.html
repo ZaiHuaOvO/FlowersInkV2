@@ -15,8 +15,11 @@
             <div nz-flex nzGap="middle" [nzVertical]="true" [@RefreshUp]="listMotionTick">
                 @for (item of data; track item) {
                 <div flCard flCardHover>
-                    <flower-blog-card [blog]="item" [loading]="loading"
-                        [routerLink]="['/blog/blog-detail/' + item.id]"></flower-blog-card>
+                    <flower-blog-card
+                        [blog]="item"
+                        [loading]="loading"
+                        [href]="'/blog/blog-detail/' + item.id"
+                    ></flower-blog-card>
                 </div>
                 }
                 <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"

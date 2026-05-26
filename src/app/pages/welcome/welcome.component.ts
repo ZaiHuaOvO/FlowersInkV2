@@ -17,6 +17,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 
+interface WelcomeStats {
+  blogTotal: number;
+  lifeTotal: number;
+  runDays: number;
+}
+
 @Component({
   selector: 'app-welcome',
   standalone: true,
@@ -43,12 +49,10 @@ export class WelcomeComponent implements OnInit {
   data: any[] = [];
   loading = true;
   numLoading = true;
-  info = {
-    article: 0,
-    essay: 0,
-    question: 0,
-    day: 0,
-    lastUpdateTime: '',
+  info: WelcomeStats = {
+    blogTotal: 0,
+    lifeTotal: 0,
+    runDays: 0,
   };
   isMobile: boolean = false;
   @ViewChild('more', { static: true })
@@ -69,8 +73,11 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit() {
     this.welcome.getWebInfo().subscribe((res: any) => {
-      this.info.day = res['data'].runDays;
-      this.info.lastUpdateTime = res['data'].lastUpdateTime;
+      const data = res?.data ?? {};
+      this.info.blogTotal = Number(data.blogTotal ?? 0);
+      this.info.lifeTotal = Number(data.lifeTotal ?? 0);
+      this.info.runDays = Number(data.runDays ?? 0);
+      this.numLoading = false;
     });
   }
 
@@ -83,24 +90,6 @@ export class WelcomeComponent implements OnInit {
       this.cdr.detectChanges();
       this.loading = false;
     });
-    this.welcome
-      .getBlogs({
-        limit: 999,
-      })
-      .subscribe((val: any) => {
-        if (val) {
-          const data = this.processedData(val['data'].data);
-          // this.info.article = data.length;
-          this.info.article = data.filter(
-            (item: any) => item.type === '文章'
-          ).length;
-          this.info.essay = data.filter(
-            (item: any) => item.type === '随笔'
-          ).length;
-          this.numLoading = false;
-          this.cdr.detectChanges();
-        }
-      });
   }
 
   processedData(data: any): any {

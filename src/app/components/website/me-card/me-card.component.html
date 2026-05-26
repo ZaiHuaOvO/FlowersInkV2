@@ -1,54 +1,92 @@
-<div class="me me-profile" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
-  <nz-avatar class="me-avatar" [nzSize]="128" nzSrc="https://api.flowersink.com/img/再花猫猫头.png" nzShape="square"></nz-avatar>
-  <h5 nz-typography class="name">再花</h5>
+<div class="me me-profile" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
+  <a class="profile-link" [routerLink]="['/about/me']" aria-label="前往关于我">
+    <nz-avatar class="me-avatar" [nzSize]="128" nzSrc="https://api.flowersink.com/img/再花猫猫头.png"
+      nzShape="square"></nz-avatar>
+  </a>
+  <a class="profile-link" [routerLink]="['/about/me']">
+    <h5 nz-typography class="name">再花</h5>
+  </a>
   <div class="intro-text">
     <p nz-typography class="intro-line">你好，我是再花，欢迎来到「花墨」</p>
     <p nz-typography class="intro-line">这里是我分享技术文章、生活点滴的地方。</p>
     <p nz-typography class="intro-line">希望你能在这里收获知识或者好心情</p>
   </div>
-</div>
-
-<div class="me me-actions" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
   <div class="stat-row" nz-flex nzJustify="center" nzAlign="center" nzGap="small">
     <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag">
-        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/blog/article']">
+        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/blog/all']">
           @if (numLoading) {
           ...
           } @else {
-          {{ info.article }}
+          {{ info.blogTotal }}
           }
           篇
         </nz-tag>
       </span>
-      <span nz-typography class="stat-label">技术文章</span>
+      <span nz-typography class="stat-label">博客发布</span>
     </div>
 
     <nz-divider nzType="vertical"></nz-divider>
 
     <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag">
-        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/blog/essay']">
+        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/life']">
           @if (numLoading) {
           ...
           } @else {
-          {{ info.essay }}
+          {{ info.lifeTotal }}
           }
-          篇
+          条
         </nz-tag>
       </span>
-      <span nz-typography class="stat-label">随笔杂文</span>
+      <span nz-typography class="stat-label">点滴记录</span>
     </div>
 
     <nz-divider nzType="vertical"></nz-divider>
 
     <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
       <span nz-typography class="point_tag">
-        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/about/website']">{{ info.day }}天</nz-tag>
+        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/about/website']">
+          @if (numLoading) {
+          ...
+          } @else {
+          {{ info.runDays }}
+          }
+          天
+        </nz-tag>
       </span>
       <span nz-typography class="stat-label">网站运行</span>
     </div>
   </div>
+
+
+  <div class="social-links" nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
+    <div class="social-row" nz-flex nzJustify="center" nzAlign="center" nzGap="small">
+      <a class="social-link" href="javascript:void(0)" nz-tooltip [nzTooltipTitle]="qq" aria-label="QQ" title="QQ"
+        (click)="previewContactQr('qq')">
+        <span nz-icon nzType="qq" nzTheme="outline"></span>
+      </a>
+      <a class="social-link" href="javascript:void(0)" nz-tooltip [nzTooltipTitle]="wechat" aria-label="微信" title="微信"
+        (click)="previewContactQr('wechat')">
+        <span nz-icon nzType="wechat" nzTheme="outline"></span>
+      </a>
+      <a class="social-link" href="javascript:void(0)" nz-tooltip [nzTooltipTitle]="email" aria-label="邮箱" title="邮箱"
+        (click)="copyEmail($event)">
+        <span nz-icon nzType="mail" nzTheme="outline"></span>
+      </a>
+      <a class="social-link" href="https://github.com/ZaiHuaOvO" target="_blank" rel="noopener noreferrer"
+        aria-label="Github" title="Github">
+        <span nz-icon nzType="github" nzTheme="outline"></span>
+      </a>
+      <a class="social-link" href="/rss.xml" target="_blank" rel="noopener noreferrer" aria-label="RSS" title="RSS">
+        <flower-rss></flower-rss>
+      </a>
+    </div>
+
+  </div>
+</div>
+<!--
+<div class="me me-actions" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
 
   <fl-button [block]="true" [routerLink]="['/about/me']">
     <span class="emoji">▶了解再花◀</span>
@@ -57,4 +95,4 @@
   <fl-button [block]="true" [routerLink]="['/about/website']">
     <span class="emoji">▶了解花墨◀</span>
   </fl-button>
-</div>
+</div> -->

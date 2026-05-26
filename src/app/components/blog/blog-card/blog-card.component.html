@@ -1,4 +1,12 @@
-<a class="blog_card" nz-flex [nzGap]="'small'" nzAlign="start" nzJustify="center" [nzVertical]="true">
+<a
+  class="blog_card"
+  nz-flex
+  [nzGap]="'small'"
+  nzAlign="start"
+  nzJustify="center"
+  [nzVertical]="true"
+  [attr.href]="href"
+>
   @if (!loading) {
   <h4 nz-typography class="blog_title"> {{blog.title}} </h4>
   <p nz-typography nzEllipsis [nzContent]="blog.content" [nzEllipsisRows]="2"></p>

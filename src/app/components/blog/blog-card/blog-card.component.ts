@@ -33,6 +33,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
 export class BlogCardComponent implements OnInit {
   @Input() blog: any;
   @Input() loading: boolean = true;
+  @Input() href: string | null = null;
   commentArray: any[] = commentArray;
   emojiTags: { [blogId: string]: any[] } = {};
   isMobile: boolean = false;

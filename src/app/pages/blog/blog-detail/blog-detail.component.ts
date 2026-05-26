@@ -72,6 +72,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   animations: [SlowUp, QuickUp],
 })
 export class BlogDetailComponent implements OnInit, AfterViewInit {
+  readonly copyrightEmail = 'ZyZy1724@gmail.com';
   Id: any;
   data: any = {};
   page = 1;

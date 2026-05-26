@@ -19,10 +19,11 @@
                 <nz-timeline-item nzColor="#8b5a2b">
                   <div class="timeline-row">
                     <span nz-typography class="blog_time timeline-date" nzType="secondary">{{ blog.date | date:'yyyy-MM-dd' }}</span>
-                    <span nz-typography class="blog_title timeline-title" [routerLink]="['/blog/blog-detail/' + blog.id]">@if (blog.type) {
-                      <span
-                      ></span>
-                    }{{blog.title}}</span>
+                    <a
+                      nz-typography
+                      class="blog_title timeline-title"
+                      [href]="'/blog/blog-detail/' + blog.id"
+                    >{{blog.title}}</a>
                   </div>
                 </nz-timeline-item>
               }

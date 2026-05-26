@@ -29,6 +29,19 @@
         <flower-blog-title [title]="data.title"></flower-blog-title>
         <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady">
         </markdown>
+        <section class="copyright-card" aria-label="版权声明">
+          <h3 nz-typography class="copyright-card__title">版权声明</h3>
+          <div class="copyright-card__body" nz-flex [nzVertical]="true" nzGap="small">
+            <p nz-typography>
+              <strong>未经允许不可转载</strong>。
+            </p>
+            <p nz-typography>
+              如需转载授权，请发邮件</p>
+            <p nz-typography>
+              获准转载后，请<strong>标明原文出处与本站链接</strong>。
+            </p>
+          </div>
+        </section>
         <nz-divider></nz-divider>
         <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
           <div nz-flex nzJustify="center" nzGap="small">
@@ -41,11 +54,8 @@
             }
             }
           </div>
-          <flower-blog-comment
-            [data]="data.comment"
-            [disabled]="commentSubmitting"
-            (emojiSelected)="comment($event)"
-          ></flower-blog-comment>
+          <flower-blog-comment [data]="data.comment" [disabled]="commentSubmitting"
+            (emojiSelected)="comment($event)"></flower-blog-comment>
         </div>
       </nz-spin>
     </div>

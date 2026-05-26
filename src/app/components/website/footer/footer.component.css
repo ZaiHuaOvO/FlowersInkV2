@@ -7,7 +7,31 @@
 }
 
 .footer {
-  width: 40%;
+  width: min(100%, 1080px);
+  gap: var(--fi-space-4);
+}
+
+.footer-desktop {
+  width: 100%;
+  gap: 12px;
+}
+
+.footer-mobile {
+  width: 100%;
+  justify-content: center;
+}
+
+.footer-line {
+  width: 100%;
+  gap: 0;
+  text-align: center;
+}
+
+.footer-line-title,
+.footer-copyright {
+  color: var(--fi-primary-active);
+  font-size: 12px;
+  font-weight: bolder;
 }
 
 .footer-col {
@@ -22,14 +46,22 @@
   min-width: 200px;
 }
 
+.footer-col a {
+  word-break: break-word;
+}
+
 .text {
   color: var(--fi-primary-active);
   font-size: 12px;
   cursor: pointer;
   letter-spacing: 0.5px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   text-decoration: none;
+}
+
+.text-with-badge {
+  gap: 4px;
 }
 
 .text:hover {
@@ -50,6 +82,12 @@
   padding-bottom: 2px;
 }
 
+.footer-inline-divider.ant-divider-vertical {
+  height: 0.95em;
+  margin-inline: 10px;
+  border-inline-start-color: #d9cab9;
+}
+
 .footer-github-icon {
   cursor: pointer;
 }
@@ -57,5 +95,15 @@
 @media (max-width: 768px) {
   .footer {
     width: 100%;
+    gap: var(--fi-space-4);
+  }
+
+  .footer-mobile {
+    flex-wrap: wrap;
+    gap: var(--fi-space-4) var(--fi-space-6);
+  }
+
+  .footer-col {
+    flex: 1 1 160px;
   }
 }

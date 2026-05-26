@@ -115,6 +115,44 @@ nz-anchor {
   padding: 0 clamp(12px, 2.2vw, 24px);
 }
 
+.copyright-card {
+  margin-top: clamp(20px, 3vw, 32px);
+  padding: 14px 18px;
+  border-left: 4px solid rgba(139, 90, 43, 0.34);
+  border-radius: 0 var(--fi-radius-sm) var(--fi-radius-sm) 0;
+  background: rgba(120, 120, 120, 0.06);
+}
+
+.copyright-card__title {
+  margin: 0 0 10px;
+  color: var(--fi-primary);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.copyright-card__body p {
+  margin: 0;
+  line-height: 1.85;
+  color: #6f675f;
+}
+
+.copyright-card__body strong {
+  color: #8b5a2b;
+  font-weight: 700;
+}
+
+.copyright-card__body a {
+  color: #8b5a2b;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.28);
+}
+
+.copyright-card__body a:hover {
+  color: var(--fi-primary-hover);
+  border-bottom-color: rgba(139, 90, 43, 0.52);
+}
+
 .menu-divider {
   margin: 0;
 }
@@ -150,5 +188,10 @@ nz-anchor {
   .blog-detail-spin {
     min-width: auto !important;
     padding: 0 var(--fi-space-3);
+  }
+
+  .copyright-card {
+    margin-top: 20px;
+    padding: 12px 14px;
   }
 }

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://api.flowersink.com/sitemap
+Sitemap: https://flowersink.com/sitemap.xml
