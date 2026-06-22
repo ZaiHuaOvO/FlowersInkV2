@@ -9,6 +9,7 @@
 
 .game-card-surface {
     border-radius: var(--fi-radius-sm);
+    width: 100%;
 }
 
 .game-card-surface--overview {

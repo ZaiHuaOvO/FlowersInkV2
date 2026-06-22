@@ -33,7 +33,7 @@
       <flower-blog-title [title]="'再花的点滴'"></flower-blog-title>
 
       <nz-spin [nzSpinning]="loading" [nzTip]="'点滴整理中...'">
-        @if (sectionList.length === 0) {
+        @if (!loading && sectionList.length === 0) {
         <section class="state-card" flCard>
           <flower-nodata></flower-nodata>
         </section>

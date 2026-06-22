@@ -1,80 +1,51 @@
 @if (!isMobile) {
-  <div class="header" nz-flex nzJustify="space-between" @QuickDown>
-    <img class="logo" src="assets/img/web/logo2.png" alt="" loading="eager" decoding="async" fetchpriority="high">
-    <!-- <div nz-flex nzAlign="center" nzJustify="center">
-  </div> -->
-  <div>
-    <!-- <ul nz-menu nzMode="horizontal">
-    @for (menu of MenuList; track $index) {
-      @if (menu.child?.length == 0) {
-        <li [routerLink]="[menu.url]" nzMatchRouter>
-          <span nz-icon [nzType]="menu.icon" nzTheme="outline"></span>
-          &nbsp;&nbsp;{{ menu.title }}
-        </li>
-      } @else {
-        <li nz-submenu [nzTitle]="menu.title" [nzIcon]="menu.icon" nzTheme="outline" nzPlacement="bottomCenter"
-          nzMatchRouter>
-          <ul>
-            @for (childs of menu.child; track $index) {
-              <li nz-menu-item class="item_child" nzMatchRouter [routerLink]="[childs.url]">{{ childs.title }}
-              </li>
-            }
-          </ul>
-        </li>
-      }
-    }
-  </ul> -->
-  <nav class="menu">
-    <ul nz-flex nzGap="large" nzAlign="center" nzJustify="center">
-      @for (item of MenuList; track item) {
-        <li nz-flex nzAlign="center" nzJustify="center" class="menu-item"
-          [class.active]="isActive(item.url) || isParentActive(item.URL)"
-          [class.parent]="item.child?.length == 0"
-          (mouseenter)="prefetchMenu(item)"
-          (focusin)="prefetchMenu(item)">
-          <a
-            [routerLink]="item.url"
-            class="menu-link"
-            nz-dropdown
-            [nzDropdownMenu]="menu"
-            [nzTrigger]="'hover'"
-            [nzPlacement]="'bottomCenter'"
-          >
-            <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
-            &nbsp;
-            {{ item.title }}
-          </a>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
-            <div nz-flex [nzVertical]="true" class="submenu" nzJustify="center" nzAlign="center"
-              nzGap="middle">
-              @for (sub of item.child; track sub) {
-                <a [routerLink]="sub.url" class="submenu-item" flCard
-                  [class.active]="isActive(sub.url)"
-                  (mouseenter)="prefetchUrl(sub.url)"
-                  (focusin)="prefetchUrl(sub.url)">{{
-                sub.title }}</a>
-              }
-            </div>
-          </nz-dropdown-menu>
-        </li>
-      }
-    </ul>
-  </nav>
-</div>
-<div class="avatar-slot" nz-flex nzJustify="center" nzAlign="center">
-  <img width="48px" src="https://api.flowersink.com/img/再花猫猫女仆欢呼.GIF" alt="" loading="eager" decoding="async">
-</div>
-</div>
+  <div class="header" nz-flex nzJustify="center" @QuickDown>
+    <nav class="menu">
+      <ul nz-flex nzGap="large" nzAlign="center" nzJustify="center">
+        @for (item of MenuList; track item) {
+          <li nz-flex nzAlign="center" nzJustify="center" class="menu-item"
+            [class.active]="isActive(item.url) || isParentActive(item.URL)"
+            [class.parent]="item.child?.length == 0"
+            (mouseenter)="prefetchMenu(item)"
+            (focusin)="prefetchMenu(item)">
+            <a
+              [routerLink]="item.url"
+              class="menu-link"
+              nz-dropdown
+              [nzDropdownMenu]="menu"
+              [nzTrigger]="'hover'"
+              [nzPlacement]="'bottomCenter'"
+            >
+              <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+              &nbsp;
+              {{ item.title }}
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <div nz-flex [nzVertical]="true" class="submenu" nzJustify="center" nzAlign="center"
+                nzGap="middle">
+                @for (sub of item.child; track sub) {
+                  <a [routerLink]="sub.url" class="submenu-item" flCard
+                    [class.active]="isActive(sub.url)"
+                    (mouseenter)="prefetchUrl(sub.url)"
+                    (focusin)="prefetchUrl(sub.url)">{{
+                  sub.title }}</a>
+                }
+              </div>
+            </nz-dropdown-menu>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
 }
 
 @if (isMobile) {
-  <div class="header" nz-flex nzJustify="space-between" nzAlign="center" @QuickDown>
+  <div class="header" nz-flex nzJustify="center" nzAlign="center" @QuickDown>
     <a class="mobile-menu-trigger" nz-dropdown (click)="mobileMenu()">
       <span nz-icon nzType="menu" nzTheme="outline"></span>
       &nbsp;
       导航
     </a>
-    <img width="48px" src="https://api.flowersink.com/img/再花猫猫女仆欢呼.GIF" alt="" loading="eager" decoding="async">
   </div>
 }
 

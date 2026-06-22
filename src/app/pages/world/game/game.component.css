@@ -58,6 +58,11 @@
 
 .game-grid__col {
     min-width: 0;
+    width: 100%;
+}
+
+:host ::ng-deep .game-grid__col flower-game-card {
+    width: 100%;
 }
 
 .game-spin {

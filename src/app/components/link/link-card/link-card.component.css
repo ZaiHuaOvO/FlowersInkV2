@@ -11,3 +11,18 @@
 .content {
     cursor: pointer;
 }
+
+.link-avatar-fallback {
+    width: 75px;
+    height: 75px;
+    min-width: 75px;
+    border-radius: var(--fi-radius-sm);
+    background: var(--fi-primary);
+    color: #fff;
+    font-size: 28px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}

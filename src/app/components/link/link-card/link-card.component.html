@@ -1,5 +1,10 @@
 <a class="content link-card" flCard flCardHover nz-flex [nzGap]="25" nzJustify="start" nzAlign="start" [href]="link.url" target="_blank">
-    <img loading="lazy" decoding="async" [src]="link.logo" alt="" [height]="75">
+    @if (!imgError) {
+    <img loading="lazy" decoding="async" [src]="link.logo" referrerpolicy="no-referrer" alt="" height="75" (error)="onImgError()">
+    }
+    @if (imgError) {
+    <span class="link-avatar-fallback" nz-flex nzAlign="center" nzJustify="center">{{ link.name?.charAt(0) || '?' }}</span>
+    }
     <div nz-flex [nzVertical]="true" nzJustify="center" nzGap="small" class="noto-sans-sc">
         <span nz-typography class="link_name">{{link.name}}</span>
         <span nz-typography class="link_description">{{link.description}}</span>

@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -21,4 +20,9 @@ import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.direct
 })
 export class LinkCardComponent {
   @Input() link: any;
+  imgError = false;
+
+  onImgError(): void {
+    this.imgError = true;
+  }
 }
