@@ -1,7 +1,7 @@
 <div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
   <!-- 绝对定位的导航 -->
   @if (!isMobile) {
-    <flower-target></flower-target>
+  <flower-target></flower-target>
   }
   <div class="content" flCard nz-flex [nzVertical]="true" @QuickUp>
     <h1 nz-typography class="fi-page-title">留言板</h1>
@@ -10,34 +10,31 @@
       <div nz-flex [nzVertical]="true">
         <flower-edit-message class="message-editor"></flower-edit-message>
         <nz-divider></nz-divider>
-        <nz-list [nzDataSource]="data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'"
-          nzNoResult="居然没有留言(T⌓T)">
+        <nz-list [nzDataSource]="data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'" nzNoResult="居然没有留言(T⌓T)">
           <ng-template #item let-item>
             <nz-comment [nzAuthor]="name" [nzDatetime]="date">
               <!-- <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="imageUrl(item.avatar)" [nzSize]="42"
             (click)="navigateToUrl(item.url)"></nz-avatar> -->
-            <nz-comment-content>
-              <p class="content_text content_indent noto-sans-sc">{{ item.content }}</p>
-            </nz-comment-content>
-            <ng-template #name>
-              @if (!item.url) {
+              <nz-comment-content>
+                <p class="content_text content_indent noto-sans-sc">{{ item.content }}</p>
+              </nz-comment-content>
+              <ng-template #name>
+                @if (!item.url) {
                 <span class="name noto-sans-sc">{{item.name}}</span>
-              }
-              @if (item.url) {
-                <a class="url_name noto-sans-sc"
-                (click)="navigateToUrl(item.url)">{{item.name}}</a>
-              }
-            </ng-template>
-            <ng-template #date>
-              <span>{{item.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-            </ng-template>
-          </nz-comment>
-        </ng-template>
-      </nz-list>
-      <nz-pagination [nzPageIndex]="page" [nzTotal]="count" nzSimple
-      nzHideOnSinglePage="true"></nz-pagination>
-    </div>
-  </nz-spin>
-</div>
+                }
+                @if (item.url) {
+                <a class="url_name noto-sans-sc" (click)="navigateToUrl(item.url)">{{item.name}}</a>
+                }
+              </ng-template>
+              <ng-template #date>
+                <span>{{item.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+              </ng-template>
+            </nz-comment>
+          </ng-template>
+        </nz-list>
+        <nz-pagination [nzPageIndex]="page" [nzTotal]="count" nzSimple nzHideOnSinglePage="true"></nz-pagination>
+      </div>
+    </nz-spin>
+  </div>
 
-</div>
+</div>

@@ -103,6 +103,17 @@
     height: 15px;
 }
 
+.about-me-btn {
+    width: 100%;
+    padding-top: var(--fi-space-2);
+    display: flex;
+    justify-content: center;
+}
+
+.about-me-btn fl-button {
+    width: 125px;
+}
+
 .stat-row {
     width: auto;
     max-width: 100%;

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -35,6 +36,7 @@ interface MeCardInfo {
     NzTagModule,
     FlTagDirective,
     RssComponent,
+    FlButtonComponent,
   ],
 })
 export class MeCardComponent {
@@ -70,10 +72,10 @@ export class MeCardComponent {
     navigator.clipboard
       .writeText(this.email)
       .then(() => {
-        this.msg.success('已复制邮箱地址，欢迎邮件联系。');
+        this.msg.success('\u5df2\u590d\u5236\u90ae\u7bb1\u5730\u5740\uff0c\u6b22\u8fce\u90ae\u4ef6\u8054\u7cfb\u3002');
       })
       .catch(() => {
-        this.msg.error('复制失败，请稍后重试。');
+        this.msg.error('\u590d\u5236\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u91cd\u8bd5\u3002');
       });
   }
 }

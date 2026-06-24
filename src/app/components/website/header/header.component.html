@@ -8,6 +8,7 @@
             [class.parent]="item.child?.length == 0"
             (mouseenter)="prefetchMenu(item)"
             (focusin)="prefetchMenu(item)">
+            @if (item.child?.length) {
             <a
               [routerLink]="item.url"
               class="menu-link"
@@ -32,6 +33,16 @@
                 }
               </div>
             </nz-dropdown-menu>
+            } @else {
+            <a
+              [routerLink]="item.url"
+              class="menu-link"
+            >
+              <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+              &nbsp;
+              {{ item.title }}
+            </a>
+            }
           </li>
         }
       </ul>
