@@ -43,3 +43,9 @@ nz-footer {
   height: 80px;
   object-fit: contain;
 }
+
+@media (max-width: 768px) {
+    nz-header.app-header {
+        padding: 0;
+    }
+}

@@ -1,34 +1,80 @@
-<div class="menu" nz-flex [nzVertical]="true" nzGap="small">
-  @for (item of this.nzData['value']; track item) {
-    <div nz-flex nzJustify="space-between" class="menu-link" [class.active]="isActive(item.url) "
-      [routerLink]="item.url"
-      (touchstart)="prefetchUrl(item.url, item.URL)"
-      (mouseenter)="prefetchUrl(item.url, item.URL)">
-      <span [class.menu-parent-label]="item.URL">
-        <span nz-icon [nzType]="item.icon" nzTheme="outline"
-        [class.menu-parent-label]="item.URL"></span>
-        &nbsp;
-        {{ item.title }}
-      </span>
-      @if (item.child?.length == 0) {
-        <span nz-icon [nzType]="'right'" nzTheme="outline"></span>
-      }
+<div class="mobile-menu-container">
+  <!-- Header -->
+  <div class="mobile-menu-header">
+    <div class="mobile-menu-brand">
+      <span class="mobile-menu-brand-icon">✿</span>
+      <span>花墨</span>
     </div>
-    @if (item.child?.length > 0) {
-      <div nz-flex [nzVertical]="true" class="submenu" nzGap="small">
-        @for (sub of item.child; track sub) {
-          <div nz-flex nzJustify="space-between" class="submenu-item" [class.active]="isActive(sub.url)"
-            [routerLink]="sub.url"
-            (touchstart)="prefetchUrl(sub.url)"
-            (mouseenter)="prefetchUrl(sub.url)">
-            <span>{{
-              sub.title }}
+    <button class="mobile-menu-close" (click)="closeDrawer()" aria-label="关闭导航">
+      <span nz-icon nzType="close" nzTheme="outline"></span>
+    </button>
+  </div>
+
+  <nz-divider class="mobile-menu-divider"></nz-divider>
+
+  <!-- Menu List -->
+  <nav class="mobile-menu-body">
+    @for (item of nzData['value']; track item) {
+      <!-- Parent item -->
+      <div class="mobile-menu-item-wrapper">
+        @if (item.child?.length > 0) {
+          <!-- Has children -->
+          <button class="mobile-menu-item mobile-menu-parent"
+            [class.expanded]="item.showChildren"
+            [class.active-parent]="isParentActive(item.URL)"
+            (click)="toggleChildren(item)"
+            (mouseenter)="prefetchUrl(item.url, item.URL)"
+            (focusin)="prefetchUrl(item.url, item.URL)">
+            <div class="mobile-menu-item-content">
+              <span class="mobile-menu-item-icon" [class.active-icon]="isParentActive(item.URL)">
+                <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+              </span>
+              <span class="mobile-menu-item-label">{{ item.title }}</span>
+            </div>
+            <span class="mobile-menu-arrow" [class.rotated]="item.showChildren">
+              <span nz-icon nzType="right" nzTheme="outline"></span>
             </span>
-            <span nz-icon [nzType]="'right'" nzTheme="outline"></span>
-          </div>
+          </button>
+
+          <!-- Children -->
+          @if (item.showChildren) {
+            <div class="mobile-submenu">
+              @for (sub of item.child; track sub) {
+                <a class="mobile-submenu-item"
+                  [class.active]="isActive(sub.url)"
+                  [routerLink]="sub.url"
+                  (mouseenter)="prefetchUrl(sub.url)"
+                  (focusin)="prefetchUrl(sub.url)">
+                  <span class="mobile-submenu-dot"></span>
+                  <span>{{ sub.title }}</span>
+                </a>
+              }
+            </div>
+          }
+
+        } @else {
+          <!-- No children -->
+          <a class="mobile-menu-item mobile-menu-link"
+            [class.active]="isActive(item.url)"
+            [routerLink]="item.url"
+            (mouseenter)="prefetchUrl(item.url)"
+            (focusin)="prefetchUrl(item.url)">
+            <div class="mobile-menu-item-content">
+              <span class="mobile-menu-item-icon" [class.active-icon]="isActive(item.url)">
+                <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+              </span>
+              <span class="mobile-menu-item-label">{{ item.title }}</span>
+            </div>
+          </a>
         }
+
+        <nz-divider class="mobile-menu-divider"></nz-divider>
       </div>
     }
-    <nz-divider class="mobile-menu-divider"></nz-divider>
-  }
+  </nav>
+
+  <!-- Footer -->
+  <div class="mobile-menu-footer">
+    <span class="mobile-menu-footer-text">FlowersInk · 花墨</span>
+  </div>
 </div>

@@ -51,11 +51,13 @@
 }
 
 @if (isMobile) {
-  <div class="header" nz-flex nzJustify="center" nzAlign="center" @QuickDown>
-    <a class="mobile-menu-trigger" nz-dropdown (click)="mobileMenu()">
+  <div class="header header-mobile-bar" @QuickDown>
+    <button class="mobile-menu-trigger" (click)="mobileMenu()" aria-label="打开导航">
       <span nz-icon nzType="menu" nzTheme="outline"></span>
-      &nbsp;
-      导航
+    </button>
+    <a class="mobile-brand" routerLink="/">
+      <span class="mobile-brand-icon">&#10047;</span>
+      <span class="mobile-brand-text">花墨</span>
     </a>
   </div>
 }
@@ -63,4 +65,3 @@
 <ng-template #mobileMenuTitle>
   <span nz-typography class="mobile-menu-title">花墨导航</span>
 </ng-template>
-

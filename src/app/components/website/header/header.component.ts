@@ -179,7 +179,8 @@ export class HeaderComponent implements OnInit {
       nzClosable: false,
       nzContent: HeaderMobileComponent,
       nzPlacement: 'left',
-      nzWidth: '60vw',
+      nzWidth: '80vw',
+      nzWrapClassName: 'mobile-drawer',
       nzData: {
         value: this.MenuList
       }

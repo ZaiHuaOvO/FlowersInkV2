@@ -88,3 +88,22 @@ nz-content {
 .ant-layout-content > * {
   min-width: 0;
 }
+
+/* ===== Mobile Drawer (header-mobile) ===== */
+.mobile-drawer .ant-drawer-body {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.mobile-drawer .ant-drawer-header {
+  display: none !important;
+}
+
+.mobile-drawer .ant-drawer-content-wrapper {
+  box-shadow: 4px 0 24px rgba(58, 39, 22, 0.16);
+}
+
+/* Hide the drawer header nz-title template since we have our own */
+.mobile-drawer .ant-drawer-header-title {
+  display: none;
+}
