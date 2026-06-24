@@ -163,31 +163,4 @@ export class WebsiteComponent implements AfterViewInit, OnDestroy {
     const delta = event.deltaY;
     if (Math.abs(delta) < 10) return;
     const canGoNext = delta > 0 && this.activeSection < 4;
-    const canGoPrev = delta < 0 && this.activeSection > 0;
-    if (canGoNext) {
-      event.preventDefault();
-      this.goToSection(this.activeSection + 1);
-    } else if (canGoPrev) {
-      event.preventDefault();
-      this.goToSection(this.activeSection - 1);
-    }
-  }
-
-  goToSection(index: number): void {
-    if (
-      index === this.activeSection ||
-      this.isTransitioning ||
-      index < 0 ||
-      index > 4
-    ) {
-      return;
-    }
-    this.isTransitioning = true;
-    this.activeSection = index;
-    this.syncViewportHeight();
-    this.wheelTimeout = setTimeout(() => {
-      this.isTransitioning = false;
-      this.wheelTimeout = null;
-    }, this.THROTTLE_MS);
-  }
-}
+    const canGoPrev = delta < 0 && th
