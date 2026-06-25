@@ -98,3 +98,18 @@ export const SlowRight = trigger('SlowRight', [
     ),
   ]),
 ]);
+
+// 方向感知滑动动画 — 通过 params.offset 控制从哪侧进入
+// offset: '24px'（从右侧进入）, offset: '-24px'（从左侧进入）
+export const SlideEnter = trigger('SlideEnter', [
+  transition(':enter', [
+    style({
+      opacity: 0,
+      transform: 'translateX({{offset}})',
+    }),
+    animate(
+      '260ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateX(0)' })
+    ),
+  ]),
+]);

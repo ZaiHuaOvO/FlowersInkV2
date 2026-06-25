@@ -15,6 +15,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'flower-message',
@@ -34,6 +35,7 @@ import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.direct
     DatePipe,
     NzPaginationModule,
     FlCardDirective,
+    RouterModule,
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.css',
@@ -88,3 +90,5 @@ export class MessageComponent {
     return imageUrl; // 设置为有效的图片地址
   }
 }
+
+

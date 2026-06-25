@@ -23,11 +23,6 @@ import { WindowService } from '../../../services/window.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 
-interface SectionDim {
-  top: number;
-  height: number;
-}
-
 @Component({
   selector: 'flower-me',
   standalone: true,
@@ -47,19 +42,25 @@ interface SectionDim {
   templateUrl: './me.component.html',
   styleUrl: './me.component.css',
   animations: [QuickUp],
+  host: { '[@QuickUp]': '' },
 })
 export class MeComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('track', { read: ElementRef }) trackRef!: ElementRef<HTMLElement>;
   @ViewChild('viewport', { read: ElementRef })
   viewportRef!: ElementRef<HTMLElement>;
   @ViewChild('wrap', { read: ElementRef })
   wrapRef!: ElementRef<HTMLElement>;
 
-  sections: SectionDim[] = [];
   activeSection = 0;
   activeHobby = 0;
-  isMobile = false;
+  _isMobile = false;
+  get isMobile(): boolean { return this._isMobile; }
+  set isMobile(v: boolean) {
+    if (v === this._isMobile) return;
+    this._isMobile = v;
+    setTimeout(() => this.bindEventsForCurrentMode(), 0);
+  }
   isTransitioning = false;
+  slideDirection: 'left' | 'right' = 'right';
   email = 'ZyZy1724@gmail.com';
   qq = '446840401';
   wechat = 'zaihua_huahua';
@@ -75,6 +76,12 @@ export class MeComponent implements AfterViewInit, OnDestroy {
   private wheelTimeout: ReturnType<typeof setTimeout> | null = null;
   private wheelHandler: ((e: WheelEvent) => void) | null = null;
   private resizeObserver: ResizeObserver | null = null;
+  private touchStartX = 0;
+  private touchStartY = 0;
+  private touchMoved = false;
+  private touchHandler: ((e: TouchEvent) => void) | null = null;
+  private touchEndHandler: ((e: TouchEvent) => void) | null = null;
+  private touchMoveHandler: ((e: TouchEvent) => void) | null = null;
 
   constructor(
     private window: WindowService,
@@ -83,66 +90,117 @@ export class MeComponent implements AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef,
   ) {
     this.window.bindIsMobile(this.destroyRef, (isMobile) => {
-      this.isMobile = isMobile;
+      this._isMobile = isMobile;
+      setTimeout(() => this.bindEventsForCurrentMode(), 0);
     });
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.measureSections(), 120);
+    setTimeout(() => {
+      this.measureSection();
+      this.bindEventsForCurrentMode();
+    }, 120);
+    this.resizeObserver = new ResizeObserver(() => this.measureSection());
     const wrapEl = this.wrapRef?.nativeElement;
-    if (wrapEl) {
-      this.wheelHandler = (e: WheelEvent) => this.handleWheel(e);
-      wrapEl.addEventListener('wheel', this.wheelHandler, {
-        passive: false,
-      });
-    }
-    this.resizeObserver = new ResizeObserver(() => this.measureSections());
-    const cardEl = wrapEl?.closest('.content');
-    if (cardEl) {
-      this.resizeObserver.observe(cardEl);
+    const observedEl = wrapEl?.closest('.content') ?? wrapEl?.parentElement;
+    if (observedEl) {
+      this.resizeObserver.observe(observedEl);
     }
   }
 
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
-    if (this.wheelHandler && this.wrapRef?.nativeElement) {
-      this.wrapRef.nativeElement.removeEventListener(
-        'wheel',
-        this.wheelHandler,
-      );
-    }
+    this.unbindAllEvents();
     if (this.wheelTimeout) {
       clearTimeout(this.wheelTimeout);
     }
   }
 
-  private measureSections(): void {
-    const track = this.trackRef?.nativeElement;
-    if (!track) return;
-    const children = track.children;
-    const dims: SectionDim[] = [];
-    let cumulativeTop = 0;
-    for (let i = 0; i < children.length; i++) {
-      const el = children[i] as HTMLElement;
-      const h = el.getBoundingClientRect().height;
-      dims.push({ top: cumulativeTop, height: h });
-      cumulativeTop += h;
-    }
-    this.sections = dims;
-    this.syncViewportHeight();
-  }
+  // ---------- 事件绑定 / 解绑 ----------
 
-  private syncViewportHeight(): void {
-    const dim = this.sections[this.activeSection];
-    if (dim) {
-      this.viewportHeight = dim.height;
-      this.cdr.detectChanges();
+  private bindEventsForCurrentMode(): void {
+    this.unbindAllEvents();
+    const wrapEl = this.wrapRef?.nativeElement;
+    if (!wrapEl) return;
+
+    if (this.isMobile) {
+      this.bindTouchEvents(wrapEl);
+    } else {
+      this.bindWheelEvents(wrapEl);
     }
   }
 
-  get trackOffset(): number {
-    return this.sections[this.activeSection]?.top ?? 0;
+  private unbindAllEvents(): void {
+    const wrapEl = this.wrapRef?.nativeElement;
+    if (!wrapEl) return;
+    if (this.wheelHandler) {
+      wrapEl.removeEventListener('wheel', this.wheelHandler);
+      this.wheelHandler = null;
+    }
+    if (this.touchHandler) {
+      wrapEl.removeEventListener('touchstart', this.touchHandler);
+      this.touchHandler = null;
+    }
+    if (this.touchEndHandler) {
+      wrapEl.removeEventListener('touchend', this.touchEndHandler);
+      this.touchEndHandler = null;
+    }
+    if (this.touchMoveHandler) {
+      wrapEl.removeEventListener('touchmove', this.touchMoveHandler);
+      this.touchMoveHandler = null;
+    }
   }
+
+  private bindWheelEvents(el: HTMLElement): void {
+    this.wheelHandler = (e: WheelEvent) => this.handleWheel(e);
+    el.addEventListener('wheel', this.wheelHandler, { passive: false });
+  }
+
+  private bindTouchEvents(el: HTMLElement): void {
+    this.touchHandler = (e: TouchEvent) => {
+      this.touchStartX = e.touches[0].clientX;
+      this.touchStartY = e.touches[0].clientY;
+      this.touchMoved = false;
+    };
+    this.touchEndHandler = (e: TouchEvent) => {
+      if (this.isTransitioning || this.touchMoved) return;
+      const dx = e.changedTouches[0].clientX - this.touchStartX;
+      const dy = e.changedTouches[0].clientY - this.touchStartY;
+      if (Math.abs(dx) < Math.abs(dy) || Math.abs(dx) < 40) return;
+      if (dx > 0 && this.activeSection > 0) {
+        this.goToSection(this.activeSection - 1);
+      } else if (dx < 0 && this.activeSection < 2) {
+        this.goToSection(this.activeSection + 1);
+      }
+    };
+    this.touchMoveHandler = (e: TouchEvent) => {
+      const dx = e.touches[0].clientX - this.touchStartX;
+      const dy = e.touches[0].clientY - this.touchStartY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 20) {
+        this.touchMoved = true;
+      }
+    };
+    el.addEventListener('touchstart', this.touchHandler, { passive: true });
+    el.addEventListener('touchend', this.touchEndHandler, { passive: true });
+    el.addEventListener('touchmove', this.touchMoveHandler, { passive: true });
+  }
+
+  // ---------- 尺寸测量 ----------
+
+  private measureSection(): void {
+    const viewport = this.viewportRef?.nativeElement;
+    if (!viewport) return;
+    const section = viewport.querySelector('.section') as HTMLElement | null;
+    if (section) {
+      const h = section.getBoundingClientRect().height;
+      if (h !== this.viewportHeight) {
+        this.viewportHeight = h;
+        this.cdr.detectChanges();
+      }
+    }
+  }
+
+  // ---------- 滚轮处理 ----------
 
   private handleWheel(event: WheelEvent): void {
     if (this.isTransitioning || this.wheelTimeout) return;
@@ -159,6 +217,8 @@ export class MeComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  // ---------- Section 切换 ----------
+
   goToSection(index: number): void {
     if (
       index === this.activeSection ||
@@ -168,9 +228,11 @@ export class MeComponent implements AfterViewInit, OnDestroy {
     ) {
       return;
     }
+    const goingForward = index > this.activeSection;
+    this.slideDirection = goingForward ? 'right' : 'left';
     this.isTransitioning = true;
     this.activeSection = index;
-    this.syncViewportHeight();
+    requestAnimationFrame(() => this.measureSection());
     this.wheelTimeout = setTimeout(() => {
       this.isTransitioning = false;
       this.wheelTimeout = null;
@@ -181,6 +243,8 @@ export class MeComponent implements AfterViewInit, OnDestroy {
     if (index === this.activeHobby) return;
     this.activeHobby = index;
   }
+
+  // ---------- 复制 ----------
 
   copyEmail(): void {
     navigator.clipboard.writeText(this.email).then(() => {

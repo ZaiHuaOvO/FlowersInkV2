@@ -54,3 +54,28 @@
         padding: var(--fi-space-6) var(--fi-space-4);
     }
 }
+
+.mobile-message-nav {
+    width: 100%;
+    padding: 8px 16px 24px;
+    text-align: left;
+}
+
+.mobile-nav-link {
+    font-size: 14px;
+    color: #8b5a2b;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.mobile-nav-link:active {
+    opacity: 0.7;
+}
+
+.mobile-nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px 24px;
+}
