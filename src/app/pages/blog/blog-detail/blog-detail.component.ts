@@ -10,6 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Title } from '@angular/platform-browser';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
@@ -103,9 +104,10 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     private general: GeneralService,
     private activateInfo: ActivatedRoute,
     private el: ElementRef,
-    @Inject(PLATFORM_ID) private platformId: object, // Detect runtime platform.
+    @Inject(PLATFORM_ID) private platformId: object,
     private window: WindowService,
     private msg: NzMessageService,
+    private title: Title,
     destroyRef: DestroyRef
   ) {
     this.destroyRef = destroyRef;
@@ -147,6 +149,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
       .getBlogDetail(this.Id)
       .subscribe((res: any) => {
         this.data = res['data'];
+        this.title.setTitle(`${this.data.title} | 花墨`);
         this.getComment();
         this.markdownContent = this.data.content;
         this.loading = false;
