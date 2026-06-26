@@ -47,6 +47,15 @@
     padding-top: 2px;
 }
 
+:host ::ng-deep .fi-brown-timeline .ant-timeline-item-tail {
+    border-color: var(--fi-border);
+}
+
+:host ::ng-deep .fi-brown-timeline .ant-timeline-item-head {
+    color: var(--fi-primary);
+    border-color: var(--fi-primary);
+}
+
 @media (max-width: 768px) {
     .welcome {
         padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);

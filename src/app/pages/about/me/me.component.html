@@ -3,9 +3,9 @@
   <flower-target></flower-target>
   <div class="content" flCard nz-flex [nzVertical]="true" nzAlign="center" @QuickUp>
     <h1 class="page-title">关于我</h1>
-    <nav class="tab-bar">
+    <nav class="fi-tab-bar">
       @for (tab of tabs; track tab.index; let i = $index) {
-      <span class="tab" [class.tab--active]="activeSection === i" (click)="goToSection(i)">{{ tab.label }}</span>
+      <span class="fi-tab" [class.fi-tab--active]="activeSection === i" (click)="goToSection(i)">{{ tab.label }}</span>
       }
     </nav>
 
@@ -280,11 +280,11 @@
   </div>
   } @else {
   <div class="mobile-me" flCard>
-    <h1 class="mobile-page-title">关于我</h1>
+    <h1 class="page-title">关于我</h1>
 
-    <nav class="mobile-tab-bar">
+    <nav class="fi-tab-bar">
       @for (tab of tabs; track tab.index; let i = $index) {
-      <span class="mobile-tab" [class.mobile-tab--active]="activeSection === i" (click)="goToSection(i)">{{ tab.label
+      <span class="fi-tab" [class.fi-tab--active]="activeSection === i" (click)="goToSection(i)">{{ tab.label
         }}</span>
       }
     </nav>
@@ -488,17 +488,17 @@
       }
     </div>
 
-    <div class="mobile-dots">
+    <div class="fi-dots">
       @for (item of [0, 1, 2]; track item) {
-      <button class="mobile-dot" [class.mobile-dot--active]="activeSection === item" (click)="goToSection(item)"
+      <button class="fi-dot" [class.fi-dot--active]="activeSection === item" (click)="goToSection(item)"
         [attr.aria-label]="'切换到第' + (item + 1) + '个分类'"></button>
       }
     </div>
   </div>
 
-  <div class="mobile-nav-links">
+  <div class="nav-links">
     <span></span>
-    <a class="mobile-nav-link" [routerLink]="['/about/website']">关于网站→</a>
+    <a class="nav-link" [routerLink]="['/about/website']">关于网站→</a>
   </div>
   }
 </div>

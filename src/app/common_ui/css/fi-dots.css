@@ -1,0 +1,46 @@
+/* ============================================================
+   fi-dots.css — Shared carousel / section dot indicator
+   Layer: Component
+   ============================================================ */
+
+.fi-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--fi-space-2);
+  flex-shrink: 0;
+  padding-top: var(--fi-space-3);
+}
+
+.fi-dot {
+  width: 8px;
+  height: 8px;
+  border: none;
+  border-radius: 50%;
+  background: var(--fi-border);
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+.fi-dot:hover {
+  background: var(--fi-primary-outline);
+}
+
+.fi-dot--active {
+  width: 28px;
+  border-radius: 4px;
+  background: var(--fi-primary);
+  cursor: default;
+}
+
+@media (max-width: 768px) {
+  .fi-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .fi-dot--active {
+    width: 22px;
+    border-radius: 4px;
+  }
+}

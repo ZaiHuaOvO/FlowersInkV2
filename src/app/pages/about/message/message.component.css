@@ -55,27 +55,21 @@
     }
 }
 
-.mobile-message-nav {
-    width: 100%;
-    padding: 8px 16px 24px;
-    text-align: left;
-}
-
-.mobile-nav-link {
-    font-size: 14px;
-    color: #8b5a2b;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 500;
-}
-
-.mobile-nav-link:active {
-    opacity: 0.7;
-}
-
-.mobile-nav-links {
+.nav-links {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 8px 16px 24px;
+    padding: var(--fi-space-2) var(--fi-space-4) var(--fi-space-6);
+}
+
+.nav-link {
+    font-size: var(--fi-font-size-md);
+    color: var(--fi-primary);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: var(--fi-font-weight-medium);
+}
+
+.nav-link:active {
+    opacity: 0.7;
 }

@@ -306,3 +306,62 @@ Use the same motion tokens for cards/buttons/dropdowns/drawers to keep interacti
 | `--fi-motion-slow` | long transitions |
 | `--fi-ease-standard` | unified easing curve |
 | `--fi-motion-lift` | hover translate offset (set to `0px` for no lift) |
+
+## Typography Spec
+
+Path: `src/app/common_ui/css/fi-base.css`
+
+Use these semantic classes instead of ad-hoc font-size / font-weight / color combos.
+
+| Class | Usage |
+|---|---|
+| `.fi-text-title-1` | Page-level heading |
+| `.fi-text-title-2` | Section-level heading |
+| `.fi-text-body` | Paragraph / body text |
+| `.fi-text-caption` | Secondary / helper text |
+| `.fi-text-strong` | Emphasized inline text (inherit parent size) |
+| `.fi-text-link` | Hyperlink-style text |
+
+## Color / Functional Tokens
+
+Path: `src/app/common_ui/css/fi-tokens.css`
+
+| Token | Purpose |
+|---|---|
+| `--fi-primary` / `--fi-primary-hover` / `--fi-primary-active` | Brand primary |
+| `--fi-success` / `--fi-success-bg` | Success semantic |
+| `--fi-warning` / `--fi-warning-bg` | Warning semantic |
+| `--fi-danger` / `--fi-danger-bg` | Danger / error semantic |
+| `--fi-info` / `--fi-info-bg` | Info semantic |
+| `--fi-text-heading` / `--fi-text-body` / `--fi-text-caption` | Text hierarchy |
+| `--fi-bg-page` / `--fi-bg-container` / `--fi-bg-elevated` | Background hierarchy |
+| `--fi-border` / `--fi-border-strong` | Border hierarchy |
+| `--fi-control-height-sm` / `--fi-control-height-md` / `--fi-control-height-lg` | Form control sizing |
+
+## Font Size / Weight Spec
+
+| Token | Value |
+|---|---|
+| `--fi-font-size-xs` | 12px |
+| `--fi-font-size-sm` | 13px |
+| `--fi-font-size-md` | 14px |
+| `--fi-font-size-lg` | 16px |
+| `--fi-font-size-xl` | 18px |
+| `--fi-font-size-2xl` | 24px |
+| `--fi-font-weight-regular` | 400 |
+| `--fi-font-weight-medium` | 500 |
+| `--fi-font-weight-semibold` | 600 |
+| `--fi-font-weight-bold` | 700 |
+
+## Spacing Scale
+
+| Token | Value |
+|---|---|
+| `--fi-space-1` | 4px |
+| `--fi-space-2` | 8px |
+| `--fi-space-3` | 12px |
+| `--fi-space-4` | 16px |
+| `--fi-space-5` | 20px |
+| `--fi-space-6` | 24px |
+| `--fi-space-7` | 32px |
+| `--fi-space-8` | 40px |

@@ -38,19 +38,36 @@
   --fi-card-bg: #ffffff;
   --fi-card-bg-hover: #fcf8f2;
   --fi-border: #e5e7eb;
+  --fi-border-strong: #d0c0b0;
+  --fi-bg-page: #fff8f3;
+  --fi-bg-container: #ffffff;
+  --fi-bg-elevated: #ffffff;
   --fi-text: #2f2117;
   --fi-text-muted: #7a6756;
+  --fi-text-heading: #2f2117;
+  --fi-text-body: #2f2117;
+  --fi-text-caption: #7a6756;
+  --fi-text-inverse: #fffaf5;
   --fi-primary: #8b5a2b;
   --fi-primary-hover: #7a4d23;
   --fi-primary-active: #6a411d;
   --fi-primary-outline: rgba(139, 90, 43, 0.18);
+  --fi-success: #5a8a3c;
+  --fi-success-bg: #eef5e8;
+  --fi-warning: #c8952e;
+  --fi-warning-bg: #fdf5e6;
+  --fi-danger: #b54a3a;
+  --fi-danger-bg: #fdeeed;
+  --fi-info: #5b7fa5;
+  --fi-info-bg: #e8f0f5;
   --fi-shadow: 0 10px 26px rgba(58, 39, 22, 0.1);
   --fi-shadow-soft: 0 8px 18px rgba(58, 39, 22, 0.08);
   --fi-shadow-hover: 0 16px 30px rgba(58, 39, 22, 0.15);
+  --fi-radius-xs: 8px;
   --fi-radius-sm: 10px;
   --fi-radius-md: 14px;
   --fi-radius-lg: 18px;
-  --fi-radius-xs: 8px;
+  --fi-radius-pill: 999px;
   --fi-space-1: 4px;
   --fi-space-2: 8px;
   --fi-space-3: 12px;
@@ -58,8 +75,12 @@
   --fi-space-5: 20px;
   --fi-space-6: 24px;
   --fi-space-7: 32px;
+  --fi-space-8: 40px;
   --fi-page-max: 1180px;
   --fi-page-max-narrow: 980px;
+  --fi-control-height-sm: 28px;
+  --fi-control-height-md: 36px;
+  --fi-control-height-lg: 44px;
 
   --fi-input-radius: 5px;
   --fi-input-border-color: #d8c8b8;
@@ -103,4 +124,17 @@
 
   --fi-font-base: "InterVar", "NotoSansSCVar", "NotoEmojiVar", "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
   --fi-font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+  --fi-font-size-xs: 12px;
+  --fi-font-size-sm: 13px;
+  --fi-font-size-md: 14px;
+  --fi-font-size-lg: 16px;
+  --fi-font-size-xl: 18px;
+  --fi-font-size-2xl: 24px;
+  --fi-line-height-tight: 1.25;
+  --fi-line-height-normal: 1.5;
+  --fi-line-height-relaxed: 1.75;
+  --fi-font-weight-regular: 400;
+  --fi-font-weight-medium: 500;
+  --fi-font-weight-semibold: 600;
+  --fi-font-weight-bold: 700;
 }

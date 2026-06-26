@@ -145,6 +145,29 @@
 - 不要把现有上传对象数组压平成字符串 URL。
 - 不要忽略 `fl_ui` 和现有主站视觉系统。
 
+## 前端复用治理规则
+
+每次开发涉及样式时，必须遵守以下规则（来源于 `src/docs/ai/frontend-reuse-governance-draft.md`）：
+
+1. **先复用后新增**：在 `src/app/common_ui/css/` 和 `fl_ui/` 中搜索是否已有可复用 token/组件/样式，禁止复制粘贴。
+2. **禁止裸色值**：页面 CSS 中禁止直接使用十六进制色值（如 `#4096ff`），必须引用 `--fi-*` token。
+3. **禁止裸字号**：页面 CSS 中禁止写随机字号值（如 `13px/15px/17px`），优先使用 `--fi-font-size-*` token。
+4. **布局尺寸例外**：固定布局尺寸（如 `min-height: 420px`、`grid-template-columns` 中的具体值、`calc(100vh - 48px)`）不属于治理范围，维持原样。
+5. **排版语义类优先**：强调文本使用 `.fi-text-strong`、链接文本使用 `.fi-text-link`，不要重新定义局部粗体/链接类。
+6. **回提原则**：一个样式在第二个页面复用出现时，必须回提到共享层（`fi-base.css` 或 `fi-tokens.css`）。
+7. **ng-zorro 兼容**：`nzColor` 等组件属性不支持 CSS 变量，改用 `:host ::ng-deep` 覆盖对应 DOM 元素的 `color`/`border-color`。
+8. **提交说明必须包含**：复用了哪些既有 token/样式、新增了哪些 token、为什么不能继续复用（如有）。
+
+## 治理代码审查清单
+
+每次合并涉及样式变更时，审查以下事项：
+
+- 是否使用 `--fi-*` token，而不是硬编码色值/字号？
+- 是否复用已有组件样式（`fl-button`、`fl-tag`、`fi-text-*` 等），而非新建重复类？
+- 是否把通用样式错误放进页面私有文件？
+- 是否影响现有组件状态（hover/active/disabled）一致性？
+- 是否验证桌面端与移动端表现？
+
 ## 当前状态
 
 - 主站已移除 SSR/prerender/hydration 配置链。

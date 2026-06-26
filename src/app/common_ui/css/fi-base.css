@@ -64,3 +64,86 @@ a:hover {
   font-family: "NotoEmojiVar", "Segoe UI Symbol", "Noto Sans Symbols 2", var(--fi-font-base);
   font-variant-emoji: text;
 }
+
+/* ============================================================
+   Typography — semantic text classes
+   Use these instead of ad-hoc font-size / font-weight / color
+   ============================================================ */
+
+.fi-text-title-1 {
+  font-size: var(--fi-font-size-2xl);
+  font-weight: var(--fi-font-weight-bold);
+  line-height: var(--fi-line-height-tight);
+  color: var(--fi-text-heading);
+}
+
+.fi-text-title-2 {
+  font-size: var(--fi-font-size-xl);
+  font-weight: var(--fi-font-weight-semibold);
+  line-height: var(--fi-line-height-tight);
+  color: var(--fi-text-heading);
+}
+
+.fi-text-body {
+  font-size: var(--fi-font-size-md);
+  font-weight: var(--fi-font-weight-regular);
+  line-height: var(--fi-line-height-normal);
+  color: var(--fi-text-body);
+}
+
+.fi-text-caption {
+  font-size: var(--fi-font-size-sm);
+  font-weight: var(--fi-font-weight-regular);
+  line-height: var(--fi-line-height-normal);
+  color: var(--fi-text-caption);
+}
+
+.fi-text-strong {
+  font-weight: var(--fi-font-weight-semibold);
+  color: var(--fi-text-heading);
+}
+
+.fi-text-link {
+  color: var(--fi-primary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.fi-text-link:hover {
+  color: var(--fi-primary-hover);
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Utility classes
+   ============================================================ */
+
+.u-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*
+ * Primary text color — used for inline emphasis with brand color.
+ * Use .fi-text-strong for semantic bold, use this when color is needed.
+ */
+.fi-primary-text {
+  color: var(--fi-primary);
+  font-weight: var(--fi-font-weight-bold);
+}
+
+/* ============================================================
+   Shared animations
+   ============================================================ */
+
+@keyframes fi-slide-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fi-slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}

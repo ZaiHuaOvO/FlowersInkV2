@@ -1,0 +1,39 @@
+/* ============================================================
+   fi-tabs.css — Shared tab bar component
+   Layer: Component
+   ============================================================ */
+
+.fi-tab-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  padding: var(--fi-space-2) 0 var(--fi-space-3);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.fi-tab {
+  padding: 4px var(--fi-space-4);
+  color: var(--fi-text-muted);
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-lg);
+  font-weight: var(--fi-font-weight-medium);
+  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.4;
+}
+
+.fi-tab--active {
+  background: var(--fi-primary) !important;
+  color: #fff !important;
+  border-radius: var(--fi-radius-sm);
+}
+
+@media (max-width: 768px) {
+  .fi-tab {
+    font-size: var(--fi-font-size-sm);
+    padding: 4px var(--fi-space-3);
+  }
+}
