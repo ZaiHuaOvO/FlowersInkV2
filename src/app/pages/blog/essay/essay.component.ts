@@ -5,7 +5,6 @@ import { debounceTime } from 'rxjs';
 import { GeneralService } from '../../../services/general.service';
 import { WindowService } from '../../../services/window.service';
 import { BlogService } from '../blog.service';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -28,7 +27,6 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   selector: 'flower-essay',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     FormsModule,
     NzFlexModule,

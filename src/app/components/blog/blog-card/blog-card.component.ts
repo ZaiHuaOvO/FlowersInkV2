@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -18,7 +18,6 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   styleUrls: ['./blog-card.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     NzFlexModule,
     NzDividerModule,
     NzTypographyModule,

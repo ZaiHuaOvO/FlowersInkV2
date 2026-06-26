@@ -7,7 +7,6 @@ import {
   OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -27,7 +26,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
   selector: 'flower-me',
   standalone: true,
   imports: [
-    CommonModule,
     NzFlexModule,
     NzImageModule,
     NzTypographyModule,
@@ -232,6 +230,7 @@ export class MeComponent implements AfterViewInit, OnDestroy {
     this.slideDirection = goingForward ? 'right' : 'left';
     this.isTransitioning = true;
     this.activeSection = index;
+    this.cdr.detectChanges();
     requestAnimationFrame(() => this.measureSection());
     this.wheelTimeout = setTimeout(() => {
       this.isTransitioning = false;
@@ -242,6 +241,8 @@ export class MeComponent implements AfterViewInit, OnDestroy {
   setHobby(index: number): void {
     if (index === this.activeHobby) return;
     this.activeHobby = index;
+    this.cdr.detectChanges();
+    requestAnimationFrame(() => this.measureSection());
   }
 
   // ---------- 复制 ----------

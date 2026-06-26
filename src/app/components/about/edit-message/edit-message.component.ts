@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -27,7 +26,6 @@ import { SimpleCaptchaComponent } from '../../website/simple-captcha/simple-capt
   selector: 'flower-edit-message',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     NzFlexModule,
     NzFormModule,

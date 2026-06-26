@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, DestroyRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
@@ -29,7 +29,6 @@ import { LinkService } from './link.service';
   selector: 'flower-link',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     DatePipe,
     NzFlexModule,

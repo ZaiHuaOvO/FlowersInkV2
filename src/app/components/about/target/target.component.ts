@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -12,7 +11,7 @@ interface TargetRoute {
 @Component({
   selector: 'flower-target',
   standalone: true,
-  imports: [RouterModule, CommonModule, NzFlexModule],
+  imports: [RouterModule, NzFlexModule],
   templateUrl: './target.component.html',
   styleUrl: './target.component.css',
 })

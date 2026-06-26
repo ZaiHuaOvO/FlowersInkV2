@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, EventEmitter, Input, Output } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -14,7 +13,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
   selector: 'flower-blog-comment',
   standalone: true,
   imports: [
-    CommonModule,
     NzFlexModule,
     NzPopoverModule,
     NzPaginationModule,

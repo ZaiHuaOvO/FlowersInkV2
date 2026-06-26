@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterModule } from '@angular/router';
@@ -11,7 +10,6 @@ import { RoutePrefetchService } from '../../../../services/route-prefetch.servic
   selector: 'flower-header-mobile',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     NzIconModule,
     NzDividerModule

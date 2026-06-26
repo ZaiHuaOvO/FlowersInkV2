@@ -3,7 +3,7 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { WelcomeService } from './welcome.service';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { BlogCardComponent } from '../../components/blog/blog-card/blog-card.component';
 import { MeCardComponent } from '../../components/website/me-card/me-card.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -29,7 +29,6 @@ interface WelcomeStats {
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css'],
   imports: [
-    CommonModule,
     NzFlexModule,
     NzSpinModule,
     BlogCardComponent,

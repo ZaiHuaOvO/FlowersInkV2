@@ -19,7 +19,8 @@
     <div #wrap class="carousel-wrap">
       <div #viewport class="carousel-viewport" [style.height.px]="viewportHeight">
         @if (activeSection === 0) {
-        <section class="section" data-index="0">
+        <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+          [class.slide-in--left]="slideDirection === 'left'" data-index="0">
           <article class="section-inner">
             <div class="hero-row">
               <div>
@@ -58,7 +59,8 @@
         }
 
         @if (activeSection === 1) {
-        <section class="section" data-index="1">
+        <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+          [class.slide-in--left]="slideDirection === 'left'" data-index="1">
           <article class="section-inner">
             <div class="hobby-layout">
               <nav class="hobby-menu">
@@ -111,6 +113,9 @@
                         <strong class="fi-primary-text">想不想修真</strong>
                         <span class="fi-secondary-text"> -
                           怀旧文字数值修仙游戏</span><br>
+                        <strong class="fi-primary-text">绝区零</strong>
+                        <span class="fi-secondary-text"> -
+                          伤心之人回归游玩中</span><br>
                         <nz-divider></nz-divider>
                         <strong>最喜欢的五款游戏</strong><br><br>
                         <strong class="fi-primary-text">死亡搁浅</strong>
@@ -177,7 +182,8 @@
         }
 
         @if (activeSection === 2) {
-        <section class="section" data-index="2">
+        <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+          [class.slide-in--left]="slideDirection === 'left'" data-index="2">
           <article class="section-inner">
             <h2 nz-typography class="contact-subtitle">联系方式</h2>
             <div class="contact-grid">
@@ -271,9 +277,9 @@
       <span>看再花心情更新</span>
     </div>
 
-    <div class="dots">
+    <div class="fi-dots">
       @for (item of [0, 1, 2]; track item) {
-      <button class="dot" [class.dot--active]="activeSection === item" (click)="goToSection(item)"
+      <button class="fi-dot" [class.fi-dot--active]="activeSection === item" (click)="goToSection(item)"
         [attr.aria-label]="'切换到第' + (item + 1) + '个分类'"></button>
       }
     </div>
@@ -291,7 +297,8 @@
 
     <div #wrap class="mobile-section-wrap">
       @if (activeSection === 0) {
-      <section class="mobile-section slide-in" [class.slide-in--right]="slideDirection === 'right'" [class.slide-in--left]="slideDirection === 'left'">
+      <section class="mobile-section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+        [class.slide-in--left]="slideDirection === 'left'">
         <p nz-typography class="mobile-hero-greeting">
           <strong class="fi-primary-text">喵呜喵呜，你好呀ฅ•ω•ฅ</strong>
         </p>
@@ -312,7 +319,8 @@
       }
 
       @if (activeSection === 1) {
-      <section class="mobile-section slide-in" [class.slide-in--right]="slideDirection === 'right'" [class.slide-in--left]="slideDirection === 'left'">
+      <section class="mobile-section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+        [class.slide-in--left]="slideDirection === 'left'">
         <div class="mobile-hobby-tabs">
           <button class="mobile-hobby-tab" [class.active]="activeHobby === 0" (click)="setHobby(0)">游戏</button>
           <button class="mobile-hobby-tab" [class.active]="activeHobby === 1" (click)="setHobby(1)">写作</button>
@@ -395,7 +403,8 @@
       }
 
       @if (activeSection === 2) {
-      <section class="mobile-section slide-in" [class.slide-in--right]="slideDirection === 'right'" [class.slide-in--left]="slideDirection === 'left'">
+      <section class="mobile-section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+        [class.slide-in--left]="slideDirection === 'left'">
         <h2 nz-typography class="mobile-contact-subtitle">联系方式</h2>
         <div class="mobile-contact-grid">
           <div class="mobile-contact-card" (click)="copyQQ()" nz-popover [nzPopoverContent]="mobileQQQRCode"
@@ -465,6 +474,8 @@
             <span class="mobile-social-name">小红书</span>
             <span class="mobile-social-desc">拼豆</span>
           </a>
+        </div>
+        <div class="mobile-social-grid">
           <a class="mobile-social-card" rel="nofollow" href="https://www.zhihu.com/people/zai-hua-14-76"
             target="_blank">
             <span nz-icon nzType="zhihu" nzTheme="outline" class="mobile-social-icon"></span>

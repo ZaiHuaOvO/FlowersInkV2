@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -16,7 +15,6 @@ import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.dir
   selector: 'flower-simple-captcha',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     NzFlexModule,
     NzInputModule,

@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { NgClass, DatePipe } from '@angular/common';
 import { Component, DestroyRef, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -18,7 +18,7 @@ type GameViewMode = 'detailed' | 'overview';
   selector: 'flower-game-card',
   standalone: true,
   imports: [
-    CommonModule,
+    NgClass,
     NzCardModule,
     NzTagModule,
     NzFlexModule,

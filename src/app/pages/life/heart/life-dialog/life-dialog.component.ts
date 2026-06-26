@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -13,7 +13,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   styleUrls: ['./life-dialog.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     NzFlexModule,
     NzCardModule,
     NzImageModule,

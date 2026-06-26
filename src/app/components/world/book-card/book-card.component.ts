@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { NgClass, DatePipe, DecimalPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -13,7 +13,7 @@ import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.direct
   selector: 'flower-book-card',
   standalone: true,
   imports: [
-    CommonModule,
+    NgClass,
     NzFlexModule,
     NzDividerModule,
     NzTypographyModule,
@@ -22,6 +22,7 @@ import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.direct
     NzImageModule,
     NzBadgeModule,
     DatePipe,
+    DecimalPipe,
     FlCardDirective,
   ],
   templateUrl: './book-card.component.html',

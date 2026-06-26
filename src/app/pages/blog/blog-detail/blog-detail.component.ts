@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -47,7 +47,6 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   selector: 'flower-blog-detail',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     FormsModule,
     NzFlexModule,

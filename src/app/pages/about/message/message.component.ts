@@ -7,7 +7,7 @@ import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { AboutService } from '../about.service';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { EditMessageComponent } from '../../../components/about/edit-message/edit-message.component';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -21,7 +21,6 @@ import { RouterModule } from '@angular/router';
   selector: 'flower-message',
   standalone: true,
   imports: [
-    CommonModule,
     NzFlexModule,
     NzTypographyModule,
     NzIconModule,

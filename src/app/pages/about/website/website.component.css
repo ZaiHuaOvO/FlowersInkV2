@@ -214,6 +214,17 @@
  * Mobile tab scroll (about-specific: horizontal scroll on mobile)
  */
 
+/*
+ * Section slide animation (shared keyframes in fi-base.css)
+ */
+.slide-in {
+  animation: fi-slide-in-right 300ms var(--fi-ease-standard);
+}
+
+.slide-in--left {
+  animation-name: fi-slide-in-left;
+}
+
 @media (max-width: 768px) {
   .website {
     padding: var(--fi-space-6) var(--fi-space-4) var(--fi-space-8);

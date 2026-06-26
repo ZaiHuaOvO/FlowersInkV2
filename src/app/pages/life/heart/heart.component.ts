@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common';
+import { NgClass, DatePipe, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -64,7 +64,7 @@ interface YearNavigator {
   selector: 'flower-heart',
   standalone: true,
   imports: [
-    CommonModule,
+    NgClass,
     NzAffixModule,
     NzFlexModule,
     NzSpinModule,

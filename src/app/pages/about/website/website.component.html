@@ -13,16 +13,19 @@
 
     <div class="nav-arrows">
       <button class="nav-arrow" [class.nav-arrow--disabled]="activeSection === 0"
-        (click)="goToSection(activeSection - 1)" aria-label="上一个分类"><strong>^</strong></button>
+        (click)="goToSection(activeSection - 1)" aria-label="上一个分类"><strong><nz-icon nzType="up"
+            nzTheme="outline" /></strong></button>
       <button class="nav-arrow" [class.nav-arrow--disabled]="activeSection === 4"
-        (click)="goToSection(activeSection + 1)" aria-label="下一个分类"><strong>v</strong></button>
+        (click)="goToSection(activeSection + 1)" aria-label="下一个分类"><strong><nz-icon nzType="down"
+            nzTheme="outline" /></strong></button>
     </div>
 
     <div #wrap class="carousel-wrap">
       <div #viewport class="carousel-viewport" [style.height.px]="viewportHeight">
 
         @if (activeSection === 0) {
-        <section class="section" data-index="0">
+        <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+          [class.slide-in--left]="slideDirection === 'left'" data-index="0">
           <article class="section-inner">
             <div class="simple-timeline">
               @for (item of websiteTimeline; track item) {
@@ -43,7 +46,8 @@
         }
 
         @if (activeSection === 1) {
-        <section class="section" data-index="1">
+        <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+          [class.slide-in--left]="slideDirection === 'left'" data-index="1">
           <article class="section-inner">
 
             <br>
@@ -63,7 +67,8 @@
         }
 
         @if (activeSection === 2) {
-        <section class="section" data-index="2">
+        <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+          [class.slide-in--left]="slideDirection === 'left'" data-index="2">
           <article class="section-inner">
             <p nz-typography>我的网站项目名和域名为：FlowersInk，含义是<strong class="fi-primary-text">「花(Flower)的(`s)墨(Ink)」</strong>
             </p>
@@ -75,7 +80,8 @@
         }
 
         @if (activeSection === 3) {
-        <section class="section" data-index="3">
+        <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+          [class.slide-in--left]="slideDirection === 'left'" data-index="3">
           <article class="section-inner">
             <p nz-typography>前端：基于<strong
                 class="fi-primary-text">Angular17</strong>开发（目前已更新至v20），使用了ng-zorro、ngx-markdown等库</p>
@@ -93,7 +99,8 @@
         }
 
         @if (activeSection === 4) {
-        <section class="section" data-index="4">
+        <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+          [class.slide-in--left]="slideDirection === 'left'" data-index="4">
           <article class="section-inner">
             <div class="thanks-box">
               <p nz-typography>感谢我老婆</p>
@@ -139,7 +146,8 @@
 
     <div #wrap class="section-wrap">
       @if (activeSection === 0) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'" [class.slide-in--left]="slideDirection === 'left'">
+      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+        [class.slide-in--left]="slideDirection === 'left'">
         <div class="simple-timeline">
           @for (item of websiteTimeline; track item) {
           <div class="simple-timeline-item">
@@ -160,7 +168,8 @@
       }
 
       @if (activeSection === 1) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'" [class.slide-in--left]="slideDirection === 'left'">
+      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+        [class.slide-in--left]="slideDirection === 'left'">
         <br>
         <p nz-typography>我是一个<strong class="fi-primary-text">喜欢记录</strong>的人</p>
         <p nz-typography>从学生时代的日记、笔记，到现在的记账、拍照、游戏视频剪辑，我总是希望将生命中的美好记录成册。</p>
@@ -177,7 +186,8 @@
       }
 
       @if (activeSection === 2) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'" [class.slide-in--left]="slideDirection === 'left'">
+      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+        [class.slide-in--left]="slideDirection === 'left'">
         <p nz-typography>我的网站项目名和域名为：FlowersInk，含义是<strong class="fi-primary-text">「花(Flower)的(`s)墨(Ink)」</strong></p>
         <p nz-typography>相比于现在非常便利的电子化，我总是对书写、纸质书一直情有独钟，提笔书写在纸上所带来知识的厚重感，电子化很难替代</p>
         <p nz-typography>但电子化是时代趋势，纸质书笔只能作为一种闲暇之余的爱好，于是我将敲击键盘看作是另一种形式的"书写"。</p>
@@ -186,7 +196,8 @@
       }
 
       @if (activeSection === 3) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'" [class.slide-in--left]="slideDirection === 'left'">
+      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+        [class.slide-in--left]="slideDirection === 'left'">
         <p nz-typography>前端：基于<strong class="fi-primary-text">Angular17</strong>开发（目前已更新至v20），使用了ng-zorro、ngx-markdown等库
         </p>
         <p nz-typography>后端：使用<strong class="fi-primary-text">NestJS</strong>开发</p>
@@ -202,7 +213,8 @@
       }
 
       @if (activeSection === 4) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'" [class.slide-in--left]="slideDirection === 'left'">
+      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
+        [class.slide-in--left]="slideDirection === 'left'">
         <div class="thanks-box">
           <p nz-typography>感谢我老婆</p>
           <div class="thanks-row">

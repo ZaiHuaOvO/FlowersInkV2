@@ -4,7 +4,7 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { debounceTime } from 'rxjs';
 import { WindowService } from '../../../services/window.service';
 import { WorldService } from '../world.service';
-import { CommonModule } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -27,7 +27,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   selector: 'flower-book',
   standalone: true,
   imports: [
-    CommonModule,
+    DecimalPipe,
     ReactiveFormsModule,
     FormsModule,
     NzFlexModule,

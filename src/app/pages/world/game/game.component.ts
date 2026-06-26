@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { Component, DestroyRef } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -29,7 +29,7 @@ type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
   selector: 'flower-game',
   standalone: true,
   imports: [
-    CommonModule,
+    DecimalPipe,
     ReactiveFormsModule,
     FormsModule,
     NzFlexModule,
@@ -125,5 +125,4 @@ export class GameComponent {
     }
     return 3;
   }
-
 }

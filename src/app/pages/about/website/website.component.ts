@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -24,7 +23,6 @@ import { WindowService } from '../../../services/window.service';
   selector: 'flower-website',
   standalone: true,
   imports: [
-    CommonModule,
     NzFlexModule,
     NzImageModule,
     NzDividerModule,
@@ -246,6 +244,7 @@ export class WebsiteComponent implements AfterViewInit, OnDestroy {
     this.slideDirection = goingForward ? 'right' : 'left';
     this.isTransitioning = true;
     this.activeSection = index;
+    this.cdr.detectChanges();
     requestAnimationFrame(() => this.measureSection());
     this.wheelTimeout = setTimeout(() => {
       this.isTransitioning = false;

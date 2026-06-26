@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { NzBackTopModule } from 'ng-zorro-antd/back-top';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -7,7 +7,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 @Component({
   selector: 'flower-back-top',
   standalone: true,
-  imports: [CommonModule, NzIconModule, NzFlexModule, NzBackTopModule],
+  imports: [NgStyle, NzIconModule, NzFlexModule, NzBackTopModule],
   templateUrl: './back-top.component.html',
   styleUrl: './back-top.component.css',
 })

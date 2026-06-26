@@ -1,4 +1,4 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
 import { Component, DestroyRef, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -29,7 +29,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   selector: 'flower-question',
   standalone: true,
   imports: [
-    CommonModule,
+    DatePipe,
     FormsModule,
     ReactiveFormsModule,
     NzFlexModule,
