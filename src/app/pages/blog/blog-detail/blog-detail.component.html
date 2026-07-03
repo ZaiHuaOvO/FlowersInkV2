@@ -1,9 +1,9 @@
-﻿<div class="article editor blog-detail-page" nz-flex [nzVertical]="true" (scroll)="onScroll('editor')" #editor>
+<div class="article blog-detail-page" nz-flex [nzVertical]="true" #editor>
   <div class="blog-detail-shell">
     <div class="content blog-detail-content" flCard nz-flex nzGap="middle" [nzVertical]="true" @QuickUp>
       <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
         <ng-template #backTitle>
-          <span nz-typography class="back-link" (click)="onBack()">返回</span>
+          <span nz-typography class="back-link" (click)="onBack()"><nz-icon nzType="left" nzTheme="outline" />返回</span>
         </ng-template>
 
         @if (!isMobile) {
@@ -62,27 +62,31 @@
 
     @if (!isMobile) {
     <aside class="me" @SlowUp>
-      <div class="me_box" flCard nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
-        <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/logo.png" nzShape="square"></nz-avatar>
-        <div nz-flex [nzVertical]="true">
-          <h5 nz-typography>再花</h5>
-          <span nz-typography nzType="secondary">猫猫头前端工程师</span>
-        </div>
-      </div>
+      <nz-affix [nzOffsetTop]="72">
+        <div class="me-inner">
+          <div class="me_box" flCard nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
+            <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/logo.png" nzShape="square"></nz-avatar>
+            <div nz-flex [nzVertical]="true">
+              <h5 nz-typography>再花</h5>
+              <span nz-typography nzType="secondary">猫猫头前端工程师</span>
+            </div>
+          </div>
 
-      <div class="menu" flCard>
-        <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
-        <nz-divider class="menu-divider"></nz-divider>
-        <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset">
-          @for (anchor of anchors; track anchor) {
-          <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
-            @for (subAnchor of anchor.children; track subAnchor) {
-            <nz-link [nzHref]="subAnchor.href" [nzTitle]="subAnchor.title"></nz-link>
-            }
-          </nz-link>
-          }
-        </nz-anchor>
-      </div>
+          <div class="menu" flCard>
+            <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
+            <nz-divider class="menu-divider"></nz-divider>
+            <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset" [nzAffix]="false">
+              @for (anchor of anchors; track anchor) {
+              <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
+                @for (subAnchor of anchor.children; track subAnchor) {
+                <nz-link [nzHref]="subAnchor.href" [nzTitle]="subAnchor.title"></nz-link>
+                }
+              </nz-link>
+              }
+            </nz-anchor>
+          </div>
+        </div>
+      </nz-affix>
     </aside>
     }
   </div>

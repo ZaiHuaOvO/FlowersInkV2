@@ -31,6 +31,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
@@ -64,6 +65,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     BlogCommentComponent,
     NzTooltipModule,
     NzSpinModule,
+    NzAffixModule,
     FlCardDirective,
     FlTagDirective,
   ],
@@ -90,7 +92,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   targetOffset: number = 0;
   isMobile: boolean = false;
   private isSyncing = false;
-  commentArray: any[] = commentArray
+  commentArray: any[] = commentArray;
   displayCommentArray: any[] = [];
   markdownReady = false;
   commentSubmitting = false;
@@ -99,6 +101,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: true })
   editorRef!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('viewer', { static: true }) viewerRef!: ElementRef<HTMLDivElement>;
+
   constructor(
     private blog: BlogService,
     private general: GeneralService,
@@ -108,7 +111,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     private window: WindowService,
     private msg: NzMessageService,
     private title: Title,
-    destroyRef: DestroyRef
+    destroyRef: DestroyRef,
   ) {
     this.destroyRef = destroyRef;
     this.window.bindIsMobile(this.destroyRef, (isMobile) => {
@@ -127,14 +130,13 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
         }
       });
   }
-  ngAfterViewInit(): void {
-  }
+
+  ngAfterViewInit(): void {}
 
   private async initMarkdownRuntime(): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-
     try {
       await ensureMarkdownRuntimeLoaded();
       this.markdownReady = true;
@@ -145,16 +147,14 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
 
   getBlogDetail(): void {
     this.loading = true;
-    this.blog
-      .getBlogDetail(this.Id)
-      .subscribe((res: any) => {
-        this.data = res['data'];
-        this.title.setTitle(`${this.data.title} | 花墨`);
-        this.getComment();
-        this.markdownContent = this.data.content;
-        this.loading = false;
-        this.commentSubmitting = false;
-      });
+    this.blog.getBlogDetail(this.Id).subscribe((res: any) => {
+      this.data = res['data'];
+      this.title.setTitle(`${this.data.title} | 花墨`);
+      this.getComment();
+      this.markdownContent = this.data.content;
+      this.loading = false;
+      this.commentSubmitting = false;
+    });
     if (isPlatformBrowser(this.platformId)) {
       this.targetOffset = window.innerHeight / 2;
     }
@@ -162,13 +162,15 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
 
   generateAnchors(): void {
     const headings = this.el.nativeElement.querySelectorAll(
-      '#currentAnchor h1, #currentAnchor h2'
+      '#currentAnchor :where(h1, h2):not(blockquote h1):not(blockquote h2)'
     );
     this.anchors = [];
 
-    let currentH1:
-      | { children: Array<{ href: string; title: string }>; href: string; title: string }
-      | null = null;
+    let currentH1: {
+      children: Array<{ href: string; title: string }>;
+      href: string;
+      title: string;
+    } | null = null;
 
     headings.forEach((heading: HTMLElement, index: number) => {
       const id = `heading-${index}`;
@@ -194,22 +196,18 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
   onScroll(source: 'editor' | 'viewer'): void {
-    if (this.isSyncing) return; // Guard against recursive sync.
-
+    if (this.isSyncing) return;
     this.isSyncing = true;
 
     const editor = this.editorRef.nativeElement;
     const viewer = this.viewerRef.nativeElement;
-
     const sourceElement = source === 'editor' ? editor : viewer;
     const targetElement = source === 'editor' ? viewer : editor;
 
-    // Compute scroll ratio.
     const scrollRatio =
       sourceElement.scrollTop /
       (sourceElement.scrollHeight - sourceElement.clientHeight);
 
-    // Apply ratio to target element.
     targetElement.scrollTop =
       scrollRatio * (targetElement.scrollHeight - targetElement.clientHeight);
 
@@ -217,41 +215,43 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   }
 
   comment(emoji: any): void {
-    if (this.commentSubmitting) {
-      return;
-    }
+    if (this.commentSubmitting) return;
 
     this.commentSubmitting = true;
-    this.blog.comment(this.activateInfo.snapshot.params['id'], {
-      emojiType: emoji['key'],
-    }).subscribe({
-      next: (res: any) => {
-        if (res['data'].success) {
-          this.msg.info(res['data']['msg']);
-          this.getBlogDetail();
-        } else {
-          this.msg.error(res['data']['msg']);
+    this.blog
+      .comment(this.activateInfo.snapshot.params['id'], {
+        emojiType: emoji['key'],
+      })
+      .subscribe({
+        next: (res: any) => {
+          if (res['data'].success) {
+            this.msg.info(res['data']['msg']);
+            this.getBlogDetail();
+          } else {
+            this.msg.error(res['data']['msg']);
+            this.commentSubmitting = false;
+          }
+        },
+        error: (error) => {
+          this.msg.error(
+            extractHttpErrorMessage(error, '评论提交失败啦，稍后再试试吧 (╥﹏╥)'),
+          );
           this.commentSubmitting = false;
-        }
-      },
-      error: (error) => {
-        this.msg.error(
-          extractHttpErrorMessage(error, '评论提交失败啦，稍后再试试吧 (╥﹏╥)'),
-        );
-        this.commentSubmitting = false;
-      },
-    });
+        },
+      });
   }
 
   getComment(): void {
     const data: any[] = this.data['comment'];
+    const countMap = (data ?? []).reduce(
+      (map, item) => {
+        map[item.emojiType] = item.count;
+        return map;
+      },
+      {} as Record<string, number>,
+    );
 
-    const countMap = (data ?? []).reduce((map, item) => {
-      map[item.emojiType] = item.count;
-      return map;
-    }, {} as Record<string, number>);
-
-    this.displayCommentArray = this.commentArray.map(item => ({
+    this.displayCommentArray = this.commentArray.map((item) => ({
       ...item,
       count: countMap[item.key] ?? 0,
     }));
@@ -261,5 +261,3 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     return getCommentEmojiSymbol(key);
   }
 }
-
-

@@ -1,1 +1,20 @@
-<nz-float-button-top nzIcon="arrow-up" nzType="primary" nzShape="circle" [nzVisibilityHeight]="400" />
+<div
+  class="back-top"
+  [class.back-top--visible]="visible"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+  (click)="scrollToTop()"
+  role="button"
+  tabindex="0"
+  aria-label="回到顶部"
+>
+  <nz-icon class="back-top-icon" nzType="up" nzTheme="outline" />
+  <img
+    [src]="isHovered
+      ? 'assets/img/web/再花方长贴贴趴趴.png'
+      : 'assets/img/web/再花趴趴.png'"
+    alt="回到顶部"
+    width="75"
+    height="75"
+  />
+</div>

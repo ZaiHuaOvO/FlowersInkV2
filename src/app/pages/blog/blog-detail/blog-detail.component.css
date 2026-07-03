@@ -1,4 +1,4 @@
-﻿.article {
+.article {
   width: 100%;
   max-width: 100%;
   min-height: calc(100vh - 48px);
@@ -29,10 +29,15 @@
 
 .me {
   width: 100%;
-  min-height: 200px;
-  position: sticky;
-  top: 72px;
+  min-width: 260px;
   align-self: start;
+  min-height: 400px;
+}
+
+.me-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-3);
 }
 
 .me_box {
@@ -76,25 +81,102 @@ nz-page-header {
 }
 
 nz-anchor {
-  padding: var(--fi-space-3);
+  padding: 0;
+  display: block;
 }
 
+/* ===== 目录时间轴样式 ===== */
+:host ::ng-deep .ant-anchor {
+  position: relative;
+  padding-left: 16px;
+}
+
+/* 竖线 */
+:host ::ng-deep .ant-anchor::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: var(--fi-border);
+}
+
+/* 所有目录项 */
+:host ::ng-deep .ant-anchor-link {
+  position: relative;
+  padding: 0 0 6px 0;
+}
+
+:host ::ng-deep .ant-anchor-link:last-child {
+  padding-bottom: 0;
+}
+
+/* 所有小圆点 */
+:host ::ng-deep .ant-anchor-link::before {
+  content: '';
+  position: absolute;
+  left: -11px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--fi-primary-outline);
+  z-index: 1;
+  transition: background var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+:host ::ng-deep .ant-anchor-link-active::before,
+:host ::ng-deep .ant-anchor-link:hover::before {
+  background: var(--fi-primary);
+}
+
+/* 隐藏 ng-zorro 默认的 ink ball */
+:host ::ng-deep .ant-anchor-ink {
+  display: none !important;
+}
+
+/* 所有标题 */
 :host ::ng-deep .ant-anchor-link-title {
-  color: var(--fi-primary) !important;
+  display: block;
+  padding: 2px 0 2px var(--fi-space-3);
+  color: var(--fi-text-muted);
+  font-size: var(--fi-font-size-md);
+  line-height: 1.5;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 :host ::ng-deep .ant-anchor-link-title:hover {
-  color: var(--fi-primary-hover) !important;
+  color: var(--fi-primary-hover);
 }
 
 :host ::ng-deep .ant-anchor-link-active > .ant-anchor-link-title {
-  color: var(--fi-primary) !important;
-  font-weight: var(--fi-font-weight-bold);
+  color: var(--fi-primary);
+  font-weight: var(--fi-font-weight-semibold);
 }
 
-:host ::ng-deep .ant-anchor-ink-ball {
-  border-color: var(--fi-primary) !important;
-  background: var(--fi-primary) !important;
+/* 二级目录标题：更深嵌套覆盖一级 */
+:host ::ng-deep .ant-anchor-link .ant-anchor-link .ant-anchor-link-title {
+  font-size: var(--fi-font-size-xs) !important;
+  padding-left: calc(var(--fi-font-size-md) + var(--fi-space-3)) !important;
+  color: var(--fi-text-muted) !important;
+}
+
+/* 二级目录圆点调小 */
+:host ::ng-deep .ant-anchor-link .ant-anchor-link::before {
+  width: 6px;
+  height: 6px;
+  left: -9px;
+  top: 8px;
+  background: var(--fi-primary-outline);
+}
+
+:host ::ng-deep .ant-anchor-link .ant-anchor-link-active::before {
+  background: var(--fi-primary);
+}
+
+:host ::ng-deep .ant-anchor-link .ant-anchor-link:hover::before {
+  background: var(--fi-primary);
 }
 
 .comment-button {
