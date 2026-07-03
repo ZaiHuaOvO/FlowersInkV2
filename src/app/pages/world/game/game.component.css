@@ -30,7 +30,7 @@
 
 .game-summary__value {
     margin: 0 4px;
-    color: #7a4d23;
+    color: var(--fi-primary);
     font-size: clamp(1.24rem, 1.15rem + 0.42vw, 1.6rem);
     font-weight: 800;
 }

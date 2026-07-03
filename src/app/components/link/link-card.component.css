@@ -18,7 +18,7 @@
     min-width: 75px;
     border-radius: var(--fi-radius-sm);
     background: var(--fi-primary);
-    color: var(--fi-text-inverse);
+    color: #fff;
     font-size: 28px;
     font-weight: 600;
     display: inline-flex;

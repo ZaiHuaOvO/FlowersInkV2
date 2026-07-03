@@ -249,6 +249,6 @@ export class WebsiteComponent implements AfterViewInit, OnDestroy {
     this.wheelTimeout = setTimeout(() => {
       this.isTransitioning = false;
       this.wheelTimeout = null;
-    }, this.THROTTLE_MS);
+      }, this.THROTTLE_MS);
   }
 }

@@ -81,7 +81,7 @@
   font-family: var(--fi-font-base);
   font-size: 20px;
   font-weight: 650;
-  color: #6b3f20;
+  color: var(--fi-primary);
   cursor: pointer;
 }
 
@@ -90,7 +90,7 @@
 }
 
 .month-nav-list {
-  border-left: 2px solid #d8c6b2;
+  border-left: 2px solid var(--fi-border);
   margin-left: 6px;
   padding-left: 10px;
   display: flex;
@@ -129,7 +129,7 @@
   margin: 0;
   font-size: 44px;
   line-height: 1.12;
-  color: #6b3f20;
+  color: var(--fi-primary);
 }
 
 .current-month-header p {
@@ -157,7 +157,7 @@
   top: 0;
   bottom: 0;
   width: var(--timeline-axis-width);
-  background: #7a4b2a;
+  background: var(--fi-primary);
 }
 
 .month-section {
@@ -186,7 +186,7 @@
   width: var(--timeline-dot-size);
   height: var(--timeline-dot-size);
   border-radius: 50%;
-  background: #7a4b2a;
+  background: var(--fi-primary);
   border: 0;
   box-shadow: none;
 }
@@ -212,13 +212,13 @@ h4 {
   margin: 0;
   font-size: 24px;
   line-height: 1.2;
-  color: #5c351a;
+  color: var(--fi-primary);
 }
 
 .card-tag.ant-tag {
   margin: 0 !important;
   border: 0 !important;
-  color: #fff;
+  color: var(--fi-text-inverse);
   border-radius: 999px;
   font-size: 12px;
   padding: 2px 10px;
@@ -229,7 +229,7 @@ h4 {
 }
 
 .card-tag.tag-daily {
-  background: #8b5a2b !important;
+  background: var(--fi-primary) !important;
 }
 
 .card-tag.tag-game {
@@ -241,7 +241,7 @@ h4 {
 }
 
 .card-tag.tag-default {
-  background: #8d7b6c !important;
+  background: var(--fi-text-muted) !important;
 }
 
 .card-source {
@@ -264,7 +264,7 @@ h4 {
 
 .card-content-excerpt {
   font-style: italic;
-  color: #646464;
+  color: var(--fi-text-muted);
 }
 
 .image-grid {
@@ -312,7 +312,7 @@ h4 {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  border: 1px solid #e2d2c1;
+  border: 1px solid var(--fi-border);
 }
 
 .image-item-square {
@@ -342,7 +342,7 @@ h4 {
   border: 0;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.7);
-  color: #fff;
+  color: var(--fi-text-inverse);
   font-size: 12px;
   line-height: 1;
   padding: 7px 10px;
@@ -368,7 +368,7 @@ h4 {
   flex: 1 1 auto;
   margin-top: 0;
   font-size: 12px;
-  color: #968271;
+  color: var(--fi-text-muted);
 }
 
 .tag-filter-list {
@@ -380,7 +380,7 @@ h4 {
 .tag-filter-button {
   width: 100%;
   border: 0;
-  background: #fff9f1;
+  background: var(--fi-bg-soft);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -388,7 +388,7 @@ h4 {
   font-family: var(--fi-font-base);
   padding: 10px 12px;
   cursor: pointer;
-  color: #6b3f20;
+  color: var(--fi-primary);
   transition: all var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
@@ -405,7 +405,7 @@ h4 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #5f5142;
+  color: var(--fi-text-muted);
   flex: 0 0 16px;
 }
 
@@ -417,12 +417,12 @@ h4 {
 .tag-filter-button:hover,
 .tag-filter-button.active {
   background: var(--fi-primary);
-  color: #fff;
+  color: var(--fi-text-inverse);
 }
 
 .tag-filter-button:hover .tag-filter-icon-svg,
 .tag-filter-button.active .tag-filter-icon-svg {
-  color: #fff;
+  color: var(--fi-text-inverse);
 }
 
 .tag-count {
@@ -433,7 +433,7 @@ h4 {
 .curator-note {
   margin-top: 18px;
   border-radius: var(--fi-radius-md);
-  background: #ede1d4;
+  background: var(--fi-tag-bg);
   padding: 14px 12px;
 }
 
@@ -441,7 +441,7 @@ h4 {
   margin: 0;
   font-size: 12px;
   letter-spacing: 1px;
-  color: #6b3f20;
+  color: var(--fi-primary);
 }
 
 .curator-note p {
@@ -452,7 +452,7 @@ h4 {
 }
 
 .state-card {
-  border: 1px solid #e2d2bf;
+  border: 1px solid var(--fi-border);
   background: var(--fi-card-bg);
   border-radius: var(--fi-radius-md);
   padding: 18px;
@@ -461,12 +461,12 @@ h4 {
 .error-state h3,
 h4 {
   margin: 0;
-  color: #9a3f2f;
+  color: var(--fi-danger);
 }
 
 .error-state p {
   margin: 8px 0 0;
-  color: #855747;
+  color: var(--fi-text-muted);
 }
 
 .state-btn {
@@ -474,7 +474,7 @@ h4 {
   border: 0;
   border-radius: 8px;
   background: var(--fi-primary);
-  color: #fff;
+  color: var(--fi-text-inverse);
   padding: 8px 14px;
   cursor: pointer;
 }

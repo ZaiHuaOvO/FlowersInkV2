@@ -6,7 +6,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { commentArray } from '../../../ts/comment-emoji';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { WindowService } from '../../../services/window.service';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @Component({
@@ -18,7 +18,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzPaginationModule,
     NzIconModule,
     NzGridModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzTagModule,
   ],
   templateUrl: './blog-comment.component.html',

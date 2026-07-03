@@ -209,7 +209,7 @@
 .hobby-menu-item.active {
   background: var(--fi-primary);
   border-color: var(--fi-primary);
-  color: #fff;
+  color: var(--fi-text-inverse);
 }
 
 .hobby-content {
@@ -598,7 +598,7 @@ strong {
   .mobile-hobby-tab.active {
     background: var(--fi-primary);
     border-color: var(--fi-primary);
-    color: #fff;
+    color: var(--fi-text-inverse);
   }
 
   .hobby-content,

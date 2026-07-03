@@ -7,7 +7,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { commentArray } from '../../../ts/comment-emoji';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { WindowService } from '../../../services/window.service';
 import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
@@ -25,7 +25,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     NzIconModule,
     DatePipe,
     NzTagModule,
-    NzToolTipModule,
+    NzTooltipModule,
     FlTagDirective,
   ],
 })

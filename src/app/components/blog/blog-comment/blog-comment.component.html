@@ -4,7 +4,7 @@
       nzTheme="outline"></span></button>
   <ng-template #contentTemplate>
     <div class="comment-emoji-panel">
-      <div nz-row [nzGutter]="[16]">
+      <div nz-row [nzGutter]="[16, 16]">
         @for (emoji of commentArray; track emoji) {
         <div nz-col [nzSpan]="isMobile ? 8 :4" nz-flex [nzVertical]="true" nzJustify="center" nzAlign="center">
           <button class="emoji-option" nz-tooltip [nzTooltipTitle]="emoji.description" type="button"

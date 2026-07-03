@@ -353,7 +353,6 @@
     color: var(--fi-primary);
     text-decoration: none;
     cursor: pointer;
-    font-weight: var(--fi-font-weight-medium);
   }
 
   .nav-link:active {
@@ -367,5 +366,6 @@
 
   .fi-dot--active {
     width: 22px;
+    border-radius: 4px;
   }
 }

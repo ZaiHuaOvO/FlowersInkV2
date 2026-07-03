@@ -1,10 +1,10 @@
-import { Routes } from '@angular/router';
+import { Routes } from "@angular/router";
 
 export const LIFE_ROUTES: Routes = [
   {
-    path: '',
-    title: '花墨 | 点滴',
+    path: "",
+    title: "花墨 | 点滴",
     loadComponent: () =>
-      import('./heart/heart.component').then((m) => m.HeartComponent),
+      import("./heart/heart.component").then((m) => m.HeartComponent),
   },
 ];

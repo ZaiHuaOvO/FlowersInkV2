@@ -8,7 +8,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { RssComponent } from '../svg/rss/rss.component';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
@@ -31,7 +31,7 @@ interface MeCardInfo {
     NzTypographyModule,
     NzDividerModule,
     NzIconModule,
-    NzToolTipModule,
+    NzTooltipModule,
     NzImageModule,
     NzTagModule,
     FlTagDirective,

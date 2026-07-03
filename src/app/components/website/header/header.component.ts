@@ -7,7 +7,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { QuickDown } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { RoutePrefetchService } from '../../../services/route-prefetch.service';
@@ -32,7 +32,7 @@ interface MenuItem {
     NzMenuModule,
     NzFlexModule,
     NzAvatarModule,
-    NzDropDownModule,
+    NzDropdownModule,
     NzDrawerModule,
     FlCardDirective,
   ],

@@ -38,7 +38,7 @@ import { BlogCommentComponent } from '../../../components/blog/blog-comment/blog
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { commentArray } from '../../../ts/comment-emoji';
 import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
@@ -62,7 +62,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     DatePipe,
     BlogTitleComponent,
     BlogCommentComponent,
-    NzToolTipModule,
+    NzTooltipModule,
     NzSpinModule,
     FlCardDirective,
     FlTagDirective,
@@ -120,7 +120,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     this.initMarkdownRuntime();
     this.activateInfo.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(params => {
+      .subscribe((params: any) => {
         this.Id = params.get('id');
         if (Number(this.Id) != 0 && isPlatformBrowser(this.platformId)) {
           this.getBlogDetail();
@@ -260,6 +260,6 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   emojiSymbol(key: string): string {
     return getCommentEmojiSymbol(key);
   }
-
 }
+
 
