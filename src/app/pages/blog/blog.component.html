@@ -14,20 +14,20 @@
         @for (item of data; track item) {
           <div class="blog" flCard>
             <h2 nz-typography>{{item.year}}年</h2>
-            <nz-timeline class="fi-brown-timeline">
+            <div class="fi-simple-timeline">
               @for (blog of item.data; track blog) {
-                <nz-timeline-item nzColor="#8b5a2b">
-                  <div class="timeline-row">
-                    <span nz-typography class="blog_time timeline-date" nzType="secondary">{{ blog.date | date:'yyyy-MM-dd' }}</span>
-                    <a
-                      nz-typography
-                      class="blog_title timeline-title"
-                      [href]="'/blog/blog-detail/' + blog.id"
-                    >{{blog.title}}</a>
+                <div class="fi-simple-timeline-item">
+                  <span class="fi-simple-timeline-dot"></span>
+                  <div class="fi-simple-timeline-content">
+                    <span class="fi-simple-timeline-date">{{ blog.date | date:'MM/dd' }}</span>
+                    <a class="fi-simple-timeline-title" [class.is-starred]="blog.star" [href]="'/blog/blog-detail/' + blog.id">
+                      @if (blog.star) {<span class="star-badge">[精选]</span>}
+                      {{ blog.title }}
+                    </a>
                   </div>
-                </nz-timeline-item>
+                </div>
               }
-            </nz-timeline>
+            </div>
           </div>
         }
       </div>

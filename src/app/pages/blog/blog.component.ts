@@ -2,13 +2,11 @@ import { DatePipe } from '@angular/common';
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { debounceTime } from 'rxjs';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../components/blog/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../common_ui/animations/animation';
@@ -30,11 +28,9 @@ import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive
     ReactiveFormsModule,
     NzFlexModule,
     NzSpinModule,
-    NzTimelineModule,
     NzTypographyModule,
     NzInputModule,
     NzIconModule,
-    RouterModule,
     BlogTitleComponent,
     DatePipe,
     FlInputDirective,

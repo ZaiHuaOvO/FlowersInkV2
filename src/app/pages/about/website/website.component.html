@@ -27,13 +27,13 @@
         <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
           [class.slide-in--left]="slideDirection === 'left'" data-index="0">
           <article class="section-inner">
-            <div class="simple-timeline">
+            <div class="fi-simple-timeline">
               @for (item of websiteTimeline; track item) {
-              <div class="simple-timeline-item">
-                <span class="simple-timeline-dot"></span>
-                <div class="simple-timeline-content">
-                  <span class="simple-timeline-date">{{ item.date }}</span>
-                  <span class="simple-timeline-title">{{ item.title }}</span>
+              <div class="fi-simple-timeline-item">
+                <span class="fi-simple-timeline-dot"></span>
+                <div class="fi-simple-timeline-content">
+                  <span class="fi-simple-timeline-date">{{ item.date }}</span>
+                  <span class="fi-simple-timeline-title">{{ item.title }}</span>
                   @if (item.text != '') {
                   <span class="fi-secondary-text"> - {{ item.text }}</span>
                   }
@@ -148,14 +148,14 @@
       @if (activeSection === 0) {
       <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
         [class.slide-in--left]="slideDirection === 'left'">
-        <div class="simple-timeline">
+        <div class="fi-simple-timeline">
           @for (item of websiteTimeline; track item) {
-          <div class="simple-timeline-item">
-            <span class="simple-timeline-dot"></span>
-            <div class="simple-timeline-content">
-              <div class="simple-timeline-row">
-                <span class="simple-timeline-date">{{ item.date }}</span>
-                <span class="simple-timeline-title">{{ item.title }}</span>
+          <div class="fi-simple-timeline-item">
+            <span class="fi-simple-timeline-dot"></span>
+            <div class="fi-simple-timeline-content">
+              <div class="fi-simple-timeline-row">
+                <span class="fi-simple-timeline-date">{{ item.date }}</span>
+                <span class="fi-simple-timeline-title">{{ item.title }}</span>
               </div>
               @if (item.text != '') {
               <span class="fi-secondary-text simple-timeline-text">{{ item.text }}</span>

@@ -1,16 +1,135 @@
+/* ============================================================
+   fi-timeline.css — Shared simple timeline component
+   Layer: Component
+   Usage: .fi-simple-timeline + .fi-simple-timeline-item
+   ============================================================ */
+
+.fi-simple-timeline {
+  position: relative;
+  padding-left: 14px;
+}
+
+.fi-simple-timeline::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: var(--fi-border);
+}
+
+.fi-simple-timeline-item {
+  position: relative;
+}
+
+.fi-simple-timeline-item:not(:last-child) {
+  padding-bottom: 6px;
+}
+
+.fi-simple-timeline-dot {
+  position: absolute;
+  left: -9px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--fi-primary);
+  z-index: 1;
+  transition: transform var(--fi-motion-fast) var(--fi-ease-standard),
+              box-shadow var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.fi-simple-timeline-item:hover .fi-simple-timeline-dot {
+  transform: scale(1.4);
+  box-shadow: 0 0 0 4px var(--fi-primary-outline);
+}
+
+.fi-simple-timeline-content {
+  display: flex;
+  align-items: baseline;
+  gap: var(--fi-space-3);
+  padding-left: var(--fi-space-3);
+  min-width: 0;
+}
+
+.fi-simple-timeline-date {
+  font-size: var(--fi-font-size-md);
+  color: var(--fi-text-muted);
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-weight: var(--fi-font-weight-medium);
+  letter-spacing: 0.01em;
+}
+
+.fi-simple-timeline-title {
+  font-size: var(--fi-font-size-md);
+  color: var(--fi-text);
+  line-height: 1.5;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+a.fi-simple-timeline-title {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.fi-simple-timeline-title:hover {
+  color: #8B5A2B;
+}
+
+/* ---- Mobile ---- */
+
+@media (max-width: 768px) {
+  .fi-simple-timeline {
+    padding-left: 14px;
+  }
+
+  .fi-simple-timeline-content {
+    flex-direction: column;
+    gap: var(--fi-space-1);
+    padding-left: var(--fi-space-2);
+  }
+
+  .fi-simple-timeline-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--fi-space-2);
+    min-width: 0;
+  }
+
+  .fi-simple-timeline-date {
+    font-size: var(--fi-font-size-sm);
+    flex-shrink: 0;
+  }
+
+  .fi-simple-timeline-title {
+    font-size: var(--fi-font-size-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+}
+
+/* ============================================================
+   Legacy: .fi-brown-timeline (ng-zorro nz-timeline overrides)
+   Kept for existing users, prefer .fi-simple-timeline for new work
+   ============================================================ */
+
 .fi-brown-timeline .ant-timeline-item-head {
   width: 10px;
   height: 10px;
   border-width: 2px;
   border-color: var(--fi-primary) !important;
   color: var(--fi-primary) !important;
-  background: #f8efe5 !important;
-  box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.12);
+  background: var(--fi-surface-soft) !important;
+  box-shadow: 0 0 0 3px var(--fi-primary-outline);
   left: -0.5px;
 }
 
 .fi-brown-timeline .ant-timeline-item-tail {
-  border-left: 2px solid #dcc3a7 !important;
+  border-left: 2px solid var(--fi-border) !important;
 }
 
 .fi-brown-timeline .ant-timeline-item-content {
@@ -35,6 +154,8 @@
   color: var(--fi-text-muted) !important;
   white-space: nowrap;
 }
+
+/* ---- website-timeline variant (nz-timeline, about page) ---- */
 
 .website-timeline.ant-timeline .ant-timeline-item-head {
   left: 0;
