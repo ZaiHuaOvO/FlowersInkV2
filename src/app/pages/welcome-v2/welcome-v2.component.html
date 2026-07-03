@@ -1,0 +1,76 @@
+<div class="welcome-v2">
+  <!-- Row 1: 头像卡 + 招呼卡 -->
+  <div class="hero-row">
+    <section class="card hero-avatar-card">
+      <img
+        class="avatar"
+        src="https://api.flowersink.com/img/猫娘全身.jpg"
+        alt="再花的自设形象"
+        loading="lazy"
+        decoding="async"
+      />
+      <h1 class="hero-name">再花</h1>
+      <p class="hero-subtitle">前端小B</p>
+    </section>
+
+    <section class="card hero-greeting-card">
+      <p class="hero-greeting">喵呜喵呜，你好呀ฅ•ω•ฅ</p>
+      <p class="hero-intro">
+        这里是<strong>「再花」</strong>，一个想要变得有趣的灵魂
+      </p>
+      <a class="hero-link" routerLink="/about/me">点击这里了解我的更多 →</a>
+    </section>
+  </div>
+
+  <!-- Row 2: 三列卡片 -->
+  <div class="card-grid">
+    <!-- 最新文章 -->
+    <section class="card col-card">
+      <h2 class="col-title">📝 最新文章</h2>
+      @if (loading) {
+        <div class="skeleton-list">
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+        </div>
+      } @else {
+        <div class="compact-list">
+          @for (article of articles; track article.id) {
+            <a class="compact-item" [routerLink]="'/blog/blog-detail/' + article.id">
+              <span class="item-title article-title">{{ article.title }}</span>
+              <span class="article-tag">#{{ article.type }}</span>
+            </a>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- 最近在玩 -->
+    <section class="card col-card">
+      <h2 class="col-title">🎮 最近在玩</h2>
+      <div class="compact-list">
+        @for (game of games; track game.name) {
+          <div class="compact-item">
+            <strong class="item-title">{{ game.name }}</strong>
+            <span class="item-desc">- {{ game.desc }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- 最近在听 -->
+    <section class="card col-card">
+      <h2 class="col-title">🎵 最近在听</h2>
+      <div class="compact-list">
+        @for (item of musicList; track $index) {
+          <div class="compact-item">
+            <span class="item-title">{{ item.song }}</span>
+            <span class="item-desc">- {{ item.artist }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</div>

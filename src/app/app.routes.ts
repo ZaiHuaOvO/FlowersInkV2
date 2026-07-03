@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: 'welcome',
     loadChildren: () =>
-      import('./pages/welcome/welcome.routes').then((m) => m.WELCOME_ROUTES),
+      import('./pages/welcome-v2/welcome-v2.routes').then((m) => m.WELCOME_V2_ROUTES),
   },
   {
     path: 'blog',
