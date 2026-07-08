@@ -13,10 +13,19 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { RssComponent } from '../svg/rss/rss.component';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 
-interface MeCardInfo {
+export interface MeCardProfile {
+  subtitle: string | null;
+  latestUpdate: string | null;
+  latestUpdateId: number | null;
+  latestPlaying: string | null;
+  latestLife: string | null;
+}
+
+export interface MeCardInfo {
   blogTotal: number;
   lifeTotal: number;
   runDays: number;
+  profile?: MeCardProfile;
 }
 
 @Component({
@@ -44,6 +53,7 @@ export class MeCardComponent {
     blogTotal: 0,
     lifeTotal: 0,
     runDays: 0,
+    profile: undefined,
   };
   @Input() numLoading = true;
 
@@ -72,10 +82,10 @@ export class MeCardComponent {
     navigator.clipboard
       .writeText(this.email)
       .then(() => {
-        this.msg.success('\u5df2\u590d\u5236\u90ae\u7bb1\u5730\u5740\uff0c\u6b22\u8fce\u90ae\u4ef6\u8054\u7cfb\u3002');
+        this.msg.success('已复制邮箱地址，欢迎邮件联系。');
       })
       .catch(() => {
-        this.msg.error('\u590d\u5236\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u91cd\u8bd5\u3002');
+        this.msg.error('复制失败，请稍后重试。');
       });
   }
 }

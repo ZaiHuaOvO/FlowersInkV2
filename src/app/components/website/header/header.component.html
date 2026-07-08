@@ -33,6 +33,17 @@
                 }
               </div>
             </nz-dropdown-menu>
+            } @else if (item.externalUrl) {
+            <a
+              [href]="item.externalUrl"
+              class="menu-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+              &nbsp;
+              {{ item.title }}
+            </a>
             } @else {
             <a
               [routerLink]="item.url"

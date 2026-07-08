@@ -17,6 +17,7 @@ interface MenuItem {
   icon: string;
   url?: string;
   URL?: string;
+  externalUrl?: string;
   child?: MenuItem[];
   showChildren?: boolean;
 }
@@ -82,6 +83,13 @@ export class HeaderComponent implements OnInit {
       title: '游戏',
       icon: 'bulb',
       url: '/world/game',
+      child: [],
+      showChildren: false
+    },
+    {
+      title: '工具箱',
+      icon: 'tool',
+      externalUrl: 'https://tool.flowersink.com/',
       child: [],
       showChildren: false
     },

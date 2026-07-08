@@ -24,7 +24,7 @@
 }
 
 .me-avatar {
-    border-radius: var(--fi-radius-sm);
+    /* border-radius: var(--fi-radius-sm); */
     box-shadow: var(--fi-shadow-soft);
 }
 
@@ -40,16 +40,80 @@
 
 .intro-text {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .intro-line {
     margin: 0 0 var(--fi-space-2);
-    line-height: 1.75;
-    color: var(--fi-text);
+    line-height: 1.5;
+    color: var(--fi-text-muted);
+    font-size: var(--fi-font-size-md);
 }
 
 .intro-line:last-child {
     margin-bottom: 0;
+}
+
+/* 可点击的 intro-line 链接样式 */
+.intro-link {
+    display: inline-flex;
+    gap: 0.25em;
+    max-width: 100%;
+    text-decoration: none;
+    margin: 0 0 var(--fi-space-2);
+    line-height: 1.5;
+    color: var(--fi-text-muted);
+    font-size: var(--fi-font-size-md);
+    text-align: left;
+    overflow: hidden;
+}
+
+.intro-link:last-child {
+    margin-bottom: 0;
+}
+
+.intro-link:hover {
+    color: var(--fi-text-muted);
+}
+
+.intro-link:hover .intro-label {
+    color: #8a7564;
+}
+
+.intro-label {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* 链接内容：省略 + 浅色下划线 */
+.intro-link .fi-primary-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-decoration-color: rgba(102, 75, 58, 0.25);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.18s ease;
+    max-width: 200px;
+    min-width: 0;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.intro-link:hover .fi-primary-text {
+    text-decoration-color: rgba(102, 75, 58, 0.5);
+}
+
+.intro-line .fi-primary-text {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
 }
 
 .social-links {
@@ -126,8 +190,10 @@
 }
 
 .stat-label {
-    color: var(--fi-text);
-    font-weight: 500;
+    font-size: var(--fi-font-size-xs);
+    color: var(--fi-text-muted);
+    opacity: 0.65;
+    user-select: none;
 }
 
 .point_tag {
@@ -139,4 +205,20 @@
     height: 30px;
     margin-inline: 6px;
     border-inline-start-color: #e4d7c8;
+}
+
+.fi-secondary-text {
+    font-size: var(--fi-font-size-xs);
+    color: var(--fi-text-muted);
+    opacity: 0.65;
+    user-select: none;
+}
+
+.fi-secondary-texts {
+    text-align: center;
+}
+
+.fi-primary-text {
+    color: var(--fi-primary) !important;
+    font-size: var(--fi-font-size-md) !important;
 }

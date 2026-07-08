@@ -52,6 +52,19 @@
             </div>
           }
 
+        } @else if (item.externalUrl) {
+          <!-- External link -->
+          <a class="mobile-menu-item mobile-menu-link"
+            [href]="item.externalUrl"
+            target="_blank"
+            rel="noopener noreferrer">
+            <div class="mobile-menu-item-content">
+              <span class="mobile-menu-item-icon">
+                <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+              </span>
+              <span class="mobile-menu-item-label">{{ item.title }}</span>
+            </div>
+          </a>
         } @else {
           <!-- No children -->
           <a class="mobile-menu-item mobile-menu-link"

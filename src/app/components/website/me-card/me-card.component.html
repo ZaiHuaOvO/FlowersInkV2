@@ -1,15 +1,32 @@
 <div class="me me-profile" nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="middle">
   <a class="profile-link" [routerLink]="['/about/me']" aria-label="前往关于我">
-    <nz-avatar class="me-avatar" [nzSize]="128" nzSrc="https://api.flowersink.com/img/再花猫猫头.png"
-      nzShape="square"></nz-avatar>
+    <nz-avatar class="me-avatar" [nzSize]="196" nzSrc="https://api.flowersink.com/img/粉毛猫猫头.jpeg"
+      nzShape="circle"></nz-avatar>
   </a>
-  <a class="profile-link" [routerLink]="['/about/me']">
+  <div class="fi-secondary-texts">
     <h5 nz-typography class="name">再花</h5>
-  </a>
+    <span class="fi-secondary-text">一只编程咪娘</span><br>
+    @if (info.profile?.subtitle) {
+    <span class="fi-secondary-text">{{ info.profile?.subtitle }}</span>
+    }
+  </div>
+
   <div class="intro-text">
-    <p nz-typography class="intro-line">你好，我是再花，欢迎来到「花墨」</p>
-    <p nz-typography class="intro-line">这里是我分享技术文章、生活点滴的地方。</p>
-    <p nz-typography class="intro-line">希望你能在这里收获知识或者好心情</p>
+    @if (info.profile?.latestUpdate && info.profile?.latestUpdateId) {
+    <a nz-typography class="intro-link" [routerLink]="['/blog/blog-detail', info.profile?.latestUpdateId]">
+      <span class="intro-label">最近更新:</span> <strong class="fi-primary-text">{{ info.profile?.latestUpdate }}</strong>
+    </a>
+    }
+    @if (info.profile?.latestPlaying) {
+    <a nz-typography class="intro-link" [routerLink]="['/world/game']">
+      <span class="intro-label">最近在玩:</span> <strong class="fi-primary-text">{{ info.profile?.latestPlaying }}</strong>
+    </a>
+    }
+    @if (info.profile?.latestLife) {
+    <a nz-typography class="intro-link" [routerLink]="['/life']">
+      <span class="intro-label">最近点滴:</span> <strong class="fi-primary-text">{{ info.profile?.latestLife }}</strong>
+    </a>
+    }
   </div>
   <div class="stat-row" nz-flex nzJustify="center" nzAlign="center" nzGap="small">
     <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">

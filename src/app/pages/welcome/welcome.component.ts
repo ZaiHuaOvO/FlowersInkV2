@@ -16,11 +16,13 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { MeCardProfile } from '../../components/website/me-card/me-card.component';
 
 interface WelcomeStats {
   blogTotal: number;
   lifeTotal: number;
   runDays: number;
+  profile?: MeCardProfile;
 }
 
 @Component({
@@ -76,6 +78,7 @@ export class WelcomeComponent implements OnInit {
       this.info.blogTotal = Number(data.blogTotal ?? 0);
       this.info.lifeTotal = Number(data.lifeTotal ?? 0);
       this.info.runDays = Number(data.runDays ?? 0);
+      this.info.profile = data.profile ?? undefined;
       this.numLoading = false;
     });
   }
