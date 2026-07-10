@@ -41,9 +41,10 @@ import { commentArray } from '../../../ts/comment-emoji';
 import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
-import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
+import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 
 @Component({
   selector: 'flower-blog-detail',
@@ -68,6 +69,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     NzAffixModule,
     FlCardDirective,
     FlTagDirective,
+    NzImageModule,
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
@@ -111,6 +113,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     private window: WindowService,
     private msg: NzMessageService,
     private title: Title,
+    private nzImageService: NzImageService,
     destroyRef: DestroyRef,
   ) {
     this.destroyRef = destroyRef;
@@ -188,6 +191,43 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
           this.anchors.push({ ...h2Anchor, children: [] });
         }
       }
+    });
+
+    this.bindImagePreview();
+  }
+
+  private bindImagePreview(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const container = this.el.nativeElement.querySelector('#currentAnchor');
+    if (!container) return;
+
+    const imgElements: HTMLImageElement[] = Array.from(
+      container.querySelectorAll('img')
+    );
+    if (imgElements.length === 0) return;
+
+    const nzImages = imgElements.map((img) => ({
+      src: img.getAttribute('src') || '',
+      alt: img.getAttribute('alt') || '',
+    }));
+
+    imgElements.forEach((img, index) => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', () => {
+        const vpScale = 0.8;
+        const maxW = window.innerWidth * vpScale;
+        const maxH = window.innerHeight * vpScale;
+        const nw = img.naturalWidth || maxW;
+        const nh = img.naturalHeight || maxH;
+        const zoom = Math.min(maxW / nw, maxH / nh, 1);
+
+        const ref = this.nzImageService.preview(nzImages, {
+          nzZoom: Math.round(zoom * 100) / 100,
+          nzRotate: 0,
+        });
+        ref.switchTo(index);
+      });
     });
   }
 

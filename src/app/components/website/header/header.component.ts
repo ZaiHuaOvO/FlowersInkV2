@@ -87,13 +87,6 @@ export class HeaderComponent implements OnInit {
       showChildren: false
     },
     {
-      title: '工具箱',
-      icon: 'tool',
-      externalUrl: 'https://tool.flowersink.com/',
-      child: [],
-      showChildren: false
-    },
-    {
       title: '友链',
       icon: 'link',
       url: '/link',
@@ -121,6 +114,13 @@ export class HeaderComponent implements OnInit {
           url: '/about/message',
         },
       ],
+      showChildren: false
+    },
+    {
+      title: '工具箱',
+      icon: 'tool',
+      externalUrl: 'https://tool.flowersink.com/',
+      child: [],
       showChildren: false
     },
   ];

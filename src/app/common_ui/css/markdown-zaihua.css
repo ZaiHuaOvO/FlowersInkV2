@@ -321,10 +321,10 @@
 
 /* ===== 图片 ===== */
 #currentAnchor img {
-  max-width: 100% !important;
+  max-width: 50% !important;
   height: auto;
   display: block;
-  margin: 1.5rem auto;
+  margin: 1.5rem 0;
   border-radius: 10px;
   border: 1px solid var(--md-divider);
   box-shadow: 0 2px 8px rgba(58, 39, 22, 0.06);
