@@ -1,4 +1,6 @@
 <div class="article blog-detail-page" nz-flex [nzVertical]="true" #editor>
+  <!-- 阅读进度条 -->
+  <div class="reading-progress-bar" [style.width.%]="readingProgress"></div>
   <div class="blog-detail-shell">
     <div class="content blog-detail-content" flCard nz-flex nzGap="middle" [nzVertical]="true" @QuickUp>
       <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
@@ -42,6 +44,26 @@
             </p>
           </div>
         </section>
+        <br>
+        <div nz-flex nzJustify="center" nzGap="small" class="share-row">
+          <fl-button class="share-btn-article" (click)="copyLink()">分享本文</fl-button>
+        </div>
+        @if (relatedBlogs.length) {
+        <nz-divider></nz-divider>
+        <section class="related-articles">
+          <h3 class="related-articles__title">相关文章</h3>
+          <div class="related-articles__grid">
+            @for (item of relatedBlogs; track item.id) {
+            <a class="related-articles__card" flCard flCardHover [routerLink]="['/blog/blog-detail', item.id]">
+              <span class="related-articles__card-title">{{ item.title }}</span>
+              @if (item.date) {
+              <span class="related-articles__card-date">{{ item.date | date:'yyyy-MM-dd' }}</span>
+              }
+            </a>
+            }
+          </div>
+        </section>
+        }
         <nz-divider></nz-divider>
         <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
           <div nz-flex nzJustify="center" nzGap="small">
@@ -75,7 +97,8 @@
           <div class="menu" flCard>
             <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
             <nz-divider class="menu-divider"></nz-divider>
-            <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset" [nzAffix]="false">
+            <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset"
+              [nzAffix]="false">
               @for (anchor of anchors; track anchor) {
               <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
                 @for (subAnchor of anchor.children; track subAnchor) {

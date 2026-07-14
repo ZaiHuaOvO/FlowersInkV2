@@ -5,6 +5,7 @@ import {
   DestroyRef,
   ElementRef,
   Inject,
+  OnDestroy,
   OnInit,
   PLATFORM_ID,
   ViewChild,
@@ -26,7 +27,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { GeneralService } from '../../../services/general.service';
 import { debounceTime } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -44,6 +45,7 @@ import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runt
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 
 @Component({
@@ -70,12 +72,14 @@ import { extractHttpErrorMessage } from '../../../shared/utils/http-error-messag
     FlCardDirective,
     FlTagDirective,
     NzImageModule,
+    RouterModule,
+    FlButtonComponent,
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
   animations: [SlowUp, QuickUp],
 })
-export class BlogDetailComponent implements OnInit, AfterViewInit {
+export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly copyrightEmail = 'ZyZy1724@gmail.com';
   Id: any;
   data: any = {};
@@ -99,6 +103,14 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
   markdownReady = false;
   commentSubmitting = false;
   private readonly destroyRef: DestroyRef;
+
+  /** 阅读进度 0–100 */
+  readingProgress = 0;
+  private scrollListener: (() => void) | null = null;
+
+  /** 相关文章 */
+  relatedBlogs: any[] = [];
+  relatedLoading = false;
 
   @ViewChild('editor', { static: true })
   editorRef!: ElementRef<HTMLTextAreaElement>;
@@ -134,7 +146,13 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.bindReadingProgress();
+  }
+
+  ngOnDestroy(): void {
+    this.scrollListener?.();
+  }
 
   private async initMarkdownRuntime(): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) {
@@ -148,6 +166,17 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  private bindReadingProgress(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      this.readingProgress = docHeight > 0 ? Math.min(Math.round((scrollTop / docHeight) * 100), 100) : 0;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    this.scrollListener = () => window.removeEventListener('scroll', onScroll);
+  }
+
   getBlogDetail(): void {
     this.loading = true;
     this.blog.getBlogDetail(this.Id).subscribe((res: any) => {
@@ -157,10 +186,26 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
       this.markdownContent = this.data.content;
       this.loading = false;
       this.commentSubmitting = false;
+      this.loadRelatedBlogs();
     });
     if (isPlatformBrowser(this.platformId)) {
       this.targetOffset = window.innerHeight / 2;
     }
+  }
+
+  private loadRelatedBlogs(): void {
+    this.relatedLoading = true;
+    this.blog.getRelatedBlogs(this.Id).subscribe({
+      next: (res: any) => {
+        const raw = res?.data;
+        // 兼容两种后端返回格式: { data: { data: [...] } } 或 { data: [...] }
+        this.relatedBlogs = (Array.isArray(raw) ? raw : raw?.data ?? []).slice(0, 4);
+        this.relatedLoading = false;
+      },
+      error: () => {
+        this.relatedLoading = false;
+      },
+    });
   }
 
   generateAnchors(): void {
@@ -299,5 +344,12 @@ export class BlogDetailComponent implements OnInit, AfterViewInit {
 
   emojiSymbol(key: string): string {
     return getCommentEmojiSymbol(key);
+  }
+
+  copyLink(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      this.msg.success('链接已复制到剪贴板 ✿');
+    });
   }
 }

@@ -4,6 +4,7 @@ export const API = {
   BASE_URL: environment.apiBaseUrl,
 
   BLOG: '/blog',
+  BLOG_RELATED: '/blog/related',
   TAG: '/blog/tag',
   TYPE: '/blog/type',
   INFO: '/site/visit',

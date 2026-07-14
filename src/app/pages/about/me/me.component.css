@@ -11,10 +11,6 @@
   position: relative;
 }
 
-/*
- * Page title — uses shared .fi-text-title-1
- */
-
 .page-title {
   text-align: center;
   padding: var(--fi-space-3) 0 0;
@@ -22,81 +18,6 @@
   user-select: none;
   color: var(--fi-primary);
 }
-
-/*
- * Side nav arrows (about-specific)
- */
-
-.nav-arrows {
-  position: absolute;
-  right: var(--fi-space-4);
-  top: 216px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--fi-space-1);
-  z-index: 5;
-}
-
-.nav-arrow {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  color: var(--fi-primary);
-  font-size: var(--fi-font-size-xl);
-  line-height: 1;
-  cursor: pointer;
-  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
-  user-select: none;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-}
-
-.nav-arrow:hover {
-  background: var(--fi-surface-soft);
-}
-
-.nav-arrow:active {
-  transform: scale(0.95);
-}
-
-.nav-arrow--disabled {
-  opacity: 0.3;
-  cursor: default;
-  pointer-events: none;
-}
-
-.carousel-wrap {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-
-.carousel-viewport {
-  overflow: hidden;
-  position: relative;
-  transition: height 450ms var(--fi-ease-standard);
-  will-change: height;
-  flex-shrink: 0;
-  flex-grow: 0;
-}
-
-.section {
-  width: 100%;
-}
-
-.section-inner {
-  padding: 0 52px 8px 0;
-}
-
-/*
- * Update note
- */
 
 .update-note {
   display: flex;
@@ -114,25 +35,10 @@
   user-select: none;
 }
 
-.section-title {
-  margin-bottom: var(--fi-space-5) !important;
-}
-
 .hero-row {
   display: flex;
   gap: var(--fi-space-8);
   align-items: flex-start;
-}
-
-.hero-avatar {
-  flex: 0 0 auto;
-}
-
-.hero-avatar img {
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--fi-primary-outline);
-  box-shadow: var(--fi-shadow-soft);
 }
 
 .hero-text {
@@ -140,12 +46,6 @@
   min-width: 0;
   word-break: break-word;
   overflow-wrap: break-word;
-}
-
-.hero-name {
-  margin-top: 0 !important;
-  margin-bottom: var(--fi-space-1) !important;
-  font-size: 28px;
 }
 
 .hero-subtitle {
@@ -161,11 +61,6 @@
   line-height: 1.7;
   word-break: break-word;
   overflow-wrap: break-word;
-}
-
-.hero-desc--oc {
-  font-size: var(--fi-font-size-md) !important;
-  font-style: italic;
 }
 
 .hobby-layout {
@@ -292,15 +187,6 @@ strong {
   min-width: 0;
   word-break: break-word;
   overflow-wrap: break-word;
-}
-
-.game-section-title {
-  display: inline-block;
-  font-size: var(--fi-font-size-md);
-  font-weight: var(--fi-font-weight-semibold);
-  color: var(--fi-primary);
-  margin-bottom: var(--fi-space-2);
-  letter-spacing: 1px;
 }
 
 .game-link {
@@ -473,11 +359,7 @@ strong {
   max-width: 80px;
 }
 
-/*
- * Mobile styles (no effect on desktop)
- * Note: mobile branch renders through @if (!isMobile) / @else with mobile-* class names.
- * Media queries here cover mobile-specific overrides.
- */
+/* ===== Mobile ===== */
 
 @media (max-width: 768px) {
   .me,
@@ -505,12 +387,6 @@ strong {
   .fi-tab {
     padding: 4px var(--fi-space-3);
     font-size: var(--fi-font-size-md);
-  }
-
-  .section-wrap,
-  .mobile-section-wrap {
-    touch-action: pan-y;
-    min-height: 200px;
   }
 
   .section,
@@ -767,25 +643,4 @@ strong {
   .mobile-nav-link:active {
     opacity: 0.7;
   }
-
-  .fi-dot {
-    width: 6px;
-    height: 6px;
-  }
-
-  .fi-dot--active {
-    width: 22px;
-  }
-}
-
-/*
- * Mobile section slide animation
- */
-
-.slide-in {
-  animation: fi-slide-in-right 300ms var(--fi-ease-standard);
-}
-
-.slide-in--left {
-  animation-name: fi-slide-in-left;
 }

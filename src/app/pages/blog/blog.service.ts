@@ -22,6 +22,10 @@ export class BlogService {
     );
   }
 
+  getRelatedBlogs(Id: string): Observable<object> {
+    return this.http.get(API.BLOG_RELATED + `/${Id}`);
+  }
+
   comment(Id: string, data: any): Observable<object> {
     return this.http.post<object>(API.BLOG + `/${Id}/comment`, data).pipe(
       tap(() => {
