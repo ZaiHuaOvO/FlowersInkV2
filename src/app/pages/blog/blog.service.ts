@@ -34,6 +34,24 @@ export class BlogService {
     );
   }
 
+  getArticleComments(blogId: string): Observable<object> {
+    return this.http.get(
+      API.BLOG + `/${blogId}/comments`,
+    );
+  }
+
+  createArticleComment(blogId: string, data: any): Observable<object> {
+    return this.http
+      .post<object>(API.BLOG + `/${blogId}/comments`, data)
+      .pipe(
+        tap(() => {
+          this.http.invalidateGetCache([
+            API.BLOG + `/${blogId}/comments`,
+          ]);
+        }),
+      );
+  }
+
   getTags(): Observable<object> {
     return this.http.getCached(API.TAG, undefined, HTTP_CACHE_TTL.LONG);
   }

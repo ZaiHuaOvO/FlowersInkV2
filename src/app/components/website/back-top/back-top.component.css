@@ -1,7 +1,7 @@
 .back-top {
   position: fixed;
   bottom: 48px;
-  inset-inline-end: 60px;
+  inset-inline-end: 96px;
   z-index: 99;
   cursor: pointer;
   opacity: 0;

@@ -48,69 +48,59 @@
         <div nz-flex nzJustify="center" nzGap="small" class="share-row">
           <fl-button class="share-btn-article" (click)="copyLink()">分享本文</fl-button>
         </div>
-        @if (relatedBlogs.length) {
         <nz-divider></nz-divider>
-        <section class="related-articles">
-          <h3 class="related-articles__title">相关文章</h3>
-          <div class="related-articles__grid">
-            @for (item of relatedBlogs; track item.id) {
-            <a class="related-articles__card" flCard flCardHover [routerLink]="['/blog/blog-detail', item.id]">
-              <span class="related-articles__card-title">{{ item.title }}</span>
-              @if (item.date) {
-              <span class="related-articles__card-date">{{ item.date | date:'yyyy-MM-dd' }}</span>
-              }
-            </a>
-            }
-          </div>
-        </section>
-        }
-        <nz-divider></nz-divider>
-        <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true" nzGap="small">
-          <div nz-flex nzJustify="center" nzGap="small">
-            @for (item of displayCommentArray; track item) {
-            @if (item.count > 0) {
-            <nz-tag flTag flTagVariant="outline" nz-tooltip [nzTooltipTitle]="item.description">
-              <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{ item.count
-                }}</span>
-            </nz-tag>
-            }
-            }
-          </div>
-          <flower-blog-comment [data]="data.comment" [disabled]="commentSubmitting"
-            (emojiSelected)="comment($event)"></flower-blog-comment>
-        </div>
+        <flower-article-comments [blogId]="data.id"></flower-article-comments>
       </nz-spin>
     </div>
+    <!-- /.blog-detail-content -->
 
     @if (!isMobile) {
     <aside class="me" @SlowUp>
       <nz-affix [nzOffsetTop]="72">
         <div class="me-inner">
           <div class="me_box" flCard nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
-            <nz-avatar [nzSize]="96" nzSrc="https://api.flowersink.com/img/logo.png" nzShape="square"></nz-avatar>
+            <nz-avatar [nzSize]="64" nzSrc="https://api.flowersink.com/img/粉毛猫猫头.jpeg" nzShape="circle"></nz-avatar>
             <div nz-flex [nzVertical]="true">
               <h5 nz-typography>再花</h5>
               <span nz-typography nzType="secondary">猫猫头前端工程师</span>
             </div>
           </div>
 
-          <div class="menu" flCard>
-            <nz-page-header class="site-page-header" nzTitle="目录"></nz-page-header>
-            <nz-divider class="menu-divider"></nz-divider>
-            <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset"
-              [nzAffix]="false">
-              @for (anchor of anchors; track anchor) {
-              <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
-                @for (subAnchor of anchor.children; track subAnchor) {
-                <nz-link [nzHref]="subAnchor.href" [nzTitle]="subAnchor.title"></nz-link>
+          <div class="sidebar-card menu" flCard>
+            <div class="sidebar-card__title">目录</div>
+            <div class="sidebar-card__body sidebar-card__body--toc" #tocContainer>
+              <nz-anchor class="viewer" #viewer [nzCurrentAnchor]="currentAnchor" [nzTargetOffset]="targetOffset"
+                [nzAffix]="false">
+                @for (anchor of anchors; track anchor) {
+                <nz-link [nzHref]="anchor.href" [nzTitle]="anchor.title">
+                  @for (subAnchor of anchor.children; track subAnchor) {
+                  <nz-link [nzHref]="subAnchor.href" [nzTitle]="subAnchor.title"></nz-link>
+                  }
+                </nz-link>
                 }
-              </nz-link>
-              }
-            </nz-anchor>
+              </nz-anchor>
+            </div>
           </div>
+
+          @if (relatedBlogs.length) {
+          <div class="sidebar-card related-sidebar" flCard>
+            <div class="sidebar-card__title">相关文章</div>
+            <div class="sidebar-card__body">
+              @for (item of relatedBlogs; track item.id) {
+              <a class="related-sidebar__item" [routerLink]="['/blog/blog-detail', item.id]">
+                <span class="related-sidebar__title">{{ item.title }}</span>
+                @if (item.date) {
+                <span class="related-sidebar__date">{{ item.date | date:'yyyy-MM-dd' }}</span>
+                }
+              </a>
+              }
+            </div>
+          </div>
+          }
         </div>
       </nz-affix>
     </aside>
     }
   </div>
 </div>
+

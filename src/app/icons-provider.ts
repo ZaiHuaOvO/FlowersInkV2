@@ -1,8 +1,12 @@
 import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import {
+  ArrowLeftOutline,
   ArrowUpOutline,
   BulbOutline,
   CarOutline,
+  CheckOutline,
+  ClockCircleOutline,
+  CloseOutline,
   CloudOutline,
   EditOutline,
   EyeOutline,
@@ -10,6 +14,7 @@ import {
   HeartOutline,
   HomeOutline,
   InfoCircleOutline,
+  LeftOutline,
   LinkOutline,
   MailOutline,
   MenuOutline,
@@ -28,9 +33,13 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 const icons: IconDefinition[] = [
+  ArrowLeftOutline,
   ArrowUpOutline,
   BulbOutline,
   CarOutline,
+  CheckOutline,
+  ClockCircleOutline,
+  CloseOutline,
   CloudOutline,
   EditOutline,
   EyeOutline,
@@ -38,6 +47,7 @@ const icons: IconDefinition[] = [
   HeartOutline,
   HomeOutline,
   InfoCircleOutline,
+  LeftOutline,
   LinkOutline,
   MailOutline,
   MenuOutline,

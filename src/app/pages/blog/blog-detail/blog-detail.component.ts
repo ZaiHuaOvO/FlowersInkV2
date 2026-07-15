@@ -36,17 +36,13 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
-import { BlogCommentComponent } from '../../../components/blog/blog-comment/blog-comment.component';
+import { ArticleCommentsComponent } from '../../../components/blog/article-comments/article-comments.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { commentArray } from '../../../ts/comment-emoji';
-import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
-import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
-import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 
 @Component({
   selector: 'flower-blog-detail',
@@ -65,15 +61,14 @@ import { extractHttpErrorMessage } from '../../../shared/utils/http-error-messag
     NzAnchorModule,
     DatePipe,
     BlogTitleComponent,
-    BlogCommentComponent,
     NzTooltipModule,
     NzSpinModule,
     NzAffixModule,
     FlCardDirective,
-    FlTagDirective,
     NzImageModule,
     RouterModule,
     FlButtonComponent,
+    ArticleCommentsComponent,
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
@@ -98,10 +93,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   targetOffset: number = 0;
   isMobile: boolean = false;
   private isSyncing = false;
-  commentArray: any[] = commentArray;
-  displayCommentArray: any[] = [];
   markdownReady = false;
-  commentSubmitting = false;
   private readonly destroyRef: DestroyRef;
 
   /** 阅读进度 0–100 */
@@ -115,6 +107,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('editor', { static: true })
   editorRef!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('viewer', { static: true }) viewerRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('tocContainer', { static: false }) tocContainerRef?: ElementRef<HTMLDivElement>;
 
   constructor(
     private blog: BlogService,
@@ -141,6 +134,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((params: any) => {
         this.Id = params.get('id');
         if (Number(this.Id) != 0 && isPlatformBrowser(this.platformId)) {
+          // 跳转到新文章时滚动到顶部
+          window.scrollTo({ top: 0, behavior: 'instant' });
           this.getBlogDetail();
         }
       });
@@ -172,9 +167,36 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       this.readingProgress = docHeight > 0 ? Math.min(Math.round((scrollTop / docHeight) * 100), 100) : 0;
+
+      // 目录自动跟随
+      if (this.tocScrollTimer) clearTimeout(this.tocScrollTimer);
+      this.tocScrollTimer = setTimeout(() => this.scrollTocToActive(), 120);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     this.scrollListener = () => window.removeEventListener('scroll', onScroll);
+  }
+
+  /** 目录容器滚动到当前激活项 */
+  private tocScrollTimer: ReturnType<typeof setTimeout> | null = null;
+  private scrollTocToActive(): void {
+    const container = this.tocContainerRef?.nativeElement;
+    if (!container) return;
+
+    const activeLink = container.querySelector('.ant-anchor-link-active') as HTMLElement | null;
+    if (!activeLink) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const activeRect = activeLink.getBoundingClientRect();
+    const offsetTop = activeRect.top - containerRect.top;
+
+    // 激活项超出可视区上方 30% 或下方 30% 时滚动
+    const upper = container.clientHeight * 0.3;
+    const lower = container.clientHeight * 0.7;
+
+    if (offsetTop < upper || offsetTop > lower) {
+      const scrollTarget = container.scrollTop + offsetTop - container.clientHeight * 0.35;
+      container.scrollTo({ top: Math.max(0, scrollTarget), behavior: 'smooth' });
+    }
   }
 
   getBlogDetail(): void {
@@ -182,10 +204,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.blog.getBlogDetail(this.Id).subscribe((res: any) => {
       this.data = res['data'];
       this.title.setTitle(`${this.data.title} | 花墨`);
-      this.getComment();
       this.markdownContent = this.data.content;
       this.loading = false;
-      this.commentSubmitting = false;
       this.loadRelatedBlogs();
     });
     if (isPlatformBrowser(this.platformId)) {
@@ -297,53 +317,6 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       scrollRatio * (targetElement.scrollHeight - targetElement.clientHeight);
 
     this.isSyncing = false;
-  }
-
-  comment(emoji: any): void {
-    if (this.commentSubmitting) return;
-
-    this.commentSubmitting = true;
-    this.blog
-      .comment(this.activateInfo.snapshot.params['id'], {
-        emojiType: emoji['key'],
-      })
-      .subscribe({
-        next: (res: any) => {
-          if (res['data'].success) {
-            this.msg.info(res['data']['msg']);
-            this.getBlogDetail();
-          } else {
-            this.msg.error(res['data']['msg']);
-            this.commentSubmitting = false;
-          }
-        },
-        error: (error) => {
-          this.msg.error(
-            extractHttpErrorMessage(error, '评论提交失败啦，稍后再试试吧 (╥﹏╥)'),
-          );
-          this.commentSubmitting = false;
-        },
-      });
-  }
-
-  getComment(): void {
-    const data: any[] = this.data['comment'];
-    const countMap = (data ?? []).reduce(
-      (map, item) => {
-        map[item.emojiType] = item.count;
-        return map;
-      },
-      {} as Record<string, number>,
-    );
-
-    this.displayCommentArray = this.commentArray.map((item) => ({
-      ...item,
-      count: countMap[item.key] ?? 0,
-    }));
-  }
-
-  emojiSymbol(key: string): string {
-    return getCommentEmojiSymbol(key);
   }
 
   copyLink(): void {
