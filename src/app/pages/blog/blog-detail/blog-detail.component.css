@@ -51,6 +51,7 @@
   gap: var(--fi-space-2);
   /* 左侧内容撑满视口，右侧不会被截断 */
   max-height: calc(100vh - 72px - var(--fi-space-6) - var(--fi-space-7));
+  overflow: hidden;
 }
 
 /* ── 头像卡片 ── */
@@ -85,9 +86,8 @@
   min-height: 0;
 }
 
-/* 目录卡片 — 最多 22vh，平滑滚动 */
+/* 目录卡片 — 由 flex 布局自然分配高度，overflow 由 .sidebar-card__body 统一处理 */
 .sidebar-card__body--toc {
-  max-height: 22vh;
   scroll-behavior: smooth;
 }
 

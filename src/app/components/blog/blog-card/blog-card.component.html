@@ -17,17 +17,10 @@
         {{blog.views}} | </span>
       <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
     </div>
-    @if (!isMobile) {
-    <div class="emoji-strip" nz-flex nzJustify="end" nzGap="small" nzWrap="wrap">
-      @for (item of emojiTags[blog.id]; track item) {
-      @if (item.count > 0) {
-      <nz-tag flTag flTagVariant="outline" nz-tooltip [nzTooltipTitle]="item.description">
-        <span class="emoji">{{ emojiSymbol(item.key) }}</span>&nbsp;<span class="emoji_count">{{item.count}}</span>
-      </nz-tag>
-      }
-      }
+    <div class="comment-count" nz-flex nzAlign="center" nzGap="small">
+      <span nz-icon nzType="message" nzTheme="outline"></span>
+      <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.articleCommentCount ?? 0 }}</span>
     </div>
-    }
   </div>
   } @else {
   <nz-skeleton [nzActive]="loading"></nz-skeleton>

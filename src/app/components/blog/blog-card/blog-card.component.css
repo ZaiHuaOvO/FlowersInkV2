@@ -36,10 +36,14 @@
     color: #8a6a49 !important;
 }
 
-.emoji-strip {
+.comment-count {
     margin-left: auto;
-    max-width: min(420px, 100%);
-    align-content: flex-start;
+    flex-shrink: 0;
+}
+
+.comment-count .anticon {
+    color: #8a6a49 !important;
+    font-size: 14px;
 }
 
 @media (max-width: 980px) {
@@ -52,9 +56,7 @@
         align-items: flex-start !important;
     }
 
-    .emoji-strip {
-        justify-content: flex-start !important;
+    .comment-count {
         margin-left: 0;
-        max-width: 100%;
     }
 }

@@ -1,16 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, DestroyRef, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { commentArray } from '../../../ts/comment-emoji';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
-import { WindowService } from '../../../services/window.service';
-import { getCommentEmojiSymbol } from '../../../shared/utils/comment-emoji-symbol.util';
-import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 
 @Component({
   selector: 'flower-blog-card',
@@ -24,57 +18,14 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     NzSkeletonModule,
     NzIconModule,
     DatePipe,
-    NzTagModule,
-    NzTooltipModule,
-    FlTagDirective,
   ],
 })
 export class BlogCardComponent implements OnInit {
   @Input() blog: any;
   @Input() loading: boolean = true;
   @Input() href: string | null = null;
-  commentArray: any[] = commentArray;
-  emojiTags: { [blogId: string]: any[] } = {};
-  isMobile: boolean = false;
 
-  constructor(
-    private window: WindowService,
-    private readonly destroyRef: DestroyRef,
-  ) {
-    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
-      this.isMobile = isMobile;
-    });
-  }
+  constructor() {}
 
-  ngOnInit() {
-    if (this.blog?.id && this.blog?.comment) {
-      this.emojiTags[this.blog.id] = this.buildCommentTags(this.blog.comment);
-    }
-  }
-
-  buildCommentTags(commentData: any[]): any[] {
-    const tagList = this.commentArray.map((item) => ({
-      ...item,
-      count: 0,
-    }));
-
-    if (commentData?.length > 0) {
-      const countMap = commentData.reduce((map, item) => {
-        map[item.emojiType] = item.count;
-        return map;
-      }, {} as Record<string, number>);
-
-      tagList.forEach((item) => {
-        if (countMap[item.key] !== undefined) {
-          item.count = countMap[item.key];
-        }
-      });
-    }
-
-    return tagList;
-  }
-
-  emojiSymbol(key: string): string {
-    return getCommentEmojiSymbol(key);
-  }
+  ngOnInit() {}
 }

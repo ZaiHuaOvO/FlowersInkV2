@@ -15,7 +15,6 @@ nz-content {
 
 .ant-anchor-wrapper {
   margin: 10px;
-  max-height: 50vh !important;
 }
 
 .ant-anchor-wrapper::-webkit-scrollbar-thumb {

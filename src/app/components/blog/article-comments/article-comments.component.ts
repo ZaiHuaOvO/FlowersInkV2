@@ -148,7 +148,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   }
 
   get commentCount(): number {
-    const count = this.comments.filter((c) => !c.isAdminReply).length;
+    const count = this.comments.length;
     return count + (this.pendingComment ? 1 : 0);
   }
 
