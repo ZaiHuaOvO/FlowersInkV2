@@ -1,29 +1,155 @@
-.emoji {
-    width: 50px;
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   Emoji Picker — 评论框内表情选择器
+   设计关键词：轻巧面板 · 圆润卡片 · 流畅切换
+   ═══════════════════════════════════════════════════════════════════════ */
 
+/* ── 触发器 ── */
 .emoji-trigger-wrap {
-    width: 50px;
+  width: 50px;
 }
 
+.emoji {
+  width: 50px;
+}
+
+/* ── 弹出面板 ── */
 .emoji-popover {
-    width: 200px;
+  width: 320px;
+  padding: 6px 8px;
+  overflow: hidden;               /* 裁剪 hover 放大效果，防止溢出气泡 */
 }
 
-.ant-popover-inner {
-    max-width: 200px !important;
+/* ── 标签切换栏 ── */
+.emoji-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--fi-border, #e8dacc);
+  margin-bottom: 8px;
 }
 
-.ant-popover-inner-content {
-    max-width: 200px !important;
-
+.emoji-tab-btn {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 7px 6px;
+  border-radius: 8px;
+  line-height: 1;
+  text-align: center;
+  color: var(--fi-text-muted, #7a6756);
+  transition:
+    background var(--fi-motion-fast) var(--fi-ease-standard),
+    color var(--fi-motion-fast) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-fast) var(--fi-ease-standard);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.emoji_text {
-    width: 19.23px;
-    cursor: pointer;
+.emoji-tab-btn:hover {
+  background: var(--fi-bg-soft, #f6eee5);
+  color: var(--fi-text, #2f2117);
 }
 
-.emoji_text:hover {
-    background-color: lightgrey;
+.emoji-tab-btn--active {
+  background: var(--fi-bg-soft, #f6eee5);
+  color: var(--fi-text, #2f2117);
+  box-shadow: inset 0 0 0 1.5px var(--fi-primary-outline, rgba(139, 90, 43, 0.3));
+}
+
+.emoji-tab-btn--kaomoji {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fi-primary, #8b5a2b);
+  white-space: nowrap;
+}
+
+/* ── Emoji 网格 ── */
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  overflow: hidden;               /* 裁剪 emoji hover 放大 */
+}
+
+.emoji-item {
+  border: 0;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px 2px;
+  border-radius: 8px;
+  line-height: 1.25;
+  text-align: center;
+  transition:
+    background var(--fi-motion-fast) var(--fi-ease-standard),
+    transform var(--fi-motion-fast) var(--fi-ease-standard);
+  user-select: none;
+}
+
+.emoji-item:hover {
+  background: var(--fi-bg-soft, #f6eee5);
+  transform: scale(1.25);
+}
+
+.emoji-item:active {
+  transform: scale(0.92);
+}
+
+/* ── Kaomoji 网格 ── */
+.kaomoji-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+/* 自定义滚动条 */
+.kaomoji-grid::-webkit-scrollbar {
+  width: 5px;
+}
+
+.kaomoji-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kaomoji-grid::-webkit-scrollbar-thumb {
+  background: var(--fi-border-strong, #d0c0b0);
+  border-radius: 999px;
+}
+
+.kaomoji-grid::-webkit-scrollbar-thumb:hover {
+  background: var(--fi-text-muted, #7a6756);
+}
+
+.kaomoji-item {
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  line-height: 1.4;
+  color: var(--fi-text, #2f2117);
+  font-family: var(--fi-font-base);
+  white-space: nowrap;
+  transition:
+    background var(--fi-motion-fast) var(--fi-ease-standard),
+    color var(--fi-motion-fast) var(--fi-ease-standard),
+    transform var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.kaomoji-item:hover {
+  background: var(--fi-bg-soft, #f6eee5);
+  color: var(--fi-primary, #8b5a2b);
+  transform: translateY(-1px);
+}
+
+.kaomoji-item:active {
+  background: var(--fi-primary-outline, rgba(139, 90, 43, 0.18));
+  transform: translateY(0) scale(0.96);
 }

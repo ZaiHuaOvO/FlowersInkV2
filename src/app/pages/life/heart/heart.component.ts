@@ -1,4 +1,3 @@
-import { NgClass, DatePipe, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -12,9 +11,11 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
+import { DatePipe, isPlatformBrowser, NgClass } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTagModule } from 'ng-zorro-antd/tag';
@@ -45,6 +46,7 @@ interface LifeTimelineItem {
   tags: string[];
   primaryTag: string;
   images: LifeImageAsset[];
+  likes: number;
 }
 
 interface TimelineSection {
@@ -67,6 +69,7 @@ interface YearNavigator {
     NgClass,
     NzAffixModule,
     NzFlexModule,
+    NzIconModule,
     NzSpinModule,
     NzTypographyModule,
     NzTagModule,
@@ -95,6 +98,13 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   errorMessage = '';
   affixOffsetTop = 84;
   isAffixDisabled = true;
+
+  /** Set of lifecycle IDs that have been liked in the current day session */
+  likedItems = new Set<number>();
+  /** Track which items are animating */
+  animatingItems = new Set<number>();
+  /** Local like cache: id -> likes count */
+  localLikeCounts = new Map<number, number>();
 
   private readonly imageService = inject(NzImageService);
   private readonly platformId = inject(PLATFORM_ID);
@@ -125,6 +135,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.fetchTimeline();
+    this.loadLikeState();
   }
 
   ngAfterViewInit(): void {
@@ -219,6 +230,111 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  getLikeCount(item: LifeTimelineItem): number {
+    return this.localLikeCounts.get(item.id) ?? (item.likes || 0);
+  }
+
+  isLiked(item: LifeTimelineItem): boolean {
+    return this.likedItems.has(item.id);
+  }
+
+  isAnimating(item: LifeTimelineItem): boolean {
+    return this.animatingItems.has(item.id);
+  }
+
+  toggleLike(item: LifeTimelineItem, event: MouseEvent): void {
+    event.stopPropagation();
+    event.preventDefault();
+
+    // Prevent rapid double clicks (animation is still playing)
+    if (this.animatingItems.has(item.id)) return;
+
+    // Always play the animation
+    this.triggerLikeAnimation(item);
+
+    // If already liked, skip API call; always play animation
+    if (this.likedItems.has(item.id)) {
+      return;
+    }
+
+    // Optimistic UI update
+    this.likedItems.add(item.id);
+    this.saveLikeState();
+    const currentCount = this.getLikeCount(item);
+    this.localLikeCounts.set(item.id, currentCount + 1);
+
+    this.lifeService.likeLife(item.id).subscribe({
+      next: (res: any) => {
+        const data = res?.data ?? res;
+        this.localLikeCounts.set(item.id, Number(data?.likes ?? currentCount + 1));
+      },
+      error: () => {
+        // Revert optimistic update on error
+        this.likedItems.delete(item.id);
+        this.saveLikeState();
+        this.localLikeCounts.set(item.id, currentCount);
+      },
+    });
+  }
+
+  private triggerLikeAnimation(item: LifeTimelineItem): void {
+    this.animatingItems.add(item.id);
+    setTimeout(() => {
+      this.animatingItems.delete(item.id);
+    }, 1000);
+  }
+
+  private loadLikeState(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    try {
+      const stored = localStorage.getItem('fi_life_likes');
+      if (stored) {
+        const data = JSON.parse(stored);
+        if (data.dateKey === this.getTodayKey() && Array.isArray(data.ids)) {
+          this.likedItems = new Set(data.ids);
+        } else {
+          localStorage.removeItem('fi_life_likes');
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  private saveLikeState(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    try {
+      localStorage.setItem(
+        'fi_life_likes',
+        JSON.stringify({
+          dateKey: this.getTodayKey(),
+          ids: [...this.likedItems],
+        }),
+      );
+    } catch {
+      // ignore
+    }
+  }
+
+  private getTodayKey(): string {
+    const now = new Date();
+    // Beijing time 9am cutoff: if before 9am, use yesterday's date
+    const beijingOffsetMs = 8 * 60 * 60 * 1000;
+    const beijingMs = now.getTime() + beijingOffsetMs;
+    const beijingDate = new Date(beijingMs);
+    if (beijingDate.getUTCHours() < 9) {
+      beijingDate.setUTCDate(beijingDate.getUTCDate() - 1);
+    }
+    const y = beijingDate.getUTCFullYear();
+    const m = String(beijingDate.getUTCMonth() + 1).padStart(2, '0');
+    const d = String(beijingDate.getUTCDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
   getImageGridClass(item: LifeTimelineItem): string {
     if (item.primaryTag === '游戏') {
       if (item.images.length === 1) {
@@ -281,6 +397,12 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
         this.totalItemCount = normalized.length;
         this.tagCounter = this.buildTagCounter(normalized);
         this.allSections = this.buildSections(normalized);
+
+        // Initialize local like counts from data
+        normalized.forEach((item: LifeTimelineItem) => {
+          this.localLikeCounts.set(item.id, item.likes);
+        });
+
         this.applyFilterAndNavigator();
         this.loading = false;
       },
@@ -404,6 +526,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
       tags,
       primaryTag: tags[0] ?? '',
       images,
+      likes: Number(item?.likes ?? 0),
     };
   }
 

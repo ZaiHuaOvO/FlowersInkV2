@@ -25,4 +25,8 @@ export class LifeService {
   getLifeTag(data?: any): Observable<object> {
     return this.http.getCached(API.LIFE_TAG, data, HTTP_CACHE_TTL.LONG);
   }
+
+  likeLife(id: number): Observable<object> {
+    return this.http.post<object>(`${API.LIFE}/${id}/like`, {});
+  }
 }

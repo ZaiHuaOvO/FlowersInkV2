@@ -267,6 +267,12 @@ nz-anchor {
   margin: var(--fi-space-2) 0;
 }
 
+/* 底部表情互动面板 */
+.blog-reaction-panel {
+  margin: 0 auto var(--fi-space-4);
+  justify-content: center;
+}
+
 .share-btn-article {
   min-width: 120px;
   text-align: center;

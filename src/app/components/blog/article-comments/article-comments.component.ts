@@ -26,6 +26,7 @@ import { GeneralService } from '../../../services/general.service';
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 import { md5 } from '../../../shared/utils/md5.util';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 type AvatarState = 'none' | 'avatarUrl' | 'gravatar' | 'fallback';
 
@@ -88,6 +89,7 @@ const ZAIHUA_AVATAR = 'https://api.flowersink.com/img/粉毛猫猫头.jpeg';
     SimpleCaptchaComponent,
     DatePipe,
     NgTemplateOutlet,
+    NzIconModule
   ],
   templateUrl: './article-comments.component.html',
   styleUrl: './article-comments.component.css',
@@ -130,7 +132,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     private readonly msg: NzMessageService,
     private readonly general: GeneralService,
     private readonly limiter: ApiLimiterService,
-  ) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['blogId'] && this.blogId != null && this.blogId > 0) {

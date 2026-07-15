@@ -89,8 +89,30 @@
   line-height: 1.7;
 }
 
+.textarea-counter {
+  text-align: right;
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-text-muted, #7a6756);
+  margin-top: var(--fi-space-1, 4px);
+}
+
 .form-actions {
   width: 100%;
+}
+
+/* 手机端：验证码和发布按钮分两行 */
+@media (max-width: 576px) {
+  .form-actions[nz-flex] {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .form-actions > div[nz-flex][nzGap="middle"] {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+  }
 }
 
 /* ── 评论列表 ── */

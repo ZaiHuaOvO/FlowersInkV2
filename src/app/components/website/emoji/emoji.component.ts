@@ -1,48 +1,31 @@
-import { Component, EventEmitter, Output, output } from '@angular/core';
-import { emojiArray } from '../../../ts/emoji';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
-
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { emojiCategories, kaomojiList } from '../../../ts/emoji';
+
+type EmojiTab = 'face' | 'gesture' | 'heart' | 'kaomoji';
 
 @Component({
   selector: 'flower-emoji',
   standalone: true,
-  imports: [
-    NzFlexModule,
-    NzPopoverModule,
-    NzPaginationModule,
-    NzIconModule
-],
+  imports: [NzFlexModule, NzPopoverModule, NzIconModule],
   templateUrl: './emoji.component.html',
   styleUrl: './emoji.component.css',
 })
 export class EmojiComponent {
   @Output() emojiSelected = new EventEmitter<string>();
-  visible: boolean = false;
-  emojiArray = emojiArray;
-  pageSize = 30; // 每页显示12个
-  pageIndex = 1; // 当前页索引
-  currentPageData: string[] = []; // 当前页数据
-  constructor() {
-    this.updateCurrentPageData();
+  visible = false;
+
+  readonly emojiCategories = emojiCategories;
+  readonly kaomojiList = kaomojiList;
+  activeTab: EmojiTab = 'face';
+
+  selectEmoji(emoji: string): void {
+    this.emojiSelected.emit(emoji);
   }
 
-  onPageChange(page: number): void {
-    this.pageIndex = page;
-    this.updateCurrentPageData();
-  }
-
-  updateCurrentPageData(): void {
-    const startIndex = (this.pageIndex - 1) * this.pageSize;
-    this.currentPageData = this.emojiArray.slice(
-      startIndex,
-      startIndex + this.pageSize
-    );
-  }
-
-  onEmojiClick(emoji: string): void {
-    this.emojiSelected.emit(emoji); // 触发事件并传递选中的 Emoji
+  selectKaomoji(text: string): void {
+    this.emojiSelected.emit(text);
   }
 }

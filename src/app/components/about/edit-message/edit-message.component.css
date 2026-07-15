@@ -44,11 +44,3 @@ nz-select {
 .message-input-group--mobile-url {
     width: 60%;
 }
-
-.ant-popover-inner {
-    max-width: 200px !important;
-}
-
-.ant-popover-inner-content {
-    max-width: 200px !important;
-}

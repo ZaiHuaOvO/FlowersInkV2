@@ -1,16 +1,53 @@
 <div class="emoji-trigger-wrap">
-  <button class="emoji fl-icon-button" nz-popover [(nzPopoverVisible)]="visible" nzPopoverTrigger="click"
-    nzPopoverPlacement="bottom" [nzPopoverContent]="contentTemplate"><span nz-icon nzType="smile"
-  nzTheme="outline"></span></button>
+  <button
+    class="emoji fl-icon-button"
+    nz-popover
+    [(nzPopoverVisible)]="visible"
+    nzPopoverTrigger="click"
+    nzPopoverPlacement="bottom"
+    [nzPopoverContent]="contentTemplate"
+  >
+    <span nz-icon nzType="smile" nzTheme="outline"></span>
+  </button>
+
   <ng-template #contentTemplate>
     <div class="emoji-popover">
-      <div nz-flex nzWrap="wrap">
-        @for (emoji of currentPageData; track emoji) {
-          <p class="emoji_text" (click)="onEmojiClick(emoji)">{{emoji}}</p>
+      <nav class="emoji-tabs">
+        <button type="button" class="emoji-tab-btn" [class.emoji-tab-btn--active]="activeTab === 'face'" (click)="activeTab = 'face'">😊</button>
+        <button type="button" class="emoji-tab-btn" [class.emoji-tab-btn--active]="activeTab === 'gesture'" (click)="activeTab = 'gesture'">👍</button>
+        <button type="button" class="emoji-tab-btn" [class.emoji-tab-btn--active]="activeTab === 'heart'" (click)="activeTab = 'heart'">❤️</button>
+        <button type="button" class="emoji-tab-btn emoji-tab-btn--kaomoji" [class.emoji-tab-btn--active]="activeTab === 'kaomoji'" (click)="activeTab = 'kaomoji'">(^▽^)</button>
+      </nav>
+
+      @if (activeTab === 'face') {
+      <div class="emoji-grid">
+        @for (e of emojiCategories[0].emojis; track e) {
+        <button type="button" class="emoji-item" (click)="selectEmoji(e)">{{ e }}</button>
         }
       </div>
-      <nz-pagination nzSimple [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="emojiArray.length"
-      (nzPageIndexChange)="onPageChange($event)" nzHideOnSinglePage="false"></nz-pagination>
+      }
+      @if (activeTab === 'gesture') {
+      <div class="emoji-grid">
+        @for (e of emojiCategories[1].emojis; track e) {
+        <button type="button" class="emoji-item" (click)="selectEmoji(e)">{{ e }}</button>
+        }
+      </div>
+      }
+      @if (activeTab === 'heart') {
+      <div class="emoji-grid">
+        @for (e of emojiCategories[2].emojis; track e) {
+        <button type="button" class="emoji-item" (click)="selectEmoji(e)">{{ e }}</button>
+        }
+      </div>
+      }
+
+      @if (activeTab === 'kaomoji') {
+      <div class="kaomoji-grid">
+        @for (text of kaomojiList; track text) {
+        <button type="button" class="kaomoji-item" (click)="selectKaomoji(text)">{{ text }}</button>
+        }
+      </div>
+      }
     </div>
   </ng-template>
 </div>

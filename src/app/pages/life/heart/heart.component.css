@@ -198,7 +198,8 @@
   border: 1px solid var(--fi-border);
   background: var(--fi-card-bg);
   box-shadow: var(--fi-shadow-soft);
-  padding: 20px 22px 16px;
+  padding: 20px 20px 16px;
+  position: relative;
 }
 
 .timeline-card-header {
@@ -222,6 +223,19 @@ h4 {
   border-radius: 999px;
   font-size: 12px;
   padding: 2px 10px;
+}
+
+/* Tag repositioned to top-right of card */
+.card-tag-topright.ant-tag {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  border-radius: 0 var(--fi-radius-md) 0 var(--fi-radius-md) !important;
+  padding: 4px 14px !important;
+  font-size: 12px;
+  line-height: 1.4;
+  z-index: 1;
+  border-top-right-radius: var(--fi-radius-md) !important;
 }
 
 .card-tag.tag-food {
@@ -369,6 +383,160 @@ h4 {
   margin-top: 0;
   font-size: 12px;
   color: var(--fi-text-muted);
+}
+
+/* ── Like button ── */
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  color: var(--fi-primary);
+  font-family: var(--fi-font-base);
+  font-size: 15px;
+  cursor: pointer;
+  padding: 2px 4px;
+  margin-right: -4px;
+  border-radius: 999px;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+              transform var(--fi-motion-fast) var(--fi-ease-standard),
+              background var(--fi-motion-fast) var(--fi-ease-standard);
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.like-btn:hover {
+  color: var(--fi-primary-hover);
+  background: var(--fi-primary-outline);
+}
+
+.like-btn:active {
+  transform: scale(0.92);
+}
+
+.like-btn--liked {
+  color: var(--fi-primary);
+}
+
+.like-btn--liked:hover {
+  color: var(--fi-primary-hover);
+}
+
+.like-count {
+  font-weight: 650;
+  font-size: 13px;
+  min-width: 18px;
+  text-align: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Make the filled heart icon use the site primary brown */
+.like-btn--liked ::ng-deep .anticon svg {
+  fill: var(--fi-primary) !important;
+  color: var(--fi-primary) !important;
+}
+
+/* Make the filled heart icon use the site primary brown */
+.like-btn--liked ::ng-deep .anticon svg {
+  fill: var(--fi-primary) !important;
+  color: var(--fi-primary) !important;
+}
+
+/* Heart burst animation */
+.like-btn--animate {
+  animation: likeBurst 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.like-btn--animate .anticon {
+  animation: heartPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Make the filled heart icon use the site primary brown */
+.like-btn--liked ::ng-deep .anticon svg {
+  fill: var(--fi-primary) !important;
+  color: var(--fi-primary) !important;
+}
+
+@keyframes likeBurst {
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.25);
+  }
+  30% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.5);
+  }
+  55% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Floating heart particles */
+.like-btn--animate::before,
+.like-btn--animate::after {
+  content: '♥';
+  position: absolute;
+  font-size: 12px;
+  color: var(--fi-primary);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 5;
+  animation: floatUp 0.9s ease-out;
+}
+
+.like-btn--animate::before {
+  animation-delay: 0.05s;
+  left: 42%;
+  top: -12px;
+}
+
+.like-btn--animate::after {
+  animation-delay: 0.24s;
+  left: 58%;
+  top: -6px;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.65);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-32px) scale(1.35);
+  }
+}
+
+.like-btn--animate .like-count {
+  transform: scale(1.3);
 }
 
 .tag-filter-list {

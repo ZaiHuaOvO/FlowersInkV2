@@ -52,6 +52,9 @@
             <article class="timeline-row">
               <span class="timeline-dot"></span>
               <article class="timeline-card" flCard>
+                <nz-tag flTag [flTagVariant]="'solid'" class="card-tag card-tag-topright" [ngClass]="getTagClass(item.primaryTag)">
+                  {{ item.primaryTag || '未分类' }}
+                </nz-tag>
                 @if (item.title) {
                 <header class="timeline-card-header">
                   <h4>{{ item.title }}</h4>
@@ -83,9 +86,20 @@
                 }
                 <footer class="timeline-card-meta">
                   <span class="card-time">{{ item.dateText }}</span>
-                  <nz-tag flTag [flTagVariant]="'solid'" class="card-tag" [ngClass]="getTagClass(item.primaryTag)">
-                    {{ item.primaryTag || '未分类' }}
-                  </nz-tag>
+                  <button
+                    type="button"
+                    class="like-btn"
+                    [class.like-btn--liked]="isLiked(item)"
+                    [class.like-btn--animate]="isAnimating(item)"
+                    (click)="toggleLike(item, $event)"
+                    [attr.aria-label]="isLiked(item) ? '已点赞' : '点赞'"
+                  >
+                    <span nz-icon
+                      nzType="heart"
+                      [nzTheme]="isLiked(item) ? 'fill' : 'outline'"
+                    ></span>
+                    <span class="like-count">{{ getLikeCount(item) }}</span>
+                  </button>
                 </footer>
               </article>
             </article>
@@ -165,4 +179,5 @@
       </nz-affix>
     </div>
     }
+</div>
 </div>

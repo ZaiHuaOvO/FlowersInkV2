@@ -49,6 +49,8 @@
           <fl-button class="share-btn-article" (click)="copyLink()">分享本文</fl-button>
         </div>
         <nz-divider></nz-divider>
+        <!-- 文章底部表情互动 -->
+        <flower-blog-comment [data]="commentData" (emojiSelected)="onReactionSelected($event)"></flower-blog-comment>
         <flower-article-comments [blogId]="data.id"></flower-article-comments>
       </nz-spin>
     </div>

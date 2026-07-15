@@ -1,3 +1,9 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Blog Comment — 文章底部表情互动面板
+   设计关键词：温润卡片 · 精致图标 · 柔和反馈
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── 触发器按钮 ── */
 .emoji {
   width: 50px;
 }
@@ -7,54 +13,54 @@
   margin-bottom: 32px;
 }
 
-.comment-emoji-panel {
-  width: min(55vw, 560px);
-}
-
 .emoji span {
   font-size: 16px;
 }
 
-.ant-popover-inner {
-  max-width: 200px !important;
+/* ── 弹出面板 ── */
+.comment-emoji-panel {
+  width: 360px;
+  padding: 6px;
+  overflow: hidden;
 }
 
-.ant-popover-inner-content {
-  max-width: 200px !important;
-}
-
+/* ── 选项卡片 ── */
 .emoji-option {
   width: 100%;
-  padding: 8px;
+  padding: 10px 8px;
   aspect-ratio: 1 / 1;
   border: 1px solid var(--fi-border);
   border-radius: var(--fi-radius-sm);
   background: var(--fi-surface);
-  color: var(--fi-primary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform var(--fi-motion-fast) var(--fi-ease-standard),
+  transition:
+    transform var(--fi-motion-fast) var(--fi-ease-standard),
     background-color var(--fi-motion-fast) var(--fi-ease-standard),
-    border-color var(--fi-motion-fast) var(--fi-ease-standard);
+    border-color var(--fi-motion-fast) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 .emoji-option:hover {
   background: var(--fi-surface-soft);
-  border-color: #d1d5db;
-  transform: translateY(var(--fi-motion-lift));
+  border-color: var(--fi-primary-outline);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 90, 43, 0.12);
 }
 
 .emoji-option:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.96);
+  box-shadow: none;
 }
 
 .emoji-option:disabled,
 .emoji:disabled {
-  opacity: 0.58;
+  opacity: 0.45;
   cursor: not-allowed;
   transform: none;
+  filter: grayscale(0.3);
 }
 
 .emoji-option:focus-visible {
@@ -63,25 +69,20 @@
   box-shadow: 0 0 0 3px var(--fi-primary-outline);
 }
 
-.emoji-option,
-.emoji-option * {
-  cursor: pointer;
-}
-
-.emoji-option-symbol {
-  pointer-events: none;
-  line-height: 1;
-  font-size: 23px;
-  font-family: 'Segoe UI Symbol', 'Noto Sans Symbols 2', var(--fi-font-base);
-}
-
+/* ── 选项内图片 ── */
 .emoji-option-image {
-  width: 100%;
-  height: 100%;
+  width: 64%;
+  height: 64%;
   object-fit: contain;
   pointer-events: none;
+  transition: transform var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
+.emoji-option:hover .emoji-option-image {
+  transform: scale(1.12);
+}
+
+/* ── 选项下方颜文字标签 ── */
 .emoji-option-text {
   display: block;
   margin-top: 6px;
@@ -89,12 +90,23 @@
   text-align: center;
   line-height: 1.35;
   color: var(--fi-text-muted);
-  font-size: 12px;
+  font-size: var(--fi-font-size-xs);
   word-break: break-word;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
-@media (max-width: 768px) {
+/* ── 响应式 ── */
+@media (max-width: 480px) {
   .comment-emoji-panel {
-    width: 100vw;
+    width: 300px;
+  }
+
+  .emoji-option {
+    padding: 8px 6px;
+  }
+
+  .emoji-option-image {
+    width: 56%;
+    height: 56%;
   }
 }

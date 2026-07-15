@@ -10,46 +10,39 @@
       <div class="form-row form-row--four">
         <label class="form-field">
           <span class="field-label">
-            <i class="field-label-icon">👤</i>昵称 <span class="field-required">*</span>
+            <nz-icon nzType="user" nzTheme="outline" />名称 <span class="field-required">*</span>
           </span>
-          <input nz-input flInput placeholder="你的名字" [(ngModel)]="form.name" [disabled]="submitting" maxlength="50" />
+          <input nz-input flInput placeholder="" [(ngModel)]="form.name" [disabled]="submitting" maxlength="50" />
         </label>
         <label class="form-field">
           <span class="field-label">
-            <i class="field-label-icon">📧</i>邮箱
+            <nz-icon nzType="mail" nzTheme="outline" />邮箱(可选,回复提醒和Gavater用)
           </span>
-          <input nz-input flInput placeholder="用于通知回复" [(ngModel)]="form.email" [disabled]="submitting" maxlength="255" />
+          <input nz-input flInput placeholder="" [(ngModel)]="form.email" [disabled]="submitting" maxlength="255" />
         </label>
         <label class="form-field">
           <span class="field-label">
-            <i class="field-label-icon">🌐</i>网站
+            <nz-icon nzType="global" nzTheme="outline" />网站(可选)
           </span>
-          <input nz-input flInput placeholder="你的网站" [(ngModel)]="form.website" [disabled]="submitting" maxlength="255" />
+          <input nz-input flInput placeholder="" [(ngModel)]="form.website" [disabled]="submitting" maxlength="255" />
         </label>
         <label class="form-field">
           <span class="field-label">
-            <i class="field-label-icon">🖼️</i>头像
+            <nz-icon nzType="star" nzTheme="outline" />头像(可选,填写图片地址)
           </span>
-          <input nz-input flInput placeholder="头像链接" [(ngModel)]="form.avatarUrl" [disabled]="submitting" maxlength="500" />
+          <input nz-input flInput placeholder="" [(ngModel)]="form.avatarUrl" [disabled]="submitting" maxlength="500" />
         </label>
       </div>
-      <textarea
-        nz-input
-        flInput
-        class="content-textarea"
-        rows="4"
-        placeholder="写下你的想法吧 (๑•̀ㅂ•́)و✧"
-        [(ngModel)]="form.content"
-        [disabled]="submitting"
-        maxlength="2000"
-      ></textarea>
+      <textarea nz-input flInput class="content-textarea" rows="4" placeholder="写下你的想法吧 (๑•̀ㅂ•́)و✧"
+        [(ngModel)]="form.content" [disabled]="submitting" maxlength="500"></textarea>
       <div class="form-actions" nz-flex nzAlign="center" nzJustify="space-between">
         <flower-emoji (emojiSelected)="onEmojiSelected($event)"></flower-emoji>
         <div nz-flex nzAlign="center" nzGap="middle">
-          <flower-simple-captcha scene="article-comment" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+          <flower-simple-captcha scene="article-comment" [disabled]="submitting"
+            [inline]="true"></flower-simple-captcha>
           <fl-button [disabled]="submitting" (click)="submit()">
             @if (!submitting) {
-              <span nz-icon nzType="send" nzTheme="outline"></span>
+            <span nz-icon nzType="send" nzTheme="outline"></span>
             }
             {{ submitting ? '提交中...' : '发布评论' }}
           </fl-button>
@@ -65,23 +58,22 @@
     <div class="comments-list" nz-flex nzVertical>
       <!-- 待审核的顶层评论 -->
       @if (pendingComment) {
-        <ng-template [ngTemplateOutlet]="commentCardTmpl"
-          [ngTemplateOutletContext]="{ $implicit: toCommentNode(pendingComment, 0) }">
-        </ng-template>
+      <ng-template [ngTemplateOutlet]="commentCardTmpl"
+        [ngTemplateOutletContext]="{ $implicit: toCommentNode(pendingComment, 0) }">
+      </ng-template>
       }
 
       <!-- 评论树 -->
       @for (node of commentTree; track node.id) {
-        <ng-template [ngTemplateOutlet]="commentNodeTmpl"
-          [ngTemplateOutletContext]="{ $implicit: node }">
-        </ng-template>
+      <ng-template [ngTemplateOutlet]="commentNodeTmpl" [ngTemplateOutletContext]="{ $implicit: node }">
+      </ng-template>
       }
 
       @if (commentTree.length === 0 && !pendingComment && !loading) {
-        <div class="comments-empty" nz-flex nzAlign="center" nzJustify="center" nzVertical nzGap="small">
-          <span class="comments-empty-icon">✍️</span>
-          <span nz-typography nzType="secondary">还没有评论，来写第一条吧</span>
-        </div>
+      <div class="comments-empty" nz-flex nzAlign="center" nzJustify="center" nzVertical nzGap="small">
+        <span class="comments-empty-icon">✍️</span>
+        <span nz-typography nzType="secondary">还没有评论，来写第一条吧</span>
+      </div>
       }
     </div>
   </nz-spin>
@@ -89,23 +81,20 @@
 
 <!-- ════ 评论节点模板（递归） ════ -->
 <ng-template #commentNodeTmpl let-node>
-  <ng-template [ngTemplateOutlet]="commentCardTmpl"
-    [ngTemplateOutletContext]="{ $implicit: node }">
+  <ng-template [ngTemplateOutlet]="commentCardTmpl" [ngTemplateOutletContext]="{ $implicit: node }">
   </ng-template>
   <!-- 子评论 — 纯缩进，无竖线 -->
   <div class="nested-replies" [style.margin-left.px]="32">
     @for (child of getChildren(node); track child.id) {
-      <ng-template [ngTemplateOutlet]="commentNodeTmpl"
-        [ngTemplateOutletContext]="{ $implicit: child }">
-      </ng-template>
+    <ng-template [ngTemplateOutlet]="commentNodeTmpl" [ngTemplateOutletContext]="{ $implicit: child }">
+    </ng-template>
     }
   </div>
 </ng-template>
 
 <!-- ════ 评论卡片模板 ════ -->
 <ng-template #commentCardTmpl let-comment>
-  <div class="comment-card"
-    [class.comment-card--top]="comment._depth === 0"
+  <div class="comment-card" [class.comment-card--top]="comment._depth === 0"
     [class.comment-card--pending]="isPending(comment)"
     [class.comment-card--zaihua]="isZaiHua(comment) && !isPending(comment)">
     <div class="comment-card-body" nz-flex nzGap="middle" nzAlign="start">
@@ -113,12 +102,10 @@
       <div class="comment-avatar-col">
         <div class="comment-avatar-wrap">
           @if (isPending(comment) ? getPendingAvatarUrl(comment) : getAvatarUrl(comment); as avatarUrl) {
-            <img class="comment-avatar"
-              [src]="avatarUrl" [alt]="getDisplayName(comment)"
-              width="40" height="40"
-              (error)="onAvatarError(comment)" />
+          <img class="comment-avatar" [src]="avatarUrl" [alt]="getDisplayName(comment)" width="40" height="40"
+            (error)="onAvatarError(comment)" />
           } @else {
-            <span class="comment-avatar-fallback">{{ getAvatarInitial(comment) }}</span>
+          <span class="comment-avatar-fallback">{{ getAvatarInitial(comment) }}</span>
           }
         </div>
       </div>
@@ -128,22 +115,21 @@
         <!-- 头部：名字 + 徽章 + 时间 -->
         <div class="comment-header" nz-flex nzAlign="center" nzGap="small">
           @if (getDisplayWebsite(comment) && !isZaiHua(comment)) {
-            <a class="comment-name comment-name--link" nz-typography
-              [href]="getDisplayWebsite(comment)" target="_blank" rel="noopener noreferrer"
-            >{{ getDisplayName(comment) }}</a>
+          <a class="comment-name comment-name--link" nz-typography [href]="getDisplayWebsite(comment)" target="_blank"
+            rel="noopener noreferrer">{{ getDisplayName(comment) }}</a>
           } @else {
-            <span class="comment-name" [class.comment-name--zaihua]="isZaiHua(comment)">
-              {{ getDisplayName(comment) }}
-            </span>
+          <span class="comment-name" [class.comment-name--zaihua]="isZaiHua(comment)">
+            {{ getDisplayName(comment) }}
+          </span>
           }
 
           @if (isZaiHua(comment)) {
-            <span class="zaihua-badge">猫猫头</span>
+          <span class="zaihua-badge">猫猫头</span>
           } @else if (isPending(comment)) {
-            <span class="pending-badge">
-              <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
-              待审核
-            </span>
+          <span class="pending-badge">
+            <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+            待审核
+          </span>
           }
 
           <span class="comment-time" nz-tooltip [nzTooltipTitle]="comment.createDate | date:'yyyy-MM-dd HH:mm:ss'">
@@ -156,49 +142,49 @@
 
         <!-- 回复按钮 — 仅再花评论，放在文本下方 -->
         @if (!isPending(comment) && isZaiHua(comment)) {
-          <div class="comment-actions">
-            @if (replyTargetId !== comment.id) {
-              <button class="reply-text-btn" (click)="toggleReply(comment)">回复</button>
-            } @else {
-              <button class="reply-text-btn is-active" (click)="cancelReply()">取消回复</button>
-            }
-          </div>
+        <div class="comment-actions">
+          @if (replyTargetId !== comment.id) {
+          <button class="reply-text-btn" (click)="toggleReply(comment)">回复</button>
+          } @else {
+          <button class="reply-text-btn is-active" (click)="cancelReply()">取消回复</button>
+          }
+        </div>
         }
 
         <!-- 内联回复框 -->
         @if (replyTargetId === comment.id) {
-          <div class="inline-reply-card" flCard>
-            <div class="inline-reply-header" nz-flex nzAlign="center" nzGap="small">
-              <span class="reply-to-label">
-                回复 <strong>{{ getDisplayName(comment) }}</strong>：
-              </span>
+        <div class="inline-reply-card" flCard>
+          <div class="inline-reply-header" nz-flex nzAlign="center" nzGap="small">
+            <span class="reply-to-label">
+              回复 <strong>{{ getDisplayName(comment) }}</strong>：
+            </span>
+          </div>
+          <div class="inline-reply-form" nz-flex nzVertical nzGap="small">
+            <div class="reply-form-row" nz-flex nzGap="small">
+              <input nz-input flInput class="reply-input--name" placeholder="你的名字 *" [(ngModel)]="replyForm.name"
+                maxlength="50" />
+              <input nz-input flInput class="reply-input--email" placeholder="邮箱（可选）" [(ngModel)]="replyForm.email"
+                maxlength="255" />
+              <input nz-input flInput class="reply-input--website" placeholder="网站（可选）" [(ngModel)]="replyForm.website"
+                maxlength="255" />
+              <input nz-input flInput class="reply-input--avatar" placeholder="头像链接（可选）"
+                [(ngModel)]="replyForm.avatarUrl" maxlength="500" />
             </div>
-            <div class="inline-reply-form" nz-flex nzVertical nzGap="small">
-              <div class="reply-form-row" nz-flex nzGap="small">
-                <input nz-input flInput class="reply-input--name" placeholder="你的名字 *"
-                  [(ngModel)]="replyForm.name" maxlength="50" />
-                <input nz-input flInput class="reply-input--email" placeholder="邮箱（可选）"
-                  [(ngModel)]="replyForm.email" maxlength="255" />
-                <input nz-input flInput class="reply-input--website" placeholder="网站（可选）"
-                  [(ngModel)]="replyForm.website" maxlength="255" />
-                <input nz-input flInput class="reply-input--avatar" placeholder="头像链接（可选）"
-                  [(ngModel)]="replyForm.avatarUrl" maxlength="500" />
-              </div>
-              <textarea nz-input flInput rows="3" placeholder="写下你的回复..."
-                [(ngModel)]="replyForm.content" maxlength="2000"></textarea>
-              <div nz-flex nzJustify="space-between" nzAlign="center">
-                <flower-emoji (emojiSelected)="onReplyEmojiSelected($event)"></flower-emoji>
-                <div nz-flex nzGap="small" nzAlign="center">
-                  <button class="reply-cancel-link" (click)="cancelReply()">取消</button>
-                  <fl-button
-                    [disabled]="!replyForm.content.trim() || !replyForm.name.trim() || replySubmitting"
-                    (click)="submitReply(comment)">
-                    {{ replySubmitting ? '提交中...' : '回复' }}
-                  </fl-button>
-                </div>
+            <textarea nz-input flInput rows="3" placeholder="写下你的回复..." [(ngModel)]="replyForm.content"
+              maxlength="500"></textarea>
+            <div class="textarea-counter">{{ replyForm.content.length || 0 }} / 500</div>
+            <div nz-flex nzJustify="space-between" nzAlign="center">
+              <flower-emoji (emojiSelected)="onReplyEmojiSelected($event)"></flower-emoji>
+              <div nz-flex nzGap="small" nzAlign="center">
+                <button class="reply-cancel-link" (click)="cancelReply()">取消</button>
+                <fl-button [disabled]="!replyForm.content.trim() || !replyForm.name.trim() || replySubmitting"
+                  (click)="submitReply(comment)">
+                  {{ replySubmitting ? '提交中...' : '回复' }}
+                </fl-button>
               </div>
             </div>
           </div>
+        </div>
         }
       </div>
     </div>

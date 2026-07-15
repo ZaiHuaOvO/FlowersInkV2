@@ -37,6 +37,7 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { ArticleCommentsComponent } from '../../../components/blog/article-comments/article-comments.component';
+import { BlogCommentComponent } from '../../../components/blog/blog-comment/blog-comment.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
@@ -69,6 +70,7 @@ import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.
     RouterModule,
     FlButtonComponent,
     ArticleCommentsComponent,
+    BlogCommentComponent,
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
@@ -323,6 +325,21 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
     navigator.clipboard.writeText(window.location.href).then(() => {
       this.msg.success('链接已复制到剪贴板 ✿');
+    });
+  }
+
+  /** 文章表情互动数据 */
+  commentData: any[] = [];
+
+  onReactionSelected(emoji: any): void {
+    this.blog.comment(this.Id, { emojiType: emoji.key }).subscribe({
+      next: (res: any) => {
+        this.commentData = res?.data ?? [];
+        this.msg.success(`已发送 ${emoji.text}`);
+      },
+      error: () => {
+        this.msg.error('发送失败，稍后再试试吧');
+      },
     });
   }
 }

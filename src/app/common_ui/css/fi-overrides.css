@@ -107,3 +107,16 @@ nz-content {
 .mobile-drawer .ant-drawer-header-title {
   display: none;
 }
+
+/* Emoji popover — ng-zorro defaults .ant-popover-inner to max-width:200px.
+   The cdk overlay is rendered outside Angular's view encapsulation, so we
+   scope via the .cdk-overlay-container ancestor. */
+.cdk-overlay-container .ant-popover:has(.emoji-popover) .ant-popover-inner,
+.cdk-overlay-container .ant-popover:has(.emoji-popover) .ant-popover-inner-content {
+  max-width: 360px !important;
+}
+
+.cdk-overlay-container .ant-popover:has(.comment-emoji-panel) .ant-popover-inner,
+.cdk-overlay-container .ant-popover:has(.comment-emoji-panel) .ant-popover-inner-content {
+  max-width: 400px !important;
+}
