@@ -2,6 +2,7 @@ import {
   Component,
   DestroyRef,
 } from '@angular/core';
+import { animate, group, query, stagger, style, transition, trigger } from '@angular/animations';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -11,11 +12,56 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { RouterModule } from '@angular/router';
 import { TargetComponent } from '../../../components/about/target/target.component';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
-import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+
+/* Direction-aware slide-in animation for section switching */
+const SectionSwitch = trigger('SectionSwitch', [
+  transition(':increment', [
+    style({ opacity: 0, transform: 'translateX(28px)' }),
+    animate(
+      '280ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateX(0)' })
+    ),
+  ]),
+  transition(':decrement', [
+    style({ opacity: 0, transform: 'translateX(-28px)' }),
+    animate(
+      '280ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateX(0)' })
+    ),
+  ]),
+  transition(':enter', [
+    style({ opacity: 0, transform: 'translateY(16px)' }),
+    animate(
+      '260ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateY(0)' })
+    ),
+  ]),
+]);
+
+/* Staggered hero animation: image from left, text from right */
+const HeroEnter = trigger('HeroEnter', [
+  transition(':enter', [
+    style({}),
+    query('.hero-image-col', [
+      style({ opacity: 0, transform: 'translateX(-32px)' }),
+      animate(
+        '300ms 60ms cubic-bezier(0.22, 1, 0.36, 1)',
+        style({ opacity: 1, transform: 'translateX(0)' })
+      ),
+    ], { optional: true }),
+    query('.hero-text-col', [
+      style({ opacity: 0, transform: 'translateX(32px)' }),
+      animate(
+        '300ms 140ms cubic-bezier(0.22, 1, 0.36, 1)',
+        style({ opacity: 1, transform: 'translateX(0)' })
+      ),
+    ], { optional: true }),
+  ]),
+]);
 
 @Component({
   selector: 'flower-me',
@@ -34,7 +80,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
   ],
   templateUrl: './me.component.html',
   styleUrl: './me.component.css',
-  animations: [QuickUp],
+  animations: [QuickUp, SectionSwitch, HeroEnter],
   host: { '[@QuickUp]': '' },
 })
 export class MeComponent {

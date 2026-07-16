@@ -5,7 +5,7 @@
     <div class="content blog-detail-content" flCard nz-flex nzGap="middle" [nzVertical]="true" @QuickUp>
       <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon [nzTitle]="backTitle">
         <ng-template #backTitle>
-          <span nz-typography class="back-link" (click)="onBack()"><nz-icon nzType="left" nzTheme="outline" />返回</span>
+          <span nz-typography class="back-link" (click)="onBack()">返回</span>
         </ng-template>
 
         @if (!isMobile) {
@@ -105,4 +105,3 @@
     }
   </div>
 </div>
-

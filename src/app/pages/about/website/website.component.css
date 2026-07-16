@@ -1,6 +1,5 @@
 /*
- * Primary text color helper (replaced by token)
- * @deprecated — use color: var(--fi-primary) directly
+ * About Website page styles.
  */
 
 .website {
@@ -16,10 +15,6 @@
   position: relative;
 }
 
-/*
- * Page title — uses shared .fi-text-title-1
- */
-
 .page-title {
   text-align: center;
   padding: var(--fi-space-3) 0 0;
@@ -27,101 +22,88 @@
   user-select: none;
 }
 
-/*
- * Side nav arrows (about-specific)
- */
+/* ===== Pill-style Tab Bar (matches "关于我" design) ===== */
 
-.nav-arrows {
-  position: absolute;
-  right: var(--fi-space-4);
-  top: 216px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--fi-space-1);
-  z-index: 5;
+.website-tab-bar {
+  gap: var(--fi-space-2);
+  padding: var(--fi-space-3) 0 var(--fi-space-4);
 }
 
-.nav-arrow {
-  width: 32px;
-  height: 32px;
-  display: flex;
+.website-tab {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  padding: 6px var(--fi-space-4);
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-pill);
   background: transparent;
-  color: var(--fi-primary);
-  font-size: var(--fi-font-size-xl);
-  line-height: 1;
-  cursor: pointer;
+  color: var(--fi-text-muted);
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-md);
+  font-weight: var(--fi-font-weight-medium);
   transition: all var(--fi-motion-fast) var(--fi-ease-standard);
+  cursor: pointer;
   user-select: none;
-  padding: 0;
-  border: none;
-  border-radius: 0;
+  line-height: 1.4;
 }
 
-.nav-arrow:hover {
+.website-tab:hover {
   background: var(--fi-surface-soft);
+  color: var(--fi-primary);
+  border-color: var(--fi-primary-outline);
+  transform: translateY(-1px);
 }
 
-.nav-arrow:active {
-  transform: scale(0.95);
+.website-tab.fi-tab--active {
+  background: var(--fi-primary) !important;
+  color: #fff !important;
+  border-color: var(--fi-primary) !important;
 }
 
-.nav-arrow--disabled {
-  opacity: 0.3;
-  cursor: default;
-  pointer-events: none;
-}
-
-.carousel-wrap {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-
-.carousel-viewport {
-  overflow: hidden;
-  position: relative;
-  transition: height 450ms var(--fi-ease-standard);
-  will-change: height;
-  flex-shrink: 0;
-  flex-grow: 0;
-}
+/* ===== Section ===== */
 
 .section {
   width: 100%;
 }
 
 .section-inner {
-  padding: 0 52px 8px 0;
+  padding: var(--fi-space-2) 0 8px;
   word-break: break-word;
   overflow-wrap: break-word;
 }
 
-.section-inner p {
+/* Base paragraph style: left-aligned with consistent padding */
+.section-inner p,
+.section-inner > [nz-typography],
+.section-inner > span[nz-typography] {
   font-size: var(--fi-font-size-lg) !important;
   line-height: 1.7;
   margin-bottom: var(--fi-space-2) !important;
+  text-align: left;
+  padding-left: var(--fi-space-2);
 }
 
-/*
- * Simple Timeline — using shared .fi-simple-timeline classes from fi-timeline.css
- * The .simple-timeline* classes below are kept so that existing mobile overrides
- * for .simple-timeline-text still apply. They are mostly superseded by the shared styles.
- */
-
-.simple-timeline-text {
-  font-size: var(--fi-font-size-xs);
+/* Timeline: centered */
+.section-inner .fi-simple-timeline {
+  text-align: center;
 }
 
-/*
- * Thanks box (about-specific)
- */
+.section-inner .fi-simple-timeline-content {
+  text-align: left;
+}
 
-.thanks-box p {
-  margin-bottom: var(--fi-space-3) !important;
+/* Thanks box: left-aligned, same padding rhythm */
+.thanks-box {
+  padding-left: var(--fi-space-2);
+}
+
+.thanks-box p,
+.thanks-box > [nz-typography],
+.thanks-box > span[nz-typography] {
+  font-size: var(--fi-font-size-lg) !important;
+  line-height: 1.7;
+  margin-bottom: var(--fi-space-2) !important;
+  text-align: left;
+  padding-left: 0;
 }
 
 .thanks-row {
@@ -141,9 +123,7 @@
   font-size: var(--fi-font-size-lg);
 }
 
-/*
- * Update note
- */
+/* ===== Update note ===== */
 
 .update-note {
   display: flex;
@@ -161,20 +141,17 @@
   user-select: none;
 }
 
-/*
- * Mobile tab scroll (about-specific: horizontal scroll on mobile)
- */
+/* ===== Section slide animation (shared keyframes in fi-base.css) ===== */
 
-/*
- * Section slide animation (shared keyframes in fi-base.css)
- */
 .slide-in {
-  animation: fi-slide-in-right 300ms var(--fi-ease-standard);
+  animation: fi-slide-in-right 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .slide-in--left {
   animation-name: fi-slide-in-left;
 }
+
+/* ===== Mobile ===== */
 
 @media (max-width: 768px) {
   .website {
@@ -202,19 +179,28 @@
     display: none;
   }
 
-  .fi-tab-bar {
+  .website-tab-bar {
     justify-content: flex-start;
     width: max-content;
     min-width: 100%;
   }
 
-  .fi-tab {
+  .website-tab {
     padding: 4px var(--fi-space-3);
+    font-size: var(--fi-font-size-sm);
+    border-radius: var(--fi-radius-pill);
+    border: 1px solid var(--fi-border);
+    background: transparent;
     white-space: nowrap;
   }
 
+  .website-tab.fi-tab--active {
+    background: var(--fi-primary) !important;
+    border-color: var(--fi-primary) !important;
+    color: #fff !important;
+  }
+
   .section-wrap {
-    touch-action: pan-y;
     min-height: 180px;
   }
 
@@ -237,14 +223,19 @@
     font-size: var(--fi-font-size-md) !important;
   }
 
-  /* Timeline — uses shared .fi-simple-timeline from fi-timeline.css */
-
-  .simple-timeline-text {
-    font-size: var(--fi-font-size-xs) !important;
-    padding-left: 0;
+  .section-inner {
+    padding: 0;
   }
 
-  /* Thanks mobile adjustments */
+  .section-inner p,
+  .section-inner > [nz-typography] {
+    padding-left: var(--fi-space-1);
+  }
+
+  .thanks-box {
+    padding-left: var(--fi-space-1);
+  }
+
   .thanks-row {
     gap: var(--fi-space-2);
     margin-bottom: var(--fi-space-2);

@@ -1,9 +1,9 @@
 <a class="content link-card" flCard flCardHover nz-flex [nzGap]="25" nzJustify="start" nzAlign="start" [href]="link.url" target="_blank">
-    @if (!imgError) {
-    <img loading="lazy" decoding="async" [src]="link.logo" referrerpolicy="no-referrer" alt="" height="75" (error)="onImgError()">
+    @if (!showFallback && avatarSrc) {
+    <img loading="lazy" decoding="async" [src]="avatarSrc" referrerpolicy="no-referrer" alt="" height="75" (error)="onAvatarError()">
     }
-    @if (imgError) {
-    <span class="link-avatar-fallback" nz-flex nzAlign="center" nzJustify="center">{{ link.name?.charAt(0) || '?' }}</span>
+    @if (showFallback) {
+    <span class="link-avatar-fallback" nz-flex nzAlign="center" nzJustify="center">{{ initial }}</span>
     }
     <div nz-flex [nzVertical]="true" nzJustify="center" nzGap="small" class="noto-sans-sc">
         <span nz-typography class="link_name">{{link.name}}</span>

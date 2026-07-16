@@ -19,6 +19,71 @@
   color: var(--fi-primary);
 }
 
+/* ===== Enhanced Tab Bar (pill-style buttons with icons) ===== */
+
+.me-tab-bar {
+  gap: var(--fi-space-2);
+  padding: var(--fi-space-3) 0 var(--fi-space-4);
+}
+
+.me-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px var(--fi-space-5);
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-pill, 999px);
+  background: transparent;
+  color: var(--fi-text-muted);
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-md);
+  font-weight: var(--fi-font-weight-medium);
+  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.4;
+}
+
+.me-tab:hover {
+  background: var(--fi-surface-soft);
+  color: var(--fi-primary);
+  border-color: var(--fi-primary-outline);
+  transform: translateY(-1px);
+}
+
+.me-tab.fi-tab--active {
+  background: var(--fi-primary) !important;
+  color: #fff !important;
+  border-color: var(--fi-primary) !important;
+}
+
+.me-tab-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+/* ===== Section Viewport ===== */
+
+.section-viewport {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+/* ===== Section ===== */
+
+.section {
+  width: 100%;
+}
+
+.section-inner {
+  padding: 0 52px 8px 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ===== Update Note ===== */
+
 .update-note {
   display: flex;
   flex-direction: column;
@@ -35,13 +100,23 @@
   user-select: none;
 }
 
+/* ===== Hero Section (是再花！) ===== */
+
 .hero-row {
   display: flex;
   gap: var(--fi-space-8);
   align-items: flex-start;
 }
 
-.hero-text {
+.hero-image-col {
+  flex-shrink: 0;
+}
+
+.hero-image-col img {
+  border-radius: var(--fi-radius-sm);
+}
+
+.hero-text-col {
   flex: 1;
   min-width: 0;
   word-break: break-word;
@@ -62,6 +137,8 @@
   word-break: break-word;
   overflow-wrap: break-word;
 }
+
+/* ===== Hobby Layout ===== */
 
 .hobby-layout {
   display: flex;
@@ -125,13 +202,14 @@
 .hobby-pane {
   visibility: hidden;
   opacity: 0;
-  transition: opacity 300ms var(--fi-ease-standard);
+  transition: opacity 200ms var(--fi-ease-standard), visibility 0ms 200ms;
   pointer-events: none;
 }
 
 .hobby-pane--active {
   visibility: visible;
   opacity: 1;
+  transition: opacity 200ms var(--fi-ease-standard), visibility 0ms 0ms;
   pointer-events: auto;
 }
 
@@ -146,6 +224,8 @@
 strong {
   font-size: var(--fi-font-size-lg);
 }
+
+/* ===== Game Pane ===== */
 
 .game-pane {
   display: flex;
@@ -199,6 +279,8 @@ strong {
   color: var(--fi-primary-hover);
 }
 
+/* ===== Write Pane ===== */
+
 .write-pane {
   display: flex;
   align-items: flex-start;
@@ -222,6 +304,8 @@ strong {
   word-break: break-word;
   overflow-wrap: break-word;
 }
+
+/* ===== Contact / Social (section 2) ===== */
 
 .contact-grid {
   display: grid;
@@ -384,9 +468,35 @@ strong {
     user-select: none;
   }
 
-  .fi-tab {
+  .me-tab-bar {
+    gap: var(--fi-space-1);
+    padding: var(--fi-space-2) 0 var(--fi-space-3);
+  }
+
+  .me-tab {
     padding: 4px var(--fi-space-3);
-    font-size: var(--fi-font-size-md);
+    font-size: var(--fi-font-size-sm);
+    border-radius: var(--fi-radius-pill, 999px);
+    border: 1px solid var(--fi-border);
+    background: transparent;
+  }
+
+  .me-tab.fi-tab--active {
+    background: var(--fi-primary) !important;
+    border-color: var(--fi-primary) !important;
+    color: #fff !important;
+  }
+
+  .me-tab-icon {
+    font-size: 13px;
+  }
+
+  .section-viewport {
+    width: 100%;
+  }
+
+  .section-inner {
+    padding: 0;
   }
 
   .section,
@@ -620,6 +730,11 @@ strong {
   .mobile-social-badge,
   .mobile-social-desc {
     font-size: 11px !important;
+  }
+
+  .fi-dots {
+    padding-top: var(--fi-space-4);
+    padding-bottom: var(--fi-space-2);
   }
 
   .nav-links,
