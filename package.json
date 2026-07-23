@@ -12,6 +12,7 @@
     "build:prod": "ng build --configuration production && node scripts/generate-static-seo.mjs",
     "build:fast": "ng build --configuration production-fast && node scripts/generate-static-seo.mjs",
     "build:full": "ng build --configuration production && node scripts/generate-static-seo.mjs",
+    "deploy": "node scripts/deploy.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
