@@ -137,6 +137,7 @@ export class HeaderComponent implements OnInit {
     this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
+    this.activeRoute = this.router.url;
     this.router.events
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
@@ -150,7 +151,8 @@ export class HeaderComponent implements OnInit {
   }
 
   isParentActive(URL: any): boolean {
-    return this.activeRoute.includes(URL);
+    return this.activeRoute.startsWith('/' + URL + '/')
+        || this.activeRoute === '/' + URL;
   }
 
   prefetchMenu(item: MenuItem): void {

@@ -13,14 +13,14 @@
       <div nz-flex nzAlign="center" [nzVertical]="true" nzGap="middle">
         @for (item of data; track item) {
           <div class="blog" flCard>
-            <h2 nz-typography>{{item.year}}年</h2>
+            <h2 nz-typography>{{item.year}}年 <span class="year-count">· {{item.data.length}} 篇</span></h2>
             <div class="fi-simple-timeline">
               @for (blog of item.data; track blog) {
-                <div class="fi-simple-timeline-item">
+                <div class="fi-simple-timeline-item" [class.is-starred-item]="blog.star">
                   <span class="fi-simple-timeline-dot"></span>
                   <div class="fi-simple-timeline-content">
                     <span class="fi-simple-timeline-date">{{ blog.date | date:'MM/dd' }}</span>
-                    <a class="fi-simple-timeline-title" [class.is-starred]="blog.star" [href]="'/blog/blog-detail/' + blog.id">
+                    <a class="fi-simple-timeline-title" [class.is-starred]="blog.star" [routerLink]="['/blog', 'blog-detail', blog.id]">
                       @if (blog.star) {<span class="star-badge">[精选]</span>}
                       {{ blog.title }}
                     </a>

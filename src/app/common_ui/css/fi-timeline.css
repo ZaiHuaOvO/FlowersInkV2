@@ -6,15 +6,15 @@
 
 .fi-simple-timeline {
   position: relative;
-  padding-left: 14px;
+  padding-left: 16px;
 }
 
 .fi-simple-timeline::before {
   content: '';
   position: absolute;
-  left: 9px;
-  top: 12px;
-  bottom: 12px;
+  left: 10px;
+  top: 14px;
+  bottom: 14px;
   width: 2px;
   background: var(--fi-border);
 }
@@ -24,15 +24,15 @@
 }
 
 .fi-simple-timeline-item:not(:last-child) {
-  padding-bottom: 6px;
+  padding-bottom: 14px;
 }
 
 .fi-simple-timeline-dot {
   position: absolute;
-  left: -9px;
-  top: 5px;
-  width: 10px;
-  height: 10px;
+  left: -10px;
+  top: 12px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--fi-primary);
   z-index: 1;
@@ -41,8 +41,8 @@
 }
 
 .fi-simple-timeline-item:hover .fi-simple-timeline-dot {
-  transform: scale(1.4);
-  box-shadow: 0 0 0 4px var(--fi-primary-outline);
+  transform: scale(1.6);
+  box-shadow: 0 0 0 6px var(--fi-primary-outline);
 }
 
 .fi-simple-timeline-content {
@@ -54,7 +54,7 @@
 }
 
 .fi-simple-timeline-date {
-  font-size: var(--fi-font-size-md);
+  font-size: 15px;
   color: var(--fi-text-muted);
   flex: 0 0 auto;
   white-space: nowrap;
@@ -63,19 +63,25 @@
 }
 
 .fi-simple-timeline-title {
-  font-size: var(--fi-font-size-md);
+  font-size: var(--fi-font-size-lg);
   color: var(--fi-text);
-  line-height: 1.5;
+  line-height: 1.6;
   transition: color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 a.fi-simple-timeline-title {
   text-decoration: none;
   cursor: pointer;
+  flex: 1;
+  padding: 4px 0;
 }
 
 a.fi-simple-timeline-title:hover {
   color: #8B5A2B;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(139, 90, 43, 0.35);
 }
 
 /* ---- Mobile ---- */
@@ -83,6 +89,10 @@ a.fi-simple-timeline-title:hover {
 @media (max-width: 768px) {
   .fi-simple-timeline {
     padding-left: 14px;
+  }
+
+  .fi-simple-timeline-item:not(:last-child) {
+    padding-bottom: 10px;
   }
 
   .fi-simple-timeline-content {
@@ -99,12 +109,12 @@ a.fi-simple-timeline-title:hover {
   }
 
   .fi-simple-timeline-date {
-    font-size: var(--fi-font-size-sm);
+    font-size: 15px;
     flex-shrink: 0;
   }
 
   .fi-simple-timeline-title {
-    font-size: var(--fi-font-size-sm);
+    font-size: 15px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

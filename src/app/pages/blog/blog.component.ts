@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { debounceTime } from 'rxjs';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -33,6 +34,7 @@ import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive
     NzIconModule,
     BlogTitleComponent,
     DatePipe,
+    RouterLink,
     FlInputDirective,
     FlCardDirective,
   ],
