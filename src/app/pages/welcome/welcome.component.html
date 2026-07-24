@@ -16,19 +16,19 @@
         <p class="hero-subtitle">一只编程咪娘的博客 · 日常 · 游戏</p>
         <div class="hero-stats" nz-flex nzWrap="wrap" nzGap="small">
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/blog/all']">
-            <span class="hero-stat-num" [class.num-loaded]="!numLoading">{{ numLoading ? '---' : info.blogTotal }}</span> 篇博客
+            <span class="hero-stat-num" [class.num-loaded]="!numLoading">{{ numLoading ? ' — ' : info.blogTotal }}</span> 篇博客
           </a>
           <span class="hero-stat-dot">·</span>
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/life']">
-            <span class="hero-stat-num" [class.num-loaded]="!numLoading">{{ numLoading ? '---' : info.lifeTotal }}</span> 条点滴
+            <span class="hero-stat-num" [class.num-loaded]="!numLoading">{{ numLoading ? ' — ' : info.lifeTotal }}</span> 条点滴
           </a>
           <span class="hero-stat-dot">·</span>
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/world/game']">
-            <span class="hero-stat-num" [class.num-loaded]="!numLoading">{{ numLoading ? '---' : info.gameTotal }}</span> 个游戏
+            <span class="hero-stat-num" [class.num-loaded]="!numLoading">{{ numLoading ? ' — ' : info.gameTotal }}</span> 个游戏
           </a>
           <span class="hero-stat-dot">·</span>
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/about/website']">
-            已运行 <span class="hero-stat-num" [class.num-loaded]="!numLoading">{{ numLoading ? '---' : info.runDays }}</span> 天
+            已运行 <span class="hero-stat-num" [class.num-loaded]="!numLoading">{{ numLoading ? ' — ' : info.runDays }}</span> 天
           </a>
         </div>
         <div class="hero-actions">
