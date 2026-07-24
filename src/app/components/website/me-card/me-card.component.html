@@ -54,7 +54,7 @@
 
   </div>
 
-  <div class="char-count-line">
-    <span class="fi-secondary-text">累计写了 <span class="char-num-wrapper"><span class="char-num" [class.num-hidden]="numLoading">{{ formatCharTotal(info.blogCharTotal) }}</span><span class="char-placeholder" [class.visible]="numLoading">-</span></span>字</span>
+  <div class="char-count-line" [class.loaded]="!numLoading">
+    <span class="fi-secondary-text">累计写了 <span class="char-num">{{ formatCharTotal(info.blogCharTotal) }}</span>字</span>
   </div>
 </div>

@@ -14,38 +14,21 @@
           <span class="hero-title-line2">欢迎来到<span class="hero-title-highlight">花墨</span></span>
         </h1>
         <p class="hero-subtitle">一只编程咪娘的博客 · 日常 · 游戏</p>
-        <div class="hero-stats" nz-flex nzWrap="wrap" nzGap="small">
+        <div class="hero-stats" [class.loaded]="!numLoading" nz-flex nzWrap="wrap" nzGap="small">
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/blog/all']">
-            <span class="hero-stat-num-wrapper">
-              <span class="hero-stat-num" [class.num-hidden]="numLoading">{{ info.blogTotal }}</span>
-              <span class="hero-stat-placeholder" [class.visible]="numLoading">-</span>
-            </span>
-            篇博客
+            <span class="hero-stat-num">{{ info.blogTotal }}</span> 篇博客
           </a>
           <span class="hero-stat-dot">·</span>
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/life']">
-            <span class="hero-stat-num-wrapper">
-              <span class="hero-stat-num" [class.num-hidden]="numLoading">{{ info.lifeTotal }}</span>
-              <span class="hero-stat-placeholder" [class.visible]="numLoading">-</span>
-            </span>
-            条点滴
+            <span class="hero-stat-num">{{ info.lifeTotal }}</span> 条点滴
           </a>
           <span class="hero-stat-dot">·</span>
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/world/game']">
-            <span class="hero-stat-num-wrapper">
-              <span class="hero-stat-num" [class.num-hidden]="numLoading">{{ info.gameTotal }}</span>
-              <span class="hero-stat-placeholder" [class.visible]="numLoading">-</span>
-            </span>
-            个游戏
+            <span class="hero-stat-num">{{ info.gameTotal }}</span> 个游戏
           </a>
           <span class="hero-stat-dot">·</span>
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/about/website']">
-            已运行
-            <span class="hero-stat-num-wrapper hero-stat-num-wrapper--wide">
-              <span class="hero-stat-num" [class.num-hidden]="numLoading">{{ info.runDays }}</span>
-              <span class="hero-stat-placeholder" [class.visible]="numLoading">-</span>
-            </span>
-            天
+            已运行 <span class="hero-stat-num">{{ info.runDays }}</span> 天
           </a>
         </div>
         <div class="hero-actions">
