@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, DestroyRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { WelcomeService } from './welcome.service';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { DatePipe } from '@angular/common';
+import { DOCUMENT, DatePipe } from '@angular/common';
 import { BlogCardComponent } from '../../components/blog/blog-card/blog-card.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { RouterModule } from '@angular/router';
@@ -63,20 +63,35 @@ export class WelcomeComponent implements OnInit {
     recentBlogs: [],
   };
   isMobile: boolean = false;
+  scrollAtTop = true;
   @ViewChild('more', { static: true })
   more!: TemplateRef<any>;
 
   constructor(
     private welcome: WelcomeService,
     private cdr: ChangeDetectorRef,
-    private window: WindowService,
+    private windowService: WindowService,
     private readonly destroyRef: DestroyRef,
+    @Inject(DOCUMENT) private document: Document,
     private modal: NzModalService,
     private msg: NzMessageService
   ) {
-    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
+    this.windowService.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
+
+    const win = this.document.defaultView;
+    if (win) {
+      const onScroll = () => {
+        const atTop = win.scrollY < 60;
+        if (this.scrollAtTop !== atTop) {
+          this.scrollAtTop = atTop;
+          this.cdr.detectChanges();
+        }
+      };
+      win.addEventListener('scroll', onScroll, { passive: true });
+      this.destroyRef.onDestroy(() => win.removeEventListener('scroll', onScroll));
+    }
   }
 
   ngOnInit() {

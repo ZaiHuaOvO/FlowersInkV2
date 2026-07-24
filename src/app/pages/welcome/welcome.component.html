@@ -38,7 +38,7 @@
       </div>
     </div>
     <!-- 向下滚动提示 -->
-    <div class="hero-scroll-hint" (click)="scrollToContent()">
+    <div class="hero-scroll-hint" [class.hidden]="!scrollAtTop" (click)="scrollToContent()">
       <span class="hero-scroll-text">看看再花为你精选的文章</span>
       <span class="hero-scroll-arrow"></span>
     </div>

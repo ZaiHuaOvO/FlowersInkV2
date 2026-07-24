@@ -207,6 +207,11 @@
     opacity: 0.6;
 }
 
+.hero-scroll-hint.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .hero-scroll-text {
     font-size: 13px;
     color: var(--fi-text-muted);
