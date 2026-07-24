@@ -44,4 +44,5 @@
 
 .error-back {
     margin-top: var(--fi-space-2);
+    color: var(--fi-primary) !important;
 }
