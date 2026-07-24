@@ -140,27 +140,54 @@
     transform: scaleX(1);
 }
 
+.hero-stat-num-wrapper {
+    position: relative;
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+    vertical-align: baseline;
+    line-height: inherit;
+}
+
+.hero-stat-num-wrapper--wide {
+    min-width: 2em;
+    text-align: center;
+}
+
 .hero-stat-num {
     font-weight: 800;
-    color: var(--fi-primary);
     font-size: 20px;
     letter-spacing: -0.01em;
+    color: var(--fi-primary);
     transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.hero-stat-num:not(.num-loaded) {
-    opacity: 0.5;
-    animation: stat-pulse 1.2s ease-in-out infinite;
-    color: var(--fi-text-muted);
+.hero-stat-num.num-hidden {
+    visibility: hidden;
 }
 
-.hero-stat-num.num-loaded {
-    opacity: 1;
+.hero-stat-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: var(--fi-text-muted);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.hero-stat-placeholder.visible {
+    opacity: 0.5;
+    animation: stat-pulse 1.2s ease-in-out infinite;
 }
 
 @keyframes stat-pulse {
-    0%, 100% { opacity: 0.35; }
-    50% { opacity: 0.7; }
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.6; }
 }
 
 .hero-stat-dot {
