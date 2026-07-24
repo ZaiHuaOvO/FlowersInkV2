@@ -1,0 +1,68 @@
+/* ============================================================
+   fi-layout.css — Unified page layout system
+   Layer: Layout
+   Usage: Apply .fi-page / .fi-page-sidebar-layout to page shells
+   ============================================================ */
+
+/* 标准页面容器 */
+.fi-page {
+  width: 100%;
+  max-width: var(--fi-page-max);
+  margin-inline: auto;
+  padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px);
+}
+
+.fi-page--narrow {
+  max-width: var(--fi-page-max-narrow);
+}
+
+/* 带侧边栏的双栏布局 */
+.fi-page-sidebar-layout {
+  display: flex;
+  gap: var(--fi-space-5);
+  align-items: flex-start;
+  width: min(var(--fi-page-max), 100%);
+}
+
+.fi-page-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.fi-page-sidebar {
+  flex: 0 0 clamp(304px, 24vw, 316px);
+  width: clamp(304px, 24vw, 316px);
+  min-width: 304px;
+  max-width: 316px;
+}
+
+/* 内容卡片标题统一 */
+.fi-page-title {
+  color: var(--fi-primary) !important;
+  font-weight: 700 !important;
+  margin-bottom: var(--fi-space-4) !important;
+}
+
+/* 页面通用头部描述 */
+.fi-page-desc {
+  color: var(--fi-text-muted);
+  font-size: var(--fi-font-size-sm);
+  margin-bottom: var(--fi-space-5);
+}
+
+@media (max-width: 768px) {
+  .fi-page-sidebar-layout {
+    flex-direction: column;
+  }
+
+  .fi-page-sidebar {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .fi-page {
+    padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
+  }
+}

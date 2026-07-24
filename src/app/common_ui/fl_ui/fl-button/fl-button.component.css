@@ -23,11 +23,33 @@
   letter-spacing: 0.01em;
   padding: 6px var(--fi-space-3);
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   transition: background-color var(--fi-motion-fast) var(--fi-ease-standard),
     border-color var(--fi-motion-fast) var(--fi-ease-standard),
     color var(--fi-motion-fast) var(--fi-ease-standard),
     box-shadow var(--fi-motion-fast) var(--fi-ease-standard),
     transform var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+/* 涟漪效果 */
+.fl-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(139, 90, 43, 0.12) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.fl-button:active::after {
+  opacity: 1;
+}
+
+.fl-button:active::after {
+  opacity: 1;
 }
 
 .fl-button:hover:not(:disabled) {

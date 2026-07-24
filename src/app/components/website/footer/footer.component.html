@@ -1,56 +1,49 @@
 <div class="footer_box" nz-flex nzJustify="center" nzAlign="center">
   <div class="footer" nz-flex [nzVertical]="true" nzJustify="center" nzAlign="center">
-    <div class="footer-desktop" nz-flex [nzVertical]="true" nzAlign="center">
-      <div class="footer-line footer-line-nav" nz-flex nzJustify="center" nzAlign="center" nzWrap="wrap">
-        <span nz-typography class="footer-line-title">站外导航</span>
-        <nz-divider nzType="vertical" class="footer-inline-divider"></nz-divider>
-        <a nz-typography class="text" href="https://www.foreverblog.cn/go.html" target="_blank">
-          <flower-forever></flower-forever>
-          &nbsp;虫洞
-        </a>
-        <nz-divider nzType="vertical" class="footer-inline-divider"></nz-divider>
-        <a nz-typography class="text" href="https://www.travellings.cn/go.html" target="_blank" rel="noopener"
-          title="开往-友链接力">
-          <span nz-icon nzType="car" nzTheme="outline"></span>&nbsp;开往
-        </a>
-        <nz-divider nzType="vertical" class="footer-inline-divider"></nz-divider>
-        <a nz-typography class="text" href="https://www.boyouquan.com/blogs/flowersink.com" target="_blank"
-          rel="noopener" title="博友圈">
-          <img [width]="12" [height]="12" src="https://www.boyouquan.com/assets/images/sites/logo/logo-small.png"
-            alt="">&nbsp;博友圈
-        </a>
-        <nz-divider nzType="vertical" class="footer-inline-divider"></nz-divider>
-        <a nz-typography class="text" href="https://blogscn.fun/" title="笔墨迹" target="_blank">
-          <img [width]="12" [height]="12" src="https://photo.xiangming.site/img/blogscn_icon.png" alt="">&nbsp;笔墨迹
-        </a>
-        <nz-divider nzType="vertical" class="footer-inline-divider"></nz-divider>
-        <a nz-typography class="text" href="https://storeweb.cn/site/o/2297" target="_blank" rel="noopener"
-          title="个站商店">
-          <img [width]="12" [height]="12" src="https://upload.storeweb.cn/image/logo.png" alt="">&nbsp;个站商店
-        </a>
-        <nz-divider nzType="vertical" class="footer-inline-divider"></nz-divider>
-        <a nz-typography class="text" href="https://travel.moe/go.html?travel=on" title="异次元之旅-跃迁-我们一起去萌站成员的星球旅行吧！"
-          rel="noopener" target="_blank">
-          <flower-planet></flower-planet>&nbsp;异次元之旅
-        </a>
-      </div>
-      <div class="footer-line footer-line-record" nz-flex nzJustify="center" nzAlign="center" nzWrap="wrap">
-        <span nz-typography class="text footer-copyright">
-          © 2024 - 2026 再花
-          <nz-avatar class="footer-inline-avatar" [nzSize]="16" nzSrc="https://api.flowersink.com/img/再花趴趴.png"
-            nzShape="square"></nz-avatar>
-        </span>
-        <nz-divider nzType="vertical" class="footer-inline-divider"></nz-divider>
-        <a nz-typography class="text" href="https://icp.gov.moe/?keyword=20250510" target="_blank">萌ICP备20250510号</a>
-        <nz-divider nzType="vertical" class="footer-inline-divider"></nz-divider>
-        <a nz-typography class="text" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2024104191号</a>
-        <nz-divider nzType="vertical" class="footer-inline-divider"></nz-divider>
-        <a nz-typography class="text text-with-badge"
-          href="https://beian.mps.gov.cn/#/query/webSearch?code=51011202000914" rel="noreferrer" target="_blank">
-          <nz-avatar [nzSize]="16" nzSrc="assets/img/web/备案图标.png" nzShape="square"></nz-avatar>
-          川公网安备51011202000914
-        </a>
-      </div>
+    <!-- 站外导航 — 简化分割线 -->
+    <div class="footer-links" nz-flex nzJustify="center" nzAlign="center" nzWrap="wrap" nzGap="small">
+      <span class="footer-label">站外导航</span>
+      <span class="footer-sep">·</span>
+      <a nz-typography class="text" href="https://www.foreverblog.cn/go.html" target="_blank">
+        <flower-forever></flower-forever>&nbsp;虫洞
+      </a>
+      <span class="footer-sep">·</span>
+      <a nz-typography class="text" href="https://www.travellings.cn/go.html" target="_blank" rel="noopener" title="开往-友链接力">
+        <span nz-icon nzType="car" nzTheme="outline"></span>&nbsp;开往
+      </a>
+      <span class="footer-sep">·</span>
+      <a nz-typography class="text" href="https://www.boyouquan.com/blogs/flowersink.com" target="_blank" rel="noopener" title="博友圈">
+        <img [width]="12" [height]="12" src="https://www.boyouquan.com/assets/images/sites/logo/logo-small.png" alt="">&nbsp;博友圈
+      </a>
+      <span class="footer-sep">·</span>
+      <a nz-typography class="text" href="https://blogscn.fun/" title="笔墨迹" target="_blank">
+        <img [width]="12" [height]="12" src="https://photo.xiangming.site/img/blogscn_icon.png" alt="">&nbsp;笔墨迹
+      </a>
+      <span class="footer-sep">·</span>
+      <a nz-typography class="text" href="https://storeweb.cn/site/o/2297" target="_blank" rel="noopener" title="个站商店">
+        <img [width]="12" [height]="12" src="https://upload.storeweb.cn/image/logo.png" alt="">&nbsp;个站商店
+      </a>
+      <span class="footer-sep">·</span>
+      <a nz-typography class="text" href="https://travel.moe/go.html?travel=on" title="异次元之旅" rel="noopener" target="_blank">
+        <flower-planet></flower-planet>&nbsp;异次元之旅
+      </a>
+    </div>
+
+    <!-- 版权 + 备案 — 合并为一行 -->
+    <div class="footer-legal" nz-flex nzJustify="center" nzAlign="center" nzWrap="wrap" nzGap="small">
+      <span nz-typography class="text">
+        © 2024 - 2026 再花
+        <nz-avatar class="footer-inline-avatar" [nzSize]="14" nzSrc="https://api.flowersink.com/img/再花趴趴.png" nzShape="square"></nz-avatar>
+      </span>
+      <span class="footer-sep">·</span>
+      <a nz-typography class="text" href="https://icp.gov.moe/?keyword=20250510" target="_blank">萌ICP备20250510号</a>
+      <span class="footer-sep">·</span>
+      <a nz-typography class="text" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2024104191号</a>
+      <span class="footer-sep">·</span>
+      <a nz-typography class="text text-with-badge" href="https://beian.mps.gov.cn/#/query/webSearch?code=51011202000914" rel="noreferrer" target="_blank">
+        <nz-avatar [nzSize]="14" nzSrc="assets/img/web/备案图标.png" nzShape="square"></nz-avatar>
+        川公网安备51011202000914
+      </a>
     </div>
   </div>
 </div>

@@ -2,6 +2,36 @@
     width: 100%;
 }
 
+.nodata-cat {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .nodata-image {
-    width: 250px;
+    width: 200px;
+}
+
+.nodata-cat-sticker {
+    position: absolute;
+    bottom: 10px;
+    right: -10px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(139, 90, 43, 0.2);
+    animation: nodata-bounce 2.5s ease-in-out infinite;
+}
+
+@keyframes nodata-bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-4px) scale(1.05); }
+}
+
+.nodata-text {
+    color: var(--fi-text-muted) !important;
+    font-weight: 600 !important;
 }

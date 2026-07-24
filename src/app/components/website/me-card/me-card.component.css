@@ -167,46 +167,6 @@
     height: 15px;
 }
 
-.about-me-btn {
-    width: 100%;
-    padding-top: var(--fi-space-2);
-    display: flex;
-    justify-content: center;
-}
-
-.about-me-btn fl-button {
-    width: 125px;
-}
-
-.stat-row {
-    width: auto;
-    max-width: 100%;
-    margin-inline: auto;
-    gap: var(--fi-space-4);
-}
-
-.stat-item {
-    min-width: 0;
-}
-
-.stat-label {
-    font-size: var(--fi-font-size-xs);
-    color: var(--fi-text-muted);
-    opacity: 0.65;
-    user-select: none;
-}
-
-.point_tag {
-    display: inline-flex;
-    align-items: center;
-}
-
-.me-actions .ant-divider-vertical {
-    height: 30px;
-    margin-inline: 6px;
-    border-inline-start-color: #e4d7c8;
-}
-
 .fi-secondary-text {
     font-size: var(--fi-font-size-xs);
     color: var(--fi-text-muted);
@@ -221,4 +181,18 @@
 .fi-primary-text {
     color: var(--fi-primary) !important;
     font-size: var(--fi-font-size-md) !important;
+}
+
+/* 累计字数 */
+.char-count-line {
+    width: 100%;
+    text-align: center;
+    padding-top: var(--fi-space-1);
+}
+
+.char-count-line .fi-secondary-text {
+    font-size: var(--fi-font-size-xs);
+    color: var(--fi-text-muted);
+    opacity: 0.65;
+    user-select: none;
 }

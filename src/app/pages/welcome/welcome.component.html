@@ -1,27 +1,76 @@
 <div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
-<flower-blog-title [title]="'花墨的精选文章'"></flower-blog-title>
-<div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle">
-  <nz-spin [nzTip]="'精选文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
-    <div nz-flex nzGap="middle" [nzVertical]="true">
-      @for (item of data; track item) {
-        <div flCard flCardHover>
-          <flower-blog-card
-            [blog]="item"
-            [loading]="loading"
-            [href]="'/blog/blog-detail/' + item.id"
-          ></flower-blog-card>
+  <!-- Hero 欢迎区 — 全屏无框 -->
+  <section class="hero" id="hero-section">
+    <div class="hero-body" nz-flex nzJustify="center" nzAlign="center" [nzGap]="isMobile ? 'small' : 'large'" @SlowUp>
+      <div class="hero-avatar-wrapper">
+        <a [routerLink]="['/about/me']" aria-label="前往关于我">
+          <img class="hero-avatar" src="https://api.flowersink.com/img/粉毛猫猫头.jpeg" alt="再花的猫娘头像" loading="eager"
+            decoding="async" />
+        </a>
+      </div>
+      <div class="hero-text" nz-flex [nzVertical]="true" [nzGap]="isMobile ? 'small' : 'middle'">
+        <h1 class="hero-title">
+          <span class="hero-title-line1">喵呜喵呜，你好呀<span class="hero-emoji">ฅ•ω•ฅ</span></span>
+          <span class="hero-title-line2">欢迎来到<span class="hero-title-highlight">花墨</span></span>
+        </h1>
+        <p class="hero-subtitle">一只编程咪娘的博客 · 日常 · 游戏</p>
+        <div class="hero-stats" nz-flex nzWrap="wrap" nzGap="small">
+          @if (!numLoading) {
+          <a class="hero-stat-item hero-stat-link" [routerLink]="['/blog/all']">
+            <span class="hero-stat-num">{{ info.blogTotal }}</span> 篇博客
+          </a>
+          <span class="hero-stat-dot">·</span>
+          <a class="hero-stat-item hero-stat-link" [routerLink]="['/life']">
+            <span class="hero-stat-num">{{ info.lifeTotal }}</span> 条点滴
+          </a>
+          <span class="hero-stat-dot">·</span>
+          <a class="hero-stat-item hero-stat-link" [routerLink]="['/world/game']">
+            <span class="hero-stat-num">{{ info.gameTotal }}</span> 个游戏
+          </a>
+          <span class="hero-stat-dot">·</span>
+          <a class="hero-stat-item hero-stat-link" [routerLink]="['/about/website']">
+            已运行 <span class="hero-stat-num">{{ info.runDays }}</span> 天
+          </a>
+          }
         </div>
+        <div class="hero-actions">
+          <fl-button routerLink="/about/me" variant="solid">了解我</fl-button>
+          <fl-button routerLink="/blog/all">看看博客</fl-button>
+        </div>
+      </div>
+    </div>
+    <!-- 向下滚动提示 -->
+    <div class="hero-scroll-hint" (click)="scrollToContent()">
+      <span class="hero-scroll-text">看看再花为你精选的文章</span>
+      <span class="hero-scroll-arrow"></span>
+    </div>
+  </section>
+
+  <!-- 内容区：文章 + 侧边栏 -->
+  <div class="content-area" id="content-start">
+    <flower-blog-title [title]="'花墨的精选文章'"></flower-blog-title>
+    <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle">
+      <nz-spin [nzTip]="'精选文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
+        <div nz-flex nzGap="middle" [nzVertical]="true" class="blog-list">
+          @for (item of data; track item; let i = $index) {
+          <div class="blog-list-item" [style.animation-delay]="i * 60 + 'ms'">
+            <div flCard flCardHover>
+              <flower-blog-card [blog]="item" [loading]="loading"
+                [href]="'/blog/blog-detail/' + item.id"></flower-blog-card>
+            </div>
+          </div>
+          }
+        </div>
+      </nz-spin>
+      @if (!isMobile) {
+      <div class="me" @SlowUp>
+        <nz-affix [nzOffsetTop]="72">
+          <flower-me-card [info]="info" [numLoading]="numLoading"></flower-me-card>
+        </nz-affix>
+      </div>
       }
     </div>
-  </nz-spin>
-  @if (!isMobile) {
-    <div class="me" @SlowUp>
-      <nz-affix [nzOffsetTop]="72">
-        <flower-me-card [info]="info" [numLoading]="numLoading"></flower-me-card>
-      </nz-affix>
-    </div>
-  }
-</div>
+  </div>
 </div>
 
 <ng-template #more>
@@ -33,30 +82,30 @@
       叭叭啦叭叭，你好呀这里是<mark>再花</mark>，这里是我的个人网站<mark>花墨</mark><br>
       漫展里与我同行的是我的妻子<mark>方长</mark>，我俩都是<strong>游戏宅</strong>（什么都玩），偶尔会看看番但强度不高。<br>
       除了游戏，我比较偏向<strong>技术宅</strong>，喜欢开发小东西（例如本网站）、视频剪辑。关于我的更多信息可以查看本站的 <a nz-button nzType="link"
-    [routerLink]="'/about/me'" target="_blank">[关于我]</a><br>
-    方长是<strong>手工娘</strong>，喜欢拼豆（还有乐高、手链等手工）。同时也是<strong>厨娘</strong>，本花的专属饲养员=v=
-  </p>
-  <h5 nz-typography>扩列相关</h5>
-  <p nz-typography>
-    我们定居<strong>成都</strong>，是第一次参加BW这种大型漫展，后续可能也会去世界线、萤火虫、cp、游戏粉丝节之类的（也可能会出cos）<br>
-    我比较社牛，方长略微社恐（但熟了就社牛），都很欢迎老师扩列。<br>
-    再花QQ：446840401 <a nz-button nzType="link" (click)="copy('446840401')">[复制]</a><br>
-    方长QQ：1127654182 <a nz-button nzType="link" (click)="copy('1127654182')">[复制]</a>
-  </p>
-  <h5 nz-typography>返图说明</h5>
-  <p nz-typography>
-    我和方长的拍摄经验有限，但已经尽可能做足了功课，若拍的不好还请见谅QAQ<br>
-    返图可以添加 <mark>方长QQ</mark> 后获取以下任意返图，也可以全要（若有）<br>
-  </p>
-  <ul nz-typography>
-    <li>照片原图</li>
-    <li>后期精修照片</li>
-    <li>D-log格式录像源文件（录像全程未裁剪）</li>
-    <li>正常色彩直出录像</li>
-    <li>后期调色精修录像</li>
-  </ul>
-  <p nz-typography>其中调色录像需要等待再花下班后制作，可能需要等待一两天时间哦！</p>
-  <p nz-typography>最后，很高兴见到你ฅ•ω•ฅ</p>
+        [routerLink]="'/about/me'" target="_blank">[关于我]</a><br>
+      方长是<strong>手工娘</strong>，喜欢拼豆（还有乐高、手链等手工）。同时也是<strong>厨娘</strong>，本花的专属饲养员=v=
+    </p>
+    <h5 nz-typography>扩列相关</h5>
+    <p nz-typography>
+      我们定居<strong>成都</strong>，是第一次参加BW这种大型漫展，后续可能也会去世界线、萤火虫、cp、游戏粉丝节之类的（也可能会出cos）<br>
+      我比较社牛，方长略微社恐（但熟了就社牛），都很欢迎老师扩列。<br>
+      再花QQ：446840401 <a nz-button nzType="link" (click)="copy('446840401')">[复制]</a><br>
+      方长QQ：1127654182 <a nz-button nzType="link" (click)="copy('1127654182')">[复制]</a>
+    </p>
+    <h5 nz-typography>返图说明</h5>
+    <p nz-typography>
+      我和方长的拍摄经验有限，但已经尽可能做足了功课，若拍的不好还请见谅QAQ<br>
+      返图可以添加 <mark>方长QQ</mark> 后获取以下任意返图，也可以全要（若有）<br>
+    </p>
+    <ul nz-typography>
+      <li>照片原图</li>
+      <li>后期精修照片</li>
+      <li>D-log格式录像源文件（录像全程未裁剪）</li>
+      <li>正常色彩直出录像</li>
+      <li>后期调色精修录像</li>
+    </ul>
+    <p nz-typography>其中调色录像需要等待再花下班后制作，可能需要等待一两天时间哦！</p>
+    <p nz-typography>最后，很高兴见到你ฅ•ω•ฅ</p>
 
-</div>
+  </div>
 </ng-template>

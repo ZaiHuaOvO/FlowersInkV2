@@ -28,54 +28,6 @@
     </a>
     }
   </div>
-  <div class="stat-row" nz-flex nzJustify="center" nzAlign="center" nzGap="small">
-    <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
-      <span nz-typography class="point_tag">
-        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/blog/all']">
-          @if (numLoading) {
-          ...
-          } @else {
-          {{ info.blogTotal }}
-          }
-          篇
-        </nz-tag>
-      </span>
-      <span nz-typography class="stat-label">博客发布</span>
-    </div>
-
-    <nz-divider nzType="vertical"></nz-divider>
-
-    <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
-      <span nz-typography class="point_tag">
-        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/life']">
-          @if (numLoading) {
-          ...
-          } @else {
-          {{ info.lifeTotal }}
-          }
-          条
-        </nz-tag>
-      </span>
-      <span nz-typography class="stat-label">点滴记录</span>
-    </div>
-
-    <nz-divider nzType="vertical"></nz-divider>
-
-    <div class="stat-item" nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
-      <span nz-typography class="point_tag">
-        <nz-tag flTag flTagVariant="outline" flTagInteractive [routerLink]="['/about/website']">
-          @if (numLoading) {
-          ...
-          } @else {
-          {{ info.runDays }}
-          }
-          天
-        </nz-tag>
-      </span>
-      <span nz-typography class="stat-label">网站运行</span>
-    </div>
-  </div>
-
 
   <div class="social-links" nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
     <div class="social-row" nz-flex nzJustify="center" nzAlign="center" nzGap="small">
@@ -102,9 +54,9 @@
 
   </div>
 
-  <div class="about-me-btn" nz-flex nzJustify="center">
-    <fl-button [routerLink]="['/about/me']">
-      了解我
-    </fl-button>
+  @if (!numLoading) {
+  <div class="char-count-line">
+    <span class="fi-secondary-text">累计写了 {{ formatCharTotal(info.blogCharTotal) }}字</span>
   </div>
+  }
 </div>

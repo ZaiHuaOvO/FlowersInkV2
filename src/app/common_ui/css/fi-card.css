@@ -16,13 +16,15 @@
   cursor: pointer;
   transition: transform var(--fi-motion-normal) var(--fi-ease-standard),
     box-shadow var(--fi-motion-normal) var(--fi-ease-standard),
-    background-color var(--fi-motion-normal) var(--fi-ease-standard);
+    background-color var(--fi-motion-normal) var(--fi-ease-standard),
+    border-color var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
 .fl-card-hover:hover {
-  transform: translateY(var(--fi-motion-lift-card));
+  transform: translateY(var(--fi-motion-lift-card)) scale(1.005);
   background: var(--fi-card-bg-hover);
   box-shadow: var(--fi-shadow-hover);
+  border-color: var(--fi-border-strong);
 }
 
 .fl-icon-button {

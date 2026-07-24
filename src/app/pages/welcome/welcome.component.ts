@@ -5,7 +5,6 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { DatePipe } from '@angular/common';
 import { BlogCardComponent } from '../../components/blog/blog-card/blog-card.component';
-import { MeCardComponent } from '../../components/website/me-card/me-card.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../components/blog/blog-title/blog-title.component';
@@ -16,12 +15,16 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
-import { MeCardProfile } from '../../components/website/me-card/me-card.component';
+import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
+import { MeCardComponent, MeCardProfile } from '../../components/website/me-card/me-card.component';
 
 interface WelcomeStats {
   blogTotal: number;
   lifeTotal: number;
+  gameTotal: number;
   runDays: number;
+  blogCharTotal: number;
+  recentBlogs: { id: number; title: string }[];
   profile?: MeCardProfile;
 }
 
@@ -43,6 +46,7 @@ interface WelcomeStats {
     NzModalModule,
     NzTagModule,
     FlCardDirective,
+    FlButtonComponent,
   ],
   animations: [SlowUp, QuickUp],
 })
@@ -53,7 +57,10 @@ export class WelcomeComponent implements OnInit {
   info: WelcomeStats = {
     blogTotal: 0,
     lifeTotal: 0,
+    gameTotal: 0,
     runDays: 0,
+    blogCharTotal: 0,
+    recentBlogs: [],
   };
   isMobile: boolean = false;
   @ViewChild('more', { static: true })
@@ -77,6 +84,9 @@ export class WelcomeComponent implements OnInit {
       const data = res?.data ?? {};
       this.info.blogTotal = Number(data.blogTotal ?? 0);
       this.info.lifeTotal = Number(data.lifeTotal ?? 0);
+      this.info.gameTotal = Number(data.gameTotal ?? 0);
+      this.info.blogCharTotal = Number(data.blogCharTotal ?? 0);
+      this.info.recentBlogs = data.recentBlogs ?? [];
       this.info.runDays = Number(data.runDays ?? 0);
       this.info.profile = data.profile ?? undefined;
       this.numLoading = false;
@@ -118,6 +128,16 @@ export class WelcomeComponent implements OnInit {
         this.msg.success('已复制联系方式，好耶(๑＞ڡ＜)☆');
       })
       .catch((error) => { });
+  }
+
+  /** 向下滚动到文章区，避开固定 header 的高度 */
+  scrollToContent(): void {
+    const el = document.getElementById('content-start');
+    if (el) {
+      const headerOffset = 60; // 48px header + 12px 留白
+      const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
   }
 }
 

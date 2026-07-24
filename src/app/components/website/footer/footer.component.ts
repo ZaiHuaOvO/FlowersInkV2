@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -14,7 +13,6 @@ import { PlanetComponent } from '../svg/planet/planet.component';
   standalone: true,
   imports: [
     NzFlexModule,
-    NzDividerModule,
     NzIconModule,
     NzAvatarModule,
     NzTypographyModule,
