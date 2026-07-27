@@ -11,8 +11,7 @@
           <button type="button" class="year-button" [class.active]="activeYear === yearBlock.year"
             (click)="jumpToYear(yearBlock.year)">
             {{ yearBlock.year }}年 </button>
-          @if (activeYear === yearBlock.year) {
-          <div class="month-nav-list">
+          <div class="month-nav-list" [class.expanded]="activeYear === yearBlock.year">
             @for (monthItem of yearBlock.months; track monthItem.key) {
             <button type="button" class="month-button" [class.active]="activeSectionKey === monthItem.key"
               (click)="jumpToMonth(monthItem.key)">
@@ -20,7 +19,6 @@
             </button>
             }
           </div>
-          }
         </section>
         }
       </div>
@@ -32,7 +30,7 @@
     <main class="timeline-main" @QuickUp>
       <flower-blog-title [title]="'再花的点滴'"></flower-blog-title>
 
-      <nz-spin [nzSpinning]="loading" [nzTip]="'点滴整理中...'">
+      <nz-spin [nzSpinning]="loading" [nzTip]="loadingMessage">
         @if (!loading && sectionList.length === 0) {
         <section class="state-card" flCard>
           <flower-nodata></flower-nodata>
@@ -42,7 +40,6 @@
           <h2>{{ activeSection?.label }}</h2>
           <p>ATMOSPHERIC CHRONOLOGY</p>
         </header>
-
         <div class="timeline-stream" [@RefreshUp]="filterMotionTick">
           @for (section of sectionList; track trackSection($index, section)) {
           <section class="month-section" [attr.data-section-key]="section.key" #monthSection>
@@ -52,7 +49,7 @@
             <article class="timeline-row">
               <span class="timeline-dot"></span>
               <article class="timeline-card" flCard>
-                <nz-tag flTag [flTagVariant]="'solid'" class="card-tag card-tag-topright" [ngClass]="getTagClass(item.primaryTag)">
+                <nz-tag flTag class="card-tag card-tag-topright" [ngClass]="getTagClass(item.primaryTag)">
                   {{ item.primaryTag || '未分类' }}
                 </nz-tag>
                 @if (item.title) {
@@ -67,20 +64,24 @@
                 </p>
 
                 @if (item.images.length > 0) {
-                <nz-image-group>
-                  <div class="image-grid" [ngClass]="getImageGridClass(item)">
+                <div class="image-grid" [ngClass]="getImageGridClass(item)">
                     @for (image of item.images; track image.previewUrl) {
-                    <div class="{{ getImageItemClass(item) }}">
-                      <img nz-image loading="lazy" [width]="100" [height]="100" decoding="async"
-                        [nzSrc]="image.previewUrl" alt="点滴图片" />
-                      <button type="button" class="origin-btn" (click)="previewOriginal($event, image)">
-                        查看原图
-                      </button>
+                    <div class="image-item-wrapper {{ getImageItemClass(item) }}" (click)="previewOriginal($event, image)">
+                      <img loading="lazy" decoding="async"
+                        [src]="image.previewUrl" alt="点滴图片" />
+                      <div class="image-overlay">
+                        <span class="origin-btn-icon">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M16.5 16.5L21 21" />
+                            <path d="M11 8v6M8 11h6" />
+                          </svg>
+                        </span>
+                      </div>
                     </div>
                     }
                   </div>
-                </nz-image-group>
-                }
+}
                 @if (shouldShowSource(item)) {
                 <p class="card-source">来自：{{ item.source }}</p>
                 }
@@ -181,3 +182,46 @@
     }
 </div>
 </div>
+
+@if (isMobile && yearNavigator.length > 0) {
+  <button type="button" class="mobile-nav-fab" (click)="openMobileNav()" aria-label="导航">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <path d="M12 10v6M9 13h6" />
+    </svg>
+  </button>
+
+  @if (mobileNavVisible) {
+    <div class="mobile-nav-overlay" (click)="closeMobileNav()">
+      <div class="mobile-nav-sheet" (click)="$event.stopPropagation()">
+        <div class="mobile-nav-header">
+          <h4>跳转到</h4>
+          <button type="button" class="mobile-nav-close" (click)="closeMobileNav()" aria-label="关闭">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="mobile-nav-body">
+          @for (yearBlock of yearNavigator; track yearBlock.year) {
+            <section class="mobile-nav-year">
+              <button type="button" class="mobile-nav-year-btn" [class.active]="activeYear === yearBlock.year"
+                (click)="jumpToYear(yearBlock.year)">
+                {{ yearBlock.year }}年
+              </button>
+              <div class="mobile-nav-months">
+                @for (monthItem of yearBlock.months; track monthItem.key) {
+                  <button type="button" class="mobile-nav-month-btn" [class.active]="activeSectionKey === monthItem.key"
+                    (click)="jumpToMonth(monthItem.key)">
+                    {{ monthItem.label }}
+                  </button>
+                }
+              </div>
+            </section>
+          }
+        </div>
+      </div>
+    </div>
+  }
+}
+

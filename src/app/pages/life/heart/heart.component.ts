@@ -94,10 +94,12 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   loading = true;
+  loadingMessage = '点滴整理中...';
   isMobile = false;
   errorMessage = '';
   affixOffsetTop = 84;
   isAffixDisabled = true;
+  mobileNavVisible = false;
 
   /** Set of lifecycle IDs that have been liked in the current day session */
   likedItems = new Set<number>();
@@ -105,6 +107,17 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   animatingItems = new Set<number>();
   /** Local like cache: id -> likes count */
   localLikeCounts = new Map<number, number>();
+
+  readonly loadingMessages = [
+    '正在翻找再花的日记本...',
+    '数一数今天有多少条点滴...',
+    '把生活的碎片拼起来...',
+    '再花正在努力整理中...',
+    '泡杯茶，马上就好...',
+    '翻一翻再花的相册...',
+  ];
+
+  headerTick = 0;
 
   private readonly imageService = inject(NzImageService);
   private readonly platformId = inject(PLATFORM_ID);
@@ -134,6 +147,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.pickLoadingMessage();
     this.fetchTimeline();
     this.loadLikeState();
   }
@@ -184,10 +198,12 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.selectedTag = tag;
+    this.headerTick++;
     this.applyFilterAndNavigator();
   }
 
   jumpToYear(year: number): void {
+    this.closeMobileNav();
     const target = this.yearNavigator.find((item) => item.year === year);
     const firstMonth = target?.months?.[0];
     if (!firstMonth) {
@@ -197,6 +213,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   jumpToMonth(sectionKey: string): void {
+    this.closeMobileNav();
     this.scrollToSection(sectionKey);
   }
 
@@ -361,8 +378,8 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getImageItemClass(item: LifeTimelineItem): string {
     return item.primaryTag === '游戏' && item.images.length === 1
-      ? 'image-item image-item-rect'
-      : 'image-item image-item-square';
+      ? 'image-item-wrapper image-item-rect'
+      : 'image-item-wrapper image-item-square';
   }
 
   previewCompressed(image: LifeImageAsset): void {
@@ -382,6 +399,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private fetchTimeline(): void {
     this.loading = true;
+    this.pickLoadingMessage();
     this.errorMessage = '';
 
     this.lifeService.getLifeList().subscribe({
@@ -717,5 +735,18 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.activeSectionKey = activeKey;
+  }
+
+  openMobileNav(): void {
+    this.mobileNavVisible = true;
+  }
+
+  closeMobileNav(): void {
+    this.mobileNavVisible = false;
+  }
+
+  private pickLoadingMessage(): void {
+    const idx = Math.floor(Math.random() * this.loadingMessages.length);
+    this.loadingMessage = this.loadingMessages[idx];
   }
 }
