@@ -120,10 +120,14 @@
   font-family: var(--fi-font-base);
   font-size: 14px;
   color: var(--fi-text-muted);
-  padding: 2px 0;
+  padding: 3px 0 3px 10px;
   position: relative;
+  border-radius: 0 6px 6px 0;
   transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+              background var(--fi-motion-fast) var(--fi-ease-standard),
               padding-left var(--fi-motion-fast) var(--fi-ease-standard);
+  margin-left: -10px;
+  width: calc(100% + 10px);
 }
 
 .month-button::before {
@@ -133,7 +137,7 @@
   top: 50%;
   transform: translateY(-50%) scaleY(0);
   width: 3px;
-  height: 16px;
+  height: 20px;
   background: var(--fi-primary);
   border-radius: 0 3px 3px 0;
   transition: transform var(--fi-motion-fast) var(--fi-ease-standard);
@@ -141,7 +145,9 @@
 
 .month-button.active {
   color: var(--fi-primary);
-  padding-left: 4px;
+  font-weight: 600;
+  background: var(--fi-primary-outline);
+  padding-left: 14px;
 }
 
 .month-button.active::before {

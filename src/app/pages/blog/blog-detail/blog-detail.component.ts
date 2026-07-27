@@ -282,7 +282,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     imgElements.forEach((img, index) => {
       img.style.cursor = 'pointer';
       img.addEventListener('click', () => {
-        const vpScale = 0.8;
+        const vpScale = 1.2;
         const maxW = window.innerWidth * vpScale;
         const maxH = window.innerHeight * vpScale;
         const nw = img.naturalWidth || maxW;
