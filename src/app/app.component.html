@@ -10,15 +10,17 @@
   </nz-footer>
 </nz-layout>
 
-<!-- 全局自定义加载图标 -->
+<!-- 全局自定义加载图标 (SpinKit Chase) -->
 <ng-template #loadingTemplate>
   <span class="global-loading-indicator">
-    <img
-      class="global-loading-icon"
-      src="https://api.flowersink.com/img/再花猫猫女仆走路.GIF"
-      loading="eager"
-      decoding="async"
-    >
+    <div class="sk-chase">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
   </span>
 </ng-template>
 
