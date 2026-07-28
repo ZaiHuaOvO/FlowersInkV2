@@ -134,6 +134,7 @@ export class QuestionComponent implements OnInit {
         page: this.page,
         title: this.searchControl.value,
         tag: this.tag,
+        limit: 10,
       })
       .subscribe((res: any) => {
         this.data = res['data'].data;

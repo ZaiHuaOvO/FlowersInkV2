@@ -50,6 +50,11 @@
     min-width: 0;
 }
 
+/* 文归档的时间轴圆点与文本对齐 */
+.fi-simple-timeline-dot {
+  top: 12px;
+}
+
 .star-badge {
     color: #8B5A2B;
     font-weight: 700;

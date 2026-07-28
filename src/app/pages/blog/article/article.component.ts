@@ -113,6 +113,7 @@ export class ArticleComponent implements OnInit {
         type: '文章',
         page: this.page,
         tag: this.tag,
+        limit: 10,
         title: this.searchControl.value,
       })
       .subscribe((res: any) => {

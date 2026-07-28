@@ -117,6 +117,7 @@ export class EssayComponent implements OnInit {
         type: '随笔',
         page: this.page,
         tag: this.tag,
+        limit: 10,
         title: this.searchControl.value,
       })
       .subscribe((res: any) => {
