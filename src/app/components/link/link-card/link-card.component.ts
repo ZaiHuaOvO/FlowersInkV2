@@ -37,6 +37,7 @@ export class LinkCardComponent implements OnInit {
   avatarState: AvatarState = 'logo';
   logoFailed = false;
   gravatarFailed = false;
+  avatarLoaded = false;
 
   ngOnInit(): void {
     this.resolveInitialState();

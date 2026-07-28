@@ -1,168 +1,305 @@
 <div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
     <div class="content" flCard nz-flex [nzVertical]="true" nzGap="middle" @QuickUp>
-        <h1 nz-typography class="fi-page-title">好朋友的链接</h1>
-        <p nz-typography nzType="secondary">友链就像桥梁，将我的孤岛展现给全世界</p>
-        <nz-alert flAlert nzType="success" [nzDescription]="linkContent"></nz-alert>
-        <ng-template #linkContent>
-            <article nz-typography class="link-note">
-                <span nz-typography>网站名称：<strong>花墨</strong></span><br>
-                <span nz-typography>LOGO地址：<strong>https://api.flowersink.com/img/logo.png</strong></span><br>
-                <span nz-typography>网站地址：<strong>https://flowersink.com</strong></span><br>
-                <span nz-typography>网站描述：<strong>好耶！是再花猫猫头ฅ•ω•ฅ</strong></span><br>
-                <span nz-typography>联系邮箱：<strong>{{ email }}</strong></span>
-            </article>
-        </ng-template>
-        <nz-divider></nz-divider>
 
-        <nz-spin [nzTip]="'友链正在赶来中'" [nzSpinning]="loading">
-            <div nz-row [nzGutter]="[16, 16]">
-                @for (link of links; track link) {
-                @if (!isMobile) {
-                <div nz-col nzSpan="8">
-                    <flower-link-card [link]="link"></flower-link-card>
-                </div>
-                }
+        <!-- ====== 页面标题 ====== -->
+        <div nz-flex [nzVertical]="true" nzGap="small">
+            <h1 nz-typography class="fi-page-title" @SlowUp>好朋友的链接</h1>
+            <p nz-typography nzType="secondary" @SlowUp>友链就像桥梁，将我的孤岛展现给全世界</p>
+        </div>
 
-                @if (isMobile) {
-                <div nz-col nzSpan="24">
-                    <flower-link-card [link]="link"></flower-link-card>
+        <!-- ====== 个人信息名片 ====== -->
+        <div class="profile-card" flCard @QuickUp>
+            <div class="profile-card-header">
+                <div nz-flex nzAlign="center" nzGap="small">
+                    <img class="profile-avatar"
+                         src="https://api.flowersink.com/img/logo.png"
+                         alt="花墨" width="40" height="40">
+                    <strong class="profile-name">花墨</strong>
+                    <span class="profile-badge">这是我的站点</span>
                 </div>
-                }
-                }
+                <button class="profile-copy-all" (click)="copyAllInfo()" [class.copied]="allCopied">
+                    @if (!allCopied) { 复制信息 }
+                    @if (allCopied) { <span class="copied-text">✓ 复制信息</span> }
+                </button>
             </div>
-        </nz-spin>
+            <div class="profile-info-list">
+                <div class="profile-info-row">
+                    <span class="profile-info-label">网站名称：</span>
+                    <span class="profile-info-value">花墨</span>
+                    <button class="row-copy-btn" (click)="copyField('网站名称', '花墨', 'name')">{{ copiedRow === 'name' ? '✓ 复制' : '复制' }}</button>
+                </div>
+                <div class="profile-info-row">
+                    <span class="profile-info-label">LOGO地址：</span>
+                    <span class="profile-info-value">https://api.flowersink.com/img/logo.png</span>
+                    <button class="row-copy-btn" (click)="copyField('LOGO地址', 'https://api.flowersink.com/img/logo.png', 'logo')">{{ copiedRow === 'logo' ? '✓ 复制' : '复制' }}</button>
+                </div>
+                <div class="profile-info-row">
+                    <span class="profile-info-label">网站地址：</span>
+                    <span class="profile-info-value">https://flowersink.com</span>
+                    <button class="row-copy-btn" (click)="copyField('网站地址', 'https://flowersink.com', 'url')">{{ copiedRow === 'url' ? '✓ 复制' : '复制' }}</button>
+                </div>
+                <div class="profile-info-row">
+                    <span class="profile-info-label">网站描述：</span>
+                    <span class="profile-info-value">好耶！是再花猫猫头ฅ•ω•ฅ</span>
+                    <button class="row-copy-btn" (click)="copyField('网站描述', '好耶！是再花猫猫头ฅ•ω•ฅ', 'desc')">{{ copiedRow === 'desc' ? '✓ 复制' : '复制' }}</button>
+                </div>
+                <div class="profile-info-row">
+                    <span class="profile-info-label">联系邮箱：</span>
+                    <span class="profile-info-value">{{ email }}</span>
+                    <button class="row-copy-btn" (click)="copyField('联系邮箱', email, 'email')">{{ copiedRow === 'email' ? '✓ 复制' : '复制' }}</button>
+                </div>
+            </div>
+        </div>
 
-        <nz-divider></nz-divider>
-        @if (!isMobile) {
+        <!-- ====== 朋友们（友链卡片） ====== -->
+        <div class="section-head">
+            <span class="section-icon">✦</span>
+            <h3 nz-typography class="section-title">朋友们</h3>
+            @if (!loading) {
+            <span nz-typography nzType="secondary" class="section-count">共 {{ links.length }} 个</span>
+            }
+        </div>
+
+        @if (loading) {
         <div nz-row [nzGutter]="[16, 16]">
-            <div nz-col nzSpan="16">
-                <nz-alert flAlert nzType="info" [nzMessage]="linkTitle" [nzDescription]="linkNote"></nz-alert>
-                <ng-template #linkTitle>
+            @for (sk of skeletonCards; track sk) {
+            <div nz-col nzXs="24" nzSm="12" nzLg="8">
+                <div class="skeleton-card" flCard>
+                    <nz-skeleton [nzAvatar]="true" [nzParagraph]="{rows: 2}" [nzActive]="true"></nz-skeleton>
+                </div>
+            </div>
+            }
+        </div>
+        }
+
+        @if (!loading) {
+        <div nz-row [nzGutter]="[16, 16]" @StaggerList>
+            @for (link of links; track link) {
+            <div nz-col nzXs="24" nzSm="12" nzLg="8">
+                <flower-link-card [link]="link"></flower-link-card>
+            </div>
+            }
+        </div>
+        }
+
+        <!-- ====== 申请友链 ====== -->
+        <div class="section-head">
+            <span class="section-icon">✦</span>
+            <h3 nz-typography class="section-title">申请友链</h3>
+        </div>
+
+        @if (!isMobile) {
+        <div nz-row [nzGutter]="[24, 24]">
+            <div nz-col nzXs="24" nzMd="12" nzLg="12">
+                <div class="apply-rules" flCard>
                     <h4 nz-typography>友链申请须知</h4>
-                </ng-template>
-                <ng-template #linkNote>
                     <article nz-typography class="link-note">
                         <p nz-typography>1. 请确保您已将「花墨」添加至友链列表，请勿单向友链</p>
-                        <p nz-typography>2.
-                            您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong></p>
+                        <p nz-typography>2. 您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong></p>
                         <p nz-typography>3. 您的网站应当<strong>运行稳定</strong>，未提前告知且多次无法正常访问则会被取消友链</p>
                         <p nz-typography>4. 不喜欢排版杂乱、交互不适、BUG过多的网站</p>
                         <p nz-typography>5. 希望博客有趣一些（例如纯技术分享就不太有趣）</p>
-                        <p nz-typography>6. AI生成的文章请明确标注“AI生成”（即使是部分）</p>
+                        <p nz-typography>6. AI生成的文章请明确标注"AI生成"（即使是部分）</p>
                     </article>
-                </ng-template>
+                </div>
             </div>
-            <div nz-col nzSpan="8">
-                <div nz-flex nzAlign="start" [nzVertical]="true" nzGap="small">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
-                        placeholder="网站名称">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.logo" name="logo"
-                        placeholder="网站头像地址">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
-                        placeholder="网站地址">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
-                        name="description" placeholder="网站描述">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
-                        name="email" placeholder="联系邮箱(可选)">
+            <div nz-col nzXs="24" nzMd="12" nzLg="12">
+                <div class="apply-form" flCard nz-flex nzAlign="start" [nzVertical]="true" nzGap="middle">
+                    <div class="form-field">
+                        <label nz-typography class="form-label">网站名称 *</label>
+                        <input nz-input flInput type="text"
+                               (focus)="showToolbar = true"
+                               [(ngModel)]="form.name" name="name"
+                               placeholder="例如：花墨">
+                    </div>
+
+                    <div class="form-field">
+                        <label nz-typography class="form-label">网站地址 *</label>
+                        <input nz-input flInput type="text"
+                               (focus)="showToolbar = true"
+                               [(ngModel)]="form.url" name="url"
+                               placeholder="例如：https://flowersink.com">
+                    </div>
+
+                    <div class="form-field">
+                        <label nz-typography class="form-label">网站头像地址</label>
+                        <div class="input-with-preview">
+                            <input nz-input flInput type="text"
+                                   (focus)="showToolbar = true"
+                                   (input)="onLogoChange()"
+                                   [(ngModel)]="form.logo" name="logo"
+                                   placeholder="例如：https://example.com/logo.png">
+                            @if (logoPreviewUrl) {
+                            <img class="logo-preview"
+                                 [src]="logoPreviewUrl"
+                                 alt="logo预览"
+                                 width="32" height="32"
+                                 (error)="logoPreviewUrl = ''">
+                            }
+                        </div>
+                        <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
+                    </div>
+
+                    <div class="form-field">
+                        <label nz-typography class="form-label">网站描述 *</label>
+                        <input nz-input flInput type="text"
+                               (focus)="showToolbar = true"
+                               [(ngModel)]="form.description" name="description"
+                               placeholder="用一句话描述你的网站吧">
+                    </div>
+
+                    <div class="form-field">
+                        <label nz-typography class="form-label">联系邮箱（可选）</label>
+                        <input nz-input flInput type="text"
+                               (focus)="showToolbar = true"
+                               [(ngModel)]="form.email" name="email"
+                               placeholder="用于接收审核结果通知">
+                    </div>
+
                     @if (showToolbar) {
                     <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
                     <div class="toolbar" nz-flex nzJustify="end">
-                        <fl-button class="submit" [disabled]="submitting" (click)="submit()">申请</fl-button>
+                        <fl-button class="submit" [disabled]="submitting" (click)="submit()">
+                            @if (submitting) {提交中…} @else {申请}
+                        </fl-button>
                     </div>
                     }
                 </div>
             </div>
         </div>
         }
+
         @if (isMobile) {
         <div nz-flex [nzVertical]="true" nzGap="middle">
-            <nz-alert flAlert nzType="info" [nzMessage]="linkTitle" [nzDescription]="linkNote"></nz-alert>
-            <ng-template #linkTitle>
+            <div class="apply-rules" flCard>
                 <h4 nz-typography>友链申请须知</h4>
-            </ng-template>
-            <ng-template #linkNote>
                 <article nz-typography class="link-note">
                     <p nz-typography>1. 请确保您已将「花墨」添加至友链列表，请勿单向友链</p>
-                    <p nz-typography>2. 您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong>
-                    </p>
-                    <p nz-typography>3. 您的网站应当<strong>运行稳定</strong>，在未提前告知的情况下，若一个月内多次出现无法正常访问则会被取消友链</p>
-                    <p nz-typography>4. 对于网站的样式、交互、设计有一定要求，不喜欢排版杂乱、交互不适、BUG过多的网站</p>
+                    <p nz-typography>2. 您的网站主体应为<strong>个人</strong>，网站类型为<strong>博客</strong>，且强制使用<strong>HTTPS</strong></p>
+                    <p nz-typography>3. 您的网站应当<strong>运行稳定</strong>，未提前告知且多次无法正常访问则会被取消友链</p>
+                    <p nz-typography>4. 不喜欢排版杂乱、交互不适、BUG过多的网站</p>
                     <p nz-typography>5. 希望博客有趣一些（例如纯技术分享就不太有趣）</p>
-                    <p nz-typography>6. AI生成的文章请明确标注“AI生成”（即使是部分）</p>
+                    <p nz-typography>6. AI生成的文章请明确标注"AI生成"（即使是部分）</p>
                 </article>
-            </ng-template>
-            <div nz-flex nzAlign="start" [nzVertical]="true" nzGap="small">
-                <nz-input-group>
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
-                        placeholder="网站名称">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.logo" name="logo"
-                        placeholder="网站头像地址">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
-                        placeholder="网站地址">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
-                        name="description" placeholder="网站描述">
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
-                        name="email" placeholder="联系邮箱(可选)">
-                </nz-input-group>
+            </div>
+
+            <div class="apply-form" flCard nz-flex nzAlign="start" [nzVertical]="true" nzGap="middle">
+                <div class="form-field">
+                    <label nz-typography class="form-label">网站名称 *</label>
+                    <input nz-input flInput type="text"
+                           (focus)="showToolbar = true"
+                           [(ngModel)]="form.name" name="name"
+                           placeholder="例如：花墨">
+                </div>
+                <div class="form-field">
+                    <label nz-typography class="form-label">网站地址 *</label>
+                    <input nz-input flInput type="text"
+                           (focus)="showToolbar = true"
+                           [(ngModel)]="form.url" name="url"
+                           placeholder="例如：https://flowersink.com">
+                </div>
+                <div class="form-field">
+                    <label nz-typography class="form-label">网站头像地址</label>
+                    <div class="input-with-preview">
+                        <input nz-input flInput type="text"
+                               (focus)="showToolbar = true"
+                               (input)="onLogoChange()"
+                               [(ngModel)]="form.logo" name="logo"
+                               placeholder="例如：https://example.com/logo.png">
+                        @if (logoPreviewUrl) {
+                        <img class="logo-preview"
+                             [src]="logoPreviewUrl"
+                             alt="logo预览"
+                             width="32" height="32"
+                             (error)="logoPreviewUrl = ''">
+                        }
+                    </div>
+                    <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
+                </div>
+                <div class="form-field">
+                    <label nz-typography class="form-label">网站描述 *</label>
+                    <input nz-input flInput type="text"
+                           (focus)="showToolbar = true"
+                           [(ngModel)]="form.description" name="description"
+                           placeholder="用一句话描述你的网站吧">
+                </div>
+                <div class="form-field">
+                    <label nz-typography class="form-label">联系邮箱（可选）</label>
+                    <input nz-input flInput type="text"
+                           (focus)="showToolbar = true"
+                           [(ngModel)]="form.email" name="email"
+                           placeholder="用于接收审核结果通知">
+                </div>
                 @if (showToolbar) {
                 <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
                 <div class="toolbar" nz-flex nzJustify="end">
-                    <fl-button class="submit" [disabled]="submitting" (click)="submit()">申请</fl-button>
+                    <fl-button class="submit" [disabled]="submitting" (click)="submit()">
+                        @if (submitting) {提交中…} @else {申请}
+                    </fl-button>
                 </div>
                 }
             </div>
         </div>
         }
 
-        <nz-divider></nz-divider>
-        <div class="friend-article-card" nz-flex [nzVertical]="true" nzGap="middle">
-            <div nz-flex nzJustify="space-between" nzAlign="center" class="friend-article-head">
-                <div nz-flex [nzVertical]="true" nzGap="small">
-                    <h3 nz-typography class="friend-article-title">好朋友的文章</h3>
-                    <p nz-typography nzType="secondary" class="friend-article-subtitle">
-                        只展示最新的30篇哦
-                    </p>
-                </div>
-                @if (articleUpdatedAt) {
-                <span nz-typography nzType="secondary" class="friend-article-updated">
-                    更新于 {{ articleUpdatedAt | date:'yyyy-MM-dd HH:mm' }}
-                </span>
-                }
-            </div>
-
-            <nz-spin [nzTip]="'朋友们的文章正在赶来中'" [nzSpinning]="articleLoading">
-                <div nz-flex [nzVertical]="true" nzGap="middle">
-                    @if (friendArticles.length) {
-                    <div nz-flex [nzVertical]="true" nzGap="small">
-                        @for (article of friendArticles; track article.link) {
-                        <a class="friend-article-item" flCard flCardHover nz-flex nzJustify="space-between"
-                            nzAlign="start" [href]="article.link" target="_blank" rel="noopener noreferrer">
-                            <div nz-flex [nzVertical]="true" nzGap="small" class="friend-article-main">
-                                <span nz-typography class="friend-article-item-title">{{ article.title }}</span>
-                                <div nz-flex nzWrap="wrap" nzGap="small" class="friend-article-meta">
-                                    <span nz-typography nzType="secondary">{{ article.source }}</span>
-                                    <span nz-typography nzType="secondary">
-                                        {{ article.publishDate | date:'yyyy-MM-dd HH:mm' }}
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                        }
-                    </div>
-                    }
-                    @if (!friendArticles.length && !articleLoading) {
-                    <nz-alert flAlert nzType="info" nzMessage="暂时还没有抓到朋友们的新文章"></nz-alert>
-                    }
-                </div>
-            </nz-spin>
+        <!-- ====== 朋友们的文章 ====== -->
+        <div class="section-head">
+            <span class="section-icon">✦</span>
+            <h3 nz-typography class="section-title">朋友们的文章</h3>
+            @if (articleUpdatedAt) {
+            <span nz-typography nzType="secondary" class="section-count">
+                更新于 {{ articleUpdatedAt | date:'yyyy-MM-dd HH:mm' }}
+            </span>
+            }
         </div>
+
+        @if (articleLoading) {
+        <div nz-flex [nzVertical]="true" nzGap="small">
+            @for (sk of skeletonArticles; track sk) {
+            <div class="skeleton-article" flCard nz-flex nzAlign="center" nzJustify="space-between">
+                <nz-skeleton [nzParagraph]="{rows: 1, width: '60%'}" [nzActive]="true"></nz-skeleton>
+            </div>
+            }
+        </div>
+        }
+
+        @if (!articleLoading && friendArticles.length) {
+        <div class="friend-article-list" nz-flex [nzVertical]="true" nzGap="small" @StaggerList>
+            @for (article of friendArticles; track article.link) {
+            <a class="friend-article-item" flCard flCardHover nz-flex nzJustify="space-between"
+               nzAlign="start" [href]="article.link" target="_blank" rel="noopener noreferrer">
+                <div nz-flex [nzVertical]="true" nzGap="small" class="friend-article-main">
+                    <span nz-typography class="friend-article-item-title">
+                        {{ article.title }}
+                        <span class="friend-article-arrow">→</span>
+                    </span>
+                    @if (article.summary) {
+                    <span nz-typography nzType="secondary" class="friend-article-summary">
+                        {{ article.summary }}
+                    </span>
+                    }
+                    <div nz-flex nzWrap="wrap" nzGap="small" class="friend-article-meta">
+                        @if (article.sourceFavicon) {
+                        <img class="source-favicon" [src]="article.sourceFavicon"
+                             alt="" width="14" height="14" loading="lazy">
+                        }
+                        <span class="source-tag">{{ article.source }}</span>
+                        <span nz-typography nzType="secondary">
+                            {{ article.publishDate | date:'yyyy-MM-dd HH:mm' }}
+                        </span>
+                    </div>
+                </div>
+            </a>
+            }
+        </div>
+        }
+
+        @if (!articleLoading && !friendArticles.length) {
+        <div class="empty-state" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true" nzGap="small">
+            <span class="empty-icon">📡</span>
+            <p nz-typography nzType="secondary">文章还在路上，再等等吧 🐾</p>
+        </div>
+        }
+
     </div>
 </div>
-
-<ng-template #linkMsg>
-    <br>
-    <p nz-typography>感谢你对「花墨」的认可</p>
-    <p nz-typography>好耶ฅ•ω•ฅ，已将你的申请发送至再花的邮箱</p>
-    <p nz-typography>再花会在 1-5 个工作日内通过您的联系邮箱通知结果（若填写）</p>
-    <p nz-typography>有任何问题可通过底部的联系方式联系再花</p>
-	</ng-template>

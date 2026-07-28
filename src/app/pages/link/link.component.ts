@@ -1,20 +1,14 @@
-import { DatePipe } from '@angular/common';
-import { Component, DestroyRef, TemplateRef, ViewChild } from '@angular/core';
+import { DatePipe, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzCommentModule } from 'ng-zorro-antd/comment';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzListModule } from 'ng-zorro-antd/list';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { SlowUp, QuickUp } from '../../common_ui/animations/animation';
-import { FlAlertDirective } from '../../common_ui/fl_ui/fl-alert/fl-alert.directive';
+import { SlowUp, QuickUp, StaggerList } from '../../common_ui/animations/animation';
 import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
@@ -25,6 +19,16 @@ import { ApiLimiterService } from '../../services/api-limiter.service';
 import { WindowService } from '../../services/window.service';
 import { LinkService } from './link.service';
 
+interface ArticleItem {
+  title: string;
+  link: string;
+  source: string;
+  sourceUrl: string;
+  publishDate: string;
+  summary?: string;
+  sourceFavicon?: string;
+}
+
 @Component({
   selector: 'flower-link',
   standalone: true,
@@ -33,27 +37,25 @@ import { LinkService } from './link.service';
     DatePipe,
     NzFlexModule,
     NzTypographyModule,
-    NzIconModule,
-    NzCommentModule,
-    NzListModule,
-    NzAvatarModule,
-    NzDividerModule,
-    NzSpinModule,
-    NzInputModule,
-    NzAlertModule,
-    LinkCardComponent,
     NzGridModule,
+    NzSkeletonModule,
+    NzInputModule,
+    NzModalModule,
+    LinkCardComponent,
     FlButtonComponent,
     FlInputDirective,
     FlCardDirective,
-    FlAlertDirective,
     SimpleCaptchaComponent,
   ],
   templateUrl: './link.component.html',
   styleUrl: './link.component.css',
-  animations: [SlowUp, QuickUp],
+  animations: [SlowUp, QuickUp, StaggerList],
 })
-export class LinkComponent {
+export class LinkComponent implements OnInit {
+  private readonly modal = inject(NzModalService);
+  private readonly document = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
+
   loading = true;
   articleLoading = true;
   submitting = false;
@@ -61,21 +63,23 @@ export class LinkComponent {
   showToolbar = false;
   email = 'ZyZy1724@gmail.com';
   articleUpdatedAt = '';
-  links = [
-    {
-      name: 'FlowersInk',
-      logo: 'https://api.flowersink.com/img/logo.png',
-      url: 'https://flowersink.com',
-      description: 'A personal blog by Zaihua',
-    },
-  ];
-  friendArticles: Array<{
-    title: string;
-    link: string;
-    source: string;
-    sourceUrl: string;
-    publishDate: string;
+  links: Array<{
+    name: string;
+    logo: string;
+    url: string;
+    description: string;
+    email?: string;
   }> = [];
+  friendArticles: ArticleItem[] = [];
+  skeletonCards = [1, 2, 3, 4, 5, 6];
+  skeletonArticles = [1, 2, 3, 4, 5];
+
+  // Form validation
+  logoPreviewUrl = '';
+
+  // Profile card
+  allCopied = false;
+  copiedRow = '';
 
   form: {
     description: string;
@@ -90,9 +94,6 @@ export class LinkComponent {
     description: '',
     email: '',
   };
-
-  @ViewChild('linkMsg', { static: true })
-  linkMsg!: TemplateRef<any>;
 
   @ViewChild(SimpleCaptchaComponent)
   captchaComponent?: SimpleCaptchaComponent;
@@ -109,15 +110,37 @@ export class LinkComponent {
     });
 
     this.link
-      .getLinks({
-        isApproved: true,
-      })
+      .getLinks({ isApproved: true })
       .subscribe((res: any) => {
         this.links = res['data'].data;
         this.loading = false;
       });
 
     this.getFriendArticles();
+  }
+
+  ngOnInit(): void {
+    this.injectJsonLd();
+  }
+
+  private injectJsonLd(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: '友情链接 | 花墨',
+      description: '花墨的个人博客友情链接页面，收录了好朋友的个人网站和博客。',
+      url: 'https://flowersink.com/link',
+    };
+
+    const script = this.document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(jsonLd);
+    script.id = 'link-jsonld';
+    const existing = this.document.getElementById('link-jsonld');
+    if (existing) existing.remove();
+    this.document.head.appendChild(script);
   }
 
   getFriendArticles(): void {
@@ -136,6 +159,44 @@ export class LinkComponent {
           this.articleLoading = false;
         },
       });
+  }
+
+  onLogoChange(): void {
+    const url = this.form.logo.trim();
+    if (!url) {
+      this.logoPreviewUrl = '';
+      return;
+    }
+    try {
+      new URL(url);
+      this.logoPreviewUrl = url;
+    } catch {
+      this.logoPreviewUrl = '';
+    }
+  }
+
+  copyAllInfo(): void {
+    const text =
+`网站名称：花墨
+LOGO地址：https://api.flowersink.com/img/logo.png
+网站地址：https://flowersink.com
+网站描述：好耶！是再花猫猫头ฅ•ω•ฅ
+联系邮箱：${this.email}`;
+    navigator.clipboard.writeText(text).then(() => {
+      this.msg.success('已复制友链信息');
+      this.allCopied = true;
+      setTimeout(() => this.allCopied = false, 2000);
+    });
+  }
+
+  copyField(label: string, value: string, rowKey: string): void {
+    navigator.clipboard.writeText(value).then(() => {
+      this.msg.success(`已复制${label}`);
+      this.copiedRow = rowKey;
+      setTimeout(() => {
+        if (this.copiedRow === rowKey) this.copiedRow = '';
+      }, 1500);
+    });
   }
 
   submit(): void {
@@ -179,9 +240,10 @@ export class LinkComponent {
               description: '',
               email: '',
             };
+            this.logoPreviewUrl = '';
             this.limiter.markApiCall('site-link');
             this.captchaComponent?.refresh();
-            this.msg.success(this.linkMsg, { nzDuration: 10000 });
+            this.showSuccessModal();
           }
           this.submitting = false;
         },
@@ -196,6 +258,24 @@ export class LinkComponent {
           this.submitting = false;
         },
       });
+  }
+
+  showSuccessModal(): void {
+    this.modal.success({
+      nzTitle: '申请已提交',
+      nzContent: `
+        <p>感谢你对「花墨」的认可</p>
+        <p>好耶ฅ•ω•ฅ，已将你的申请发送至再花的邮箱</p>
+        <p>再花会在 <strong>1-5 个工作日</strong> 内通过你的联系邮箱通知结果（若填写）</p>
+        <p>有任何问题可通过底部的联系方式联系再花</p>
+      `,
+      nzCancelText: null,
+      nzOkText: '我再看看',
+      nzOkType: 'primary',
+      nzCentered: true,
+      nzClosable: true,
+      nzMaskClosable: true,
+    });
   }
 
   isFormIncomplete(): boolean {

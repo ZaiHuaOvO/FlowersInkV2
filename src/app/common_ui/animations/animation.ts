@@ -1,4 +1,4 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 // 更加快速的从下往上平移渐出
 export const QuickUp = trigger('QuickUp', [
@@ -111,6 +111,18 @@ export const SlideEnter = trigger('SlideEnter', [
       '260ms cubic-bezier(0.22, 1, 0.36, 1)',
       style({ opacity: 1, transform: 'translateX(0)' })
     ),
+  ]),
+]);
+
+// 列表逐条 Stagger 入场动画
+export const StaggerList = trigger('StaggerList', [
+  transition(':enter', [
+    query(':enter', [
+      style({ opacity: 0, transform: 'translateY(24px)' }),
+      stagger(60, [
+        animate('400ms cubic-bezier(0.22, 1, 0.36, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+    ], { optional: true }),
   ]),
 ]);
 
