@@ -12,7 +12,7 @@ import { EditMessageComponent } from '../../../components/about/edit-message/edi
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { QuickUp } from '../../../common_ui/animations/animation';
+import { QuickUp, StaggerList } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { RouterModule } from '@angular/router';
@@ -38,7 +38,7 @@ import { RouterModule } from '@angular/router';
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.css',
-  animations: [QuickUp],
+  animations: [QuickUp, StaggerList],
 })
 export class MessageComponent {
   data: any[] = [];

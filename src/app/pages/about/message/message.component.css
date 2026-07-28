@@ -30,8 +30,16 @@
     font-weight: 500;
 }
 
-.content_indent {
-    padding-left: 20px;
+/* Message list hover */
+.message-list-wrap ::ng-deep nz-comment {
+    transition: background var(--fi-motion-fast) var(--fi-ease-standard);
+    border-radius: var(--fi-radius-sm);
+    margin: 0 calc(-1 * var(--fi-space-2));
+    padding: 0 var(--fi-space-2);
+}
+
+.message-list-wrap ::ng-deep nz-comment:hover {
+    background: var(--fi-surface-soft);
 }
 
 .message-spin {

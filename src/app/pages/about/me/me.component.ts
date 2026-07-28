@@ -90,6 +90,7 @@ export class MeComponent {
   email = 'ZyZy1724@gmail.com';
   qq = '446840401';
   wechat = 'zaihua_huahua';
+  copiedCard: string | null = null;
 
   tabs = [
     { index: 0, label: '是再花！' },
@@ -119,18 +120,26 @@ export class MeComponent {
   copyEmail(): void {
     navigator.clipboard.writeText(this.email).then(() => {
       this.msg.success('已复制邮箱地址，欢迎邮件(^-^)');
+      this.flashCopied('email');
     }).catch(() => { });
   }
 
   copyQQ(): void {
     navigator.clipboard.writeText(this.qq).then(() => {
       this.msg.success('已复制QQ号，加好友请备注来意(^-^)');
+      this.flashCopied('qq');
     }).catch(() => { });
   }
 
   copyWechat(): void {
     navigator.clipboard.writeText(this.wechat).then(() => {
       this.msg.success('已复制微信号，加好友请备注来意(^-^)');
+      this.flashCopied('wechat');
     }).catch(() => { });
+  }
+
+  private flashCopied(card: string): void {
+    this.copiedCard = card;
+    setTimeout(() => this.copiedCard = null, 1500);
   }
 }

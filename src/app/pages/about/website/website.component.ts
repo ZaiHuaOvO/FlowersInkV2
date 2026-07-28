@@ -3,6 +3,7 @@ import {
   DestroyRef,
   ChangeDetectorRef,
 } from '@angular/core';
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { RouterModule } from '@angular/router';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -12,8 +13,33 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { TargetComponent } from '../../../components/about/target/target.component';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
-import { QuickUp } from '../../../common_ui/animations/animation';
+import { QuickUp, StaggerList } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
+
+/* Direction-aware slide-in animation for section switching (mirrors me.component) */
+const SectionSwitch = trigger('SectionSwitch', [
+  transition(':increment', [
+    style({ opacity: 0, transform: 'translateX(28px)' }),
+    animate(
+      '280ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateX(0)' })
+    ),
+  ]),
+  transition(':decrement', [
+    style({ opacity: 0, transform: 'translateX(-28px)' }),
+    animate(
+      '280ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateX(0)' })
+    ),
+  ]),
+  transition(':enter', [
+    style({ opacity: 0, transform: 'translateY(16px)' }),
+    animate(
+      '260ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateY(0)' })
+    ),
+  ]),
+]);
 
 @Component({
   selector: 'flower-website',
@@ -31,14 +57,13 @@ import { WindowService } from '../../../services/window.service';
   ],
   templateUrl: './website.component.html',
   styleUrl: './website.component.css',
-  animations: [QuickUp],
+  animations: [QuickUp, SectionSwitch, StaggerList],
   host: { '[@QuickUp]': '' },
 })
 export class WebsiteComponent {
   activeSection = 0;
   isMobile = false;
   isTransitioning = false;
-  slideDirection: 'left' | 'right' = 'right';
 
   tabs = [
     { index: 0, label: '建站历程' },
@@ -65,8 +90,9 @@ export class WebsiteComponent {
     { date: '2026/04/10', title: '统一并完善了花墨的主题样式和细节，花墨变得更好看了', text: '总算看得过去了' },
     { date: '2026/04/20', title: '点滴功能回归！开始碎碎念', text: '' },
     { date: '2026/04/28', title: '花墨真正接入了 CDN', text: '以前一直接错了！怪不得接了图片加载还是这么慢…' },
-    { date: '2026/06/24', title: '重写了一个漂亮的"关于"', text: '得益于可爱米饭的个人主页灵感，我超爱' },
+    { date: '2026/06/24', title: '重写了一个漂亮的"关于"', text: '' },
     { date: '2026/07/15', title: '新增文章评论、点滴点赞功能', text: '为网站加上一些交互感' },
+    { date: '2026/07/24', title: '重写了一个可爱的欢迎页', text: '' },
     { date: '未完待续', title: '', text: '' },
   ];
 
@@ -92,8 +118,6 @@ export class WebsiteComponent {
     ) {
       return;
     }
-    const goingForward = index > this.activeSection;
-    this.slideDirection = goingForward ? 'right' : 'left';
     this.isTransitioning = true;
     this.activeSection = index;
     this.cdr.detectChanges();

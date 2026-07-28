@@ -14,13 +14,12 @@
     </nav>
 
     @if (activeSection === 0) {
-    <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-      [class.slide-in--left]="slideDirection === 'left'" data-index="0">
+    <section class="section" @SectionSwitch>
       <article class="section-inner">
-        <div class="fi-simple-timeline">
+        <div class="fi-simple-timeline" @StaggerList>
           @for (item of websiteTimeline; track item) {
           <div class="fi-simple-timeline-item">
-            <span class="fi-simple-timeline-dot"></span>
+            <span class="fi-simple-timeline-dot" [class.timeline-dot--pending]="item.date === '未完待续'"></span>
             <div class="fi-simple-timeline-content">
               <span class="fi-simple-timeline-date">{{ item.date }}</span>
               <span class="fi-simple-timeline-title">{{ item.title }}</span>
@@ -36,8 +35,7 @@
     }
 
     @if (activeSection === 1) {
-    <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-      [class.slide-in--left]="slideDirection === 'left'" data-index="1">
+    <section class="section" @SectionSwitch>
       <article class="section-inner">
         <p nz-typography>我是一个<strong class="fi-primary-text">喜欢记录</strong>的人</p>
         <p nz-typography>从学生时代的日记、笔记，到现在的记账、拍照、游戏视频剪辑，我总是希望将生命中的美好记录成册。</p>
@@ -54,8 +52,7 @@
     }
 
     @if (activeSection === 2) {
-    <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-      [class.slide-in--left]="slideDirection === 'left'" data-index="2">
+    <section class="section" @SectionSwitch>
       <article class="section-inner">
         <p nz-typography>我的网站项目名和域名为：FlowersInk，含义是<strong class="fi-primary-text">「花(Flower)的(`s)墨(Ink)」</strong>
         </p>
@@ -67,15 +64,15 @@
     }
 
     @if (activeSection === 3) {
-    <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-      [class.slide-in--left]="slideDirection === 'left'" data-index="3">
+    <section class="section" @SectionSwitch>
       <article class="section-inner">
-        <p nz-typography>前端：基于<strong
-            class="fi-primary-text">Angular17</strong>开发（目前已更新至v20），使用了ng-zorro、ngx-markdown等库</p>
-        <p nz-typography>后端：使用<strong class="fi-primary-text">NestJS</strong>开发</p>
-        <p nz-typography>数据库：<strong class="fi-primary-text">MySQL</strong></p>
-        <p nz-typography>服务器：<strong class="fi-primary-text">阿里云ECS</strong></p>
-        <p nz-typography>网站源码开源地址：
+        <div class="tech-stack">
+          <div class="tech-item"><span class="tech-icon" nz-icon nzType="CodeSandbox"></span> <span>前端：<strong class="fi-primary-text">Angular17</strong>（已更新至v20）+ ng-zorro / ngx-markdown</span></div>
+          <div class="tech-item"><span class="tech-icon" nz-icon nzType="code" nzTheme="outline"></span> <span>后端：<strong class="fi-primary-text">NestJS</strong></span></div>
+          <div class="tech-item"><span class="tech-icon" nz-icon nzType="database" nzTheme="outline"></span> <span>数据库：<strong class="fi-primary-text">MySQL</strong></span></div>
+          <div class="tech-item"><span class="tech-icon" nz-icon nzType="cloud" nzTheme="outline"></span> <span>服务器：<strong class="fi-primary-text">阿里云ECS</strong></span></div>
+        </div>
+        <p nz-typography class="tech-open-source">网站源码开源地址：
           <a rel="nofollow" href="https://github.com/ZaiHuaOvO/FlowersInkV2" target="_blank">
             <span nz-icon nzType="github" nzTheme="outline"></span> 花墨
           </a>
@@ -85,8 +82,7 @@
     }
 
     @if (activeSection === 4) {
-    <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-      [class.slide-in--left]="slideDirection === 'left'" data-index="4">
+    <section class="section" @SectionSwitch>
       <article class="section-inner">
         <div class="thanks-box">
           <p nz-typography>感谢我老婆</p>
@@ -108,8 +104,13 @@
     <div class="fi-dots">
       @for (item of [0, 1, 2, 3, 4]; track item) {
       <button class="fi-dot" [class.fi-dot--active]="activeSection === item" (click)="goToSection(item)"
-        [attr.aria-label]="'切换到第' + (item + 1) + '个分类'"></button>
+        [attr.aria-label]="'切换到第' + (item + 1) + '个分类'" [title]="tabs[item].label"></button>
       }
+    </div>
+
+    <div class="nav-links">
+      <a class="nav-link" [routerLink]="['/about/me']">←关于我</a>
+      <a class="nav-link" [routerLink]="['/about/message']">留言板→</a>
     </div>
   </div>
   } @else {
@@ -130,12 +131,11 @@
 
     <div #wrap class="section-wrap">
       @if (activeSection === 0) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-        [class.slide-in--left]="slideDirection === 'left'">
-        <div class="fi-simple-timeline">
+      <section class="section" @SectionSwitch>
+        <div class="fi-simple-timeline" @StaggerList>
           @for (item of websiteTimeline; track item) {
           <div class="fi-simple-timeline-item">
-            <span class="fi-simple-timeline-dot"></span>
+            <span class="fi-simple-timeline-dot" [class.timeline-dot--pending]="item.date === '未完待续'"></span>
             <div class="fi-simple-timeline-content">
               <div class="fi-simple-timeline-row">
                 <span class="fi-simple-timeline-date">{{ item.date }}</span>
@@ -152,8 +152,7 @@
       }
 
       @if (activeSection === 1) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-        [class.slide-in--left]="slideDirection === 'left'">
+      <section class="section" @SectionSwitch>
         <p nz-typography>我是一个<strong class="fi-primary-text">喜欢记录</strong>的人</p>
         <p nz-typography>从学生时代的日记、笔记，到现在的记账、拍照、游戏视频剪辑，我总是希望将生命中的美好记录成册。</p>
         <p nz-typography>我是一个<strong class="fi-primary-text">喜欢分享</strong>的人</p>
@@ -168,8 +167,7 @@
       }
 
       @if (activeSection === 2) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-        [class.slide-in--left]="slideDirection === 'left'">
+      <section class="section" @SectionSwitch>
         <p nz-typography>我的网站项目名和域名为：FlowersInk，含义是<strong class="fi-primary-text">「花(Flower)的(`s)墨(Ink)」</strong></p>
         <p nz-typography>相比于现在非常便利的电子化，我总是对书写、纸质书一直情有独钟，提笔书写在纸上所带来知识的厚重感，电子化很难替代</p>
         <p nz-typography>但电子化是时代趋势，纸质书笔只能作为一种闲暇之余的爱好，于是我将敲击键盘看作是另一种形式的"书写"。</p>
@@ -178,13 +176,13 @@
       }
 
       @if (activeSection === 3) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-        [class.slide-in--left]="slideDirection === 'left'">
-        <p nz-typography>前端：基于<strong class="fi-primary-text">Angular17</strong>开发（目前已更新至v20），使用了ng-zorro、ngx-markdown等库
-        </p>
-        <p nz-typography>后端：使用<strong class="fi-primary-text">NestJS</strong>开发</p>
-        <p nz-typography>数据库：<strong class="fi-primary-text">MySQL</strong></p>
-        <p nz-typography>服务器：<strong class="fi-primary-text">阿里云ECS</strong></p>
+      <section class="section" @SectionSwitch>
+        <div class="tech-stack">
+          <div class="tech-item"><span class="tech-icon" nz-icon nzType="CodeSandbox"></span> <span>前端：<strong class="fi-primary-text">Angular17</strong>（已更新至v20）+ ng-zorro / ngx-markdown</span></div>
+          <div class="tech-item"><span class="tech-icon" nz-icon nzType="code" nzTheme="outline"></span> <span>后端：<strong class="fi-primary-text">NestJS</strong></span></div>
+          <div class="tech-item"><span class="tech-icon" nz-icon nzType="database" nzTheme="outline"></span> <span>数据库：<strong class="fi-primary-text">MySQL</strong></span></div>
+          <div class="tech-item"><span class="tech-icon" nz-icon nzType="cloud" nzTheme="outline"></span> <span>服务器：<strong class="fi-primary-text">阿里云ECS</strong></span></div>
+        </div>
         <p nz-typography>网站源码开源地址：
           <a rel="nofollow" href="https://github.com/ZaiHuaOvO/FlowersInkV2" target="_blank">
             <span nz-icon nzType="github" nzTheme="outline"></span> 花墨
@@ -194,8 +192,7 @@
       }
 
       @if (activeSection === 4) {
-      <section class="section slide-in" [class.slide-in--right]="slideDirection === 'right'"
-        [class.slide-in--left]="slideDirection === 'left'">
+      <section class="section" @SectionSwitch>
         <div class="thanks-box">
           <p nz-typography>感谢我老婆</p>
           <div class="thanks-row">
@@ -211,7 +208,7 @@
     <div class="fi-dots">
       @for (item of [0, 1, 2, 3, 4]; track item) {
       <button class="fi-dot" [class.fi-dot--active]="activeSection === item" (click)="goToSection(item)"
-        [attr.aria-label]="'切换到第' + (item + 1) + '个分类'"></button>
+        [attr.aria-label]="'切换到第' + (item + 1) + '个分类'" [title]="tabs[item].label"></button>
       }
     </div>
   </div>

@@ -53,10 +53,15 @@
   transform: translateY(-1px);
 }
 
+.website-tab:active {
+  transform: scale(0.96);
+}
+
 .website-tab.fi-tab--active {
   background: var(--fi-primary) !important;
   color: #fff !important;
   border-color: var(--fi-primary) !important;
+  transform: scale(1.02);
 }
 
 /* ===== Section ===== */
@@ -119,7 +124,7 @@
 }
 
 .thanks-highlight {
-  color: var(--fi-danger);
+  color: var(--fi-danger-warm, #E8936F);
   font-size: var(--fi-font-size-lg);
 }
 
@@ -151,6 +156,83 @@
   animation-name: fi-slide-in-left;
 }
 
+/* ===== Tech Stack ===== */
+
+.tech-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-3);
+  padding: var(--fi-space-2) 0 var(--fi-space-4);
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  gap: var(--fi-space-3);
+  padding: var(--fi-space-3) var(--fi-space-4);
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-surface);
+  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.tech-item:hover {
+  border-color: var(--fi-primary-outline);
+  box-shadow: var(--fi-shadow-soft);
+  transform: translateY(-1px);
+}
+
+.tech-icon {
+  font-size: 22px;
+  color: var(--fi-primary);
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+}
+
+.tech-item span {
+  font-size: var(--fi-font-size-lg);
+  line-height: 1.6;
+}
+
+.tech-open-source {
+  padding-left: var(--fi-space-2);
+}
+
+/* ===== Timeline pending dot ===== */
+
+.timeline-dot--pending {
+  background: var(--fi-border) !important;
+  animation: fi-pulse 2s ease-in-out infinite;
+}
+
+@keyframes fi-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ===== Desktop Nav Links ===== */
+
+.nav-links {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--fi-space-4);
+}
+
+.nav-link {
+  font-size: var(--fi-font-size-md);
+  color: var(--fi-primary);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: var(--fi-font-weight-medium);
+  transition: opacity var(--fi-motion-fast);
+}
+
+.nav-link:hover {
+  opacity: 0.7;
+}
+
 /* ===== Mobile ===== */
 
 @media (max-width: 768px) {
@@ -171,6 +253,7 @@
   .tab-scroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
     padding: var(--fi-space-1) 0 var(--fi-space-2);
     flex-shrink: 0;
   }
