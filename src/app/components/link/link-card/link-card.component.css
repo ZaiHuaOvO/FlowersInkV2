@@ -32,6 +32,7 @@
 
 .content {
     cursor: pointer;
+    text-decoration: none;
 }
 
 .link-avatar-wrapper {
