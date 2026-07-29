@@ -18,7 +18,6 @@ type GameViewMode = 'detailed' | 'overview';
   selector: 'flower-game-card',
   standalone: true,
   imports: [
-    NgClass,
     NzCardModule,
     NzTagModule,
     NzFlexModule,

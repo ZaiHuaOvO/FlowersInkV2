@@ -44,11 +44,14 @@
     border: 1px solid var(--fi-border);
     border-radius: var(--fi-radius-sm);
     background: var(--fi-surface);
-    box-shadow: 0 10px 28px rgba(122, 77, 35, 0.08);
+    box-shadow: var(--fi-shadow-soft);
+    transition: border-color var(--fi-motion-fast) var(--fi-ease-standard),
+        box-shadow var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 .game-grid {
     width: 100%;
+    transition: opacity var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
 .game-grid :is(.ant-col, .game-grid__col) {
@@ -68,6 +71,22 @@
 .game-spin {
     width: 100%;
     min-width: 0;
+}
+
+.game-empty {
+    width: 100%;
+    padding: var(--fi-space-8) var(--fi-space-4);
+    gap: var(--fi-space-3);
+}
+
+.game-empty-icon {
+    font-size: 2.4rem;
+    line-height: 1;
+}
+
+.game-empty-text {
+    color: var(--fi-text-muted);
+    font-size: var(--fi-font-size-lg);
 }
 
 @media (min-width: 1280px) {

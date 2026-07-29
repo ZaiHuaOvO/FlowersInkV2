@@ -3,7 +3,7 @@
   <section class="hero" id="hero-section">
     <div class="hero-body" nz-flex nzJustify="center" nzAlign="center" [nzGap]="isMobile ? 'small' : 'large'" @SlowUp>
       <div class="hero-avatar-wrapper">
-        <a [routerLink]="['/about/me']" aria-label="前往关于我">
+        <a [routerLink]="['/about']" aria-label="前往关于我">
           <img class="hero-avatar" src="https://api.flowersink.com/img/粉毛猫猫头.jpeg" alt="再花的猫娘头像" loading="eager"
             decoding="async" />
         </a>
@@ -27,12 +27,12 @@
             <span class="hero-stat-num">{{ info.gameTotal }}</span> 个游戏
           </a>
           <span class="hero-stat-dot">·</span>
-          <a class="hero-stat-item hero-stat-link" [routerLink]="['/about/website']">
+          <a class="hero-stat-item hero-stat-link" [routerLink]="['/about']">
             已运行 <span class="hero-stat-num">{{ info.runDays }}</span> 天
           </a>
         </div>
         <div class="hero-actions">
-          <fl-button routerLink="/about/me" variant="solid">了解我</fl-button>
+          <fl-button routerLink="/about" variant="solid">了解我</fl-button>
           <fl-button routerLink="/blog/all">看看博客</fl-button>
         </div>
       </div>
@@ -80,7 +80,7 @@
       叭叭啦叭叭，你好呀这里是<mark>再花</mark>，这里是我的个人网站<mark>花墨</mark><br>
       漫展里与我同行的是我的妻子<mark>方长</mark>，我俩都是<strong>游戏宅</strong>（什么都玩），偶尔会看看番但强度不高。<br>
       除了游戏，我比较偏向<strong>技术宅</strong>，喜欢开发小东西（例如本网站）、视频剪辑。关于我的更多信息可以查看本站的 <a nz-button nzType="link"
-        [routerLink]="'/about/me'" target="_blank">[关于我]</a><br>
+        [routerLink]="'/about'" target="_blank">[关于我]</a><br>
       方长是<strong>手工娘</strong>，喜欢拼豆（还有乐高、手链等手工）。同时也是<strong>厨娘</strong>，本花的专属饲养员=v=
     </p>
     <h5 nz-typography>扩列相关</h5>

@@ -96,24 +96,8 @@ export class HeaderComponent implements OnInit {
     {
       title: '关于',
       icon: 'user',
-      URL: 'about',
-      child: [
-        {
-          title: '关于我',
-          icon: '',
-          url: '/about/me',
-        },
-        {
-          title: '关于网站',
-          icon: '',
-          url: '/about/website',
-        },
-        {
-          title: '留言板',
-          icon: '',
-          url: '/about/message',
-        },
-      ],
+      url: '/about',
+      child: [],
       showChildren: false
     },
     {

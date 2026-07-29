@@ -315,6 +315,53 @@
     border-radius: var(--fi-radius-md);
 }
 
+.skeleton-link-card {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+.skeleton-avatar {
+    width: 75px;
+    min-width: 75px;
+    height: 75px;
+    border-radius: var(--fi-radius-sm);
+    background: var(--fi-skeleton-bg, linear-gradient(90deg, var(--fi-border) 25%, var(--fi-surface-soft) 50%, var(--fi-border) 75%));
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 0;
+}
+
+.skeleton-line {
+    height: 14px;
+    border-radius: 6px;
+    background: var(--fi-skeleton-bg, linear-gradient(90deg, var(--fi-border) 25%, var(--fi-surface-soft) 50%, var(--fi-border) 75%));
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-line--title {
+    width: 60%;
+    height: 18px;
+}
+
+.skeleton-line--desc {
+    width: 90%;
+}
+
+@keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
 .skeleton-article {
     padding: 16px 18px;
     border-radius: var(--fi-radius-md);

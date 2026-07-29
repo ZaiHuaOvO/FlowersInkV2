@@ -52,7 +52,7 @@
 </ng-template>
 
 <ng-template #coverTemplate>
-  <div class="img-container" [class.img-container--overview]="isOverview">
+  <div class="img-container">
     <img
       loading="lazy"
       decoding="async"
@@ -94,7 +94,7 @@
       <span nz-typography class="img_button" (click)="imgPreview()">[游戏截图]</span>
     }
     @if (game.content) {
-      <span nz-typography class="img_button" (click)="goToContent(game.content)" [ngClass]="{'content_text': !game.content}">[玩后感]</span>
+      <span nz-typography class="img_button" (click)="goToContent(game.content)">[玩后感]</span>
     }
   </div>
 </ng-template>
