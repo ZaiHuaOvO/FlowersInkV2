@@ -29,4 +29,21 @@ export class LifeService {
   likeLife(id: number): Observable<object> {
     return this.http.post<object>(`${API.LIFE}/${id}/like`, {});
   }
+
+  getLifeComments(lifeId: number): Observable<object> {
+    return this.http.get(API.LIFE + `/${lifeId}/comments`);
+  }
+
+  createLifeComment(lifeId: number, data: any): Observable<object> {
+    return this.http
+      .post<object>(API.LIFE + `/${lifeId}/comments`, data)
+      .pipe(
+        tap(() => {
+          this.http.invalidateGetCache([
+            API.LIFE,
+            API.LIFE + `/${lifeId}/comments`,
+          ]);
+        }),
+      );
+  }
 }

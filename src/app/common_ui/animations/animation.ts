@@ -126,3 +126,30 @@ export const StaggerList = trigger('StaggerList', [
   ]),
 ]);
 
+// 表单 / 回复框展开收起动画（淡入下滑 / 淡出上滑）
+export const FadeSlide = trigger('FadeSlide', [
+  transition(':enter', [
+    style({ opacity: 0, transform: 'translateY(-8px)' }),
+    animate(
+      '220ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateY(0)' })
+    ),
+  ]),
+  transition(':leave', [
+    animate(
+      '160ms ease-in',
+      style({ opacity: 0, transform: 'translateY(-8px)' })
+    ),
+  ]),
+]);
+
+// 列表展开/收起动画（展开平滑淡入；收起由 @if 直接移除）
+export const ExpandCollapse = trigger('ExpandCollapse', [
+  transition(':enter', [
+    style({ opacity: 0, height: 0 }),
+    animate(
+      '260ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, height: '*' })
+    ),
+  ]),
+]);

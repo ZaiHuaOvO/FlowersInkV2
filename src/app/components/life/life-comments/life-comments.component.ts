@@ -11,23 +11,20 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
 import { EmojiComponent } from '../../website/emoji/emoji.component';
 import { SimpleCaptchaComponent } from '../../website/simple-captcha/simple-captcha.component';
-import { BlogService } from '../../../pages/blog/blog.service';
+import { LifeService } from '../../../pages/life/life.service';
 import { ApiLimiterService } from '../../../services/api-limiter.service';
 import { GeneralService } from '../../../services/general.service';
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 import { md5 } from '../../../shared/utils/md5.util';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { FadeSlide } from '../../../common_ui/animations/animation';
+import { FadeSlide, ExpandCollapse } from '../../../common_ui/animations/animation';
 
 type AvatarState = 'none' | 'avatarUrl' | 'gravatar' | 'fallback';
 
@@ -39,9 +36,9 @@ interface CommentFormState {
   content: string;
 }
 
-interface ArticleComment {
+interface LifeComment {
   id: number;
-  blogId: number;
+  lifeId: number;
   parentId: number | null;
   name: string;
   email: string;
@@ -54,7 +51,7 @@ interface ArticleComment {
   _avatar?: AvatarState;
 }
 
-interface CommentNode extends ArticleComment {
+interface CommentNode extends LifeComment {
   children: CommentNode[];
   _depth: number;
 }
@@ -68,11 +65,13 @@ interface ReplyFormState {
   content: string;
 }
 
-const CACHE_KEY = 'article_commenter_info';
+const CACHE_KEY = 'life_commenter_info';
 const ZAIHUA_AVATAR = 'https://api.flowersink.com/img/粉毛猫猫头.jpeg';
+/** 默认内联展示的最新评论条数 */
+const PREVIEW_LIMIT = 3;
 
 @Component({
-  selector: 'flower-article-comments',
+  selector: 'flower-life-comments',
   standalone: true,
   imports: [
     FormsModule,
@@ -80,29 +79,29 @@ const ZAIHUA_AVATAR = 'https://api.flowersink.com/img/粉毛猫猫头.jpeg';
     NzTypographyModule,
     NzInputModule,
     NzSpinModule,
-    NzDividerModule,
-    NzAvatarModule,
     NzTooltipModule,
-    NzButtonModule,
     FlInputDirective,
     FlButtonComponent,
     EmojiComponent,
     SimpleCaptchaComponent,
     DatePipe,
     NgTemplateOutlet,
-    NzIconModule
+    NzIconModule,
   ],
-  templateUrl: './article-comments.component.html',
-  styleUrl: './article-comments.component.css',
-  animations: [FadeSlide],
+  templateUrl: './life-comments.component.html',
+  styleUrl: './life-comments.component.css',
+  animations: [FadeSlide, ExpandCollapse],
 })
-export class ArticleCommentsComponent implements OnInit, OnChanges {
-  /** Expose Math for template use */
-  readonly Math = Math;
-  @Input() blogId!: number;
+export class LifeCommentsComponent implements OnInit, OnChanges {
+  readonly PREVIEW_LIMIT = PREVIEW_LIMIT;
+  @Input() lifeId!: number;
+  /** 已审核评论总数（由父组件从列表接口传入） */
+  @Input() commentCount = 0;
+  /** 是否展开（父组件点击评论数按钮控制）：有评论时控制表单显隐，无评论时控制整个评论区显隐 */
+  @Input() open = false;
 
   /** 原始扁平评论列表 */
-  comments: ArticleComment[] = [];
+  comments: LifeComment[] = [];
 
   /** 树形评论 */
   commentTree: CommentNode[] = [];
@@ -110,8 +109,14 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   loading = false;
   submitting = false;
 
+  /** 是否展开全部评论 */
+  expanded = false;
+
+  /** 评论表单是否展开（默认收起） */
+  formVisible = false;
+
   /** 提交后待审核的静态评论 */
-  pendingComment: ArticleComment | null = null;
+  pendingComment: LifeComment | null = null;
 
   /** 当前展开回复框的评论ID */
   replyTargetId: number | null = null;
@@ -130,18 +135,23 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   captchaComponent?: SimpleCaptchaComponent;
 
   constructor(
-    private readonly blog: BlogService,
+    private readonly life: LifeService,
     private readonly msg: NzMessageService,
     private readonly general: GeneralService,
     private readonly limiter: ApiLimiterService,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['blogId'] && this.blogId != null && this.blogId > 0) {
+    if (changes['lifeId'] && this.lifeId != null && this.lifeId > 0) {
       this.pendingComment = null;
       this.comments = [];
       this.commentTree = [];
+      this.expanded = false;
       this.fetchComments();
+    }
+    if (changes['open']) {
+      // 父组件点击评论数按钮：控制表单/评论区显隐
+      this.formVisible = this.open;
     }
   }
 
@@ -149,36 +159,41 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     this.loadCachedInfo();
   }
 
-  get commentCount(): number {
-    const count = this.comments.length;
-    return count + (this.pendingComment ? 1 : 0);
+  get totalCommentCount(): number {
+    return this.commentCount + (this.pendingComment ? 1 : 0);
   }
 
-  isZaiHua(c: ArticleComment): boolean {
+  /** 是否已有评论（决定虚线和评论列表是否始终显示） */
+  get hasComments(): boolean {
+    return this.commentTree.length > 0 || !!this.pendingComment;
+  }
+
+  /** 无评论时：仅在 open（点击评论数）后显示虚线 + 表单 */
+  get shouldShowPanel(): boolean {
+    return this.hasComments || this.open;
+  }
+
+  isZaiHua(c: LifeComment): boolean {
     return c.isAdminReply === true;
   }
 
-  /** Comment is a locally-rendered pending one (not yet approved) */
-  isPending(c: ArticleComment): boolean {
+  isPending(c: LifeComment): boolean {
     return c.isApproved === false && !c.isAdminReply;
   }
 
-  /** Wrap a raw ArticleComment into a CommentNode for template use */
-  toCommentNode(c: ArticleComment, depth: number): CommentNode {
+  toCommentNode(c: LifeComment, depth: number): CommentNode {
     return { ...c, children: [], _depth: depth };
   }
 
   // ---- 树形构建 ----
 
-  private buildCommentTree(flat: ArticleComment[]): CommentNode[] {
-    // 只处理直接回复文章的顶层评论（parentId === null）以及与它们关联的回复
+  private buildCommentTree(flat: LifeComment[]): CommentNode[] {
     const allComments: CommentNode[] = flat.map((c) => ({
       ...c,
       children: [],
       _depth: 0,
     }));
 
-    // 按 parentId 分组
     const byParent = new Map<number | null, CommentNode[]>();
     for (const c of allComments) {
       const key = c.parentId;
@@ -188,7 +203,6 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
       byParent.get(key)!.push(c);
     }
 
-    // 递归构建树
     const buildChildren = (parent: CommentNode, depth: number) => {
       const children = byParent.get(parent.id) ?? [];
       for (const child of children) {
@@ -198,7 +212,6 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
       }
     };
 
-    // 顶层 = parentId === null
     const roots = byParent.get(null) ?? [];
     for (const root of roots) {
       root._depth = 0;
@@ -210,9 +223,9 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
 
   // ---- Avatar state machine ----
 
-  getAvatarState(c: ArticleComment): AvatarState {
+  getAvatarState(c: LifeComment): AvatarState {
     if (c.isAdminReply) {
-      return 'avatarUrl'; // 再花固定使用头像URL
+      return 'avatarUrl';
     }
     if (!c._avatar) {
       if (c.avatarUrl) {
@@ -226,11 +239,10 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     return c._avatar;
   }
 
-  getAvatarUrl(c: ArticleComment): string | null {
+  getAvatarUrl(c: LifeComment): string | null {
     if (c.isAdminReply) {
       return ZAIHUA_AVATAR;
     }
-    // pending comments: only show avatar if a custom URL was explicitly set
     const state = this.getAvatarState(c);
     if (state === 'avatarUrl' && c.avatarUrl) {
       return c.avatarUrl;
@@ -243,14 +255,14 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   }
 
   /** For pending comments without an explicit avatarUrl, skip gravatar entirely */
-  getPendingAvatarUrl(c: ArticleComment): string | null {
+  getPendingAvatarUrl(c: LifeComment): string | null {
     if (c.isAdminReply) return ZAIHUA_AVATAR;
     if (c.avatarUrl) return c.avatarUrl;
     return null;
   }
 
-  onAvatarError(c: ArticleComment): void {
-    if (c.isAdminReply) return; // 再花头像不会失败
+  onAvatarError(c: LifeComment): void {
+    if (c.isAdminReply) return;
     const state = this.getAvatarState(c);
     if (state === 'avatarUrl' && c.email) {
       c._avatar = 'gravatar';
@@ -259,17 +271,17 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     }
   }
 
-  getAvatarInitial(c: ArticleComment): string {
+  getAvatarInitial(c: LifeComment): string {
     return (c.name || '?').charAt(0).toUpperCase();
   }
 
   // ---- Display helpers ----
 
-  getDisplayName(c: ArticleComment): string {
+  getDisplayName(c: LifeComment): string {
     return c.name || '匿名';
   }
 
-  getDisplayWebsite(c: ArticleComment): string {
+  getDisplayWebsite(c: LifeComment): string {
     if (!c.website) return '';
     let url = c.website;
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
@@ -289,6 +301,28 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     if (diffSec < 86400) return `${Math.floor(diffSec / 3600)} 小时前`;
     if (diffSec < 2592000) return `${Math.floor(diffSec / 86400)} 天前`;
     return `${Math.floor(diffSec / 2592000)} 个月前`;
+  }
+
+  // ---- 展开/收起 ----
+
+  /** 展开全部评论（一次性，不可收起） */
+  toggleExpanded(): void {
+    this.expanded = true;
+  }
+
+  /** 是否显示"展开全部评论"按钮：收起态且主评论（顶层）数量超过 PREVIEW_LIMIT 条 */
+  get hasMore(): boolean {
+    return !this.expanded && this.commentTree.length > PREVIEW_LIMIT;
+  }
+
+  /** 展示用的评论树：始终只展示前 PREVIEW_LIMIT 条顶层评论 */
+  get visibleTree(): CommentNode[] {
+    return this.commentTree.slice(0, PREVIEW_LIMIT);
+  }
+
+  /** 超出前 PREVIEW_LIMIT 条的顶层评论（展开时通过动画展示） */
+  get extraTree(): CommentNode[] {
+    return this.commentTree.slice(PREVIEW_LIMIT);
   }
 
   // ---- 主评论提交 ----
@@ -330,7 +364,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
       return;
     }
 
-    const cooldownMessage = this.limiter.canCallApi('article-comment');
+    const cooldownMessage = this.limiter.canCallApi('life-comment');
     if (cooldownMessage) {
       this.msg.info(`刚发过一次啦，${cooldownMessage} 秒后再来试试吧 (＞＜)`);
       return;
@@ -338,7 +372,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
 
     this.submitting = true;
 
-    this.blog.createArticleComment(String(this.blogId), {
+    this.life.createLifeComment(this.lifeId, {
       content: this.form.content,
       name: this.form.name || undefined,
       email: this.form.email || undefined,
@@ -349,7 +383,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
       next: () => {
         this.pendingComment = {
           id: Date.now(),
-          blogId: this.blogId,
+          lifeId: this.lifeId,
           parentId: null,
           name: this.form.name || '匿名',
           email: this.form.email || '',
@@ -363,7 +397,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
         this.msg.success('评论提交成功！评论将在审核通过后展示 ✨');
         this.form.content = '';
         this.captchaComponent?.refresh();
-        this.limiter.markApiCall('article-comment');
+        this.limiter.markApiCall('life-comment');
         this.cacheFormInfo();
         this.submitting = false;
       },
@@ -384,12 +418,11 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   // ---- 回复功能 ----
 
   /** 切换回复框 */
-  toggleReply(comment: ArticleComment): void {
+  toggleReply(comment: LifeComment): void {
     if (this.replyTargetId === comment.id) {
       this.cancelReply();
     } else {
       this.replyTargetId = comment.id;
-      // 预填当前用户信息
       this.replyForm = {
         name: this.form.name || '',
         email: this.form.email || '',
@@ -409,7 +442,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     this.replyForm.content += emoji;
   }
 
-  submitReply(parentComment: ArticleComment): void {
+  submitReply(parentComment: LifeComment): void {
     if (!this.general.isNotEmpty(this.replyForm.name)) {
       this.msg.info('先留下名字吧 (｡･ω･｡)');
       return;
@@ -427,7 +460,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
 
     this.replySubmitting = true;
 
-    this.blog.createArticleComment(String(this.blogId), {
+    this.life.createLifeComment(this.lifeId, {
       content: this.replyForm.content.trim(),
       name: this.replyForm.name || '匿名',
       email: this.replyForm.email || undefined,
@@ -435,10 +468,9 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
       parentId: parentComment.id,
     }).subscribe({
       next: () => {
-        // 添加一条待审核的回复
         this.pendingReply = {
           id: Date.now(),
-          blogId: this.blogId,
+          lifeId: this.lifeId,
           parentId: parentComment.id,
           name: this.replyForm.name || '匿名',
           email: this.replyForm.email || '',
@@ -462,13 +494,13 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   }
 
   /** 待审核的回复（静态展示） */
-  pendingReply: ArticleComment | null = null;
+  pendingReply: LifeComment | null = null;
 
   // ---- Data fetching ----
 
   private fetchComments(): void {
     this.loading = true;
-    this.blog.getArticleComments(String(this.blogId)).subscribe({
+    this.life.getLifeComments(this.lifeId).subscribe({
       next: (res: any) => {
         const raw = res?.data;
         this.comments = Array.isArray(raw) ? raw : (raw?.data ?? []);
@@ -510,7 +542,6 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   /** 获取某评论的子评论（包括待审核回复） */
   getChildren(node: CommentNode): CommentNode[] {
     const children = [...node.children];
-    // 如果有待审核回复指向这个节点，附加显示
     if (this.pendingReply && this.pendingReply.parentId === node.id) {
       children.push({
         ...this.pendingReply,

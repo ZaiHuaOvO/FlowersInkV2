@@ -87,21 +87,35 @@
                 }
                 <footer class="timeline-card-meta">
                   <span class="card-time">{{ item.dateText }}</span>
-                  <button
-                    type="button"
-                    class="like-btn"
-                    [class.like-btn--liked]="isLiked(item)"
-                    [class.like-btn--animate]="isAnimating(item)"
-                    (click)="toggleLike(item, $event)"
-                    [attr.aria-label]="isLiked(item) ? '已点赞' : '点赞'"
-                  >
-                    <span nz-icon
-                      nzType="heart"
-                      [nzTheme]="isLiked(item) ? 'fill' : 'outline'"
-                    ></span>
-                    <span class="like-count">{{ getLikeCount(item) }}</span>
-                  </button>
+                  <div class="card-meta-actions" nz-flex nzAlign="center" nzGap="small">
+                    <button
+                      type="button"
+                      class="comment-btn"
+                      [class.comment-btn--active]="isCommentOpen(item)"
+                      (click)="toggleComments(item)"
+                      [attr.aria-label]="isCommentOpen(item) ? '收起评论' : '查看评论'"
+                    >
+                      <span nz-icon nzType="message" nzTheme="outline"></span>
+                      <span class="comment-count">{{ item.commentCount }}</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="like-btn"
+                      [class.like-btn--liked]="isLiked(item)"
+                      [class.like-btn--animate]="isAnimating(item)"
+                      (click)="toggleLike(item, $event)"
+                      [attr.aria-label]="isLiked(item) ? '已点赞' : '点赞'"
+                    >
+                      <span nz-icon
+                        nzType="heart"
+                        [nzTheme]="isLiked(item) ? 'fill' : 'outline'"
+                      ></span>
+                      <span class="like-count">{{ getLikeCount(item) }}</span>
+                    </button>
+                  </div>
                 </footer>
+
+                <flower-life-comments [lifeId]="item.id" [commentCount]="item.commentCount" [open]="isCommentOpen(item)"></flower-life-comments>
               </article>
             </article>
             }

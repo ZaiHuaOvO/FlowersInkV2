@@ -1,0 +1,191 @@
+<div class="life-comments" [class.lc-hidden]="!shouldShowPanel">
+  <!-- 无评论时：默认隐藏整个评论区，点击评论数后才显示虚线 + 表单 -->
+  @if (shouldShowPanel) {
+  <!-- ════ 评论表单（点击评论数后打开） ════ -->
+  @if (formVisible) {
+  <div class="lc-form-card" @FadeSlide>
+    <div class="lc-form" nz-flex nzVertical nzGap="small">
+      <div class="lc-form-row">
+        <label class="lc-field">
+          <span class="lc-field-label">名称 <span class="lc-required">*</span></span>
+          <input nz-input flInput placeholder="" [(ngModel)]="form.name" [disabled]="submitting" maxlength="50" />
+        </label>
+        <label class="lc-field">
+          <span class="lc-field-label">邮箱(可选)</span>
+          <input nz-input flInput placeholder="" [(ngModel)]="form.email" [disabled]="submitting" maxlength="255" />
+        </label>
+      </div>
+      <div class="lc-form-row">
+        <label class="lc-field">
+          <span class="lc-field-label">网站(可选)</span>
+          <input nz-input flInput placeholder="" [(ngModel)]="form.website" [disabled]="submitting" maxlength="255" />
+        </label>
+        <label class="lc-field">
+          <span class="lc-field-label">头像(可选,图片地址)</span>
+          <input nz-input flInput placeholder="" [(ngModel)]="form.avatarUrl" [disabled]="submitting" maxlength="500" />
+        </label>
+      </div>
+      <textarea nz-input flInput class="lc-textarea" rows="3" placeholder="写下你的想法吧 (๑•̀ㅂ•́)و✧"
+        [(ngModel)]="form.content" [disabled]="submitting" maxlength="500"></textarea>
+      <div class="lc-form-actions" nz-flex nzAlign="center" nzJustify="space-between">
+        <flower-emoji (emojiSelected)="onEmojiSelected($event)"></flower-emoji>
+        <div nz-flex nzAlign="center" nzGap="middle">
+          <flower-simple-captcha scene="life-comment" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+          <fl-button [disabled]="submitting" (click)="submit()">
+            {{ submitting ? '提交中...' : '发布' }}
+          </fl-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- ════ 评论列表 ════ -->
+  <nz-spin [nzSpinning]="loading">
+    <div class="lc-list" nz-flex nzVertical>
+      <!-- 待审核的顶层评论 -->
+      @if (pendingComment) {
+      <ng-template [ngTemplateOutlet]="commentCardTmpl"
+        [ngTemplateOutletContext]="{ $implicit: toCommentNode(pendingComment, 0) }">
+      </ng-template>
+      }
+
+      <!-- 评论树（始终显示前 3 条） -->
+      @for (node of visibleTree; track node.id) {
+      <ng-template [ngTemplateOutlet]="commentNodeTmpl" [ngTemplateOutletContext]="{ $implicit: node }">
+      </ng-template>
+      }
+
+      <!-- 超出 3 条的评论：展开时通过动画平滑出现 -->
+      @if (expanded) {
+      <div class="lc-extras" [@ExpandCollapse]="expanded ? 'expanded' : 'collapsed'">
+        @for (node of extraTree; track node.id) {
+        <ng-template [ngTemplateOutlet]="commentNodeTmpl" [ngTemplateOutletContext]="{ $implicit: node }">
+        </ng-template>
+        }
+      </div>
+      }
+
+      <!-- 展开全部评论（点击后一次性展开，按钮随即隐藏） -->
+      @if (hasMore) {
+      <div class="lc-more-row" nz-flex nzJustify="center">
+        <button type="button" class="lc-more-btn" (click)="toggleExpanded()" @FadeSlide>
+          展开全部评论
+        </button>
+      </div>
+      }
+    </div>
+  </nz-spin>
+  }
+</div>
+
+<!-- ════ 评论节点模板（递归） ════ -->
+<ng-template #commentNodeTmpl let-node>
+  <ng-template [ngTemplateOutlet]="commentCardTmpl" [ngTemplateOutletContext]="{ $implicit: node }">
+  </ng-template>
+  <!-- 子评论 — 纯缩进，无竖线 -->
+  @if (getChildren(node).length > 0) {
+  <div class="lc-nested-replies" [style.margin-left.px]="20">
+    @for (child of getChildren(node); track child.id) {
+    <ng-template [ngTemplateOutlet]="commentNodeTmpl" [ngTemplateOutletContext]="{ $implicit: child }">
+    </ng-template>
+    }
+  </div>
+  }
+</ng-template>
+
+<!-- ════ 评论卡片模板 ════ -->
+<ng-template #commentCardTmpl let-comment>
+  <div class="lc-comment-card" [class.lc-comment-card--top]="comment._depth === 0"
+    [class.lc-comment-card--pending]="isPending(comment)"
+    [class.lc-comment-card--zaihua]="isZaiHua(comment) && !isPending(comment)">
+    <div class="lc-comment-body" nz-flex nzGap="small" nzAlign="start">
+      <!-- 头像 -->
+      <div class="lc-avatar-col">
+        <div class="lc-avatar-wrap">
+          @if (isPending(comment) ? getPendingAvatarUrl(comment) : getAvatarUrl(comment); as avatarUrl) {
+          <img class="lc-avatar" [src]="avatarUrl" [alt]="getDisplayName(comment)" width="28" height="28"
+            (error)="onAvatarError(comment)" />
+          } @else {
+          <span class="lc-avatar-fallback">{{ getAvatarInitial(comment) }}</span>
+          }
+        </div>
+      </div>
+
+      <!-- 评论主体 -->
+      <div class="lc-main" nz-flex nzVertical nzGap="small">
+        <!-- 头部：名字 + 徽章 + 时间 -->
+        <div class="lc-header" nz-flex nzAlign="center" nzGap="small">
+          @if (getDisplayWebsite(comment) && !isZaiHua(comment)) {
+          <a class="lc-name lc-name--link" [href]="getDisplayWebsite(comment)" target="_blank"
+            rel="noopener noreferrer">{{ getDisplayName(comment) }}</a>
+          } @else {
+          <span class="lc-name" [class.lc-name--zaihua]="isZaiHua(comment)">
+            {{ getDisplayName(comment) }}
+          </span>
+          }
+
+          @if (isZaiHua(comment)) {
+          <span class="lc-zaihua-badge">猫猫头</span>
+          } @else if (isPending(comment)) {
+          <span class="lc-pending-badge">
+            <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+            待审核
+          </span>
+          }
+
+          <span class="lc-time" nz-tooltip [nzTooltipTitle]="comment.createDate | date:'yyyy-MM-dd HH:mm:ss'">
+            {{ getRelativeTime(comment.createDate) }}
+          </span>
+
+          <!-- 回复按钮 — 仅再花评论，与名字/徽章/时间同一行垂直居中 -->
+          @if (!isPending(comment) && isZaiHua(comment)) {
+          @if (replyTargetId !== comment.id) {
+          <button class="lc-reply-btn" (click)="toggleReply(comment)">回复</button>
+          } @else {
+          <button class="lc-reply-btn is-active" (click)="cancelReply()">取消回复</button>
+          }
+          }
+        </div>
+
+        <!-- 评论内容 -->
+        <div class="lc-content">{{ comment.content }}</div>
+
+        <!-- 内联回复框 -->
+        @if (replyTargetId === comment.id) {
+        <div class="lc-inline-reply" @FadeSlide>
+          <div class="lc-reply-to-label">
+            回复 <strong>{{ getDisplayName(comment) }}</strong>：
+          </div>
+          <div class="lc-inline-form" nz-flex nzVertical nzGap="small">
+            <div class="lc-reply-row" nz-flex nzGap="small">
+              <input nz-input flInput class="lc-reply-input--name" placeholder="你的名字 *" [(ngModel)]="replyForm.name"
+                maxlength="50" />
+              <input nz-input flInput class="lc-reply-input--email" placeholder="邮箱（可选）" [(ngModel)]="replyForm.email"
+                maxlength="255" />
+            </div>
+            <div class="lc-reply-row" nz-flex nzGap="small">
+              <input nz-input flInput class="lc-reply-input--website" placeholder="网站（可选）" [(ngModel)]="replyForm.website"
+                maxlength="255" />
+              <input nz-input flInput class="lc-reply-input--avatar" placeholder="头像链接（可选）"
+                [(ngModel)]="replyForm.avatarUrl" maxlength="500" />
+            </div>
+            <textarea nz-input flInput rows="2" placeholder="写下你的回复..." [(ngModel)]="replyForm.content"
+              maxlength="500"></textarea>
+            <div nz-flex nzJustify="space-between" nzAlign="center">
+              <flower-emoji (emojiSelected)="onReplyEmojiSelected($event)"></flower-emoji>
+              <div nz-flex nzGap="small" nzAlign="center">
+                <button class="lc-reply-cancel" (click)="cancelReply()">取消</button>
+                <fl-button [disabled]="!replyForm.content.trim() || !replyForm.name.trim() || replySubmitting"
+                  (click)="submitReply(comment)">
+                  {{ replySubmitting ? '提交中...' : '回复' }}
+                </fl-button>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</ng-template>

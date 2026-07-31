@@ -450,6 +450,52 @@ h4 {
   color: var(--fi-text-muted);
 }
 
+/* ── 卡片 meta 右侧操作区（评论数 + 点赞） ── */
+.card-meta-actions {
+  flex-shrink: 0;
+}
+
+/* ── 评论数按钮（点赞左侧） ── */
+.comment-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  color: var(--fi-text-muted);
+  font-family: var(--fi-font-base);
+  font-size: 15px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 999px;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+              transform var(--fi-motion-fast) var(--fi-ease-standard),
+              background var(--fi-motion-fast) var(--fi-ease-standard);
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.comment-btn:hover {
+  color: var(--fi-primary);
+  background: var(--fi-primary-outline);
+}
+
+.comment-btn:active {
+  transform: scale(0.92);
+}
+
+.comment-btn--active {
+  color: var(--fi-primary);
+}
+
+.comment-count {
+  font-weight: 650;
+  font-size: 13px;
+  min-width: 18px;
+  text-align: center;
+}
+
 /* ── Like button ── */
 .like-btn {
   display: inline-flex;

@@ -1,6 +1,5 @@
 <div class="article-comments">
   <h3 nz-typography class="comments-title">
-    <span class="comments-title-icon">💬</span>
     评论 ({{ commentCount }})
   </h3>
 
@@ -84,12 +83,14 @@
   <ng-template [ngTemplateOutlet]="commentCardTmpl" [ngTemplateOutletContext]="{ $implicit: node }">
   </ng-template>
   <!-- 子评论 — 纯缩进，无竖线 -->
+  @if (getChildren(node).length > 0) {
   <div class="nested-replies" [style.margin-left.px]="32">
     @for (child of getChildren(node); track child.id) {
     <ng-template [ngTemplateOutlet]="commentNodeTmpl" [ngTemplateOutletContext]="{ $implicit: child }">
     </ng-template>
     }
   </div>
+  }
 </ng-template>
 
 <!-- ════ 评论卡片模板 ════ -->
@@ -135,25 +136,23 @@
           <span class="comment-time" nz-tooltip [nzTooltipTitle]="comment.createDate | date:'yyyy-MM-dd HH:mm:ss'">
             {{ getRelativeTime(comment.createDate) }}
           </span>
-        </div>
 
-        <!-- 评论内容 -->
-        <div class="comment-content" nz-typography>{{ comment.content }}</div>
-
-        <!-- 回复按钮 — 仅再花评论，放在文本下方 -->
-        @if (!isPending(comment) && isZaiHua(comment)) {
-        <div class="comment-actions">
+          <!-- 回复按钮 — 仅再花评论，与名字/徽章/时间同一行垂直居中 -->
+          @if (!isPending(comment) && isZaiHua(comment)) {
           @if (replyTargetId !== comment.id) {
           <button class="reply-text-btn" (click)="toggleReply(comment)">回复</button>
           } @else {
           <button class="reply-text-btn is-active" (click)="cancelReply()">取消回复</button>
           }
+          }
         </div>
-        }
+
+        <!-- 评论内容 -->
+        <div class="comment-content" nz-typography>{{ comment.content }}</div>
 
         <!-- 内联回复框 -->
         @if (replyTargetId === comment.id) {
-        <div class="inline-reply-card" flCard>
+        <div class="inline-reply-card" flCard @FadeSlide>
           <div class="inline-reply-header" nz-flex nzAlign="center" nzGap="small">
             <span class="reply-to-label">
               回复 <strong>{{ getDisplayName(comment) }}</strong>：

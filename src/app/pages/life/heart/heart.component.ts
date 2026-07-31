@@ -22,6 +22,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { NodataComponent } from '../../../components/website/nodata/nodata.component';
+import { LifeCommentsComponent } from '../../../components/life/life-comments/life-comments.component';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { QuickUp, RefreshUp } from '../../../common_ui/animations/animation';
@@ -47,6 +48,7 @@ interface LifeTimelineItem {
   primaryTag: string;
   images: LifeImageAsset[];
   likes: number;
+  commentCount: number;
 }
 
 interface TimelineSection {
@@ -76,6 +78,7 @@ interface YearNavigator {
     NzImageModule,
     BlogTitleComponent,
     NodataComponent,
+    LifeCommentsComponent,
     FlCardDirective,
     FlTagDirective,
   ],
@@ -107,6 +110,8 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   animatingItems = new Set<number>();
   /** Local like cache: id -> likes count */
   localLikeCounts = new Map<number, number>();
+  /** 已点击评论数按钮展开的点滴 id 集合（控制表单/评论区显隐） */
+  commentOpenItems = new Set<number>();
 
   readonly loadingMessages = [
     '正在翻找再花的日记本...',
@@ -292,6 +297,22 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
         this.localLikeCounts.set(item.id, currentCount);
       },
     });
+  }
+
+  /** 该条点滴的评论表单/评论区是否展开 */
+  isCommentOpen(item: LifeTimelineItem): boolean {
+    return this.commentOpenItems.has(item.id);
+  }
+
+  /** 点击评论数按钮：切换该条点滴的评论表单/评论区展开状态（不可变更新 Set） */
+  toggleComments(item: LifeTimelineItem): void {
+    const next = new Set(this.commentOpenItems);
+    if (next.has(item.id)) {
+      next.delete(item.id);
+    } else {
+      next.add(item.id);
+    }
+    this.commentOpenItems = next;
   }
 
   private triggerLikeAnimation(item: LifeTimelineItem): void {
@@ -545,6 +566,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
       primaryTag: tags[0] ?? '',
       images,
       likes: Number(item?.likes ?? 0),
+      commentCount: Number(item?.commentCount ?? 0),
     };
   }
 
