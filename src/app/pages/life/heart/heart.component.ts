@@ -13,10 +13,12 @@ import {
 } from '@angular/core';
 import { DatePipe, isPlatformBrowser, NgClass } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
@@ -28,6 +30,8 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
 import { QuickUp, RefreshUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { LifeService } from '../life.service';
+import { LifeUiStateService } from '../life-ui-state.service';
+import { LifeDialogComponent } from './life-dialog/life-dialog.component';
 import { inferOriginalImageUrl } from '../../../shared/utils/image-url.util';
 
 type LifeCategory = '美食' | '日常' | '游戏' | '摘抄' | '';
@@ -76,6 +80,7 @@ interface YearNavigator {
     NzTypographyModule,
     NzTagModule,
     NzImageModule,
+    NzModalModule,
     BlogTitleComponent,
     NodataComponent,
     LifeCommentsComponent,
@@ -104,14 +109,14 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   isAffixDisabled = true;
   mobileNavVisible = false;
 
-  /** Set of lifecycle IDs that have been liked in the current day session */
-  likedItems = new Set<number>();
   /** Track which items are animating */
   animatingItems = new Set<number>();
-  /** Local like cache: id -> likes count */
-  localLikeCounts = new Map<number, number>();
-  /** 已点击评论数按钮展开的点滴 id 集合（控制表单/评论区显隐） */
-  commentOpenItems = new Set<number>();
+  /** 详情弹窗实例引用（用于关闭后同步路由） */
+  private detailModalRef: any = null;
+  /** 当前弹窗展示的点滴 id */
+  private activeDetailId: number | null = null;
+  /** 防止路由订阅与点击事件竞态导致重复打开 */
+  private detailOpening = false;
 
   readonly loadingMessages = [
     '正在翻找再花的日记本...',
@@ -127,6 +132,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly imageService = inject(NzImageService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly uiState = inject(LifeUiStateService);
   private allSections: TimelineSection[] = [];
 
   selectedTag: LifeCategory = '';
@@ -145,6 +151,9 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private readonly lifeService: LifeService,
     private readonly windowService: WindowService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly modal: NzModalService,
   ) {
     this.windowService.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
@@ -153,8 +162,23 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.pickLoadingMessage();
-    this.fetchTimeline();
     this.loadLikeState();
+    this.fetchTimeline();
+
+    // 路由绑定：/life/:id 时自动打开对应详情弹窗（唯一打开入口）
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        const id = params.get('id');
+        if (id && Number(id) > 0) {
+          this.openDetailById(Number(id));
+        } else {
+          this.detailModalRef?.close();
+          this.detailModalRef = null;
+          this.detailOpening = false;
+          this.activeDetailId = null;
+        }
+      });
   }
 
   ngAfterViewInit(): void {
@@ -253,11 +277,11 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getLikeCount(item: LifeTimelineItem): number {
-    return this.localLikeCounts.get(item.id) ?? (item.likes || 0);
+    return this.uiState.getLikeCount(item.id);
   }
 
   isLiked(item: LifeTimelineItem): boolean {
-    return this.likedItems.has(item.id);
+    return this.uiState.isLiked(item.id);
   }
 
   isAnimating(item: LifeTimelineItem): boolean {
@@ -275,44 +299,37 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     this.triggerLikeAnimation(item);
 
     // If already liked, skip API call; always play animation
-    if (this.likedItems.has(item.id)) {
+    if (this.uiState.isLiked(item.id)) {
       return;
     }
 
     // Optimistic UI update
-    this.likedItems.add(item.id);
+    const currentCount = this.uiState.getLikeCount(item.id);
+    this.uiState.markLiked(item.id, currentCount + 1);
     this.saveLikeState();
-    const currentCount = this.getLikeCount(item);
-    this.localLikeCounts.set(item.id, currentCount + 1);
 
     this.lifeService.likeLife(item.id).subscribe({
       next: (res: any) => {
         const data = res?.data ?? res;
-        this.localLikeCounts.set(item.id, Number(data?.likes ?? currentCount + 1));
+        this.uiState.markLiked(item.id, Number(data?.likes ?? currentCount + 1));
       },
       error: () => {
         // Revert optimistic update on error
-        this.likedItems.delete(item.id);
+        this.uiState.revertLike(item.id, currentCount);
         this.saveLikeState();
-        this.localLikeCounts.set(item.id, currentCount);
       },
     });
   }
 
   /** 该条点滴的评论表单/评论区是否展开 */
   isCommentOpen(item: LifeTimelineItem): boolean {
-    return this.commentOpenItems.has(item.id);
+    return this.uiState.isCommentOpen(item.id);
   }
 
-  /** 点击评论数按钮：切换该条点滴的评论表单/评论区展开状态（不可变更新 Set） */
-  toggleComments(item: LifeTimelineItem): void {
-    const next = new Set(this.commentOpenItems);
-    if (next.has(item.id)) {
-      next.delete(item.id);
-    } else {
-      next.add(item.id);
-    }
-    this.commentOpenItems = next;
+  /** 点击评论数按钮：切换该条点滴的评论表单/评论区展开状态 */
+  toggleComments(event: MouseEvent, item: LifeTimelineItem): void {
+    event.stopPropagation();
+    this.uiState.toggleCommentOpen(item.id);
   }
 
   private triggerLikeAnimation(item: LifeTimelineItem): void {
@@ -331,7 +348,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
       if (stored) {
         const data = JSON.parse(stored);
         if (data.dateKey === this.getTodayKey() && Array.isArray(data.ids)) {
-          this.likedItems = new Set(data.ids);
+          this.uiState.restoreLikedIds(data.ids);
         } else {
           localStorage.removeItem('fi_life_likes');
         }
@@ -350,7 +367,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
         'fi_life_likes',
         JSON.stringify({
           dateKey: this.getTodayKey(),
-          ids: [...this.likedItems],
+          ids: this.uiState.getLikedIds(),
         }),
       );
     } catch {
@@ -418,6 +435,92 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  // ---- 详情弹窗 ----
+
+  /** 点击卡片：同步路由为 /life/:id，由 paramMap 订阅统一打开弹窗（唯一入口，避免重复） */
+  openDetailDialog(item: LifeTimelineItem, event?: MouseEvent): void {
+    event?.stopPropagation();
+    this.router.navigate(['/life', item.id], { replaceUrl: true });
+  }
+
+  /** 打开详情弹窗（仅由路由 paramMap 触发，避免点击/直达双入口重复打开） */
+  openDetailById(id: number): void {
+    // 已打开同一条弹窗则跳过（路由订阅可能重复 emit）
+    if (this.detailModalRef && this.activeDetailId === id) {
+      return;
+    }
+    if (this.detailOpening) {
+      return;
+    }
+    this.detailOpening = true;
+    this.activeDetailId = id;
+
+    // 优先从已加载列表数据中取；未加载则走详情接口
+    const found = this.allSections
+      .flatMap((s) => s.items)
+      .find((item) => item.id === id);
+
+    if (found) {
+      this.uiState.initLikeCount(found.id, found.likes);
+      this.showDetailModal(found);
+    } else {
+      this.lifeService.getLifeDetail(id).subscribe({
+        next: (res: any) => {
+          const item = this.normalizeLifeItem(res?.data ?? res);
+          this.uiState.initLikeCount(item.id, item.likes);
+          this.showDetailModal(item);
+        },
+        error: () => {
+          // 详情拉取失败（如不存在），回退到 /life
+          this.detailOpening = false;
+          this.activeDetailId = null;
+          this.router.navigate(['/life'], { replaceUrl: true });
+        },
+      });
+    }
+  }
+
+  private showDetailModal(item: LifeTimelineItem): void {
+    this.detailModalRef = this.modal.create({
+      nzContent: LifeDialogComponent,
+      nzData: item,
+      nzFooter: null,
+      nzWidth: 'min(720px, 92vw)',
+      nzClosable: false,
+      nzMaskClosable: true,
+      nzWrapClassName: 'life-detail-modal-wrap',
+      // 顶部对齐（初次加载显示在页面顶部），卡片完整高度由 wrap 滚动浏览
+      nzStyle: { top: 0 },
+      // 关闭自动聚焦：默认 nzAutofocus='auto' 会把焦点移到卡片中部的
+      // 评论/点赞按钮，触发 wrap 自动滚动到中部，导致"顶部→中部→顶部"闪烁
+      nzAutofocus: null,
+    });
+    // 打开后重置滚动位置到顶部（确保看到卡片开头）
+    this.detailModalRef.afterOpen.subscribe(() => this.resetDetailScroll());
+    // 关闭弹窗时同步路由回 /life
+    this.detailModalRef.afterClose.subscribe(() => {
+      this.detailOpening = false;
+      this.detailModalRef = null;
+      this.activeDetailId = null;
+      this.router.navigate(['/life'], { replaceUrl: true });
+    });
+  }
+
+  /** 打开弹窗后确保定位在顶部：
+   *  已禁用 modal 自动聚焦（nzAutofocus: null），此处仅兜底归零 wrap 滚动，
+   *  避免残留的滚动位置 */
+  private resetDetailScroll(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    const wrap = document.querySelector('.life-detail-modal-wrap') as HTMLElement | null;
+    if (!wrap) {
+      return;
+    }
+    wrap.scrollTop = 0;
+  }
+
   private fetchTimeline(): void {
     this.loading = true;
     this.pickLoadingMessage();
@@ -439,7 +542,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
         // Initialize local like counts from data
         normalized.forEach((item: LifeTimelineItem) => {
-          this.localLikeCounts.set(item.id, item.likes);
+          this.uiState.initLikeCount(item.id, item.likes);
         });
 
         this.applyFilterAndNavigator();

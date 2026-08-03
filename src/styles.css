@@ -15,6 +15,33 @@ body {
   background: #fff8f3;
 }
 
+/* ── 点滴详情弹窗：透明背景，只展示点滴卡片本身 ── */
+.life-detail-modal-wrap {
+  /* 顶部对齐（初次加载显示在页面顶部），完整卡片由 wrap 滚动浏览 */
+  align-items: flex-start;
+  overflow-y: auto;
+}
+
+/* 缩放动画以弹窗顶部为原点展开，避免打开时定位到弹窗中部 */
+.life-detail-modal-wrap .ant-modal {
+  transform-origin: 50% 0 !important;
+}
+
+.life-detail-modal-wrap .ant-modal-content {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.life-detail-modal-wrap .ant-modal-body {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.life-detail-modal-wrap .ant-modal-close {
+  display: none !important;
+}
+
 /* ── 自定义滚动条，防止宽度抖动 ── */
 
 /* 预留滚动条空间，避免内容抖动 */

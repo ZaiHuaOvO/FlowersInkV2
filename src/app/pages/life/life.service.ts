@@ -26,6 +26,11 @@ export class LifeService {
     return this.http.getCached(API.LIFE_TAG, data, HTTP_CACHE_TTL.LONG);
   }
 
+  /** 点滴详情：接口返回扁平对象 {...life, commentCount}，无 data 包装 */
+  getLifeDetail(id: number): Observable<object> {
+    return this.http.get(API.LIFE + `/${id}`);
+  }
+
   likeLife(id: number): Observable<object> {
     return this.http.post<object>(`${API.LIFE}/${id}/like`, {});
   }

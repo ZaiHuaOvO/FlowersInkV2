@@ -48,7 +48,7 @@
             @for (item of section.items; track trackItem($index, item)) {
             <article class="timeline-row">
               <span class="timeline-dot"></span>
-              <article class="timeline-card" flCard>
+              <article class="timeline-card" flCard (click)="openDetailDialog(item)">
                 <nz-tag flTag class="card-tag card-tag-topright" [ngClass]="getTagClass(item.primaryTag)">
                   {{ item.primaryTag || '未分类' }}
                 </nz-tag>
@@ -92,7 +92,7 @@
                       type="button"
                       class="comment-btn"
                       [class.comment-btn--active]="isCommentOpen(item)"
-                      (click)="toggleComments(item)"
+                      (click)="toggleComments($event, item)"
                       [attr.aria-label]="isCommentOpen(item) ? '收起评论' : '查看评论'"
                     >
                       <span nz-icon nzType="message" nzTheme="outline"></span>
@@ -115,7 +115,7 @@
                   </div>
                 </footer>
 
-                <flower-life-comments [lifeId]="item.id" [commentCount]="item.commentCount" [open]="isCommentOpen(item)"></flower-life-comments>
+                <flower-life-comments [lifeId]="item.id" [commentCount]="item.commentCount" [open]="isCommentOpen(item)" (click)="$event.stopPropagation()"></flower-life-comments>
               </article>
             </article>
             }

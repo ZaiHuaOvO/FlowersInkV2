@@ -95,6 +95,8 @@ export class LifeCommentsComponent implements OnInit, OnChanges {
   @Input() commentCount = 0;
   /** 是否展开（父组件点击评论数按钮控制）：有评论时控制表单显隐，无评论时控制整个评论区显隐 */
   @Input() open = false;
+  /** 是否默认展示全部评论（详情弹窗场景）：true 时无"展开全部评论"按钮 */
+  @Input() showAll = false;
 
   /** 原始扁平评论列表 */
   comments: LifeComment[] = [];
@@ -367,18 +369,28 @@ export class LifeCommentsComponent implements OnInit, OnChanges {
     this.expanded = true;
   }
 
-  /** 是否显示"展开全部评论"按钮：收起态且主评论（顶层）数量超过 PREVIEW_LIMIT 条 */
+  /** 是否显示"展开全部评论"按钮：详情弹窗（showAll）或已展开时不显示 */
   get hasMore(): boolean {
-    return !this.expanded && this.commentTree.length > PREVIEW_LIMIT;
+    return (
+      !this.showAll &&
+      !this.expanded &&
+      this.commentTree.length > PREVIEW_LIMIT
+    );
   }
 
-  /** 展示用的评论树：始终只展示前 PREVIEW_LIMIT 条顶层评论 */
+  /** 展示用的评论树：showAll 或已展开时返回全部，否则只展示前 PREVIEW_LIMIT 条 */
   get visibleTree(): CommentNode[] {
+    if (this.showAll || this.expanded) {
+      return this.commentTree;
+    }
     return this.commentTree.slice(0, PREVIEW_LIMIT);
   }
 
   /** 超出前 PREVIEW_LIMIT 条的顶层评论（展开时通过动画展示） */
   get extraTree(): CommentNode[] {
+    if (this.showAll) {
+      return [];
+    }
     return this.commentTree.slice(PREVIEW_LIMIT);
   }
 
