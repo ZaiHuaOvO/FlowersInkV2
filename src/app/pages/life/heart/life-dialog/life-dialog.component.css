@@ -110,7 +110,7 @@
   margin-top: 14px;
   display: grid;
   gap: 10px;
-  width: 100%;
+  width: min(50%, 560px);
 }
 
 .grid-default-one {
@@ -127,6 +127,7 @@
 
 .grid-game-one {
   grid-template-columns: 1fr;
+  width: min(50%, 560px);
 }
 
 .grid-game-two {
@@ -352,5 +353,13 @@
   .grid-default-three,
   .grid-game-three {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── 图片宽度与列表卡片对齐：桌面 50%，小屏撑满（与 heart.component 同规则） ── */
+@media (max-width: 768px) {
+  .image-grid {
+    width: 100%;
+    max-width: var(--life-main-max-width);
   }
 }

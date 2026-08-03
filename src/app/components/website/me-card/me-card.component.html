@@ -23,7 +23,7 @@
     </a>
     }
     @if (info.profile?.latestLife) {
-    <a nz-typography class="intro-link" [routerLink]="['/life']">
+    <a nz-typography class="intro-link" [routerLink]="latestLifeLink">
       <span class="intro-label">最近点滴:</span> <strong class="fi-primary-text">{{ info.profile?.latestLife }}</strong>
     </a>
     }

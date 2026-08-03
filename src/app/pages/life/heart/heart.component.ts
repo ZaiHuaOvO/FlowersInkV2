@@ -117,6 +117,10 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   private activeDetailId: number | null = null;
   /** 防止路由订阅与点击事件竞态导致重复打开 */
   private detailOpening = false;
+  /** 打开详情弹窗前列表的滚动位置，关闭后恢复 */
+  private savedListScrollY = 0;
+  /** 仅当从列表点击打开弹窗时，关闭后才恢复滚动位置（URL 直达不恢复） */
+  private restoreScrollOnClose = false;
 
   readonly loadingMessages = [
     '正在翻找再花的日记本...',
@@ -440,6 +444,8 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 点击卡片：同步路由为 /life/:id，由 paramMap 订阅统一打开弹窗（唯一入口，避免重复） */
   openDetailDialog(item: LifeTimelineItem, event?: MouseEvent): void {
     event?.stopPropagation();
+    this.savedListScrollY = window.scrollY || window.pageYOffset || 0;
+    this.restoreScrollOnClose = true;
     this.router.navigate(['/life', item.id], { replaceUrl: true });
   }
 
@@ -497,12 +503,23 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     // 打开后重置滚动位置到顶部（确保看到卡片开头）
     this.detailModalRef.afterOpen.subscribe(() => this.resetDetailScroll());
-    // 关闭弹窗时同步路由回 /life
+    // 关闭弹窗时同步 URL 回 /life，并恢复列表滚动位置（无闪烁）
     this.detailModalRef.afterClose.subscribe(() => {
       this.detailOpening = false;
       this.detailModalRef = null;
       this.activeDetailId = null;
-      this.router.navigate(['/life'], { replaceUrl: true });
+      const restoreY = this.restoreScrollOnClose ? this.savedListScrollY : 0;
+      this.restoreScrollOnClose = false;
+      // 等弹窗彻底关闭、CDK 解锁文档后再同步 URL 与滚动位置。
+      // 不用 router.navigate：全局 scrollPositionRestoration:'top' 会在导航完成后
+      // 异步把滚动重置到顶部，导致"先到顶再回原位"的闪烁。
+      // history.replaceState 只同步地址栏，不触发路由导航，滚动不会被打扰。
+      this.waitForModalTeardown(() => {
+        if (isPlatformBrowser(this.platformId) && window.location.pathname !== '/life') {
+          window.history.replaceState({}, '', '/life');
+        }
+        window.scrollTo({ top: restoreY, behavior: 'instant' });
+      });
     });
   }
 
@@ -519,6 +536,27 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     wrap.scrollTop = 0;
+  }
+
+  /**
+   * 等待详情弹窗彻底关闭：modal DOM 已移除，且 CDK 已解除 html 滚动锁。
+   * 期间页面滚动保持不变，随后由调用方执行导航 + 同步恢复滚动（无中间渲染帧）。
+   */
+  private waitForModalTeardown(callback: () => void): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      callback();
+      return;
+    }
+    const html = document.documentElement;
+    const modalGone = !document.querySelector('.life-detail-modal-wrap');
+    const htmlUnlocked =
+      !html.classList.contains('cdk-global-scrollblock') &&
+      !html.getAttribute('style');
+    if (modalGone && htmlUnlocked) {
+      callback();
+      return;
+    }
+    setTimeout(() => this.waitForModalTeardown(callback), 16);
   }
 
   private fetchTimeline(): void {

@@ -15,6 +15,7 @@ export interface MeCardProfile {
   latestUpdateId: number | null;
   latestPlaying: string | null;
   latestLife: string | null;
+  latestLifeId: number | null;
 }
 
 export interface MeCardInfo {
@@ -58,6 +59,12 @@ export class MeCardComponent {
   readonly email = 'ZyZy1724@gmail.com';
   private readonly qqQrCode = 'assets/img/QRCode/qq.png';
   private readonly wechatQrCode = 'assets/img/QRCode/wx.png';
+
+  /** 最近点滴跳转目标：有 ID 跳详情，无 ID（历史数据）回退到点滴列表 */
+  get latestLifeLink(): (string | number)[] {
+    const id = this.info.profile?.latestLifeId;
+    return id ? ['/life', id] : ['/life'];
+  }
 
   constructor(
     private readonly imageService: NzImageService,
