@@ -31,6 +31,104 @@
   margin-bottom: 4px;
 }
 
+/* ── 身份信息卡片（已有缓存身份时替换表单） ── */
+.identity-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 4px;
+}
+
+.identity-avatar-wrap {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.identity-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--fi-border-strong, #d0c0b0);
+  background: var(--fi-bg-container, #fafafa);
+  transition: transform var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.identity-avatar:hover {
+  transform: scale(1.08);
+}
+
+.identity-avatar-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5a2b 0%, #6a411d 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 17px;
+  user-select: none;
+  border: 2px solid var(--fi-border-strong, #d0c0b0);
+}
+
+.identity-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.identity-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.identity-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fi-text-primary, #2f2117);
+}
+
+.identity-name--link {
+  color: var(--fi-primary-active, #6a411d);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.45);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.identity-name--link:hover {
+  opacity: 1;
+  color: var(--fi-primary-hover, #7a4d23);
+  border-bottom-color: var(--fi-primary, #8b5a2b);
+}
+
+.identity-email {
+  font-size: 12px;
+  color: var(--fi-text-muted, #7a6756);
+  word-break: break-all;
+}
+
+.identity-edit-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 8px;
+  font-size: 12px;
+  color: var(--fi-text-muted, #9ca3af);
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.identity-edit-btn:hover {
+  color: var(--fi-primary, #8b5a2b);
+}
+
 .comment-form {
   width: 100%;
 }
@@ -298,21 +396,93 @@
   border-radius: var(--fi-radius-sm, 10px);
 }
 
-.inline-reply-header {
-  margin-bottom: 8px;
-}
-
-.reply-to-label {
-  font-size: 13px;
-  color: var(--fi-text-muted, #7a6756);
-}
-
-.reply-to-label strong {
-  color: var(--fi-text, #2f2117);
-}
-
-.inline-reply-form {
+/* ── 回复框：当前用户身份卡（无卡片样式，同评论区） ── */
+.reply-identity-card {
   width: 100%;
+  padding: 0 0 8px;
+}
+
+.reply-identity-avatar-wrap {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.reply-identity-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--fi-border-strong, #d0c0b0);
+  background: var(--fi-bg-container, #fafafa);
+}
+
+.reply-identity-avatar-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5a2b 0%, #6a411d 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 12px;
+  user-select: none;
+  border: 1px solid var(--fi-border-strong, #d0c0b0);
+}
+
+.reply-identity-name-row {
+  min-width: 0;
+  flex-wrap: wrap;
+  line-height: 1.4;
+}
+
+.reply-identity-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--fi-text-primary, #2f2117);
+}
+
+.reply-identity-name--link {
+  color: var(--fi-primary-active, #6a411d);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.45);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.reply-identity-name--link:hover {
+  opacity: 1;
+  color: var(--fi-primary-hover, #7a4d23);
+  border-bottom-color: var(--fi-primary, #8b5a2b);
+}
+
+.reply-identity-email {
+  font-size: 12px;
+  color: var(--fi-text-muted, #7a6756);
+  word-break: break-all;
+}
+
+.reply-identity-edit-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 4px;
+  font-size: 12px;
+  color: var(--fi-text-muted, #9ca3af);
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.reply-identity-edit-btn:hover {
+  color: var(--fi-primary, #8b5a2b);
+}
+
+/* ── 回复框：当前用户身份表单 ── */
+.reply-identity-form {
+  width: 100%;
+  padding: 0 0 8px;
 }
 
 .reply-form-row {
@@ -354,6 +524,10 @@
   }
 }
 
+.inline-reply-form {
+  width: 100%;
+}
+
 /* ── 回复框取消链接 ── */
 .reply-cancel-link {
   background: none;
@@ -371,7 +545,7 @@
 
 /* ── 嵌套回复（纯缩进，无竖线） ── */
 .nested-replies {
-  width: 100%;
+  width: auto;
 }
 
 /* ── 空状态 ── */

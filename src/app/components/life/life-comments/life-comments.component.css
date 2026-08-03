@@ -38,6 +38,104 @@
   width: 100%;
 }
 
+/* ── 身份信息卡片（已有缓存身份时替换表单） ── */
+.lc-identity-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 4px 2px;
+}
+
+.lc-identity-avatar-wrap {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.lc-identity-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--fi-border-strong, #d0c0b0);
+  background: var(--fi-bg-container, #fafafa);
+  transition: transform var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.lc-identity-avatar:hover {
+  transform: scale(1.08);
+}
+
+.lc-identity-avatar-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5a2b 0%, #6a411d 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 12px;
+  user-select: none;
+  border: 1px solid var(--fi-border-strong, #d0c0b0);
+}
+
+.lc-identity-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.lc-identity-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  line-height: 1.4;
+}
+
+.lc-identity-name {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--fi-text-primary, #2f2117);
+}
+
+.lc-identity-name--link {
+  color: var(--fi-primary-active, #6a411d);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.45);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.lc-identity-name--link:hover {
+  opacity: 1;
+  color: var(--fi-primary-hover, #7a4d23);
+  border-bottom-color: var(--fi-primary, #8b5a2b);
+}
+
+.lc-identity-email {
+  font-size: 11px;
+  color: var(--fi-text-muted, #7a6756);
+  word-break: break-all;
+}
+
+.lc-identity-edit-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 6px;
+  font-size: 11px;
+  color: var(--fi-text-muted, #9ca3af);
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.lc-identity-edit-btn:hover {
+  color: var(--fi-primary, #8b5a2b);
+}
+
 .lc-form-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -282,21 +380,96 @@
   border-radius: var(--fi-radius-sm, 10px);
 }
 
-.lc-reply-to-label {
-  margin-bottom: 6px;
-  font-size: 12px;
-  color: var(--fi-text-muted);
-}
-
-.lc-reply-to-label strong {
-  color: var(--fi-text, #2f2117);
-}
-
-.lc-inline-form {
+/* ── 回复框：当前用户身份卡（无卡片样式，同评论区） ── */
+.lc-reply-identity-card {
   width: 100%;
+  padding: 0 0 6px;
 }
 
-.lc-reply-row {
+.lc-reply-identity-avatar-wrap {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.lc-reply-identity-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--fi-border-strong, #d0c0b0);
+  background: var(--fi-bg-container, #fafafa);
+}
+
+.lc-reply-identity-avatar-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5a2b 0%, #6a411d 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 11px;
+  user-select: none;
+  border: 1px solid var(--fi-border-strong, #d0c0b0);
+}
+
+.lc-reply-identity-name-row {
+  min-width: 0;
+  flex-wrap: wrap;
+  line-height: 1.4;
+}
+
+.lc-reply-identity-name {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--fi-text-primary, #2f2117);
+}
+
+.lc-reply-identity-name--link {
+  color: var(--fi-primary-active, #6a411d);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.45);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.lc-reply-identity-name--link:hover {
+  opacity: 1;
+  color: var(--fi-primary-hover, #7a4d23);
+  border-bottom-color: var(--fi-primary, #8b5a2b);
+}
+
+.lc-reply-identity-email {
+  font-size: 11px;
+  color: var(--fi-text-muted, #7a6756);
+  word-break: break-all;
+}
+
+.lc-reply-identity-edit-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 4px;
+  font-size: 11px;
+  color: var(--fi-text-muted, #9ca3af);
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.lc-reply-identity-edit-btn:hover {
+  color: var(--fi-primary, #8b5a2b);
+}
+
+/* ── 回复框：当前用户身份表单 ── */
+.lc-reply-identity-form {
+  width: 100%;
+  padding: 0 0 6px;
+}
+
+.lc-reply-form-row {
   width: 100%;
   flex-wrap: wrap;
 }
@@ -322,7 +495,7 @@
 }
 
 @media (max-width: 576px) {
-  .lc-reply-row {
+  .lc-reply-form-row {
     flex-direction: column;
   }
 
@@ -333,6 +506,10 @@
     flex: 1 1 auto;
     min-width: 0;
   }
+}
+
+.lc-inline-form {
+  width: 100%;
 }
 
 .lc-reply-cancel {
@@ -351,7 +528,7 @@
 
 /* ── 嵌套回复（纯缩进，无竖线） ── */
 .lc-nested-replies {
-  width: 100%;
+  width: auto;
 }
 
 /* ── 展开/收起全部 ── */

@@ -25,6 +25,7 @@ import { ApiLimiterService } from '../../../services/api-limiter.service';
 import { GeneralService } from '../../../services/general.service';
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 import { md5 } from '../../../shared/utils/md5.util';
+import { loadCommenterInfo, saveCommenterInfo } from '../../../shared/utils/commenter-info.util';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FadeSlide } from '../../../common_ui/animations/animation';
@@ -61,14 +62,9 @@ interface CommentNode extends ArticleComment {
 
 /** 回复框状态 */
 interface ReplyFormState {
-  name: string;
-  email: string;
-  website: string;
-  avatarUrl: string;
   content: string;
 }
 
-const CACHE_KEY = 'article_commenter_info';
 const ZAIHUA_AVATAR = 'https://api.flowersink.com/img/粉毛猫猫头.jpeg';
 
 @Component({
@@ -116,7 +112,25 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   /** 当前展开回复框的评论ID */
   replyTargetId: number | null = null;
   replySubmitting = false;
-  replyForm: ReplyFormState = { name: '', email: '', website: '', avatarUrl: '', content: '' };
+  replyForm: ReplyFormState = { content: '' };
+
+  /** 是否处于编辑身份信息模式（卡片态点击"编辑"后置为 true） */
+  editing = false;
+
+  /** 用于身份卡片头像展示的轻量对象（复用评论详情的头像状态机） */
+  cardComment: ArticleComment = {
+    id: 0,
+    blogId: this.blogId,
+    parentId: null,
+    name: '',
+    email: '',
+    website: '',
+    avatarUrl: '',
+    content: '',
+    isApproved: true,
+    isAdminReply: false,
+    createDate: '',
+  };
 
   form: CommentFormState = {
     name: '',
@@ -147,7 +161,51 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.loadCachedInfo();
+    this.editing = !this.hasCachedInfo;
   }
+
+  /** 是否已有缓存的身份信息（卡片模式 = hasCachedInfo && !editing） */
+  get hasCachedInfo(): boolean {
+    return !!(
+      this.form.name ||
+      this.form.email ||
+      this.form.website ||
+      this.form.avatarUrl
+    );
+  }
+
+  /** 卡片展示用 —— 名称 */
+  get cardName(): string {
+    return this.form.name || '匿名';
+  }
+
+  /** 卡片展示用 —— 邮箱文本 */
+  get cardEmail(): string {
+    return this.form.email || '';
+  }
+
+  /** 卡片展示用 —— 网站跳转地址（补全 https:// 前缀），空串表示无网站 */
+  get cardWebsiteUrl(): string {
+    return this.getDisplayWebsite({ website: this.form.website } as ArticleComment);
+  }
+
+  /** 卡片展示用 —— 是否填了网站（决定名字是否可点击带虚线下划线） */
+  get hasWebsiteLink(): boolean {
+    return !!this.cardWebsiteUrl;
+  }
+
+  toggleEdit(): void {
+    this.editing = !this.editing;
+  }
+
+  /** 用表单值同步卡片头像对象（复用评论详情头像状态机） */
+  private syncCardComment(): void {
+    this.cardComment.name = this.form.name || '';
+    this.cardComment.email = this.form.email || '';
+    this.cardComment.avatarUrl = this.form.avatarUrl || '';
+    this.cardComment._avatar = undefined; // 让头像状态机重新评估
+  }
+
 
   get commentCount(): number {
     const count = this.comments.length;
@@ -365,6 +423,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
         this.captchaComponent?.refresh();
         this.limiter.markApiCall('article-comment');
         this.cacheFormInfo();
+        this.editing = false;
         this.submitting = false;
       },
       error: (error) => {
@@ -389,20 +448,13 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
       this.cancelReply();
     } else {
       this.replyTargetId = comment.id;
-      // 预填当前用户信息
-      this.replyForm = {
-        name: this.form.name || '',
-        email: this.form.email || '',
-        website: this.form.website || '',
-        avatarUrl: this.form.avatarUrl || '',
-        content: '',
-      };
+      this.replyForm = { content: '' };
     }
   }
 
   cancelReply(): void {
     this.replyTargetId = null;
-    this.replyForm = { name: '', email: '', website: '', avatarUrl: '', content: '' };
+    this.replyForm = { content: '' };
   }
 
   onReplyEmojiSelected(emoji: string): void {
@@ -410,12 +462,12 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   }
 
   submitReply(parentComment: ArticleComment): void {
-    if (!this.general.isNotEmpty(this.replyForm.name)) {
+    if (!this.general.isNotEmpty(this.form.name)) {
       this.msg.info('先留下名字吧 (｡･ω･｡)');
       return;
     }
 
-    if ((this.replyForm.name ?? '').trim() === '再花') {
+    if ((this.form.name ?? '').trim() === '再花') {
       this.msg.info('你是再花……那我是谁？');
       return;
     }
@@ -429,9 +481,10 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
 
     this.blog.createArticleComment(String(this.blogId), {
       content: this.replyForm.content.trim(),
-      name: this.replyForm.name || '匿名',
-      email: this.replyForm.email || undefined,
-      avatarUrl: this.replyForm.avatarUrl || undefined,
+      name: this.form.name || '匿名',
+      email: this.form.email || undefined,
+      website: this.form.website || undefined,
+      avatarUrl: this.form.avatarUrl || undefined,
       parentId: parentComment.id,
     }).subscribe({
       next: () => {
@@ -440,10 +493,10 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
           id: Date.now(),
           blogId: this.blogId,
           parentId: parentComment.id,
-          name: this.replyForm.name || '匿名',
-          email: this.replyForm.email || '',
-          website: '',
-          avatarUrl: this.replyForm.avatarUrl || '',
+          name: this.form.name || '匿名',
+          email: this.form.email || '',
+          website: this.form.website || '',
+          avatarUrl: this.form.avatarUrl || '',
           content: this.replyForm.content.trim(),
           isApproved: false,
           isAdminReply: false,
@@ -451,6 +504,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
         };
 
         this.msg.success('回复已提交，审核后将展示 ✨');
+        this.cacheFormInfo();
         this.cancelReply();
         this.replySubmitting = false;
       },
@@ -484,27 +538,17 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   // ---- localStorage caching ----
 
   private loadCachedInfo(): void {
-    try {
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        const info = JSON.parse(cached) as Partial<CommentFormState>;
-        this.form.name = info.name ?? '';
-        this.form.email = info.email ?? '';
-        this.form.website = info.website ?? '';
-        this.form.avatarUrl = info.avatarUrl ?? '';
-      }
-    } catch { /* ignore */ }
+    const info = loadCommenterInfo();
+    this.form.name = info.name ?? '';
+    this.form.email = info.email ?? '';
+    this.form.website = info.website ?? '';
+    this.form.avatarUrl = info.avatarUrl ?? '';
+    this.syncCardComment();
   }
 
   private cacheFormInfo(): void {
-    try {
-      const info: Partial<CommentFormState> = {};
-      if (this.form.name) info.name = this.form.name;
-      if (this.form.email) info.email = this.form.email;
-      if (this.form.website) info.website = this.form.website;
-      if (this.form.avatarUrl) info.avatarUrl = this.form.avatarUrl;
-      localStorage.setItem(CACHE_KEY, JSON.stringify(info));
-    } catch { /* ignore */ }
+    saveCommenterInfo(this.form);
+    this.syncCardComment();
   }
 
   /** 获取某评论的子评论（包括待审核回复） */

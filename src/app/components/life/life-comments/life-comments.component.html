@@ -5,6 +5,32 @@
   @if (formVisible) {
   <div class="lc-form-card" @FadeSlide>
     <div class="lc-form" nz-flex nzVertical nzGap="small">
+      <!-- 已有缓存身份：显示信息卡片；否则显示四个身份表单 -->
+      @if (hasCachedInfo && !editing) {
+      <div class="lc-identity-card">
+        <div class="lc-identity-avatar-wrap">
+          @if (getAvatarUrl(cardComment); as avatarUrl) {
+          <img class="lc-identity-avatar" [src]="avatarUrl" [alt]="cardName" width="28" height="28"
+            (error)="onAvatarError(cardComment)" />
+          } @else {
+          <span class="lc-identity-avatar-fallback">{{ getAvatarInitial(cardComment) }}</span>
+          }
+        </div>
+        <div class="lc-identity-main">
+          <div class="lc-identity-name-row">
+            @if (hasWebsiteLink) {
+            <a class="lc-identity-name lc-identity-name--link" [href]="cardWebsiteUrl" target="_blank" rel="noopener noreferrer">{{ cardName }}</a>
+            } @else {
+            <span class="lc-identity-name">{{ cardName }}</span>
+            }
+            @if (cardEmail) {
+            <span class="lc-identity-email">({{ cardEmail }})</span>
+            }
+            <button type="button" class="lc-identity-edit-btn" (click)="toggleEdit()">编辑</button>
+          </div>
+        </div>
+      </div>
+      } @else {
       <div class="lc-form-row">
         <label class="lc-field">
           <span class="lc-field-label">名称 <span class="lc-required">*</span></span>
@@ -25,6 +51,7 @@
           <input nz-input flInput placeholder="" [(ngModel)]="form.avatarUrl" [disabled]="submitting" maxlength="500" />
         </label>
       </div>
+      }
       <textarea nz-input flInput class="lc-textarea" rows="3" placeholder="写下你的想法吧 (๑•̀ㅂ•́)و✧"
         [(ngModel)]="form.content" [disabled]="submitting" maxlength="500"></textarea>
       <div class="lc-form-actions" nz-flex nzAlign="center" nzJustify="space-between">
@@ -113,7 +140,7 @@
       </div>
 
       <!-- 评论主体 -->
-      <div class="lc-main" nz-flex nzVertical nzGap="small">
+      <div class="lc-main" nz-flex nzVertical nzGap="small" nzFlex="1 1 auto">
         <!-- 头部：名字 + 徽章 + 时间 -->
         <div class="lc-header" nz-flex nzAlign="center" nzGap="small">
           @if (getDisplayWebsite(comment) && !isZaiHua(comment)) {
@@ -154,29 +181,52 @@
         <!-- 内联回复框 -->
         @if (replyTargetId === comment.id) {
         <div class="lc-inline-reply" @FadeSlide>
-          <div class="lc-reply-to-label">
-            回复 <strong>{{ getDisplayName(comment) }}</strong>：
-          </div>
-          <div class="lc-inline-form" nz-flex nzVertical nzGap="small">
-            <div class="lc-reply-row" nz-flex nzGap="small">
-              <input nz-input flInput class="lc-reply-input--name" placeholder="你的名字 *" [(ngModel)]="replyForm.name"
-                maxlength="50" />
-              <input nz-input flInput class="lc-reply-input--email" placeholder="邮箱（可选）" [(ngModel)]="replyForm.email"
-                maxlength="255" />
+          <!-- 当前用户身份：已有缓存显示卡片，否则显示四个表单（与评论区逻辑一致） -->
+          @if (hasCachedInfo && !editing) {
+          <div class="lc-reply-identity-card" nz-flex nzAlign="center" nzGap="small">
+            <div class="lc-reply-identity-avatar-wrap">
+              @if (getAvatarUrl(cardComment); as avatarUrl) {
+              <img class="lc-reply-identity-avatar" [src]="avatarUrl" [alt]="cardName" width="24" height="24"
+                (error)="onAvatarError(cardComment)" />
+              } @else {
+              <span class="lc-reply-identity-avatar-fallback">{{ getAvatarInitial(cardComment) }}</span>
+              }
             </div>
-            <div class="lc-reply-row" nz-flex nzGap="small">
-              <input nz-input flInput class="lc-reply-input--website" placeholder="网站（可选）" [(ngModel)]="replyForm.website"
+            <div class="lc-reply-identity-name-row" nz-flex nzAlign="center" nzGap="small">
+              @if (hasWebsiteLink) {
+              <a class="lc-reply-identity-name lc-reply-identity-name--link" [href]="cardWebsiteUrl" target="_blank"
+                rel="noopener noreferrer">{{ cardName }}</a>
+              } @else {
+              <span class="lc-reply-identity-name">{{ cardName }}</span>
+              }
+              @if (cardEmail) {
+              <span class="lc-reply-identity-email">({{ cardEmail }})</span>
+              }
+              <button type="button" class="lc-reply-identity-edit-btn" (click)="toggleEdit()">编辑</button>
+            </div>
+          </div>
+          } @else {
+          <div class="lc-reply-identity-form" nz-flex nzVertical nzGap="small">
+            <div class="lc-reply-form-row" nz-flex nzGap="small">
+              <input nz-input flInput class="lc-reply-input--name" placeholder="你的名字 *" [(ngModel)]="form.name"
+                maxlength="50" />
+              <input nz-input flInput class="lc-reply-input--email" placeholder="邮箱（可选）" [(ngModel)]="form.email"
+                maxlength="255" />
+              <input nz-input flInput class="lc-reply-input--website" placeholder="网站（可选）" [(ngModel)]="form.website"
                 maxlength="255" />
               <input nz-input flInput class="lc-reply-input--avatar" placeholder="头像链接（可选）"
-                [(ngModel)]="replyForm.avatarUrl" maxlength="500" />
+                [(ngModel)]="form.avatarUrl" maxlength="500" />
             </div>
+          </div>
+          }
+          <div class="lc-inline-form" nz-flex nzVertical nzGap="small">
             <textarea nz-input flInput rows="2" placeholder="写下你的回复..." [(ngModel)]="replyForm.content"
               maxlength="500"></textarea>
             <div nz-flex nzJustify="space-between" nzAlign="center">
               <flower-emoji (emojiSelected)="onReplyEmojiSelected($event)"></flower-emoji>
               <div nz-flex nzGap="small" nzAlign="center">
                 <button class="lc-reply-cancel" (click)="cancelReply()">取消</button>
-                <fl-button [disabled]="!replyForm.content.trim() || !replyForm.name.trim() || replySubmitting"
+                <fl-button [disabled]="!replyForm.content.trim() || replySubmitting"
                   (click)="submitReply(comment)">
                   {{ replySubmitting ? '提交中...' : '回复' }}
                 </fl-button>

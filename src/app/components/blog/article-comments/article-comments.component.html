@@ -6,6 +6,32 @@
   <!-- ════ 评论表单 ════ -->
   <div class="comment-form-card" flCard>
     <div class="comment-form" nz-flex nzVertical nzGap="small">
+      <!-- 已有缓存身份：显示信息卡片；否则显示四个身份表单 -->
+      @if (hasCachedInfo && !editing) {
+      <div class="identity-card">
+        <div class="identity-avatar-wrap">
+          @if (getAvatarUrl(cardComment); as avatarUrl) {
+          <img class="identity-avatar" [src]="avatarUrl" [alt]="cardName" width="40" height="40"
+            (error)="onAvatarError(cardComment)" />
+          } @else {
+          <span class="identity-avatar-fallback">{{ getAvatarInitial(cardComment) }}</span>
+          }
+        </div>
+        <div class="identity-main">
+          <div class="identity-name-row">
+            @if (hasWebsiteLink) {
+            <a class="identity-name identity-name--link" [href]="cardWebsiteUrl" target="_blank" rel="noopener noreferrer">{{ cardName }}</a>
+            } @else {
+            <span class="identity-name">{{ cardName }}</span>
+            }
+            @if (cardEmail) {
+            <span class="identity-email">({{ cardEmail }})</span>
+            }
+            <button type="button" class="identity-edit-btn" (click)="toggleEdit()">编辑</button>
+          </div>
+        </div>
+      </div>
+      } @else {
       <div class="form-row form-row--four">
         <label class="form-field">
           <span class="field-label">
@@ -32,6 +58,7 @@
           <input nz-input flInput placeholder="" [(ngModel)]="form.avatarUrl" [disabled]="submitting" maxlength="500" />
         </label>
       </div>
+      }
       <textarea nz-input flInput class="content-textarea" rows="4" placeholder="写下你的想法吧 (๑•̀ㅂ•́)و✧"
         [(ngModel)]="form.content" [disabled]="submitting" maxlength="500"></textarea>
       <div class="form-actions" nz-flex nzAlign="center" nzJustify="space-between">
@@ -112,7 +139,7 @@
       </div>
 
       <!-- 评论主体 -->
-      <div class="comment-main" nz-flex nzVertical nzGap="small">
+      <div class="comment-main" nz-flex nzVertical nzGap="small" nzFlex="1 1 auto">
         <!-- 头部：名字 + 徽章 + 时间 -->
         <div class="comment-header" nz-flex nzAlign="center" nzGap="small">
           @if (getDisplayWebsite(comment) && !isZaiHua(comment)) {
@@ -153,22 +180,45 @@
         <!-- 内联回复框 -->
         @if (replyTargetId === comment.id) {
         <div class="inline-reply-card" flCard @FadeSlide>
-          <div class="inline-reply-header" nz-flex nzAlign="center" nzGap="small">
-            <span class="reply-to-label">
-              回复 <strong>{{ getDisplayName(comment) }}</strong>：
-            </span>
+          <!-- 当前用户身份：已有缓存显示卡片，否则显示四个表单（与评论区逻辑一致） -->
+          @if (hasCachedInfo && !editing) {
+          <div class="reply-identity-card" nz-flex nzAlign="center" nzGap="small">
+            <div class="reply-identity-avatar-wrap">
+              @if (getAvatarUrl(cardComment); as avatarUrl) {
+              <img class="reply-identity-avatar" [src]="avatarUrl" [alt]="cardName" width="28" height="28"
+                (error)="onAvatarError(cardComment)" />
+              } @else {
+              <span class="reply-identity-avatar-fallback">{{ getAvatarInitial(cardComment) }}</span>
+              }
+            </div>
+            <div class="reply-identity-name-row" nz-flex nzAlign="center" nzGap="small">
+              @if (hasWebsiteLink) {
+              <a class="reply-identity-name reply-identity-name--link" [href]="cardWebsiteUrl" target="_blank"
+                rel="noopener noreferrer">{{ cardName }}</a>
+              } @else {
+              <span class="reply-identity-name">{{ cardName }}</span>
+              }
+              @if (cardEmail) {
+              <span class="reply-identity-email">({{ cardEmail }})</span>
+              }
+              <button type="button" class="reply-identity-edit-btn" (click)="toggleEdit()">编辑</button>
+            </div>
           </div>
-          <div class="inline-reply-form" nz-flex nzVertical nzGap="small">
+          } @else {
+          <div class="reply-identity-form" nz-flex nzVertical nzGap="small">
             <div class="reply-form-row" nz-flex nzGap="small">
-              <input nz-input flInput class="reply-input--name" placeholder="你的名字 *" [(ngModel)]="replyForm.name"
+              <input nz-input flInput class="reply-input--name" placeholder="你的名字 *" [(ngModel)]="form.name"
                 maxlength="50" />
-              <input nz-input flInput class="reply-input--email" placeholder="邮箱（可选）" [(ngModel)]="replyForm.email"
+              <input nz-input flInput class="reply-input--email" placeholder="邮箱（可选）" [(ngModel)]="form.email"
                 maxlength="255" />
-              <input nz-input flInput class="reply-input--website" placeholder="网站（可选）" [(ngModel)]="replyForm.website"
+              <input nz-input flInput class="reply-input--website" placeholder="网站（可选）" [(ngModel)]="form.website"
                 maxlength="255" />
               <input nz-input flInput class="reply-input--avatar" placeholder="头像链接（可选）"
-                [(ngModel)]="replyForm.avatarUrl" maxlength="500" />
+                [(ngModel)]="form.avatarUrl" maxlength="500" />
             </div>
+          </div>
+          }
+          <div class="inline-reply-form" nz-flex nzVertical nzGap="small">
             <textarea nz-input flInput rows="3" placeholder="写下你的回复..." [(ngModel)]="replyForm.content"
               maxlength="500"></textarea>
             <div class="textarea-counter">{{ replyForm.content.length || 0 }} / 500</div>
@@ -176,7 +226,7 @@
               <flower-emoji (emojiSelected)="onReplyEmojiSelected($event)"></flower-emoji>
               <div nz-flex nzGap="small" nzAlign="center">
                 <button class="reply-cancel-link" (click)="cancelReply()">取消</button>
-                <fl-button [disabled]="!replyForm.content.trim() || !replyForm.name.trim() || replySubmitting"
+                <fl-button [disabled]="!replyForm.content.trim() || replySubmitting"
                   (click)="submitReply(comment)">
                   {{ replySubmitting ? '提交中...' : '回复' }}
                 </fl-button>
