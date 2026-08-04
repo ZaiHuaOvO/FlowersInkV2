@@ -185,7 +185,9 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     { date: '2026/04/10', title: '统一并完善了花墨的主题样式和细节，花墨变得更好看了', text: '' },
     { date: '2026/04/20', title: '点滴功能回归！开始碎碎念', text: '' },
     { date: '2026/04/28', title: '花墨真正接入了 CDN', text: '以前一直接错了！' },
-    { date: '2026/07/15', title: '新增文章评论、点滴点赞功能', text: '为网站加上一些交互感' },
+    { date: '2026/07/15', title: '新增博客和点滴评论功能', text: '为网站加上一些交互感' },
+    { date: '2026/07/24', title: '重写了一个可爱的欢迎页', text: '' },
+    { date: '2026/07/24', title: '新增装备图鉴模块', text: '记录一下我的老朋友们' },
     { date: '未完待续', title: '', text: '' },
   ];
 
