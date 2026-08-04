@@ -89,17 +89,16 @@
 
 .img-container {
     width: 100%;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
     padding: var(--fi-space-7);
     box-sizing: border-box;
 }
 
 .img-container img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     border-radius: var(--fi-radius-xs);
+    display: block;
 }
 
 /* ── 右上角「方导送的」tag，镜像点滴样式 ── */

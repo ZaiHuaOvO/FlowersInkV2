@@ -19,7 +19,7 @@
 }
 
 .equipment-category {
-    margin: 0;
+    margin: var(--fi-space-4) 0;
     color: var(--fi-primary-hover);
     font-size: 1.05rem;
     font-weight: 700;

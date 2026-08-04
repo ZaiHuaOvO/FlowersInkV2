@@ -1,7 +1,7 @@
 <div class="equipment" nz-flex [nzVertical]="true" nzAlign="center">
   <div class="content equipment-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true" @QuickUp>
     <flower-blog-title [title]="'再花的装备'"></flower-blog-title>
-    <p nz-typography class="equipment-subtitle">再花一生中可观测的所有设备，人生路上的好伙伴们。</p>
+    <p nz-typography class="equipment-subtitle">再花一生中可观测的所有设备，人生路上的好伙伴。</p>
     <nz-spin class="equipment-spin" [nzSpinning]="loading">
       @if (data.length > 0) {
         @for (cat of data; track cat.id) {
