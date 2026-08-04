@@ -10,10 +10,9 @@ type PrefetchKey =
   | 'blog.essay'
   | 'blog.question'
   | 'blog.detail'
-  | 'world.routes'
-  | 'world.book'
-  | 'world.game'
-  | 'world.equipment'
+  | 'book.component'
+  | 'game.component'
+  | 'equipment.component'
   | 'about.routes'
   | 'about.component'
   | 'link.routes'
@@ -45,10 +44,9 @@ export class RoutePrefetchService {
     'blog.question': () => import('../pages/blog/question/question.component'),
     'blog.detail': () => import('../pages/blog/blog-detail/blog-detail.component'),
 
-    'world.routes': () => import('../pages/world/world.routes'),
-    'world.book': () => import('../pages/world/book/book.component'),
-    'world.game': () => import('../pages/world/game/game.component'),
-    'world.equipment': () => import('../pages/world/equipment/equipment.component'),
+    'book.component': () => import('../pages/world/book/book.component'),
+    'game.component': () => import('../pages/world/game/game.component'),
+    'equipment.component': () => import('../pages/world/equipment/equipment.component'),
 
     'about.routes': () => import('../pages/about/about.routes'),
     'about.component': () => import('../pages/about/about.component'),
@@ -92,10 +90,9 @@ export class RoutePrefetchService {
         [
           'blog.question',
           'blog.detail',
-          'world.routes',
-          'world.book',
-          'world.game',
-          'world.equipment',
+          'book.component',
+          'game.component',
+          'equipment.component',
           'about.routes',
           'about.component',
           'link.routes',
@@ -159,17 +156,14 @@ export class RoutePrefetchService {
       return ['blog.routes', 'blog.all', 'blog.article', 'blog.essay'];
     }
 
-    if (url.startsWith('/world/equipment')) {
-      return ['world.routes', 'world.equipment'];
+    if (url.startsWith('/equipment')) {
+      return ['equipment.component'];
     }
-    if (url.startsWith('/world/book')) {
-      return ['world.routes', 'world.book'];
+    if (url.startsWith('/book')) {
+      return ['book.component'];
     }
-    if (url.startsWith('/world/game')) {
-      return ['world.routes', 'world.game'];
-    }
-    if (url.startsWith('/world')) {
-      return ['world.routes', 'world.book', 'world.game', 'world.equipment'];
+    if (url.startsWith('/game')) {
+      return ['game.component'];
     }
 
     if (url.startsWith('/about')) {

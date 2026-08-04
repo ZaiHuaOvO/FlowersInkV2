@@ -82,14 +82,14 @@ export class HeaderComponent implements OnInit {
     {
       title: '游戏',
       icon: 'bulb',
-      url: '/world/game',
+      url: '/game',
       child: [],
       showChildren: false
     },
     {
       title: '装备',
       icon: 'desktop',
-      url: '/world/equipment',
+      url: '/equipment',
       child: [],
       showChildren: false
     },

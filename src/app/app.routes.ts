@@ -22,9 +22,37 @@ export const routes: Routes = [
       import('./pages/about/about.routes').then((m) => m.ABOUT_ROUTES),
   },
   {
-    path: 'world',
-    loadChildren: () =>
-      import('./pages/world/world.routes').then((m) => m.WORLD_ROUTES),
+    path: 'book',
+    title: '花墨 | 书籍',
+    loadComponent: () =>
+      import('./pages/world/book/book.component').then((m) => m.BookComponent),
+  },
+  {
+    path: 'game',
+    title: '花墨 | 游戏',
+    loadComponent: () =>
+      import('./pages/world/game/game.component').then((m) => m.GameComponent),
+  },
+  {
+    path: 'equipment',
+    title: '花墨 | 装备',
+    loadComponent: () =>
+      import('./pages/world/equipment/equipment.component').then((m) => m.EquipmentComponent),
+  },
+  {
+    path: 'world/book',
+    redirectTo: '/book',
+    pathMatch: 'full',
+  },
+  {
+    path: 'world/game',
+    redirectTo: '/game',
+    pathMatch: 'full',
+  },
+  {
+    path: 'world/equipment',
+    redirectTo: '/equipment',
+    pathMatch: 'full',
   },
   {
     path: 'link',
