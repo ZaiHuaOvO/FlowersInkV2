@@ -8,7 +8,7 @@
     <span nz-typography class="equipment-service">
       @if (item.hideServiceTime) {
         @if (item.retired && item.retireDate) {
-          服役时间未知 · {{ item.retireDate | date: 'yyyy-MM-dd' }} 退役
+          服役时间未知 · 约{{ item.retireDate | date: 'yyyy' }}年退役
         } @else {
           服役时间未知
         }
