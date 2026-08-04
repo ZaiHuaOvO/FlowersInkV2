@@ -19,6 +19,7 @@ export const API = {
   BOOK_LIST: '/world/book/list',
   GAME: '/world/game',
   GAME_LIST: '/world/game/list',
+  EQUIPMENT_LIST: '/equipment/list',
   LINK: '/site/link',
   LINK_ARTICLES: '/site/link/articles',
 };

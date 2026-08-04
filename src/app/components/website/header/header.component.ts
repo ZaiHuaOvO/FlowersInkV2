@@ -87,6 +87,13 @@ export class HeaderComponent implements OnInit {
       showChildren: false
     },
     {
+      title: '装备',
+      icon: 'desktop',
+      url: '/world/equipment',
+      child: [],
+      showChildren: false
+    },
+    {
       title: '友链',
       icon: 'link',
       url: '/link',

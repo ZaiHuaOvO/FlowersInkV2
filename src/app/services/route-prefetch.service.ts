@@ -13,6 +13,7 @@ type PrefetchKey =
   | 'world.routes'
   | 'world.book'
   | 'world.game'
+  | 'world.equipment'
   | 'about.routes'
   | 'about.component'
   | 'link.routes'
@@ -47,6 +48,7 @@ export class RoutePrefetchService {
     'world.routes': () => import('../pages/world/world.routes'),
     'world.book': () => import('../pages/world/book/book.component'),
     'world.game': () => import('../pages/world/game/game.component'),
+    'world.equipment': () => import('../pages/world/equipment/equipment.component'),
 
     'about.routes': () => import('../pages/about/about.routes'),
     'about.component': () => import('../pages/about/about.component'),
@@ -93,6 +95,7 @@ export class RoutePrefetchService {
           'world.routes',
           'world.book',
           'world.game',
+          'world.equipment',
           'about.routes',
           'about.component',
           'link.routes',
@@ -156,6 +159,9 @@ export class RoutePrefetchService {
       return ['blog.routes', 'blog.all', 'blog.article', 'blog.essay'];
     }
 
+    if (url.startsWith('/world/equipment')) {
+      return ['world.routes', 'world.equipment'];
+    }
     if (url.startsWith('/world/book')) {
       return ['world.routes', 'world.book'];
     }
@@ -163,7 +169,7 @@ export class RoutePrefetchService {
       return ['world.routes', 'world.game'];
     }
     if (url.startsWith('/world')) {
-      return ['world.routes', 'world.book', 'world.game'];
+      return ['world.routes', 'world.book', 'world.game', 'world.equipment'];
     }
 
     if (url.startsWith('/about')) {

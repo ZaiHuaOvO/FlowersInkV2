@@ -29,4 +29,8 @@ export class WorldService {
   getGameList(data?: any): Observable<object> {
     return this.http.getCached(API.GAME_LIST, data, HTTP_CACHE_TTL.LIST);
   }
+
+  getEquipmentList(data?: any): Observable<object> {
+    return this.http.getCached(API.EQUIPMENT_LIST, data, HTTP_CACHE_TTL.LIST);
+  }
 }

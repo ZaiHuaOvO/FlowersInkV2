@@ -1,0 +1,130 @@
+.equipment-card-surface {
+    border-radius: var(--fi-radius-sm);
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    transition: transform var(--fi-motion-normal) var(--fi-ease-standard),
+        box-shadow var(--fi-motion-normal) var(--fi-ease-standard),
+        background-color var(--fi-motion-normal) var(--fi-ease-standard),
+        border-color var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+.equipment-card-surface:hover {
+    transform: translateY(var(--fi-motion-lift-card));
+    background: var(--fi-card-bg-hover);
+    box-shadow: var(--fi-shadow-hover);
+    border-color: var(--fi-border-strong);
+}
+
+/* ── 退役装备：浅灰 + 深灰的 disabled 样式 ── */
+.equipment-card-surface--retired,
+.equipment-card-surface--retired:hover {
+    background: var(--fi-form-bg-disabled) !important;
+    border-color: var(--fi-form-disabled-border) !important;
+    box-shadow: none !important;
+    transform: none;
+    cursor: default;
+}
+
+.equipment-card-surface--retired .img-container {
+    filter: grayscale(0.85);
+    opacity: 0.7;
+}
+
+.equipment-card-surface--retired .equipment-name {
+    color: var(--fi-form-disabled-text);
+}
+
+.equipment-card-surface--retired .equipment-desc {
+    color: var(--fi-form-disabled-text);
+    opacity: 0.8;
+}
+
+.equipment-card-surface--retired .equipment-service strong {
+    color: var(--fi-form-disabled-text);
+}
+
+:host ::ng-deep .equipment-card-surface .ant-card-body {
+    padding: 0 var(--fi-space-4) var(--fi-space-4);
+}
+
+:host ::ng-deep .equipment-card-surface .ant-card-cover {
+    margin: 0;
+}
+
+.equipment-card-body {
+    width: 100%;
+    gap: 6px;
+}
+
+.equipment-name {
+    color: var(--fi-primary-hover, #7a4d23);
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.45;
+    text-align: center;
+    word-break: break-word;
+}
+
+.equipment-desc {
+    color: var(--fi-text-muted, #7a6756);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: center;
+    word-break: break-word;
+}
+
+.equipment-service {
+    color: var(--fi-text-muted, #7a6756);
+    font-size: 0.78rem;
+    line-height: 1.4;
+    text-align: center;
+    word-break: break-word;
+}
+
+.equipment-service strong {
+    color: var(--fi-primary-hover, #7a4d23);
+    font-weight: 800;
+}
+
+.img-container {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    padding: var(--fi-space-7);
+    box-sizing: border-box;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--fi-radius-xs);
+}
+
+/* ── 右上角「方导送的」tag，镜像点滴样式 ── */
+.card-tag.ant-tag {
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    font-size: 12px;
+    padding: 2px 10px;
+}
+
+.card-tag-topright.ant-tag {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    border-radius: 0 var(--fi-radius-md) 0 var(--fi-radius-md) !important;
+    padding: 4px 14px !important;
+    font-size: 12px;
+    line-height: 1.4;
+    z-index: 1;
+    border-top-right-radius: var(--fi-radius-md) !important;
+    background: rgba(139, 90, 43, 0.14) !important;
+    color: var(--fi-primary) !important;
+}
+
+.ant-tag {
+    margin: 0 !important;
+}
