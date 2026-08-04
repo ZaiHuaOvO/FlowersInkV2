@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgStyle } from '@angular/common';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzTagModule } from 'ng-zorro-antd/tag';
@@ -11,6 +11,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   standalone: true,
   imports: [
     DatePipe,
+    NgStyle,
     NzCardModule,
     NzFlexModule,
     NzTagModule,
