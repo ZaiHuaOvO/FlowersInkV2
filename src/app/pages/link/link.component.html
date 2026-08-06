@@ -115,7 +115,6 @@
             </div>
 
             <div class="apply-form" flCard>
-                <h4 nz-typography>友链申请表单</h4>
                 <nz-row [nzGutter]="[24, 8]">
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
@@ -145,24 +144,28 @@
                             <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
                         </div>
                     </div>
-                    <div nz-col nzXs="24" nzMd="12">
+                    <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站描述 *</label>
                             <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
                                 name="description" placeholder="用一句话描述你的网站吧">
                         </div>
                     </div>
-                    <div nz-col nzXs="24" nzMd="12">
+                    <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">联系邮箱（可选）</label>
                             <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
                                 name="email" placeholder="用于接收审核结果通知">
                         </div>
                     </div>
+                    <div nz-col nzXs="24" nzMd="8">
+                        @if (showToolbar) {
+                        <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+                        }
+                    </div>
                 </nz-row>
 
                 @if (showToolbar) {
-                <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
                 <div class="toolbar" nz-flex nzJustify="end">
                     <fl-button class="submit" [disabled]="submitting" (click)="submit()">
                         @if (submitting) {提交中…} @else {申请}
@@ -189,7 +192,6 @@
             </div>
 
             <div class="apply-form" flCard>
-                <h4 nz-typography>友链申请表单</h4>
                 <nz-row [nzGutter]="[24, 8]">
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
@@ -219,23 +221,27 @@
                             <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
                         </div>
                     </div>
-                    <div nz-col nzXs="24" nzMd="12">
+                    <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站描述 *</label>
                             <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
                                 name="description" placeholder="用一句话描述你的网站吧">
                         </div>
                     </div>
-                    <div nz-col nzXs="24" nzMd="12">
+                    <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">联系邮箱（可选）</label>
                             <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
                                 name="email" placeholder="用于接收审核结果通知">
                         </div>
                     </div>
+                    <div nz-col nzXs="24" nzMd="8">
+                        @if (showToolbar) {
+                        <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+                        }
+                    </div>
                 </nz-row>
                 @if (showToolbar) {
-                <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
                 <div class="toolbar" nz-flex nzJustify="end">
                     <fl-button class="submit" [disabled]="submitting" (click)="submit()">
                         @if (submitting) {提交中…} @else {申请}
