@@ -159,9 +159,12 @@
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
-                        @if (showToolbar) {
-                        <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
-                        }
+                        <div class="form-field">
+                            <label nz-typography class="form-label">验证码</label>
+                            @if (showToolbar) {
+                            <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+                            }
+                        </div>
                     </div>
                 </nz-row>
 
@@ -236,9 +239,12 @@
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
-                        @if (showToolbar) {
-                        <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
-                        }
+                        <div class="form-field">
+                            <label nz-typography class="form-label">验证码</label>
+                            @if (showToolbar) {
+                            <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+                            }
+                        </div>
                     </div>
                 </nz-row>
                 @if (showToolbar) {
