@@ -100,69 +100,75 @@
         </div>
 
         @if (!isMobile) {
-        <div nz-row [nzGutter]="[24, 24]">
-            <div nz-col nzXs="24" nzMd="12" nzLg="12">
-                <div class="apply-rules" flCard>
-                    <h4 nz-typography>友链申请须知</h4>
-                    <article nz-typography class="link-note">
-                        <p nz-typography>1. 请先将「花墨」添加至您的友链列表中哦</p>
-                        <p nz-typography>2. 已经与我产生了一定的连接（包括但不限于邮件联系、网站互动等）</p>
-                        <span class="link-note-sub">需要先成为朋友哦ฅ•ω•ฅ</span>
-                        <p nz-typography>3. 博客需要有一些有趣的内容，例如非纯技术类的各种记录和分享</p>
-                        <span class="link-note-sub">再花喜欢看有意思的内容，就像花墨里的东西一样</span>
-                        <p nz-typography>4. 请不要添加友链后就对花墨和再花不管不顾了T^T</p>
-                        <p nz-typography>5. 强制HTTPS、更新频率高、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
-                    </article>
-                </div>
+        <div nz-flex [nzVertical]="true" nzGap="middle">
+            <div class="apply-rules" flCard>
+                <h4 nz-typography>友链申请须知</h4>
+                <article nz-typography class="link-note">
+                    <p nz-typography>1. 请先将「花墨」添加至您的友链列表中哦</p>
+                    <p nz-typography>2. 已经与我产生了一定的连接（包括但不限于邮件联系、网站互动等）</p>
+                    <span class="link-note-sub">需要先成为朋友哦ฅ•ω•ฅ</span>
+                    <p nz-typography>3. 博客需要有一些有趣的内容，例如非纯技术类的各种记录和分享</p>
+                    <span class="link-note-sub">再花喜欢看有意思的内容，就像花墨里的东西一样</span>
+                    <p nz-typography>4. 请不要添加友链后就对花墨和再花不管不顾了T^T</p>
+                    <p nz-typography>5. 强制HTTPS、更新频率高、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
+                </article>
             </div>
-            <div nz-col nzXs="24" nzMd="12" nzLg="12">
-                <div class="apply-form" flCard nz-flex nzAlign="start" [nzVertical]="true" nzGap="middle">
-                    <div class="form-field">
-                        <label nz-typography class="form-label">网站名称 *</label>
-                        <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name"
-                            name="name" placeholder="例如：花墨">
-                    </div>
 
-                    <div class="form-field">
-                        <label nz-typography class="form-label">网站地址 *</label>
-                        <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url"
-                            name="url" placeholder="例如：https://flowersink.com">
-                    </div>
-
-                    <div class="form-field">
-                        <label nz-typography class="form-label">网站头像地址</label>
-                        <div class="input-with-preview">
-                            <input nz-input flInput type="text" (focus)="showToolbar = true" (input)="onLogoChange()"
-                                [(ngModel)]="form.logo" name="logo" placeholder="例如：https://example.com/logo.png">
-                            @if (logoPreviewUrl) {
-                            <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
-                                (error)="logoPreviewUrl = ''">
-                            }
+            <div class="apply-form" flCard>
+                <h4 nz-typography>友链申请表单</h4>
+                <nz-row [nzGutter]="[24, 8]">
+                    <div nz-col nzXs="24" nzMd="8">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">网站名称 *</label>
+                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name"
+                                name="name" placeholder="例如：花墨">
                         </div>
-                        <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
                     </div>
+                    <div nz-col nzXs="24" nzMd="8">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">网站地址 *</label>
+                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url"
+                                name="url" placeholder="例如：https://flowersink.com">
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="8">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">网站头像地址</label>
+                            <div class="input-with-preview">
+                                <input nz-input flInput type="text" (focus)="showToolbar = true" (input)="onLogoChange()"
+                                    [(ngModel)]="form.logo" name="logo" placeholder="例如：https://example.com/logo.png">
+                                @if (logoPreviewUrl) {
+                                <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
+                                    (error)="logoPreviewUrl = ''">
+                                }
+                            </div>
+                            <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="12">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">网站描述 *</label>
+                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
+                                name="description" placeholder="用一句话描述你的网站吧">
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="12">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">联系邮箱（可选）</label>
+                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
+                                name="email" placeholder="用于接收审核结果通知">
+                        </div>
+                    </div>
+                </nz-row>
 
-                    <div class="form-field">
-                        <label nz-typography class="form-label">网站描述 *</label>
-                        <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
-                            name="description" placeholder="用一句话描述你的网站吧">
-                    </div>
-
-                    <div class="form-field">
-                        <label nz-typography class="form-label">联系邮箱（可选）</label>
-                        <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
-                            name="email" placeholder="用于接收审核结果通知">
-                    </div>
-
-                    @if (showToolbar) {
-                    <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
-                    <div class="toolbar" nz-flex nzJustify="end">
-                        <fl-button class="submit" [disabled]="submitting" (click)="submit()">
-                            @if (submitting) {提交中…} @else {申请}
-                        </fl-button>
-                    </div>
-                    }
+                @if (showToolbar) {
+                <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+                <div class="toolbar" nz-flex nzJustify="end">
+                    <fl-button class="submit" [disabled]="submitting" (click)="submit()">
+                        @if (submitting) {提交中…} @else {申请}
+                    </fl-button>
                 </div>
+                }
             </div>
         </div>
         }
@@ -182,39 +188,52 @@
                 </article>
             </div>
 
-            <div class="apply-form" flCard nz-flex nzAlign="start" [nzVertical]="true" nzGap="middle">
-                <div class="form-field">
-                    <label nz-typography class="form-label">网站名称 *</label>
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
-                        placeholder="例如：花墨">
-                </div>
-                <div class="form-field">
-                    <label nz-typography class="form-label">网站地址 *</label>
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
-                        placeholder="例如：https://flowersink.com">
-                </div>
-                <div class="form-field">
-                    <label nz-typography class="form-label">网站头像地址</label>
-                    <div class="input-with-preview">
-                        <input nz-input flInput type="text" (focus)="showToolbar = true" (input)="onLogoChange()"
-                            [(ngModel)]="form.logo" name="logo" placeholder="例如：https://example.com/logo.png">
-                        @if (logoPreviewUrl) {
-                        <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
-                            (error)="logoPreviewUrl = ''">
-                        }
+            <div class="apply-form" flCard>
+                <h4 nz-typography>友链申请表单</h4>
+                <nz-row [nzGutter]="[24, 8]">
+                    <div nz-col nzXs="24" nzMd="8">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">网站名称 *</label>
+                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
+                                placeholder="例如：花墨">
+                        </div>
                     </div>
-                    <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
-                </div>
-                <div class="form-field">
-                    <label nz-typography class="form-label">网站描述 *</label>
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
-                        name="description" placeholder="用一句话描述你的网站吧">
-                </div>
-                <div class="form-field">
-                    <label nz-typography class="form-label">联系邮箱（可选）</label>
-                    <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
-                        name="email" placeholder="用于接收审核结果通知">
-                </div>
+                    <div nz-col nzXs="24" nzMd="8">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">网站地址 *</label>
+                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
+                                placeholder="例如：https://flowersink.com">
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="8">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">网站头像地址</label>
+                            <div class="input-with-preview">
+                                <input nz-input flInput type="text" (focus)="showToolbar = true" (input)="onLogoChange()"
+                                    [(ngModel)]="form.logo" name="logo" placeholder="例如：https://example.com/logo.png">
+                                @if (logoPreviewUrl) {
+                                <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
+                                    (error)="logoPreviewUrl = ''">
+                                }
+                            </div>
+                            <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="12">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">网站描述 *</label>
+                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
+                                name="description" placeholder="用一句话描述你的网站吧">
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="12">
+                        <div class="form-field">
+                            <label nz-typography class="form-label">联系邮箱（可选）</label>
+                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
+                                name="email" placeholder="用于接收审核结果通知">
+                        </div>
+                    </div>
+                </nz-row>
                 @if (showToolbar) {
                 <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
                 <div class="toolbar" nz-flex nzJustify="end">
