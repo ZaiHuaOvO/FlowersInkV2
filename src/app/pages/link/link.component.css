@@ -235,6 +235,14 @@
     line-height: 1.7;
 }
 
+.link-note-sub {
+    display: block;
+    font-size: var(--fi-font-size-xs);
+    color: var(--fi-text-muted);
+    margin: -3px 0 6px;
+    line-height: 1.5;
+}
+
 /* ====== Friend articles ====== */
 .friend-article-list {
     width: 100%;
