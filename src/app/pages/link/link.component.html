@@ -119,23 +119,23 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站名称 *</label>
-                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name"
-                                name="name" placeholder="例如：花墨">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：花墨'" nzTooltipTrigger="focus"
+                                [(ngModel)]="form.name" name="name" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站地址 *</label>
-                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url"
-                                name="url" placeholder="例如：https://flowersink.com">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：https://flowersink.com'" nzTooltipTrigger="focus"
+                                [(ngModel)]="form.url" name="url" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站头像地址</label>
                             <div class="input-with-preview">
-                                <input nz-input flInput type="text" (focus)="showToolbar = true" (input)="onLogoChange()"
-                                    [(ngModel)]="form.logo" name="logo" placeholder="例如：https://example.com/logo.png">
+                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：https://example.com/logo.png'" nzTooltipTrigger="focus"
+                                    (input)="onLogoChange()" [(ngModel)]="form.logo" name="logo" placeholder="">
                                 @if (logoPreviewUrl) {
                                 <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
                                     (error)="logoPreviewUrl = ''">
@@ -147,34 +147,30 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站描述 *</label>
-                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
-                                name="description" placeholder="用一句话描述你的网站吧">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用一句话描述你的网站吧'" nzTooltipTrigger="focus"
+                                [(ngModel)]="form.description" name="description" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">联系邮箱（可选）</label>
-                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
-                                name="email" placeholder="用于接收审核结果通知">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用于接收审核结果通知'" nzTooltipTrigger="focus"
+                                [(ngModel)]="form.email" name="email" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">验证码</label>
-                            @if (showToolbar) {
                             <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
-                            }
                         </div>
                     </div>
                 </nz-row>
 
-                @if (showToolbar) {
                 <div class="toolbar" nz-flex nzJustify="end">
                     <fl-button class="submit" [disabled]="submitting" (click)="submit()">
                         @if (submitting) {提交中…} @else {申请}
                     </fl-button>
                 </div>
-                }
             </div>
         </div>
         }
@@ -199,23 +195,23 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站名称 *</label>
-                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.name" name="name"
-                                placeholder="例如：花墨">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：花墨'" nzTooltipTrigger="focus"
+                                [(ngModel)]="form.name" name="name" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站地址 *</label>
-                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.url" name="url"
-                                placeholder="例如：https://flowersink.com">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：https://flowersink.com'" nzTooltipTrigger="focus"
+                                [(ngModel)]="form.url" name="url" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站头像地址</label>
                             <div class="input-with-preview">
-                                <input nz-input flInput type="text" (focus)="showToolbar = true" (input)="onLogoChange()"
-                                    [(ngModel)]="form.logo" name="logo" placeholder="例如：https://example.com/logo.png">
+                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：https://example.com/logo.png'" nzTooltipTrigger="focus"
+                                    (input)="onLogoChange()" [(ngModel)]="form.logo" name="logo" placeholder="">
                                 @if (logoPreviewUrl) {
                                 <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
                                     (error)="logoPreviewUrl = ''">
@@ -227,33 +223,29 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站描述 *</label>
-                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.description"
-                                name="description" placeholder="用一句话描述你的网站吧">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用一句话描述你的网站吧'" nzTooltipTrigger="focus"
+                                [(ngModel)]="form.description" name="description" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">联系邮箱（可选）</label>
-                            <input nz-input flInput type="text" (focus)="showToolbar = true" [(ngModel)]="form.email"
-                                name="email" placeholder="用于接收审核结果通知">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用于接收审核结果通知'" nzTooltipTrigger="focus"
+                                [(ngModel)]="form.email" name="email" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">验证码</label>
-                            @if (showToolbar) {
                             <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
-                            }
                         </div>
                     </div>
                 </nz-row>
-                @if (showToolbar) {
                 <div class="toolbar" nz-flex nzJustify="end">
                     <fl-button class="submit" [disabled]="submitting" (click)="submit()">
                         @if (submitting) {提交中…} @else {申请}
                     </fl-button>
                 </div>
-                }
             </div>
         </div>
         }

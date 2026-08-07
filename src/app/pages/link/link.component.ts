@@ -7,6 +7,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SlowUp, QuickUp, StaggerList } from '../../common_ui/animations/animation';
 import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
@@ -40,6 +41,7 @@ interface ArticleItem {
     NzGridModule,
     NzSkeletonModule,
     NzInputModule,
+    NzTooltipModule,
     NzModalModule,
     LinkCardComponent,
     FlButtonComponent,
@@ -60,7 +62,6 @@ export class LinkComponent implements OnInit {
   articleLoading = true;
   submitting = false;
   isMobile = false;
-  showToolbar = false;
   email = 'ZyZy1724@gmail.com';
   articleUpdatedAt = '';
   links: Array<{
