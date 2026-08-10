@@ -113,7 +113,7 @@
             </div>
 
             <div class="apply-form" flCard>
-                <nz-row [nzGutter]="[24, 8]">
+                <nz-row [nzGutter]="[20, 4]">
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站名称 *</label>
@@ -132,14 +132,13 @@
                         <div class="form-field">
                             <label nz-typography class="form-label">网站头像地址</label>
                             <div class="input-with-preview">
-                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：https://example.com/logo.png'" nzTooltipTrigger="focus"
+                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'若为空则会检测联系邮箱的 Gavater'" nzTooltipTrigger="focus"
                                     (input)="onLogoChange()" [(ngModel)]="form.logo" name="logo" placeholder="">
                                 @if (logoPreviewUrl) {
                                 <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
                                     (error)="logoPreviewUrl = ''">
                                 }
                             </div>
-                            <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
@@ -150,10 +149,23 @@
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
-                        <div class="form-field">
+                        <div class="form-field form-field--optional">
+                            <label nz-typography class="form-label">RSS 地址（可选）</label>
+                            <input nz-input flInput type="text" [(ngModel)]="form.rss" name="rss" placeholder="">
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="8">
+                        <div class="form-field form-field--optional">
                             <label nz-typography class="form-label">联系邮箱（可选）</label>
                             <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用于接收审核结果通知'" nzTooltipTrigger="focus"
                                 [(ngModel)]="form.email" name="email" placeholder="">
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="16">
+                        <div class="form-field form-field--optional">
+                            <label nz-typography class="form-label">备注（可选）</label>
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'可以在此写下想对再花说的话'" nzTooltipTrigger="hover"
+                                [(ngModel)]="form.remark" name="remark" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
@@ -187,7 +199,7 @@
             </div>
 
             <div class="apply-form" flCard>
-                <nz-row [nzGutter]="[24, 8]">
+                <nz-row [nzGutter]="[20, 4]">
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站名称 *</label>
@@ -206,14 +218,13 @@
                         <div class="form-field">
                             <label nz-typography class="form-label">网站头像地址</label>
                             <div class="input-with-preview">
-                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：https://example.com/logo.png'" nzTooltipTrigger="focus"
+                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'若为空则会检测联系邮箱的 Gavater'" nzTooltipTrigger="focus"
                                     (input)="onLogoChange()" [(ngModel)]="form.logo" name="logo" placeholder="">
                                 @if (logoPreviewUrl) {
                                 <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
                                     (error)="logoPreviewUrl = ''">
                                 }
                             </div>
-                            <span class="form-hint">若为空则会检测联系邮箱的 Gavater</span>
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
@@ -224,10 +235,23 @@
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
-                        <div class="form-field">
+                        <div class="form-field form-field--optional">
+                            <label nz-typography class="form-label">RSS 地址（可选）</label>
+                            <input nz-input flInput type="text" [(ngModel)]="form.rss" name="rss" placeholder="">
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="8">
+                        <div class="form-field form-field--optional">
                             <label nz-typography class="form-label">联系邮箱（可选）</label>
                             <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用于接收审核结果通知'" nzTooltipTrigger="focus"
                                 [(ngModel)]="form.email" name="email" placeholder="">
+                        </div>
+                    </div>
+                    <div nz-col nzXs="24" nzMd="16">
+                        <div class="form-field form-field--optional">
+                            <label nz-typography class="form-label">备注（可选）</label>
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'可以在此写下想对再花说的话'" nzTooltipTrigger="hover"
+                                [(ngModel)]="form.remark" name="remark" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
@@ -283,7 +307,11 @@
                     </span>
                     }
                     <div nz-flex nzWrap="wrap" nzGap="small" class="friend-article-meta">
-                        @if (article.sourceFavicon) {
+                        @if (article.sourceAvatar) {
+                        <img class="source-avatar" [src]="article.sourceAvatar" alt="" width="20" height="20"
+                            loading="lazy" (error)="article.sourceAvatar = undefined">
+                        }
+                        @else if (article.sourceFavicon) {
                         <img class="source-favicon" [src]="article.sourceFavicon" alt="" width="14" height="14"
                             loading="lazy">
                         }

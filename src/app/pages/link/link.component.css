@@ -175,26 +175,22 @@
 
 .form-label {
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     font-size: var(--fi-font-size-sm);
     font-weight: var(--fi-font-weight-medium);
     color: var(--fi-text);
 }
 
-.form-hint {
-    display: block;
-    font-size: var(--fi-font-size-xs);
+/* 可选字段（RSS / 联系邮箱 / 备注）：标签与输入框外框使用更浅的棕色，弱化视觉权重；输入框内部保持白色 */
+.form-field--optional .form-label {
     color: var(--fi-text-muted);
-    margin-top: 2px;
+    font-weight: var(--fi-font-weight-regular);
 }
 
-.form-hint.error {
-    color: var(--fi-danger);
-}
-
-.form-hint.warn {
-    color: var(--fi-warning);
-    font-weight: var(--fi-font-weight-medium);
+.form-field--optional .fl-input-control.ant-input {
+    background-color: var(--fi-form-bg) !important;
+    border-color: var(--fi-form-border) !important;
+    color: var(--fi-text-muted) !important;
 }
 
 .input-with-preview {
@@ -218,7 +214,7 @@
 }
 
 .toolbar {
-    padding-top: var(--fi-space-4);
+    padding-top: var(--fi-space-3);
     width: 100%;
 }
 
@@ -304,6 +300,16 @@
 .source-favicon {
     border-radius: 2px;
     vertical-align: middle;
+}
+
+.source-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+    border: 1px solid var(--fi-border);
+    background: var(--fi-bg-soft);
 }
 
 .source-tag {

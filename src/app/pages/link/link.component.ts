@@ -27,6 +27,7 @@ interface ArticleItem {
   sourceUrl: string;
   publishDate: string;
   summary?: string;
+  sourceAvatar?: string;
   sourceFavicon?: string;
 }
 
@@ -87,6 +88,8 @@ export class LinkComponent implements OnInit {
     email: string;
     logo: string;
     name: string;
+    rss: string;
+    remark: string;
     url: string;
   } = {
     name: '',
@@ -94,6 +97,8 @@ export class LinkComponent implements OnInit {
     url: '',
     description: '',
     email: '',
+    rss: '',
+    remark: '',
   };
 
   @ViewChild(SimpleCaptchaComponent)
@@ -240,6 +245,8 @@ LOGO地址：https://api.flowersink.com/img/logo.png
               url: '',
               description: '',
               email: '',
+              rss: '',
+              remark: '',
             };
             this.logoPreviewUrl = '';
             this.limiter.markApiCall('site-link');
@@ -280,9 +287,10 @@ LOGO地址：https://api.flowersink.com/img/logo.png
   }
 
   isFormIncomplete(): boolean {
+    const optionalKeys = new Set(['email', 'rss', 'remark']);
     return Object.keys(this.form).some(
       (key) =>
-        key !== 'email' &&
+        !optionalKeys.has(key) &&
         !this.form[key as keyof typeof this.form]?.trim(),
     );
   }
