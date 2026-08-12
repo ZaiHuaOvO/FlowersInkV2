@@ -27,10 +27,8 @@
 }
 
 .footer-sep {
-  color: #d9cab9;
-  font-size: 11px;
-  user-select: none;
-  line-height: 1;
+  color: var(--fi-primary-active);
+  font-size: 12px;
 }
 
 .text {

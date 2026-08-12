@@ -16,8 +16,6 @@ import { PlanetComponent } from '../svg/planet/planet.component';
     NzIconModule,
     NzAvatarModule,
     NzTypographyModule,
-    PlanetComponent,
-    Forever,
   ],
 })
-export class FooterComponent {}
+export class FooterComponent { }
