@@ -5,8 +5,9 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { md5 } from '../../../shared/utils/md5.util';
+import { getQqNumber, buildQqAvatarUrl } from '../../../shared/utils/qq-avatar.util';
 
-type AvatarState = 'logo' | 'gravatar' | 'fallback';
+type AvatarState = 'logo' | 'gravatar' | 'qq' | 'fallback';
 
 interface LinkData {
   id?: number;
@@ -37,6 +38,7 @@ export class LinkCardComponent implements OnInit {
   avatarState: AvatarState = 'logo';
   logoFailed = false;
   gravatarFailed = false;
+  qqFailed = false;
   avatarLoaded = false;
 
   ngOnInit(): void {
@@ -50,6 +52,12 @@ export class LinkCardComponent implements OnInit {
     if (this.avatarState === 'gravatar' && this.link.email) {
       const hash = md5(this.link.email.trim().toLowerCase());
       return `https://www.gravatar.com/avatar/${hash}?d=404&s=80`;
+    }
+    if (this.avatarState === 'qq' && this.link.email) {
+      const qq = getQqNumber(this.link.email);
+      if (qq) {
+        return buildQqAvatarUrl(qq);
+      }
     }
     return null;
   }
@@ -70,12 +78,33 @@ export class LinkCardComponent implements OnInit {
         this.avatarState = 'gravatar';
         return;
       }
+      // Try qq if email is a qq number and qq hasn't already failed
+      if (!this.qqFailed && this.link.email && getQqNumber(this.link.email)) {
+        this.avatarState = 'qq';
+        return;
+      }
       this.avatarState = 'fallback';
       return;
     }
 
     if (this.avatarState === 'gravatar') {
       this.gravatarFailed = true;
+      // Try logo if it exists and hasn't already failed
+      if (!this.logoFailed && this.link.logo) {
+        this.avatarState = 'logo';
+        return;
+      }
+      // Try qq if email is a qq number and qq hasn't already failed
+      if (!this.qqFailed && this.link.email && getQqNumber(this.link.email)) {
+        this.avatarState = 'qq';
+        return;
+      }
+      this.avatarState = 'fallback';
+      return;
+    }
+
+    if (this.avatarState === 'qq') {
+      this.qqFailed = true;
       // Try logo if it exists and hasn't already failed
       if (!this.logoFailed && this.link.logo) {
         this.avatarState = 'logo';
@@ -99,7 +128,12 @@ export class LinkCardComponent implements OnInit {
     } else if (hasLogo) {
       this.avatarState = 'logo';
     } else if (hasEmail) {
-      this.avatarState = 'gravatar';
+      // QQ 号邮箱（纯数字前缀）优先于普通 Gravatar
+      if (getQqNumber(this.link.email)) {
+        this.avatarState = 'qq';
+      } else {
+        this.avatarState = 'gravatar';
+      }
     } else {
       this.avatarState = 'fallback';
     }

@@ -26,8 +26,9 @@ import { loadCommenterInfo, saveCommenterInfo } from '../../../shared/utils/comm
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FadeSlide, ExpandCollapse } from '../../../common_ui/animations/animation';
+import { getQqNumber, buildQqAvatarUrl } from '../../../shared/utils/qq-avatar.util';
 
-type AvatarState = 'none' | 'avatarUrl' | 'gravatar' | 'fallback';
+type AvatarState = 'none' | 'avatarUrl' | 'gravatar' | 'qq' | 'fallback';
 
 interface CommentFormState {
   name: string;
@@ -290,7 +291,8 @@ export class LifeCommentsComponent implements OnInit, OnChanges {
       if (c.avatarUrl) {
         c._avatar = 'avatarUrl';
       } else if (c.email) {
-        c._avatar = 'gravatar';
+        // QQ 号邮箱（纯数字前缀）优先于普通 Gravatar
+        c._avatar = getQqNumber(c.email) ? 'qq' : 'gravatar';
       } else {
         c._avatar = 'fallback';
       }
@@ -310,6 +312,12 @@ export class LifeCommentsComponent implements OnInit, OnChanges {
       const hash = md5(c.email.trim().toLowerCase());
       return `https://www.gravatar.com/avatar/${hash}?d=404&s=80`;
     }
+    if (state === 'qq' && c.email) {
+      const qq = getQqNumber(c.email);
+      if (qq) {
+        return buildQqAvatarUrl(qq);
+      }
+    }
     return null;
   }
 
@@ -324,7 +332,9 @@ export class LifeCommentsComponent implements OnInit, OnChanges {
     if (c.isAdminReply) return;
     const state = this.getAvatarState(c);
     if (state === 'avatarUrl' && c.email) {
-      c._avatar = 'gravatar';
+      c._avatar = getQqNumber(c.email) ? 'qq' : 'gravatar';
+    } else if (state === 'gravatar' && c.email && getQqNumber(c.email)) {
+      c._avatar = 'qq';
     } else {
       c._avatar = 'fallback';
     }
