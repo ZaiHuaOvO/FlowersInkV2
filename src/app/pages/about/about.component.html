@@ -199,31 +199,28 @@
       <nz-spin class="message-spin" [nzTip]="'留言正在赶来中'" [nzSpinning]="loadingMessages">
         <div nz-flex [nzVertical]="true">
           <flower-edit-message class="message-editor"></flower-edit-message>
-          <div class="message-list-wrap">
-            <nz-list [nzDataSource]="messages" [nzRenderItem]="msgItem" [nzItemLayout]="'horizontal'"
-              nzNoResult="还没有留言">
-              <ng-template #msgItem let-item>
-                <nz-comment [nzAuthor]="name" [nzDatetime]="date">
-                  <nz-comment-content>
-                    <p class="message-text">{{ item.content }}</p>
-                  </nz-comment-content>
-                  <ng-template #name>
-                    @if (!item.url) {
-                    <span class="message-name">{{ item.name }}</span>
-                    }
-                    @if (item.url) {
-                    <a class="message-url" (click)="navigateToUrl(item.url)">{{ item.name }}</a>
-                    }
-                  </ng-template>
-                  <ng-template #date>
-                    <span>{{ item.createDate | date:'yyyy-MM-dd HH:mm:ss' }}</span>
-                  </ng-template>
-                </nz-comment>
-              </ng-template>
-            </nz-list>
+          <div class="fi-comment-wall">
+            @for (item of messages; track $index) {
+            <article class="fi-note">
+              <p class="fi-note__content">{{ item.content }}</p>
+              <footer class="fi-note__footer">
+                <span class="fi-note__name">
+                  @if (!item.url) {
+                  <span class="fi-note__author">{{ item.name }}</span>
+                  }
+                  @if (item.url) {
+                  <a class="fi-note__link" (click)="navigateToUrl(item.url)">{{ item.name }}</a>
+                  }
+                </span>
+                <time class="fi-note__date">{{ item.createDate | date:'yyyy-MM-dd' }}</time>
+              </footer>
+            </article>
+            } @empty {
+            <div class="fi-comment-wall__empty">还没有留言</div>
+            }
           </div>
-          <nz-pagination [nzPageIndex]="messagePage" [nzTotal]="messageCount" nzSimple
-            nzHideOnSinglePage="true"></nz-pagination>
+          <nz-pagination class="message-pagination" [nzPageIndex]="messagePage" [nzTotal]="messageCount"
+            nzSimple nzHideOnSinglePage="true"></nz-pagination>
         </div>
       </nz-spin>
     </section>

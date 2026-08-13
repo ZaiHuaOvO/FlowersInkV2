@@ -18,8 +18,6 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -80,8 +78,6 @@ const expandCollapse = trigger('expandCollapse', [
     NzDividerModule,
     NzImageModule,
     NzSpinModule,
-    NzListModule,
-    NzCommentModule,
     NzPaginationModule,
     NzPopoverModule,
     DatePipe,

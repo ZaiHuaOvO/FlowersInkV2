@@ -719,7 +719,7 @@
 }
 
 /* ============================================================
-   Section 5: Messages
+   Section 5: Messages — Sticky Note Wall
    ============================================================ */
 
 .message-desc {
@@ -734,41 +734,278 @@
   width: 100%;
 }
 
-.message-list-wrap ::ng-deep nz-comment {
-  transition: background var(--fi-motion-fast) var(--fi-ease-standard);
-  border-radius: var(--fi-radius-sm);
-  margin: 0 calc(-1 * var(--fi-space-2));
-  padding: 0 var(--fi-space-2);
+/* ---- Sticky note color variants (low saturation, warm paper) ---- */
+.fi-note--cream { --fi-note-bg: #f7e7c8; }
+.fi-note--peach { --fi-note-bg: #f2d3c3; }
+.fi-note--sage { --fi-note-bg: #d8e2ce; }
+.fi-note--blue { --fi-note-bg: #d6e2e8; }
+.fi-note--lavender { --fi-note-bg: #e3dce8; }
+.fi-note--brown { --fi-note-bg: #e9dbc9; }
+
+/* ---- Wall: CSS columns masonry ---- */
+.fi-comment-wall {
+  column-count: 4;
+  column-gap: 24px;
+  margin-top: var(--fi-space-9);
 }
 
-.message-list-wrap ::ng-deep nz-comment:hover {
-  background: var(--fi-surface-soft);
-}
-
-.message-text {
+.fi-comment-wall__empty {
+  column-span: all;
+  padding: var(--fi-space-8);
+  text-align: center;
   font-size: var(--fi-font-size-lg);
-  font-weight: var(--fi-font-weight-medium);
-  line-height: var(--fi-line-height-relaxed);
+  color: var(--fi-text-muted);
+  background: var(--fi-surface-soft);
+  border: 1px dashed var(--fi-border-strong);
+  border-radius: var(--fi-radius-md);
 }
 
-.message-name {
+.fi-note {
+  position: relative;
+  box-sizing: border-box;
+  break-inside: avoid;
+  margin: 0 0 28px;
+  width: 100%;
+  min-height: 180px;
+  padding: 30px 24px 22px;
+  border-radius: 2px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 46%),
+    radial-gradient(rgba(80, 50, 30, 0.025) 0.6px, transparent 0.6px),
+    var(--fi-note-bg, #f7e7c8);
+  box-shadow:
+    0 2px 3px rgba(58, 39, 22, 0.05),
+    0 8px 14px rgba(58, 39, 22, 0.08),
+    0 16px 26px rgba(58, 39, 22, 0.06);
+  cursor: default;
+  z-index: 1;
+  transform: translateY(var(--fi-note-offset, 0px)) var(--fi-note-rot, rotate(0deg));
+  transition:
+    transform var(--fi-motion-normal) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+/* Stable per-note rotation — document order stays consistent */
+.fi-note:nth-child(6n + 1) { --fi-note-rot: rotate(-1.4deg); }
+.fi-note:nth-child(6n + 2) { --fi-note-rot: rotate(1.1deg); }
+.fi-note:nth-child(6n + 3) { --fi-note-rot: rotate(-0.7deg); }
+.fi-note:nth-child(6n + 4) { --fi-note-rot: rotate(1.7deg); }
+.fi-note:nth-child(6n + 5) { --fi-note-rot: rotate(-1deg); }
+.fi-note:nth-child(6n) { --fi-note-rot: rotate(0.6deg); }
+
+/* Slight vertical drift (±3~5px) — keeps the wall from looking like a
+   rigid grid while the columns layout stays intact */
+.fi-note:nth-child(3n + 1) { --fi-note-offset: 4px; }
+.fi-note:nth-child(3n + 2) { --fi-note-offset: -3px; }
+.fi-note:nth-child(3n) { --fi-note-offset: 2px; }
+
+/* Very subtle edge irregularity — barely-visible, non-uniform corners */
+.fi-note:nth-child(4n + 1) { border-radius: 3px 2px 2px 3px; }
+.fi-note:nth-child(4n + 2) { border-radius: 2px 3px 3px 2px; }
+.fi-note:nth-child(4n + 3) { border-radius: 3px 3px 2px 2px; }
+.fi-note:nth-child(4n) { border-radius: 2px 2px 3px 3px; }
+
+/* Stable color assignment, decoupled from rotation */
+.fi-note:nth-child(6n + 1) { --fi-note-bg: #f7e7c8; }
+.fi-note:nth-child(6n + 2) { --fi-note-bg: #f2d3c3; }
+.fi-note:nth-child(6n + 3) { --fi-note-bg: #d8e2ce; }
+.fi-note:nth-child(6n + 4) { --fi-note-bg: #d6e2e8; }
+.fi-note:nth-child(6n + 5) { --fi-note-bg: #e3dce8; }
+.fi-note:nth-child(6n) { --fi-note-bg: #e9dbc9; }
+
+/* ---- Pushpin (bronze, unified across all notes) ---- */
+.fi-note::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 49%;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #a96f3b, #8b5a2b 55%, #6a411d);
+  box-shadow:
+    0 2px 3px rgba(58, 39, 22, 0.28),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  z-index: 2;
+  transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+/* Slight per-note pushpin drift — mimics hand-placed pins */
+.fi-note:nth-child(3n + 1)::before { left: 47%; }
+.fi-note:nth-child(3n + 2)::before { left: 52%; }
+.fi-note:nth-child(3n)::before { left: 49%; }
+
+/* ---- Content ---- */
+.fi-note__content {
+  margin: 0;
+  color: var(--fi-text);
+  font-size: 15px;
+  line-height: 1.75;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.fi-note__footer {
+  margin-top: 16px;
+  padding-top: 10px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 1px dashed rgba(47, 33, 23, 0.12);
+}
+
+.fi-note__author {
   font-size: var(--fi-font-size-md);
   font-weight: var(--fi-font-weight-semibold);
   color: var(--fi-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.message-url {
+.fi-note__link {
   font-size: var(--fi-font-size-md);
   color: var(--fi-primary);
   cursor: pointer;
   font-weight: var(--fi-font-weight-semibold);
   text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: color var(--fi-motion-fast);
 }
 
-.message-url:hover {
+.fi-note__link:hover {
   color: var(--fi-primary-hover);
   text-decoration: underline;
+}
+
+.fi-note__date {
+  flex-shrink: 0;
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Hover: the paper lifts off the wall, kept subtle ---- */
+.fi-note:hover {
+  transform: translateY(-5px) scale(1.025) rotate(0deg);
+  box-shadow:
+    0 3px 6px rgba(58, 39, 22, 0.08),
+    0 10px 18px rgba(58, 39, 22, 0.1),
+    0 20px 34px rgba(58, 39, 22, 0.08);
+  z-index: 10;
+}
+
+/* Keep a small residual angle matching each note's original rotation
+   so hovered notes never all snap perfectly straight (doc §23). */
+.fi-note:nth-child(6n + 1):hover { transform: translateY(-5px) scale(1.025) rotate(-0.3deg); }
+.fi-note:nth-child(6n + 2):hover { transform: translateY(-5px) scale(1.025) rotate(0.2deg); }
+.fi-note:nth-child(6n + 3):hover { transform: translateY(-5px) scale(1.025) rotate(-0.15deg); }
+.fi-note:nth-child(6n + 4):hover { transform: translateY(-5px) scale(1.025) rotate(0.35deg); }
+.fi-note:nth-child(6n + 5):hover { transform: translateY(-5px) scale(1.025) rotate(-0.2deg); }
+.fi-note:nth-child(6n):hover { transform: translateY(-5px) scale(1.025) rotate(0.1deg); }
+
+.fi-note:hover::before {
+  transform: translateY(-1px);
+}
+
+/* ---- Entrance stagger (kept light; respects reduced motion) ---- */
+.fi-note {
+  animation: fi-note-in 300ms var(--fi-ease-standard) backwards;
+}
+
+.fi-note:nth-child(1) { animation-delay: 0ms; }
+.fi-note:nth-child(2) { animation-delay: 40ms; }
+.fi-note:nth-child(3) { animation-delay: 80ms; }
+.fi-note:nth-child(4) { animation-delay: 120ms; }
+.fi-note:nth-child(5) { animation-delay: 160ms; }
+.fi-note:nth-child(n + 6) { animation-delay: 200ms; }
+
+@keyframes fi-note-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(8px + var(--fi-note-offset, 0px))) scale(0.98) var(--fi-note-rot, rotate(0deg));
+  }
+}
+
+.message-pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: var(--fi-space-5);
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .fi-note {
+    transition: none;
+    animation: none;
+  }
+
+  .fi-note:hover {
+    transform: none;
+  }
+
+  .fi-note:hover::before {
+    transform: none;
+  }
+}
+
+/* ---- Responsive: 4 → 3 → 2 → 1 columns ---- */
+@media (max-width: 1199px) {
+  .fi-comment-wall {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 899px) {
+  .fi-comment-wall {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 599px) {
+  .fi-comment-wall {
+    column-count: 1;
+  }
+}
+
+@media (max-width: 899px) {
+  .fi-note {
+    padding: 26px 20px 20px;
+  }
+}
+
+@media (max-width: 599px) {
+  .fi-note {
+    padding: 24px 18px 18px;
+  }
+
+  /* Mobile: much gentler rotation */
+  .fi-note:nth-child(6n + 1) { --fi-note-rot: rotate(-0.5deg); }
+  .fi-note:nth-child(6n + 2) { --fi-note-rot: rotate(0.4deg); }
+  .fi-note:nth-child(6n + 3) { --fi-note-rot: rotate(-0.3deg); }
+  .fi-note:nth-child(6n + 4) { --fi-note-rot: rotate(0.6deg); }
+  .fi-note:nth-child(6n + 5) { --fi-note-rot: rotate(-0.4deg); }
+  .fi-note:nth-child(6n) { --fi-note-rot: rotate(0.2deg); }
+
+  .fi-note:hover {
+    transform: translateY(-4px) scale(1.02) rotate(0deg);
+  }
+
+  .fi-note:nth-child(6n + 1):hover { transform: translateY(-4px) scale(1.02) rotate(-0.1deg); }
+  .fi-note:nth-child(6n + 2):hover { transform: translateY(-4px) scale(1.02) rotate(0.08deg); }
+  .fi-note:nth-child(6n + 3):hover { transform: translateY(-4px) scale(1.02) rotate(-0.06deg); }
+  .fi-note:nth-child(6n + 4):hover { transform: translateY(-4px) scale(1.02) rotate(0.1deg); }
+  .fi-note:nth-child(6n + 5):hover { transform: translateY(-4px) scale(1.02) rotate(-0.08deg); }
+  .fi-note:nth-child(6n):hover { transform: translateY(-4px) scale(1.02) rotate(0.04deg); }
+
+  .fi-note__content {
+    font-size: var(--fi-font-size-md);
+  }
 }
 
 /* ============================================================
@@ -900,10 +1137,5 @@
   .thanks-avatar {
     width: 36px;
     height: 36px;
-  }
-
-  /* Messages */
-  .message-text {
-    font-size: var(--fi-font-size-md);
   }
 }
