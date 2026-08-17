@@ -1,25 +1,26 @@
 <div class="equipment" nz-flex [nzVertical]="true" nzAlign="center">
-  <div class="content equipment-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true" @QuickUp>
+  <div class="content equipment-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true"
+    @QuickUp>
     <flower-blog-title [title]="'再花的装备图鉴'"></flower-blog-title>
-    <p nz-typography class="equipment-subtitle">再花一生中可观测的所有设备，人生路上的好伙伴。</p>
+    <p nz-typography class="equipment-subtitle">再花一生中可观测的所有装备，人生路上的好伙伴。</p>
     <nz-spin class="equipment-spin" [nzSpinning]="loading">
       @if (data.length > 0) {
-        @for (cat of data; track cat.id) {
-          <section class="equipment-category-block" nz-flex [nzVertical]="true" nzGap="middle">
-            <h4 class="equipment-category">{{ cat.name }}</h4>
-            <nz-row class="equipment-grid" [nzGutter]="[20,20]" nzJustify="start">
-              @for (item of cat.items; track item.id) {
-                <nz-col class="equipment-grid__col" [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6" [nzXl]="6">
-                  <flower-equipment-card [item]="item"></flower-equipment-card>
-                </nz-col>
-              }
-            </nz-row>
-          </section>
-        }
+      @for (cat of data; track cat.id) {
+      <section class="equipment-category-block" nz-flex [nzVertical]="true" nzGap="middle">
+        <h4 class="equipment-category">{{ cat.name }}</h4>
+        <nz-row class="equipment-grid" [nzGutter]="[20,20]" nzJustify="start">
+          @for (item of cat.items; track item.id) {
+          <nz-col class="equipment-grid__col" [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6" [nzXl]="6">
+            <flower-equipment-card [item]="item"></flower-equipment-card>
+          </nz-col>
+          }
+        </nz-row>
+      </section>
+      }
       } @else if (!loading) {
-        <div class="equipment-empty">
-          <span nz-typography class="equipment-empty-text">暂时没有找到任何装备</span>
-        </div>
+      <div class="equipment-empty">
+        <span nz-typography class="equipment-empty-text">暂时没有找到任何装备</span>
+      </div>
       }
     </nz-spin>
   </div>

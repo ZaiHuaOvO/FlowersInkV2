@@ -3,9 +3,11 @@
     <div class="game-overview-body" nz-flex [nzVertical]="true" nzGap="small">
       <div class="game-overview-title">
         <span nz-typography class="game-overview-name">{{game.name}}</span>
-        <nz-tag flTag flTagVariant="outline" class="game-platform-tag">
-          <span nz-typography class="game-tag-text">{{game.platform}}</span>
-        </nz-tag>
+        @if (game.tag !== '') {
+          <nz-tag flTag flTagVariant="soft" class="game-platform-tag">
+            <span nz-typography class="game-tag-text">{{game.tag}}</span>
+          </nz-tag>
+        }
       </div>
       <div class="game-overview-meta">
         @if (showTime) {
