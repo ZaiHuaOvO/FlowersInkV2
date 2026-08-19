@@ -169,7 +169,8 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadLikeState();
     this.fetchTimeline();
 
-    // 路由绑定：/life/:id 时自动打开对应详情弹窗（唯一打开入口）
+    // 路由绑定：/life/:id 直达时打开详情弹窗；浏览器返回 /life 时关闭弹窗。
+    // 卡片点击走 openDetailDialog 直接打开，不依赖此处 emit（同 id 不会重复 emit）。
     this.route.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
@@ -441,15 +442,20 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // ---- 详情弹窗 ----
 
-  /** 点击卡片：同步路由为 /life/:id，由 paramMap 订阅统一打开弹窗（唯一入口，避免重复） */
+  /** 点击卡片：直接打开详情弹窗，并同步路由为 /life/:id */
   openDetailDialog(item: LifeTimelineItem, event?: MouseEvent): void {
     event?.stopPropagation();
     this.savedListScrollY = window.scrollY || window.pageYOffset || 0;
     this.restoreScrollOnClose = true;
+    // 必须直接打开弹窗，不能只靠路由 paramMap：关闭弹窗时仅 history.replaceState
+    // 同步地址栏，Router 内部状态仍停留在 /life/:id，再次点击同一条时参数未变
+    // （shallowEqual 过滤）paramMap 不会重新 emit，弹窗将无法弹出。
+    // openDetailById 内部 guard 保证 paramMap 的重复 emit 不会重复打开。
+    this.openDetailById(item.id);
     this.router.navigate(['/life', item.id], { replaceUrl: true });
   }
 
-  /** 打开详情弹窗（仅由路由 paramMap 触发，避免点击/直达双入口重复打开） */
+  /** 打开详情弹窗（卡片点击与路由 paramMap 均会触发，内部 guard 防重复） */
   openDetailById(id: number): void {
     // 已打开同一条弹窗则跳过（路由订阅可能重复 emit）
     if (this.detailModalRef && this.activeDetailId === id) {
