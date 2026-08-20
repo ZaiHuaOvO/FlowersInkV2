@@ -19,7 +19,7 @@
 }
 
 .blog-detail-shell {
-  width: min(100%, 1320px);
+  width: min(100%, 1120px);
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(260px, 22vw, 320px);
@@ -37,6 +37,22 @@
   width: 100%;
   margin-left: 0;
   min-width: 0;
+}
+
+/* 文章详情顶部标题：比正文略大、左对齐，长标题换行也自然 */
+:host ::ng-deep .article-title .title {
+  text-align: left;
+  font-size: clamp(22px, 2vw, 26px);
+  line-height: 1.35;
+  min-height: 0;
+  padding: 8px 0;
+}
+
+/* 详情页标题的下划线左对齐并缩短，贴合正文排版 */
+:host ::ng-deep .article-title .title::after {
+  width: 44px;
+  height: 2.5px;
+  margin: 10px 0 0;
 }
 
 .me {
@@ -137,25 +153,35 @@
   padding: 0 clamp(12px, 2.2vw, 24px);
 }
 
-nz-page-header {
-  border: 0;
-  border-radius: var(--fi-radius-sm);
+/* 顶部返回栏：仅保留左侧返回图标，紧凑，与正文缩进对齐 */
+.site-page-header {
+  margin-bottom: var(--fi-space-2);
 }
 
-:host ::ng-deep .site-page-header .ant-typography-secondary {
+.site-page-header.ant-page-header {
+  padding: 8px clamp(12px, 2.2vw, 24px);
+}
+
+.site-page-header ::ng-deep .ant-page-header-back {
+  color: var(--fi-text-muted);
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.site-page-header ::ng-deep .ant-page-header-back:hover {
+  color: var(--fi-primary);
+}
+
+/* 文章元信息行（标签 / 阅读量 / 日期） */
+.article-meta {
+  margin-bottom: var(--fi-space-4);
+}
+
+.article-meta ::ng-deep .ant-typography {
   color: var(--fi-text-muted) !important;
+  font-size: var(--fi-font-size-sm);
 }
 
-:host ::ng-deep .site-page-header .ant-page-header-heading-extra {
-  color: var(--fi-text-muted) !important;
-}
-
-:host ::ng-deep .site-page-header .ant-page-header-heading-extra .ant-typography,
-:host ::ng-deep .site-page-header .ant-page-header-heading-extra .anticon {
-  color: var(--fi-text-muted) !important;
-}
-
-:host ::ng-deep .site-page-header .ant-divider-vertical {
+.article-meta ::ng-deep .ant-divider-vertical {
   border-color: color-mix(in srgb, var(--fi-text-muted) 35%, transparent) !important;
 }
 

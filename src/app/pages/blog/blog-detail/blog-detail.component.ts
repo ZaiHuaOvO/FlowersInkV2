@@ -268,7 +268,39 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
 
+    this.injectHeadingAnchors();
     this.bindImagePreview();
+  }
+
+  /** 给 h1-h3 注入可复制/跳转的 # 锚点，并给代码块注入语言标签（供 markdown-zaihua.css 展示） */
+  private injectHeadingAnchors(): void {
+    const container = this.el.nativeElement.querySelector('#currentAnchor');
+    if (!container) return;
+
+    // h3 补 id（目录不含 h3，但可作为页内锚点）
+    container.querySelectorAll('h3:not([id])').forEach((heading: HTMLElement, index: number) => {
+      heading.id = `heading-h3-${index}`;
+    });
+
+    container.querySelectorAll('h1, h2, h3').forEach((heading: HTMLElement) => {
+      if (!heading.id || heading.querySelector('.heading-anchor')) return;
+      heading.insertAdjacentHTML(
+        'afterbegin',
+        `<a class="heading-anchor" href="#${heading.id}" aria-hidden="true"></a>`
+      );
+    });
+
+    // 代码块语言标签：取 <code>/<pre> 上的 language-* 类
+    container.querySelectorAll('pre').forEach((pre: HTMLElement) => {
+      if (pre.dataset['lang']) return;
+      const code = pre.querySelector('code');
+      const langClass =
+        (code && Array.from(code.classList).find((c) => c.startsWith('language-'))) ||
+        Array.from(pre.classList).find((c) => c.startsWith('language-'));
+      if (langClass) {
+        pre.dataset['lang'] = langClass.replace('language-', '');
+      }
+    });
   }
 
   private bindImagePreview(): void {

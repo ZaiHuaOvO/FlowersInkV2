@@ -2,7 +2,7 @@
    markdown-zaihua.css
    Markdown 主题样式
    灵感来源：VitePress（布局层次）、Typora（阅读体验）
-   配色：花墨品牌棕色系（--fi-* token）
+   配色：花墨品牌棕色系（--fi-* token 派生，改品牌色即可整体换肤）
    =================================== */
 
 /* ===== 容器 ===== */
@@ -12,18 +12,21 @@
   --md-muted: var(--fi-text-muted);
   --md-brand: var(--fi-primary);
   --md-brand-hover: var(--fi-primary-hover);
+  --md-surface: var(--fi-surface);
+  --md-surface-soft: var(--fi-surface-soft);
   --md-code-bg: #2a1f18;
   --md-code-fg: #f4ede6;
-  --md-code-inline-bg: #f3ede6;
-  --md-code-inline-border: #e0d4c8;
-  --md-blockquote-bg: #faf5ef;
+  --md-code-inline-bg: color-mix(in srgb, var(--fi-primary) 6%, var(--fi-surface));
+  --md-code-inline-border: color-mix(in srgb, var(--fi-primary) 26%, var(--fi-surface));
+  --md-blockquote-bg: color-mix(in srgb, var(--fi-primary) 6%, var(--fi-surface-soft));
   --md-blockquote-border: var(--fi-primary);
-  --md-divider: #e8dfd6;
-  --md-table-border: #e0d4c8;
-  --md-table-header-bg: #f5ede4;
-  --md-table-stripe: #faf6f1;
+  --md-divider: color-mix(in srgb, var(--fi-primary) 20%, var(--fi-surface));
+  --md-table-border: color-mix(in srgb, var(--fi-primary) 26%, var(--fi-surface));
+  --md-table-header-bg: color-mix(in srgb, var(--fi-primary) 8%, var(--fi-surface));
+  --md-table-stripe: color-mix(in srgb, var(--fi-primary) 3%, var(--fi-surface));
   --md-selection: var(--fi-primary-outline);
-  --md-link-underline: rgba(139, 90, 43, 0.3);
+  --md-link-underline: color-mix(in srgb, var(--fi-primary) 30%, transparent);
+  --md-list-marker: var(--fi-primary);
 
   font-family: var(--fi-font-base);
   font-size: 16px;
@@ -34,7 +37,7 @@
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
-  /* 图片限制在容器宽度内 */
+  /* 钳制标题 # 锚点等负向偏移元素产生的横向溢出 */
   overflow-x: hidden;
 }
 
@@ -50,7 +53,9 @@
   margin-bottom: 0 !important;
 }
 
-/* ===== 标题 ===== */
+/* ===== 标题 =====
+   文章顶部标题（blog-title 详情页态）为 clamp(22px, 2vw, 26px)，
+   正文标题统一小于它，保证页面标题始终是最大的一级。 */
 #currentAnchor h1,
 #currentAnchor h2,
 #currentAnchor h3,
@@ -59,38 +64,76 @@
 #currentAnchor h6 {
   color: var(--md-heading);
   font-weight: 650;
-  line-height: 1.35;
+  line-height: 1.4;
   letter-spacing: -0.01em;
   position: relative;
+  scroll-margin-top: 96px;
 }
 
 #currentAnchor h1 {
-  font-size: 2.05rem;
-  margin: 0 0 1.25rem;
+  font-size: 1.35rem;
+  margin: 0 0 1.4rem;
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--md-divider);
 }
 
 #currentAnchor h2 {
-  font-size: 1.55rem;
-  margin: 2.25rem 0 0.85rem;
-  padding-top: 0.15rem;
+  font-size: 1.2rem;
+  margin: 2.1rem 0 0.85rem;
+  padding-bottom: 0.25rem;
+}
+
+#currentAnchor h2::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  margin-top: 0.5rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--md-brand), color-mix(in srgb, var(--md-brand) 35%, transparent));
 }
 
 #currentAnchor h3 {
-  font-size: 1.25rem;
-  margin: 1.75rem 0 0.65rem;
+  font-size: 1.1rem;
+  margin: 1.7rem 0 0.6rem;
 }
 
 #currentAnchor h4 {
-  font-size: 1.05rem;
-  margin: 1.5rem 0 0.5rem;
+  font-size: 1rem;
+  margin: 1.4rem 0 0.5rem;
 }
 
 #currentAnchor h5,
 #currentAnchor h6 {
-  font-size: 0.95rem;
-  margin: 1.25rem 0 0.45rem;
+  font-size: 0.92rem;
+  margin: 1.2rem 0 0.45rem;
+}
+
+/* 标题悬停显示 # 锚点（blog-detail 注入 .heading-anchor） */
+#currentAnchor h1:hover > .heading-anchor,
+#currentAnchor h2:hover > .heading-anchor,
+#currentAnchor h3:hover > .heading-anchor {
+  opacity: 0.75;
+}
+
+#currentAnchor .heading-anchor {
+  float: left;
+  margin-left: -1.05em;
+  padding-right: 0.25em;
+  color: var(--md-muted);
+  text-decoration: none;
+  border: 0;
+  opacity: 0;
+  transition: opacity var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+#currentAnchor .heading-anchor:hover {
+  color: var(--md-brand);
+  opacity: 1;
+}
+
+#currentAnchor .heading-anchor::before {
+  content: '#';
 }
 
 /* ===== 段落 & 列表 ===== */
@@ -110,9 +153,24 @@
   color: var(--md-body);
 }
 
+/* 首段引导（lead） */
+#currentAnchor > p:first-of-type {
+  font-size: 1.06em;
+  line-height: 1.78;
+}
+
 #currentAnchor ul,
 #currentAnchor ol {
   padding-left: 1.5rem;
+}
+
+#currentAnchor ul > li::marker,
+#currentAnchor ol > li::marker {
+  color: var(--md-list-marker);
+}
+
+#currentAnchor ol > li::marker {
+  font-weight: 600;
 }
 
 #currentAnchor li {
@@ -130,9 +188,16 @@
   margin: 0.4rem 0;
 }
 
+/* 任务列表去掉原生圆点 */
+#currentAnchor .contains-task-list,
+#currentAnchor .task-list {
+  list-style: none;
+  padding-left: 0.15rem;
+}
+
 /* ===== 强调（加粗、斜体） ===== */
 #currentAnchor strong {
-  color: var(--md-brand);
+  color: var(--md-heading);
   font-weight: 650;
 }
 
@@ -142,7 +207,7 @@
 
 #currentAnchor strong em,
 #currentAnchor em strong {
-  color: var(--md-brand);
+  color: var(--md-heading);
   font-style: italic;
 }
 
@@ -159,13 +224,32 @@
   border-bottom-color: var(--md-brand-hover);
 }
 
+#currentAnchor a:focus-visible {
+  outline: 2px solid var(--md-brand);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /* ===== 引用 ===== */
 #currentAnchor blockquote {
-  padding: 0.5rem 1.15rem;
+  position: relative;
+  padding: 0.9rem 1.2rem 0.9rem 2.1rem;
   border-left: 4px solid var(--md-blockquote-border);
   background: var(--md-blockquote-bg);
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 12px 12px 0;
   color: var(--md-muted);
+}
+
+#currentAnchor blockquote::before {
+  content: '“';
+  position: absolute;
+  top: 0.3rem;
+  left: 0.55rem;
+  font-size: 2.3rem;
+  line-height: 1;
+  color: var(--md-brand);
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 #currentAnchor blockquote p {
@@ -184,6 +268,10 @@
 
 #currentAnchor blockquote blockquote {
   margin-left: 0.5rem;
+}
+
+#currentAnchor blockquote blockquote::before {
+  display: none;
 }
 
 /* ===== 内联代码 ===== */
@@ -208,11 +296,12 @@
 /* ===== 代码块 ===== */
 #currentAnchor pre {
   position: relative;
-  background: var(--md-code-bg);
+  background: linear-gradient(180deg, #30241c, var(--md-code-bg) 64px);
   color: var(--md-code-fg);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 1.25rem 1rem;
+  box-shadow: 0 4px 16px rgba(42, 31, 24, 0.14);
+  padding: 1.55rem 1rem 1.25rem;
   overflow-x: auto;
   line-height: 1.65;
   font-size: 0.88rem;
@@ -231,16 +320,17 @@
   tab-size: 2;
 }
 
-/* 代码块前的小标识（语言标签） */
+/* 代码块语言标签（blog-detail 注入 data-lang） */
 #currentAnchor pre::before {
+  content: attr(data-lang);
   position: absolute;
-  top: 0.25rem;
-  right: 0.75rem;
-  font-size: 0.7rem;
+  top: 0.42rem;
+  left: 0.9rem;
+  font-size: 0.68rem;
   font-family: var(--fi-font-base);
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(244, 237, 230, 0.35);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   pointer-events: none;
 }
 
@@ -271,12 +361,27 @@
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* ===== 水平分割线 ===== */
+/* ===== 水平分割线（中间带小花饰） ===== */
 #currentAnchor hr {
-  border: 0;
+  position: relative;
   height: 1px;
+  border: 0;
   background: linear-gradient(to right, transparent, var(--md-divider), transparent);
-  margin: 2.25rem 0;
+  margin: 2.5rem 0;
+}
+
+#currentAnchor hr::before {
+  content: 'ฅ•ω•ฅ';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0 0.9rem;
+  font-size: 0.95rem;
+  font-family: var(--fi-font-base);
+  letter-spacing: 0.05em;
+  color: var(--md-brand);
+  background: var(--md-surface);
 }
 
 /* ===== 表格 ===== */
@@ -286,10 +391,25 @@
   font-size: 0.9rem;
   display: block;
   overflow-x: auto;
+  border: 1px solid var(--md-table-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(58, 39, 22, 0.05);
 }
 
-#currentAnchor thead {
-  border-bottom: 2px solid var(--md-table-border);
+#currentAnchor thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+#currentAnchor thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+#currentAnchor tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+#currentAnchor tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
 }
 
 #currentAnchor thead th {
@@ -304,6 +424,10 @@
 #currentAnchor tbody tr {
   border-bottom: 1px solid var(--md-table-border);
   transition: background 0.15s ease;
+}
+
+#currentAnchor tbody tr:last-child {
+  border-bottom: 0;
 }
 
 #currentAnchor tbody tr:nth-child(even) {
@@ -321,13 +445,24 @@
 
 /* ===== 图片 ===== */
 #currentAnchor img {
-  max-width: 50% !important;
+  max-width: 70%;
   height: auto;
   display: block;
-  margin: 1.5rem 0;
-  border-radius: 10px;
+  margin: 1.5rem auto;
+  border-radius: 12px;
   border: 1px solid var(--md-divider);
-  box-shadow: 0 2px 8px rgba(58, 39, 22, 0.06);
+  box-shadow: 0 3px 12px rgba(58, 39, 22, 0.08);
+}
+
+#currentAnchor figure img {
+  margin: 0 auto;
+}
+
+#currentAnchor figcaption {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--md-muted);
+  margin-top: 0.5rem;
 }
 
 /* ===== 键盘标签 ===== */
@@ -336,10 +471,11 @@
   font-size: 0.78em;
   border-radius: 6px;
   border: 1px solid var(--md-table-border);
-  border-bottom-width: 2px;
+  border-bottom-width: 2.5px;
   background: var(--md-code-inline-bg);
-  padding: 0.1rem 0.4rem;
+  padding: 0.12rem 0.45rem;
   color: var(--md-body);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 /* ===== 折叠块 ===== */
@@ -355,6 +491,23 @@
   cursor: pointer;
   font-weight: 600;
   color: var(--md-heading);
+  list-style: none;
+}
+
+#currentAnchor summary::-webkit-details-marker {
+  display: none;
+}
+
+#currentAnchor summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.5rem;
+  color: var(--md-brand);
+  transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+#currentAnchor details[open] summary::before {
+  transform: rotate(90deg);
 }
 
 /* ===== 任务列表 ===== */
@@ -363,16 +516,16 @@
   accent-color: var(--md-brand);
 }
 
-/* ===== 代码高亮行号 / 标记（Prism 兼容） ===== */
+/* ===== 代码高亮行号 / 标记（Prism 兼容，暖调配色） ===== */
 #currentAnchor .token.comment,
 #currentAnchor .token.prolog,
 #currentAnchor .token.doctype,
 #currentAnchor .token.cdata {
-  color: rgba(244, 237, 230, 0.4);
+  color: rgba(244, 237, 230, 0.38);
 }
 
 #currentAnchor .token.punctuation {
-  color: rgba(244, 237, 230, 0.65);
+  color: rgba(244, 237, 230, 0.6);
 }
 
 #currentAnchor .token.property,
@@ -382,7 +535,7 @@
 #currentAnchor .token.constant,
 #currentAnchor .token.symbol,
 #currentAnchor .token.deleted {
-  color: #f9c859;
+  color: #f0b868;
 }
 
 #currentAnchor .token.selector,
@@ -391,7 +544,7 @@
 #currentAnchor .token.char,
 #currentAnchor .token.builtin,
 #currentAnchor .token.inserted {
-  color: #b7d97a;
+  color: #c2cf8a;
 }
 
 #currentAnchor .token.operator,
@@ -399,24 +552,24 @@
 #currentAnchor .token.url,
 #currentAnchor .language-css .token.string,
 #currentAnchor .style .token.string {
-  color: #89d4cf;
+  color: #8fc4ba;
 }
 
 #currentAnchor .token.atrule,
 #currentAnchor .token.attr-value,
 #currentAnchor .token.keyword {
-  color: #e5a0cb;
+  color: #e5a8c6;
 }
 
 #currentAnchor .token.function,
 #currentAnchor .token.class-name {
-  color: #7fc9ff;
+  color: #a3c4e6;
 }
 
 #currentAnchor .token.regex,
 #currentAnchor .token.important,
 #currentAnchor .token.variable {
-  color: #f9c859;
+  color: #f0b868;
 }
 
 /* ===== 响应式 ===== */
@@ -427,28 +580,32 @@
   }
 
   #currentAnchor h1 {
-    font-size: 1.7rem;
+    font-size: 1.25rem;
   }
 
   #currentAnchor h2 {
-    font-size: 1.35rem;
+    font-size: 1.12rem;
   }
 
   #currentAnchor h3 {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
 
   #currentAnchor pre {
-    padding: 1rem 0.85rem;
+    padding: 1.45rem 0.85rem 1rem;
     font-size: 0.82rem;
     border-radius: 10px;
   }
 
   #currentAnchor blockquote {
-    padding: 0.4rem 0.9rem;
+    padding: 0.8rem 1rem 0.8rem 1.8rem;
   }
 
   #currentAnchor table {
     font-size: 0.82rem;
+  }
+
+  #currentAnchor img {
+    max-width: 100%;
   }
 }
