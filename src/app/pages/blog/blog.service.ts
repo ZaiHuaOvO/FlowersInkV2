@@ -34,6 +34,14 @@ export class BlogService {
     );
   }
 
+  likeBlog(Id: string): Observable<object> {
+    return this.http.post<object>(API.BLOG + `/${Id}/like`, {}).pipe(
+      tap(() => {
+        this.http.invalidateGetCache([API.BLOG]);
+      })
+    );
+  }
+
   getArticleComments(blogId: string): Observable<object> {
     return this.http.get(
       API.BLOG + `/${blogId}/comments`,

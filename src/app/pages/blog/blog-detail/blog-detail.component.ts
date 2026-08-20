@@ -106,6 +106,12 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   relatedBlogs: any[] = [];
   relatedLoading = false;
 
+  /** 文章点赞（逻辑与点滴一致：每天 9 点重置，每天只点一次） */
+  blogLiked = false;
+  blogLikeCount = 0;
+  blogLikeAnimating = false;
+  private readonly blogLikeStorageKey = 'fi_blog_likes';
+
   @ViewChild('editor', { static: true })
   editorRef!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('viewer', { static: true }) viewerRef!: ElementRef<HTMLDivElement>;
@@ -205,6 +211,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loading = true;
     this.blog.getBlogDetail(this.Id).subscribe((res: any) => {
       this.data = res['data'];
+      this.blogLikeCount = Number(this.data.likes ?? 0);
+      this.restoreBlogLikeState();
       this.title.setTitle(`${this.data.title} | 花墨`);
       this.markdownContent = this.data.content;
       this.loading = false;
@@ -326,6 +334,110 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     navigator.clipboard.writeText(window.location.href).then(() => {
       this.msg.success('链接已复制到剪贴板 ✿');
     });
+  }
+
+  /** 点赞 / 取消防连点：已赞则只播动画，不再请求接口 */
+  toggleBlogLike(): void {
+    if (this.blogLikeAnimating) return;
+
+    this.triggerBlogLikeAnimation();
+
+    if (this.blogLiked) {
+      return;
+    }
+
+    const prevCount = this.blogLikeCount;
+    this.blogLiked = true;
+    this.blogLikeCount = prevCount + 1;
+    this.saveBlogLikeState();
+
+    this.blog.likeBlog(this.Id).subscribe({
+      next: (res: any) => {
+        const data = res?.data ?? res;
+        this.blogLikeCount = Number(data?.likes ?? this.blogLikeCount);
+      },
+      error: () => {
+        this.blogLiked = false;
+        this.blogLikeCount = prevCount;
+        this.saveBlogLikeState();
+      },
+    });
+  }
+
+  private triggerBlogLikeAnimation(): void {
+    this.blogLikeAnimating = true;
+    setTimeout(() => {
+      this.blogLikeAnimating = false;
+    }, 1000);
+  }
+
+  /** 从 localStorage 恢复今日已赞状态 */
+  private restoreBlogLikeState(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    try {
+      const stored = localStorage.getItem(this.blogLikeStorageKey);
+      if (stored) {
+        const data = JSON.parse(stored);
+        const todayKey = this.getTodayKey();
+        if (
+          data.dateKey === todayKey &&
+          Array.isArray(data.ids) &&
+          data.ids.includes(Number(this.Id))
+        ) {
+          this.blogLiked = true;
+        } else {
+          localStorage.removeItem(this.blogLikeStorageKey);
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  private saveBlogLikeState(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    try {
+      const todayKey = this.getTodayKey();
+      let ids: number[] = [];
+      const stored = localStorage.getItem(this.blogLikeStorageKey);
+      if (stored) {
+        const data = JSON.parse(stored);
+        if (data.dateKey === todayKey && Array.isArray(data.ids)) {
+          ids = data.ids;
+        }
+      }
+      const currentId = Number(this.Id);
+      if (this.blogLiked && !ids.includes(currentId)) {
+        ids.push(currentId);
+      } else if (!this.blogLiked) {
+        ids = ids.filter((id) => id !== currentId);
+      }
+      localStorage.setItem(
+        this.blogLikeStorageKey,
+        JSON.stringify({ dateKey: todayKey, ids }),
+      );
+    } catch {
+      // ignore
+    }
+  }
+
+  /** 北京时区每日 9 点分界：9 点前归为前一天 */
+  private getTodayKey(): string {
+    const now = new Date();
+    const beijingOffsetMs = 8 * 60 * 60 * 1000;
+    const beijingMs = now.getTime() + beijingOffsetMs;
+    const beijingDate = new Date(beijingMs);
+    if (beijingDate.getUTCHours() < 9) {
+      beijingDate.setUTCDate(beijingDate.getUTCDate() - 1);
+    }
+    const y = beijingDate.getUTCFullYear();
+    const m = String(beijingDate.getUTCMonth() + 1).padStart(2, '0');
+    const d = String(beijingDate.getUTCDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
   }
 
   /** 文章表情互动数据 */
