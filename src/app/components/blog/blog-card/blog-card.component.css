@@ -36,25 +36,14 @@
     color: #8a6a49 !important;
 }
 
-.blog-card-actions {
+.comment-count {
     margin-left: auto;
     flex-shrink: 0;
 }
 
-.comment-count {
-    margin-left: 0;
-    flex-shrink: 0;
-}
-
-.comment-count .anticon,
-.blog-like-count .anticon {
+.comment-count .anticon {
     color: #8a6a49 !important;
     font-size: 14px;
-}
-
-.blog-like-count .blog_meta_text,
-.blog-like-count .ant-typography {
-    margin-bottom: 0;
 }
 
 @media (max-width: 980px) {
@@ -67,7 +56,6 @@
         align-items: flex-start !important;
     }
 
-    .blog-card-actions,
     .comment-count {
         margin-left: 0;
     }

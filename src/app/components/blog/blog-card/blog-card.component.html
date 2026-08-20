@@ -17,15 +17,9 @@
         {{blog.views}} | </span>
       <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
     </div>
-    <div class="blog-card-actions" nz-flex nzAlign="center" nzGap="small">
-      <span class="blog-like-count" nz-flex nzAlign="center" nzGap="small">
-        <span nz-icon nzType="heart" nzTheme="outline"></span>
-        <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.likes ?? 0 }}</span>
-      </span>
-      <span class="comment-count" nz-flex nzAlign="center" nzGap="small">
-        <span nz-icon nzType="message" nzTheme="outline"></span>
-        <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.articleCommentCount ?? 0 }}</span>
-      </span>
+    <div class="comment-count" nz-flex nzAlign="center" nzGap="small">
+      <span nz-icon nzType="message" nzTheme="outline"></span>
+      <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.articleCommentCount ?? 0 }}</span>
     </div>
   </div>
   } @else {
