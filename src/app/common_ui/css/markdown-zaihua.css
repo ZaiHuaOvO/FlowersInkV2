@@ -7,7 +7,7 @@
 
 /* ===== 容器 ===== */
 #currentAnchor {
-  --md-heading: var(--fi-text-heading);
+  --md-heading: color-mix(in srgb, var(--fi-primary) 45%, var(--fi-text-heading));
   --md-body: var(--fi-text-body);
   --md-muted: var(--fi-text-muted);
   --md-brand: var(--fi-primary);
@@ -73,8 +73,7 @@
 #currentAnchor h1 {
   font-size: 1.35rem;
   margin: 0 0 1.4rem;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid var(--md-divider);
+  padding-bottom: 0.25rem;
 }
 
 #currentAnchor h2 {
@@ -83,6 +82,8 @@
   padding-bottom: 0.25rem;
 }
 
+/* H1/H2 共用品牌渐变短下划线 */
+#currentAnchor h1::after,
 #currentAnchor h2::after {
   content: '';
   display: block;

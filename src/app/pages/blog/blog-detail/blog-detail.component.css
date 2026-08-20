@@ -39,10 +39,10 @@
   min-width: 0;
 }
 
-/* 文章详情顶部标题：比正文略大、左对齐，长标题换行也自然 */
+/* 文章详情顶部标题：比正文和 markdown H1 都大、左对齐，长标题换行也自然 */
 :host ::ng-deep .article-title .title {
   text-align: left;
-  font-size: clamp(22px, 2vw, 26px);
+  font-size: clamp(24px, 2.4vw, 30px);
   line-height: 1.35;
   min-height: 0;
   padding: 8px 0;
