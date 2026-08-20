@@ -7,17 +7,15 @@
       <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
         <flower-blog-title class="article-title" [title]="data.title"></flower-blog-title>
         <div class="article-meta" nz-flex nzAlign="center" nzGap="small">
-          @if (!isMobile) {
-          <span nz-typography nzType="secondary">标签：{{ data.tag }}</span>
-          <nz-divider nzType="vertical"></nz-divider>
-          <span nz-typography nzType="secondary">阅读量：{{ data.views }}次</span>
-          <nz-divider nzType="vertical"></nz-divider>
-          <span nz-typography nzType="secondary">发布于{{ data.date | date:'yyyy年MM月dd日' }}</span>
-          } @else {
           <span nz-typography nzType="secondary">{{ data.tag }}</span>
-          <nz-divider nzType="vertical"></nz-divider>
+          <span class="article-meta-sep">·</span>
+          <span nz-typography nzType="secondary">{{ data.views }} 阅读</span>
+          <span class="article-meta-sep">·</span>
+          <span nz-typography nzType="secondary">{{ data.likes ?? 0 }} 喜欢</span>
+          <span class="article-meta-sep">·</span>
+          <span nz-typography nzType="secondary">{{ data.articleCommentCount ?? 0 }} 评论</span>
+          <span class="article-meta-sep">·</span>
           <span nz-typography nzType="secondary">{{ data.date | date:'yyyy年MM月dd日' }}</span>
-          }
         </div>
         <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady">
         </markdown>

@@ -17,10 +17,6 @@
         {{blog.views}} | </span>
       <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
     </div>
-    <div class="comment-count" nz-flex nzAlign="center" nzGap="small">
-      <span nz-icon nzType="message" nzTheme="outline"></span>
-      <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.articleCommentCount ?? 0 }}</span>
-    </div>
   </div>
   } @else {
   <nz-skeleton [nzActive]="loading"></nz-skeleton>

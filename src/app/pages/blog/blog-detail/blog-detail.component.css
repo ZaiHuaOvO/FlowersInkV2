@@ -171,9 +171,10 @@
   color: var(--fi-primary);
 }
 
-/* 文章元信息行（标签 / 阅读量 / 日期） */
+/* 文章元信息行（标签 / 阅读 / 喜欢 / 评论 / 日期） */
 .article-meta {
   margin-bottom: var(--fi-space-4);
+  flex-wrap: wrap;
 }
 
 .article-meta ::ng-deep .ant-typography {
@@ -181,8 +182,9 @@
   font-size: var(--fi-font-size-sm);
 }
 
-.article-meta ::ng-deep .ant-divider-vertical {
-  border-color: color-mix(in srgb, var(--fi-text-muted) 35%, transparent) !important;
+.article-meta-sep {
+  color: var(--fi-text-muted);
+  opacity: 0.55;
 }
 
 nz-anchor {
