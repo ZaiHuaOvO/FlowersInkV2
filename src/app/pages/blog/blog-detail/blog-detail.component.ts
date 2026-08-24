@@ -77,7 +77,6 @@ import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.
   animations: [SlowUp, QuickUp],
 })
 export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
-  readonly copyrightEmail = 'ZyZy1724@gmail.com';
   Id: any;
   data: any = {};
   page = 1;
