@@ -25,8 +25,8 @@
                 <div class="profile-info-row">
                     <span class="profile-info-label">网站名称：</span>
                     <span class="profile-info-value">花墨</span>
-                    <button class="row-copy-btn" (click)="copyField('网站名称', '花墨', 'name')">{{ copiedRow === 'name' ? '✓
-                        复制' : '复制' }}</button>
+                    <button class="row-copy-btn" (click)="copyField('网站名称', '花墨', 'name')">{{ copiedRow === 'name' ?
+                        '✓复制' : '复制' }}</button>
                 </div>
                 <div class="profile-info-row">
                     <span class="profile-info-label">LOGO地址：</span>
@@ -104,11 +104,13 @@
             <div class="apply-rules" flCard>
                 <h4 nz-typography>友链申请须知</h4>
                 <article nz-typography class="link-note">
-                    <p nz-typography>1. 请先将「花墨」添加至您的友链列表中哦</p>
-                    <p nz-typography>2. 已经与我产生了一定的连接（包括但不限于邮件联系、网站互动等） - <span class="link-note-sub">需要先成为朋友哦ฅ•ω•ฅ</span></p>
-                    <p nz-typography>3. 博客需要有一些有趣的内容，例如非纯技术类的各种记录和分享 - <span class="link-note-sub">再花喜欢看有意思的内容，就像花墨里的东西一样</span></p>
+                    <p nz-typography>1. 请先将「花墨」添加至您的友链列表中</p>
+                    <p nz-typography>2. 已经与我产生了一定的连接（包括但不限于邮件联系、网站互动等） - <span
+                            class="link-note-sub">需要先成为朋友哦ฅ•ω•ฅ</span></p>
+                    <p nz-typography>3. 博客需要有我感兴趣的内容，包括但不限于：Angular · 建站相关 · 生活/游戏/思考记录、分享、碎碎念等等 - <span
+                            class="link-note-sub">因为我会经常来逛_(:з」∠)_</span></p>
                     <p nz-typography>4. 请不要添加友链后就对花墨和再花不管不顾了T^T</p>
-                    <p nz-typography>5. 强制HTTPS、更新频率高、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
+                    <p nz-typography>5. 强制HTTPS、保持更新频率、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
                 </article>
             </div>
 
@@ -117,14 +119,15 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站名称 *</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：花墨'" nzTooltipTrigger="focus"
-                                [(ngModel)]="form.name" name="name" placeholder="">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：花墨'"
+                                nzTooltipTrigger="focus" [(ngModel)]="form.name" name="name" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站地址 *</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：https://flowersink.com'" nzTooltipTrigger="focus"
+                            <input nz-input flInput nz-tooltip type="text"
+                                [nzTooltipTitle]="'例如：https://flowersink.com'" nzTooltipTrigger="focus"
                                 [(ngModel)]="form.url" name="url" placeholder="">
                         </div>
                     </div>
@@ -132,8 +135,9 @@
                         <div class="form-field">
                             <label nz-typography class="form-label">网站头像地址</label>
                             <div class="input-with-preview">
-                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'若为空则会检测联系邮箱的 Gavater'" nzTooltipTrigger="focus"
-                                    (input)="onLogoChange()" [(ngModel)]="form.logo" name="logo" placeholder="">
+                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'若为空则会检测联系邮箱的 Gavater'"
+                                    nzTooltipTrigger="focus" (input)="onLogoChange()" [(ngModel)]="form.logo"
+                                    name="logo" placeholder="">
                                 @if (logoPreviewUrl) {
                                 <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
                                     (error)="logoPreviewUrl = ''">
@@ -144,8 +148,9 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站描述 *</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用一句话描述你的网站吧'" nzTooltipTrigger="focus"
-                                [(ngModel)]="form.description" name="description" placeholder="">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用一句话描述你的网站吧'"
+                                nzTooltipTrigger="focus" [(ngModel)]="form.description" name="description"
+                                placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
@@ -157,21 +162,22 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field form-field--optional">
                             <label nz-typography class="form-label">联系邮箱（可选）</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用于接收审核结果通知'" nzTooltipTrigger="focus"
-                                [(ngModel)]="form.email" name="email" placeholder="">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用于接收审核结果通知'"
+                                nzTooltipTrigger="focus" [(ngModel)]="form.email" name="email" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="16">
                         <div class="form-field form-field--optional">
                             <label nz-typography class="form-label">备注（可选）</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'可以在此写下想对再花说的话'" nzTooltipTrigger="hover"
-                                [(ngModel)]="form.remark" name="remark" placeholder="">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'可以在此写下想对再花说的话'"
+                                nzTooltipTrigger="hover" [(ngModel)]="form.remark" name="remark" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">验证码</label>
-                            <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+                            <flower-simple-captcha scene="link" [disabled]="submitting"
+                                [inline]="true"></flower-simple-captcha>
                         </div>
                     </div>
                 </nz-row>
@@ -190,11 +196,13 @@
             <div class="apply-rules" flCard>
                 <h4 nz-typography>友链申请须知</h4>
                 <article nz-typography class="link-note">
-                    <p nz-typography>1. 请先将「花墨」添加至您的友链列表中哦</p>
-                    <p nz-typography>2. 已经与我产生了一定的连接（包括但不限于邮件联系、网站互动等） - <span class="link-note-sub">需要先成为朋友哦ฅ•ω•ฅ</span></p>
-                    <p nz-typography>3. 博客需要有一些有趣的内容，例如非纯技术类的各种记录和分享 - <span class="link-note-sub">再花喜欢看有意思的内容，就像花墨里的东西一样</span></p>
+                    <p nz-typography>1. 请先将「花墨」添加至您的友链列表中</p>
+                    <p nz-typography>2. 已经与我产生了一定的连接（包括但不限于邮件联系、网站互动等） - <span
+                            class="link-note-sub">需要先成为朋友哦ฅ•ω•ฅ</span></p>
+                    <p nz-typography>3. 博客需要有我感兴趣的内容，包括但不限于：Angular · 建站相关 · 生活/游戏/思考记录、分享、碎碎念等等 - <span
+                            class="link-note-sub">因为我会经常来逛_(:з」∠)_</span></p>
                     <p nz-typography>4. 请不要添加友链后就对花墨和再花不管不顾了T^T</p>
-                    <p nz-typography>5. 强制HTTPS、更新频率高、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
+                    <p nz-typography>5. 强制HTTPS、保持更新频率、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
                 </article>
             </div>
 
@@ -203,14 +211,15 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站名称 *</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：花墨'" nzTooltipTrigger="focus"
-                                [(ngModel)]="form.name" name="name" placeholder="">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：花墨'"
+                                nzTooltipTrigger="focus" [(ngModel)]="form.name" name="name" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站地址 *</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'例如：https://flowersink.com'" nzTooltipTrigger="focus"
+                            <input nz-input flInput nz-tooltip type="text"
+                                [nzTooltipTitle]="'例如：https://flowersink.com'" nzTooltipTrigger="focus"
                                 [(ngModel)]="form.url" name="url" placeholder="">
                         </div>
                     </div>
@@ -218,8 +227,9 @@
                         <div class="form-field">
                             <label nz-typography class="form-label">网站头像地址</label>
                             <div class="input-with-preview">
-                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'若为空则会检测联系邮箱的 Gavater'" nzTooltipTrigger="focus"
-                                    (input)="onLogoChange()" [(ngModel)]="form.logo" name="logo" placeholder="">
+                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'若为空则会检测联系邮箱的 Gavater'"
+                                    nzTooltipTrigger="focus" (input)="onLogoChange()" [(ngModel)]="form.logo"
+                                    name="logo" placeholder="">
                                 @if (logoPreviewUrl) {
                                 <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
                                     (error)="logoPreviewUrl = ''">
@@ -230,8 +240,9 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">网站描述 *</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用一句话描述你的网站吧'" nzTooltipTrigger="focus"
-                                [(ngModel)]="form.description" name="description" placeholder="">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用一句话描述你的网站吧'"
+                                nzTooltipTrigger="focus" [(ngModel)]="form.description" name="description"
+                                placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
@@ -243,21 +254,22 @@
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field form-field--optional">
                             <label nz-typography class="form-label">联系邮箱（可选）</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用于接收审核结果通知'" nzTooltipTrigger="focus"
-                                [(ngModel)]="form.email" name="email" placeholder="">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'用于接收审核结果通知'"
+                                nzTooltipTrigger="focus" [(ngModel)]="form.email" name="email" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="16">
                         <div class="form-field form-field--optional">
                             <label nz-typography class="form-label">备注（可选）</label>
-                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'可以在此写下想对再花说的话'" nzTooltipTrigger="hover"
-                                [(ngModel)]="form.remark" name="remark" placeholder="">
+                            <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'可以在此写下想对再花说的话'"
+                                nzTooltipTrigger="hover" [(ngModel)]="form.remark" name="remark" placeholder="">
                         </div>
                     </div>
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
                             <label nz-typography class="form-label">验证码</label>
-                            <flower-simple-captcha scene="link" [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+                            <flower-simple-captcha scene="link" [disabled]="submitting"
+                                [inline]="true"></flower-simple-captcha>
                         </div>
                     </div>
                 </nz-row>
