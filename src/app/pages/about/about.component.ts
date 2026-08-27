@@ -157,7 +157,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   // ---- 联系方式 & 社区平台 ----
   contacts: { icon: string; label: string; value: string; key: string; qrKey: string; extra: string }[] = [
-    { icon: 'qq', label: 'QQ', value: '446840401', key: 'qq', qrKey: 'qq', extra: '' },
+    // { icon: 'qq', label: 'QQ', value: '446840401', key: 'qq', qrKey: 'qq', extra: '' },
     // { icon: 'wechat', label: '微信', value: 'zaihua_huahua', key: 'wechat', qrKey: 'wx', extra: '工作应酬用' },
     { icon: 'mail', label: '邮箱', value: 'ZyZy1724@gmail.com', key: 'email', qrKey: '', extra: '' },
   ];
@@ -272,7 +272,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   copyContact(key: string, value: string, label: string): void {
     navigator.clipboard.writeText(value).then(() => {
-      this.msg.success(`已复制${label}，加好友请备注来意`);
+      this.msg.success(`已复制${label}，欢迎邮件`);
       this.flashCopied(key);
     }).catch(() => { });
   }

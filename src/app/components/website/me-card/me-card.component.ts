@@ -54,11 +54,11 @@ export class MeCardComponent {
   };
   @Input() numLoading = true;
 
-  readonly qq = '446840401';
-  readonly wechat = 'zaihua_huahua';
+  // readonly qq = '446840401';
+  // readonly wechat = 'zaihua_huahua';
   readonly email = 'ZyZy1724@gmail.com';
-  private readonly qqQrCode = 'assets/img/QRCode/qq.png';
-  private readonly wechatQrCode = 'assets/img/QRCode/wx.png';
+  // private readonly qqQrCode = 'assets/img/QRCode/qq.png';
+  // private readonly wechatQrCode = 'assets/img/QRCode/wx.png';
 
   /** 最近点滴跳转目标：有 ID 跳详情，无 ID（历史数据）回退到点滴列表 */
   get latestLifeLink(): (string | number)[] {
@@ -71,13 +71,13 @@ export class MeCardComponent {
     private readonly msg: NzMessageService,
   ) {}
 
-  previewContactQr(type: 'qq' | 'wechat'): void {
-    const src = type === 'qq' ? this.qqQrCode : this.wechatQrCode;
-    this.imageService.preview([{ src }], {
-      nzZoom: 0.8,
-      nzRotate: 0,
-    });
-  }
+  // previewContactQr(type: 'qq' | 'wechat'): void {
+  //   const src = type === 'qq' ? this.qqQrCode : this.wechatQrCode;
+  //   this.imageService.preview([{ src }], {
+  //     nzZoom: 0.8,
+  //     nzRotate: 0,
+  //   });
+  // }
 
   copyEmail(event?: MouseEvent): void {
     event?.preventDefault();
@@ -85,7 +85,7 @@ export class MeCardComponent {
     navigator.clipboard
       .writeText(this.email)
       .then(() => {
-        this.msg.success('已复制邮箱地址，欢迎邮件联系。');
+        this.msg.success('已复制邮箱，欢迎邮件');
       })
       .catch(() => {
         this.msg.error('复制失败，请稍后重试。');

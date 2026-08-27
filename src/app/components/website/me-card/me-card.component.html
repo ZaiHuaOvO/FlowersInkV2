@@ -31,14 +31,15 @@
 
   <div class="social-links" nz-flex [nzVertical]="true" nzAlign="center" nzGap="small">
     <div class="social-row" nz-flex nzJustify="center" nzAlign="center" nzGap="small">
-      <a class="social-link" href="javascript:void(0)" nz-tooltip [nzTooltipTitle]="qq" aria-label="QQ" title="QQ"
+      <!-- 联系方式：QQ、微信已移除，保留邮箱/Github/RSS -->
+      <!-- <a class="social-link" href="javascript:void(0)" nz-tooltip [nzTooltipTitle]="qq" aria-label="QQ" title="QQ"
         (click)="previewContactQr('qq')">
         <span nz-icon nzType="qq" nzTheme="outline"></span>
       </a>
       <a class="social-link" href="javascript:void(0)" nz-tooltip [nzTooltipTitle]="wechat" aria-label="微信" title="微信"
         (click)="previewContactQr('wechat')">
         <span nz-icon nzType="wechat" nzTheme="outline"></span>
-      </a>
+      </a> -->
       <a class="social-link" href="javascript:void(0)" nz-tooltip [nzTooltipTitle]="email" aria-label="邮箱" title="邮箱"
         (click)="copyEmail($event)">
         <span nz-icon nzType="mail" nzTheme="outline"></span>
