@@ -7,6 +7,7 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
 import { WorldService } from '../world.service';
 import { QuickUp } from '../../../common_ui/animations/animation';
 import { EquipmentCardComponent } from '../../../components/world/equipment-card/equipment-card.component';
+import { CommentSectionComponent } from '../../../components/website/comment-section/comment-section.component';
 
 @Component({
   selector: 'flower-equipment',
@@ -18,6 +19,7 @@ import { EquipmentCardComponent } from '../../../components/world/equipment-card
     NzTypographyModule,
     BlogTitleComponent,
     EquipmentCardComponent,
+    CommentSectionComponent,
   ],
   templateUrl: './equipment.component.html',
   styleUrl: './equipment.component.css',

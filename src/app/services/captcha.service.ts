@@ -3,7 +3,12 @@ import { Observable } from 'rxjs';
 import { API } from './api';
 import { HttpService } from './http.service';
 
-export type CaptchaScene = 'message' | 'link' | 'article-comment' | 'life-comment';
+export type CaptchaScene =
+  | 'message'
+  | 'link'
+  | 'article-comment'
+  | 'life-comment'
+  | 'module-comment';
 
 export interface CaptchaPayload {
   captchaId: string;

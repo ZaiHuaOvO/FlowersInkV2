@@ -20,7 +20,11 @@ import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.dir
 import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
 import { EmojiComponent } from '../../website/emoji/emoji.component';
 import { SimpleCaptchaComponent } from '../../website/simple-captcha/simple-captcha.component';
-import { BlogService } from '../../../pages/blog/blog.service';
+import {
+  CommentService,
+  CommentTargetType,
+  COMMENT_META,
+} from '../../../services/comment.service';
 import { ApiLimiterService } from '../../../services/api-limiter.service';
 import { GeneralService } from '../../../services/general.service';
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
@@ -41,9 +45,8 @@ interface CommentFormState {
   content: string;
 }
 
-interface ArticleComment {
+interface CommentItem {
   id: number;
-  blogId: number;
   parentId: number | null;
   name: string;
   email: string;
@@ -56,7 +59,7 @@ interface ArticleComment {
   _avatar?: AvatarState;
 }
 
-interface CommentNode extends ArticleComment {
+interface CommentNode extends CommentItem {
   children: CommentNode[];
   _depth: number;
 }
@@ -69,7 +72,7 @@ interface ReplyFormState {
 const ZAIHUA_AVATAR = 'https://api.flowersink.com/img/粉毛猫猫头.jpeg';
 
 @Component({
-  selector: 'flower-article-comments',
+  selector: 'flower-comment-section',
   standalone: true,
   imports: [
     FormsModule,
@@ -89,17 +92,32 @@ const ZAIHUA_AVATAR = 'https://api.flowersink.com/img/粉毛猫猫头.jpeg';
     NgTemplateOutlet,
     NzIconModule
   ],
-  templateUrl: './article-comments.component.html',
-  styleUrl: './article-comments.component.css',
+  templateUrl: './comment-section.component.html',
+  styleUrl: './comment-section.component.css',
   animations: [FadeSlide],
 })
-export class ArticleCommentsComponent implements OnInit, OnChanges {
+export class CommentSectionComponent implements OnInit, OnChanges {
   /** Expose Math for template use */
   readonly Math = Math;
-  @Input() blogId!: number;
+
+  /** 评论目标类型：文章 / 游戏 / 装备 */
+  @Input() type: CommentTargetType = 'article';
+
+  /** 目标 id（文章为 blogId；游戏/装备为模块级线程，可省略） */
+  @Input() targetId?: number | string;
+
+  /** 验证码场景（由 type 推导） */
+  get captchaScene() {
+    return COMMENT_META[this.type].captchaScene;
+  }
+
+  /** 前端限流 key（由 type 推导） */
+  private get limiterKey() {
+    return COMMENT_META[this.type].limiterKey;
+  }
 
   /** 原始扁平评论列表 */
-  comments: ArticleComment[] = [];
+  comments: CommentItem[] = [];
 
   /** 树形评论 */
   commentTree: CommentNode[] = [];
@@ -108,7 +126,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   submitting = false;
 
   /** 提交后待审核的静态评论 */
-  pendingComment: ArticleComment | null = null;
+  pendingComment: CommentItem | null = null;
 
   /** 当前展开回复框的评论ID */
   replyTargetId: number | null = null;
@@ -119,9 +137,8 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   editing = false;
 
   /** 用于身份卡片头像展示的轻量对象（复用评论详情的头像状态机） */
-  cardComment: ArticleComment = {
+  cardComment: CommentItem = {
     id: 0,
-    blogId: this.blogId,
     parentId: null,
     name: '',
     email: '',
@@ -145,14 +162,14 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   captchaComponent?: SimpleCaptchaComponent;
 
   constructor(
-    private readonly blog: BlogService,
+    private readonly commentService: CommentService,
     private readonly msg: NzMessageService,
     private readonly general: GeneralService,
     private readonly limiter: ApiLimiterService,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['blogId'] && this.blogId != null && this.blogId > 0) {
+    if (changes['type'] || changes['targetId']) {
       this.pendingComment = null;
       this.comments = [];
       this.commentTree = [];
@@ -187,7 +204,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
 
   /** 卡片展示用 —— 网站跳转地址（补全 https:// 前缀），空串表示无网站 */
   get cardWebsiteUrl(): string {
-    return this.getDisplayWebsite({ website: this.form.website } as ArticleComment);
+    return this.getDisplayWebsite({ website: this.form.website } as CommentItem);
   }
 
   /** 卡片展示用 —— 是否填了网站（决定名字是否可点击带虚线下划线） */
@@ -207,30 +224,29 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     this.cardComment._avatar = undefined; // 让头像状态机重新评估
   }
 
-
   get commentCount(): number {
     const count = this.comments.length;
     return count + (this.pendingComment ? 1 : 0);
   }
 
-  isZaiHua(c: ArticleComment): boolean {
+  isZaiHua(c: CommentItem): boolean {
     return c.isAdminReply === true;
   }
 
   /** Comment is a locally-rendered pending one (not yet approved) */
-  isPending(c: ArticleComment): boolean {
+  isPending(c: CommentItem): boolean {
     return c.isApproved === false && !c.isAdminReply;
   }
 
-  /** Wrap a raw ArticleComment into a CommentNode for template use */
-  toCommentNode(c: ArticleComment, depth: number): CommentNode {
+  /** Wrap a raw CommentItem into a CommentNode for template use */
+  toCommentNode(c: CommentItem, depth: number): CommentNode {
     return { ...c, children: [], _depth: depth };
   }
 
   // ---- 树形构建 ----
 
-  private buildCommentTree(flat: ArticleComment[]): CommentNode[] {
-    // 只处理直接回复文章的顶层评论（parentId === null）以及与它们关联的回复
+  private buildCommentTree(flat: CommentItem[]): CommentNode[] {
+    // 只处理直接回复模块的顶层评论（parentId === null）以及与它们关联的回复
     const allComments: CommentNode[] = flat.map((c) => ({
       ...c,
       children: [],
@@ -269,7 +285,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
 
   // ---- Avatar state machine ----
 
-  getAvatarState(c: ArticleComment): AvatarState {
+  getAvatarState(c: CommentItem): AvatarState {
     if (c.isAdminReply) {
       return 'avatarUrl'; // 再花固定使用头像URL
     }
@@ -286,7 +302,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     return c._avatar;
   }
 
-  getAvatarUrl(c: ArticleComment): string | null {
+  getAvatarUrl(c: CommentItem): string | null {
     if (c.isAdminReply) {
       return ZAIHUA_AVATAR;
     }
@@ -309,13 +325,13 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   }
 
   /** For pending comments without an explicit avatarUrl, skip gravatar entirely */
-  getPendingAvatarUrl(c: ArticleComment): string | null {
+  getPendingAvatarUrl(c: CommentItem): string | null {
     if (c.isAdminReply) return ZAIHUA_AVATAR;
     if (c.avatarUrl) return c.avatarUrl;
     return null;
   }
 
-  onAvatarError(c: ArticleComment): void {
+  onAvatarError(c: CommentItem): void {
     if (c.isAdminReply) return; // 再花头像不会失败
     const state = this.getAvatarState(c);
     if (state === 'avatarUrl' && c.email) {
@@ -327,17 +343,17 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     }
   }
 
-  getAvatarInitial(c: ArticleComment): string {
+  getAvatarInitial(c: CommentItem): string {
     return (c.name || '?').charAt(0).toUpperCase();
   }
 
   // ---- Display helpers ----
 
-  getDisplayName(c: ArticleComment): string {
+  getDisplayName(c: CommentItem): string {
     return c.name || '匿名';
   }
 
-  getDisplayWebsite(c: ArticleComment): string {
+  getDisplayWebsite(c: CommentItem): string {
     if (!c.website) return '';
     let url = c.website;
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
@@ -398,7 +414,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
       return;
     }
 
-    const cooldownMessage = this.limiter.canCallApi('article-comment');
+    const cooldownMessage = this.limiter.canCallApi(this.limiterKey);
     if (cooldownMessage) {
       this.msg.info(`刚发过一次啦，${cooldownMessage} 秒后再来试试吧 (＞＜)`);
       return;
@@ -406,7 +422,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
 
     this.submitting = true;
 
-    this.blog.createArticleComment(String(this.blogId), {
+    this.commentService.createComment(this.type, this.targetId, {
       content: this.form.content,
       name: this.form.name || undefined,
       email: this.form.email || undefined,
@@ -417,7 +433,6 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
       next: () => {
         this.pendingComment = {
           id: Date.now(),
-          blogId: this.blogId,
           parentId: null,
           name: this.form.name || '匿名',
           email: this.form.email || '',
@@ -431,7 +446,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
         this.msg.success('评论提交成功！评论将在审核通过后展示 ✨');
         this.form.content = '';
         this.captchaComponent?.refresh();
-        this.limiter.markApiCall('article-comment');
+        this.limiter.markApiCall(this.limiterKey);
         this.cacheFormInfo();
         this.editing = false;
         this.submitting = false;
@@ -453,7 +468,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   // ---- 回复功能 ----
 
   /** 切换回复框 */
-  toggleReply(comment: ArticleComment): void {
+  toggleReply(comment: CommentItem): void {
     if (this.replyTargetId === comment.id) {
       this.cancelReply();
     } else {
@@ -471,7 +486,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
     this.replyForm.content += emoji;
   }
 
-  submitReply(parentComment: ArticleComment): void {
+  submitReply(parentComment: CommentItem): void {
     if (!this.general.isNotEmpty(this.form.name)) {
       this.msg.info('先留下名字吧 (｡･ω･｡)');
       return;
@@ -489,7 +504,7 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
 
     this.replySubmitting = true;
 
-    this.blog.createArticleComment(String(this.blogId), {
+    this.commentService.createComment(this.type, this.targetId, {
       content: this.replyForm.content.trim(),
       name: this.form.name || '匿名',
       email: this.form.email || undefined,
@@ -501,7 +516,6 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
         // 添加一条待审核的回复
         this.pendingReply = {
           id: Date.now(),
-          blogId: this.blogId,
           parentId: parentComment.id,
           name: this.form.name || '匿名',
           email: this.form.email || '',
@@ -526,13 +540,16 @@ export class ArticleCommentsComponent implements OnInit, OnChanges {
   }
 
   /** 待审核的回复（静态展示） */
-  pendingReply: ArticleComment | null = null;
+  pendingReply: CommentItem | null = null;
 
   // ---- Data fetching ----
 
   private fetchComments(): void {
+    if (this.type === 'article' && this.targetId == null) {
+      return;
+    }
     this.loading = true;
-    this.blog.getArticleComments(String(this.blogId)).subscribe({
+    this.commentService.getComments(this.type, this.targetId).subscribe({
       next: (res: any) => {
         const raw = res?.data;
         this.comments = Array.isArray(raw) ? raw : (raw?.data ?? []);

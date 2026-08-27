@@ -64,7 +64,7 @@
       <div class="form-actions" nz-flex nzAlign="center" nzJustify="space-between">
         <flower-emoji (emojiSelected)="onEmojiSelected($event)"></flower-emoji>
         <div nz-flex nzAlign="center" nzGap="middle">
-          <flower-simple-captcha scene="article-comment" [disabled]="submitting"
+          <flower-simple-captcha [scene]="captchaScene" [disabled]="submitting"
             [inline]="true"></flower-simple-captcha>
           <fl-button [disabled]="submitting" (click)="submit()">
             @if (!submitting) {

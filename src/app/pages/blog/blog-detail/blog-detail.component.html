@@ -51,7 +51,7 @@
         <nz-divider></nz-divider>
         <!-- 文章底部表情互动 -->
         <flower-blog-comment [data]="commentData" (emojiSelected)="onReactionSelected($event)"></flower-blog-comment>
-        <flower-article-comments [blogId]="data.id"></flower-article-comments>
+        <flower-comment-section type="article" [targetId]="data.id"></flower-comment-section>
       </nz-spin>
     </div>
     <!-- /.blog-detail-content -->

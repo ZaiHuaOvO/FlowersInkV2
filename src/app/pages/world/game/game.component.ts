@@ -21,6 +21,7 @@ import { GameCardComponent } from '../../../components/world/game-card/game-card
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { QuickUp } from '../../../common_ui/animations/animation';
 import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
+import { CommentSectionComponent } from '../../../components/website/comment-section/comment-section.component';
 
 type GameViewMode = 'detailed' | 'overview';
 type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
@@ -47,6 +48,7 @@ type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
     GameCardComponent,
     NzGridModule,
     FlButtonComponent,
+    CommentSectionComponent,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',

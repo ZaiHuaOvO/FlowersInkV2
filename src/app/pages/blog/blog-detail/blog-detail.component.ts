@@ -36,7 +36,7 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
-import { ArticleCommentsComponent } from '../../../components/blog/article-comments/article-comments.component';
+import { CommentSectionComponent } from '../../../components/website/comment-section/comment-section.component';
 import { BlogCommentComponent } from '../../../components/blog/blog-comment/blog-comment.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
@@ -69,7 +69,7 @@ import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.
     NzImageModule,
     RouterModule,
     FlButtonComponent,
-    ArticleCommentsComponent,
+    CommentSectionComponent,
     BlogCommentComponent,
   ],
   templateUrl: './blog-detail.component.html',

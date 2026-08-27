@@ -20,6 +20,7 @@ export const API = {
   GAME: '/world/game',
   GAME_LIST: '/world/game/list',
   EQUIPMENT_LIST: '/equipment/list',
+  MODULE: '/module',
   LINK: '/site/link',
   LINK_ARTICLES: '/site/link/articles',
 };
