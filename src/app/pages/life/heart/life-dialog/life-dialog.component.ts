@@ -14,13 +14,19 @@ import { LifeCommentsComponent } from '../../../../components/life/life-comments
 import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { LifeService } from '../../life.service';
 import { LifeUiStateService } from '../../life-ui-state.service';
-import { inferOriginalImageUrl } from '../../../../shared/utils/image-url.util';
+import {
+  appendViewOriginalButton,
+  deriveWebpVariants,
+  inferOriginalImageUrl,
+} from '../../../../shared/utils/image-url.util';
 
 type LifeCategory = '美食' | '日常' | '游戏' | '摘抄' | '';
 
 interface LifeImageAsset {
   previewUrl: string;
   originalUrl: string;
+  displayUrl: string;
+  zoomUrl: string;
 }
 
 /** 与 heart.component 的 LifeTimelineItem 结构一致 */
@@ -185,12 +191,22 @@ export class LifeDialogComponent implements OnInit {
       : 'image-item-wrapper image-item-square';
   }
 
-  previewOriginal(event: MouseEvent, image: LifeImageAsset): void {
+  previewZoom(event: MouseEvent, image: LifeImageAsset): void {
     event.stopPropagation();
-    this.imageService.preview([{ src: image.originalUrl }], {
+    this.imageService.preview([{ src: image.zoomUrl }], {
       nzZoom: 0.8,
       nzRotate: 0,
     });
+    appendViewOriginalButton(image.originalUrl);
+  }
+
+  onImageError(event: Event, image: LifeImageAsset): void {
+    const img = event.target as HTMLImageElement;
+    if (img.dataset['fiFallbacked']) return;
+    img.dataset['fiFallbacked'] = '1';
+    if (image.previewUrl && img.src !== image.previewUrl) {
+      img.src = image.previewUrl;
+    }
   }
 
   private normalizeTags(rawTag: unknown): string[] {
@@ -224,13 +240,26 @@ export class LifeDialogComponent implements OnInit {
     if (typeof rawImage === 'string') {
       const previewUrl = rawImage.trim();
       if (!previewUrl) return null;
-      return { previewUrl, originalUrl: inferOriginalImageUrl(previewUrl) };
+      return this.toLifeImageAsset(previewUrl, '');
     }
     const record = rawImage as Record<string, unknown>;
     const previewUrl = String(record['url'] ?? '').trim();
     if (!previewUrl) return null;
     const originalRaw = String(record['img_url'] ?? '').trim();
-    return { previewUrl, originalUrl: originalRaw || inferOriginalImageUrl(previewUrl) };
+    return this.toLifeImageAsset(previewUrl, originalRaw);
+  }
+
+  private toLifeImageAsset(
+    previewUrl: string,
+    originalRaw: string,
+  ): LifeImageAsset {
+    const { display, zoom } = deriveWebpVariants(previewUrl);
+    return {
+      previewUrl,
+      originalUrl: originalRaw || inferOriginalImageUrl(previewUrl),
+      displayUrl: display || previewUrl,
+      zoomUrl: zoom || previewUrl,
+    };
   }
 
   private parseDate(value: unknown): Date {

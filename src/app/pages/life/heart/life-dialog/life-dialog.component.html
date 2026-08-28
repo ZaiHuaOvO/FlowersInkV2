@@ -19,8 +19,8 @@
     @if (item.images.length > 0) {
     <div class="image-grid" [ngClass]="getImageGridClass()">
       @for (image of item.images; track image.previewUrl) {
-      <div class="{{ getImageItemClass() }}" (click)="previewOriginal($event, image)">
-        <img loading="lazy" decoding="async" [src]="image.previewUrl" alt="点滴图片" />
+      <div class="{{ getImageItemClass() }}" (click)="previewZoom($event, image)">
+        <img loading="lazy" decoding="async" [src]="image.displayUrl" (error)="onImageError($event, image)" alt="点滴图片" />
         <div class="image-overlay">
           <span class="origin-btn-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">

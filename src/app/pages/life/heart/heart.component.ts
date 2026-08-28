@@ -32,13 +32,19 @@ import { WindowService } from '../../../services/window.service';
 import { LifeService } from '../life.service';
 import { LifeUiStateService } from '../life-ui-state.service';
 import { LifeDialogComponent } from './life-dialog/life-dialog.component';
-import { inferOriginalImageUrl } from '../../../shared/utils/image-url.util';
+import {
+  appendViewOriginalButton,
+  deriveWebpVariants,
+  inferOriginalImageUrl,
+} from '../../../shared/utils/image-url.util';
 
 type LifeCategory = '美食' | '日常' | '游戏' | '摘抄' | '';
 
 interface LifeImageAsset {
   previewUrl: string;
   originalUrl: string;
+  displayUrl: string;
+  zoomUrl: string;
 }
 
 interface LifeTimelineItem {
@@ -432,12 +438,24 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  previewOriginal(event: MouseEvent, image: LifeImageAsset): void {
+  /** 点击网格图：预览 webp 缩放层（1920px），并追加"查看原图"按钮 */
+  previewZoom(event: MouseEvent, image: LifeImageAsset): void {
     event.stopPropagation();
-    this.imageService.preview([{ src: image.originalUrl }], {
+    this.imageService.preview([{ src: image.zoomUrl }], {
       nzZoom: 0.8,
       nzRotate: 0,
     });
+    appendViewOriginalButton(image.originalUrl);
+  }
+
+  /** webp 展示变体缺失时回退到原压缩图 */
+  onImageError(event: Event, image: LifeImageAsset): void {
+    const img = event.target as HTMLImageElement;
+    if (img.dataset['fiFallbacked']) return;
+    img.dataset['fiFallbacked'] = '1';
+    if (image.previewUrl && img.src !== image.previewUrl) {
+      img.src = image.previewUrl;
+    }
   }
 
   // ---- 详情弹窗 ----
@@ -769,10 +787,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!previewUrl) {
         return null;
       }
-      return {
-        previewUrl,
-        originalUrl: inferOriginalImageUrl(previewUrl),
-      };
+      return this.toLifeImageAsset(previewUrl, '');
     }
 
     const record = rawImage as Record<string, unknown>;
@@ -782,9 +797,19 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     const originalRaw = String(record['img_url'] ?? '').trim();
+    return this.toLifeImageAsset(previewUrl, originalRaw);
+  }
+
+  private toLifeImageAsset(
+    previewUrl: string,
+    originalRaw: string,
+  ): LifeImageAsset {
+    const { display, zoom } = deriveWebpVariants(previewUrl);
     return {
       previewUrl,
       originalUrl: originalRaw || inferOriginalImageUrl(previewUrl),
+      displayUrl: display || previewUrl,
+      zoomUrl: zoom || previewUrl,
     };
   }
 

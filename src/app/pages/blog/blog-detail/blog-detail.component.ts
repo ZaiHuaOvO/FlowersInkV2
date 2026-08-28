@@ -41,6 +41,7 @@ import { BlogCommentComponent } from '../../../components/blog/blog-comment/blog
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
+import { deriveWebpVariants } from '../../../shared/utils/image-url.util';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
@@ -313,10 +314,38 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     if (imgElements.length === 0) return;
 
-    const nzImages = imgElements.map((img) => ({
-      src: img.getAttribute('src') || '',
-      alt: img.getAttribute('alt') || '',
-    }));
+    // 展示用 webp 变体（960px），缩放预览用 webp zoom 变体（1920px）。
+    // webp 文件缺失时 onerror 回退到原压缩图，保证旧文章不破图。
+    const nzImages = imgElements.map((img) => {
+      const originalSrc = img.getAttribute('src') || '';
+      const { display, zoom } = deriveWebpVariants(originalSrc);
+
+      if (display && display !== originalSrc) {
+        img.dataset['fiFallback'] = originalSrc;
+        img.src = display;
+        img.addEventListener(
+          'error',
+          () => {
+            if (img.dataset['fiFallbacked']) return;
+            img.dataset['fiFallbacked'] = '1';
+            const fallback = img.dataset['fiFallback'];
+            if (fallback && img.src !== fallback) {
+              img.src = fallback;
+            }
+          },
+          { once: true }
+        );
+      }
+      if (!img.hasAttribute('loading')) {
+        img.setAttribute('loading', 'lazy');
+      }
+      img.setAttribute('decoding', 'async');
+
+      return {
+        src: zoom || originalSrc,
+        alt: img.getAttribute('alt') || '',
+      };
+    });
 
     imgElements.forEach((img, index) => {
       img.style.cursor = 'pointer';
