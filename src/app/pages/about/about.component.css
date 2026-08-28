@@ -611,6 +611,18 @@
   font-style: italic;
 }
 
+.site-note a {
+  text-decoration: none;
+  color: var(--fi-primary);
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.site-note a:hover {
+  color: var(--fi-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* Tech badges */
 .tech-badges {
   display: flex;
