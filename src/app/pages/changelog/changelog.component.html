@@ -1,0 +1,175 @@
+<div class="changelog-page" nz-flex [nzVertical]="true" nzAlign="center">
+  <div class="changelog-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="start">
+    <div class="changelog-affix-left">
+      <nz-affix [nzOffsetTop]="affixOffsetTop">
+        <aside class="changelog-sidebar changelog-sidebar-left">
+          @if (yearNavigator.length > 0) {
+          <div class="year-nav-list">
+            @for (yearBlock of yearNavigator; track yearBlock.year) {
+            <section class="year-block">
+              <button type="button" class="year-button" [class.active]="activeYear === yearBlock.year"
+                (click)="jumpToYear(yearBlock.year)">
+                {{ yearBlock.year }}年
+              </button>
+              <div class="month-nav-list" [class.expanded]="activeYear === yearBlock.year">
+                @for (monthItem of yearBlock.months; track monthItem.key) {
+                <button type="button" class="month-button" [class.active]="activeSectionKey === monthItem.key"
+                  (click)="jumpToMonth(monthItem.key)">
+                  {{ monthItem.label }}
+                </button>
+                }
+              </div>
+            </section>
+            }
+          </div>
+          }
+        </aside>
+      </nz-affix>
+    </div>
+    <main class="changelog-main" @QuickUp>
+      <flower-blog-title [title]="'花墨的更新记录'"></flower-blog-title>
+
+      <header class="changelog-summary">
+        <div class="summary-count">{{ totalCount }}<span class="summary-unit">次提交</span></div>
+        <p class="summary-sub">从 {{ firstDate.slice(0, 7) }} 至今，记录花墨的每一次变更</p>
+
+        @if (heatColumns.length > 0) {
+        <div class="heatmap">
+          <div class="heatmap-body">
+            <div class="heatmap-months">
+              @for (column of heatColumns; track trackColumn($index, column)) {
+              <span class="heatmap-month">{{ column.label }}</span>
+              }
+            </div>
+            <div class="heatmap-grid">
+              @for (column of heatColumns; track trackColumn($index, column)) {
+              <div class="heat-column">
+                @for (cell of column.cells; track trackCell($index, cell)) {
+                <span class="heat-cell heat-cell-l{{ cell.level }}"
+                  [attr.title]="cell.date + ' · ' + cell.count + ' 次提交'"></span>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          <div class="heatmap-legend">
+            <span class="heatmap-legend-text">近一年提交</span>
+            <span class="legend-text">少</span>
+            <span class="heat-cell heat-cell-l1"></span>
+            <span class="heat-cell heat-cell-l2"></span>
+            <span class="heat-cell heat-cell-l3"></span>
+            <span class="heat-cell heat-cell-l4"></span>
+            <span class="heat-cell heat-cell-l5"></span>
+            <span class="legend-text">多</span>
+          </div>
+        </div>
+        }
+      </header>
+
+      <div class="mobile-tag-row">
+        @for (type of typeFilters; track type) {
+        <button type="button" class="mobile-tag-button" [class.active]="selectedType === type"
+          (click)="selectType(type)">
+          {{ getTagFilterLabel(type) }}
+          <span class="tag-count">{{ typeCounts[type] }}</span>
+        </button>
+        }
+      </div>
+
+      @if (sectionList.length === 0) {
+      <p class="changelog-empty">该分类下暂无更新记录。</p>
+      }
+
+      @for (section of sectionList; track trackSection($index, section)) {
+      <section class="month-section" [attr.data-section-key]="section.key" #monthSection>
+        <h3 class="month-title">{{ section.label }}</h3>
+
+        @for (day of section.days; track trackDay($index, day)) {
+        <div class="day-block">
+          <h4 class="day-title">{{ day.label }}</h4>
+          <ul class="record-list">
+            @for (record of day.items; track trackRecord($index, record)) {
+            <li class="record-item">
+              <a class="record-link" [href]="getCommitUrl(record)" target="_blank" rel="noopener"
+                [attr.title]="'查看 ' + record.uid + ' 的 commit 详情'">
+                <span class="record-badge {{ getTypeClass(record.type) }}">{{ getTypeLabel(record.type) }}</span>
+                <span class="record-desc">{{ record.desc }}</span>
+                @if (record.important) {
+                <span class="record-star" title="重要更新" aria-label="重要更新">✦</span>
+                }
+                <code class="record-uid">{{ record.uid }}</code>
+              </a>
+            </li>
+            }
+          </ul>
+        </div>
+        }
+      </section>
+      }
+    </main>
+    <div class="changelog-affix-right">
+      <nz-affix [nzOffsetTop]="affixOffsetTop">
+        <aside class="changelog-sidebar changelog-sidebar-right">
+          <div class="tag-filter-list">
+            @for (type of typeFilters; track type) {
+            <button type="button" class="tag-filter-button" [class.active]="selectedType === type"
+              (click)="selectType(type)">
+              <span class="tag-filter-main">{{ getTagFilterLabel(type) }}</span>
+              <span class="tag-count">{{ typeCounts[type] }}</span>
+            </button>
+            }
+          </div>
+          <div class="curator-note">
+            <h6>CHANGELOG</h6>
+            <p>开发、修复与优化的每一步足迹</p>
+          </div>
+        </aside>
+      </nz-affix>
+    </div>
+  </div>
+</div>
+
+<button type="button" class="mobile-nav-fab" (click)="openMobileNav()" aria-label="导航">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round" width="22" height="22">
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+    <path d="M12 10v6M9 13h6" />
+  </svg>
+</button>
+
+@if (mobileNavVisible) {
+<div class="mobile-nav-overlay" (click)="closeMobileNav()">
+  <div class="mobile-nav-sheet" (click)="$event.stopPropagation()">
+    <div class="mobile-nav-header">
+      <h4>跳转到</h4>
+      <button type="button" class="mobile-nav-close" (click)="closeMobileNav()" aria-label="关闭">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" width="20" height="20">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-nav-body">
+      @if (yearNavigator.length === 0) {
+      <p class="changelog-empty">暂无更新记录。</p>
+      }
+      @for (yearBlock of yearNavigator; track yearBlock.year) {
+      <section class="mobile-nav-year">
+        <button type="button" class="mobile-nav-year-btn" [class.active]="activeYear === yearBlock.year"
+          (click)="jumpToYear(yearBlock.year)">
+          {{ yearBlock.year }}年
+        </button>
+        <div class="mobile-nav-months">
+          @for (monthItem of yearBlock.months; track monthItem.key) {
+          <button type="button" class="mobile-nav-month-btn" [class.active]="activeSectionKey === monthItem.key"
+            (click)="jumpToMonth(monthItem.key)">
+            {{ monthItem.label }}
+          </button>
+          }
+        </div>
+      </section>
+      }
+    </div>
+  </div>
+</div>
+}

@@ -1,0 +1,2966 @@
+{
+  "total": 329,
+  "records": [
+    {
+      "uid": "3b1af25",
+      "type": "feat",
+      "date": "2026-08-28",
+      "desc": "博客/点滴图片 webp 展示与缩放两级变体，点滴放大可看原图",
+      "important": true,
+      "repo": "site",
+      "sha": "3b1af25f77e7f262da7610e5cac4d4b0f618a616"
+    },
+    {
+      "uid": "1e3a43f",
+      "type": "style",
+      "date": "2026-08-28",
+      "desc": "文章名与 H1 下划线加宽（3 倍/2 倍），H2 保持不变",
+      "important": false,
+      "repo": "site",
+      "sha": "1e3a43fa997430ceeac97f8b595e7d60dcd0dd3e"
+    },
+    {
+      "uid": "dd932d7",
+      "type": "feat",
+      "date": "2026-08-28",
+      "desc": "后端上传生成 webp 展示/缩放变体，新增存量迁移脚本",
+      "important": true,
+      "repo": "api",
+      "sha": "dd932d7c0f67e219df4b4b1d8e14ef9f7d220de1"
+    },
+    {
+      "uid": "452fd21",
+      "type": "feat",
+      "date": "2026-08-28",
+      "desc": "上传通用(misc)图片也生成 webp 变体，补齐存量引用",
+      "important": false,
+      "repo": "api",
+      "sha": "452fd21898b0bee593ab0cff6ca39997e2bec64f"
+    },
+    {
+      "uid": "8d9fce3",
+      "type": "feat",
+      "date": "2026-08-28",
+      "desc": "新增游戏/装备评论模块，含待审计数与邮件通知",
+      "important": false,
+      "repo": "api",
+      "sha": "8d9fce3079000f8b7cf63ed2f37ec113aa515132"
+    },
+    {
+      "uid": "8cfa83e",
+      "type": "feat",
+      "date": "2026-08-27",
+      "desc": "统一评论组件 comment-section，游戏/装备页接入评论",
+      "important": false,
+      "repo": "site",
+      "sha": "8cfa83e8417157ef0bd48ea738f130262cdd9fff"
+    },
+    {
+      "uid": "dc5c170",
+      "type": "style",
+      "date": "2026-08-27",
+      "desc": "移除首页右侧卡片及关于页 QQ/微信联系方式，邮箱提示改为\"欢迎邮件\"",
+      "important": false,
+      "repo": "site",
+      "sha": "dc5c170616f7a5869f3d14f6efc4ef3cb7f4cf52"
+    },
+    {
+      "uid": "6f7249b",
+      "type": "style",
+      "date": "2026-08-24",
+      "desc": "文章版权声明改为 CC BY-NC-SA 4.0 许可",
+      "important": false,
+      "repo": "site",
+      "sha": "6f7249bb1f372419ce0038d5a26e0bd3bb43c5f5"
+    },
+    {
+      "uid": "6d0b549",
+      "type": "style",
+      "date": "2026-08-24",
+      "desc": "格式化友链页模板并更新申请须知文案",
+      "important": false,
+      "repo": "site",
+      "sha": "6d0b549b12a41b1be58e3f20b3d89c73b59744fe"
+    },
+    {
+      "uid": "c1340b7",
+      "type": "style",
+      "date": "2026-08-20",
+      "desc": "优化文章 markdown 渲染样式与标题排版（配色令牌化、锚点、代码块）",
+      "important": false,
+      "repo": "site",
+      "sha": "c1340b796548032f8dd940f3f27401473009f7c1"
+    },
+    {
+      "uid": "da51a0a",
+      "type": "style",
+      "date": "2026-08-20",
+      "desc": "markdown H1 改为短横线样式，标题与粗体加深棕",
+      "important": false,
+      "repo": "site",
+      "sha": "da51a0aa22dd1f824f42b9558ff21e33a54a9fb6"
+    },
+    {
+      "uid": "22bc7b7",
+      "type": "feat",
+      "date": "2026-08-20",
+      "desc": "文章点赞按钮与博客卡片点赞数",
+      "important": false,
+      "repo": "site",
+      "sha": "22bc7b79f0bcc8d757a88fc9f8fcbfafc28dbdf8"
+    },
+    {
+      "uid": "d0147a1",
+      "type": "style",
+      "date": "2026-08-20",
+      "desc": "详情页元信息改版并移除卡片评论数",
+      "important": false,
+      "repo": "site",
+      "sha": "d0147a19e61e7efbf90c6de3cd02593b8076861d"
+    },
+    {
+      "uid": "7fa6b97",
+      "type": "style",
+      "date": "2026-08-20",
+      "desc": "博客卡片移除点赞数量只保留评论数",
+      "important": false,
+      "repo": "site",
+      "sha": "7fa6b97ec1047485ddea397b062538044f9df707"
+    },
+    {
+      "uid": "348dc99",
+      "type": "feat",
+      "date": "2026-08-20",
+      "desc": "文章点赞功能与点赞记录，支持每日重置",
+      "important": true,
+      "repo": "api",
+      "sha": "348dc99bb9d22494c714a7720f7eb5a3551bbf6f"
+    },
+    {
+      "uid": "199c0b8",
+      "type": "feat",
+      "date": "2026-08-20",
+      "desc": "上传支持 GIF 动画压缩优化",
+      "important": false,
+      "repo": "api",
+      "sha": "199c0b865c672c60c4d1ef416e2bfa3d004ddef5"
+    },
+    {
+      "uid": "3636412",
+      "type": "feat",
+      "date": "2026-08-20",
+      "desc": "博客详情接口返回已审核评论数",
+      "important": false,
+      "repo": "api",
+      "sha": "3636412a6cffafce922c3ce2ac009a952c861102"
+    },
+    {
+      "uid": "c805138",
+      "type": "feat",
+      "date": "2026-08-20",
+      "desc": "博客标签新增\"杂项\"默认分类",
+      "important": false,
+      "repo": "api",
+      "sha": "c8051384507781f01c9c6436c0861949de8022e6"
+    },
+    {
+      "uid": "7fa3e4e",
+      "type": "fix",
+      "date": "2026-08-19",
+      "desc": "修复关闭详情弹窗后再次点击同一条无法打开",
+      "important": false,
+      "repo": "site",
+      "sha": "7fa3e4ed5b9fd2e157fdbd2326c4b8a1fce65397"
+    },
+    {
+      "uid": "05ce035",
+      "type": "style",
+      "date": "2026-08-17",
+      "desc": "游戏总览卡片平台 tag 改为标签 tag 棕色样式",
+      "important": false,
+      "repo": "site",
+      "sha": "05ce035380b67cb368828305a1e90db3d0fc62de"
+    },
+    {
+      "uid": "f5a10d0",
+      "type": "feat",
+      "date": "2026-08-13",
+      "desc": "留言板重构为 Sticky Note 便利贴墙",
+      "important": false,
+      "repo": "site",
+      "sha": "f5a10d0f1ed3e0e4c6bbb664f5aca75730afc232"
+    },
+    {
+      "uid": "8153966",
+      "type": "feat",
+      "date": "2026-08-12",
+      "desc": "后端新增待办聚合接口并修复仪表盘待办统计",
+      "important": false,
+      "repo": "api",
+      "sha": "81539667d460ba42e0b3b67fce36d1647935944a"
+    },
+    {
+      "uid": "7e1d220",
+      "type": "feat",
+      "date": "2026-08-12",
+      "desc": "评论者头像支持 QQ 邮箱识别",
+      "important": false,
+      "repo": "site",
+      "sha": "7e1d220a8ab45372df38acc2f040cb0d10d185fe"
+    },
+    {
+      "uid": "2ca992d",
+      "type": "style",
+      "date": "2026-08-12",
+      "desc": "修改站外导航的样式",
+      "important": false,
+      "repo": "site",
+      "sha": "2ca992d0af5b86e6f65b4bb48c29cec1c6d1eb2d"
+    },
+    {
+      "uid": "c2a124d",
+      "type": "feat",
+      "date": "2026-08-10",
+      "desc": "友链新增排序/隐私过滤/动态文章源",
+      "important": true,
+      "repo": "api",
+      "sha": "c2a124da5e09f76ff050f55cda5b5d32af42e03c"
+    },
+    {
+      "uid": "32cbef8",
+      "type": "feat",
+      "date": "2026-08-10",
+      "desc": "友链申请表单新增 RSS/备注字段并优化布局",
+      "important": false,
+      "repo": "site",
+      "sha": "32cbef8a6a0fcf3bcbd6b43662f8d22b0416987c"
+    },
+    {
+      "uid": "67592dd",
+      "type": "feat",
+      "date": "2026-08-07",
+      "desc": "站外导航新增「博客大联盟」",
+      "important": false,
+      "repo": "site",
+      "sha": "67592ddc49643c906f31a8908d0fc5b66c3b9a4c"
+    },
+    {
+      "uid": "4a7b850",
+      "type": "feat",
+      "date": "2026-08-07",
+      "desc": "站外导航新增「BlogsClub」",
+      "important": false,
+      "repo": "site",
+      "sha": "4a7b85013dbd203cf7a0d48c38479befd89d5861"
+    },
+    {
+      "uid": "0f8d545",
+      "type": "fix",
+      "date": "2026-08-07",
+      "desc": "更新博客大联盟站外导航链接",
+      "important": false,
+      "repo": "site",
+      "sha": "0f8d5450d739347b4a457e6bdb3b28c44711a625"
+    },
+    {
+      "uid": "3400d73",
+      "type": "fix",
+      "date": "2026-08-07",
+      "desc": "更新笔墨迹站外导航链接",
+      "important": false,
+      "repo": "site",
+      "sha": "3400d7311320e261454b9a9dc7bd08329f16ddce"
+    },
+    {
+      "uid": "a11f04f",
+      "type": "feat",
+      "date": "2026-08-07",
+      "desc": "友链验证码与申请按钮常驻，placeholder 改为聚焦 tooltip",
+      "important": false,
+      "repo": "site",
+      "sha": "a11f04fabc48eabd0534b42defbf99084f52b9a5"
+    },
+    {
+      "uid": "cb2ba34",
+      "type": "style",
+      "date": "2026-08-07",
+      "desc": "重排站外导航顺序",
+      "important": false,
+      "repo": "site",
+      "sha": "cb2ba34fe76c80ef998985207c8d2f1210eb3b30"
+    },
+    {
+      "uid": "4dd5dca",
+      "type": "style",
+      "date": "2026-08-07",
+      "desc": "友链申请须知次要文字改为同行展示",
+      "important": false,
+      "repo": "site",
+      "sha": "4dd5dcacfa95d8d4c977214862c4fee990d20ece"
+    },
+    {
+      "uid": "e764c63",
+      "type": "feat",
+      "date": "2026-08-06",
+      "desc": "重写友链申请规则",
+      "important": false,
+      "repo": "site",
+      "sha": "e764c63c693d47b9816f9d6675986cdbe102dc29"
+    },
+    {
+      "uid": "e28b4d2",
+      "type": "feat",
+      "date": "2026-08-06",
+      "desc": "申请表单第二行加验证码，申请按钮独立第三行",
+      "important": false,
+      "repo": "site",
+      "sha": "e28b4d29d9121e2ac9ee2fdb0e651822f6379432"
+    },
+    {
+      "uid": "a92a2ee",
+      "type": "feat",
+      "date": "2026-08-06",
+      "desc": "友链申请须知与表单分开展示，表单改两行均分布局",
+      "important": false,
+      "repo": "site",
+      "sha": "a92a2eeabf8e5d498db0b748582d43783a92e718"
+    },
+    {
+      "uid": "7433444",
+      "type": "fix",
+      "date": "2026-08-06",
+      "desc": "验证码列补上「验证码」表单标签对齐左侧输入框",
+      "important": false,
+      "repo": "site",
+      "sha": "74334441fdbbac6927295e1812a5ec3b0ef89657"
+    },
+    {
+      "uid": "4a549b3",
+      "type": "chore",
+      "date": "2026-08-06",
+      "desc": "更新建站历程中装备图鉴上线日期",
+      "important": false,
+      "repo": "site",
+      "sha": "4a549b39b67a0327a44d2b55cee045ea512c47e7"
+    },
+    {
+      "uid": "c0c91f3",
+      "type": "feat",
+      "date": "2026-08-05",
+      "desc": "关于页增加装备图鉴入口与爱好说明链接",
+      "important": false,
+      "repo": "site",
+      "sha": "c0c91f313b97b6f75aac965f9d3d885849911a71"
+    },
+    {
+      "uid": "7e329e9",
+      "type": "fix",
+      "date": "2026-08-05",
+      "desc": "博客总字数改为忽略 markdown 语法与代码块",
+      "important": false,
+      "repo": "api",
+      "sha": "7e329e9403b0c6cbda33b8decb95983a46c1a854"
+    },
+    {
+      "uid": "e2fb59a",
+      "type": "feat",
+      "date": "2026-08-04",
+      "desc": "主站新增装备页与顶部导航",
+      "important": true,
+      "repo": "site",
+      "sha": "e2fb59a1b5915aaed2cd238ec415bb0143832c51"
+    },
+    {
+      "uid": "c2b8add",
+      "type": "chore",
+      "date": "2026-08-04",
+      "desc": "world 路由提取为顶层路由（/world/game → /game）",
+      "important": false,
+      "repo": "site",
+      "sha": "c2b8add668da84b8cb52eb9a23d909934c2b13c8"
+    },
+    {
+      "uid": "e5f94cf",
+      "type": "feat",
+      "date": "2026-08-04",
+      "desc": "后端新增装备模块、上传场景与数据库迁移",
+      "important": true,
+      "repo": "api",
+      "sha": "e5f94cfa362457e36e7de7b94bd87383f8392197"
+    },
+    {
+      "uid": "2e1762a",
+      "type": "feat",
+      "date": "2026-08-04",
+      "desc": "装备新增服役时间未知字段与三组排序",
+      "important": false,
+      "repo": "api",
+      "sha": "2e1762a7624b95d3388e2164dd6f65f579b80803"
+    },
+    {
+      "uid": "3be1dd3",
+      "type": "feat",
+      "date": "2026-08-04",
+      "desc": "装备分类内排序改为未退役在前、退役按退役时间倒序",
+      "important": false,
+      "repo": "api",
+      "sha": "3be1dd3bdefe08f193941dca0edf2572e2da6a0d"
+    },
+    {
+      "uid": "f4f55bf",
+      "type": "feat",
+      "date": "2026-08-04",
+      "desc": "装备新增图片留白字段",
+      "important": false,
+      "repo": "api",
+      "sha": "f4f55bfb0220385ec8c3338ddc09c46f950f0447"
+    },
+    {
+      "uid": "777c809",
+      "type": "feat",
+      "date": "2026-08-04",
+      "desc": "装备卡片支持服役时间未知显示",
+      "important": false,
+      "repo": "site",
+      "sha": "777c8099cb4742b53239f0d01cfa9475c1667dd3"
+    },
+    {
+      "uid": "d0a154b",
+      "type": "feat",
+      "date": "2026-08-04",
+      "desc": "装备卡片图片留白绑定 imagePadding",
+      "important": false,
+      "repo": "site",
+      "sha": "d0a154b736e1c3ccedc627213ab7a5fcc29926a1"
+    },
+    {
+      "uid": "092edc4",
+      "type": "style",
+      "date": "2026-08-04",
+      "desc": "更新装备页标题与赞助 tag 文案",
+      "important": false,
+      "repo": "site",
+      "sha": "092edc4895525b6816b96a3a14299577262a5a05"
+    },
+    {
+      "uid": "16857df",
+      "type": "style",
+      "date": "2026-08-04",
+      "desc": "退役时间显示改为中文日期格式",
+      "important": false,
+      "repo": "site",
+      "sha": "16857dff2a22028702142bfaee5d092b3cabd6b4"
+    },
+    {
+      "uid": "0cbd455",
+      "type": "style",
+      "date": "2026-08-04",
+      "desc": "服役时间未知的退役时间只显示年份",
+      "important": false,
+      "repo": "site",
+      "sha": "0cbd455f4ca2b0e6017ed47084f0c6dae36b05c4"
+    },
+    {
+      "uid": "a457810",
+      "type": "style",
+      "date": "2026-08-04",
+      "desc": "装备卡片高度统一对齐",
+      "important": false,
+      "repo": "site",
+      "sha": "a4578102fb92e1cfb733a625cf24414f3ef10333"
+    },
+    {
+      "uid": "67fb4b6",
+      "type": "style",
+      "date": "2026-08-04",
+      "desc": "优化装备卡片图片与分类标题样式",
+      "important": false,
+      "repo": "site",
+      "sha": "67fb4b6a23520658d1f1f86ac3a530b106b9eab2"
+    },
+    {
+      "uid": "eb9e859",
+      "type": "chore",
+      "date": "2026-08-04",
+      "desc": "更新网站历程",
+      "important": false,
+      "repo": "site",
+      "sha": "eb9e8592d4a7d4055a64c7696969725ac2c09eed"
+    },
+    {
+      "uid": "a376e8d",
+      "type": "fix",
+      "date": "2026-08-04",
+      "desc": "sitemap URL 随 world 路由提取同步更新",
+      "important": false,
+      "repo": "api",
+      "sha": "a376e8d74c38dc04cc92628d42b47693fc700d77"
+    },
+    {
+      "uid": "ebe356b",
+      "type": "feat",
+      "date": "2026-08-03",
+      "desc": "点滴详情弹窗支持路由直达与评论交互优化",
+      "important": false,
+      "repo": "site",
+      "sha": "ebe356b0efb25ad8da8d0e1f8d784c0f1ea1da4d"
+    },
+    {
+      "uid": "cd1754f",
+      "type": "feat",
+      "date": "2026-08-03",
+      "desc": "最近点滴跳转详情、关闭弹窗恢复滚动位置、详情图片对齐列表",
+      "important": false,
+      "repo": "site",
+      "sha": "cd1754fecacb10a2b8b6b663c07c0fb60a9c757f"
+    },
+    {
+      "uid": "71d15be",
+      "type": "feat",
+      "date": "2026-08-03",
+      "desc": "评论身份信息卡片化与回复框交互改造",
+      "important": false,
+      "repo": "site",
+      "sha": "71d15beb95df67465fca3215ab01072ebe3ec938"
+    },
+    {
+      "uid": "c5af94a",
+      "type": "feat",
+      "date": "2026-08-03",
+      "desc": "点滴发布自动更新\"最近点滴\"，最新博客/点滴 ID 改为系统托管",
+      "important": false,
+      "repo": "api",
+      "sha": "c5af94aa8993a6d8400816225cdcdf735c973172"
+    },
+    {
+      "uid": "86c63b3",
+      "type": "style",
+      "date": "2026-08-03",
+      "desc": "重写邮件通知样式为网站主配色并优化评论回复邮件",
+      "important": false,
+      "repo": "api",
+      "sha": "86c63b3b2f94cd5665a60177dd37b9217bc04cf2"
+    },
+    {
+      "uid": "d0b2a65",
+      "type": "feat",
+      "date": "2026-07-31",
+      "desc": "点滴评论区（迷你版）与交互优化",
+      "important": true,
+      "repo": "site",
+      "sha": "d0b2a65c3de45fdfb6635b26e8e1f00259ae2764"
+    },
+    {
+      "uid": "01ea973",
+      "type": "feat",
+      "date": "2026-07-31",
+      "desc": "点滴新增评论功能",
+      "important": true,
+      "repo": "api",
+      "sha": "01ea973c1e4e0ff0f00dc85362d0bd8cb8114b05"
+    },
+    {
+      "uid": "0d5248b",
+      "type": "style",
+      "date": "2026-07-29",
+      "desc": "重构游戏卡片、头部、关于页及多项 UI 改进",
+      "important": false,
+      "repo": "site",
+      "sha": "0d5248b3939e3c10f5263b2879fc023d87e99a3f"
+    },
+    {
+      "uid": "f143669",
+      "type": "feat",
+      "date": "2026-07-28",
+      "desc": "友链模块全面优化（卡片动画、名片、表单增强、骨架屏、JSON-LD）",
+      "important": false,
+      "repo": "site",
+      "sha": "f143669b400928bbdde9c75f1a28b12e0c1ecdc2"
+    },
+    {
+      "uid": "251c43f",
+      "type": "feat",
+      "date": "2026-07-28",
+      "desc": "关于模块全面优化（样式、交互、动画一致性）",
+      "important": false,
+      "repo": "site",
+      "sha": "251c43f762c486af84204408aeb96fd7365c9b45"
+    },
+    {
+      "uid": "3271836",
+      "type": "feat",
+      "date": "2026-07-28",
+      "desc": "友链文章接口增加摘要与来源站 favicon 字段",
+      "important": false,
+      "repo": "api",
+      "sha": "3271836e2022ea2af2e53d0022b90693393ac21d"
+    },
+    {
+      "uid": "39bd08e",
+      "type": "fix",
+      "date": "2026-07-28",
+      "desc": "修复导航栏点击区域、博客分页、游戏空状态、文归档时间轴对齐",
+      "important": false,
+      "repo": "site",
+      "sha": "39bd08e9cece6f8fadd1d25d48ca877ed5634050"
+    },
+    {
+      "uid": "eb16a7f",
+      "type": "fix",
+      "date": "2026-07-28",
+      "desc": "修复友链卡片悬停时文本蓝色下划线问题",
+      "important": false,
+      "repo": "site",
+      "sha": "eb16a7f2f45112eb14a91cd3bf53d01de3c3ccc3"
+    },
+    {
+      "uid": "418dbc7",
+      "type": "style",
+      "date": "2026-07-27",
+      "desc": "点滴模块样式与交互全面优化",
+      "important": false,
+      "repo": "site",
+      "sha": "418dbc73e026f4989d3cf3da296799cf245693a9"
+    },
+    {
+      "uid": "9afec1c",
+      "type": "feat",
+      "date": "2026-07-27",
+      "desc": "全局加载动画从 GIF 替换为 SpinKit Chase 深棕色动画",
+      "important": false,
+      "repo": "site",
+      "sha": "9afec1c07e47349a321ec51c3f879dc82d6e0f16"
+    },
+    {
+      "uid": "95535ce",
+      "type": "feat",
+      "date": "2026-07-27",
+      "desc": "博客图片预览缩放比例调整至 1.2",
+      "important": false,
+      "repo": "site",
+      "sha": "95535ce45eab2f060b24d814e601353ee9e788d9"
+    },
+    {
+      "uid": "b538f36",
+      "type": "feat",
+      "date": "2026-07-27",
+      "desc": "导航跳转时自动滚动到页面顶部",
+      "important": false,
+      "repo": "site",
+      "sha": "b538f3607460c60fc11b0c9a6a86a91e62d5334d"
+    },
+    {
+      "uid": "a3d9242",
+      "type": "chore",
+      "date": "2026-07-27",
+      "desc": "更新关于页面的最后修改日期",
+      "important": false,
+      "repo": "site",
+      "sha": "a3d924244e3c8a8f64d5a75565b87bef13347d38"
+    },
+    {
+      "uid": "177ed4b",
+      "type": "feat",
+      "date": "2026-07-24",
+      "desc": "首页侧边栏重构 + Hero 按钮动画增强",
+      "important": false,
+      "repo": "site",
+      "sha": "177ed4b94a5c35a9b3584ae7dddfa03f725c6373"
+    },
+    {
+      "uid": "1acf95e",
+      "type": "feat",
+      "date": "2026-07-24",
+      "desc": "首页统计数字加载占位符与脉冲动画",
+      "important": false,
+      "repo": "site",
+      "sha": "1acf95edabb8551bd35028fa2f8aa15b37930c57"
+    },
+    {
+      "uid": "6df6291",
+      "type": "fix",
+      "date": "2026-07-24",
+      "desc": "整块淡入替代占位符方案，彻底消除布局偏移",
+      "important": false,
+      "repo": "site",
+      "sha": "6df6291903fc75a687d1b955b9aa3dd10c99e890"
+    },
+    {
+      "uid": "fa40405",
+      "type": "fix",
+      "date": "2026-07-24",
+      "desc": "数字宽度锁定，彻底根治位移",
+      "important": false,
+      "repo": "site",
+      "sha": "fa4040562de39000cb4f715edfb6ec3cc3ae6ed5"
+    },
+    {
+      "uid": "512d478",
+      "type": "fix",
+      "date": "2026-07-24",
+      "desc": "占位符改为 `-`，通过双元素覆盖消除布局偏移",
+      "important": false,
+      "repo": "site",
+      "sha": "512d4783b52761da097c3f97cfb527efa89a18eb"
+    },
+    {
+      "uid": "f199619",
+      "type": "feat",
+      "date": "2026-07-24",
+      "desc": "滚动箭头在非顶部时渐隐消失",
+      "important": false,
+      "repo": "site",
+      "sha": "f199619f7e77b2189e2dc353d178eb5d9e89c9d9"
+    },
+    {
+      "uid": "f81b57a",
+      "type": "style",
+      "date": "2026-07-24",
+      "desc": "优化归档页可读性（字号、间距、视觉层次）",
+      "important": false,
+      "repo": "site",
+      "sha": "f81b57ad09b94ab015906ca1b13e014de8b17f28"
+    },
+    {
+      "uid": "efc0a14",
+      "type": "style",
+      "date": "2026-07-24",
+      "desc": "加载占位符改为 em dash",
+      "important": false,
+      "repo": "site",
+      "sha": "efc0a14d33329ebb98fbb7b377b05e03cb7bbce5"
+    },
+    {
+      "uid": "7626829",
+      "type": "fix",
+      "date": "2026-07-24",
+      "desc": "404 按钮浅棕色 & 删除关于页最终幻想12",
+      "important": false,
+      "repo": "site",
+      "sha": "76268298214ae204f83244ae866dcebb8a504abd"
+    },
+    {
+      "uid": "8391d20",
+      "type": "fix",
+      "date": "2026-07-24",
+      "desc": "修复 me-card CSS 多余花括号",
+      "important": false,
+      "repo": "site",
+      "sha": "8391d20f4db5dc8bac6863a50277acf0a6ce1b5d"
+    },
+    {
+      "uid": "0640648",
+      "type": "feat",
+      "date": "2026-07-24",
+      "desc": "站点统计新增游戏数、博客字符数、最近文章",
+      "important": false,
+      "repo": "api",
+      "sha": "06406483ab6e87077aeb1ff2154dad586f761180"
+    },
+    {
+      "uid": "9b22f50",
+      "type": "chore",
+      "date": "2026-07-24",
+      "desc": "添加 localhost:4200 到 CORS 允许列表",
+      "important": false,
+      "repo": "api",
+      "sha": "9b22f504280ebb237d09b0b2c9daa9a132b4fffe"
+    },
+    {
+      "uid": "6a3fcac",
+      "type": "chore",
+      "date": "2026-07-24",
+      "desc": "后端添加 .claude 到 gitignore",
+      "important": false,
+      "repo": "api",
+      "sha": "6a3fcac830a9e7a2360fc66275847846a37980cf"
+    },
+    {
+      "uid": "3fa4b49",
+      "type": "chore",
+      "date": "2026-07-24",
+      "desc": "主站添加 .claude 到 gitignore",
+      "important": false,
+      "repo": "site",
+      "sha": "3fa4b494aba06160330a35843f0566884d2160f5"
+    },
+    {
+      "uid": "d0a6819",
+      "type": "chore",
+      "date": "2026-07-23",
+      "desc": "主站添加一键部署脚本 (deploy)",
+      "important": false,
+      "repo": "site",
+      "sha": "d0a681979b4098d96e6f0217938eb7546a50b3b2"
+    },
+    {
+      "uid": "f4f5e29",
+      "type": "chore",
+      "date": "2026-07-23",
+      "desc": "后端添加一键部署脚本 (deploy)",
+      "important": false,
+      "repo": "api",
+      "sha": "f4f5e291bcde5d1aab997e931b34ec631a44522a"
+    },
+    {
+      "uid": "fe1b326",
+      "type": "feat",
+      "date": "2026-07-16",
+      "desc": "友链卡片头像支持 Gravatar 优先级开关",
+      "important": false,
+      "repo": "site",
+      "sha": "fe1b3262ae6dc4c5e9c1d03858a55c848e522454"
+    },
+    {
+      "uid": "bbf2909",
+      "type": "feat",
+      "date": "2026-07-16",
+      "desc": "后端新增 preferGravatar 字段及头像优先级开关接口",
+      "important": false,
+      "repo": "api",
+      "sha": "bbf2909f9197a1be8a379c9367cdfe4ceffdda04"
+    },
+    {
+      "uid": "9d5f045",
+      "type": "feat",
+      "date": "2026-07-15",
+      "desc": "后端新增文章评论区接口（评论 CRUD、审核、邮件通知）🐾",
+      "important": true,
+      "repo": "api",
+      "sha": "9d5f045c57a951bb59e948ba5a435ee3cb8b4385"
+    },
+    {
+      "uid": "4f7631a",
+      "type": "feat",
+      "date": "2026-07-15",
+      "desc": "评论区重构 —— 表情评论替换为文章评论区组件",
+      "important": true,
+      "repo": "site",
+      "sha": "4f7631ac5581de3d9989dbea0634857fa1c2c3b1"
+    },
+    {
+      "uid": "2763bd8",
+      "type": "feat",
+      "date": "2026-07-15",
+      "desc": "博客列表返回文本评论数，点滴模块新增点赞功能",
+      "important": false,
+      "repo": "api",
+      "sha": "2763bd8e471e4845f6f0b6da4ae4ba646a6fca98"
+    },
+    {
+      "uid": "65643e6",
+      "type": "feat",
+      "date": "2026-07-15",
+      "desc": "博客卡片评论 tag 替换为文本评论数，修复 TOC 双滚动条",
+      "important": false,
+      "repo": "site",
+      "sha": "65643e6adeb1f6f8dc82fbe3fb4b5247fa8b59ad"
+    },
+    {
+      "uid": "757ed98",
+      "type": "style",
+      "date": "2026-07-15",
+      "desc": "完善评论区表情选择器样式与布局",
+      "important": false,
+      "repo": "site",
+      "sha": "757ed98d41fdc6ab5fdec78a5b4c02f44037b8ad"
+    },
+    {
+      "uid": "c0d7dfb",
+      "type": "feat",
+      "date": "2026-07-14",
+      "desc": "阅读进度条、分享按钮、相关文章；简化关于页；删除 Welcome v2",
+      "important": false,
+      "repo": "site",
+      "sha": "c0d7dfb4f2b70ad98f926c2bfebf390c889d3545"
+    },
+    {
+      "uid": "46daf35",
+      "type": "feat",
+      "date": "2026-07-14",
+      "desc": "后端新增相关文章接口",
+      "important": false,
+      "repo": "api",
+      "sha": "46daf3558d42d1747b0a0952d859dd9ee85ebc56"
+    },
+    {
+      "uid": "f776adb",
+      "type": "style",
+      "date": "2026-07-10",
+      "desc": "更新 markdown 样式",
+      "important": false,
+      "repo": "site",
+      "sha": "f776adba7609cc66b119dc9e2486d5a78af57b86"
+    },
+    {
+      "uid": "9f2c4b9",
+      "type": "feat",
+      "date": "2026-07-08",
+      "desc": "新增工具箱导航页",
+      "important": false,
+      "repo": "site",
+      "sha": "9f2c4b9c325e8a173afbb691b6ca545307f3945d"
+    },
+    {
+      "uid": "ac5746c",
+      "type": "chore",
+      "date": "2026-07-08",
+      "desc": "更新站点信息配置与博客接口",
+      "important": false,
+      "repo": "api",
+      "sha": "ac5746c4d462ba8484119ae3406a57f9839b2667"
+    },
+    {
+      "uid": "3a2e2e4",
+      "type": "feat",
+      "date": "2026-07-03",
+      "desc": "尝试建立新版首页",
+      "important": false,
+      "repo": "site",
+      "sha": "3a2e2e488e57cf4c17852d679848dc1963ac5aba"
+    },
+    {
+      "uid": "b31caa0",
+      "type": "style",
+      "date": "2026-07-03",
+      "desc": "优化回到顶部样式、目录样式",
+      "important": false,
+      "repo": "site",
+      "sha": "b31caa077edbbed0c98c1b620dfcc25d3c0004c4"
+    },
+    {
+      "uid": "7c46445",
+      "type": "style",
+      "date": "2026-07-03",
+      "desc": "优化文归档样式",
+      "important": false,
+      "repo": "site",
+      "sha": "7c46445cbf7374ea942be66471e5d8ebcc1b63ac"
+    },
+    {
+      "uid": "f68bd46",
+      "type": "chore",
+      "date": "2026-07-03",
+      "desc": "优化代码结构",
+      "important": false,
+      "repo": "site",
+      "sha": "f68bd4649f7a5511b0dacf19423966a0faac41a5"
+    },
+    {
+      "uid": "31c01eb",
+      "type": "fix",
+      "date": "2026-06-26",
+      "desc": "修复诸多样式问题",
+      "important": false,
+      "repo": "site",
+      "sha": "31c01eb990b84358495a5d23a61ae99ad32d5a10"
+    },
+    {
+      "uid": "5787a2d",
+      "type": "fix",
+      "date": "2026-06-26",
+      "desc": "修复路由相关细节",
+      "important": false,
+      "repo": "site",
+      "sha": "5787a2dde57ec41011f6cde8a4958830426d46b1"
+    },
+    {
+      "uid": "960c681",
+      "type": "chore",
+      "date": "2026-06-26",
+      "desc": "优化字体等静态文件方案",
+      "important": false,
+      "repo": "site",
+      "sha": "960c681a574c0e736a978870cbc08eb6ccc79136"
+    },
+    {
+      "uid": "f71d1c6",
+      "type": "style",
+      "date": "2026-06-26",
+      "desc": "抽取通用样式令牌，重构关于页与公共组件样式",
+      "important": false,
+      "repo": "site",
+      "sha": "f71d1c60454517cc9e09157efc7f04e68f5bd1e2"
+    },
+    {
+      "uid": "1599dc1",
+      "type": "style",
+      "date": "2026-06-25",
+      "desc": "优化手机端关于",
+      "important": false,
+      "repo": "site",
+      "sha": "1599dc1224b2a507a48e2fe60beffc5e8ea40b75"
+    },
+    {
+      "uid": "24ad7ff",
+      "type": "feat",
+      "date": "2026-06-24",
+      "desc": "重写\"关于\"页面",
+      "important": false,
+      "repo": "site",
+      "sha": "24ad7ffa39778121588017d501c4a51c75a86eec"
+    },
+    {
+      "uid": "37b7d66",
+      "type": "feat",
+      "date": "2026-06-24",
+      "desc": "重写手机导航",
+      "important": false,
+      "repo": "site",
+      "sha": "37b7d66cebc9ebf7803874f5a31d5817fefbfbef"
+    },
+    {
+      "uid": "f9a3312",
+      "type": "style",
+      "date": "2026-06-24",
+      "desc": "优化关于页、留言页、友链页样式及代码",
+      "important": false,
+      "repo": "site",
+      "sha": "f9a33127fb5aa2008b244af67e107039e639039f"
+    },
+    {
+      "uid": "74b8c99",
+      "type": "chore",
+      "date": "2026-06-24",
+      "desc": "整理工程配置文件与样式结构",
+      "important": false,
+      "repo": "site",
+      "sha": "74b8c990e6eea7062e9ce603b2e9966c584fe953"
+    },
+    {
+      "uid": "8d1ec34",
+      "type": "style",
+      "date": "2026-06-22",
+      "desc": "优化导航与部分组件细节",
+      "important": false,
+      "repo": "site",
+      "sha": "8d1ec347b01a5113c5a7737aa7c87d9bfb8de883"
+    },
+    {
+      "uid": "3a2413d",
+      "type": "chore",
+      "date": "2026-06-22",
+      "desc": "更新友链文章数据源",
+      "important": false,
+      "repo": "api",
+      "sha": "3a2413d24df9b9036ce9343e5ec9112f614f118d"
+    },
+    {
+      "uid": "2169252",
+      "type": "style",
+      "date": "2026-05-29",
+      "desc": "优化手机端样式",
+      "important": false,
+      "repo": "site",
+      "sha": "216925242bc8602aa888272ead3f3e054ece71bd"
+    },
+    {
+      "uid": "79ae42c",
+      "type": "style",
+      "date": "2026-05-26",
+      "desc": "优化 SEO、优化样式",
+      "important": false,
+      "repo": "site",
+      "sha": "79ae42cc2ef317d8de5bbea25d80b64174fccd13"
+    },
+    {
+      "uid": "334c5cd",
+      "type": "style",
+      "date": "2026-05-26",
+      "desc": "优化 SEO",
+      "important": false,
+      "repo": "api",
+      "sha": "334c5cdcbb30745f84e363dd6d1a343dc264f615"
+    },
+    {
+      "uid": "8fd81af",
+      "type": "style",
+      "date": "2026-05-21",
+      "desc": "重构关于页与友链页模板结构",
+      "important": false,
+      "repo": "site",
+      "sha": "8fd81af015f7a650fcb8b600d462236d43bb6673"
+    },
+    {
+      "uid": "1ec9ced",
+      "type": "chore",
+      "date": "2026-05-21",
+      "desc": "更新友链文章抓取逻辑",
+      "important": false,
+      "repo": "api",
+      "sha": "1ec9ced75db7b117573befb008f6c2f41c9f18b0"
+    },
+    {
+      "uid": "b05a230",
+      "type": "style",
+      "date": "2026-05-20",
+      "desc": "优化游戏卡片样式与布局",
+      "important": false,
+      "repo": "site",
+      "sha": "b05a2302e27e2f6e8357ab1c96002c09859c0dda"
+    },
+    {
+      "uid": "0c9d25a",
+      "type": "chore",
+      "date": "2026-05-20",
+      "desc": "更新游戏接口细节",
+      "important": false,
+      "repo": "api",
+      "sha": "0c9d25aa965831a4382c0879ad1337bc6c5dc05e"
+    },
+    {
+      "uid": "1c9cae9",
+      "type": "feat",
+      "date": "2026-05-15",
+      "desc": "优化环境加载，扩展友链文章与游戏模块",
+      "important": false,
+      "repo": "api",
+      "sha": "1c9cae91aa13423992653041a53033572230ec78"
+    },
+    {
+      "uid": "8453ae1",
+      "type": "style",
+      "date": "2026-05-15",
+      "desc": "优化游戏页面",
+      "important": false,
+      "repo": "site",
+      "sha": "8453ae1401fa9bd5b32e0dbb2a5b3c41df7cc605"
+    },
+    {
+      "uid": "62d7f9b",
+      "type": "fix",
+      "date": "2026-05-15",
+      "desc": "修复访问走势图",
+      "important": false,
+      "repo": "api",
+      "sha": "62d7f9b989ab417fdc794d65ae75c9d747c31d74"
+    },
+    {
+      "uid": "c494f69",
+      "type": "feat",
+      "date": "2026-05-14",
+      "desc": "后端重建首页",
+      "important": false,
+      "repo": "api",
+      "sha": "c494f697e5716c0f32292f33d9b477daec3f61ea"
+    },
+    {
+      "uid": "ac99d95",
+      "type": "feat",
+      "date": "2026-05-14",
+      "desc": "新增访问量统计逻辑",
+      "important": false,
+      "repo": "site",
+      "sha": "ac99d952bf69d1c02c3cad734498f5d0cd97fcbd"
+    },
+    {
+      "uid": "ebb922e",
+      "type": "chore",
+      "date": "2026-05-14",
+      "desc": "后端新增环境文件",
+      "important": false,
+      "repo": "api",
+      "sha": "ebb922ea8c8f953e14b85d2252f9f6f171c7ccd9"
+    },
+    {
+      "uid": "518062c",
+      "type": "fix",
+      "date": "2026-05-14",
+      "desc": "修复图片上传问题",
+      "important": false,
+      "repo": "api",
+      "sha": "518062c7cebb23f3ecd0f1d939c4132aea080cce"
+    },
+    {
+      "uid": "b2344c9",
+      "type": "style",
+      "date": "2026-04-30",
+      "desc": "重构友链页模板结构与文案",
+      "important": false,
+      "repo": "site",
+      "sha": "b2344c938c4e24534996d8c4ebf4b96dcfaa90ec"
+    },
+    {
+      "uid": "318be60",
+      "type": "feat",
+      "date": "2026-04-29",
+      "desc": "完善验证码逻辑",
+      "important": false,
+      "repo": "site",
+      "sha": "318be6018cdf9bdb01a7d75321ed39681a218287"
+    },
+    {
+      "uid": "22f48b9",
+      "type": "feat",
+      "date": "2026-04-29",
+      "desc": "完善验证码逻辑",
+      "important": false,
+      "repo": "api",
+      "sha": "22f48b9ac2ab085bd523df0f17af646ff231991a"
+    },
+    {
+      "uid": "3c4285a",
+      "type": "feat",
+      "date": "2026-04-28",
+      "desc": "验证码实现第一步",
+      "important": false,
+      "repo": "site",
+      "sha": "3c4285a8bdcc5be89692eccb40754f264f74082f"
+    },
+    {
+      "uid": "6296e87",
+      "type": "feat",
+      "date": "2026-04-28",
+      "desc": "验证码实现第一步",
+      "important": false,
+      "repo": "api",
+      "sha": "6296e87a1b6b68021cc0e11e201c0a66fc359654"
+    },
+    {
+      "uid": "df36944",
+      "type": "chore",
+      "date": "2026-04-28",
+      "desc": "重构多处组件逻辑（留言、博客、导航等）",
+      "important": false,
+      "repo": "site",
+      "sha": "df369442eb4c2d879f7566409f0e84ae459c70ef"
+    },
+    {
+      "uid": "267cde0",
+      "type": "chore",
+      "date": "2026-04-28",
+      "desc": "重构图片变体与迁移脚本逻辑",
+      "important": false,
+      "repo": "api",
+      "sha": "267cde0ccb9c03518064f42f77c8236f2b7c4e7e"
+    },
+    {
+      "uid": "70ee055",
+      "type": "fix",
+      "date": "2026-04-28",
+      "desc": "修复站点筛选问题",
+      "important": false,
+      "repo": "api",
+      "sha": "70ee0556a73ce6b5c6077138a075ab07c1622ba5"
+    },
+    {
+      "uid": "4b73ced",
+      "type": "chore",
+      "date": "2026-04-28",
+      "desc": "完成 AGENTS 编写",
+      "important": false,
+      "repo": "site",
+      "sha": "4b73ced69de2a5fb74f15848303ca9a524054fc8"
+    },
+    {
+      "uid": "3fd07d3",
+      "type": "chore",
+      "date": "2026-04-28",
+      "desc": "完成 AGENTS 编写",
+      "important": false,
+      "repo": "api",
+      "sha": "3fd07d354090503058e66b08e3df7f9679f6c377"
+    },
+    {
+      "uid": "8b99fa2",
+      "type": "chore",
+      "date": "2026-04-27",
+      "desc": "更新环境；更新点滴样式细节",
+      "important": false,
+      "repo": "site",
+      "sha": "8b99fa25841a6312b772f2f2d380ca71b8ab10de"
+    },
+    {
+      "uid": "ce9fe05",
+      "type": "feat",
+      "date": "2026-04-21",
+      "desc": "新增样式交互",
+      "important": false,
+      "repo": "site",
+      "sha": "ce9fe0598c06a0432fc5a96d21a44178aeff8477"
+    },
+    {
+      "uid": "5280823",
+      "type": "feat",
+      "date": "2026-04-21",
+      "desc": "完善图片上传机制",
+      "important": false,
+      "repo": "api",
+      "sha": "528082384cf05c54508227d8195dcda9f92d388d"
+    },
+    {
+      "uid": "4a16dc7",
+      "type": "style",
+      "date": "2026-04-21",
+      "desc": "优化点滴页样式与交互",
+      "important": false,
+      "repo": "site",
+      "sha": "4a16dc70cd17cd3769beb0021efe55a905635060"
+    },
+    {
+      "uid": "11f3795",
+      "type": "style",
+      "date": "2026-04-21",
+      "desc": "修复关于页与点滴页样式细节",
+      "important": false,
+      "repo": "site",
+      "sha": "11f37959c5fc42ba23963daf2e1678593b86f95b"
+    },
+    {
+      "uid": "4225ae0",
+      "type": "feat",
+      "date": "2026-04-20",
+      "desc": "重新开启点滴模块",
+      "important": false,
+      "repo": "site",
+      "sha": "4225ae0e4712db0ae7ea2bfb53526c810d38e195"
+    },
+    {
+      "uid": "8f42d1d",
+      "type": "feat",
+      "date": "2026-04-20",
+      "desc": "重新开启点滴模块",
+      "important": false,
+      "repo": "api",
+      "sha": "8f42d1d14072191daf93bc8a456bedf718633923"
+    },
+    {
+      "uid": "2851a6f",
+      "type": "style",
+      "date": "2026-04-20",
+      "desc": "优化样式",
+      "important": false,
+      "repo": "site",
+      "sha": "2851a6f2dd5cd488c312cab2300a96898b62d685"
+    },
+    {
+      "uid": "b896b4a",
+      "type": "chore",
+      "date": "2026-04-17",
+      "desc": "配置生产、本地环境",
+      "important": false,
+      "repo": "site",
+      "sha": "b896b4ab5d4e767c44aa8e793f1f2210397842e7"
+    },
+    {
+      "uid": "b1c0992",
+      "type": "fix",
+      "date": "2026-04-17",
+      "desc": "修复文章/随笔/问答页问题",
+      "important": false,
+      "repo": "site",
+      "sha": "b1c099211ad9016e44a3e68b46370f6d3e2536b0"
+    },
+    {
+      "uid": "7d12edc",
+      "type": "chore",
+      "date": "2026-04-17",
+      "desc": "性能优化，增加投影",
+      "important": false,
+      "repo": "api",
+      "sha": "7d12edc92ef0e1e832ebc167227a9d4043db38ec"
+    },
+    {
+      "uid": "891df2e",
+      "type": "chore",
+      "date": "2026-04-17",
+      "desc": "重构应用启动与环境配置校验",
+      "important": false,
+      "repo": "api",
+      "sha": "891df2ecbf029366ee165d2fdff46efb8df9cfc8"
+    },
+    {
+      "uid": "ae709e9",
+      "type": "fix",
+      "date": "2026-04-17",
+      "desc": "修复创造与点滴模块问题",
+      "important": false,
+      "repo": "api",
+      "sha": "ae709e9b82a6010f619ee857610dd11646541ca1"
+    },
+    {
+      "uid": "2807761",
+      "type": "chore",
+      "date": "2026-04-17",
+      "desc": "重构上传模块，新增存量图片迁移脚本",
+      "important": false,
+      "repo": "api",
+      "sha": "2807761c68fc3c99b0c40160a32abeadff720a0d"
+    },
+    {
+      "uid": "26da2d3",
+      "type": "chore",
+      "date": "2026-04-16",
+      "desc": "重构博客与模块 DTO/接口",
+      "important": false,
+      "repo": "api",
+      "sha": "26da2d325b87f9524a377e17430299d30f35b058"
+    },
+    {
+      "uid": "c34de40",
+      "type": "chore",
+      "date": "2026-04-15",
+      "desc": "懒加载 + 主动预取",
+      "important": false,
+      "repo": "site",
+      "sha": "c34de409b1f03b1e262a265bdd381c30ca170c57"
+    },
+    {
+      "uid": "da28a72",
+      "type": "style",
+      "date": "2026-04-14",
+      "desc": "统一样式组件 fl-card",
+      "important": false,
+      "repo": "site",
+      "sha": "da28a724b77d6f8832de329731619365e38ab8f8"
+    },
+    {
+      "uid": "141ecb0",
+      "type": "style",
+      "date": "2026-04-14",
+      "desc": "统一样式组件 fl-tag",
+      "important": false,
+      "repo": "site",
+      "sha": "141ecb0717e10156493aac77865c28aebc7f4f38"
+    },
+    {
+      "uid": "c371f65",
+      "type": "style",
+      "date": "2026-04-14",
+      "desc": "fl-tag 新增语义分层",
+      "important": false,
+      "repo": "site",
+      "sha": "c371f65aaff9fb6c018e4431933bef6d3878c44f"
+    },
+    {
+      "uid": "cfb91f0",
+      "type": "style",
+      "date": "2026-04-14",
+      "desc": "统一样式组件 alert",
+      "important": false,
+      "repo": "site",
+      "sha": "cfb91f09e7178179cb1e225183b8cc0a428d9a53"
+    },
+    {
+      "uid": "8b2b083",
+      "type": "style",
+      "date": "2026-04-14",
+      "desc": "优化 CSS 分类、字段和细节",
+      "important": false,
+      "repo": "site",
+      "sha": "8b2b083e5a3c0db00aceea321ce2120eabb8de11"
+    },
+    {
+      "uid": "dc0fe5f",
+      "type": "style",
+      "date": "2026-04-14",
+      "desc": "优化卡片 hover 效果",
+      "important": false,
+      "repo": "site",
+      "sha": "dc0fe5fad30bf87db2f189f22f178f52ec2948a9"
+    },
+    {
+      "uid": "620403d",
+      "type": "style",
+      "date": "2026-04-13",
+      "desc": "button 和 input 样式统一化",
+      "important": false,
+      "repo": "site",
+      "sha": "620403db81f722373e941b10bea4762a406670ac"
+    },
+    {
+      "uid": "aee17d5",
+      "type": "chore",
+      "date": "2026-04-10",
+      "desc": "引入 Inter 字体，性能优化，删除旧 markdown 样式",
+      "important": false,
+      "repo": "site",
+      "sha": "aee17d5e9515196300d855b2f4f69c0c72f6a5c2"
+    },
+    {
+      "uid": "8950d97",
+      "type": "chore",
+      "date": "2026-04-10",
+      "desc": "性能优化（按需加载 markdown 运行时）",
+      "important": false,
+      "repo": "site",
+      "sha": "8950d9773d9be63f7401ad430436cbaeaef7848b"
+    },
+    {
+      "uid": "4632e1f",
+      "type": "style",
+      "date": "2026-04-10",
+      "desc": "优化博客卡片、友链卡片等样式细节",
+      "important": false,
+      "repo": "site",
+      "sha": "4632e1f6967542004bc84fb919dacd8b58b97ad9"
+    },
+    {
+      "uid": "1575179",
+      "type": "chore",
+      "date": "2026-04-10",
+      "desc": "剥离并替换 nz-flex、nz-divider、nz-tag",
+      "important": false,
+      "repo": "site",
+      "sha": "1575179e1eb72026bc102de27652cc1a97ecb92f"
+    },
+    {
+      "uid": "e6491a5",
+      "type": "chore",
+      "date": "2026-04-10",
+      "desc": "回滚\"剥离并替换 nz-flex、nz-divider、nz-tag\"",
+      "important": false,
+      "repo": "site",
+      "sha": "e6491a5c2ee807f7c3be70d7f5864aacd6331f79"
+    },
+    {
+      "uid": "7cbcf7f",
+      "type": "style",
+      "date": "2026-04-09",
+      "desc": "全面重写公共样式（markdown、评论区、导航等）",
+      "important": false,
+      "repo": "site",
+      "sha": "7cbcf7f9adb2074ac2dc11255c548cb8481af0e1"
+    },
+    {
+      "uid": "2a8e751",
+      "type": "style",
+      "date": "2026-02-12",
+      "desc": "优化超链接样式方案，梳理模板写法",
+      "important": false,
+      "repo": "site",
+      "sha": "2a8e75139f200ea30715720721e407ed98bb89cd"
+    },
+    {
+      "uid": "e32edf5",
+      "type": "style",
+      "date": "2025-12-17",
+      "desc": "重写 markdown 样式与文章详情结构",
+      "important": false,
+      "repo": "site",
+      "sha": "e32edf52373a02c32beb6ae6c4e7b2f8727f816c"
+    },
+    {
+      "uid": "0822ad9",
+      "type": "feat",
+      "date": "2025-12-17",
+      "desc": "添加笔墨迹友链",
+      "important": false,
+      "repo": "site",
+      "sha": "0822ad9c8904aef784e0ef9145fcc4bb7e043d5d"
+    },
+    {
+      "uid": "cffd5ee",
+      "type": "feat",
+      "date": "2025-11-03",
+      "desc": "引入简约版 emoji 字体",
+      "important": false,
+      "repo": "site",
+      "sha": "cffd5eed6000dddad15779bdf658de195717d85f"
+    },
+    {
+      "uid": "a328bac",
+      "type": "chore",
+      "date": "2025-11-03",
+      "desc": "修改部分关于介绍",
+      "important": false,
+      "repo": "site",
+      "sha": "a328bacf61510ae5be5215830087e07a4ad7977d"
+    },
+    {
+      "uid": "e2536f2",
+      "type": "chore",
+      "date": "2025-11-03",
+      "desc": "修复多处组件模板 common 语法",
+      "important": false,
+      "repo": "site",
+      "sha": "e2536f270dce8f7751bf477becfecdcb7361fecd"
+    },
+    {
+      "uid": "f950d7d",
+      "type": "feat",
+      "date": "2025-10-08",
+      "desc": "添加十年之约虫洞链接",
+      "important": false,
+      "repo": "site",
+      "sha": "f950d7d7990797ef9e39551deedd569563f20888"
+    },
+    {
+      "uid": "2d9880d",
+      "type": "feat",
+      "date": "2025-10-08",
+      "desc": "十年之约图标独立组件",
+      "important": false,
+      "repo": "site",
+      "sha": "2d9880d7b18d6e884324205f3e58a887b9d28b5f"
+    },
+    {
+      "uid": "c8eb434",
+      "type": "chore",
+      "date": "2025-10-08",
+      "desc": "更新 README",
+      "important": false,
+      "repo": "site",
+      "sha": "c8eb43412b17555e90a8bf4cb66639ae499e3337"
+    },
+    {
+      "uid": "a3d88e4",
+      "type": "chore",
+      "date": "2025-07-08",
+      "desc": "更新欢迎页 BW 相关说明",
+      "important": false,
+      "repo": "site",
+      "sha": "a3d88e42b0042e6216f961cfb5d6337c051e7fac"
+    },
+    {
+      "uid": "87e08eb",
+      "type": "fix",
+      "date": "2025-07-04",
+      "desc": "修复博客与欢迎页若干样式细节",
+      "important": false,
+      "repo": "site",
+      "sha": "87e08ebc4577f9a86699a8ac7908e19ae9852cdf"
+    },
+    {
+      "uid": "7df8259",
+      "type": "fix",
+      "date": "2025-07-04",
+      "desc": "修复文章/随笔标签显示问题",
+      "important": false,
+      "repo": "site",
+      "sha": "7df8259421758a1cdebcc8a1eb8359dcc38b15e5"
+    },
+    {
+      "uid": "b870584",
+      "type": "chore",
+      "date": "2025-07-04",
+      "desc": "取消分页筛选，可搜索全部数据",
+      "important": false,
+      "repo": "api",
+      "sha": "b870584af437784ee27e02139f3211f00700f908"
+    },
+    {
+      "uid": "6ee1a7c",
+      "type": "chore",
+      "date": "2025-07-03",
+      "desc": "项目升级至 Angular 20",
+      "important": true,
+      "repo": "site",
+      "sha": "6ee1a7c0be9725604abf828a8a1582d2b886f7a5"
+    },
+    {
+      "uid": "a803a45",
+      "type": "chore",
+      "date": "2025-07-03",
+      "desc": "更新站点地图地址",
+      "important": false,
+      "repo": "site",
+      "sha": "a803a45ac12da26a9a05f1c91807e79b401c0429"
+    },
+    {
+      "uid": "6bd45db",
+      "type": "style",
+      "date": "2025-07-02",
+      "desc": "修复 markdown 与文章详情样式问题",
+      "important": false,
+      "repo": "site",
+      "sha": "6bd45dbfe4d34e3b7204e820ac1bba7a79e17658"
+    },
+    {
+      "uid": "a1ed8da",
+      "type": "fix",
+      "date": "2025-07-02",
+      "desc": "修复博客刷新问题",
+      "important": false,
+      "repo": "api",
+      "sha": "a1ed8dae6847b219801a2c9592041859e9472ab4"
+    },
+    {
+      "uid": "186f852",
+      "type": "chore",
+      "date": "2025-06-26",
+      "desc": "更新友链介绍",
+      "important": false,
+      "repo": "site",
+      "sha": "186f8527afef5d8d2ed9ab4364e544801468a8f1"
+    },
+    {
+      "uid": "bf3e18c",
+      "type": "feat",
+      "date": "2025-06-16",
+      "desc": "后端完成\"创造\"模块（画作）开发",
+      "important": false,
+      "repo": "api",
+      "sha": "bf3e18caaa83e17d5ea1ce6665ee2d9bb9636bba"
+    },
+    {
+      "uid": "31e13b1",
+      "type": "feat",
+      "date": "2025-06-16",
+      "desc": "新增博客刷新按钮（解决博客未加载问题）",
+      "important": false,
+      "repo": "site",
+      "sha": "31e13b16656b57b551deed01e76aa92255c96954"
+    },
+    {
+      "uid": "00023c7",
+      "type": "feat",
+      "date": "2025-06-16",
+      "desc": "新增小红书跳转，修复相关细节",
+      "important": false,
+      "repo": "site",
+      "sha": "00023c725274e07098d18e57b2d65e1937e9967d"
+    },
+    {
+      "uid": "4d22412",
+      "type": "fix",
+      "date": "2025-06-16",
+      "desc": "修复递归卡死问题",
+      "important": false,
+      "repo": "site",
+      "sha": "4d22412664ad650ced5cd25422c7487ed709d299"
+    },
+    {
+      "uid": "a45033c",
+      "type": "fix",
+      "date": "2025-06-16",
+      "desc": "修复评论显示 BUG",
+      "important": false,
+      "repo": "site",
+      "sha": "a45033c97cb2af37a5da5386f662903300823fa9"
+    },
+    {
+      "uid": "7ed6265",
+      "type": "fix",
+      "date": "2025-06-16",
+      "desc": "修复文章详情评论相关问题",
+      "important": false,
+      "repo": "site",
+      "sha": "7ed6265bf6c5733632e55b371b7be63aa3111b82"
+    },
+    {
+      "uid": "c18339a",
+      "type": "fix",
+      "date": "2025-02-26",
+      "desc": "修复博客卡片显示问题",
+      "important": false,
+      "repo": "site",
+      "sha": "c18339a86936b95ac009d004996b57e4feb41011"
+    },
+    {
+      "uid": "e963bb0",
+      "type": "feat",
+      "date": "2025-02-25",
+      "desc": "新增评论功能",
+      "important": true,
+      "repo": "site",
+      "sha": "e963bb01e5b7a7712238455655666c27e5c417d9"
+    },
+    {
+      "uid": "c710363",
+      "type": "feat",
+      "date": "2025-02-25",
+      "desc": "后端新增评论接口",
+      "important": false,
+      "repo": "api",
+      "sha": "c710363daa72d72a9d4bf7df77b22838dac9f46b"
+    },
+    {
+      "uid": "d9b7271",
+      "type": "chore",
+      "date": "2025-02-25",
+      "desc": "更新网站日志",
+      "important": false,
+      "repo": "site",
+      "sha": "d9b727179a774034db4d92554a9af23a71870b94"
+    },
+    {
+      "uid": "27037e4",
+      "type": "fix",
+      "date": "2025-02-25",
+      "desc": "修复博客卡片与详情逻辑问题",
+      "important": false,
+      "repo": "site",
+      "sha": "27037e4d0bdb6c23b9bb83be2689eca8b664d647"
+    },
+    {
+      "uid": "93ea552",
+      "type": "fix",
+      "date": "2025-02-25",
+      "desc": "修复博客接口问题",
+      "important": false,
+      "repo": "api",
+      "sha": "93ea5521675671dbc005716c1da220349e69a532"
+    },
+    {
+      "uid": "df5cda4",
+      "type": "feat",
+      "date": "2025-02-24",
+      "desc": "图片新增查看原图按钮",
+      "important": false,
+      "repo": "site",
+      "sha": "df5cda4c68975728b0336891064d0f5aa1ee239c"
+    },
+    {
+      "uid": "03ec2f5",
+      "type": "feat",
+      "date": "2025-02-21",
+      "desc": "重写手机导航；优化游戏卡片样式",
+      "important": false,
+      "repo": "site",
+      "sha": "03ec2f5246862f9a8dae0c7b284fe2f801c2ca80"
+    },
+    {
+      "uid": "7aa4ee2",
+      "type": "feat",
+      "date": "2025-02-21",
+      "desc": "优化游戏截图加载体验",
+      "important": false,
+      "repo": "site",
+      "sha": "7aa4ee26cea405c39a4b118d8b15a6d5c5a1f6f5"
+    },
+    {
+      "uid": "184e07b",
+      "type": "chore",
+      "date": "2025-02-21",
+      "desc": "删除 patch 方法，修改为 post",
+      "important": false,
+      "repo": "api",
+      "sha": "184e07b315709d0a23c2e6ff1edc2e354650b07d"
+    },
+    {
+      "uid": "8092902",
+      "type": "fix",
+      "date": "2025-02-21",
+      "desc": "修复游戏卡片问题",
+      "important": false,
+      "repo": "site",
+      "sha": "8092902cb1daee6bfc8aabe15c166d9340311f5d"
+    },
+    {
+      "uid": "4415258",
+      "type": "feat",
+      "date": "2025-02-20",
+      "desc": "完成游戏模块开发",
+      "important": true,
+      "repo": "site",
+      "sha": "4415258b1c184b0c8cf1b5aeb5131d34a4886fa5"
+    },
+    {
+      "uid": "c2bd8f1",
+      "type": "feat",
+      "date": "2025-02-20",
+      "desc": "新增抽屉查看游戏截图",
+      "important": false,
+      "repo": "site",
+      "sha": "c2bd8f18de2ae6a65e2664a0090a608df22e931d"
+    },
+    {
+      "uid": "50c9a68",
+      "type": "chore",
+      "date": "2025-02-20",
+      "desc": "图片压缩质量改为 75、不设置宽度",
+      "important": false,
+      "repo": "api",
+      "sha": "50c9a68823bde0218c5e0efd9e33d69d001dad88"
+    },
+    {
+      "uid": "b01e13d",
+      "type": "style",
+      "date": "2025-02-20",
+      "desc": "更新游戏卡片与欢迎页样式",
+      "important": false,
+      "repo": "site",
+      "sha": "b01e13d5ee1b5e6b4b5c936611929e2c40d5223f"
+    },
+    {
+      "uid": "1871374",
+      "type": "feat",
+      "date": "2025-02-19",
+      "desc": "新增游戏模块，样式待开发",
+      "important": false,
+      "repo": "site",
+      "sha": "18713744279d1063981ed3664baee9b8fe60ef40"
+    },
+    {
+      "uid": "9c682dc",
+      "type": "style",
+      "date": "2025-02-19",
+      "desc": "初步设计游戏相关样式",
+      "important": false,
+      "repo": "site",
+      "sha": "9c682dc61d1a3b2c662bacf4e1644a5e1ca8807f"
+    },
+    {
+      "uid": "7a71b01",
+      "type": "feat",
+      "date": "2025-02-19",
+      "desc": "后端新增游戏模块",
+      "important": false,
+      "repo": "api",
+      "sha": "7a71b01a7cd10e2589ecd7efb3de563868a113d5"
+    },
+    {
+      "uid": "2786dee",
+      "type": "feat",
+      "date": "2025-02-19",
+      "desc": "游戏新增可选介绍字段",
+      "important": false,
+      "repo": "api",
+      "sha": "2786deeb82e5a78f76b4742aaf1b9b2d87a1bc19"
+    },
+    {
+      "uid": "d1e1067",
+      "type": "style",
+      "date": "2025-02-19",
+      "desc": "统一样式颜色",
+      "important": false,
+      "repo": "site",
+      "sha": "d1e10673f3978739877a25b3829d1be48ffc6912"
+    },
+    {
+      "uid": "a8834cd",
+      "type": "style",
+      "date": "2025-02-19",
+      "desc": "修复留言编辑样式",
+      "important": false,
+      "repo": "site",
+      "sha": "a8834cdbd24a2db877f89f172f07f20dfbe2e14a"
+    },
+    {
+      "uid": "8421f51",
+      "type": "style",
+      "date": "2025-02-18",
+      "desc": "将页面标题文字修改为棕色",
+      "important": false,
+      "repo": "site",
+      "sha": "8421f51bd6710638e79edf599b27ae2e6e3f4804"
+    },
+    {
+      "uid": "32b3b83",
+      "type": "style",
+      "date": "2025-02-18",
+      "desc": "调整友链卡片与首页卡片颜色",
+      "important": false,
+      "repo": "site",
+      "sha": "32b3b831875443799463792c3a2901ff32d6019a"
+    },
+    {
+      "uid": "2fd9b6e",
+      "type": "feat",
+      "date": "2025-02-17",
+      "desc": "开发新导航栏样式（未打磨）",
+      "important": false,
+      "repo": "site",
+      "sha": "2fd9b6e527fd81cf1b782ce5610c707416958000"
+    },
+    {
+      "uid": "270f446",
+      "type": "chore",
+      "date": "2025-02-06",
+      "desc": "更新关于网站",
+      "important": false,
+      "repo": "site",
+      "sha": "270f4469dc5b8362527b4b96230d5fb160bc5ca7"
+    },
+    {
+      "uid": "0470e7a",
+      "type": "style",
+      "date": "2025-01-26",
+      "desc": "更新水印样式",
+      "important": false,
+      "repo": "api",
+      "sha": "0470e7ab66126c9483a84df5f5b088e928b7cd31"
+    },
+    {
+      "uid": "39bb51d",
+      "type": "style",
+      "date": "2025-01-16",
+      "desc": "完善友链页面样式",
+      "important": false,
+      "repo": "site",
+      "sha": "39bb51d2229099acb6243518190fae0c87a43eea"
+    },
+    {
+      "uid": "720f725",
+      "type": "style",
+      "date": "2025-01-16",
+      "desc": "优化首页卡片与欢迎页样式细节",
+      "important": false,
+      "repo": "site",
+      "sha": "720f7252eb6c70999e4143c4b74488f9f45a6988"
+    },
+    {
+      "uid": "e980039",
+      "type": "chore",
+      "date": "2025-01-15",
+      "desc": "配置索引，创建 robots 文件",
+      "important": false,
+      "repo": "site",
+      "sha": "e9800398c4bc0320b8d242a74eba853395879925"
+    },
+    {
+      "uid": "2595f70",
+      "type": "style",
+      "date": "2025-01-15",
+      "desc": "完善 markdown 样式与首页、留言页细节",
+      "important": false,
+      "repo": "site",
+      "sha": "2595f70a23ce4abb0a6483f392a0455e5ba0774c"
+    },
+    {
+      "uid": "9d3863a",
+      "type": "style",
+      "date": "2025-01-06",
+      "desc": "升级样式，文归档取消筛选",
+      "important": false,
+      "repo": "site",
+      "sha": "9d3863a38ceae15e2669880867b8fa6eed6e2e02"
+    },
+    {
+      "uid": "5a571dc",
+      "type": "fix",
+      "date": "2025-01-06",
+      "desc": "修复 RSS",
+      "important": false,
+      "repo": "api",
+      "sha": "5a571dc5024948cfff65b0bfaa748b66083cd8a3"
+    },
+    {
+      "uid": "db2931d",
+      "type": "chore",
+      "date": "2025-01-06",
+      "desc": "更新站点地图和 RSS 配置",
+      "important": false,
+      "repo": "api",
+      "sha": "db2931de880991d590e6da5e87542889c7261841"
+    },
+    {
+      "uid": "fb5eef8",
+      "type": "feat",
+      "date": "2025-01-03",
+      "desc": "新增随笔板块，删除问题板块",
+      "important": false,
+      "repo": "site",
+      "sha": "fb5eef8402eab55ae4cfcdc84eb5deceb6424413"
+    },
+    {
+      "uid": "c330087",
+      "type": "feat",
+      "date": "2025-01-03",
+      "desc": "将美食移至见闻模块",
+      "important": false,
+      "repo": "site",
+      "sha": "c3300871189618ad225f6f4b04bb5734fed2890e"
+    },
+    {
+      "uid": "04bf1ed",
+      "type": "feat",
+      "date": "2025-01-03",
+      "desc": "完成友链页面的开发",
+      "important": false,
+      "repo": "site",
+      "sha": "04bf1edb5b728b042ae9866bcf5d7c3135f49a72"
+    },
+    {
+      "uid": "6459177",
+      "type": "feat",
+      "date": "2025-01-03",
+      "desc": "后端新增友链功能",
+      "important": false,
+      "repo": "api",
+      "sha": "6459177133ac5074bdfd8f6d979dace75f7f714f"
+    },
+    {
+      "uid": "346c45e",
+      "type": "feat",
+      "date": "2025-01-03",
+      "desc": "关于页新增手机端 QQ/微信/邮箱联系方式与二维码",
+      "important": false,
+      "repo": "site",
+      "sha": "346c45ef3aebe07aad74518c3bb20640a4c812ae"
+    },
+    {
+      "uid": "0a2065c",
+      "type": "chore",
+      "date": "2025-01-03",
+      "desc": "取消 RSS 筛选，RSS 读取所有文章",
+      "important": false,
+      "repo": "api",
+      "sha": "0a2065c45c9df6956f3e7e63b89b71942df39112"
+    },
+    {
+      "uid": "adba3fb",
+      "type": "feat",
+      "date": "2025-01-02",
+      "desc": "完成友链页面开发，等待接口对接",
+      "important": false,
+      "repo": "site",
+      "sha": "adba3fb4b80f8121104974da13084564e4720f25"
+    },
+    {
+      "uid": "57d7e80",
+      "type": "feat",
+      "date": "2025-01-02",
+      "desc": "新增异次元之旅",
+      "important": false,
+      "repo": "site",
+      "sha": "57d7e80b2ac2713c6e22c7c9c048511509411070"
+    },
+    {
+      "uid": "cbe3944",
+      "type": "chore",
+      "date": "2025-01-02",
+      "desc": "添加萌国备案号",
+      "important": false,
+      "repo": "site",
+      "sha": "cbe39445b593493d70017542ab27203b9526e90c"
+    },
+    {
+      "uid": "b3cb234",
+      "type": "fix",
+      "date": "2024-12-20",
+      "desc": "修复书籍卡片问题",
+      "important": false,
+      "repo": "site",
+      "sha": "b3cb23404c82291f340fdb0e8476aa0842998b4e"
+    },
+    {
+      "uid": "8879c1a",
+      "type": "feat",
+      "date": "2024-12-19",
+      "desc": "新增见闻-书籍模块",
+      "important": false,
+      "repo": "site",
+      "sha": "8879c1a5a167079bc169d34635a223a31a44fc9e"
+    },
+    {
+      "uid": "c9aaa81",
+      "type": "feat",
+      "date": "2024-12-19",
+      "desc": "后端新增见闻-书籍模块",
+      "important": false,
+      "repo": "api",
+      "sha": "c9aaa8121d60ece5bdf45eea6b9054a141e7e978"
+    },
+    {
+      "uid": "b697c7a",
+      "type": "chore",
+      "date": "2024-12-05",
+      "desc": "更新关于我",
+      "important": false,
+      "repo": "site",
+      "sha": "b697c7adb2d65e600f06bd9f087c1ad36585e758"
+    },
+    {
+      "uid": "5c67dbc",
+      "type": "feat",
+      "date": "2024-12-04",
+      "desc": "新增美食模块",
+      "important": false,
+      "repo": "site",
+      "sha": "5c67dbc0ba8cef87b7198e8cf3e999aeff748918"
+    },
+    {
+      "uid": "0c409a0",
+      "type": "chore",
+      "date": "2024-12-04",
+      "desc": "按模块归类独立组件目录",
+      "important": false,
+      "repo": "site",
+      "sha": "0c409a0016c147367f811decd110025258745b4d"
+    },
+    {
+      "uid": "a3860a6",
+      "type": "fix",
+      "date": "2024-12-04",
+      "desc": "修复美食的样式问题",
+      "important": false,
+      "repo": "site",
+      "sha": "a3860a6a2520108c8d2a2bf49b7161bb3a617f22"
+    },
+    {
+      "uid": "fc20bdf",
+      "type": "fix",
+      "date": "2024-12-04",
+      "desc": "修复底部样式问题",
+      "important": false,
+      "repo": "site",
+      "sha": "fc20bdfed74f781952797fa5c06c93c5c7e58519"
+    },
+    {
+      "uid": "f302a11",
+      "type": "fix",
+      "date": "2024-12-04",
+      "desc": "修复标题筛选的问题",
+      "important": false,
+      "repo": "api",
+      "sha": "f302a11b1b318e85a749832f6d05bfac2990cdd3"
+    },
+    {
+      "uid": "2df822e",
+      "type": "style",
+      "date": "2024-12-03",
+      "desc": "技术相关右侧绝对定位改为固钉，优化样式细节",
+      "important": false,
+      "repo": "site",
+      "sha": "2df822e2f23a90e55adfa0c5c85330a41b3d7c27"
+    },
+    {
+      "uid": "7ee4c36",
+      "type": "style",
+      "date": "2024-12-03",
+      "desc": "首页个人卡片使用固钉",
+      "important": false,
+      "repo": "site",
+      "sha": "7ee4c365d909fc7cbac53306dc47b44663bb7d7a"
+    },
+    {
+      "uid": "21b849d",
+      "type": "fix",
+      "date": "2024-12-03",
+      "desc": "修复留言板错位问题",
+      "important": false,
+      "repo": "site",
+      "sha": "21b849d8d57af7e295466b96ac11f14c6760fbc1"
+    },
+    {
+      "uid": "ea86fcb",
+      "type": "feat",
+      "date": "2024-12-02",
+      "desc": "新增 RSS 订阅接口",
+      "important": false,
+      "repo": "api",
+      "sha": "ea86fcb96815070795810c8f4f74f85990b6820e"
+    },
+    {
+      "uid": "b425795",
+      "type": "feat",
+      "date": "2024-12-02",
+      "desc": "新增站点地图",
+      "important": false,
+      "repo": "api",
+      "sha": "b42579540cea93c426c91bdaf0b1d6ebb286bfb1"
+    },
+    {
+      "uid": "ca6df1b",
+      "type": "feat",
+      "date": "2024-12-02",
+      "desc": "更新底部与手机端导航，新增 RSS/站点地图图标入口",
+      "important": false,
+      "repo": "site",
+      "sha": "ca6df1b60208c8e0ebb97f72d59aa3bfb9727537"
+    },
+    {
+      "uid": "90e8c21",
+      "type": "chore",
+      "date": "2024-12-02",
+      "desc": "更新关于我与关于网站内容",
+      "important": false,
+      "repo": "site",
+      "sha": "90e8c210cbd038b0f8cfa66ccc203198e69492ce"
+    },
+    {
+      "uid": "2e0fdec",
+      "type": "chore",
+      "date": "2024-12-02",
+      "desc": "更换网站 favicon",
+      "important": false,
+      "repo": "site",
+      "sha": "2e0fdec82621a2e98d254c73315e7d942695b087"
+    },
+    {
+      "uid": "646157f",
+      "type": "chore",
+      "date": "2024-12-02",
+      "desc": "调整多处图片引用路径",
+      "important": false,
+      "repo": "site",
+      "sha": "646157f10d69245ee5a02d9863a60afe49b376ae"
+    },
+    {
+      "uid": "c7c2225",
+      "type": "feat",
+      "date": "2024-11-29",
+      "desc": "新增 404 重定向和返回顶部新样式",
+      "important": false,
+      "repo": "site",
+      "sha": "c7c2225147f2780811ba148e297c2160b7995c71"
+    },
+    {
+      "uid": "0a51ea7",
+      "type": "chore",
+      "date": "2024-11-25",
+      "desc": "更新 index 与接口配置",
+      "important": false,
+      "repo": "site",
+      "sha": "0a51ea7cc6153f75be63e8034a86e49e738d531e"
+    },
+    {
+      "uid": "3a8910b",
+      "type": "chore",
+      "date": "2024-11-22",
+      "desc": "新增网站开发历程",
+      "important": false,
+      "repo": "site",
+      "sha": "3a8910ba597417f869ae1ea4ec1cf228ba9439c4"
+    },
+    {
+      "uid": "7e74e2b",
+      "type": "feat",
+      "date": "2024-11-22",
+      "desc": "后端新增博客图片上传功能",
+      "important": false,
+      "repo": "api",
+      "sha": "7e74e2bb1d37fb07d259fb20357cb1bef07079c0"
+    },
+    {
+      "uid": "02f77e0",
+      "type": "chore",
+      "date": "2024-11-22",
+      "desc": "部分 SEO 优化",
+      "important": false,
+      "repo": "site",
+      "sha": "02f77e077dfa3b581c80d00e53034bc239bc5d9d"
+    },
+    {
+      "uid": "558325a",
+      "type": "fix",
+      "date": "2024-11-22",
+      "desc": "修复卡片文字没有换行的问题",
+      "important": false,
+      "repo": "site",
+      "sha": "558325abd7a2648c4abd6771bcff36b715604323"
+    },
+    {
+      "uid": "a3a508d",
+      "type": "chore",
+      "date": "2024-11-22",
+      "desc": "更新 README",
+      "important": false,
+      "repo": "site",
+      "sha": "a3a508dca70cf5326a98622ccd955721478d0d35"
+    },
+    {
+      "uid": "dc425c3",
+      "type": "feat",
+      "date": "2024-11-21",
+      "desc": "完成留言板新设计；完成手机端开发",
+      "important": true,
+      "repo": "site",
+      "sha": "dc425c392960b1fa17a22d7c2fc395d4a526decb"
+    },
+    {
+      "uid": "d2f839d",
+      "type": "fix",
+      "date": "2024-11-21",
+      "desc": "修复首页卡片与博客页问题",
+      "important": false,
+      "repo": "site",
+      "sha": "d2f839de15b5756be236993e5d650e80bc6b6e73"
+    },
+    {
+      "uid": "d9309ef",
+      "type": "feat",
+      "date": "2024-11-20",
+      "desc": "完成留言板相关的开发",
+      "important": false,
+      "repo": "site",
+      "sha": "d9309ef923338150c469b43b00a7f63883a5b44d"
+    },
+    {
+      "uid": "ed14afd",
+      "type": "feat",
+      "date": "2024-11-20",
+      "desc": "留言板增加分页",
+      "important": false,
+      "repo": "site",
+      "sha": "ed14afd46f4177654271e801a71781d3f64bb3af"
+    },
+    {
+      "uid": "0edd7e4",
+      "type": "feat",
+      "date": "2024-11-20",
+      "desc": "新增精选筛选",
+      "important": false,
+      "repo": "site",
+      "sha": "0edd7e4a3551b44e2b034e36f90bd3e5e5a96465"
+    },
+    {
+      "uid": "1ab9d47",
+      "type": "feat",
+      "date": "2024-11-20",
+      "desc": "完成\"老婆时间轴\"开发",
+      "important": false,
+      "repo": "site",
+      "sha": "1ab9d47e06ba19a54a22fe03bc1a5cf2b171aa19"
+    },
+    {
+      "uid": "45fa633",
+      "type": "feat",
+      "date": "2024-11-20",
+      "desc": "后端新增博客精选筛选",
+      "important": false,
+      "repo": "api",
+      "sha": "45fa6332df2edd9bbe8f1b01b11125fe1ffb8e9b"
+    },
+    {
+      "uid": "9970410",
+      "type": "feat",
+      "date": "2024-11-20",
+      "desc": "更新留言编辑弹窗与交互",
+      "important": false,
+      "repo": "site",
+      "sha": "9970410a86d460da6b6f9beb46fc8fa5bbeab174"
+    },
+    {
+      "uid": "7ad92d2",
+      "type": "style",
+      "date": "2024-11-20",
+      "desc": "添加动画并完善样式细节",
+      "important": false,
+      "repo": "site",
+      "sha": "7ad92d2e29c93b64a30aac0de2edde2b38a09124"
+    },
+    {
+      "uid": "a6a7be9",
+      "type": "chore",
+      "date": "2024-11-19",
+      "desc": "设置顶部导航路由",
+      "important": false,
+      "repo": "site",
+      "sha": "a6a7be98174cd72f3818a98b0cfcb8d99c50d279"
+    },
+    {
+      "uid": "e45b41a",
+      "type": "chore",
+      "date": "2024-11-19",
+      "desc": "完成关于网站的文本书写",
+      "important": false,
+      "repo": "site",
+      "sha": "e45b41a6a870e21c89019d7b459c6d8cc0b61e71"
+    },
+    {
+      "uid": "08ec9d8",
+      "type": "chore",
+      "date": "2024-11-19",
+      "desc": "完成关于我的文本书写",
+      "important": false,
+      "repo": "site",
+      "sha": "08ec9d8e3f82b587549e1e133646a2ff7d6578f8"
+    },
+    {
+      "uid": "8c05852",
+      "type": "feat",
+      "date": "2024-11-19",
+      "desc": "后端完成留言相关接口编写",
+      "important": false,
+      "repo": "api",
+      "sha": "8c058527025eeea65276947df2be98d0041f2797"
+    },
+    {
+      "uid": "5e3b229",
+      "type": "style",
+      "date": "2024-11-19",
+      "desc": "优化关于页样式",
+      "important": false,
+      "repo": "site",
+      "sha": "5e3b229f3d68126103f62269714b641130e41696"
+    },
+    {
+      "uid": "78ab140",
+      "type": "style",
+      "date": "2024-11-19",
+      "desc": "重新设计关于与首页卡片样式",
+      "important": false,
+      "repo": "site",
+      "sha": "78ab1406b63d9fdc0b8e6faad1f5fb22608e6226"
+    },
+    {
+      "uid": "1aa0466",
+      "type": "style",
+      "date": "2024-11-19",
+      "desc": "优化多处页面布局",
+      "important": false,
+      "repo": "site",
+      "sha": "1aa0466958bf36c0ee7ca934364e99459a733d8e"
+    },
+    {
+      "uid": "7d6d26f",
+      "type": "feat",
+      "date": "2024-11-18",
+      "desc": "开始开发关于相关页面",
+      "important": false,
+      "repo": "site",
+      "sha": "7d6d26fb84ac3d719bf622f9d96f628f623897ed"
+    },
+    {
+      "uid": "a81b5f8",
+      "type": "feat",
+      "date": "2024-11-18",
+      "desc": "全局加载图标替换为猫猫女仆动图",
+      "important": false,
+      "repo": "site",
+      "sha": "a81b5f866056e3d51ccd2ee6fd4b5217046d02e6"
+    },
+    {
+      "uid": "180a389",
+      "type": "feat",
+      "date": "2024-11-18",
+      "desc": "完善技术模块加载逻辑",
+      "important": false,
+      "repo": "site",
+      "sha": "180a3892c4d79f42313267b62a2281064c24e7ae"
+    },
+    {
+      "uid": "35547b2",
+      "type": "style",
+      "date": "2024-11-18",
+      "desc": "完成技术相关的样式设计",
+      "important": false,
+      "repo": "site",
+      "sha": "35547b25329d2aa16ab6867656d8c84faf43c8a9"
+    },
+    {
+      "uid": "1002009",
+      "type": "style",
+      "date": "2024-11-18",
+      "desc": "优化问题样式",
+      "important": false,
+      "repo": "site",
+      "sha": "100200904030e42f4cb66d37f6ccbd2b7f35ea2a"
+    },
+    {
+      "uid": "01abfc9",
+      "type": "style",
+      "date": "2024-11-18",
+      "desc": "问题答案设置最大高度",
+      "important": false,
+      "repo": "site",
+      "sha": "01abfc92c04e160ef59a1369f5fd348e4288cfe6"
+    },
+    {
+      "uid": "cda2fc1",
+      "type": "style",
+      "date": "2024-11-18",
+      "desc": "优化博客卡片与文章页样式",
+      "important": false,
+      "repo": "site",
+      "sha": "cda2fc1bc062fae80e72519c9cb03da648e9ced0"
+    },
+    {
+      "uid": "4096046",
+      "type": "feat",
+      "date": "2024-11-18",
+      "desc": "首页统计卡片接入站点信息接口",
+      "important": false,
+      "repo": "site",
+      "sha": "40960465c3682c8355aff05ad76561736abd5bb9"
+    },
+    {
+      "uid": "a3237fc",
+      "type": "feat",
+      "date": "2024-11-15",
+      "desc": "完成文章、问题、归档的页面开发和功能设计",
+      "important": false,
+      "repo": "site",
+      "sha": "a3237fc5824c9af9ad572ac80e482806dc1bcb12"
+    },
+    {
+      "uid": "249ea29",
+      "type": "feat",
+      "date": "2024-11-15",
+      "desc": "完成博客详情 md 部分的开发",
+      "important": false,
+      "repo": "site",
+      "sha": "249ea290279cae5070be78ed641049a9ec2f2db2"
+    },
+    {
+      "uid": "ed7fc5e",
+      "type": "feat",
+      "date": "2024-11-14",
+      "desc": "新增技术模块；开始开发归档页面",
+      "important": false,
+      "repo": "site",
+      "sha": "ed7fc5e43c1ea4180fc17aaa3310b26ed7623545"
+    },
+    {
+      "uid": "b4b6a2b",
+      "type": "style",
+      "date": "2024-11-14",
+      "desc": "完成归档的样式设计",
+      "important": false,
+      "repo": "site",
+      "sha": "b4b6a2be432fb71711bc71981e36cedb36392d94"
+    },
+    {
+      "uid": "82af292",
+      "type": "feat",
+      "date": "2024-11-14",
+      "desc": "后端新增分类相关的管理",
+      "important": false,
+      "repo": "api",
+      "sha": "82af292284f4102883e890902922ac6ce81b386a"
+    },
+    {
+      "uid": "04d094e",
+      "type": "feat",
+      "date": "2024-11-14",
+      "desc": "后端新增精选字段",
+      "important": false,
+      "repo": "api",
+      "sha": "04d094ed6220d39f9080182bd29b65b76dedde14"
+    },
+    {
+      "uid": "c89da52",
+      "type": "feat",
+      "date": "2024-11-13",
+      "desc": "花墨 2.0 立项，完成前期准备和页面模块化开发",
+      "important": true,
+      "repo": "site",
+      "sha": "c89da52d562a5a42550594f873992af5f8c5bfa0"
+    },
+    {
+      "uid": "31ec66a",
+      "type": "feat",
+      "date": "2024-11-13",
+      "desc": "项目初始化",
+      "important": false,
+      "repo": "site",
+      "sha": "31ec66a4f11d90d2a05ab87039d84b8577739a13"
+    },
+    {
+      "uid": "091d12a",
+      "type": "feat",
+      "date": "2024-11-05",
+      "desc": "图片上传压缩大小",
+      "important": false,
+      "repo": "api",
+      "sha": "091d12a7767f155c9a5d443726ced98f8032b51f"
+    },
+    {
+      "uid": "75104d1",
+      "type": "feat",
+      "date": "2024-11-01",
+      "desc": "为 ERP 中博客和点滴设置筛选功能",
+      "important": false,
+      "repo": "api",
+      "sha": "75104d1302e8645d6206b86251c424755cd9b4c0"
+    },
+    {
+      "uid": "46d53cb",
+      "type": "chore",
+      "date": "2024-11-01",
+      "desc": "博客默认降序排列",
+      "important": false,
+      "repo": "api",
+      "sha": "46d53cb618abbd98992920da9c1e7f1a5f623f35"
+    },
+    {
+      "uid": "f462c3a",
+      "type": "fix",
+      "date": "2024-11-01",
+      "desc": "修复博客标签筛选的问题",
+      "important": false,
+      "repo": "api",
+      "sha": "f462c3a8ad57c1a6ca4652f693abfa82a010af98"
+    },
+    {
+      "uid": "284ec8c",
+      "type": "feat",
+      "date": "2024-10-30",
+      "desc": "新增获取网站访问列表接口",
+      "important": false,
+      "repo": "api",
+      "sha": "284ec8c4f8a7d44844de2bf81e20093ade666ab1"
+    },
+    {
+      "uid": "073ce5b",
+      "type": "feat",
+      "date": "2024-10-30",
+      "desc": "网站访问记录接口和网站信息获取接口",
+      "important": false,
+      "repo": "api",
+      "sha": "073ce5b76f67bbbdfe434f514d9409a57e8367be"
+    },
+    {
+      "uid": "e29892b",
+      "type": "feat",
+      "date": "2024-10-30",
+      "desc": "完善点滴相关接口",
+      "important": false,
+      "repo": "api",
+      "sha": "e29892b680119f6d41b00235d5a2d6ed4f47702a"
+    },
+    {
+      "uid": "6b5f78a",
+      "type": "feat",
+      "date": "2024-10-25",
+      "desc": "新增图片的统一上传接口",
+      "important": false,
+      "repo": "api",
+      "sha": "6b5f78adc9cbe26b582be1a6cae1ab2d3b029b12"
+    },
+    {
+      "uid": "594b43f",
+      "type": "feat",
+      "date": "2024-10-25",
+      "desc": "发布点滴新增首页图字段，完善功能",
+      "important": false,
+      "repo": "api",
+      "sha": "594b43f5e068342afb515dd4aa3b45d4117b8ec9"
+    },
+    {
+      "uid": "b13912b",
+      "type": "chore",
+      "date": "2024-10-18",
+      "desc": "为后端接口配置域名",
+      "important": false,
+      "repo": "api",
+      "sha": "b13912b6e02b51f71dd236c95886b866b4fbe545"
+    },
+    {
+      "uid": "9da1aed",
+      "type": "feat",
+      "date": "2024-10-17",
+      "desc": "新增 IP 限制，目前只允许服务器 IP 访问",
+      "important": false,
+      "repo": "api",
+      "sha": "9da1aedf171bf48b5fcf6d1d4bd4eb942cbbbfec"
+    },
+    {
+      "uid": "4b358b7",
+      "type": "chore",
+      "date": "2024-10-17",
+      "desc": "新增域名相关的配置",
+      "important": false,
+      "repo": "api",
+      "sha": "4b358b724f2792d50b9f88ed8a6d91f555c82eec"
+    },
+    {
+      "uid": "115c5ea",
+      "type": "feat",
+      "date": "2024-10-11",
+      "desc": "新增 ERP 密码保护模块",
+      "important": false,
+      "repo": "api",
+      "sha": "115c5ea44dd2aac1aa2fa1417d76ee61a8a4a2f9"
+    },
+    {
+      "uid": "bebed7d",
+      "type": "feat",
+      "date": "2024-10-07",
+      "desc": "博客标签修改为多项筛选",
+      "important": false,
+      "repo": "api",
+      "sha": "bebed7de225834da58091d08bbd3c1bc2bb269f4"
+    },
+    {
+      "uid": "b5171c5",
+      "type": "feat",
+      "date": "2024-10-07",
+      "desc": "点滴新增年份获取接口、年份筛选",
+      "important": false,
+      "repo": "api",
+      "sha": "b5171c5770aa05d47377f0a3f3c37b92f21098ce"
+    },
+    {
+      "uid": "3649248",
+      "type": "fix",
+      "date": "2024-09-30",
+      "desc": "解决 mac 的部分兼容性问题",
+      "important": false,
+      "repo": "api",
+      "sha": "36492488a0d29e7849ae08e0017127344b6c8263"
+    },
+    {
+      "uid": "ff30fae",
+      "type": "feat",
+      "date": "2024-09-27",
+      "desc": "新增点滴相关接口",
+      "important": false,
+      "repo": "api",
+      "sha": "ff30faeeefdfe9ce2aa7b58244a97355d86d446c"
+    },
+    {
+      "uid": "327e42a",
+      "type": "feat",
+      "date": "2024-09-27",
+      "desc": "新增点滴的标签",
+      "important": false,
+      "repo": "api",
+      "sha": "327e42aa42dd6a594bfe71cbccbf65cf56eb0d2e"
+    },
+    {
+      "uid": "233f497",
+      "type": "feat",
+      "date": "2024-09-27",
+      "desc": "点滴接口补全",
+      "important": false,
+      "repo": "api",
+      "sha": "233f497f45eabefcaf73bc20b1b6e6f3da99b658"
+    },
+    {
+      "uid": "858d692",
+      "type": "feat",
+      "date": "2024-09-23",
+      "desc": "新增博客访问量数据处理与网站信息接口",
+      "important": false,
+      "repo": "api",
+      "sha": "858d6924f2aa1a55d624a9afd362503ccc9c467e"
+    },
+    {
+      "uid": "a6944e8",
+      "type": "feat",
+      "date": "2024-08-12",
+      "desc": "新增更新/删除标签接口，新增动态跨域设置",
+      "important": false,
+      "repo": "api",
+      "sha": "a6944e8c882d93a279377d085797e5521d865d70"
+    },
+    {
+      "uid": "be354da",
+      "type": "feat",
+      "date": "2024-08-12",
+      "desc": "新增删除标签接口，仅 ERP 可执行 PUT/DELETE",
+      "important": false,
+      "repo": "api",
+      "sha": "be354dae9a973ad6a4c4d87ddd36fab91fd56e52"
+    },
+    {
+      "uid": "533d11a",
+      "type": "feat",
+      "date": "2024-08-12",
+      "desc": "新增\"更新标签\"接口",
+      "important": false,
+      "repo": "api",
+      "sha": "533d11a793b1c1a209856e7a645dbf63c3f1b38f"
+    },
+    {
+      "uid": "67f8bad",
+      "type": "feat",
+      "date": "2024-08-12",
+      "desc": "获取博客接口新增 count 字段",
+      "important": false,
+      "repo": "api",
+      "sha": "67f8bad733039383c5a7c313f467a9fb001ceb05"
+    },
+    {
+      "uid": "a8f5d68",
+      "type": "feat",
+      "date": "2024-08-12",
+      "desc": "获取博客列表新增 count 字段",
+      "important": false,
+      "repo": "api",
+      "sha": "a8f5d6893cead5cfcc971e6a51f6a6880269d550"
+    },
+    {
+      "uid": "6301519",
+      "type": "feat",
+      "date": "2024-08-07",
+      "desc": "新增 tag-color 字段（nz-tag 颜色）",
+      "important": false,
+      "repo": "api",
+      "sha": "63015190b0c98a7f77474acd64385064cf609a43"
+    },
+    {
+      "uid": "468b622",
+      "type": "feat",
+      "date": "2024-08-07",
+      "desc": "标签 color 字段，用于博客设置 nz-tag 颜色",
+      "important": false,
+      "repo": "api",
+      "sha": "468b622a6fa0914506d72ef4500ec7f56108080e"
+    },
+    {
+      "uid": "700a0d5",
+      "type": "chore",
+      "date": "2024-08-06",
+      "desc": "mac 使用 root 账户",
+      "important": false,
+      "repo": "api",
+      "sha": "700a0d5fcaa1d2876b1cec9182e54f3f7fb137bc"
+    },
+    {
+      "uid": "9faa2b8",
+      "type": "fix",
+      "date": "2024-08-03",
+      "desc": "解决 mac 系统上的兼容性",
+      "important": false,
+      "repo": "api",
+      "sha": "9faa2b8366fb39da45eea243c139afed168e3acd"
+    },
+    {
+      "uid": "e78f307",
+      "type": "feat",
+      "date": "2024-08-02",
+      "desc": "新增博客图片上传接口",
+      "important": false,
+      "repo": "api",
+      "sha": "e78f307931e9af17b99bc4f6deeba72e17441d91"
+    },
+    {
+      "uid": "8777a44",
+      "type": "feat",
+      "date": "2024-08-02",
+      "desc": "新增图片上传接口（存放在本地）",
+      "important": false,
+      "repo": "api",
+      "sha": "8777a44fdc061650d0151dec4fa554e29f8c5cb3"
+    },
+    {
+      "uid": "4768bee",
+      "type": "feat",
+      "date": "2024-08-01",
+      "desc": "新增发布博客接口",
+      "important": false,
+      "repo": "api",
+      "sha": "4768bee5441b7e0b9693c91850361ed3d8c5a0b9"
+    },
+    {
+      "uid": "5875f87",
+      "type": "feat",
+      "date": "2024-08-01",
+      "desc": "新增获取标签下拉、新增标签接口",
+      "important": false,
+      "repo": "api",
+      "sha": "5875f8723e3ef24e08f41fa4b8829fe1d2db5b7d"
+    },
+    {
+      "uid": "f99e149",
+      "type": "fix",
+      "date": "2024-07-31",
+      "desc": "修复 ERP 系统的跨域问题",
+      "important": false,
+      "repo": "api",
+      "sha": "f99e1494c913d639213e6df1df1351e8874d35b1"
+    },
+    {
+      "uid": "49cabde",
+      "type": "feat",
+      "date": "2024-07-29",
+      "desc": "后端项目创建，完成配置初始化，新增博客列表与新增博客接口",
+      "important": true,
+      "repo": "api",
+      "sha": "49cabdea05c948f9fe6e0f8339d41ba73620e1a9"
+    },
+    {
+      "uid": "cc9070e",
+      "type": "feat",
+      "date": "2024-07-29",
+      "desc": "新增全局拦截器和异常过滤器",
+      "important": false,
+      "repo": "api",
+      "sha": "cc9070e11b032a75b6928b533d0a4b411d93efb9"
+    },
+    {
+      "uid": "323ddac",
+      "type": "fix",
+      "date": "2024-07-29",
+      "desc": "解决跨域问题",
+      "important": false,
+      "repo": "api",
+      "sha": "323ddac43c07b578b3a4ddcb691f16a0049f44cb"
+    }
+  ]
+}

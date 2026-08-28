@@ -55,6 +55,12 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'changelog',
+    title: '花墨 | 更新记录',
+    loadComponent: () =>
+      import('./pages/changelog/changelog.component').then((m) => m.ChangelogComponent),
+  },
+  {
     path: 'link',
     loadChildren: () =>
       import('./pages/link/link.routes').then((m) => m.LINK_ROUTES),
