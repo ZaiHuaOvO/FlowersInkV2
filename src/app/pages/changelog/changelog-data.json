@@ -1,5 +1,5 @@
 {
-  "total": 332,
+  "total": 333,
   "records": [
     {
       "uid": "3b1af25",
@@ -71,6 +71,15 @@
       "type": "style",
       "date": "2026-08-28",
       "desc": "关于页特别鸣谢改为居中布局，更新方长猫猫头头像",
+      "important": false
+    },
+    {
+      "uid": "3135148",
+      "sha": "31351489b19365967018723bff41113fd7d32ca4",
+      "repo": "site",
+      "type": "chore",
+      "date": "2026-08-28",
+      "desc": "站点 SEO 标题与描述改为「花墨 | 再花的博客」",
       "important": false
     },
     {
