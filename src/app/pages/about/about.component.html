@@ -187,12 +187,10 @@
 
       <!-- 特别鸣谢 -->
       <h3 class="site-subtitle">特别鸣谢</h3>
-      <div class="thanks-row">
-        <img class="thanks-avatar" src="https://api.flowersink.com/img/方长趴趴.png" alt="方方大人" />
-        <div class="thanks-text">
-          <strong class="thanks-name">方方大人</strong>
-          <span nz-typography class="thanks-desc">工作繁忙却在样式、功能等设计方面给予了许多建设性建议，老婆大人万岁。</span>
-        </div>
+      <div class="thanks-block">
+        <img class="thanks-avatar" src="https://api.flowersink.com/img/方长.jpg" alt="方长猫猫头" />
+        <p class="thanks-name">方长猫猫头</p>
+        <p class="thanks-desc">工作繁忙却在样式、功能等设计方面给予了许多建设性建议，老婆大人万岁。</p>
       </div>
     </section>
 
@@ -222,8 +220,8 @@
             <div class="fi-comment-wall__empty">还没有留言</div>
             }
           </div>
-          <nz-pagination class="message-pagination" [nzPageIndex]="messagePage" [nzTotal]="messageCount"
-            nzSimple nzHideOnSinglePage="true"></nz-pagination>
+          <nz-pagination class="message-pagination" [nzPageIndex]="messagePage" [nzTotal]="messageCount" nzSimple
+            nzHideOnSinglePage="true"></nz-pagination>
         </div>
       </nz-spin>
     </section>
