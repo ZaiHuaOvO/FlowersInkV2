@@ -82,16 +82,23 @@
   padding-bottom: 0.25rem;
 }
 
-/* H1/H2 共用品牌渐变短下划线 */
+/* H1/H2 品牌渐变短下划线（H1 为 H2 的 2 倍） */
 #currentAnchor h1::after,
 #currentAnchor h2::after {
   content: '';
   display: block;
-  width: 40px;
   height: 3px;
   margin-top: 0.5rem;
   border-radius: 2px;
   background: linear-gradient(90deg, var(--md-brand), color-mix(in srgb, var(--md-brand) 35%, transparent));
+}
+
+#currentAnchor h1::after {
+  width: 80px;
+}
+
+#currentAnchor h2::after {
+  width: 40px;
 }
 
 #currentAnchor h3 {

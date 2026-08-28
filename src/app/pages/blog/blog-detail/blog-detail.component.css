@@ -48,9 +48,9 @@
   padding: 8px 0;
 }
 
-/* 详情页标题的下划线左对齐并缩短，贴合正文排版 */
+/* 详情页标题的下划线左对齐，长度为默认的 3 倍，贴合正文排版 */
 :host ::ng-deep .article-title .title::after {
-  width: 44px;
+  width: 132px;
   height: 2.5px;
   margin: 10px 0 0;
 }
