@@ -1,5 +1,5 @@
 {
-  "total": 330,
+  "total": 331,
   "records": [
     {
       "uid": "3b1af25",
@@ -54,6 +54,15 @@
       "date": "2026-08-28",
       "desc": "新增 /changelog 更新记录隐藏页，聚合主站与后端 git 提交历史",
       "important": true
+    },
+    {
+      "uid": "ebbf64e",
+      "sha": "ebbf64e30861e9d99a0279d714c70e03ce747327",
+      "repo": "site",
+      "type": "style",
+      "date": "2026-08-28",
+      "desc": "关于页更新记录入口文案，链接 hover 加下划线",
+      "important": false
     },
     {
       "uid": "8cfa83e",
