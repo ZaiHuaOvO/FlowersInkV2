@@ -1,5 +1,5 @@
 {
-  "total": 331,
+  "total": 332,
   "records": [
     {
       "uid": "3b1af25",
@@ -62,6 +62,15 @@
       "type": "style",
       "date": "2026-08-28",
       "desc": "关于页更新记录入口文案，链接 hover 加下划线",
+      "important": false
+    },
+    {
+      "uid": "7106517",
+      "sha": "7106517cb3f00b357bfcba40ff556cbbde717ab3",
+      "repo": "site",
+      "type": "style",
+      "date": "2026-08-28",
+      "desc": "关于页特别鸣谢改为居中布局，更新方长猫猫头头像",
       "important": false
     },
     {
