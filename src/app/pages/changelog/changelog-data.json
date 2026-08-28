@@ -1,5 +1,5 @@
 {
-  "total": 329,
+  "total": 330,
   "records": [
     {
       "uid": "3b1af25",
@@ -45,6 +45,15 @@
       "important": false,
       "repo": "api",
       "sha": "8d9fce3079000f8b7cf63ed2f37ec113aa515132"
+    },
+    {
+      "uid": "e784882",
+      "sha": "e784882be8a2a5d8a538f5b4814f48b3f5dc2202",
+      "repo": "site",
+      "type": "feat",
+      "date": "2026-08-28",
+      "desc": "新增 /changelog 更新记录隐藏页，聚合主站与后端 git 提交历史",
+      "important": true
     },
     {
       "uid": "8cfa83e",
