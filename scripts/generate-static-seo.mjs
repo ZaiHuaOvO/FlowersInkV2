@@ -11,7 +11,7 @@ const indexPath = path.join(distRoot, 'index.html');
 const siteOrigin = 'https://flowersink.com';
 const apiOrigin = 'https://api.flowersink.com';
 const siteName = '花墨';
-const siteDescription = '花墨是再花的个人技术博客，记录 Angular、NestJS、前端开发与个人创作。';
+const siteDescription = '花墨是再花的博客，记录 Angular、NestJS、前端开发与个人创作。';
 const defaultOgImage = 'https://api.flowersink.com/img/logo.png';
 const friendLinkLimit = 8;
 const useMockData = process.env.FLOWERSINK_STATIC_SEO_MOCK === '1';
@@ -202,7 +202,7 @@ function renderWelcomePage(template, blogs, friendLinks, canonicalPath) {
   `;
 
   return injectSeoHtml(template, {
-    title: `${siteName} | 再花的个人技术博客`,
+    title: `${siteName} | 再花的博客`,
     description: siteDescription,
     canonicalPath,
     ogType: 'website',
