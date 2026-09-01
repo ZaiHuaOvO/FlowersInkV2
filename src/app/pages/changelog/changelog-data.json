@@ -1,6 +1,24 @@
 {
-  "total": 338,
+  "total": 340,
   "records": [
+    {
+      "uid": "091c61e",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "游戏详情弹窗截图改为点滴式图片预览（去掉截图抽屉），弹窗只显示卡片本身，封面/截图改用 webp 展示，保留查看原图，移除图片说明按钮",
+      "important": true,
+      "repo": "site",
+      "sha": "091c61e4df5bc358d08865fede4650ea9fd76c65"
+    },
+    {
+      "uid": "8eed022",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "游戏封面/截图上传自动生成 webp 变体，新增存量游戏图 webp 生成与引用改写脚本",
+      "important": false,
+      "repo": "api",
+      "sha": "8eed022f63edf43e9f526166a70562020e1b751c"
+    },
     {
       "uid": "2ae4150",
       "type": "feat",
