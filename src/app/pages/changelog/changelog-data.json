@@ -1,6 +1,15 @@
 {
-  "total": 347,
+  "total": 348,
   "records": [
+    {
+      "uid": "747d56c",
+      "type": "style",
+      "date": "2026-09-01",
+      "desc": "推荐游戏卡片恢复暖色卡底（撤销深棕底反色）",
+      "important": false,
+      "repo": "site",
+      "sha": "747d56c035f3007ad247ed3f41a0c26ef3f75a07"
+    },
     {
       "uid": "99d8e58",
       "type": "style",
