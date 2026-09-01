@@ -269,6 +269,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.injectHeadingAnchors();
+    this.bindExternalLinks();
     this.bindImagePreview();
   }
 
@@ -300,6 +301,19 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (langClass) {
         pre.dataset['lang'] = langClass.replace('language-', '');
       }
+    });
+  }
+
+  /** 让 markdown 中的链接在新标签页打开（页内锚点除外） */
+  private bindExternalLinks(): void {
+    const container = this.el.nativeElement.querySelector('#currentAnchor');
+    if (!container) return;
+
+    container.querySelectorAll('a[href]').forEach((link: HTMLAnchorElement) => {
+      const href = link.getAttribute('href') || '';
+      if (href.startsWith('#')) return;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
     });
   }
 
