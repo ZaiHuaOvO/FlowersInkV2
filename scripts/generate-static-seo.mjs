@@ -7,32 +7,80 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const distRoot = path.join(projectRoot, 'dist', 'flowers-ink-v2', 'browser');
-const indexPath = path.join(distRoot, 'index.html');
+// 模板读取 Angular 构建产物（含 <script> 注入），而非源码模板（源码无 script 标签）
+const templatePath = path.join(distRoot, 'index.html');
 const siteOrigin = 'https://flowersink.com';
 const apiOrigin = 'https://api.flowersink.com';
 const siteName = '花墨';
-const siteDescription = '花墨是再花的博客，记录 Angular、NestJS、前端开发与个人创作。';
+const siteDescription =
+  '花墨是再花（前端工程师）的个人博客，记录生活随笔、书影音测评、美食旅行见闻与技术开发实践。';
+const siteLanguage = 'zh-CN';
 const defaultOgImage = 'https://api.flowersink.com/img/logo.png';
 const friendLinkLimit = 8;
 const useMockData = process.env.FLOWERSINK_STATIC_SEO_MOCK === '1';
 const allowOptionalFailure = process.env.FLOWERSINK_STATIC_SEO_OPTIONAL === '1';
+const changelogDataPath = path.join(
+  projectRoot,
+  'src',
+  'app',
+  'pages',
+  'changelog',
+  'changelog-data.json',
+);
 
 marked.setOptions({
   breaks: true,
   gfm: true,
 });
 
+/** 目录型路径统一补尾斜杠，与 nginx 实际服务地址保持一致 */
+function withTrailingSlash(urlPath) {
+  if (urlPath === '/' || urlPath.includes('.') || urlPath.endsWith('/')) {
+    return urlPath;
+  }
+  return `${urlPath}/`;
+}
+
+/** 提取 markdown 正文第一张图片地址 */
+function extractFirstImage(content) {
+  const match = String(content ?? '').match(/!\[[^\]]*]\(([^)]+)\)/);
+  return match ? match[1] : null;
+}
+
+/** 图片地址转绝对地址（相对路径补全到 API 域名） */
+function toAbsoluteImageUrl(url) {
+  const value = String(url ?? '').trim();
+  if (!value) {
+    return null;
+  }
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+  try {
+    return new URL(value, apiOrigin).toString();
+  } catch {
+    return null;
+  }
+}
+
 async function main() {
   await ensureDistExists();
 
-  const template = await fs.readFile(indexPath, 'utf8');
-  const { blogs, links } = await loadSiteData();
+  const template = await fs.readFile(templatePath, 'utf8');
+  const data = await loadSiteData();
 
-  const blogItems = blogs?.data?.data ?? [];
-  const friendLinks = (links?.data?.data ?? [])
-    .filter((item) => item?.name && item?.url);
+  const blogItems = data.blogs?.data?.data ?? [];
+  const friendLinks = (data.links?.data?.data ?? []).filter(
+    (item) => item?.name && item?.url,
+  );
+  const books = data.books?.data?.books ?? [];
+  const games = data.games?.data?.games ?? [];
+  const equipmentCategories = data.equipment?.data?.categories ?? [];
+  const lifeItems = data.life?.data?.data ?? [];
+
   const sitemapXml = buildSitemapXml(blogItems);
   const rssXml = buildRssXml(blogItems);
+  const changelogRecords = await loadChangelogRecords();
 
   await Promise.all([
     writeFileEnsured(path.join(distRoot, 'robots.txt'), buildRobotsTxt()),
@@ -67,7 +115,8 @@ async function main() {
         friendLinks,
         {
           canonicalPath: '/blog/article',
-          description: '花墨技术文章列表，聚合 Angular、NestJS、前端开发与工程实践内容。',
+          description:
+            '花墨技术文章列表，聚合技术分享、开发实践与教程内容。',
           title: `技术文章 | ${siteName}`,
           heading: '技术文章',
         },
@@ -87,6 +136,30 @@ async function main() {
         },
       ),
     ),
+    writeFileEnsured(
+      path.join(distRoot, 'about', 'index.html'),
+      renderAboutPage(template, friendLinks),
+    ),
+    writeFileEnsured(
+      path.join(distRoot, 'book', 'index.html'),
+      renderBookPage(template, books, friendLinks),
+    ),
+    writeFileEnsured(
+      path.join(distRoot, 'game', 'index.html'),
+      renderGamePage(template, games, friendLinks),
+    ),
+    writeFileEnsured(
+      path.join(distRoot, 'equipment', 'index.html'),
+      renderEquipmentPage(template, equipmentCategories, friendLinks),
+    ),
+    writeFileEnsured(
+      path.join(distRoot, 'changelog', 'index.html'),
+      renderChangelogPage(template, changelogRecords),
+    ),
+    writeFileEnsured(
+      path.join(distRoot, 'life', 'index.html'),
+      renderLifePage(template, lifeItems, friendLinks),
+    ),
   ]);
 
   for (const blog of blogItems) {
@@ -97,15 +170,18 @@ async function main() {
       String(blog.id),
       'index.html',
     );
-    await writeFileEnsured(filePath, renderBlogDetailPage(template, blog, friendLinks));
+    await writeFileEnsured(
+      filePath,
+      renderBlogDetailPage(template, blog, friendLinks),
+    );
   }
 }
 
 async function ensureDistExists() {
   try {
-    await fs.access(indexPath);
+    await fs.access(templatePath);
   } catch {
-    throw new Error(`SEO 导出失败，未找到构建产物: ${indexPath}`);
+    throw new Error(`SEO 导出失败，未找到构建产物: ${templatePath}`);
   }
 }
 
@@ -130,13 +206,23 @@ async function fetchJson(endpoint, params = {}) {
   return response.json();
 }
 
+/** 列表类数据接口失败时降级为空数组，避免阻塞整站构建 */
+async function fetchOptional(endpoint, params = {}) {
+  try {
+    return await fetchJson(endpoint, params);
+  } catch (error) {
+    console.warn(`[seo] 可选数据抓取失败（降级为空）: ${endpoint}`, error);
+    return null;
+  }
+}
+
 async function loadSiteData() {
   if (useMockData) {
     return buildMockData();
   }
 
   try {
-    const [blogs, links] = await Promise.all([
+    const [blogs, links, books, games, equipment, life] = await Promise.all([
       fetchJson('/blog', {
         includeCommentUsers: 'false',
         includeContent: 'true',
@@ -147,9 +233,13 @@ async function loadSiteData() {
         page: '1',
         pageSize: '100',
       }),
+      fetchOptional('/world/book/list'),
+      fetchOptional('/world/game/list'),
+      fetchOptional('/equipment/list'),
+      fetchOptional('/life', { limit: '100' }),
     ]);
 
-    return { blogs, links };
+    return { blogs, links, books, games, equipment, life };
   } catch (error) {
     if (!allowOptionalFailure) {
       throw error;
@@ -176,7 +266,7 @@ function renderWelcomePage(template, blogs, friendLinks, canonicalPath) {
   const blogListMarkup = featuredBlogs.length
     ? featuredBlogs.map((blog) => `
       <article class="fi-seo-card">
-        <h2><a href="/blog/blog-detail/${blog.id}">${escapeHtml(blog.title)}</a></h2>
+        <h2><a href="${withTrailingSlash(`/blog/blog-detail/${blog.id}`)}">${escapeHtml(blog.title)}</a></h2>
         <p>${escapeHtml(normalizeDescription(blog.description || blog.content))}</p>
         <p class="fi-seo-meta">${escapeHtml(blog.type || '')} · ${escapeHtml(blog.tag || '')}</p>
       </article>
@@ -196,7 +286,7 @@ function renderWelcomePage(template, blogs, friendLinks, canonicalPath) {
       <section class="fi-seo-section">
         <h2>友情链接</h2>
         ${linksMarkup}
-        <p><a href="/link">查看更多友链</a></p>
+        <p><a href="${withTrailingSlash('/link')}">查看更多友链</a></p>
       </section>
     </main>
   `;
@@ -207,6 +297,10 @@ function renderWelcomePage(template, blogs, friendLinks, canonicalPath) {
     canonicalPath,
     ogType: 'website',
     body,
+    extraHead: `
+      <script type="application/ld+json">${JSON.stringify(buildWebSiteSchema())}</script>
+      <script type="application/ld+json">${JSON.stringify(buildPersonSchema())}</script>
+    `,
   });
 }
 
@@ -216,7 +310,7 @@ function renderBlogListPage(template, blogs, friendLinks, options) {
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .map((blog) => `
         <article class="fi-seo-card">
-          <h2><a href="/blog/blog-detail/${blog.id}">${escapeHtml(blog.title)}</a></h2>
+          <h2><a href="${withTrailingSlash(`/blog/blog-detail/${blog.id}`)}">${escapeHtml(blog.title)}</a></h2>
           <p>${escapeHtml(normalizeDescription(blog.description || blog.content))}</p>
           <p class="fi-seo-meta">${formatDate(blog.date)} · ${escapeHtml(blog.type || '')} · ${escapeHtml(blog.tag || '')}</p>
         </article>
@@ -278,15 +372,17 @@ function renderBlogDetailPage(template, blog, friendLinks) {
   const description = normalizeDescription(blog.description || blog.content);
   const canonicalPath = `/blog/blog-detail/${blog.id}`;
   const articleHtml = marked.parse(blog.content || '');
-  const schema = buildArticleSchema(blog, canonicalPath, description);
+  const ogImage =
+    toAbsoluteImageUrl(extractFirstImage(blog.content)) || defaultOgImage;
+  const schema = buildArticleSchema(blog, canonicalPath, description, ogImage);
   const breadcrumb = buildBreadcrumbSchema(blog, canonicalPath);
 
   const body = `
     <main class="fi-seo-shell fi-seo-article">
       <nav class="fi-seo-breadcrumb" aria-label="Breadcrumb">
-        <a href="/welcome">首页</a>
+        <a href="${withTrailingSlash('/welcome')}">首页</a>
         <span>/</span>
-        <a href="/blog/all">博客归档</a>
+        <a href="${withTrailingSlash('/blog/all')}">博客归档</a>
         <span>/</span>
         <span>${escapeHtml(blog.title)}</span>
       </nav>
@@ -314,6 +410,7 @@ function renderBlogDetailPage(template, blog, friendLinks) {
     description,
     canonicalPath,
     ogType: 'article',
+    ogImage,
     body,
     extraHead: `
       <meta property="article:published_time" content="${new Date(blog.date).toISOString()}">
@@ -325,8 +422,277 @@ function renderBlogDetailPage(template, blog, friendLinks) {
   });
 }
 
+function renderAboutPage(template, friendLinks) {
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>关于再花</h1>
+        <p>一个想要变得有趣的灵魂，丐版全栈工程师。</p>
+      </header>
+      <section class="fi-seo-section">
+        <h2>再花</h2>
+        <p>这里是再花，一名定居成都的前端工程师。很宅、很爱打游戏、很爱写东西、喜欢和人聊天，也喜欢琢磨电子类的东西。英年早婚，日常含妻量很高，每天都在围着老婆转。</p>
+        <p>初中的时候字写得极丑，被语文老师要求每天练字，后来慢慢喜欢上书写的感觉，练字帖练到高中毕业。「花墨」便由此得名——再花挥洒笔墨的地方。</p>
+      </section>
+      <section class="fi-seo-section">
+        <h2>爱好</h2>
+        <p><strong>游戏</strong>：每天都会进行的活动，生命的终极意义。<a href="${withTrailingSlash('/game')}">查看再花的游戏库</a></p>
+        <p><strong>写作</strong>：希望读者能够得到帮助或快乐。<a href="${withTrailingSlash('/blog/all')}">前往文归档看看再花写了什么博客</a></p>
+        <p><strong>摸鱼</strong>：工作只是获取劳动报酬，摸鱼才是在赚钱。<a href="${withTrailingSlash('/life')}">前往查看再花的日常</a></p>
+      </section>
+      <aside class="fi-seo-side">
+        <section class="fi-seo-section">
+          <h2>友情链接</h2>
+          ${renderFriendLinks(friendLinks.slice(0, friendLinkLimit))}
+        </section>
+      </aside>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `关于再花 | ${siteName}`,
+    description:
+      '关于再花的自我介绍：丐版全栈工程师，热爱游戏、写作与生活，记录在花墨。',
+    canonicalPath: '/about',
+    ogType: 'website',
+    body,
+    extraHead: `
+      <script type="application/ld+json">${JSON.stringify(buildPersonSchema())}</script>
+    `,
+  });
+}
+
+function renderBookPage(template, books, friendLinks) {
+  const listMarkup = books.length
+    ? books.map((book) => {
+      const cover = book?.img?.[0]?.url;
+      const coverImg = cover
+        ? `<img class="fi-seo-thumb fi-seo-thumb-book" loading="lazy" src="${escapeHtmlAttr(cover)}" alt="${escapeHtmlAttr(book.name)}封面" />`
+        : '';
+      const detailUrl = book?.content && String(book.content).startsWith('http')
+        ? book.content
+        : null;
+      return `
+        <article class="fi-seo-card fi-seo-item">
+          ${coverImg}
+          <div>
+            <h2>${detailUrl ? `<a href="${escapeHtmlAttr(detailUrl)}">${escapeHtml(book.name)}</a>` : escapeHtml(book.name)}</h2>
+            <p class="fi-seo-meta">${escapeHtml(book.author || '')}${book.readingTime ? ` · ${book.readingTime}h` : ''}${book.finishDate ? ` · ${escapeHtml(book.finishDate)}读完` : ''}</p>
+          </div>
+        </article>
+      `;
+    }).join('')
+    : '<p>书籍整理中。</p>';
+
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>书籍</h1>
+        <p>再花的阅读记录，读过的书都会整理在这里。</p>
+      </header>
+      <section class="fi-seo-section">
+        ${listMarkup}
+      </section>
+      <aside class="fi-seo-side">
+        <section class="fi-seo-section">
+          <h2>友情链接</h2>
+          ${renderFriendLinks(friendLinks.slice(0, friendLinkLimit))}
+        </section>
+      </aside>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `书籍 | ${siteName}`,
+    description: '再花的书籍阅读记录与书评汇总。',
+    canonicalPath: '/book',
+    ogType: 'website',
+    body,
+  });
+}
+
+function renderGamePage(template, games, friendLinks) {
+  const listMarkup = games.length
+    ? games.map((game) => {
+      const cover = game?.imgFirst?.[0]?.url;
+      const coverImg = cover
+        ? `<img class="fi-seo-thumb fi-seo-thumb-game" loading="lazy" src="${escapeHtmlAttr(cover)}" alt="${escapeHtmlAttr(game.name)}封面" />`
+        : '';
+      return `
+        <article class="fi-seo-card fi-seo-item">
+          ${coverImg}
+          <div>
+            <h2>${escapeHtml(game.name)}</h2>
+            <p>${escapeHtml(normalizeDescription(game.description || ''))}</p>
+            <p class="fi-seo-meta">${escapeHtml(game.platform || '')}${game.time ? ` · ${game.time}h` : ''}${escapeHtml(game.gameType ? ` · ${game.gameType}` : '')}</p>
+          </div>
+        </article>
+      `;
+    }).join('')
+    : '<p>游戏整理中。</p>';
+
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>游戏</h1>
+        <p>再花的游戏库，玩过的游戏都记录在这里。</p>
+      </header>
+      <section class="fi-seo-section">
+        ${listMarkup}
+      </section>
+      <aside class="fi-seo-side">
+        <section class="fi-seo-section">
+          <h2>友情链接</h2>
+          ${renderFriendLinks(friendLinks.slice(0, friendLinkLimit))}
+        </section>
+      </aside>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `游戏 | ${siteName}`,
+    description: '再花的游戏库与游戏记录。',
+    canonicalPath: '/game',
+    ogType: 'website',
+    body,
+  });
+}
+
+function renderEquipmentPage(template, categories, friendLinks) {
+  const listMarkup = categories.length
+    ? categories.map((category) => `
+        <section class="fi-seo-section">
+          <h2>${escapeHtml(category.name)}</h2>
+          ${(category.items ?? []).map((item) => `
+            <article class="fi-seo-card">
+              <h3>${escapeHtml(item.name)}</h3>
+              <p>${escapeHtml(normalizeDescription(item.description || ''))}</p>
+              <p class="fi-seo-meta">${item.purchaseDate ? `${escapeHtml(item.purchaseDate)}购入` : ''}${item.retired ? ' · 已退役' : ''}</p>
+            </article>
+          `).join('')}
+        </section>
+      `).join('')
+    : '<p>装备整理中。</p>';
+
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>装备图鉴</h1>
+        <p>再花的电子设备图鉴，差生文具多。</p>
+      </header>
+      <section class="fi-seo-section">
+        ${listMarkup}
+      </section>
+      <aside class="fi-seo-side">
+        <section class="fi-seo-section">
+          <h2>友情链接</h2>
+          ${renderFriendLinks(friendLinks.slice(0, friendLinkLimit))}
+        </section>
+      </aside>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `装备 | ${siteName}`,
+    description: '再花的电子设备图鉴。',
+    canonicalPath: '/equipment',
+    ogType: 'website',
+    body,
+  });
+}
+
+async function loadChangelogRecords() {
+  try {
+    const raw = await fs.readFile(changelogDataPath, 'utf8');
+    return JSON.parse(raw)?.records ?? [];
+  } catch (error) {
+    console.warn('[seo] changelog-data.json 读取失败', error);
+    return [];
+  }
+}
+
+function renderChangelogPage(template, records, friendLinks) {
+  const listMarkup = records.length
+    ? records.slice(0, 50).map((record) => `
+        <article class="fi-seo-card">
+          <h3>${escapeHtml(record.desc || '')}</h3>
+          <p class="fi-seo-meta">${escapeHtml(record.date || '')} · ${escapeHtml(record.type || '')}${record.important ? ' · 重要' : ''}</p>
+        </article>
+      `).join('')
+    : '<p>更新记录整理中。</p>';
+
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>更新记录</h1>
+        <p>花墨网站的开发与更新记录。</p>
+      </header>
+      <section class="fi-seo-section">
+        ${listMarkup}
+      </section>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `更新记录 | ${siteName}`,
+    description: '花墨网站的开发与更新记录。',
+    canonicalPath: '/changelog',
+    ogType: 'website',
+    body,
+  });
+}
+
+function renderLifePage(template, lifeItems, friendLinks) {
+  const listMarkup = lifeItems.length
+    ? lifeItems.map((item) => {
+      const title = String(item?.title ?? '').trim();
+      const excerpt = normalizeDescription(item?.content ?? '');
+      const heading = title
+        ? `<h3>${escapeHtml(title)}</h3>`
+        : '';
+      return `
+        <article class="fi-seo-card">
+          ${heading}
+          <p>${escapeHtml(excerpt)}</p>
+          <p class="fi-seo-meta">${formatDate(item?.date || item?.createDate)}${item?.source ? ` · 来自：${escapeHtml(item.source)}` : ''}</p>
+        </article>
+      `;
+    }).join('')
+    : '<p>点滴整理中。</p>';
+
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>再花的点滴</h1>
+        <p>再花的日常碎碎念，记录生活里的点点滴滴。</p>
+      </header>
+      <section class="fi-seo-section">
+        ${listMarkup}
+      </section>
+      <aside class="fi-seo-side">
+        <section class="fi-seo-section">
+          <h2>友情链接</h2>
+          ${renderFriendLinks(friendLinks.slice(0, friendLinkLimit))}
+        </section>
+      </aside>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `再花的点滴 | ${siteName}`,
+    description: '再花的日常碎碎念，生活里的点点滴滴都记录在这里。',
+    canonicalPath: '/life',
+    ogType: 'website',
+    body,
+  });
+}
+
 function injectSeoHtml(template, options) {
-  const canonicalUrl = new URL(options.canonicalPath, siteOrigin).toString();
+  const canonicalUrl = new URL(
+    withTrailingSlash(options.canonicalPath),
+    siteOrigin,
+  ).toString();
+  const ogImage = options.ogImage || defaultOgImage;
   const bodyContent = options.body;
   let html = cleanupDefaultHeadTags(template);
 
@@ -334,15 +700,17 @@ function injectSeoHtml(template, options) {
     <title>${escapeHtml(options.title)}</title>
     <meta name="description" content="${escapeHtmlAttr(options.description)}">
     <meta name="robots" content="index,follow">
+    <meta property="og:site_name" content="${escapeHtmlAttr(siteName)}">
+    <meta property="og:locale" content="${siteLanguage}">
     <meta property="og:title" content="${escapeHtmlAttr(options.title)}">
     <meta property="og:description" content="${escapeHtmlAttr(options.description)}">
     <meta property="og:url" content="${escapeHtmlAttr(canonicalUrl)}">
     <meta property="og:type" content="${escapeHtmlAttr(options.ogType)}">
-    <meta property="og:image" content="${escapeHtmlAttr(defaultOgImage)}">
+    <meta property="og:image" content="${escapeHtmlAttr(ogImage)}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${escapeHtmlAttr(options.title)}">
     <meta name="twitter:description" content="${escapeHtmlAttr(options.description)}">
-    <meta name="twitter:image" content="${escapeHtmlAttr(defaultOgImage)}">
+    <meta name="twitter:image" content="${escapeHtmlAttr(ogImage)}">
     <link rel="canonical" href="${escapeHtmlAttr(canonicalUrl)}">
     <link rel="alternate" type="application/rss+xml" title="${siteName} RSS" href="${siteOrigin}/rss.xml">
     ${options.extraHead ?? ''}
@@ -350,7 +718,10 @@ function injectSeoHtml(template, options) {
 
   html = html
     .replace(/<title>[\s\S]*?<\/title>/i, head)
-    .replace(/<app-root>\s*<\/app-root>/i, `<app-root>${bodyContent}</app-root>`);
+    .replace(
+      /<app-root>[\s\S]*?<\/app-root>/i,
+      `<app-root>${bodyContent}</app-root>`,
+    );
 
   html = html.replace(
     '</head>',
@@ -372,7 +743,12 @@ function buildStaticSeoStyle() {
     .fi-seo-section h2{margin:0;font-size:1.25rem;color:#5b3f20}
     .fi-seo-card,.fi-seo-link-item{padding:16px 18px;border:1px solid #e6d6c0;border-radius:16px;background:#fff}
     .fi-seo-card h2{margin:0 0 8px;font-size:1.15rem}
+    .fi-seo-card h3{margin:0 0 8px;font-size:1.05rem}
     .fi-seo-card p{margin:0 0 8px;line-height:1.8}
+    .fi-seo-item{display:flex;gap:14px;align-items:flex-start}
+    .fi-seo-thumb{flex:0 0 auto;object-fit:cover;border-radius:8px}
+    .fi-seo-thumb-book{width:64px;height:88px}
+    .fi-seo-thumb-game{width:88px;height:64px}
     .fi-seo-link-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
     .fi-seo-link-item h3{margin:0 0 6px;font-size:1rem}
     .fi-seo-link-item p{margin:0;color:#6f604f;line-height:1.7}
@@ -403,12 +779,42 @@ function renderFriendLinks(friendLinks) {
   `;
 }
 
-function buildArticleSchema(blog, canonicalPath, description) {
+function buildWebSiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteName,
+    url: `${siteOrigin}/`,
+    inLanguage: siteLanguage,
+    description: siteDescription,
+    publisher: {
+      '@type': 'Person',
+      name: '再花',
+    },
+  };
+}
+
+function buildPersonSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: '再花',
+    url: `${siteOrigin}/about/`,
+    jobTitle: '前端工程师',
+    knowsAbout: ['前端开发', 'Angular', '随笔写作', '游戏'],
+    sameAs: ['https://github.com/ZaiHuaOvO'],
+  };
+}
+
+function buildArticleSchema(blog, canonicalPath, description, ogImage) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: blog.title,
     description,
+    image: ogImage,
+    inLanguage: siteLanguage,
+    articleSection: blog.type,
     author: {
       '@type': 'Person',
       name: '再花',
@@ -419,7 +825,7 @@ function buildArticleSchema(blog, canonicalPath, description) {
     },
     datePublished: new Date(blog.date).toISOString(),
     dateModified: new Date(blog.date).toISOString(),
-    mainEntityOfPage: `${siteOrigin}${canonicalPath}`,
+    mainEntityOfPage: `${siteOrigin}${withTrailingSlash(canonicalPath)}`,
   };
 }
 
@@ -432,19 +838,19 @@ function buildBreadcrumbSchema(blog, canonicalPath) {
         '@type': 'ListItem',
         position: 1,
         name: '首页',
-        item: `${siteOrigin}/welcome`,
+        item: `${siteOrigin}/`,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: '博客归档',
-        item: `${siteOrigin}/blog/all`,
+        item: `${siteOrigin}${withTrailingSlash('/blog/all')}`,
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: blog.title,
-        item: `${siteOrigin}${canonicalPath}`,
+        item: `${siteOrigin}${withTrailingSlash(canonicalPath)}`,
       },
     ],
   };
@@ -452,25 +858,38 @@ function buildBreadcrumbSchema(blog, canonicalPath) {
 
 function buildSitemapXml(blogs) {
   const staticUrls = [
-    '/',
-    '/welcome',
-    '/blog/all',
-    '/blog/article',
-    '/blog/essay',
-    '/link',
-    '/rss.xml',
+    { url: '/', changefreq: 'daily', priority: 1.0 },
+    { url: '/welcome', changefreq: 'monthly', priority: 0.6 },
+    { url: '/blog/all', changefreq: 'weekly', priority: 0.8 },
+    { url: '/blog/article', changefreq: 'weekly', priority: 0.8 },
+    { url: '/blog/essay', changefreq: 'weekly', priority: 0.8 },
+    { url: '/link', changefreq: 'weekly', priority: 0.5 },
+    { url: '/about', changefreq: 'monthly', priority: 0.5 },
+    { url: '/book', changefreq: 'monthly', priority: 0.5 },
+    { url: '/game', changefreq: 'monthly', priority: 0.5 },
+    { url: '/equipment', changefreq: 'monthly', priority: 0.5 },
+    { url: '/changelog', changefreq: 'monthly', priority: 0.3 },
+    { url: '/life', changefreq: 'weekly', priority: 0.6 },
+    { url: '/rss.xml', changefreq: 'daily', priority: 0.4 },
   ];
 
   const entries = [
-    ...staticUrls.map((url) => ({ url, lastmod: null })),
+    ...staticUrls.map(({ url, changefreq, priority }) => ({
+      url,
+      changefreq,
+      priority,
+      lastmod: null,
+    })),
     ...blogs.map((blog) => ({
       url: `/blog/blog-detail/${blog.id}`,
+      changefreq: 'weekly',
+      priority: blog.star ? 0.9 : 0.7,
       lastmod: blog.date,
     })),
   ];
 
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries
-    .map(({ url, lastmod }) => `  <url>\n    <loc>${escapeXml(siteOrigin + url)}</loc>${lastmod ? `\n    <lastmod>${new Date(lastmod).toISOString()}</lastmod>` : ''}\n  </url>`)
+    .map(({ url, lastmod, changefreq, priority }) => `  <url>\n    <loc>${escapeXml(siteOrigin + withTrailingSlash(url))}</loc>${lastmod ? `\n    <lastmod>${new Date(lastmod).toISOString()}</lastmod>` : ''}${changefreq ? `\n    <changefreq>${changefreq}</changefreq>` : ''}${priority !== undefined ? `\n    <priority>${priority}</priority>` : ''}\n  </url>`)
     .join('\n')}\n</urlset>\n`;
 }
 
@@ -478,10 +897,18 @@ function buildRssXml(blogs) {
   const items = blogs
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 50)
-    .map((blog) => `  <item>\n    <title>${escapeXml(blog.title)}</title>\n    <link>${escapeXml(`${siteOrigin}/blog/blog-detail/${blog.id}`)}</link>\n    <guid>${escapeXml(`${siteOrigin}/blog/blog-detail/${blog.id}`)}</guid>\n    <description>${escapeXml(normalizeDescription(blog.description || blog.content))}</description>\n    <pubDate>${new Date(blog.date).toUTCString()}</pubDate>\n  </item>`)
+    .map((blog) => {
+      const tags = String(blog.tag ?? '')
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter(Boolean);
+      const categories = tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join('');
+      const detailUrl = `${siteOrigin}${withTrailingSlash(`/blog/blog-detail/${blog.id}`)}`;
+      return `  <item>\n    <title>${escapeXml(blog.title)}</title>\n    <link>${escapeXml(detailUrl)}</link>\n    <guid>${escapeXml(detailUrl)}</guid>\n${categories}    <description>${escapeXml(normalizeDescription(blog.description || blog.content))}</description>\n    <pubDate>${new Date(blog.date).toUTCString()}</pubDate>\n  </item>`;
+    })
     .join('\n');
 
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>${escapeXml(`${siteName} RSS`)}</title>\n  <link>${escapeXml(siteOrigin)}</link>\n  <description>${escapeXml(siteDescription)}</description>\n  <language>zh-CN</language>\n${items}\n</channel>\n</rss>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>${escapeXml(`${siteName} RSS`)}</title>\n  <link>${escapeXml(`${siteOrigin}/`)}</link>\n  <description>${escapeXml(siteDescription)}</description>\n  <language>zh-CN</language>\n  <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>\n  <image>\n    <url>${escapeXml(defaultOgImage)}</url>\n    <title>${escapeXml(siteName)}</title>\n    <link>${escapeXml(`${siteOrigin}/`)}</link>\n  </image>\n${items}\n</channel>\n</rss>\n`;
 }
 
 function buildMockData() {
@@ -495,7 +922,7 @@ function buildMockData() {
             description: '用于离线验证构建链路的示例文章。',
             content: '# 花墨 SEO 静态页示例\n\n这是一篇用于本地构建验证的示例文章。',
             type: '文章',
-            tag: 'Angular,SEO',
+            tag: '教程',
             star: true,
             date: '2026-05-26T00:00:00.000Z',
           },
@@ -513,6 +940,10 @@ function buildMockData() {
         ],
       },
     },
+    books: null,
+    games: null,
+    equipment: null,
+    life: null,
   };
 }
 
