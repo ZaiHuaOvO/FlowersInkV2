@@ -57,6 +57,11 @@
             <strong class="game-dialog-meta-value">{{ game.time }}小时</strong>
           </div>
         }
+        @if (hasContent) {
+          <button type="button" class="game-dialog-link" (click)="goToContent()">
+            [ 玩后感 ]
+          </button>
+        }
       </div>
 
       @if (screenshots.length > 0) {
@@ -69,14 +74,6 @@
               </div>
             }
           </div>
-        </div>
-      }
-
-      @if (hasContent) {
-        <div class="game-dialog-actions">
-          <button type="button" class="game-dialog-link" (click)="goToContent()">
-            [ 玩后感 ]
-          </button>
         </div>
       }
     </div>

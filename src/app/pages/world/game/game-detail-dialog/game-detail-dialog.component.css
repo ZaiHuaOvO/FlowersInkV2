@@ -180,9 +180,10 @@
   transform: scale(1.03);
 }
 
-.game-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
+.game-dialog-meta .game-dialog-link {
+  margin-left: auto;
+  align-self: center;
+  flex-shrink: 0;
 }
 
 .game-dialog-link {
