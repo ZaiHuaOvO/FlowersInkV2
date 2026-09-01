@@ -74,6 +74,10 @@ export class GameDetailDialogComponent {
     return this.game?.recommend === 'not_recommended';
   }
 
+  get isAverage(): boolean {
+    return this.game?.recommend === 'average';
+  }
+
   get coverUrl(): string {
     const first = this.game?.imgFirst?.[0];
     if (first?.url) {

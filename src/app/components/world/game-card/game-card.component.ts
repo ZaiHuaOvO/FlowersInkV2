@@ -49,6 +49,10 @@ export class GameCardComponent {
     return this.game?.recommend === 'not_recommended';
   }
 
+  get isAverage(): boolean {
+    return this.game?.recommend === 'average';
+  }
+
   get showTime(): boolean {
     return this.currentPlayStatus !== 'playing' && this.game?.time !== null && this.game?.time !== undefined;
   }

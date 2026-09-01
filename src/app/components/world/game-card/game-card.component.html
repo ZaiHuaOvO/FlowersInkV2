@@ -2,6 +2,7 @@
   class="game-card-surface game-card-surface--overview"
   [class.game-card-surface--recommended]="isRecommended"
   [class.game-card-surface--not-recommended]="isNotRecommended"
+  [class.game-card-surface--average]="isAverage"
   [nzCover]="coverTemplate"
   (click)="onCardClick($event)"
 >
@@ -49,7 +50,9 @@
     @if (isRecommended) {
       <span class="game-recommend-badge game-recommend-badge--recommended">👍 推荐</span>
     } @else if (isNotRecommended) {
-      <span class="game-recommend-badge game-recommend-badge--not-recommended">不推荐</span>
+      <span class="game-recommend-badge game-recommend-badge--not-recommended">👎 不推荐</span>
+    } @else if (isAverage) {
+      <span class="game-recommend-badge game-recommend-badge--average">一般</span>
     }
   </div>
 </ng-template>

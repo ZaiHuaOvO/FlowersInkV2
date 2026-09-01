@@ -4,7 +4,9 @@
     @if (isRecommended) {
       <span class="game-dialog-badge game-dialog-badge--recommended">👍 推荐</span>
     } @else if (isNotRecommended) {
-      <span class="game-dialog-badge game-dialog-badge--not-recommended">不推荐</span>
+      <span class="game-dialog-badge game-dialog-badge--not-recommended">👎 不推荐</span>
+    } @else if (isAverage) {
+      <span class="game-dialog-badge game-dialog-badge--average">一般</span>
     }
 
     @if (coverUrl) {
