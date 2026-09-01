@@ -28,6 +28,19 @@ export class GameCardComponent {
     this.cardClick.emit(event);
   }
 
+  /** webp 封面缺失时回退到原图（img_url），避免破图 */
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (img.dataset['fiFallbacked']) {
+      return;
+    }
+    img.dataset['fiFallbacked'] = '1';
+    const fallback = this.game?.imgFirst?.[0]?.img_url;
+    if (fallback && img.src !== fallback) {
+      img.src = fallback;
+    }
+  }
+
   get isRecommended(): boolean {
     return this.game?.recommend === 'recommended';
   }

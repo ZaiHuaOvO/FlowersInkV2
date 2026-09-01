@@ -1,14 +1,22 @@
-import { Component, DestroyRef, inject, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
-import { GamePicComponent } from '../../../../components/world/game-card/game-pic/game-pic.component';
-import { WindowService } from '../../../../services/window.service';
+import {
+  appendViewOriginalButton,
+  deriveWebpVariants,
+  inferOriginalImageUrl,
+} from '../../../../shared/utils/image-url.util';
+
+interface GameShotAsset {
+  displayUrl: string;
+  zoomUrl: string;
+  originalUrl: string;
+}
 
 @Component({
   selector: 'flower-game-detail-dialog',
@@ -18,7 +26,7 @@ import { WindowService } from '../../../../services/window.service';
     NzFlexModule,
     NzTagModule,
     NzTypographyModule,
-    NzDrawerModule,
+    NzImageModule,
     FlTagDirective,
   ],
   templateUrl: './game-detail-dialog.component.html',
@@ -26,21 +34,8 @@ import { WindowService } from '../../../../services/window.service';
 })
 export class GameDetailDialogComponent {
   nzModalData: any = inject(NZ_MODAL_DATA);
-  isMobile = false;
 
-  @ViewChild('extra') extra!: TemplateRef<any>;
-  @ViewChild('imgText') imgText!: TemplateRef<any>;
-
-  private readonly drawerService = inject(NzDrawerService);
-  private readonly msg = inject(NzMessageService);
-  private readonly window = inject(WindowService);
-  private readonly destroyRef = inject(DestroyRef);
-
-  constructor() {
-    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
-      this.isMobile = isMobile;
-    });
-  }
+  private readonly imageService = inject(NzImageService);
 
   get game(): any {
     return this.nzModalData?.data ?? this.nzModalData;
@@ -112,33 +107,37 @@ export class GameDetailDialogComponent {
     return this.game?.playStatus ?? 'completed';
   }
 
-  get screenshots(): any[] {
+  /** 截图像素信息：展示用 webp 地址，缩放层与"查看原图"用原图（与点滴一致） */
+  get screenshots(): GameShotAsset[] {
     const list = Array.isArray(this.game?.img) ? this.game.img : [];
     return list
-      .map((img: any) => (typeof img === 'string' ? img : img?.url))
-      .filter(Boolean);
+      .map((img: any) => {
+        const url = typeof img === 'string' ? img : img?.url;
+        if (!url) {
+          return null;
+        }
+        const { zoom } = deriveWebpVariants(url);
+        const originalRaw =
+          img && typeof img === 'object' ? String(img?.img_url ?? '').trim() : '';
+        return {
+          displayUrl: url,
+          zoomUrl: zoom || url,
+          originalUrl: originalRaw || inferOriginalImageUrl(url),
+        };
+      })
+      .filter(
+        (shot: GameShotAsset | null): shot is GameShotAsset => !!shot,
+      );
   }
 
-  imgPreview(): void {
-    if (!this.screenshots.length) {
-      return;
-    }
-    this.drawerService.create({
-      nzTitle: this.name + '游戏截图',
-      nzExtra: this.extra,
-      nzContent: GamePicComponent,
-      nzPlacement: 'bottom',
-      nzHeight: this.isMobile ? '75vh' : '50vh',
-      nzData: {
-        value: this.screenshots,
-      },
+  /** 点击截图：弹出图片预览（缩放层），并追加"查看原图"按钮 */
+  previewShot(event: MouseEvent, shot: GameShotAsset): void {
+    event.stopPropagation();
+    this.imageService.preview([{ src: shot.zoomUrl }], {
+      nzZoom: 0.8,
+      nzRotate: 0,
     });
-  }
-
-  imgDescription(): void {
-    this.msg.info(this.imgText, {
-      nzDuration: 8000,
-    });
+    appendViewOriginalButton(shot.originalUrl);
   }
 
   goToContent(): void {

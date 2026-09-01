@@ -62,17 +62,10 @@
       @if (screenshots.length > 0) {
         <div class="game-dialog-section">
           <h5 class="game-dialog-section-title">游戏截图</h5>
-          <div class="game-dialog-screenshots" (click)="imgPreview()">
-            @for (shot of screenshots; track shot; let i = $index) {
-              @if (i < 6) {
-                <div class="game-dialog-shot">
-                  <img loading="lazy" decoding="async" [src]="shot" [alt]="name + '截图 ' + (i + 1)" />
-                </div>
-              }
-            }
-            @if (screenshots.length > 6) {
-              <div class="game-dialog-shot game-dialog-shot--more">
-                <span class="game-dialog-shot-more-text">+{{ screenshots.length - 6 }}</span>
+          <div class="game-dialog-screenshots">
+            @for (shot of screenshots; track shot.displayUrl; let i = $index) {
+              <div class="game-dialog-shot" (click)="previewShot($event, shot)">
+                <img loading="lazy" decoding="async" [src]="shot.displayUrl" [alt]="name + '截图 ' + (i + 1)" />
               </div>
             }
           </div>
@@ -90,15 +83,3 @@
   </article>
   }
 </div>
-
-<ng-template #extra>
-  <nz-tag flTag flTagVariant="outline" flTagInteractive>
-    <span nz-typography class="game-dialog-tag-text" (click)="imgDescription()">关于图片的说明</span>
-  </nz-tag>
-</ng-template>
-
-<ng-template #imgText>
-  <p nz-typography>抽屉中的游戏截图为保证网站加载速度，使用了 <mark>压缩后的图片</mark>，单张约 300-500KB。</p>
-  <p nz-typography>点击查看原图时展示的是一次压缩版本，<mark>画质会有一定损失</mark>，单张约 2-4MB。</p>
-  <p nz-typography>未压缩原图（15MB+）不放在站内，如有需要可 <mark>联系再花获取</mark>。</p>
-</ng-template>

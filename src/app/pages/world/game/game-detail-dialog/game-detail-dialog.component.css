@@ -158,7 +158,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  cursor: pointer;
 }
 
 .game-dialog-shot {
@@ -166,6 +165,7 @@
   border-radius: var(--fi-radius-xs);
   overflow: hidden;
   border: 1px solid var(--fi-border);
+  cursor: pointer;
 }
 
 .game-dialog-shot img {
@@ -178,19 +178,6 @@
 
 .game-dialog-screenshots:hover .game-dialog-shot img {
   transform: scale(1.03);
-}
-
-.game-dialog-shot--more {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--fi-surface);
-}
-
-.game-dialog-shot-more-text {
-  color: var(--fi-text-secondary, #7f6c59);
-  font-size: 1.1rem;
-  font-weight: 700;
 }
 
 .game-dialog-actions {
