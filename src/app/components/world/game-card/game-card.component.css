@@ -36,30 +36,17 @@
     font-weight: 700;
 }
 
-/* ── 推荐样式：推荐 = 深棕卡底 + 浅色反色文字（含游戏名右侧 tag），不推荐 = 灰化降饱和 ──
+/* ── 推荐样式：推荐 = 暖色底 + 角标，不推荐 = 灰化降饱和 ──
    .ant-card 的 border/background/box-shadow 在全局 styles.css 里带 !important，
    但走的是 CSS 变量（--fi-border / --fi-card-bg / --fi-shadow-soft），
    所以在这里覆盖变量即可生效。 */
 .game-card-surface--recommended {
-    --fi-card-bg: #7a4d23;
-    --fi-tag-bg: rgba(255, 255, 255, 0.16);
-    --fi-tag-border: rgba(255, 255, 255, 0.3);
-    --fi-tag-text: #fff;
-    --fi-tag-bg-hover: rgba(255, 255, 255, 0.24);
-    --fi-tag-text-hover: #fff;
-    --fi-tag-border-hover: rgba(255, 255, 255, 0.4);
+    --fi-card-bg: #fbf6f0;
     --fi-shadow-soft: 0 8px 18px rgba(58, 39, 22, 0.08);
 }
 
-.game-card-surface--recommended .game-overview-name,
-.game-card-surface--recommended .game-metric,
-.game-card-surface--recommended .game-status-emphasis,
-.game-card-surface--recommended .game-tag-text {
-    color: #fffdf8;
-}
-
-.game-card-surface--recommended .game-overview-label {
-    color: #e9d7c0;
+.game-card-surface--recommended .game-overview-name {
+    color: var(--fi-primary-hover, #7a4d23);
 }
 
 .game-card-surface--not-recommended {
