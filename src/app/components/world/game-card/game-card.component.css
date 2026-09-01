@@ -36,15 +36,13 @@
     font-weight: 700;
 }
 
-/* ── 推荐样式：推荐 = 深棕描边 + 暖色提示，不推荐 = 灰化降饱和 ──
+/* ── 推荐样式：推荐 = 暖色底 + 角标（去掉深棕边框），不推荐 = 灰化降饱和 ──
    .ant-card 的 border/background/box-shadow 在全局 styles.css 里带 !important，
    但走的是 CSS 变量（--fi-border / --fi-card-bg / --fi-shadow-soft），
    所以在这里覆盖变量即可生效。 */
 .game-card-surface--recommended {
-    --fi-border: var(--fi-primary-hover, #7a4d23);
     --fi-card-bg: #fbf6f0;
-    --fi-shadow-soft: 0 0 0 1px var(--fi-primary-hover, #7a4d23),
-        0 8px 18px rgba(58, 39, 22, 0.08);
+    --fi-shadow-soft: 0 8px 18px rgba(58, 39, 22, 0.08);
 }
 
 .game-card-surface--recommended .game-overview-name {
