@@ -1,6 +1,15 @@
 {
-  "total": 345,
+  "total": 346,
   "records": [
+    {
+      "uid": "abe177f",
+      "type": "style",
+      "date": "2026-09-01",
+      "desc": "推荐游戏卡片去掉深棕色边框，保留暖色底与推荐角标",
+      "important": false,
+      "repo": "site",
+      "sha": "abe177f8ee4fddc07c14bd68ba74f37875a927ce"
+    },
     {
       "uid": "5d6081b",
       "type": "style",
