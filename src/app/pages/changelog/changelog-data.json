@@ -1,6 +1,33 @@
 {
-  "total": 333,
+  "total": 336,
   "records": [
+    {
+      "uid": "6070686",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "博客标签体系重分类为 8 个标签（教程/见闻/再花/网站建设/游戏/AI/电脑相关/杂谈），删除 Angular/NestJS；技术/随笔页标签筛选改客户端处理，样式统一为点滴式按钮列表",
+      "important": true,
+      "repo": "site",
+      "sha": "60706864e4343b5e28ccbec62cc2320f10ab9dd9"
+    },
+    {
+      "uid": "3c6d7f7",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "博客详情 markdown 链接点击后在新标签页打开",
+      "important": false,
+      "repo": "site",
+      "sha": "3c6d7f79ae443abd4fe0c24c465635a876cd0803"
+    },
+    {
+      "uid": "2dd4510",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "站点 SEO 全面优化：zh-CN 语言声明、新站点描述、每篇博客 OG 封面图、WebSite/Person 结构化数据、sitemap 补齐与 changefreq/priority、RSS 增强、新增 6 个静态 SEO 页",
+      "important": true,
+      "repo": "site",
+      "sha": "2dd451076bc0a8f9c483e7fc5e45b3b0fd3904c0"
+    },
     {
       "uid": "3b1af25",
       "type": "feat",
