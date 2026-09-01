@@ -5,6 +5,7 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import {
   appendViewOriginalButton,
@@ -27,6 +28,7 @@ interface GameShotAsset {
     NzTagModule,
     NzTypographyModule,
     NzImageModule,
+    NzSpinModule,
     FlTagDirective,
   ],
   templateUrl: './game-detail-dialog.component.html',
@@ -34,6 +36,9 @@ interface GameShotAsset {
 })
 export class GameDetailDialogComponent {
   nzModalData: any = inject(NZ_MODAL_DATA);
+
+  /** 截图按顺序加载：当前可加载到的下标（含），初始为 1（第一张开始加载） */
+  readyShotCount = 1;
 
   private readonly imageService = inject(NzImageService);
 
@@ -138,6 +143,21 @@ export class GameDetailDialogComponent {
       nzRotate: 0,
     });
     appendViewOriginalButton(shot.originalUrl);
+  }
+
+  /** 截图逐张加载：前一张加载完成后开始加载下一张 */
+  onShotLoad(index: number): void {
+    if (
+      index + 1 === this.readyShotCount &&
+      this.readyShotCount < this.screenshots.length
+    ) {
+      this.readyShotCount += 1;
+    }
+  }
+
+  /** 加载失败也继续下一张，避免阻塞加载序列 */
+  onShotError(index: number): void {
+    this.onShotLoad(index);
   }
 
   goToContent(): void {

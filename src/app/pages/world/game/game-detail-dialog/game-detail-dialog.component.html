@@ -70,7 +70,13 @@
           <div class="game-dialog-screenshots">
             @for (shot of screenshots; track shot.displayUrl; let i = $index) {
               <div class="game-dialog-shot" (click)="previewShot($event, shot)">
-                <img loading="lazy" decoding="async" [src]="shot.displayUrl" [alt]="name + '截图 ' + (i + 1)" />
+                @if (i < readyShotCount) {
+                  <img decoding="async" [src]="shot.displayUrl" [alt]="name + '截图 ' + (i + 1)" (load)="onShotLoad(i)" (error)="onShotError(i)" />
+                } @else {
+                  <div class="game-dialog-shot-loading">
+                    <nz-spin nzSimple></nz-spin>
+                  </div>
+                }
               </div>
             }
           </div>
