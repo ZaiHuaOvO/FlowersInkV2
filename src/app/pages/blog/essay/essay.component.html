@@ -38,12 +38,8 @@
                     </ng-template>
                     <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
                         <h5 nz-typography>随笔标签</h5>
-                        <div nz-flex nzWrap="wrap" nzGap="small">
-                            @for (tag of tagList; track tag) {
-                            <nz-tag flTag flTagInteractive [flTagVariant]="tagVariant(tag.tag)"
-                                (click)="tagSelect(tag.tag)">{{tag.tag}}&nbsp;{{tag.count}}篇</nz-tag>
-                            }
-                        </div>
+                        <fl-tag-filter [items]="tagList" [selected]="selectedTag"
+                            (select)="selectTag($event)"></fl-tag-filter>
                     </div>
                 </div>
             </nz-affix>

@@ -2,26 +2,25 @@ import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
-import { GeneralService } from '../../../services/general.service';
-import { WindowService } from '../../../services/window.service';
-import { BlogService } from '../blog.service';
-import { RouterModule } from '@angular/router';
-import { NzAffixModule } from 'ng-zorro-antd/affix';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { RefreshUp, SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
+import { BlogService } from '../blog.service';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
+import { RefreshUp, SlowUp, QuickUp } from '../../../common_ui/animations/animation';
+import { WindowService } from '../../../services/window.service';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
-import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import {
+  FlTagFilterComponent,
+  TagFilterItem,
+} from '../../../common_ui/fl_ui/fl-tag-filter/fl-tag-filter.component';
 
 @Component({
   selector: 'flower-essay',
@@ -33,10 +32,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     NzInputModule,
     BlogCardComponent,
     NzIconModule,
-    NzTagModule,
     NzTypographyModule,
-    NzSelectModule,
-    NzDividerModule,
     NzPaginationModule,
     RouterModule,
     BlogTitleComponent,
@@ -44,7 +40,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     NzAffixModule,
     FlInputDirective,
     FlCardDirective,
-    FlTagDirective,
+    FlTagFilterComponent,
   ],
   templateUrl: './essay.component.html',
   styleUrl: './essay.component.css',
@@ -52,102 +48,90 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
 })
 export class EssayComponent implements OnInit {
   data: any[] = [];
+  private allData: any[] = [];
   page = 1;
+  pageSize = 10;
   count = 0;
-  tag = '';
-  tagList: any[] = [];
+  selectedTag = '';
+  tagList: TagFilterItem[] = [];
   loading = true;
   listMotionTick = 0;
   searchControl = new FormControl('');
-  isMobile: boolean = false;
-  private readonly destroyRef: DestroyRef;
+  isMobile = false;
+
   constructor(
     private blog: BlogService,
-    private general: GeneralService,
     private window: WindowService,
-    destroyRef: DestroyRef
+    private readonly destroyRef: DestroyRef,
   ) {
-    this.destroyRef = destroyRef;
     this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });
-    // Debounce search input by 500ms to reduce request frequency.
     this.searchControl.valueChanges
-      .pipe(
-        debounceTime(500),
-        takeUntilDestroyed(this.destroyRef),
-      )
+      .pipe(debounceTime(500), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.getBlog();
+        this.page = 1;
+        this.applyFilter();
       });
   }
 
-  ngOnInit() {
-    this.blog
-      .getBlogs({
-        type: '随笔',
-        page: this.page,
-        tag: this.tag,
-        limit: 10,
-        title: this.searchControl.value,
-      })
-      .subscribe((res: any) => {
-        this.data = res['data'].data;
-        this.count = res['data'].count;
-        this.loading = false;
-        this.listMotionTick += 1;
-      });
-
-    this.blog
-      .getBlogs({
-        type: '随笔',
-        page: '',
-        tag: '',
-        title: '',
-      })
-      .subscribe((res: any) => {
-        this.tagList = this.general.getTagList(res['data'].data);
-      });
+  ngOnInit(): void {
+    this.loadBlogs();
   }
 
-  getBlog(): void {
+  private loadBlogs(): void {
     this.loading = true;
-    this.blog
-      .getBlogs({
-        type: '随笔',
-        page: this.page,
-        tag: this.tag,
-        limit: 10,
-        title: this.searchControl.value,
-      })
-      .subscribe((res: any) => {
-        this.data = res['data'].data;
-        this.count = res['data'].count;
-        this.loading = false;
-        this.listMotionTick += 1;
-      });
+    this.blog.getBlogs({ type: '随笔', limit: 999 }).subscribe((res: any) => {
+      this.allData = res['data'].data ?? [];
+      this.tagList = this.buildTagList(this.allData);
+      this.page = 1;
+      this.applyFilter();
+      this.loading = false;
+      this.listMotionTick += 1;
+    });
   }
 
-  pageChange(page: number) {
-    this.page = page;
-    this.getBlog();
+  private buildTagList(blogs: any[]): TagFilterItem[] {
+    const map: Record<string, number> = {};
+    blogs.forEach((blog) => {
+      const tag = String(blog.tag ?? '').trim() || '杂项';
+      map[tag] = (map[tag] ?? 0) + 1;
+    });
+    return Object.keys(map)
+      .map((tag) => ({ tag, count: map[tag] }))
+      .sort((a, b) => b.count - a.count);
   }
 
-  private isAllTag(tagName: string): boolean {
-    return tagName === (this.tagList[0]?.tag ?? '');
-  }
+  private applyFilter(): void {
+    const keyword = (this.searchControl.value ?? '').trim().toLowerCase();
+    const filtered = this.allData.filter((blog) => {
+      if (this.selectedTag && blog.tag !== this.selectedTag) {
+        return false;
+      }
+      if (keyword && !String(blog.title ?? '').toLowerCase().includes(keyword)) {
+        return false;
+      }
+      return true;
+    });
 
-  tagSelect(tag: string): void {
-    this.tag = this.isAllTag(tag) ? '' : tag;
-    this.page = 1;
-    this.getBlog();
-  }
-
-  tagVariant(tagName: string): 'soft' | 'solid' {
-    if (this.isAllTag(tagName)) {
-      return this.tag === '' ? 'solid' : 'soft';
+    this.count = filtered.length;
+    const totalPages = Math.max(1, Math.ceil(this.count / this.pageSize));
+    if (this.page > totalPages) {
+      this.page = totalPages;
     }
-    return this.tag === tagName ? 'solid' : 'soft';
+    const start = (this.page - 1) * this.pageSize;
+    this.data = filtered.slice(start, start + this.pageSize);
+    this.listMotionTick += 1;
+  }
+
+  selectTag(tag: string): void {
+    this.selectedTag = tag;
+    this.page = 1;
+    this.applyFilter();
+  }
+
+  pageChange(page: number): void {
+    this.page = page;
+    this.applyFilter();
   }
 }
-
