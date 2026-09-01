@@ -1,0 +1,104 @@
+<div class="game-dialog">
+  @if (game) {
+  <article class="game-dialog-card">
+    @if (isRecommended) {
+      <span class="game-dialog-badge game-dialog-badge--recommended">👍 推荐</span>
+    } @else if (isNotRecommended) {
+      <span class="game-dialog-badge game-dialog-badge--not-recommended">不推荐</span>
+    }
+
+    @if (coverUrl) {
+      <div class="game-dialog-cover">
+        <img loading="lazy" decoding="async" [src]="coverUrl" [alt]="name + '封面'" />
+      </div>
+    }
+
+    <div class="game-dialog-inner">
+      <header class="game-dialog-header">
+        <h4 class="game-dialog-name">{{ name }}</h4>
+        <div class="game-dialog-tags" nz-flex nzAlign="center" nzGap="small" nzWrap="wrap">
+          @if (platform) {
+            <nz-tag flTag flTagVariant="outline">
+              <span nz-typography class="game-dialog-tag-text">{{ platform }}</span>
+            </nz-tag>
+          }
+          @if (tag) {
+            <nz-tag flTag flTagVariant="soft">
+              <span nz-typography class="game-dialog-tag-text">{{ tag }}</span>
+            </nz-tag>
+          }
+        </div>
+      </header>
+
+      @if (description) {
+        <p class="game-dialog-description">{{ description }}</p>
+      }
+
+      <div class="game-dialog-meta">
+        @if (showStatusDate) {
+          <div class="game-dialog-meta-item">
+            <span class="game-dialog-meta-label">{{ statusLabel }}</span>
+            <strong class="game-dialog-meta-value">{{ displayStatusDate | date:'yyyy-MM-dd' }}</strong>
+          </div>
+        } @else if (currentPlayStatus === 'till_now') {
+          <div class="game-dialog-meta-item">
+            <span class="game-dialog-meta-label">状态</span>
+            <strong class="game-dialog-meta-value game-dialog-status-emphasis">至今仍在游玩</strong>
+          </div>
+        } @else if (currentPlayStatus === 'playing') {
+          <div class="game-dialog-meta-item">
+            <span class="game-dialog-meta-label">状态</span>
+            <strong class="game-dialog-meta-value game-dialog-status-emphasis">正在努力游玩中</strong>
+          </div>
+        }
+        @if (showTime) {
+          <div class="game-dialog-meta-item">
+            <span class="game-dialog-meta-label">游戏时长</span>
+            <strong class="game-dialog-meta-value">{{ game.time }}小时</strong>
+          </div>
+        }
+      </div>
+
+      @if (screenshots.length > 0) {
+        <div class="game-dialog-section">
+          <h5 class="game-dialog-section-title">游戏截图</h5>
+          <div class="game-dialog-screenshots" (click)="imgPreview()">
+            @for (shot of screenshots; track shot; let i = $index) {
+              @if (i < 6) {
+                <div class="game-dialog-shot">
+                  <img loading="lazy" decoding="async" [src]="shot" [alt]="name + '截图 ' + (i + 1)" />
+                </div>
+              }
+            }
+            @if (screenshots.length > 6) {
+              <div class="game-dialog-shot game-dialog-shot--more">
+                <span class="game-dialog-shot-more-text">+{{ screenshots.length - 6 }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (hasContent) {
+        <div class="game-dialog-actions">
+          <button type="button" class="game-dialog-link" (click)="goToContent()">
+            [ 玩后感 ]
+          </button>
+        </div>
+      }
+    </div>
+  </article>
+  }
+</div>
+
+<ng-template #extra>
+  <nz-tag flTag flTagVariant="outline" flTagInteractive>
+    <span nz-typography class="game-dialog-tag-text" (click)="imgDescription()">关于图片的说明</span>
+  </nz-tag>
+</ng-template>
+
+<ng-template #imgText>
+  <p nz-typography>抽屉中的游戏截图为保证网站加载速度，使用了 <mark>压缩后的图片</mark>，单张约 300-500KB。</p>
+  <p nz-typography>点击查看原图时展示的是一次压缩版本，<mark>画质会有一定损失</mark>，单张约 2-4MB。</p>
+  <p nz-typography>未压缩原图（15MB+）不放在站内，如有需要可 <mark>联系再花获取</mark>。</p>
+</ng-template>

@@ -1,57 +1,41 @@
-@if (isOverview) {
-  <nz-card class="game-card-surface game-card-surface--overview" [nzCover]="coverTemplate">
-    <div class="game-overview-body" nz-flex [nzVertical]="true" nzGap="small">
-      <div class="game-overview-title">
-        <span nz-typography class="game-overview-name">{{game.name}}</span>
-        @if (game.tag !== '') {
-          <nz-tag flTag flTagVariant="soft" class="game-platform-tag">
-            <span nz-typography class="game-tag-text">{{game.tag}}</span>
-          </nz-tag>
-        }
-      </div>
-      <div class="game-overview-meta">
-        @if (showTime) {
-          <span nz-typography class="game-overview-label">游戏时长</span>
-          <strong class="game-metric">{{game.time}}小时</strong>
-        } @else {
-          <span nz-typography class="game-overview-label game-overview-label--full game-status-emphasis">{{ statusLabel }}</span>
-        }
-      </div>
-      <div class="game-overview-meta">
-        @if (showStatusDate) {
-          <span nz-typography class="game-overview-label">{{ statusLabel }}</span>
-          <strong class="game-metric">{{displayStatusDate | date:'yyyy-MM-dd'}}</strong>
-        } @else if (currentPlayStatus === 'till_now') {
-          <span nz-typography class="game-overview-label game-overview-label--full game-status-emphasis">至今仍在游玩</span>
-        } @else if (currentPlayStatus === 'playing') {
-          <span nz-typography class="game-overview-label game-overview-label--placeholder" aria-hidden="true">
-            正在努力游玩中
-          </span>
-        }
-      </div>
+<nz-card
+  class="game-card-surface game-card-surface--overview"
+  [class.game-card-surface--recommended]="isRecommended"
+  [class.game-card-surface--not-recommended]="isNotRecommended"
+  [nzCover]="coverTemplate"
+  (click)="onCardClick($event)"
+>
+  <div class="game-overview-body" nz-flex [nzVertical]="true" nzGap="small">
+    <div class="game-overview-title">
+      <span nz-typography class="game-overview-name">{{game.name}}</span>
+      @if (game.tag !== '') {
+        <nz-tag flTag flTagVariant="soft" class="game-platform-tag">
+          <span nz-typography class="game-tag-text">{{game.tag}}</span>
+        </nz-tag>
+      }
     </div>
-  </nz-card>
-} @else {
-  <nz-card class="game-card-surface" [nzCover]="coverTemplate" [nzActions]="[actions]">
-    <nz-card-meta [nzTitle]="nameTemplate" [nzDescription]="game.description"></nz-card-meta>
-  </nz-card>
-}
-
-<ng-template #nameTemplate>
-  <div nz-flex [nzVertical]="true" nzAlign="center" nzJustify="center" nzGap="small">
-    <div nz-flex nzJustify="center" nzAlign="center" nzGap="small">
-      <span nz-typography class="game_name">{{game.name}}</span>
-      <nz-tag flTag flTagVariant="outline">
-        <span nz-typography class="game-tag-text">{{game.platform}}</span>
-      </nz-tag>
+    <div class="game-overview-meta">
+      @if (showTime) {
+        <span nz-typography class="game-overview-label">游戏时长</span>
+        <strong class="game-metric">{{game.time}}小时</strong>
+      } @else {
+        <span nz-typography class="game-overview-label game-overview-label--full game-status-emphasis">{{ statusLabel }}</span>
+      }
     </div>
-    @if (game.tag !== '') {
-      <nz-tag flTag flTagVariant="soft">
-        <span nz-typography class="game-tag-text">{{game.tag}}</span>
-      </nz-tag>
-    }
+    <div class="game-overview-meta">
+      @if (showStatusDate) {
+        <span nz-typography class="game-overview-label">{{ statusLabel }}</span>
+        <strong class="game-metric">{{displayStatusDate | date:'yyyy-MM-dd'}}</strong>
+      } @else if (currentPlayStatus === 'till_now') {
+        <span nz-typography class="game-overview-label game-overview-label--full game-status-emphasis">至今仍在游玩</span>
+      } @else if (currentPlayStatus === 'playing') {
+        <span nz-typography class="game-overview-label game-overview-label--placeholder" aria-hidden="true">
+          正在努力游玩中
+        </span>
+      }
+    </div>
   </div>
-</ng-template>
+</nz-card>
 
 <ng-template #coverTemplate>
   <div class="img-container">
@@ -61,55 +45,10 @@
       class="imgFirst"
       [src]="game.imgFirst[0].url"
     />
-  </div>
-</ng-template>
-
-<ng-template #actions>
-  <div class="game-actions" nz-flex nzJustify="space-evenly" nzAlign="center">
-    @if (showTime) {
-      <span nz-typography class="game-info">总时长
-        @if (isMobile) {
-          <br>
-        }
-        <strong class="game-metric">{{game.time}}小时</strong>
-      </span>
-    }
-    @if (showStatusDate) {
-      <span nz-typography class="game-info">
-        {{ statusLabel }}
-        @if (isMobile) {
-          <br>
-        }
-        <strong class="game-metric">{{displayStatusDate | date:'yyyy-MM-dd'}}</strong>
-      </span>
-    } @else if (currentPlayStatus === 'till_now') {
-      <span nz-typography class="game-info game-status-emphasis">
-        至今仍在游玩
-      </span>
-    } @else {
-      <span nz-typography class="game-info game-status-emphasis">
-        正在努力游玩中
-      </span>
-    }
-
-    @if (game.img?.length > 0) {
-      <span nz-typography class="img_button" (click)="imgPreview()">[游戏截图]</span>
-    }
-    @if (game.content) {
-      <span nz-typography class="img_button" (click)="goToContent(game.content)">[玩后感]</span>
+    @if (isRecommended) {
+      <span class="game-recommend-badge game-recommend-badge--recommended">👍 推荐</span>
+    } @else if (isNotRecommended) {
+      <span class="game-recommend-badge game-recommend-badge--not-recommended">不推荐</span>
     }
   </div>
 </ng-template>
-
-<ng-template #extra>
-  <nz-tag flTag flTagVariant="outline" flTagInteractive>
-    <span nz-typography class="game-tag-text game-tag-clickable" (click)="imgDescription()">关于图片的说明</span>
-  </nz-tag>
-</ng-template>
-
-<ng-template #imgText>
-  <p nz-typography>抽屉中的游戏截图为保证网站加载速度，使用了 <mark>压缩后的图片</mark>，单张约 300-500KB。</p>
-  <p nz-typography>点击查看原图时展示的是一次压缩版本，<mark>画质会有一定损失</mark>，单张约 2-4MB。</p>
-  <p nz-typography>未压缩原图（15MB+）不放在站内，如有需要可 <mark>联系再花获取</mark>。</p>
-</ng-template>
-

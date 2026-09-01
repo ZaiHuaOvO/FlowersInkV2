@@ -35,20 +35,6 @@
     font-weight: 800;
 }
 
-.game-layout-switch {
-    justify-self: end;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px;
-    border: 1px solid var(--fi-border);
-    border-radius: var(--fi-radius-sm);
-    background: var(--fi-surface);
-    box-shadow: var(--fi-shadow-soft);
-    transition: border-color var(--fi-motion-fast) var(--fi-ease-standard),
-        box-shadow var(--fi-motion-fast) var(--fi-ease-standard);
-}
-
 .game-grid {
     width: 100%;
     transition: opacity var(--fi-motion-normal) var(--fi-ease-standard);
@@ -116,9 +102,5 @@
 
     .game-toolbar__spacer {
         display: none;
-    }
-
-    .game-layout-switch {
-        justify-self: center;
     }
 }

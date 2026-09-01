@@ -1,8 +1,3 @@
-.game_name {
-    font-weight: bolder;
-    color: var(--fi-primary-hover, #7a4d23);
-}
-
 .game-tag-text {
     color: var(--fi-primary-hover, #7a4d23);
 }
@@ -25,18 +20,11 @@
 
 .game-card-surface--overview {
     overflow: hidden;
+    cursor: pointer;
 }
 
 .game-card-surface--overview:hover {
     transform: translateY(var(--fi-motion-lift-card));
-}
-
-.game-actions {
-    cursor: default;
-}
-
-.game-info {
-    cursor: default;
 }
 
 .game-metric {
@@ -48,31 +36,36 @@
     font-weight: 700;
 }
 
-.game-tag-clickable {
-    cursor: pointer;
+/* ── 推荐样式：推荐 = 深棕描边 + 暖色提示，不推荐 = 灰化降饱和 ──
+   .ant-card 的 border/background/box-shadow 在全局 styles.css 里带 !important，
+   但走的是 CSS 变量（--fi-border / --fi-card-bg / --fi-shadow-soft），
+   所以在这里覆盖变量即可生效。 */
+.game-card-surface--recommended {
+    --fi-border: var(--fi-primary-hover, #7a4d23);
+    --fi-card-bg: #fbf6f0;
+    --fi-shadow-soft: 0 0 0 1px var(--fi-primary-hover, #7a4d23),
+        0 8px 18px rgba(58, 39, 22, 0.08);
 }
 
-.img_button {
-    cursor: pointer;
-    padding: 2px 8px;
-    border-radius: var(--fi-radius-xs);
-    transition: background-color var(--fi-motion-fast) var(--fi-ease-standard),
-        color var(--fi-motion-fast) var(--fi-ease-standard);
+.game-card-surface--recommended .game-overview-name {
+    color: var(--fi-primary-hover, #7a4d23);
 }
 
-.img_button:hover {
-    background: rgba(139, 90, 43, 0.08);
-    color: var(--fi-primary);
+.game-card-surface--not-recommended {
+    --fi-border: #d1d5db;
+    opacity: 0.82;
 }
 
-.img_button--disabled {
-    color: var(--fi-text-muted) !important;
-    cursor: not-allowed !important;
-    pointer-events: none;
-    opacity: 0.5;
+.game-card-surface--not-recommended .img-container img {
+    filter: grayscale(0.75) brightness(0.96);
+}
+
+.game-card-surface--not-recommended .game-overview-name {
+    color: var(--fi-text-muted);
 }
 
 .img-container {
+    position: relative;
     width: 100%;
     aspect-ratio: 192 / 72;
     overflow: hidden;
@@ -82,6 +75,29 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.game-recommend-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+.game-recommend-badge--recommended {
+    background: var(--fi-primary-hover, #7a4d23);
+}
+
+.game-recommend-badge--not-recommended {
+    background: #8a8a8a;
 }
 
 .game-overview-body {

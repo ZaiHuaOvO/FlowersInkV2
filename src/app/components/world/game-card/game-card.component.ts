@@ -1,18 +1,10 @@
-import { NgClass, DatePipe } from '@angular/common';
-import { Component, DestroyRef, Input, TemplateRef, ViewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzImageModule } from 'ng-zorro-antd/image';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
-import { GamePicComponent } from './game-pic/game-pic.component';
-import { WindowService } from '../../../services/window.service';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
-
-type GameViewMode = 'detailed' | 'overview';
 
 @Component({
   selector: 'flower-game-card',
@@ -22,10 +14,7 @@ type GameViewMode = 'detailed' | 'overview';
     NzTagModule,
     NzFlexModule,
     NzTypographyModule,
-    NzImageModule,
     DatePipe,
-    NzDrawerModule,
-    NzDividerModule,
     FlTagDirective,
   ],
   templateUrl: './game-card.component.html',
@@ -33,54 +22,18 @@ type GameViewMode = 'detailed' | 'overview';
 })
 export class GameCardComponent {
   @Input() game: any;
-  @Input() viewMode: GameViewMode = 'detailed';
-  isMobile: boolean = false;
-  @ViewChild('time') time!: TemplateRef<any>;
-  @ViewChild('finishDate') finishDate!: TemplateRef<any>;
-  @ViewChild('imgPrivew') imgPrivew!: TemplateRef<any>;
-  @ViewChild('content') content!: TemplateRef<any>;
-  @ViewChild('extra') extra!: TemplateRef<any>;
-  @ViewChild('imgText') imgText!: TemplateRef<any>;
-  constructor(
-    private msg: NzMessageService,
-    private drawerService: NzDrawerService,
-    private window: WindowService,
-    private readonly destroyRef: DestroyRef,
-  ) {
-    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
-      this.isMobile = isMobile;
-    });
-  }
-  imgPreview(): void {
+  @Output() cardClick = new EventEmitter<MouseEvent>();
 
-    const data = this.game.img.map((img: any) => { return img.url });
-
-    // this.nzImageService.preview(data, { nzZoom: 1, nzRotate: 0 });
-    this.drawerService.create({
-      nzTitle: this.game.name + '游戏截图',
-      // nzFooter: 'Footer',
-      nzExtra: this.extra,
-      nzContent: GamePicComponent,
-      nzPlacement: 'bottom',
-      nzHeight: this.isMobile ? '75vh' : '50vh',
-      nzData: {
-        value: data
-      }
-    });
+  onCardClick(event: MouseEvent): void {
+    this.cardClick.emit(event);
   }
 
-  goToContent(url: string): void {
-    window.open(url, '_blank')
+  get isRecommended(): boolean {
+    return this.game?.recommend === 'recommended';
   }
 
-  imgDescription(): void {
-    this.msg.info(this.imgText, {
-      nzDuration: 8000
-    });
-  }
-
-  get isOverview(): boolean {
-    return this.viewMode === 'overview';
+  get isNotRecommended(): boolean {
+    return this.game?.recommend === 'not_recommended';
   }
 
   get showTime(): boolean {
@@ -111,5 +64,4 @@ export class GameCardComponent {
   get currentPlayStatus(): 'till_now' | 'abandoned' | 'completed' | 'playing' {
     return this.game?.playStatus ?? 'completed';
   }
-
 }
