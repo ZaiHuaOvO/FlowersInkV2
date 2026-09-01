@@ -1,6 +1,24 @@
 {
-  "total": 342,
+  "total": 344,
   "records": [
+    {
+      "uid": "a45f26f",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "游戏不推荐角标加 👎，新增「一般」推荐档与中性角标样式（卡片与弹窗）",
+      "important": false,
+      "repo": "site",
+      "sha": "a45f26f8dc6a9c264cc3da25211698bf1121ba13"
+    },
+    {
+      "uid": "9c22635",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "游戏推荐字段新增「一般」（average）档",
+      "important": false,
+      "repo": "api",
+      "sha": "9c226354983460e2d5bd4037c0c31a344ce24d1f"
+    },
     {
       "uid": "652b370",
       "type": "feat",
