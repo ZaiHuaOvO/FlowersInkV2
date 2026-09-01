@@ -1,6 +1,15 @@
 {
-  "total": 344,
+  "total": 345,
   "records": [
+    {
+      "uid": "5d6081b",
+      "type": "style",
+      "date": "2026-09-01",
+      "desc": "游戏「一般」推荐角标改为浅棕色",
+      "important": false,
+      "repo": "site",
+      "sha": "5d6081b773af36d26529e995ff0bc8b8f4dc9226"
+    },
     {
       "uid": "a45f26f",
       "type": "feat",
