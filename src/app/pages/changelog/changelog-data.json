@@ -1,6 +1,24 @@
 {
-  "total": 336,
+  "total": 338,
   "records": [
+    {
+      "uid": "2ae4150",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "游戏页改为总览卡片，点击卡片弹出详情大卡片（支持 /game/:id 直达路由），新增推荐/不推荐角标与卡片样式",
+      "important": true,
+      "repo": "site",
+      "sha": "2ae4150d39871d365df130088e6b55f7ab02ff62"
+    },
+    {
+      "uid": "c85ddf7",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "游戏新增 recommend 推荐字段（推荐/不推荐/未设置）",
+      "important": false,
+      "repo": "api",
+      "sha": "c85ddf7f9808631ee21463cc7ac343065ec94155"
+    },
     {
       "uid": "6070686",
       "type": "feat",
