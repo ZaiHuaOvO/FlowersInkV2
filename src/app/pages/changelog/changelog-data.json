@@ -1,6 +1,15 @@
 {
-  "total": 340,
+  "total": 341,
   "records": [
+    {
+      "uid": "a8c4525",
+      "type": "style",
+      "date": "2026-09-01",
+      "desc": "游戏详情弹窗的玩后感入口移入信息行并右对齐，通关时间/游戏时长保持左对齐",
+      "important": false,
+      "repo": "site",
+      "sha": "a8c4525e00db69c5fb3855b6a855b3596d4b524f"
+    },
     {
       "uid": "091c61e",
       "type": "feat",
