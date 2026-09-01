@@ -1,6 +1,15 @@
 {
-  "total": 346,
+  "total": 347,
   "records": [
+    {
+      "uid": "99d8e58",
+      "type": "style",
+      "date": "2026-09-01",
+      "desc": "推荐游戏卡片改为深棕卡底 + 浅色反色文字（含游戏名右侧 tag）",
+      "important": false,
+      "repo": "site",
+      "sha": "99d8e5855d33d9584f7fba222d49f8885d76e2c7"
+    },
     {
       "uid": "abe177f",
       "type": "style",
