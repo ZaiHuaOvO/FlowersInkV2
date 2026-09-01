@@ -1,6 +1,15 @@
 {
-  "total": 341,
+  "total": 342,
   "records": [
+    {
+      "uid": "652b370",
+      "type": "feat",
+      "date": "2026-09-01",
+      "desc": "游戏详情弹窗截图按顺序逐张加载，未加载图片显示转圈占位",
+      "important": false,
+      "repo": "site",
+      "sha": "652b3708f3b5d034fbe0298af6694f0d60a2ed07"
+    },
     {
       "uid": "a8c4525",
       "type": "style",
