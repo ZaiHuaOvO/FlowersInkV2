@@ -28,4 +28,15 @@ export class BlogCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  /** 卡片预览：有摘要显示摘要，否则回退显示正文，单行截断 */
+  get excerpt(): string {
+    const blog = this.blog;
+    const description =
+      typeof blog?.description === 'string' ? blog.description.trim() : '';
+    if (description) {
+      return description;
+    }
+    return typeof blog?.content === 'string' ? blog.content.trim() : '';
+  }
 }
