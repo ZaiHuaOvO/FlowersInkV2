@@ -35,7 +35,7 @@
     <button type="button" class="gh-retry" (click)="load()">重试</button>
   </div>
   } @else {
-  <div class="gh-chart">
+  <div class="gh-chart" #ghChart>
     <div class="gh-graph">
       <div class="gh-months">
         @for (col of columns; track $index) {

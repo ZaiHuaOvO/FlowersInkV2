@@ -106,12 +106,12 @@
   background: #ebedf0;
 }
 
-/* GitHub 浅色主题绿块色阶（0 即无提交灰块） */
+/* 站点主色（暖棕）色阶，与 /changelog 热力图同源；0 即无提交灰块 */
 .gh-cell--0 { background: #ebedf0; }
-.gh-cell--1 { background: #9be9a8; }
-.gh-cell--2 { background: #40c463; }
-.gh-cell--3 { background: #30a14e; }
-.gh-cell--4 { background: #216e39; }
+.gh-cell--1 { background: #f2e6d5; }
+.gh-cell--2 { background: #e0c69b; }
+.gh-cell--3 { background: #b98f55; }
+.gh-cell--4 { background: #8b5a2b; }
 
 /* ── 图例（跟随图体右缘对齐） ── */
 .gh-legend {

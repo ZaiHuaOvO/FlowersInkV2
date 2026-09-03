@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import {
   GithubContribService,
   GithubContributionsData,
@@ -42,6 +42,8 @@ function dateKey(date: Date): string {
 export class GithubContributionsComponent implements OnInit {
   private readonly service = inject(GithubContribService);
 
+  @ViewChild('ghChart') ghChart?: ElementRef<HTMLDivElement>;
+
   loading = true;
   error = false;
 
@@ -49,6 +51,9 @@ export class GithubContributionsComponent implements OnInit {
   totalText = '';
   years: number[] = [];
   selectedKey = 'last';
+
+  private hasData = false;
+  private requestSeq = 0;
 
   readonly skeletonColumns = Array.from({ length: 52 }, (_, i) => i);
   readonly skeletonRows = [0, 1, 2, 3, 4, 5, 6];
@@ -66,19 +71,33 @@ export class GithubContributionsComponent implements OnInit {
   }
 
   load(): void {
-    this.loading = true;
     this.error = false;
+    const silent = this.hasData;
+    const seq = ++this.requestSeq;
+
+    if (!silent) {
+      this.loading = true;
+    }
 
     const year = this.selectedKey === 'last' ? undefined : Number(this.selectedKey);
     this.service.getContributions(year).subscribe({
       next: (res: object) => {
+        if (seq !== this.requestSeq) {
+          return;
+        }
         const payload = (res as { data: GithubContributionsData })['data'];
         this.applyPayload(payload);
+        this.hasData = true;
         this.loading = false;
       },
       error: () => {
-        this.loading = false;
-        this.error = true;
+        if (seq !== this.requestSeq) {
+          return;
+        }
+        if (!silent) {
+          this.loading = false;
+          this.error = true;
+        }
       },
     });
   }
@@ -101,6 +120,33 @@ export class GithubContributionsComponent implements OnInit {
     const total = payload.total ?? 0;
     this.totalText = `${total.toLocaleString('en-US')} contributions ${payload.label ?? ''}`;
     this.columns = this.buildColumns(payload);
+    this.animateChartIn();
+  }
+
+  /** 切换年份/刷新数据后用 Web Animations 对整图做一次淡入，避免闪烁 */
+  private animateChartIn(): void {
+    const el = this.ghChart?.nativeElement;
+    if (!el || typeof el.animate !== 'function') {
+      return;
+    }
+    try {
+      el.style.opacity = '0';
+      el.animate(
+        [
+          { opacity: 0, transform: 'translateY(6px)' },
+          { opacity: 1, transform: 'translateY(0)' },
+        ],
+        { duration: 260, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+      ).onfinish = () => {
+        el.style.opacity = '';
+      };
+      // 兜底：页面处于后台/动画被暂停时也能恢复不透明，避免卡在隐藏态
+      window.setTimeout(() => {
+        el.style.opacity = '';
+      }, 500);
+    } catch {
+      el.style.opacity = '';
+    }
   }
 
   private computeYearTabs(): number[] {
