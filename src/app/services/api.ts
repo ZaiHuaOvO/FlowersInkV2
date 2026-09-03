@@ -23,4 +23,5 @@ export const API = {
   MODULE: '/module',
   LINK: '/site/link',
   LINK_ARTICLES: '/site/link/articles',
+  GITHUB_CONTRIBUTIONS: '/github/contributions',
 };

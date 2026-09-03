@@ -22,6 +22,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { EditMessageComponent } from '../../components/about/edit-message/edit-message.component';
+import { GithubContributionsComponent } from '../../components/about/github-contributions/github-contributions.component';
 import { AboutService } from './about.service';
 import { WindowService } from '../../services/window.service';
 import { QuickUp } from '../../common_ui/animations/animation';
@@ -83,6 +84,7 @@ const expandCollapse = trigger('expandCollapse', [
     DatePipe,
     RouterModule,
     EditMessageComponent,
+    GithubContributionsComponent,
   ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css',
