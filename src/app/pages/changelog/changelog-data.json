@@ -1,6 +1,15 @@
 {
-  "total": 357,
+  "total": 358,
   "records": [
+    {
+      "uid": "4eda259",
+      "type": "feat",
+      "date": "2026-09-03",
+      "desc": "GitHub 热力图改为一次性加载四组数据：进入页面用 forkJoin 并发拉取「近一年 + 最近三年」，加载完成前显示占位；年份/近一年切换纯静态切换、不再调用 API；配合服务端 6h 缓存与客户端 15 分钟缓存，回访不再重复请求 GitHub",
+      "important": false,
+      "repo": "site",
+      "sha": "4eda259b921330d56ebf3561db9f303e87df977b"
+    },
     {
       "uid": "652dd19",
       "type": "style",
