@@ -14,10 +14,10 @@ export class BlogService {
     return this.http.getCached(API.BLOG, data, HTTP_CACHE_TTL.LIST);
   }
 
-  getBlogDetail(Id: string): Observable<object> {
+  getBlogDetail(Id: string, fid?: string): Observable<object> {
     return this.http.getCached(
       API.BLOG + `/detail/${Id}`,
-      undefined,
+      fid ? { fid } : undefined,
       HTTP_CACHE_TTL.DETAIL
     );
   }

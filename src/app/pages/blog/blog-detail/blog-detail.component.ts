@@ -45,6 +45,7 @@ import { deriveWebpVariants } from '../../../shared/utils/image-url.util';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
+import { VisitorTrackingService } from '../../../services/visitor-tracking.service';
 
 @Component({
   selector: 'flower-blog-detail',
@@ -127,6 +128,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private msg: NzMessageService,
     private title: Title,
     private nzImageService: NzImageService,
+    private visitorTrackingService: VisitorTrackingService,
     destroyRef: DestroyRef,
   ) {
     this.destroyRef = destroyRef;
@@ -208,8 +210,9 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getBlogDetail(): void {
+    const fid = this.visitorTrackingService.getVisitorFid() || undefined;
     this.loading = true;
-    this.blog.getBlogDetail(this.Id).subscribe((res: any) => {
+    this.blog.getBlogDetail(this.Id, fid).subscribe((res: any) => {
       this.data = res['data'];
       this.blogLikeCount = Number(this.data.likes ?? 0);
       this.restoreBlogLikeState();

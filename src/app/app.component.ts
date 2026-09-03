@@ -7,7 +7,7 @@ import { FooterComponent } from './components/website/footer/footer.component';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { BackTopComponent } from './components/website/back-top/back-top.component';
 import { RoutePrefetchService } from './services/route-prefetch.service';
-import { WelcomeService } from './pages/welcome/welcome.service';
+import { VisitorTrackingService } from './services/visitor-tracking.service';
 
 @Component({
   selector: 'app-root',
@@ -30,13 +30,11 @@ export class AppComponent implements AfterViewInit {
   constructor(
     private nzConfigService: NzConfigService,
     private routePrefetchService: RoutePrefetchService,
-    private welcomeService: WelcomeService
+    private visitorTrackingService: VisitorTrackingService,
   ) {}
 
   ngAfterViewInit(): void {
-    this.welcomeService.visitWeb().subscribe({
-      error: () => {},
-    });
+    this.visitorTrackingService.startRouteTracking();
     this.nzConfigService.set('spin', { nzIndicator: this.loadingTemplate });
     this.routePrefetchService.startIdlePreload();
   }
