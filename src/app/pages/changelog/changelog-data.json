@@ -1,6 +1,15 @@
 {
-  "total": 350,
+  "total": 351,
   "records": [
+    {
+      "uid": "f3328c3",
+      "type": "style",
+      "date": "2026-09-03",
+      "desc": "博客卡片摘要与底部元信息优化：摘要字号提至 lg 正文色、加大行高与留白；底部分类/标签/阅读/日期改「·」分隔并降为 sm 弱色，去掉阅读量眼睛图标",
+      "important": false,
+      "repo": "site",
+      "sha": "f3328c311ff2909a2d38dadb8cb5401143f7098d"
+    },
     {
       "uid": "2eb6ddd",
       "type": "fix",
