@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import {
   GithubContribService,
   GithubContributionsData,
@@ -32,6 +33,7 @@ function dateKey(date: Date): string {
 @Component({
   selector: 'flower-github-contributions',
   standalone: true,
+  imports: [NzTooltipModule],
   templateUrl: './github-contributions.component.html',
   styleUrl: './github-contributions.component.css',
 })

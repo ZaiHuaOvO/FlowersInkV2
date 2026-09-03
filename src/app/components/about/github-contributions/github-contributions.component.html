@@ -46,7 +46,8 @@
         @for (col of columns; track $index) {
         <div class="gh-col">
           @for (cell of col.cells; track $index) {
-          <span class="gh-cell gh-cell--{{ cell.level }}" [title]="cellTitle(cell)"></span>
+          <span class="gh-cell gh-cell--{{ cell.level }}" nz-tooltip [nzTooltipTitle]="cellTitle(cell)"
+            nzTooltipTrigger="hover" [nzTooltipMouseEnterDelay]="0" [nzTooltipMouseLeaveDelay]="0"></span>
           }
         </div>
         }
