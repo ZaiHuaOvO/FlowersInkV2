@@ -1,6 +1,15 @@
 {
-  "total": 354,
+  "total": 355,
   "records": [
+    {
+      "uid": "637ec88",
+      "type": "style",
+      "date": "2026-09-03",
+      "desc": "关于页 GitHub 热力图：色块由绿改为站点主配色暖棕色阶（与 changelog 同源，最深为主色 #8b5a2b），无提交仍为灰块；年份切换不再闪骨架，保留图表原位刷新并对整图做淡入过渡",
+      "important": false,
+      "repo": "site",
+      "sha": "637ec88493cc32a294f6baed9e9ded16bdfaa95d"
+    },
     {
       "uid": "98706d1",
       "type": "style",
