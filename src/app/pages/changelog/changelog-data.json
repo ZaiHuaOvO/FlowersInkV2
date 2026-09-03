@@ -1,6 +1,15 @@
 {
-  "total": 349,
+  "total": 350,
   "records": [
+    {
+      "uid": "2eb6ddd",
+      "type": "fix",
+      "date": "2026-09-03",
+      "desc": "修复博客/点滴等带水印图片上传压缩失败（400）：水印改为按输出尺寸合成，>960px 宽图不再报 composite 冲突；水印字体缺失/异常时给出明确提示",
+      "important": false,
+      "repo": "api",
+      "sha": "2eb6ddd111a84dc52666d5e253db3ccf5b239159"
+    },
     {
       "uid": "67072c9",
       "type": "feat",
