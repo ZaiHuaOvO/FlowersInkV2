@@ -1,6 +1,15 @@
 {
-  "total": 356,
+  "total": 357,
   "records": [
+    {
+      "uid": "652dd19",
+      "type": "style",
+      "date": "2026-09-03",
+      "desc": "GitHub 热力图格子 hover 改用 ng-zorro nz-tooltip 展示提交数提示（如「42 次提交，2025年12月26日」），鼠标移入即显、移出即隐，替换原生 title",
+      "important": false,
+      "repo": "site",
+      "sha": "652dd19d16b5296bc64dfca7e568f3ab089e27ca"
+    },
     {
       "uid": "97e4963",
       "type": "style",
