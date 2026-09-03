@@ -11,10 +11,9 @@
   <h4 nz-typography class="blog_title"> {{blog.title}} </h4>
   <p nz-typography nzEllipsis [nzContent]="excerpt" [nzEllipsisRows]="1"></p>
   <div class="blog_msg" nz-flex nzAlign="center" nzJustify="space-between">
-    <div nz-flex nzAlign="center" nzGap="small" class="blog_meta_group">
-      <span nz-typography nzType="secondary" class="blog_meta_text">{{blog.type}} | {{blog.tag}} </span>
-      <span nz-typography nzType="secondary" class="blog_meta_text"><span nz-icon nzType="eye" nzTheme="outline"></span>
-        {{blog.views}} | </span>
+    <div nz-flex nzAlign="center" class="blog_meta_group">
+      <span nz-typography nzType="secondary" class="blog_meta_text">{{blog.type}} · {{blog.tag}}</span>
+      <span nz-typography nzType="secondary" class="blog_meta_text">{{blog.views}} 阅读</span>
       <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
     </div>
   </div>
