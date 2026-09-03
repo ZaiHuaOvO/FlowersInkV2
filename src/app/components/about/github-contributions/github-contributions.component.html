@@ -7,10 +7,10 @@
     }
     <nav class="gh-tabs" aria-label="时间范围筛选">
       <button type="button" class="gh-tab" [class.gh-tab--active]="selectedKey === 'last'"
-        (click)="selectKey('last')">近一年</button>
+        [disabled]="loading || error" (click)="selectKey('last')">近一年</button>
       @for (year of years; track year) {
       <button type="button" class="gh-tab" [class.gh-tab--active]="selectedKey === ('' + year)"
-        (click)="selectKey('' + year)">{{ year }}</button>
+        [disabled]="loading || error" (click)="selectKey('' + year)">{{ year }}</button>
       }
     </nav>
   </header>
@@ -32,7 +32,7 @@
   } @else if (error) {
   <div class="gh-state gh-state--error">
     <p class="gh-error-text">GitHub 贡献加载失败，请稍后重试。</p>
-    <button type="button" class="gh-retry" (click)="load()">重试</button>
+    <button type="button" class="gh-retry" (click)="retry()">重试</button>
   </div>
   } @else {
   <div class="gh-chart" #ghChart>

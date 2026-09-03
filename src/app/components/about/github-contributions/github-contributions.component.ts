@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { forkJoin, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import {
   GithubContribService,
@@ -50,98 +52,110 @@ export class GithubContributionsComponent implements OnInit {
   years: number[] = [];
   selectedKey = 'last';
 
-  private hasData = false;
-  private requestSeq = 0;
+  /** 四个筛选项数据一次性载入后按 key 缓存，筛选切换不再次请求 API */
+  private dataByKey: Record<string, GithubContributionsData> = {};
+  private tabKeys: string[] = ['last'];
 
   readonly skeletonColumns = Array.from({ length: 52 }, (_, i) => i);
   readonly skeletonRows = [0, 1, 2, 3, 4, 5, 6];
 
   ngOnInit(): void {
-    this.load();
+    this.years = this.computeYearTabs();
+    this.loadAll();
   }
 
+  retry(): void {
+    if (this.loading) {
+      return;
+    }
+    if (Object.keys(this.dataByKey).length === 0) {
+      this.loadAll();
+      return;
+    }
+    this.fetchSelected();
+  }
+
+  /** 首次进入：forkJoin 一次性拉取「近一年 + 最近三年」四组数据 */
+  private loadAll(): void {
+    this.loading = true;
+    this.error = false;
+
+    const yearList = this.computeYearTabs();
+    this.years = yearList;
+    this.tabKeys = ['last', ...yearList.map(String)];
+
+    forkJoin(
+      this.tabKeys.map((key) =>
+        this.fetchOne(key).pipe(
+          map((payload) => ({ key, payload })),
+          catchError(() => of(null)),
+        ),
+      ),
+    ).subscribe((results) => {
+      const loaded: Record<string, GithubContributionsData> = {};
+      for (const item of results) {
+        if (item && item.payload) {
+          loaded[item.key] = item.payload;
+        }
+      }
+      this.dataByKey = loaded;
+
+      if (!Object.keys(loaded).length) {
+        this.loading = false;
+        this.error = true;
+        return;
+      }
+
+      this.loading = false;
+      const activeKey = loaded['last'] ? 'last' : this.tabKeys.find((k) => loaded[k])!;
+      this.selectedKey = activeKey;
+      this.applyPayload(loaded[activeKey]);
+    });
+  }
+
+  /** 切换筛选：直接切换已缓存数据，不做 API 请求；缺数据时单独补拉 */
   selectKey(key: string): void {
-    if (key === this.selectedKey) {
+    if (this.loading || key === this.selectedKey) {
       return;
     }
     this.selectedKey = key;
-    this.load();
+
+    const payload = this.dataByKey[key];
+    if (payload) {
+      this.error = false;
+      this.applyPayload(payload);
+      return;
+    }
+    this.fetchSelected();
   }
 
-  load(): void {
+  /** 补拉当前筛选项（用于个别年份首次加载失败的情况） */
+  private fetchSelected(): void {
+    const key = this.selectedKey;
+    this.loading = true;
     this.error = false;
-    const silent = this.hasData;
-    const seq = ++this.requestSeq;
-
-    if (!silent) {
-      this.loading = true;
-    }
-
-    const year = this.selectedKey === 'last' ? undefined : Number(this.selectedKey);
-    this.service.getContributions(year).subscribe({
-      next: (res: object) => {
-        if (seq !== this.requestSeq) {
+    this.fetchOne(key).subscribe({
+      next: (payload) => {
+        this.loading = false;
+        if (!payload) {
+          this.error = true;
           return;
         }
-        const payload = (res as { data: GithubContributionsData })['data'];
+        this.dataByKey[key] = payload;
         this.applyPayload(payload);
-        this.hasData = true;
-        this.loading = false;
       },
       error: () => {
-        if (seq !== this.requestSeq) {
-          return;
-        }
-        if (!silent) {
-          this.loading = false;
-          this.error = true;
-        }
+        this.loading = false;
+        this.error = true;
       },
     });
   }
 
-  cellTitle(cell: GhDayCell): string {
-    const [year, monthRaw, dayRaw] = cell.date.split('-');
-    const dateText = `${year}年${monthRaw}月${dayRaw}日`;
-    return `${cell.count} 次提交，${dateText}`;
-  }
-
-  private applyPayload(payload: GithubContributionsData): void {
-    this.years = this.computeYearTabs();
-    const total = payload.total ?? 0;
-    const period =
-      payload.mode === 'year' && payload.year !== undefined
-        ? `${payload.year}年`
-        : '近一年';
-    this.totalText = `${total.toLocaleString('en-US')} 次提交，${period}`;
-    this.columns = this.buildColumns(payload);
-    this.animateChartIn();
-  }
-
-  /** 切换年份/刷新数据后用 Web Animations 对整图做一次淡入，避免闪烁 */
-  private animateChartIn(): void {
-    const el = this.ghChart?.nativeElement;
-    if (!el || typeof el.animate !== 'function') {
-      return;
-    }
-    try {
-      el.style.opacity = '0';
-      el.animate(
-        [
-          { opacity: 0, transform: 'translateY(6px)' },
-          { opacity: 1, transform: 'translateY(0)' },
-        ],
-        { duration: 260, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
-      ).onfinish = () => {
-        el.style.opacity = '';
-      };
-      // 兜底：页面处于后台/动画被暂停时也能恢复不透明，避免卡在隐藏态
-      window.setTimeout(() => {
-        el.style.opacity = '';
-      }, 500);
-    } catch {
-      el.style.opacity = '';
-    }
+  private fetchOne(key: string) {
+    const year = key === 'last' ? undefined : Number(key);
+    return this.service.getContributions(year).pipe(
+      map((res: object) => (res as { data: GithubContributionsData })['data']),
+    );
   }
 
   private computeYearTabs(): number[] {
@@ -154,6 +168,49 @@ export class GithubContributionsComponent implements OnInit {
       }
     }
     return tabs;
+  }
+
+  private applyPayload(payload: GithubContributionsData): void {
+    const total = payload.total ?? 0;
+    const period =
+      payload.mode === 'year' && payload.year !== undefined
+        ? `${payload.year}年`
+        : '近一年';
+    this.totalText = `${total.toLocaleString('en-US')} 次提交，${period}`;
+    this.columns = this.buildColumns(payload);
+    this.animateChartIn();
+  }
+
+  /** 切换筛选/刷新后对整图做一次淡入，避免生硬跳变 */
+  private animateChartIn(): void {
+    const el = this.ghChart?.nativeElement;
+    if (!el || typeof el.animate !== 'function') {
+      return;
+    }
+    try {
+      el.style.opacity = '0';
+      el.animate(
+        [
+          { opacity: 0, transform: 'translateY(6px)' },
+          { opacity: 1, transform: 'translateY(0)' },
+        ],
+        { duration: 220, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+      ).onfinish = () => {
+        el.style.opacity = '';
+      };
+      // 兜底：页面处于后台/动画被暂停时也能恢复不透明
+      window.setTimeout(() => {
+        el.style.opacity = '';
+      }, 450);
+    } catch {
+      el.style.opacity = '';
+    }
+  }
+
+  cellTitle(cell: GhDayCell): string {
+    const [year, monthRaw, dayRaw] = cell.date.split('-');
+    const dateText = `${year}年${monthRaw}月${dayRaw}日`;
+    return `${cell.count} 次提交，${dateText}`;
   }
 
   /**
@@ -197,11 +254,7 @@ export class GithubContributionsComponent implements OnInit {
       const cells: GhDayCell[] = [];
       for (let i = 0; i < 7; i++) {
         const key = dateKey(cursor);
-        cells.push({
-          date: key,
-          count: 0,
-          level: 0,
-        });
+        cells.push({ date: key, count: 0, level: 0 });
         cursor.setDate(cursor.getDate() + 1);
       }
 
@@ -212,11 +265,15 @@ export class GithubContributionsComponent implements OnInit {
         cell.level = levelOf(count);
       }
 
-      // 月份标签放在该月 1 号所在的列：边缘只露几天的月份（1 号不在窗口内）不显示，
+      // 月份标签放在该月 1 号所在的列：窗口边缘只露几天的月份不显示，
       // 相邻标签自然相隔约一个月的列数，避免重叠
       let label = '';
       for (const cell of cells) {
-        if (cell.date >= windowStart && cell.date <= windowEnd && cell.date.endsWith('-01')) {
+        if (
+          cell.date >= windowStart &&
+          cell.date <= windowEnd &&
+          cell.date.endsWith('-01')
+        ) {
           label = `${Number(cell.date.slice(5, 7))}月`;
           break;
         }
@@ -234,9 +291,7 @@ export class GithubContributionsComponent implements OnInit {
     return result;
   }
 
-  private buildLevelMapper(
-    dayMap: Map<string, number>,
-  ): (count: number) => number {
+  private buildLevelMapper(dayMap: Map<string, number>): (count: number) => number {
     const activeCounts: number[] = [];
     for (const count of dayMap.values()) {
       if (count > 0) {

@@ -60,6 +60,15 @@
   color: var(--fi-text-inverse);
 }
 
+.gh-tab:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.gh-tab:disabled:hover {
+  color: var(--fi-text-muted);
+}
+
 /* ── 图体：可横向滚动，内容窄时居中 ── */
 .gh-chart {
   overflow-x: auto;
