@@ -12,13 +12,26 @@ interface GhDayCell {
 
 interface GhColumn {
   label: string;
-  cells: (GhDayCell | null)[];
+  cells: GhDayCell[];
 }
 
 const MONTH_LABELS = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
 ];
+const MIN_YEAR = 2024;
+
+function parseDate(dateStr: string): Date {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function dateKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 @Component({
   selector: 'flower-github-contributions',
@@ -44,6 +57,14 @@ export class GithubContributionsComponent implements OnInit {
     this.load();
   }
 
+  selectKey(key: string): void {
+    if (key === this.selectedKey) {
+      return;
+    }
+    this.selectedKey = key;
+    this.load();
+  }
+
   load(): void {
     this.loading = true;
     this.error = false;
@@ -62,15 +83,6 @@ export class GithubContributionsComponent implements OnInit {
     });
   }
 
-  onYearChange(event: Event): void {
-    const key = (event.target as HTMLSelectElement).value;
-    if (key === this.selectedKey) {
-      return;
-    }
-    this.selectedKey = key;
-    this.load();
-  }
-
   cellTitle(cell: GhDayCell): string {
     const [, monthRaw, dayRaw] = cell.date.split('-');
     const month = MONTH_LABELS[Number(monthRaw) - 1];
@@ -85,40 +97,93 @@ export class GithubContributionsComponent implements OnInit {
   }
 
   private applyPayload(payload: GithubContributionsData): void {
-    this.years = (payload.years ?? []).slice().sort((a, b) => b - a);
+    this.years = this.computeYearTabs();
     const total = payload.total ?? 0;
     this.totalText = `${total.toLocaleString('en-US')} contributions ${payload.label ?? ''}`;
     this.columns = this.buildColumns(payload);
   }
 
-  /** 每列 = 一周，7 格按 Mon..Sun 对齐；颜色分级参考 GitHub 用计数分位数 */
+  private computeYearTabs(): number[] {
+    const currentYear = new Date().getFullYear();
+    const tabs: number[] = [];
+    for (let i = 0; i < 3; i++) {
+      const year = currentYear - i;
+      if (year >= MIN_YEAR) {
+        tabs.push(year);
+      }
+    }
+    return tabs;
+  }
+
+  /**
+   * 生成以周日为一周首日、每周完整 7 天的贡献日历。
+   * 年份视图铺满 1-1 ~ 12-31（当年 12 月之后的未来日期也以灰块显示）；
+   * 首末列的周缺口（跨年前后）用无提交灰块补齐。
+   */
   private buildColumns(payload: GithubContributionsData): GhColumn[] {
-    const levelOf = this.buildLevelMapper(payload);
+    const dayMap = new Map<string, number>();
+    let firstDate = '';
+    let lastDate = '';
+    for (const week of payload.weeks ?? []) {
+      for (const day of week.days ?? []) {
+        dayMap.set(day.date, day.count);
+        if (!firstDate || day.date < firstDate) {
+          firstDate = day.date;
+        }
+        if (day.date > lastDate) {
+          lastDate = day.date;
+        }
+      }
+    }
+
+    const isYearView = payload.mode === 'year' && payload.year !== undefined;
+    let windowStart = firstDate;
+    let windowEnd = lastDate;
+    if (isYearView && payload.year !== undefined) {
+      windowStart = `${payload.year}-01-01`;
+      windowEnd = `${payload.year}-12-31`;
+    }
+
+    const levelOf = this.buildLevelMapper(dayMap);
+
+    const firstColumnStart = this.startOfWeekSunday(parseDate(windowStart));
+    const lastColumnStart = this.startOfWeekSunday(parseDate(windowEnd));
 
     const columns: GhColumn[] = [];
     let prevMonthKey = '';
-    for (const week of payload.weeks ?? []) {
-      const days = week.days ?? [];
-      const cells: (GhDayCell | null)[] = new Array(7).fill(null);
+    const cursor = new Date(firstColumnStart);
 
-      for (const day of days) {
-        const row = (day.weekday + 6) % 7; // weekday: 0 = 周日；换算为顶部周一的行号
-        if (row >= 0 && row < 7) {
-          cells[row] = {
-            date: day.date,
-            count: day.count,
-            level: levelOf(day.count),
-          };
+    while (cursor.getTime() <= lastColumnStart.getTime()) {
+      const cells: GhDayCell[] = [];
+      let firstInWindow = '';
+      for (let i = 0; i < 7; i++) {
+        const key = dateKey(cursor);
+        cells.push({
+          date: key,
+          count: 0,
+          level: 0,
+        });
+        if (key >= windowStart && key <= windowEnd && !firstInWindow) {
+          firstInWindow = key;
         }
+        cursor.setDate(cursor.getDate() + 1);
       }
 
-      const firstPresent = days.length ? days[0].date : '';
-      const monthKey = firstPresent ? firstPresent.slice(0, 7) : '';
+      for (const cell of cells) {
+        const inWindow = cell.date >= windowStart && cell.date <= windowEnd;
+        const count = inWindow ? (dayMap.get(cell.date) ?? 0) : 0;
+        cell.count = count;
+        cell.level = levelOf(count);
+      }
+
+      const monthKey = firstInWindow ? firstInWindow.slice(0, 7) : '';
       const label =
         monthKey && monthKey !== prevMonthKey
           ? MONTH_LABELS[Number(monthKey.slice(5, 7)) - 1]
           : '';
-      prevMonthKey = monthKey || prevMonthKey;
+      if (monthKey) {
+        prevMonthKey = monthKey;
+      }
 
       columns.push({ label, cells });
     }
@@ -126,15 +191,19 @@ export class GithubContributionsComponent implements OnInit {
     return columns;
   }
 
+  private startOfWeekSunday(date: Date): Date {
+    const result = new Date(date);
+    result.setDate(result.getDate() - result.getDay());
+    return result;
+  }
+
   private buildLevelMapper(
-    payload: GithubContributionsData,
+    dayMap: Map<string, number>,
   ): (count: number) => number {
     const activeCounts: number[] = [];
-    for (const week of payload.weeks ?? []) {
-      for (const day of week.days ?? []) {
-        if (day.count > 0) {
-          activeCounts.push(day.count);
-        }
+    for (const count of dayMap.values()) {
+      if (count > 0) {
+        activeCounts.push(count);
       }
     }
 

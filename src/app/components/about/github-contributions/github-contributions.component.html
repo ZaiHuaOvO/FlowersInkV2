@@ -1,63 +1,66 @@
-@if (loading) {
-<div class="gh-panel gh-panel--loading" aria-label="正在加载 GitHub 贡献数据">
-  <span class="gh-skeleton-line gh-skeleton-line--title"></span>
-  <div class="gh-skeleton-graph">
-    @for (col of skeletonColumns; track col) {
-    <div class="gh-col gh-col--skeleton">
-      @for (row of skeletonRows; track row) {
-      <span class="gh-cell gh-cell--skeleton"></span>
-      }
-    </div>
-    }
-  </div>
-</div>
-} @else if (error) {
-<div class="gh-panel gh-panel--error">
-  <p class="gh-error-text">GitHub 贡献加载失败，请稍后重试。</p>
-  <button type="button" class="gh-retry" (click)="load()">重试</button>
-</div>
-} @else {
 <div class="gh-panel">
   <header class="gh-head">
+    @if (loading) {
+    <span class="gh-skeleton-line gh-skeleton-line--title"></span>
+    } @else {
     <p class="gh-total">{{ totalText }}</p>
-    <label class="gh-year">
-      <span class="gh-year-caption">筛选年份</span>
-      <select class="gh-year-select" [value]="selectedKey" (change)="onYearChange($event)">
-        <option value="last">Last year</option>
-        @for (year of years; track year) {
-        <option [value]="year">{{ year }}</option>
-        }
-      </select>
-    </label>
+    }
+    <nav class="gh-tabs" aria-label="时间范围筛选">
+      <button type="button" class="gh-tab" [class.gh-tab--active]="selectedKey === 'last'"
+        (click)="selectKey('last')">近一年</button>
+      @for (year of years; track year) {
+      <button type="button" class="gh-tab" [class.gh-tab--active]="selectedKey === ('' + year)"
+        (click)="selectKey('' + year)">{{ year }}</button>
+      }
+    </nav>
   </header>
 
+  @if (loading) {
   <div class="gh-chart">
-    <div class="gh-months">
-      @for (col of columns; track col) {
-      <span class="gh-month">{{ col.label }}</span>
-      }
-    </div>
-    <div class="gh-grid">
-      @for (col of columns; track col) {
-      <div class="gh-col">
-        @for (cell of col.cells; track $index) {
-        @if (cell) {
-        <span class="gh-cell gh-cell--{{ cell.level }}" [title]="cellTitle(cell)"></span>
-        } @else {
-        <span class="gh-cell gh-cell--gap"></span>
-        }
+    <div class="gh-graph">
+      <div class="gh-skeleton-graph" aria-label="正在加载 GitHub 贡献数据">
+        @for (col of skeletonColumns; track col) {
+        <div class="gh-col">
+          @for (row of skeletonRows; track row) {
+          <span class="gh-cell gh-cell--skeleton"></span>
+          }
+        </div>
         }
       </div>
-      }
     </div>
   </div>
-  <div class="gh-legend">
-    <span class="gh-legend-text">Less</span>
-    <span class="gh-cell gh-cell--1"></span>
-    <span class="gh-cell gh-cell--2"></span>
-    <span class="gh-cell gh-cell--3"></span>
-    <span class="gh-cell gh-cell--4"></span>
-    <span class="gh-legend-text">More</span>
+  } @else if (error) {
+  <div class="gh-state gh-state--error">
+    <p class="gh-error-text">GitHub 贡献加载失败，请稍后重试。</p>
+    <button type="button" class="gh-retry" (click)="load()">重试</button>
   </div>
+  } @else {
+  <div class="gh-chart">
+    <div class="gh-graph">
+      <div class="gh-months">
+        @for (col of columns; track $index) {
+        <span class="gh-month">{{ col.label }}</span>
+        }
+      </div>
+      <div class="gh-grid">
+        @for (col of columns; track $index) {
+        <div class="gh-col">
+          @for (cell of col.cells; track $index) {
+          <span class="gh-cell gh-cell--{{ cell.level }}" [title]="cellTitle(cell)"></span>
+          }
+        </div>
+        }
+      </div>
+      <div class="gh-legend">
+        <span class="gh-legend-text">Less</span>
+        <span class="gh-cell gh-cell--0"></span>
+        <span class="gh-cell gh-cell--1"></span>
+        <span class="gh-cell gh-cell--2"></span>
+        <span class="gh-cell gh-cell--3"></span>
+        <span class="gh-cell gh-cell--4"></span>
+        <span class="gh-legend-text">More</span>
+      </div>
+    </div>
+  </div>
+  }
 </div>
-}
