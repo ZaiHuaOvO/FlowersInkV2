@@ -1,6 +1,24 @@
 {
-  "total": 351,
+  "total": 353,
   "records": [
+    {
+      "uid": "55914a4",
+      "type": "feat",
+      "date": "2026-09-03",
+      "desc": "关于页新增「编程」爱好，并展示 GitHub 提交绿块热力图（近一年/年份切换、月份标签、图例与 hover 提示、加载占位与错误重试），数据来自新增 /github/contributions 接口",
+      "important": false,
+      "repo": "site",
+      "sha": "55914a45f1324cf1dd4f83fb7cd18d32234dea17"
+    },
+    {
+      "uid": "4cb587d",
+      "type": "feat",
+      "date": "2026-09-03",
+      "desc": "新增 GET /github/contributions 接口：代理 GitHub GraphQL 返回提交贡献日历（近一年/按年份），内存缓存 6 小时，覆盖 2024-01-01 之后数据",
+      "important": false,
+      "repo": "api",
+      "sha": "4cb587d56dbd6268cb52fe32acdaffbf42c4c12f"
+    },
     {
       "uid": "f3328c3",
       "type": "style",
