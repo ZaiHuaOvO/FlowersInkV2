@@ -15,10 +15,6 @@ interface GhColumn {
   cells: GhDayCell[];
 }
 
-const MONTH_LABELS = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-];
 const MIN_YEAR = 2024;
 
 function parseDate(dateStr: string): Date {
@@ -103,22 +99,19 @@ export class GithubContributionsComponent implements OnInit {
   }
 
   cellTitle(cell: GhDayCell): string {
-    const [, monthRaw, dayRaw] = cell.date.split('-');
-    const month = MONTH_LABELS[Number(monthRaw) - 1];
-    const day = Number(dayRaw);
-    const year = cell.date.slice(0, 4);
-    const on = `${month} ${day}, ${year}`;
-    if (cell.count <= 0) {
-      return `No contributions on ${on}`;
-    }
-    const unit = cell.count === 1 ? 'contribution' : 'contributions';
-    return `${cell.count} ${unit} on ${on}`;
+    const [year, monthRaw, dayRaw] = cell.date.split('-');
+    const dateText = `${year}年${monthRaw}月${dayRaw}日`;
+    return `${cell.count} 次提交，${dateText}`;
   }
 
   private applyPayload(payload: GithubContributionsData): void {
     this.years = this.computeYearTabs();
     const total = payload.total ?? 0;
-    this.totalText = `${total.toLocaleString('en-US')} contributions ${payload.label ?? ''}`;
+    const period =
+      payload.mode === 'year' && payload.year !== undefined
+        ? `${payload.year}年`
+        : '近一年';
+    this.totalText = `${total.toLocaleString('en-US')} 次提交，${period}`;
     this.columns = this.buildColumns(payload);
     this.animateChartIn();
   }
@@ -196,12 +189,10 @@ export class GithubContributionsComponent implements OnInit {
     const lastColumnStart = this.startOfWeekSunday(parseDate(windowEnd));
 
     const columns: GhColumn[] = [];
-    let prevMonthKey = '';
     const cursor = new Date(firstColumnStart);
 
     while (cursor.getTime() <= lastColumnStart.getTime()) {
       const cells: GhDayCell[] = [];
-      let firstInWindow = '';
       for (let i = 0; i < 7; i++) {
         const key = dateKey(cursor);
         cells.push({
@@ -209,9 +200,6 @@ export class GithubContributionsComponent implements OnInit {
           count: 0,
           level: 0,
         });
-        if (key >= windowStart && key <= windowEnd && !firstInWindow) {
-          firstInWindow = key;
-        }
         cursor.setDate(cursor.getDate() + 1);
       }
 
@@ -222,13 +210,14 @@ export class GithubContributionsComponent implements OnInit {
         cell.level = levelOf(count);
       }
 
-      const monthKey = firstInWindow ? firstInWindow.slice(0, 7) : '';
-      const label =
-        monthKey && monthKey !== prevMonthKey
-          ? MONTH_LABELS[Number(monthKey.slice(5, 7)) - 1]
-          : '';
-      if (monthKey) {
-        prevMonthKey = monthKey;
+      // 月份标签放在该月 1 号所在的列：边缘只露几天的月份（1 号不在窗口内）不显示，
+      // 相邻标签自然相隔约一个月的列数，避免重叠
+      let label = '';
+      for (const cell of cells) {
+        if (cell.date >= windowStart && cell.date <= windowEnd && cell.date.endsWith('-01')) {
+          label = `${Number(cell.date.slice(5, 7))}月`;
+          break;
+        }
       }
 
       columns.push({ label, cells });
