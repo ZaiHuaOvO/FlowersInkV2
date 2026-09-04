@@ -166,6 +166,14 @@ export class VisitorTrackingService {
       };
     }
 
+    if (normalized === '/donate') {
+      return {
+        path: normalized,
+        pageType: 'donate',
+        resourceType: 'site',
+      };
+    }
+
     const gameDetailMatch = normalized.match(/^\/game\/(\d+)$/);
     if (gameDetailMatch) {
       return {
