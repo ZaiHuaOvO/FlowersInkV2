@@ -143,7 +143,13 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params: any) => {
         this.Id = params.get('id');
-        if (Number(this.Id) != 0 && isPlatformBrowser(this.platformId)) {
+        // id=0 是合法的置顶文章，只有缺省/空 id 才跳过加载
+        if (
+          this.Id !== null &&
+          this.Id !== undefined &&
+          this.Id !== '' &&
+          isPlatformBrowser(this.platformId)
+        ) {
           // 跳转到新文章时滚动到顶部
           window.scrollTo({ top: 0, behavior: 'instant' });
           this.getBlogDetail();

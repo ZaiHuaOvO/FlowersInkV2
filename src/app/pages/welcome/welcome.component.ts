@@ -17,6 +17,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
 import { MeCardComponent, MeCardProfile } from '../../components/website/me-card/me-card.component';
+import { isPinnedBlog } from '../../shared/utils/blog-pinned.util';
 
 interface WelcomeStats {
   blogTotal: number;
@@ -113,10 +114,20 @@ export class WelcomeComponent implements OnInit {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
     this.welcome.getBlogs({ star: true }).subscribe((res: any) => {
-      this.data = this.processedData(res['data'].data);
+      this.data = this.orderPinnedFirst(this.processedData(res['data'].data));
       this.cdr.detectChanges();
       this.loading = false;
     });
+  }
+
+  /** 置顶文章（id=0）永远排在精选列表最前，其余保持原有顺序。 */
+  private orderPinnedFirst(items: any[]): any[] {
+    items.forEach((item) => {
+      item.pinned = isPinnedBlog(item);
+    });
+    return items
+      .filter((item) => item.pinned)
+      .concat(items.filter((item) => !item.pinned));
   }
 
   processedData(data: any): any {

@@ -53,7 +53,7 @@
           @for (item of data; track item; let i = $index) {
           <div class="blog-list-item" [style.animation-delay]="i * 60 + 'ms'">
             <div flCard flCardHover>
-              <flower-blog-card [blog]="item" [loading]="loading"
+              <flower-blog-card [blog]="item" [loading]="loading" [pinned]="item.pinned"
                 [href]="'/blog/blog-detail/' + item.id"></flower-blog-card>
             </div>
           </div>

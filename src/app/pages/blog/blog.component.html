@@ -11,6 +11,12 @@
     </div>
     <nz-spin class="archive-spin" [nzTip]="'归档正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
       <div nz-flex nzAlign="center" [nzVertical]="true" nzGap="middle">
+        @if (pinnedBlog) {
+          <a class="archive-pin" flCard [routerLink]="['/blog', 'blog-detail', pinnedBlog.id]">
+            <span class="archive-pin-tag">置顶</span>
+            <span class="archive-pin-title">{{ pinnedBlog.title }}</span>
+          </a>
+        }
         @for (item of data; track item) {
           <div class="blog" flCard>
             <h2 nz-typography>{{item.year}}年 <span class="year-count">· {{item.data.length}} 篇</span></h2>

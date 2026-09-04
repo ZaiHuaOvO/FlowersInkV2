@@ -8,7 +8,10 @@
   [attr.href]="href"
 >
   @if (!loading) {
-  <h4 nz-typography class="blog_title"> {{blog.title}} </h4>
+  <h4 nz-typography class="blog_title">
+    <span class="blog_title_text">{{ blog.title }}</span>
+    @if (pinned) {<span class="blog_card_pin">置顶</span>}
+  </h4>
   <p nz-typography nzEllipsis [nzContent]="excerpt" [nzEllipsisRows]="1"></p>
   <div class="blog_msg" nz-flex nzAlign="center" nzJustify="space-between">
     <div nz-flex nzAlign="center" class="blog_meta_group">

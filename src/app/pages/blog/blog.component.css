@@ -50,6 +50,50 @@
     min-width: 0;
 }
 
+/* 置顶卡片：位于年份时间轴之外、列表最顶部（id=0《关于我和花墨的一切》）。
+   沿用 flCard 白色卡片 + 精选渐变背景（不加 [精选] 前缀）；卡片本身无 hover，仅标题文字有 hover */
+.archive-pin {
+    display: flex;
+    align-items: center;
+    gap: var(--fi-space-3);
+    width: 100%;
+    padding: clamp(16px, 2.6vw, 24px);
+    background-image: linear-gradient(to right, rgba(139, 90, 43, 0.08), transparent 62%);
+    text-decoration: none;
+    color: inherit;
+}
+
+.archive-pin-tag {
+    flex: 0 0 auto;
+    padding: 1px var(--fi-space-2);
+    background: var(--fi-primary);
+    color: var(--fi-text-inverse);
+    font-size: var(--fi-font-size-xs);
+    font-weight: var(--fi-font-weight-semibold);
+    line-height: 1.6;
+    border-radius: var(--fi-radius-pill);
+    letter-spacing: 0.05em;
+    user-select: none;
+}
+
+.archive-pin-title {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--fi-font-size-lg);
+    font-weight: var(--fi-font-weight-semibold);
+    color: var(--fi-text);
+    line-height: var(--fi-line-height-normal);
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+a.archive-pin:hover .archive-pin-title {
+    color: var(--fi-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: rgba(139, 90, 43, 0.35);
+}
+
 /* 文归档的时间轴圆点与文本对齐 */
 .fi-simple-timeline-dot {
   top: 12px;
@@ -117,5 +161,17 @@ a.fi-simple-timeline-title.is-starred:hover {
 
     .blog h2 .year-count {
         font-size: var(--fi-font-size-sm);
+    }
+}
+
+/* 移动端置顶卡片：与年份卡片同款内边距，标题字号略降 */
+@media (max-width: 768px) {
+    .archive-pin {
+        gap: var(--fi-space-2);
+        padding: clamp(16px, 3vw, 20px);
+    }
+
+    .archive-pin-title {
+        font-size: var(--fi-font-size-md);
     }
 }

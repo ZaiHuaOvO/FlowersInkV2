@@ -22,6 +22,7 @@ export class BlogCardComponent implements OnInit {
   @Input() blog: any;
   @Input() loading: boolean = true;
   @Input() href: string | null = null;
+  @Input() pinned: boolean = false;
 
   constructor() {}
 

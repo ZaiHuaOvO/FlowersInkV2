@@ -15,6 +15,7 @@ import {
   groupByYearDesc,
   sortByDateDesc,
 } from '../../shared/utils/date-grouping.util';
+import { isPinnedBlog } from '../../shared/utils/blog-pinned.util';
 import { WindowService } from '../../services/window.service';
 import { WelcomeService } from '../welcome/welcome.service';
 import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
@@ -44,6 +45,8 @@ export class BlogComponent implements OnInit {
   data: any[] = [];
   count = 0;
   loading = true;
+  /** 置顶文章（id=0），展示在时间轴外的顶部横幅，不进入年份分组。 */
+  pinnedBlog: any = null;
   searchControl = new FormControl('');
   isMobile = false;
 
@@ -84,7 +87,10 @@ export class BlogComponent implements OnInit {
   }
 
   processAndGroupData(dataArray: any[]) {
-    const sorted = sortByDateDesc(dataArray, (item) => new Date(item.date));
+    const pinned = dataArray.find((item) => isPinnedBlog(item)) ?? null;
+    this.pinnedBlog = pinned;
+    const others = dataArray.filter((item) => !isPinnedBlog(item));
+    const sorted = sortByDateDesc(others, (item) => new Date(item.date));
     return groupByYearDesc(sorted, (item) => new Date(item.date));
   }
 }
