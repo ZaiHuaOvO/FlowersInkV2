@@ -1,6 +1,15 @@
 {
-  "total": 361,
+  "total": 362,
   "records": [
+    {
+      "uid": "0ac72e4",
+      "type": "feat",
+      "date": "2026-09-04",
+      "desc": "赞赏页 /donate 纳入路由级访客上报：访问时以 pageType=donate、resourceType=site 记录到访客统计",
+      "important": false,
+      "repo": "site",
+      "sha": "0ac72e49d1146e281e65a1a94dea0574666ed0ac"
+    },
     {
       "uid": "8ded5a2",
       "type": "feat",
