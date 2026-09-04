@@ -61,6 +61,12 @@ export const routes: Routes = [
       import('./pages/world/equipment/equipment.component').then((m) => m.EquipmentComponent),
   },
   {
+    path: 'donate',
+    title: '花墨 | 赞赏',
+    loadComponent: () =>
+      import('./pages/donate/donate.component').then((m) => m.DonateComponent),
+  },
+  {
     path: 'world/book',
     redirectTo: '/book',
     pathMatch: 'full',

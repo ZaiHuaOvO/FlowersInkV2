@@ -1,0 +1,127 @@
+<div class="donate-page">
+  <!-- ===== 桌面左侧标题导航 ===== -->
+  @if (!isMobile()) {
+  <nav class="donate-sidebar" aria-label="赞赏页面导航">
+    <div class="sidebar-inner">
+      <div class="sidebar-track">
+        @for (item of navItems; track item.id) {
+        <button class="sidebar-item" [class.sidebar-item--active]="activeSection() === item.id"
+          (click)="scrollTo(item.id)" [attr.aria-label]="'跳转到' + item.label">
+          <span class="sidebar-dot"></span>
+          <span class="sidebar-label">{{ item.label }}</span>
+        </button>
+        }
+      </div>
+    </div>
+  </nav>
+  }
+
+  <!-- ===== 主内容 ===== -->
+  <main class="donate-content" @QuickUp>
+
+    <!-- 头部：头像 + 标题 + 开场正文 -->
+    <section class="donate-section donate-hero" id="donate-section-hero" data-section-id="hero">
+      <div class="donate-hero-inner">
+        <img class="donate-avatar" [src]="avatarSrc" alt="再花的头像" loading="eager" decoding="async" />
+        <h1 class="donate-title">关于赞赏</h1>
+        <p class="donate-lead">
+          这个博客的目的一直是写作与分享，我总是希望能够帮助到其他人，无论是实际的帮助，还是心理、情绪上的帮助。
+        </p>
+        <p class="donate-lead">
+          所以赞赏对我而言一直是一个很无所谓的东西，我也没有用花墨进行任何盈利的打算。
+        </p>
+        <p class="donate-lead">
+          但后来我意识到，赞赏，是一个更为直接的正反馈，可以让我更加清晰的知道
+        </p>
+        <p class="donate-lead">
+          我帮到了你，你也确实从花墨获取了一些你想要的东西，知识也好、启发也好、狗粮也好（不是）。
+        </p>
+        <p class="donate-lead donate-lead--end">于是我便开放了这条赞赏渠道。</p>
+      </div>
+    </section>
+
+    <!-- 赞赏的使用 -->
+    <section class="donate-section" id="donate-section-use" data-section-id="use">
+      <h2 class="section-title">赞赏的使用</h2>
+      <p>无论多少，我会用这笔赞赏去做一些有趣的事情，如果暂时想不到，就会先放在手里。</p>
+      <ul class="donate-examples">
+        <li><strong>假设赞赏 1 元钱</strong>，我可能会用来买一个决策币，以后做决定会参考一下你的意见。</li>
+        <li><strong>假设赞赏 10 元钱</strong>，我可能会用来买一杯咖啡，我的生命中便会多出快乐的一天。</li>
+        <li><strong>假设赞赏 100 元钱</strong>，我可能会用来跟方导吃一顿好吃的，或者给服务器续费一年。</li>
+      </ul>
+      <p>所有的使用结果，我都会通过邮件（若有）分享给你，并记录在底部的“赞赏历史”中。</p>
+    </section>
+
+    <!-- 赞赏的回馈 -->
+    <section class="donate-section" id="donate-section-reward" data-section-id="reward">
+      <h2 class="section-title">赞赏的回馈</h2>
+      <p>作为实打实的现金赞赏，只是“有趣的使用”未免不够真诚。</p>
+      <p>无论赞赏多少，你都可以在我力所能及的范围内提一个愿望，例如：</p>
+      <ul class="donate-wishes">
+        <li>指定一个博客写作方向，我会优先作为下一篇发表的题材。</li>
+        <li>想听一听我和方导的故事（怎么认识的，面对某个问题怎么处理）。</li>
+        <li>给予你在某个领域、方面的建议（例如学业、就业、爱情）。</li>
+        <li>获得我的私人联系方式</li>
+      </ul>
+      <p>我会按照合适的方式来回应你的需求，例如新的博客、邮件等，除非你提前指定。</p>
+    </section>
+
+    <!-- 赞赏方式 -->
+    <section class="donate-section" id="donate-section-method" data-section-id="method">
+      <h2 class="section-title">赞赏方式</h2>
+      <p>你可以通过我的支付宝或微信二维码进行赞赏。</p>
+      <p class="donate-note">最好别低于1元，不然我真的不知道拿来干啥，现在买个泡泡糖都要5毛。</p>
+
+      <div class="qr-row">
+        <div class="qr-card" (click)="previewImage(qrAlipaySrc, '支付宝收款码')">
+          <img class="qr-image" [src]="qrAlipaySrc" alt="支付宝收款码" loading="lazy" decoding="async" />
+        </div>
+        <div class="qr-card" (click)="previewImage(qrWechatSrc, '微信收款码')">
+          <img class="qr-image" [src]="qrWechatSrc" alt="微信收款码" loading="lazy" decoding="async" />
+        </div>
+      </div>
+
+      <p>赞赏的时候请务必填写两样信息「留言」和「昵称」，便于记录在赞赏历史中。</p>
+      <p>同时你还可以选择填写「愿望」（若有，且不会公开，比较长的内容可以写邮件）、「邮箱」（用于接收使用分享）。</p>
+      <p class="donate-note">如果赞赏历史许久没有更新你的赞赏，一定是我没注意到，请务必通知我一下…</p>
+    </section>
+
+    <!-- 赞赏历史 -->
+    <section class="donate-section" id="donate-section-history" data-section-id="history">
+      <h2 class="section-title">赞赏历史</h2>
+      <div class="table-wrap">
+        <table class="donate-table">
+          <thead>
+            <tr>
+              <th>赞赏金额</th>
+              <th>留言</th>
+              <th>昵称</th>
+              <th>使用</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (record of history; track $index) {
+            <tr>
+              <td class="cell-amount">{{ record.amount }}</td>
+              <td>{{ record.message }}</td>
+              <td>{{ record.name }}</td>
+              <td>
+                <div class="usage-cell">
+                  <span class="cell-usage">{{ record.usage }}</span>
+                  @if (record.img) {
+                  <img class="usage-thumb" [src]="record.img" alt="赞赏使用凭证" loading="lazy" decoding="async"
+                    (click)="previewImage(record.img, '赞赏使用凭证')" />
+                  }
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <p class="donate-note">以上数据仅作示例，当第一笔赞赏出现后便会删除示例数据以及本句话。</p>
+    </section>
+
+  </main>
+</div>

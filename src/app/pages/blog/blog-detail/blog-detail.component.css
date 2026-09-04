@@ -306,7 +306,15 @@ nz-anchor {
   text-align: center;
 }
 
-/* ── 文章点赞按钮（与"分享本文"的 fl-button 样式保持一致） ── */
+/* 咖啡图标 + “赞赏”文字水平垂直居中 */
+.share-btn-article ::ng-deep .fl-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fi-space-1);
+}
+
+/* ── 文章点赞按钮（与底部"赞赏"的 fl-button 样式保持一致） ── */
 .blog-like-btn {
   display: inline-flex;
   align-items: center;

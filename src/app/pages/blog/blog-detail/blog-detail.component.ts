@@ -45,6 +45,7 @@ import { deriveWebpVariants } from '../../../shared/utils/image-url.util';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
+import { CoffeeComponent } from '../../../components/website/svg/coffee/coffee.component';
 import { VisitorTrackingService } from '../../../services/visitor-tracking.service';
 
 @Component({
@@ -71,6 +72,7 @@ import { VisitorTrackingService } from '../../../services/visitor-tracking.servi
     NzImageModule,
     RouterModule,
     FlButtonComponent,
+    CoffeeComponent,
     CommentSectionComponent,
     BlogCommentComponent,
   ],
@@ -410,13 +412,6 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       scrollRatio * (targetElement.scrollHeight - targetElement.clientHeight);
 
     this.isSyncing = false;
-  }
-
-  copyLink(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      this.msg.success('链接已复制到剪贴板 ✿');
-    });
   }
 
   /** 点赞 / 取消防连点：已赞则只播动画，不再请求接口 */
