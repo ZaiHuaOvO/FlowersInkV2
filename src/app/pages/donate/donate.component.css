@@ -314,6 +314,20 @@
   white-space: nowrap;
 }
 
+/* 昵称含 url 时的站外链接：棕色文字、无下划线，hover 加深 */
+.donate-name-link {
+  color: var(--fi-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+    opacity var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.donate-name-link:hover {
+  color: var(--fi-primary-hover);
+  opacity: 0.88;
+}
+
 .usage-cell {
   display: flex;
   align-items: center;

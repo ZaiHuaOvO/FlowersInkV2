@@ -27,6 +27,7 @@ interface DonationRecord {
   amount: string;
   message: string;
   name: string;
+  url?: string;
   usage: string;
   img?: string;
 }
@@ -58,6 +59,7 @@ export class DonateComponent implements AfterViewInit, OnDestroy {
       amount: '10元',
       message: '再花好厉害',
       name: '再花一号',
+      url: 'https://flowersink.com',
       usage: '购买了一杯拿铁',
       img: COFFEE_IMG_SRC,
     },
