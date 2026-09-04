@@ -1,6 +1,15 @@
 {
-  "total": 360,
+  "total": 361,
   "records": [
+    {
+      "uid": "8ded5a2",
+      "type": "feat",
+      "date": "2026-09-04",
+      "desc": "赞赏历史记录新增可选 url 字段：昵称带链接时以棕色文字展示、点击新标签跳转站外（示例「再花一号」填 https://flowersink.com）；赞赏方式补充可选填「网站地址」说明",
+      "important": false,
+      "repo": "site",
+      "sha": "8ded5a2cdb1389710a1c1ab7c2c7e8af4827af63"
+    },
     {
       "uid": "d041c69",
       "type": "feat",
