@@ -1,6 +1,15 @@
 {
-  "total": 359,
+  "total": 360,
   "records": [
+    {
+      "uid": "d041c69",
+      "type": "feat",
+      "date": "2026-09-04",
+      "desc": "新增赞赏页 /donate（参考「关于」页左侧标题导航版式）：开场正文 + 赞赏的使用/回馈/方式/历史四节，收款码与赞赏历史表格展示；博客详情底部按钮由「分享本文」改为「☕ 赞赏」并跳转 /donate",
+      "important": false,
+      "repo": "site",
+      "sha": "d041c69248be4b9c6aeb9efecd3bca459cdf2e9a"
+    },
     {
       "uid": "a3a292f",
       "type": "feat",
