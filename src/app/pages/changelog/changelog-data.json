@@ -1,6 +1,24 @@
 {
-  "total": 362,
+  "total": 364,
   "records": [
+    {
+      "uid": "5fd64eb",
+      "type": "feat",
+      "date": "2026-09-05",
+      "desc": "置顶文章新增「匿名提问」：详情页赞赏旁出现提问按钮（仅置顶文章），弹窗含 500 字输入与验证码，按浏览器身份每天一次（本地 0 点重置）",
+      "important": false,
+      "repo": "site",
+      "sha": "5fd64eb2a9b339e447c381f5361b64f93324e930"
+    },
+    {
+      "uid": "63d41db",
+      "type": "feat",
+      "date": "2026-09-05",
+      "desc": "后端新增匿名提问模块：anonymous_question 表、验证码+浏览器身份+每日一次限流；后台可列/标记已读/删除，/site/pending 纳入未读统计",
+      "important": false,
+      "repo": "api",
+      "sha": "63d41dbf966093fea752192ed19abf583464d70b"
+    },
     {
       "uid": "0ac72e4",
       "type": "feat",
