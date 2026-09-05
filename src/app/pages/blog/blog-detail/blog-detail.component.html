@@ -50,6 +50,11 @@
             <flower-coffee-icon></flower-coffee-icon>
             <span class="donate-btn-label">赞赏</span>
           </fl-button>
+          @if (isPinnedBlog(data)) {
+          <fl-button class="share-btn-article" (click)="openAskModal()">
+            <span class="donate-btn-label">匿名提问</span>
+          </fl-button>
+          }
         </div>
         <nz-divider></nz-divider>
         <!-- 文章底部表情互动 -->

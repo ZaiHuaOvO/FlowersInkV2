@@ -46,6 +46,9 @@ import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
 import { CoffeeComponent } from '../../../components/website/svg/coffee/coffee.component';
+import { AskQuestionComponent } from '../../../components/blog/ask-question/ask-question.component';
+import { isPinnedBlog } from '../../../shared/utils/blog-pinned.util';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { VisitorTrackingService } from '../../../services/visitor-tracking.service';
 
 @Component({
@@ -73,6 +76,7 @@ import { VisitorTrackingService } from '../../../services/visitor-tracking.servi
     RouterModule,
     FlButtonComponent,
     CoffeeComponent,
+    NzModalModule,
     CommentSectionComponent,
     BlogCommentComponent,
   ],
@@ -130,6 +134,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private msg: NzMessageService,
     private title: Title,
     private nzImageService: NzImageService,
+    private modal: NzModalService,
     private visitorTrackingService: VisitorTrackingService,
     destroyRef: DestroyRef,
   ) {
@@ -520,6 +525,21 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** 文章表情互动数据 */
   commentData: any[] = [];
+
+  /** 判断是否为置顶文章（模板调用） */
+  isPinnedBlog(blog: any): boolean {
+    return isPinnedBlog(blog);
+  }
+
+  /** 打开「匿名提问」弹窗（仅置顶文章有入口） */
+  openAskModal(): void {
+    this.modal.create({
+      nzContent: AskQuestionComponent,
+      nzTitle: '匿名提问',
+      nzWidth: 'min(560px, 92vw)',
+      nzFooter: null,
+    });
+  }
 
   onReactionSelected(emoji: any): void {
     this.blog.comment(this.Id, { emojiType: emoji.key }).subscribe({

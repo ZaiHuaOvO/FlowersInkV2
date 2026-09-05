@@ -1,0 +1,29 @@
+<div class="ask-q">
+  @if (todayLimit) {
+    <div class="ask-q-limit">今天已经提过问啦，明天再来吧 ฅ^•ﻌ•^ฅ</div>
+  }
+
+  <p class="ask-q-intro">
+    向再花进行提问（什么都可以），合适的问题会作为 Q&amp;A 放在文章中。
+  </p>
+
+  <textarea
+    nz-input
+    flInput
+    rows="4"
+    [(ngModel)]="askContent"
+    maxlength="500"
+    [disabled]="submitting || todayLimit"
+    placeholder="写下你的问题（500 字以内）"
+  ></textarea>
+  <div class="ask-q-count">{{ askContent.length }} / 500</div>
+
+  <div class="ask-q-captcha">
+    <flower-simple-captcha scene="question" #captcha [disabled]="submitting"></flower-simple-captcha>
+  </div>
+
+  <div class="ask-q-actions">
+    <fl-button variant="solid" [disabled]="submitting || todayLimit" (click)="submit()">提问</fl-button>
+    <fl-button [disabled]="submitting" (click)="cancel()">取消</fl-button>
+  </div>
+</div>

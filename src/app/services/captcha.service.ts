@@ -8,7 +8,8 @@ export type CaptchaScene =
   | 'link'
   | 'article-comment'
   | 'life-comment'
-  | 'module-comment';
+  | 'module-comment'
+  | 'question';
 
 export interface CaptchaPayload {
   captchaId: string;

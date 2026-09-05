@@ -1,0 +1,37 @@
+.ask-q {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-3);
+}
+
+.ask-q-limit {
+  padding: var(--fi-space-2) var(--fi-space-3);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-warning-bg);
+  color: var(--fi-warning);
+  font-size: var(--fi-font-size-md);
+}
+
+.ask-q-intro {
+  margin: 0;
+  font-size: var(--fi-font-size-md);
+  color: var(--fi-text-muted);
+  line-height: var(--fi-line-height-normal);
+}
+
+.ask-q-count {
+  text-align: right;
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-text-muted);
+}
+
+.ask-q-captcha {
+  margin-top: var(--fi-space-1);
+}
+
+.ask-q-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--fi-space-2);
+  margin-top: var(--fi-space-2);
+}
