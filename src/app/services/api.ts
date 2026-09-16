@@ -8,6 +8,7 @@ export const API = {
   TAG: '/blog/tag',
   TYPE: '/blog/type',
   INFO: '/site/visit',
+  VISIT_DWELL: '/site/visit/dwell',
   SITE_INFO: '/site/info',
   DAY_INFO: '/blog/info',
   LIFE: '/life',

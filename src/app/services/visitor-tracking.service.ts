@@ -7,6 +7,9 @@ import { HttpService } from './http.service';
 
 const VISITOR_FID_KEY = 'fi_visitor_fid';
 
+/** 页面隐藏时的补报最小增量：少于该秒数不发请求，避免频繁切标签刷爆埋点 */
+const DWELL_MIN_SEND_DELTA_SECONDS = 5;
+
 type VisitPayload = {
   fid: string;
   path: string;
@@ -28,6 +31,15 @@ type VisitPayload = {
 export class VisitorTrackingService {
   private routeTrackingStarted = false;
   private readonly recentTrackTs = new Map<string, number>();
+
+  /** 当前页面在站点埋点里登记的 path，用于离页时回填停留时长 */
+  private currentPagePath: string | null = null;
+  /** 本页累计的「可见停留」毫秒数（页面隐藏时暂停计时） */
+  private dwellMs = 0;
+  private activeSince: number | null = null;
+  /** 本页已上报过的秒数，用于抑制重复上报 */
+  private dwellSentSeconds = 0;
+  private lifecycleBound = false;
 
   constructor(
     private readonly http: HttpService,
@@ -76,17 +88,55 @@ export class VisitorTrackingService {
     }
     this.routeTrackingStarted = true;
 
+    this.bindPageLifecycle();
+
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
         const nav = event as NavigationEnd;
+        // 离开上一页：先把上一页的停留时长补报掉，再切到新页面重新计时
+        this.commitDwell();
         this.trackByUrl(nav.urlAfterRedirects || nav.url);
       });
+  }
+
+  /** 监听页面隐藏/关闭，把停留时长用 sendBeacon 补报（异步、不阻塞卸载） */
+  private bindPageLifecycle(): void {
+    if (this.lifecycleBound) {
+      return;
+    }
+    const win = this.document.defaultView;
+    if (!win) {
+      return;
+    }
+    this.lifecycleBound = true;
+
+    this.document.addEventListener('visibilitychange', () => {
+      if (this.document.hidden) {
+        this.pauseDwellTimer();
+        this.flushDwell();
+      } else {
+        this.resumeDwellTimer();
+      }
+    });
+
+    win.addEventListener('pagehide', () => {
+      this.pauseDwellTimer();
+      this.flushDwell(true);
+    });
   }
 
   private trackByUrl(rawUrl: string): void {
     const parsed = this.parseRoutePayload(rawUrl);
     if (!parsed) {
+      this.resetDwellTimer(null);
+      return;
+    }
+
+    const payload = this.buildPayload(parsed);
+    // 与上报事件使用同一个 path，保证服务端能精确匹配回这次访问
+    this.resetDwellTimer(payload?.path ?? null);
+    if (!payload) {
       return;
     }
 
@@ -98,11 +148,78 @@ export class VisitorTrackingService {
     }
     this.recentTrackTs.set(dedupeKey, now);
 
-    const payload = this.buildPayload(parsed);
-    if (!payload) {
+    this.http.post(API.INFO, payload).subscribe({ error: () => {} });
+  }
+
+  /** 切页时结算上一页：上报累计停留时长后归零，等新页面重新计时 */
+  private commitDwell(): void {
+    this.pauseDwellTimer();
+    this.flushDwell(true);
+    this.resetDwellTimer(null);
+  }
+
+  private resetDwellTimer(path: string | null): void {
+    this.currentPagePath = path;
+    this.dwellMs = 0;
+    this.dwellSentSeconds = 0;
+    this.activeSince = path ? Date.now() : null;
+  }
+
+  private pauseDwellTimer(): void {
+    if (this.activeSince === null) {
       return;
     }
-    this.http.post(API.INFO, payload).subscribe({ error: () => {} });
+    this.dwellMs += Date.now() - this.activeSince;
+    this.activeSince = null;
+  }
+
+  private resumeDwellTimer(): void {
+    if (this.activeSince === null && this.currentPagePath) {
+      this.activeSince = Date.now();
+    }
+  }
+
+  /**
+   * 上报的是「本页累计停留秒数」，服务端对同一行取较大值，
+   * 因此 visibilitychange 与 pagehide 重复触发也不会把时长叠高。
+   * force=false 时只在比上次上报多出足够秒数时才发，避免切标签刷请求。
+   */
+  private flushDwell(force = false): void {
+    const path = this.currentPagePath;
+    if (!path) {
+      return;
+    }
+
+    const dwellSeconds = Math.round(this.dwellMs / 1000);
+    if (dwellSeconds < 1) {
+      return;
+    }
+    if (
+      !force &&
+      dwellSeconds < this.dwellSentSeconds + DWELL_MIN_SEND_DELTA_SECONDS
+    ) {
+      return;
+    }
+    this.dwellSentSeconds = dwellSeconds;
+
+    const win = this.document.defaultView;
+    const sendBeacon = win?.navigator?.sendBeacon?.bind(win.navigator);
+    if (!sendBeacon) {
+      return;
+    }
+
+    // urlencoded 属于 CORS 简单请求，sendBeacon 不会触发预检
+    const params = new URLSearchParams({
+      fid: this.getOrCreateFid(),
+      path,
+      dwellSeconds: String(dwellSeconds),
+    });
+
+    try {
+      sendBeacon(`${API.BASE_URL}${API.VISIT_DWELL}`, params);
+    } catch {
+      // 停留时长只是统计补充，上报失败不应影响页面
+    }
   }
 
   private parseRoutePayload(rawUrl: string): {
