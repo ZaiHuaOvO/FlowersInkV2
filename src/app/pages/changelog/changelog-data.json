@@ -1,6 +1,24 @@
 {
-  "total": 364,
+  "total": 366,
   "records": [
+    {
+      "uid": "00b669c",
+      "type": "feat",
+      "date": "2026-09-16",
+      "desc": "访客埋点新增页面停留时长：记录页面可见停留时间（切走后暂停计时），离页时用 sendBeacon 静默上报，累计增量不足 5 秒不发请求",
+      "important": false,
+      "repo": "site",
+      "sha": "00b669c488fde13839a00442a56b5d8fda56b895"
+    },
+    {
+      "uid": "1a5330e",
+      "type": "feat",
+      "date": "2026-09-16",
+      "desc": "后台访客列表改按「自然日 + 指纹」聚合：每行是某访客某天的完整轨迹，分页与总数按组计算；新增轨迹接口回填博客/点滴标题与停留时长；site_visit 新增 dwellSeconds 列与停留时长回填接口",
+      "important": false,
+      "repo": "api",
+      "sha": "1a5330ec041b3f587635b756c251b7a066462994"
+    },
     {
       "uid": "5fd64eb",
       "type": "feat",
