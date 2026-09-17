@@ -1,29 +1,26 @@
 {
-  "total": 368,
+  "rules": [
+    "只记录主站与主站接口的改动；纯后台（ERP）功能不记录",
+    "一条只讲「改了什么、有什么效果」，一句话以内（约 20~40 字）",
+    "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
+    "同一批改动只挑用户能感知的写，细节留在 commit 里"
+  ],
+  "total": 367,
   "records": [
     {
       "uid": "568d6a8",
       "type": "fix",
       "date": "2026-09-17",
-      "desc": "修复博客标题旁的 # 锚点点击后会跳到首页（页面 base href 导致 #id 被解析到站点根）；同时支持用带 #标题 的链接直达文章指定章节，跳转后会避开顶部导航",
+      "desc": "修复博客标题锚点点击后跳到首页，并支持带 #标题 的链接直达文章章节",
       "important": false,
       "repo": "site",
       "sha": "568d6a8db3ca3f6e55b7aadefa419bfcc5a0d3c8"
     },
     {
-      "uid": "57f2148",
-      "type": "feat",
-      "date": "2026-09-17",
-      "desc": "后台访客列表新增「设备」筛选，默认只看真人：爬虫约占访客日组的一半，默认过滤后数据更能反映真实访问，可切换查看仅爬虫或全部",
-      "important": false,
-      "repo": "api",
-      "sha": "57f214895e71f6cf9b90029870960ba5c90895e4"
-    },
-    {
       "uid": "00b669c",
       "type": "feat",
       "date": "2026-09-16",
-      "desc": "访客埋点新增页面停留时长：记录页面可见停留时间（切走后暂停计时），离页时用 sendBeacon 静默上报，累计增量不足 5 秒不发请求",
+      "desc": "访客统计新增页面停留时长，离页时静默上报",
       "important": false,
       "repo": "site",
       "sha": "00b669c488fde13839a00442a56b5d8fda56b895"
@@ -32,7 +29,7 @@
       "uid": "1a5330e",
       "type": "feat",
       "date": "2026-09-16",
-      "desc": "后台访客列表改按「自然日 + 指纹」聚合：每行是某访客某天的完整轨迹，分页与总数按组计算；新增轨迹接口回填博客/点滴标题与停留时长；site_visit 新增 dwellSeconds 列与停留时长回填接口",
+      "desc": "新增访客停留时长回填接口，site_visit 增加 dwellSeconds 列",
       "important": false,
       "repo": "api",
       "sha": "1a5330ec041b3f587635b756c251b7a066462994"
@@ -41,7 +38,7 @@
       "uid": "5fd64eb",
       "type": "feat",
       "date": "2026-09-05",
-      "desc": "置顶文章新增「匿名提问」：详情页赞赏旁出现提问按钮（仅置顶文章），弹窗含 500 字输入与验证码，按浏览器身份每天一次（本地 0 点重置）",
+      "desc": "置顶文章新增「匿名提问」，按浏览器身份每天一次",
       "important": false,
       "repo": "site",
       "sha": "5fd64eb2a9b339e447c381f5361b64f93324e930"
@@ -50,7 +47,7 @@
       "uid": "63d41db",
       "type": "feat",
       "date": "2026-09-05",
-      "desc": "后端新增匿名提问模块：anonymous_question 表、验证码+浏览器身份+每日一次限流；后台可列/标记已读/删除，/site/pending 纳入未读统计",
+      "desc": "新增匿名提问模块，接口含验证码与每日一次限制",
       "important": false,
       "repo": "api",
       "sha": "63d41dbf966093fea752192ed19abf583464d70b"
@@ -59,7 +56,7 @@
       "uid": "0ac72e4",
       "type": "feat",
       "date": "2026-09-04",
-      "desc": "赞赏页 /donate 纳入路由级访客上报：访问时以 pageType=donate、resourceType=site 记录到访客统计",
+      "desc": "赞赏页纳入访客统计",
       "important": false,
       "repo": "site",
       "sha": "0ac72e49d1146e281e65a1a94dea0574666ed0ac"
@@ -68,7 +65,7 @@
       "uid": "8ded5a2",
       "type": "feat",
       "date": "2026-09-04",
-      "desc": "赞赏历史记录新增可选 url 字段：昵称带链接时以棕色文字展示、点击新标签跳转站外（示例「再花一号」填 https://flowersink.com）；赞赏方式补充可选填「网站地址」说明",
+      "desc": "赞赏历史支持填写网站地址，昵称可带链接跳转",
       "important": false,
       "repo": "site",
       "sha": "8ded5a2cdb1389710a1c1ab7c2c7e8af4827af63"
@@ -77,7 +74,7 @@
       "uid": "d041c69",
       "type": "feat",
       "date": "2026-09-04",
-      "desc": "新增赞赏页 /donate（参考「关于」页左侧标题导航版式）：开场正文 + 赞赏的使用/回馈/方式/历史四节，收款码与赞赏历史表格展示；博客详情底部按钮由「分享本文」改为「☕ 赞赏」并跳转 /donate",
+      "desc": "新增赞赏页 /donate，博客详情底部改为「赞赏」入口",
       "important": false,
       "repo": "site",
       "sha": "d041c69248be4b9c6aeb9efecd3bca459cdf2e9a"
@@ -86,7 +83,7 @@
       "uid": "a3a292f",
       "type": "feat",
       "date": "2026-09-04",
-      "desc": "新增唯一置顶文章（id=0《关于我和花墨的一切》，分类随笔/标签再花/日期 2024-10-10）：首页「花墨的精选文章」恒为第一张卡片、标题带「置顶」角标；文归档顶部新增置顶卡片（时间轴之外、白色卡片+精选渐变背景，仅标题 hover）；并放开文章详情页对 id=0 的加载限制",
+      "desc": "新增置顶文章（id=0《关于我和花墨的一切》），首页精选与归档顶部固定展示",
       "important": false,
       "repo": "site",
       "sha": "a3a292fe5cadb54f8292100e679ba104b9c5930a"
@@ -95,7 +92,7 @@
       "uid": "4eda259",
       "type": "feat",
       "date": "2026-09-03",
-      "desc": "GitHub 热力图改为一次性加载四组数据：进入页面用 forkJoin 并发拉取「近一年 + 最近三年」，加载完成前显示占位；年份/近一年切换纯静态切换、不再调用 API；配合服务端 6h 缓存与客户端 15 分钟缓存，回访不再重复请求 GitHub",
+      "desc": "关于页 GitHub 热力图改为一次性加载，切换年份不再请求接口",
       "important": false,
       "repo": "site",
       "sha": "4eda259b921330d56ebf3561db9f303e87df977b"
@@ -104,7 +101,7 @@
       "uid": "652dd19",
       "type": "style",
       "date": "2026-09-03",
-      "desc": "GitHub 热力图格子 hover 改用 ng-zorro nz-tooltip 展示提交数提示（如「42 次提交，2025年12月26日」），鼠标移入即显、移出即隐，替换原生 title",
+      "desc": "GitHub 热力图格子的提交数提示改用 nz-tooltip",
       "important": false,
       "repo": "site",
       "sha": "652dd19d16b5296bc64dfca7e568f3ab089e27ca"
@@ -113,7 +110,7 @@
       "uid": "97e4963",
       "type": "style",
       "date": "2026-09-03",
-      "desc": "GitHub 热力图文案全面中文化：月份/图例（少·多）/总数（如「1,074 次提交，近一年」）/hover 提示（如「30 次提交，2026年01月01日」）；月份标签改放在该月 1 号所在列，边缘只露几天的月份不再占位，相邻标签自然拉开不再重叠",
+      "desc": "GitHub 热力图文案全面中文化，月份标签位置修正",
       "important": false,
       "repo": "site",
       "sha": "97e49633b78d1d9ba5ef01af740164b59ae1affb"
@@ -122,7 +119,7 @@
       "uid": "637ec88",
       "type": "style",
       "date": "2026-09-03",
-      "desc": "关于页 GitHub 热力图：色块由绿改为站点主配色暖棕色阶（与 changelog 同源，最深为主色 #8b5a2b），无提交仍为灰块；年份切换不再闪骨架，保留图表原位刷新并对整图做淡入过渡",
+      "desc": "GitHub 热力图配色改为站点暖棕色阶",
       "important": false,
       "repo": "site",
       "sha": "637ec88493cc32a294f6baed9e9ded16bdfaa95d"
@@ -131,7 +128,7 @@
       "uid": "98706d1",
       "type": "style",
       "date": "2026-09-03",
-      "desc": "优化关于页 GitHub 提交热力图：周日作为每周首日、首末列补全 7 天；年份视图铺满全年（当年剩余月份未来日期以灰块显示）；图体自适应居中；年份筛选改为固定四个标签按钮（近一年 + 最近三年）；图例补灰块色阶；去掉面板边框",
+      "desc": "GitHub 热力图按周日起始补全时间轴，年份视图铺满全年",
       "important": false,
       "repo": "site",
       "sha": "98706d149dac3d74406b8d4d9efb106f9605e0df"
@@ -140,7 +137,7 @@
       "uid": "55914a4",
       "type": "feat",
       "date": "2026-09-03",
-      "desc": "关于页新增「编程」爱好，并展示 GitHub 提交绿块热力图（近一年/年份切换、月份标签、图例与 hover 提示、加载占位与错误重试），数据来自新增 /github/contributions 接口",
+      "desc": "关于页新增「编程」爱好与 GitHub 提交热力图",
       "important": false,
       "repo": "site",
       "sha": "55914a45f1324cf1dd4f83fb7cd18d32234dea17"
@@ -149,7 +146,7 @@
       "uid": "4cb587d",
       "type": "feat",
       "date": "2026-09-03",
-      "desc": "新增 GET /github/contributions 接口：代理 GitHub GraphQL 返回提交贡献日历（近一年/按年份），内存缓存 6 小时，覆盖 2024-01-01 之后数据",
+      "desc": "新增 /github/contributions 接口，缓存 6 小时",
       "important": false,
       "repo": "api",
       "sha": "4cb587d56dbd6268cb52fe32acdaffbf42c4c12f"
@@ -158,7 +155,7 @@
       "uid": "f3328c3",
       "type": "style",
       "date": "2026-09-03",
-      "desc": "博客卡片摘要与底部元信息优化：摘要字号提至 lg 正文色、加大行高与留白；底部分类/标签/阅读/日期改「·」分隔并降为 sm 弱色，去掉阅读量眼睛图标",
+      "desc": "博客卡片摘要与底部元信息排版优化",
       "important": false,
       "repo": "site",
       "sha": "f3328c311ff2909a2d38dadb8cb5401143f7098d"
@@ -167,7 +164,7 @@
       "uid": "2eb6ddd",
       "type": "fix",
       "date": "2026-09-03",
-      "desc": "修复博客/点滴等带水印图片上传压缩失败（400）：水印改为按输出尺寸合成，>960px 宽图不再报 composite 冲突；水印字体缺失/异常时给出明确提示",
+      "desc": "修复带水印图片上传压缩失败（400）",
       "important": false,
       "repo": "api",
       "sha": "2eb6ddd111a84dc52666d5e253db3ccf5b239159"
@@ -176,7 +173,7 @@
       "uid": "67072c9",
       "type": "feat",
       "date": "2026-09-02",
-      "desc": "博客卡片支持摘要展示：有摘要优先显示摘要，无摘要时显示正文前文，摘要与正文均改为单行截断",
+      "desc": "博客卡片支持展示摘要，无摘要时显示正文前文",
       "important": false,
       "repo": "site",
       "sha": "67072c9074f897a19680468cba412132280cd573"
