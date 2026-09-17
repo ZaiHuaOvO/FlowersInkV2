@@ -1,5 +1,5 @@
 import { DatePipe, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -17,7 +17,6 @@ import { LinkCardComponent } from '../../components/link/link-card/link-card.com
 import { SimpleCaptchaComponent } from '../../components/website/simple-captcha/simple-captcha.component';
 import { extractHttpErrorMessage } from '../../shared/utils/http-error-message.util';
 import { ApiLimiterService } from '../../services/api-limiter.service';
-import { WindowService } from '../../services/window.service';
 import { LinkService } from './link.service';
 
 interface ArticleItem {
@@ -62,7 +61,6 @@ export class LinkComponent implements OnInit {
   loading = true;
   articleLoading = true;
   submitting = false;
-  isMobile = false;
   email = 'ZyZy1724@gmail.com';
   articleUpdatedAt = '';
   links: Array<{
@@ -105,16 +103,10 @@ export class LinkComponent implements OnInit {
   captchaComponent?: SimpleCaptchaComponent;
 
   constructor(
-    private readonly window: WindowService,
-    private readonly destroyRef: DestroyRef,
     private readonly link: LinkService,
     private readonly msg: NzMessageService,
     private readonly limiter: ApiLimiterService,
   ) {
-    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
-      this.isMobile = isMobile;
-    });
-
     this.link
       .getLinks({ isApproved: true })
       .subscribe((res: any) => {
