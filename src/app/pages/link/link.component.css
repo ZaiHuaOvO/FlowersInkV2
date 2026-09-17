@@ -238,6 +238,22 @@
     line-height: 1.5;
 }
 
+/* 须知末尾的一行小字（附友链观点文章链接） */
+.link-note-foot {
+    font-size: var(--fi-font-size-xs);
+    color: var(--fi-text-muted);
+}
+
+.link-note-foot a {
+    color: var(--fi-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.link-note-foot a:hover {
+    color: var(--fi-primary);
+}
+
 /* ====== Friend articles ====== */
 .friend-article-list {
     width: 100%;

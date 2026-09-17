@@ -17,8 +17,8 @@
                     <span class="profile-badge">这是我的站点</span>
                 </div>
                 <button class="profile-copy-all" (click)="copyAllInfo()" [class.copied]="allCopied">
-                    @if (!allCopied) { 复制信息 }
-                    @if (allCopied) { <span class="copied-text">✓ 复制信息</span> }
+                    @if (!allCopied) { 复制 JSON }
+                    @if (allCopied) { <span class="copied-text">✓ 复制 JSON</span> }
                 </button>
             </div>
             <div class="profile-info-list">
@@ -104,13 +104,17 @@
             <div class="apply-rules" flCard>
                 <h4 nz-typography>友链申请须知</h4>
                 <article nz-typography class="link-note">
-                    <p nz-typography>1. 请先将「花墨」添加至您的友链列表中</p>
+                    <p nz-typography>1. 友链最终需要是双向的</p>
                     <p nz-typography>2. 已经与我产生了一定的连接（包括但不限于邮件联系、网站互动等） - <span
                             class="link-note-sub">需要先成为朋友哦ฅ•ω•ฅ</span></p>
                     <p nz-typography>3. 博客需要有我感兴趣的内容，包括但不限于：Angular · 建站相关 · 生活/游戏/思考记录、分享、碎碎念等等 - <span
                             class="link-note-sub">因为我会经常来逛_(:з」∠)_</span></p>
-                    <p nz-typography>4. 请不要添加友链后就对花墨和再花不管不顾了T^T</p>
-                    <p nz-typography>5. 强制HTTPS、保持更新频率、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
+                    <p nz-typography>4. 建站时间一年以上，且有 15 篇以上的原创内容。</p>
+                    <p nz-typography>5. 启用HTTPS、保持更新频率、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
+                    <p nz-typography class="link-note-foot">
+                        关于我对友链的看法，可阅读<a href="https://flowersink.com/blog/blog-detail/92#heading-4"
+                            target="_blank" rel="noopener noreferrer">《友链应当是朋友之间的链接 - 友链的意义》</a>
+                    </p>
                 </article>
             </div>
 
@@ -196,13 +200,17 @@
             <div class="apply-rules" flCard>
                 <h4 nz-typography>友链申请须知</h4>
                 <article nz-typography class="link-note">
-                    <p nz-typography>1. 请先将「花墨」添加至您的友链列表中</p>
+                    <p nz-typography>1. 友链最终需要是双向的</p>
                     <p nz-typography>2. 已经与我产生了一定的连接（包括但不限于邮件联系、网站互动等） - <span
                             class="link-note-sub">需要先成为朋友哦ฅ•ω•ฅ</span></p>
                     <p nz-typography>3. 博客需要有我感兴趣的内容，包括但不限于：Angular · 建站相关 · 生活/游戏/思考记录、分享、碎碎念等等 - <span
                             class="link-note-sub">因为我会经常来逛_(:з」∠)_</span></p>
-                    <p nz-typography>4. 请不要添加友链后就对花墨和再花不管不顾了T^T</p>
-                    <p nz-typography>5. 强制HTTPS、保持更新频率、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
+                    <p nz-typography>4. 建站时间一年以上，且有 15 篇以上的原创内容。</p>
+                    <p nz-typography>5. 启用HTTPS、保持更新频率、视觉交互好、与我连接系数高等等因素，会让申请更容易通过！</p>
+                    <p nz-typography class="link-note-foot">
+                        关于我对友链的看法，可阅读<a href="https://flowersink.com/blog/blog-detail/92#heading-4"
+                            target="_blank" rel="noopener noreferrer">《友链应当是朋友之间的链接 - 友链的意义》</a>
+                    </p>
                 </article>
             </div>
 

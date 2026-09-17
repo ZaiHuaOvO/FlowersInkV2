@@ -182,16 +182,17 @@ export class LinkComponent implements OnInit {
   }
 
   copyAllInfo(): void {
-    const text =
-`网站名称：花墨
-LOGO地址：https://api.flowersink.com/img/logo.png
-网站地址：https://flowersink.com
-网站描述：好耶！是再花猫猫头ฅ•ω•ฅ
-联系邮箱：${this.email}`;
-    navigator.clipboard.writeText(text).then(() => {
-      this.msg.success('已复制友链信息');
+    const info = {
+      name: '花墨',
+      logo: 'https://api.flowersink.com/img/logo.png',
+      url: 'https://flowersink.com',
+      content: '好耶！是再花猫猫头ฅ•ω•ฅ',
+      email: this.email,
+    };
+    navigator.clipboard.writeText(JSON.stringify(info, null, 2)).then(() => {
+      this.msg.success('已复制友链 JSON');
       this.allCopied = true;
-      setTimeout(() => this.allCopied = false, 2000);
+      setTimeout(() => (this.allCopied = false), 2000);
     });
   }
 
