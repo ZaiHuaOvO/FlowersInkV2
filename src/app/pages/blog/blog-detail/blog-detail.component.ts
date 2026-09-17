@@ -287,6 +287,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.injectHeadingAnchors();
     this.bindExternalLinks();
     this.bindImagePreview();
+    this.scrollToInitialHash();
   }
 
   /** 给 h1-h3 注入可复制/跳转的 # 锚点，并给代码块注入语言标签（供 markdown-zaihua.css 展示） */
@@ -301,10 +302,17 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     container.querySelectorAll('h1, h2, h3').forEach((heading: HTMLElement) => {
       if (!heading.id || heading.querySelector('.heading-anchor')) return;
+      const id = heading.id;
       heading.insertAdjacentHTML(
         'afterbegin',
-        `<a class="heading-anchor" href="#${heading.id}" aria-hidden="true"></a>`
+        `<a class="heading-anchor" href="#${id}" aria-hidden="true"></a>`
       );
+      heading
+        .querySelector('.heading-anchor')
+        ?.addEventListener('click', (event: Event) => {
+          event.preventDefault();
+          this.scrollToHeading(id, true);
+        });
     });
 
     // 代码块语言标签：取 <code>/<pre> 上的 language-* 类
@@ -318,6 +326,43 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         pre.dataset['lang'] = langClass.replace('language-', '');
       }
     });
+  }
+
+  /**
+   * 页内标题锚点跳转。
+   * 页面带 <base href="/">，裸 "#id" 会被解析到站点根（点一下会跳到首页），
+   * 所以这里接管点击、自己滚动，并把带路径的地址写回地址栏便于复制分享。
+   */
+  private scrollToHeading(id: string, updateUrl: boolean): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    target.scrollIntoView({
+      behavior: updateUrl ? 'smooth' : 'auto',
+      block: 'start',
+    });
+
+    if (updateUrl) {
+      window.history.replaceState(
+        null,
+        '',
+        `${window.location.pathname}${window.location.search}#${id}`
+      );
+    }
+  }
+
+  /** 用带 #片段 的链接打开文章时，等 markdown 渲染出标题后再滚过去 */
+  /** 用带 #片段 的链接打开文章时，等 markdown 渲染出标题后再滚过去 */
+  private scrollToInitialHash(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const raw = window.location.hash.replace(/^#/, '');
+    if (!raw) return;
+    try {
+      this.scrollToHeading(decodeURIComponent(raw), false);
+    } catch {
+      // 片段不是合法编码时忽略
+    }
   }
 
   /** 让 markdown 中的链接在新标签页打开（页内锚点除外） */

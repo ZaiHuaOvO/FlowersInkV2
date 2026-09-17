@@ -23,7 +23,15 @@ const ngZorroConfig: NzConfig = {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
-    provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top' })),
+    // anchorScrolling 必须开：否则带 #片段 的导航会被 scrollPositionRestoration:'top'
+    // 一律拉回顶部，把页内锚点定位冲掉（博客详情正文异步渲染，路由那一刻还找不到锚点）
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'top',
+        anchorScrolling: 'enabled',
+      })
+    ),
     provideNzIcons(),
     provideNzI18n(zh_CN),
     provideAnimationsAsync(),

@@ -144,6 +144,12 @@
   content: '#';
 }
 
+/* h1 也补上锚点偏移（h2~h6 在上面的规则里已设同一值）；
+   该值需与 app.component.ts 里 ViewportScroller.setOffset 保持一致 */
+#currentAnchor h1 {
+  scroll-margin-top: 96px;
+}
+
 /* ===== 段落 & 列表 ===== */
 #currentAnchor p,
 #currentAnchor ul,
