@@ -1,6 +1,24 @@
 {
-  "total": 366,
+  "total": 368,
   "records": [
+    {
+      "uid": "568d6a8",
+      "type": "fix",
+      "date": "2026-09-17",
+      "desc": "修复博客标题旁的 # 锚点点击后会跳到首页（页面 base href 导致 #id 被解析到站点根）；同时支持用带 #标题 的链接直达文章指定章节，跳转后会避开顶部导航",
+      "important": false,
+      "repo": "site",
+      "sha": "568d6a8db3ca3f6e55b7aadefa419bfcc5a0d3c8"
+    },
+    {
+      "uid": "57f2148",
+      "type": "feat",
+      "date": "2026-09-17",
+      "desc": "后台访客列表新增「设备」筛选，默认只看真人：爬虫约占访客日组的一半，默认过滤后数据更能反映真实访问，可切换查看仅爬虫或全部",
+      "important": false,
+      "repo": "api",
+      "sha": "57f214895e71f6cf9b90029870960ba5c90895e4"
+    },
     {
       "uid": "00b669c",
       "type": "feat",
