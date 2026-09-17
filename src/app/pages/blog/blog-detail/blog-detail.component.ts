@@ -51,6 +51,13 @@ import { isPinnedBlog } from '../../../shared/utils/blog-pinned.util';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { VisitorTrackingService } from '../../../services/visitor-tracking.service';
 
+/**
+ * 页内跳转后标题距视口顶部的距离（吸顶导航 48px + 余量）。
+ * 需与 markdown-zaihua.css 的 scroll-margin-top、app.component.ts 的
+ * ViewportScroller.setOffset 保持一致，否则目录/锚点/深链接三种入口落点会不一致。
+ */
+const ANCHOR_TOP_OFFSET = 96;
+
 @Component({
   selector: 'flower-blog-detail',
   standalone: true,
@@ -99,7 +106,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     title: string;
   }> = [];
   currentAnchor: string | undefined;
-  targetOffset: number = 0;
+  /** 目录跳转后标题停在离视口顶部多远——贴顶而不是居中，同时避开吸顶导航 */
+  targetOffset: number = ANCHOR_TOP_OFFSET;
   isMobile: boolean = false;
   private isSyncing = false;
   markdownReady = false;
@@ -234,9 +242,6 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loading = false;
       this.loadRelatedBlogs();
     });
-    if (isPlatformBrowser(this.platformId)) {
-      this.targetOffset = window.innerHeight / 2;
-    }
   }
 
   private loadRelatedBlogs(): void {
