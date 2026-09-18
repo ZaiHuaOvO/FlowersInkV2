@@ -5,6 +5,8 @@
  * 与自动生成的 emoji-packs.generated.ts。
  */
 export const kaomojiList: string[] = [
+  'ฅ•ω•ฅ',
+  '_(:з」∠)_',
   '(*´∀`)~♥',
   '(｡･ω･｡)',
   '(๑•̀ㅂ•́)و✧',
