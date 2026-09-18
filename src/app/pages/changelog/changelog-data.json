@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 369,
+  "total": 371,
   "records": [
+    {
+      "uid": "c290c87",
+      "type": "feat",
+      "date": "2026-09-18",
+      "desc": "评论区支持 Markdown 与「评论/预览」切换，并新增再花、方长、颜文字三套表情包",
+      "important": true,
+      "repo": "site",
+      "sha": "c290c87d540ee7025060243c2df9b664a8dae592"
+    },
+    {
+      "uid": "5424a96",
+      "type": "feat",
+      "date": "2026-09-18",
+      "desc": "评论与留言里的图片限制为仅本站可引用，防止外链图片追踪访客",
+      "important": false,
+      "repo": "api",
+      "sha": "5424a96f4c776d3e8e2c0a4f5df3af3e46ec4bf0"
+    },
     {
       "uid": "9be3c67",
       "type": "style",
