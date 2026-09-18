@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 371,
+  "total": 372,
   "records": [
+    {
+      "uid": "47be10c",
+      "type": "chore",
+      "date": "2026-09-18",
+      "desc": "表情包图片压缩到原来的十分之一，评论区与表情弹窗首次加载明显变快",
+      "important": false,
+      "repo": "site",
+      "sha": "47be10cc126ca57cb79d99d2ea5a3951f45f0d96"
+    },
     {
       "uid": "c290c87",
       "type": "feat",
