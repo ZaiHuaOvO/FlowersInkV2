@@ -11,6 +11,11 @@
 | `fl-card` | 通用卡片样式指令（静态/悬浮） | `src/app/common_ui/fl_ui/fl-card/fl-card.directive.ts` | [前往](#fl-card) |
 | `fl-tag` | 通用标签样式指令（soft/outline/solid） | `src/app/common_ui/fl_ui/fl-tag/fl-tag.directive.ts` | [前往](#fl-tag) |
 | `fl-alert` | 通用提示框样式指令（soft/outline/solid） | `src/app/common_ui/fl_ui/fl-alert/fl-alert.directive.ts` | [前往](#fl-alert) |
+| `fl-comment-board` | 公共评论区（评论 + 回复 + 表情 + Markdown 预览） | `src/app/common_ui/fl_ui/fl-comment-board/fl-comment-board.component.ts` | [前往](#fl-comment-board) |
+| `fl-comment-editor` | 评论输入框（评论 / 预览 双 tab + 表情选择） | `src/app/common_ui/fl_ui/fl-comment-editor/fl-comment-editor.component.ts` | [前往](#fl-comment-editor) |
+| `fl-comment-content` | 评论内容渲染（Markdown + 表情 token） | `src/app/common_ui/fl_ui/fl-comment-content/fl-comment-content.component.ts` | [前往](#fl-comment-content) |
+| `fl-comment-card` | 单条评论卡片 | `src/app/common_ui/fl_ui/fl-comment-card/fl-comment-card.component.ts` | [前往](#fl-comment-card) |
+| `fl-emoji-picker` | 表情选择器（再花 / 方长 / 颜文字三个分页） | `src/app/common_ui/fl_ui/fl-emoji-picker/fl-emoji-picker.component.ts` | [前往](#fl-emoji-picker) |
 
 ## 目录
 
@@ -19,6 +24,11 @@
 - [`fl-card`](#fl-card)
 - [`fl-tag`](#fl-tag)
 - [`fl-alert`](#fl-alert)
+- [`fl-comment-board`](#fl-comment-board)
+- [`fl-comment-editor`](#fl-comment-editor)
+- [`fl-comment-content`](#fl-comment-content)
+- [`fl-comment-card`](#fl-comment-card)
+- [`fl-emoji-picker`](#fl-emoji-picker)
 
 ## `fl-button`
 
@@ -260,6 +270,169 @@ export class ExampleComponent {}
 | `--fi-alert-bg-strong` | `solid` 背景 |
 | `--fi-alert-border-strong` | `solid` 边框 |
 | `--fi-alert-text-strong` | `solid` 文字色 |
+
+## `fl-comment-board`
+
+公共评论区。文章 / 游戏 / 装备 / 点滴共用同一个组件，差异只有「数据从哪来」和几个展示开关。
+
+### 路径
+
+- `src/app/common_ui/fl_ui/fl-comment-board/fl-comment-board.component.{ts,html,css}`
+
+### 用法
+
+数据源通过 `CommentSource` 适配器注入，用工厂函数组装：
+
+```ts
+import { articleCommentSource, lifeCommentSource, memoizeLifeCommentSources } from '../../../shared/comment/comment-source.factory';
+
+// 文章 / 游戏 / 装备（模块级线程可省 targetId）
+readonly commentSource = articleCommentSource(this.commentService, 'article', this.blogId);
+
+// 点滴列表：每条点滴各一个评论区，必须用记忆化版本，否则引用变化会反复拉取
+readonly sourceFor = memoizeLifeCommentSources(this.lifeService);
+```
+
+```html
+<fl-comment-board [source]="commentSource" title="评论"></fl-comment-board>
+
+<!-- 点滴：无标题、点评论数才展开、只显示 3 条 -->
+<fl-comment-board [source]="sourceFor(item.id)" [title]="null" [collapsible]="true"
+  [previewLimit]="3" [open]="isCommentOpen(item)"></fl-comment-board>
+```
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+|---|---|---|---|
+| `source` | 数据源适配器，**必须是稳定引用** | `CommentSource` | 必填 |
+| `title` | 标题；`null` 不渲染标题行 | `string \| null` | `'评论'` |
+| `collapsible` | 点击评论数才展开表单 | `boolean` | `false` |
+| `open` | `collapsible` 下的受控展开态 | `boolean` | `false` |
+| `previewLimit` | >0 时只显示前 N 条，其余收进「展开全部评论」 | `number` | `0` |
+| `showAll` | 强制全部展示，不出现展开按钮 | `boolean` | `false` |
+| `countChange` | 评论总数变化（含本地待审核） | `EventEmitter<number>` | — |
+
+### 图片来源限制
+
+访客内容里的**图片**只允许来自本站（`flowersink.com` 任意子域名 + 站内相对路径），其它域名、`data:` URI、协议相对地址都会被拒。外链**文章链接**不受影响。
+
+- 规则实现在 `shared/comment/content-image-policy.util.ts`，与 API 的 `common/content-image-policy.ts` 是同一套（改一边记得同步另一边）
+- 前端这份只为**即时反馈**；真正的闸门在 API（`PublicInteractionSecurityService.assertContentImagesAllowed`，挂在文章/点滴/模块评论与留言四个访客入口上）。绕过前端直接发请求一样会被 400 拒掉
+- 为什么不放在展示时过滤：浏览器只要把 `<img src="外链">` 插进 DOM 就会立刻请求，事后删元素或 `display:none` 都来不及，追踪像素已经打出、访客 IP 已经泄露。所以必须在**入库前**拦
+- 站长在 ERP 里的回复**不受此限制**（站长可信）
+
+## `fl-comment-editor`
+
+评论输入框：评论 / 预览双 tab，内置表情选择器。验证码与提交按钮由使用方投影。
+
+### 路径
+
+- `src/app/common_ui/fl_ui/fl-comment-editor/fl-comment-editor.component.{ts,html,css}`
+
+### 用法
+
+```html
+<fl-comment-editor [content]="form.content" (contentChange)="form.content = $event"
+  [identity]="form" [disabled]="submitting" [rows]="4" [maxlength]="500">
+  <div fcEditorActions nz-flex nzAlign="center" nzGap="middle">
+    <flower-simple-captcha [scene]="source.captchaScene" [inline]="true"></flower-simple-captcha>
+    <fl-button (click)="submit()">发布评论</fl-button>
+  </div>
+</fl-comment-editor>
+```
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+|---|---|---|---|
+| `content` / `contentChange` | 内容双向绑定 | `string` | `''` |
+| `identity` | 预览时套用的身份（名字/邮箱/网址/头像） | `CommentIdentity \| null` | `null` |
+| `previewRole` | 预览身份；ERP 回复传 `'admin'` 显示猫猫头徽章 | `'visitor' \| 'admin'` | `'visitor'` |
+| `maxlength` / `rows` / `placeholder` | 透传给 textarea | — | `500` / `4` / — |
+| `disabled` | 禁用输入与表情 | `boolean` | `false` |
+| `showCounter` | 是否显示字数计数 | `boolean` | `true` |
+| `pickerPlacement` | 表情面板弹出方向 | `'top' \| 'bottom' \| 'topLeft' \| 'bottomLeft'` | `'topLeft'` |
+
+公开方法：`insert(text: string)` —— 在**光标处**插入文本（表情 token / 颜文字），并把光标移到插入内容之后。
+
+## `fl-comment-content`
+
+评论内容渲染器：先把 `[包名:名字]` 表情 token 换成行内图片，再交给 Markdown 渲染。列表、预览、ERP 回复弹窗都用它。
+
+### 路径
+
+- `src/app/common_ui/fl_ui/fl-comment-content/fl-comment-content.component.{ts,html,css}`
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+|---|---|---|---|
+| `content` | 原始内容（可含表情 token） | `string \| null` | `''` |
+
+样式在全局 `common_ui/css/markdown-comment.css`：`<markdown>` 以 innerHTML 注入内容，拿不到组件作用域属性，所以主题只能走全局。内容里的表情包靠 URL 片段标记识别：
+
+- token `[方长:饭饭饿饿]` → `![饭饭饿饿](<url>#fl-emoji "饭饭饿饿")`
+- CSS 用 `img[src*="#fl-emoji"]` 命中，固定 28px + `vertical-align: bottom`
+- **行高与表情尺寸是一套的**：`.fl-comment-content` 的 `line-height` 固定为 28px（= 表情高度），配合 `vertical-align: bottom` 让表情正好占满行盒。这样**有没有表情每行高度都一样**，不会出现「有表情的行高、纯文字的行矮」的跳变。**改表情尺寸时必须同步改 line-height**
+- 标记放在**地址片段**而不是 `title`：`title` 会被浏览器当原生悬停提示显示出来（会看到 "fl-emoji" 这串英文）；放进片段后 alt 和 title 都能放表情名，片段不参与图片请求也不影响加载
+- **视觉重心微调**：站内表情的角色都是「上疏下密」（上方是耳朵和留白、下方是身体），alpha 加权重心低于几何中心（实测再花 58.0%、方长 55.5%），28px 下偏低约 2px，所以统一 `transform: translateY(-2px)` 往上提。`transform` 不参与布局，行高仍是恒定的 28px。可用 `--fc-emoji-lift` 覆盖（例如某套图取景不同，可在页面级单独调）
+- 因此**不会**影响用户自己贴的图
+
+可用 `--fc-content-font-size` 覆盖字号（留言页用 16px）。
+
+## `fl-comment-card`
+
+单条评论卡片。刻意不递归：子回复由 `fl-comment-board` 自己循环，卡片只负责一张脸，这样预览能直接复用同一个卡片。
+
+### 路径
+
+- `src/app/common_ui/fl_ui/fl-comment-card/fl-comment-card.component.{ts,html,css}`
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+|---|---|---|---|
+| `comment` | 评论对象 | `CommentItem` | 必填 |
+| `preview` | 预览态：隐藏待审核徽章与回复入口 | `boolean` | `false` |
+| `showReplyButton` | 是否显示「回复」入口 | `boolean` | `false` |
+| `replyActive` | 回复框已展开（按钮文案切到「取消回复」） | `boolean` | `false` |
+| `avatarSize` | 头像尺寸（px） | `number` | `40` |
+| `replyToggle` | 点击回复/取消 | `EventEmitter<void>` | — |
+
+内联回复框通过 `<ng-content select="[flCardExtras]">` 投影。
+
+## `fl-emoji-picker`
+
+表情选择器，分页由 `EMOJI_PACKS` 驱动：**再花 / 方长 / ฅ•ω•ฅ**。
+
+### 路径
+
+- `src/app/common_ui/fl_ui/fl-emoji-picker/fl-emoji-picker.component.{ts,html,css}`
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+|---|---|---|---|
+| `emojiSelected` | 选中的表情：图片包发 token `[包名:名字]`，颜文字发原文 | `EventEmitter<string>` | — |
+| `placement` | 弹出方向 | `'top' \| 'bottom' \| 'topLeft' \| 'bottomLeft'` | `'topLeft'` |
+
+### 交互细节
+
+- **名字提示是手写的**，没用 `nz-tooltip`。ng-zorro 的延迟取值是 `this.mouseEnterDelay || 0.15`，传 `0` 会被当成假值退回默认 150ms，做不到 0 延迟；而且它还有 overlay 淡入动画。手写版移入移出当帧生效（实测 6ms）。提示元素挂在 `.fe-flow` **外面**，否则会被滚动容器的 `overflow` 裁掉。
+- **hover 上移**：移入 0.18s 抬 4px，移出 0.08s 快速归位（基础态写快、hover 态写慢）。表情区顶部留了 4px 内边距，否则第一行上移后会被裁掉。
+- **记住上次用过的分页**：存 `localStorage.fl_emoji_active_pack`，下次打开停在那里；没存过或分页已不存在时回落到第一个（再花）。只在**点选表情**时写入，切分页浏览不算。
+- 弹窗宽度 574px = 10 列 × 54px + 9 × 2px 间距 + 16px 内边距；窄屏由 `max-width: calc(100vw - 24px)` 兜底自动换列。
+
+### 新增表情包
+
+不需要改本组件：
+
+1. 把图片目录放进 `src/assets`（支持 png / gif / webp 等 `<img>` 能显示的格式）
+2. 在 `FlowersInkV2/scripts/emoji.config.json` 的 `packs` 里加一项（`order` 可控展示顺序）
+3. 在 `FlowersInkV2` 下跑 `npm run emoji:manifest`
+
+该脚本会同时生成主站与 ERP 两份清单（ERP 那份是主站绝对地址，因为图片不在 ERP 包里）。
 
 ## Form State Spec
 

@@ -13,6 +13,7 @@
     "build:fast": "ng build --configuration production-fast && node scripts/generate-static-seo.mjs",
     "build:full": "ng build --configuration production && node scripts/generate-static-seo.mjs",
     "deploy": "node scripts/deploy.js",
+    "emoji:manifest": "node scripts/gen-emoji-manifest.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

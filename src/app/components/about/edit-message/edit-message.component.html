@@ -7,7 +7,7 @@
 
         @if (showToolbar && !isMobile) {
         <div class="toolbar" nz-flex nzJustify="space-between" nzGap="middle">
-          <flower-emoji (emojiSelected)="onEmojiSelected($event)"></flower-emoji>
+          <fl-emoji-picker (emojiSelected)="onEmojiSelected($event)"></fl-emoji-picker>
           <div class="toolbar-actions" nz-flex [nzVertical]="true" nzGap="small">
             <flower-simple-captcha scene="message" [disabled]="loading"></flower-simple-captcha>
             <div nz-flex nzJustify="end" nzGap="small">

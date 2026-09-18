@@ -1,0 +1,58 @@
+<div class="fc-editor">
+  <!-- 评论 / 预览 -->
+  <div class="fc-editor-tabs">
+    <button
+      type="button"
+      class="fc-editor-tab"
+      [class.fc-editor-tab--active]="tab === 'write'"
+      (click)="tab = 'write'"
+    >
+      评论
+    </button>
+    <button
+      type="button"
+      class="fc-editor-tab"
+      [class.fc-editor-tab--active]="tab === 'preview'"
+      (click)="tab = 'preview'"
+    >
+      预览
+    </button>
+  </div>
+
+  @if (tab === 'write') {
+  <div class="fc-editor-pane">
+    <textarea
+      #textarea
+      nz-input
+      flInput
+      class="fc-textarea"
+      [rows]="rows"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [maxlength]="maxlength"
+      [ngModel]="content"
+      (ngModelChange)="update($event)"
+    ></textarea>
+
+    @if (showCounter) {
+    <div class="fc-counter">{{ content.length || 0 }} / {{ maxlength }}</div>
+    }
+
+    <div class="fc-editor-actions" nz-flex nzAlign="center" nzJustify="space-between">
+      <fl-emoji-picker [placement]="pickerPlacement" (emojiSelected)="insert($event)"></fl-emoji-picker>
+
+      <!-- 验证码 / 提交按钮等由使用方投影 -->
+      <ng-content select="[fcEditorActions]"></ng-content>
+    </div>
+  </div>
+  } @else {
+  <!-- 预览：只显示这一条评论本身，不含它的回复 -->
+  <div class="fc-preview">
+    @if (content.trim()) {
+    <fl-comment-card [comment]="previewComment" [preview]="true"></fl-comment-card>
+    } @else {
+    <p class="fc-preview-empty">还没写内容，先回到「评论」写点什么吧 (´-ω-`)</p>
+    }
+  </div>
+  }
+</div>

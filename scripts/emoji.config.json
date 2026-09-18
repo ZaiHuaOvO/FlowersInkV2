@@ -1,0 +1,38 @@
+{
+  "_comment": "表情包清单配置。新增一个表情包 tab：把图片目录放进 src/assets 下，在 packs 里加一项，然后跑 npm run emoji:manifest。不需要改任何代码。",
+  "_order": "order 是该包在弹窗里的展示顺序（填显示名，不含扩展名）。没列到的文件会按名称排在最后，生成时会打印提醒。设为 null 表示按名称排序。",
+  "packs": [
+    {
+      "key": "再花",
+      "label": "再花",
+      "dir": "src/assets/再花",
+      "ext": [".png"],
+      "order": [
+        "比心", "开心", "你好", "好耶", "打call", "大哭", "哭", "什么", "OK", "赞",
+        "喝奶茶", "怒", "洗了", "呆", "星星眼", "睡觉", "爱", "晕", "得意", "生气",
+        "吃瓜", "感动", "拿刀子", "辩解", "无语", "天使", "吃饭", "流浪", "永雏塔菲", "馋",
+        "黑脸", "期待", "叹气", "庆祝", "惊呆", "摸鱼", "流汗", "唱歌", "游戏", "记仇",
+        "做梦", "我忍", "抱歉", "吃药", "红包", "心碎", "摸鸟", "酸了", "肥宅"
+      ]
+    },
+    {
+      "key": "方长",
+      "label": "方长",
+      "dir": "src/assets/方长",
+      "ext": [".gif"],
+      "order": null
+    }
+  ],
+  "targets": [
+    {
+      "out": "src/app/ts/emoji-packs.generated.ts",
+      "baseUrl": "assets",
+      "note": "主站：相对地址，两个前端同源时也可直接用"
+    },
+    {
+      "out": "../flower-ink-erp/src/app/common_ui/emoji/emoji-packs.generated.ts",
+      "baseUrl": "https://flowersink.com/assets",
+      "note": "ERP 镜像：图片不在 ERP 包里，必须走主站绝对地址"
+    }
+  ]
+}

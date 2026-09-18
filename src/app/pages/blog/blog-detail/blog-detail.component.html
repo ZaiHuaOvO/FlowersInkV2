@@ -57,9 +57,9 @@
           }
         </div>
         <nz-divider></nz-divider>
-        <!-- 文章底部表情互动 -->
-        <flower-blog-comment [data]="commentData" (emojiSelected)="onReactionSelected($event)"></flower-blog-comment>
-        <flower-comment-section type="article" [targetId]="data.id"></flower-comment-section>
+        @if (commentSource; as source) {
+        <fl-comment-board [source]="source" title="评论"></fl-comment-board>
+        }
       </nz-spin>
     </div>
     <!-- /.blog-detail-content -->

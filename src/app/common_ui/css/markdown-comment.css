@@ -1,0 +1,231 @@
+/* ===================================
+   markdown-comment.css
+   评论内容（Markdown + 表情包）的主题样式
+
+   为什么是全局文件而不是组件样式：<markdown> 把渲染结果以 innerHTML 注入，
+   那些节点带不上 Angular 的组件作用域属性，组件里的选择器选不中它们。
+   这与既有做法一致 —— markdown-zaihua.css 同样是全局作用域（那个用 #currentAnchor）。
+
+   作用域：.fl-comment-content
+   配色：全部派生自 --fi-* token，改品牌色即整体换肤。
+   字号比正文小一档，因为评论是卡片里的小字块。
+   =================================== */
+
+.fl-comment-content {
+  --cm-heading: var(--fi-text-heading, #2f2117);
+  --cm-body: var(--fi-text-body, #3d2f24);
+  --cm-muted: var(--fi-text-muted, #7a6756);
+  --cm-brand: var(--fi-primary, #8b5a2b);
+  --cm-code-bg: #2a1f18;
+  --cm-code-fg: #f4ede6;
+  --cm-inline-code-bg: color-mix(in srgb, var(--fi-primary, #8b5a2b) 7%, var(--fi-surface, #fff));
+  --cm-quote-bg: color-mix(in srgb, var(--fi-primary, #8b5a2b) 6%, var(--fi-surface-soft, #faf7f4));
+  --cm-line: color-mix(in srgb, var(--fi-primary, #8b5a2b) 20%, var(--fi-surface, #fff));
+
+  font-family: var(--fi-font-base);
+  /* 允许调用方覆盖字号：留言页正文比评论大一档 */
+  font-size: var(--fc-content-font-size, 14px);
+  /* 行高固定为 28px，正好等于表情高度：
+     这样有没有表情，每一行的高度都一样，不会出现「有表情的行高一点、
+     纯文字的行矮一点」的跳变。改表情尺寸时这里要同步改。 */
+  line-height: 28px;
+  color: var(--cm-body);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.fl-comment-content > *:first-child {
+  margin-top: 0;
+}
+
+.fl-comment-content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ── 表情包 ──
+   固定 28px，与 .fl-comment-content 的 line-height 保持一致。
+   对齐必须用 vertical-align: bottom，和行高 28px 是一套的：
+   bottom 让表情底边贴行盒底边，28px 的表情正好占满 28px 的行盒 ——
+   行盒不会被撑高，文字则在这行里垂直居中于表情。
+   （之前用 text-bottom 是让表情底边贴文字降部，那样表情顶边会顶出行盒，
+     含表情的行会变成约 34px，跟纯文字行的 28px 不一致。）
+   识别标记是地址里的 `#fl-emoji` 片段（见 emoji-packs.ts），不是 title ——
+   title 会被浏览器当原生悬停提示显示出来。这样 alt/title 都能放表情名。 */
+.fl-comment-content img[src*='#fl-emoji'] {
+  display: inline-block;
+  height: 28px;
+  width: auto;
+  max-width: none;
+  margin: 0 2px;
+  vertical-align: bottom;
+  /* 视觉微调：站内两套表情的角色都是「上疏下密」（上方是耳朵和留白、下方是身体），
+     alpha 加权重心低于几何中心 —— 实测再花 58.0%、方长 55.5%，
+     在 28px 下分别偏低 2.2px / 1.5px，所以整体往上提一点，让视觉重心与文字对齐。
+     两者只差 0.7px（肉眼不可辨），用一个统一值即可，新加的表情包也自动适用。
+     transform 不参与布局，所以行高仍是恒定的 28px，不会把行撑高。 */
+  transform: translateY(var(--fc-emoji-lift, -2px));
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* ── 段落与标题 ── */
+.fl-comment-content p {
+  margin: 0 0 0.7em;
+}
+
+.fl-comment-content h1,
+.fl-comment-content h2,
+.fl-comment-content h3,
+.fl-comment-content h4,
+.fl-comment-content h5,
+.fl-comment-content h6 {
+  margin: 1em 0 0.5em;
+  color: var(--cm-heading);
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.fl-comment-content h1 {
+  font-size: 1.25em;
+}
+
+.fl-comment-content h2 {
+  font-size: 1.15em;
+}
+
+.fl-comment-content h3 {
+  font-size: 1.05em;
+}
+
+.fl-comment-content h4,
+.fl-comment-content h5,
+.fl-comment-content h6 {
+  font-size: 1em;
+}
+
+/* ── 列表 ── */
+.fl-comment-content ul,
+.fl-comment-content ol {
+  margin: 0 0 0.7em;
+  padding-left: 1.4em;
+}
+
+.fl-comment-content ul {
+  list-style: disc;
+}
+
+.fl-comment-content ol {
+  list-style: decimal;
+}
+
+.fl-comment-content li {
+  margin: 0.2em 0;
+}
+
+.fl-comment-content li > ul,
+.fl-comment-content li > ol {
+  margin: 0.2em 0;
+}
+
+/* ── 链接 ── */
+.fl-comment-content a {
+  color: var(--cm-brand);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--cm-brand) 35%, transparent);
+  text-underline-offset: 2px;
+  transition: color 0.16s ease;
+}
+
+.fl-comment-content a:hover {
+  color: var(--fi-primary-hover, #6f4520);
+}
+
+/* ── 强调 ── */
+.fl-comment-content strong {
+  font-weight: 700;
+  color: var(--cm-heading);
+}
+
+.fl-comment-content em {
+  font-style: italic;
+}
+
+.fl-comment-content del {
+  color: var(--cm-muted);
+}
+
+/* ── 行内代码 ── */
+.fl-comment-content code {
+  padding: 0.12em 0.36em;
+  border-radius: 4px;
+  background: var(--cm-inline-code-bg);
+  font-family: var(--fi-font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 0.9em;
+  overflow-wrap: break-word;
+}
+
+/* ── 代码块 ── */
+.fl-comment-content pre {
+  margin: 0 0 0.7em;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--cm-code-bg);
+  overflow-x: auto;
+}
+
+.fl-comment-content pre code {
+  padding: 0;
+  background: none;
+  color: var(--cm-code-fg);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+/* ── 引用 ── */
+.fl-comment-content blockquote {
+  margin: 0 0 0.7em;
+  padding: 0.3em 0.9em;
+  border-left: 3px solid var(--cm-brand);
+  background: var(--cm-quote-bg);
+  border-radius: 0 6px 6px 0;
+  color: var(--cm-muted);
+}
+
+/* ── 分隔线 ── */
+.fl-comment-content hr {
+  margin: 0.9em 0;
+  border: 0;
+  border-top: 1px solid var(--cm-line);
+}
+
+/* ── 图片（用户自己贴的，不是表情包） ── */
+.fl-comment-content img:not([src*='#fl-emoji']) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0.4em 0;
+  border-radius: 8px;
+}
+
+/* ── 表格 ── */
+.fl-comment-content table {
+  margin: 0 0 0.7em;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+/* 表格字号比正文小，别跟着 28px 的行高走，否则行会显得很松 */
+.fl-comment-content th,
+.fl-comment-content td {
+  padding: 5px 9px;
+  border: 1px solid var(--cm-line);
+  text-align: left;
+  line-height: 1.6;
+}
+
+.fl-comment-content th {
+  background: color-mix(in srgb, var(--fi-primary, #8b5a2b) 8%, var(--fi-surface, #fff));
+  font-weight: 600;
+}

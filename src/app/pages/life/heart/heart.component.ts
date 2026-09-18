@@ -24,7 +24,9 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { NodataComponent } from '../../../components/website/nodata/nodata.component';
-import { LifeCommentsComponent } from '../../../components/life/life-comments/life-comments.component';
+import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
+import { memoizeLifeCommentSources } from '../../../shared/comment/comment-source.factory';
+import type { CommentSource } from '../../../shared/comment/comment.model';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { QuickUp, RefreshUp } from '../../../common_ui/animations/animation';
@@ -89,7 +91,7 @@ interface YearNavigator {
     NzModalModule,
     BlogTitleComponent,
     NodataComponent,
-    LifeCommentsComponent,
+    FlCommentBoardComponent,
     FlCardDirective,
     FlTagDirective,
   ],
@@ -158,6 +160,9 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren('monthSection') monthSectionRefs!: QueryList<ElementRef<HTMLElement>>;
 
+  /** 按 lifeId 取评论区数据源（内部记忆化，保证引用稳定） */
+  readonly sourceFor: (lifeId: number) => CommentSource;
+
   constructor(
     private readonly lifeService: LifeService,
     private readonly windowService: WindowService,
@@ -165,6 +170,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly modal: NzModalService,
   ) {
+    this.sourceFor = memoizeLifeCommentSources(this.lifeService);
     this.windowService.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
     });

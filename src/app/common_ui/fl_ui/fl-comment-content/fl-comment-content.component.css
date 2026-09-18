@@ -1,0 +1,13 @@
+/* Markdown 元素由 <markdown> 以 innerHTML 注入，组件作用域选择器够不到，
+   这里只放容器层面的布局。真正的内容主题见全局 markdown-comment.css。 */
+
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.fl-comment-content {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}

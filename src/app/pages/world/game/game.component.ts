@@ -19,7 +19,10 @@ import { WorldService } from '../world.service';
 import { GameCardComponent } from '../../../components/world/game-card/game-card.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { QuickUp } from '../../../common_ui/animations/animation';
-import { CommentSectionComponent } from '../../../components/website/comment-section/comment-section.component';
+import { CommentService } from '../../../services/comment.service';
+import { articleCommentSource } from '../../../shared/comment/comment-source.factory';
+import type { CommentSource } from '../../../shared/comment/comment.model';
+import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
 import { GameDetailDialogComponent } from './game-detail-dialog/game-detail-dialog.component';
 
 type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
@@ -45,7 +48,7 @@ type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
     RouterModule,
     GameCardComponent,
     NzGridModule,
-    CommentSectionComponent,
+    FlCommentBoardComponent,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
@@ -60,6 +63,10 @@ export class GameComponent {
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly commentService = inject(CommentService);
+
+  /** 游戏评论是模块级线程，没有 targetId，所以可以在声明时一次性定下来 */
+  readonly commentSource: CommentSource = articleCommentSource(this.commentService, 'game');
 
   /** 详情弹窗实例引用（用于关闭后同步路由） */
   private detailModalRef: any = null;

@@ -1,0 +1,597 @@
+/* ===========================================================================
+   comment.css — 评论区公共样式（fl-comment-board / fl-comment-card / fl-comment-editor）
+
+   为什么是全局文件而不是各组件的作用域样式：
+   一条评论的 DOM 会被三个组件分别渲染 —— 卡片外壳来自 fl-comment-card、
+   内联回复框由 board 投影进去、预览由 editor 复用同一张卡片。用组件作用域样式
+   就得把同一批规则复制三份，且投影内容的作用域归属很容易踩坑；一旦哪份漏改，
+   预览和列表就会长得不一样。放全局一份，杜绝这种漂移。
+
+   类名统一 fc- 前缀，与 fi-* 设计 token 配套，改品牌色即整体换肤。
+   =========================================================================== */
+
+/* ── 宿主 ── */
+fl-comment-board,
+fl-comment-card,
+fl-comment-editor,
+fl-comment-content {
+  display: block;
+  width: 100%;
+}
+
+/* ── 容器与标题 ── */
+.fc-root {
+  width: 100%;
+  padding-bottom: 32px;
+}
+
+.fc-title {
+  margin: 0 0 20px;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--fi-text-heading, #2f2117);
+}
+
+/* ═══════════════ 表单 ═══════════════ */
+
+.fc-form-card {
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 4px;
+}
+
+.fc-form {
+  width: 100%;
+}
+
+.fc-form-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .fc-form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .fc-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fc-field {
+  min-width: 0;
+}
+
+.fc-field input {
+  width: 100%;
+}
+
+.fc-field-label {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--fi-text-muted, #7a6756);
+}
+
+.fc-required {
+  color: var(--fi-danger, #b54a3a);
+  margin-left: 1px;
+}
+
+.fc-textarea {
+  width: 100%;
+  min-height: 90px;
+  resize: vertical;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.fc-counter {
+  margin-top: var(--fi-space-1, 4px);
+  text-align: right;
+  font-size: var(--fi-font-size-xs, 12px);
+  color: var(--fi-text-muted, #7a6756);
+}
+
+.fc-actions {
+  width: 100%;
+}
+
+@media (max-width: 576px) {
+  .fc-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .fc-actions > div {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+}
+
+/* ── 身份卡片（已有缓存身份时替换四个输入框） ── */
+.fc-identity-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 4px;
+}
+
+.fc-identity-avatar-wrap {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.fc-identity-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-identity-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.fc-identity-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fi-text-primary, #2f2117);
+}
+
+.fc-identity-email {
+  font-size: 12px;
+  color: var(--fi-text-muted, #7a6756);
+  word-break: break-all;
+}
+
+.fc-identity-edit-btn {
+  margin-left: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--fi-text-muted, #9ca3af);
+  cursor: pointer;
+  transition: color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fc-identity-edit-btn:hover {
+  color: var(--fi-primary, #8b5a2b);
+}
+
+/* ═══════════════ 列表与卡片 ═══════════════ */
+
+.fc-list {
+  width: 100%;
+}
+
+.fc-card {
+  width: 100%;
+  padding: 10px 0;
+}
+
+.fc-card--pending {
+  opacity: 0.72;
+}
+
+/* 站长的评论 — 暖色微妙高亮 */
+.fc-card--zaihua {
+  padding-left: 12px;
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(90deg, rgba(139, 90, 43, 0.07) 0%, transparent 100%);
+}
+
+.fc-card-body {
+  width: 100%;
+}
+
+/* ── 头像 ── */
+.fc-avatar-col {
+  flex-shrink: 0;
+}
+
+/* 尺寸由 --fc-avatar-size 驱动：顶层 40px，嵌套逐级缩小 */
+.fc-avatar-wrap,
+.fc-identity-avatar-wrap {
+  width: var(--fc-avatar-size, 40px);
+  height: var(--fc-avatar-size, 40px);
+}
+
+.fc-avatar {
+  width: var(--fc-avatar-size, 40px);
+  height: var(--fc-avatar-size, 40px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--fi-border-strong, #d0c0b0);
+  background: var(--fi-bg-container, #fafafa);
+  transition: transform var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fc-avatar:hover {
+  transform: scale(1.08);
+}
+
+.fc-avatar-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--fc-avatar-size, 40px);
+  height: var(--fc-avatar-size, 40px);
+  border-radius: 50%;
+  border: 2px solid var(--fi-border-strong, #d0c0b0);
+  background: linear-gradient(135deg, #8b5a2b 0%, #6a411d 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: calc(var(--fc-avatar-size, 40px) * 0.42);
+  user-select: none;
+}
+
+/* ── 主体 ── */
+.fc-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-header {
+  flex-wrap: wrap;
+  line-height: 1.4;
+}
+
+.fc-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fi-text-primary, #2f2117);
+}
+
+.fc-name--link {
+  color: var(--fi-primary-active, #6a411d);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.2);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.fc-name--link:hover {
+  color: var(--fi-primary-hover, #7a4d23);
+  border-bottom-color: var(--fi-primary, #8b5a2b);
+}
+
+.fc-name--zaihua {
+  font-weight: 700;
+  color: var(--fi-primary, #8b5a2b);
+}
+
+/* ── 徽章 ── */
+.fc-badge-zaihua {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 1px 7px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8b5a2b 0%, #7a4d23 100%);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.fc-badge-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 7px;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.fc-time {
+  font-size: 12px;
+  color: var(--fi-text-muted, #7a6756);
+  white-space: nowrap;
+  cursor: default;
+}
+
+.fc-reply-btn {
+  margin-left: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--fi-text-muted, #9ca3af);
+  cursor: pointer;
+  transition: color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fc-reply-btn:hover,
+.fc-reply-btn.is-active {
+  color: var(--fi-primary, #8b5a2b);
+}
+
+/* ── 评论内容（Markdown 主题在 markdown-comment.css） ── */
+.fc-content {
+  width: 100%;
+}
+
+/* ═══════════════ 内联回复 ═══════════════ */
+
+.fc-inline-reply {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+  padding: 16px;
+  background: var(--fi-bg, #fff8f3);
+  border-radius: var(--fi-radius-sm, 10px);
+}
+
+.fc-reply-identity {
+  width: 100%;
+  padding: 0 0 8px;
+}
+
+.fc-reply-identity-avatar-wrap {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.fc-reply-identity-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--fi-border-strong, #d0c0b0);
+  background: var(--fi-bg-container, #fafafa);
+}
+
+.fc-reply-identity-avatar-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--fi-border-strong, #d0c0b0);
+  background: linear-gradient(135deg, #8b5a2b 0%, #6a411d 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  user-select: none;
+}
+
+.fc-reply-identity-name-row {
+  min-width: 0;
+  flex-wrap: wrap;
+  line-height: 1.4;
+}
+
+.fc-reply-identity-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--fi-text-primary, #2f2117);
+}
+
+.fc-reply-identity-link {
+  color: var(--fi-primary-active, #6a411d);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.45);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.fc-reply-identity-link:hover {
+  color: var(--fi-primary-hover, #7a4d23);
+  border-bottom-color: var(--fi-primary, #8b5a2b);
+}
+
+.fc-reply-identity-email {
+  font-size: 12px;
+  color: var(--fi-text-muted, #7a6756);
+  word-break: break-all;
+}
+
+.fc-reply-identity-edit-btn {
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--fi-text-muted, #9ca3af);
+  cursor: pointer;
+  transition: color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fc-reply-identity-edit-btn:hover {
+  color: var(--fi-primary, #8b5a2b);
+}
+
+.fc-reply-form-row {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.fc-reply-input--name {
+  flex: 0 0 110px;
+  min-width: 80px;
+}
+
+.fc-reply-input--email,
+.fc-reply-input--website {
+  flex: 1 1 130px;
+  min-width: 100px;
+}
+
+.fc-reply-input--avatar {
+  flex: 2 1 160px;
+  min-width: 120px;
+}
+
+@media (max-width: 576px) {
+  .fc-reply-form-row {
+    flex-direction: column;
+  }
+
+  .fc-reply-input--name,
+  .fc-reply-input--email,
+  .fc-reply-input--website,
+  .fc-reply-input--avatar {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+.fc-reply-cancel {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 13px;
+  color: var(--fi-text-muted, #9ca3af);
+  cursor: pointer;
+  transition: color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fc-reply-cancel:hover {
+  color: var(--fi-text, #2f2117);
+}
+
+/* ── 嵌套回复：纯缩进，无竖线 ── */
+.fc-nested {
+  width: auto;
+}
+
+.fc-extras {
+  width: 100%;
+}
+
+/* ═══════════════ 展开更多 / 空状态 ═══════════════ */
+
+.fc-more-row {
+  width: 100%;
+  padding: 8px 0 4px;
+}
+
+.fc-more-btn {
+  padding: 6px 18px;
+  border: 1px solid var(--fi-border, #e8dacc);
+  border-radius: 999px;
+  background: var(--fi-surface, #fff);
+  color: var(--fi-text-muted, #7a6756);
+  font-family: var(--fi-font-base);
+  font-size: 13px;
+  cursor: pointer;
+  transition: color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease),
+    border-color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fc-more-btn:hover {
+  border-color: var(--fi-primary, #8b5a2b);
+  color: var(--fi-primary, #8b5a2b);
+}
+
+.fc-empty {
+  padding: 48px 16px;
+  text-align: center;
+}
+
+.fc-empty-icon {
+  font-size: 36px;
+  opacity: 0.5;
+}
+
+.fc-empty-text {
+  font-size: 13px;
+  color: var(--fi-text-muted, #7a6756);
+}
+
+/* ═══════════════ 编辑器（评论 / 预览） ═══════════════ */
+
+.fc-editor {
+  width: 100%;
+}
+
+.fc-editor-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--fi-border, #e8dacc);
+}
+
+.fc-editor-tab {
+  padding: 6px 14px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--fi-text-muted, #7a6756);
+  font-family: var(--fi-font-base);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease),
+    border-color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fc-editor-tab:hover {
+  color: var(--fi-text, #2f2117);
+}
+
+.fc-editor-tab--active {
+  color: var(--fi-primary, #8b5a2b);
+  border-bottom-color: var(--fi-primary, #8b5a2b);
+}
+
+.fc-editor-pane {
+  width: 100%;
+}
+
+.fc-editor-actions {
+  width: 100%;
+  margin-top: 2px;
+}
+
+/* 预览：套一层浅底，视觉上区分「这是预览不是真评论」 */
+.fc-preview {
+  width: 100%;
+  min-height: 90px;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px dashed var(--fi-border, #e8dacc);
+  border-radius: var(--fi-radius-sm, 10px);
+  background: var(--fi-bg, #fff8f3);
+}
+
+.fc-preview-empty {
+  font-size: 13px;
+  color: var(--fi-text-muted, #7a6756);
+}
+
+/* ═══════════════ 响应式 ═══════════════ */
+
+@media (max-width: 576px) {
+  .fc-content {
+    font-size: 13px;
+  }
+}

@@ -15,6 +15,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { QuickUp, StaggerList } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { FlCommentContentComponent } from '../../../common_ui/fl_ui/fl-comment-content/fl-comment-content.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -34,6 +35,7 @@ import { RouterModule } from '@angular/router';
     DatePipe,
     NzPaginationModule,
     FlCardDirective,
+    FlCommentContentComponent,
     RouterModule,
   ],
   templateUrl: './message.component.html',

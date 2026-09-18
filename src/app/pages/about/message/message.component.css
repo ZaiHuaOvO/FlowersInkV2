@@ -26,6 +26,8 @@
 }
 
 .content_text {
+    /* 留言正文比评论区正文大一档 */
+    --fc-content-font-size: 16px;
     font-size: 16px !important;
     font-weight: 500;
 }

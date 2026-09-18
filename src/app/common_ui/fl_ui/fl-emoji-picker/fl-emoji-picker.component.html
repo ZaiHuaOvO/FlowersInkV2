@@ -1,0 +1,65 @@
+<div class="fe-trigger-wrap">
+  <button
+    type="button"
+    class="fe-trigger"
+    nz-popover
+    [(nzPopoverVisible)]="visible"
+    nzPopoverTrigger="click"
+    [nzPopoverPlacement]="placement"
+    [nzPopoverContent]="contentTemplate"
+    aria-label="选择表情"
+  >
+    <span nz-icon nzType="smile" nzTheme="outline"></span>
+  </button>
+
+  <ng-template #contentTemplate>
+    <div class="fe-popover">
+      <!-- 分页：再花 / 方长 / ฅ•ω•ฅ … 由 EMOJI_PACKS 驱动 -->
+      <nav class="fe-tabs">
+        @for (pack of packs; track pack.key) {
+        <button
+          type="button"
+          class="fe-tab"
+          [class.fe-tab--active]="activeKey === pack.key"
+          (click)="selectTab(pack.key)"
+        >
+          {{ pack.label }}
+        </button>
+        }
+      </nav>
+
+      @if (activePack; as pack) {
+        <!-- 图片表情包：像文字一样行内排列，自然换行 -->
+        @if (pack.type === 'image') {
+        <div class="fe-flow" (mouseleave)="clearName()">
+          @for (item of pack.items; track item.name) {
+          <button
+            type="button"
+            class="fe-item"
+            (mouseenter)="showName($event, item.name)"
+            (click)="selectImage(pack.key, item.name)"
+          >
+            <img class="fe-item-img" [src]="item.url" [alt]="item.name" loading="lazy" />
+          </button>
+          }
+        </div>
+        } @else {
+        <!-- 颜文字：直接插入文本 -->
+        <div class="fe-flow fe-flow--text">
+          @for (text of pack.items; track text) {
+          <button type="button" class="fe-item fe-item--text" (click)="selectText(text)">
+            {{ text }}
+          </button>
+          }
+        </div>
+        }
+      }
+
+      <!-- 名字提示：手写而非 nz-tooltip，移入移出当帧生效。
+           放在 .fe-flow 之外，否则会被滚动容器的 overflow 裁掉 -->
+      @if (hoveredName) {
+      <span class="fe-tip" [style.left.px]="hoveredLeft" [style.top.px]="hoveredTop">{{ hoveredName }}</span>
+      }
+    </div>
+  </ng-template>
+</div>

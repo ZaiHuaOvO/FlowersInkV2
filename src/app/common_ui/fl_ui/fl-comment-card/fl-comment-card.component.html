@@ -1,0 +1,58 @@
+<div
+  class="fc-card"
+  [class.fc-card--zaihua]="zaihua && !pending"
+  [class.fc-card--pending]="pending"
+  [style.--fc-avatar-size]="avatarSize + 'px'"
+>
+  <div class="fc-card-body" nz-flex nzGap="middle" nzAlign="start">
+    <!-- 头像 -->
+    <div class="fc-avatar-col">
+      <div class="fc-avatar-wrap">
+        @if (resolvedAvatarUrl; as url) {
+        <img class="fc-avatar" [src]="url" [alt]="displayName(comment)" (error)="degradeAvatar(comment)" />
+        } @else {
+        <span class="fc-avatar-fallback">{{ avatarInitial(comment) }}</span>
+        }
+      </div>
+    </div>
+
+    <!-- 主体 -->
+    <div class="fc-main" nz-flex nzVertical nzGap="small" nzFlex="1 1 auto">
+      <div class="fc-header" nz-flex nzAlign="center" nzGap="small">
+        @if (displayWebsite(comment) && !zaihua) {
+        <a class="fc-name fc-name--link" [href]="displayWebsite(comment)" target="_blank"
+          rel="noopener noreferrer">{{ displayName(comment) }}</a>
+        } @else {
+        <span class="fc-name" [class.fc-name--zaihua]="zaihua">{{ displayName(comment) }}</span>
+        }
+
+        @if (zaihua) {
+        <span class="fc-badge-zaihua">猫猫头</span>
+        } @else if (pending) {
+        <span class="fc-badge-pending">
+          <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+          待审核
+        </span>
+        }
+
+        <span class="fc-time" nz-tooltip [nzTooltipTitle]="comment.createDate | date:'yyyy-MM-dd HH:mm:ss'">
+          {{ relativeTime(comment.createDate) }}
+        </span>
+
+        @if (showReplyButton) {
+        <button type="button" class="fc-reply-btn" [class.is-active]="replyActive" (click)="replyToggle.emit()">
+          {{ replyActive ? '取消回复' : '回复' }}
+        </button>
+        }
+      </div>
+
+      <!-- 评论内容：Markdown + 表情 token -->
+      <div class="fc-content">
+        <fl-comment-content [content]="comment.content"></fl-comment-content>
+      </div>
+
+      <!-- 内联回复框由 fl-comment-board 投影进来 -->
+      <ng-content select="[flCardExtras]"></ng-content>
+    </div>
+  </div>
+</div>

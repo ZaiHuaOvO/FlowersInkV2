@@ -115,7 +115,8 @@
                   </div>
                 </footer>
 
-                <flower-life-comments [lifeId]="item.id" [commentCount]="item.commentCount" [open]="isCommentOpen(item)" (click)="$event.stopPropagation()"></flower-life-comments>
+                <fl-comment-board [source]="sourceFor(item.id)" [title]="null" [collapsible]="true" [previewLimit]="3"
+                  [open]="isCommentOpen(item)" (click)="$event.stopPropagation()"></fl-comment-board>
               </article>
             </article>
             }

@@ -11,6 +11,7 @@ import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideMarkdown } from 'ngx-markdown';
 import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
 
 registerLocaleData(zh);
@@ -36,6 +37,9 @@ export const appConfig: ApplicationConfig = {
     provideNzI18n(zh_CN),
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
+    // 提到根上：评论组件用在 blog / life / world / about 多条路由上，
+    // 之前只在 blog.routes.ts 里注册，别的路由用 <markdown> 会 NullInjectorError。
+    provideMarkdown(),
     provideNzConfig(ngZorroConfig),
   ],
 };

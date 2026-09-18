@@ -1,0 +1,4 @@
+/* 卡片样式集中在全局 common_ui/css/comment.css（fc- 前缀）。
+
+   原因：卡片被 fl-comment-card（列表）、fl-comment-board（递归 + 投影回复框）
+   和 fl-comment-editor（预览）三处渲染，放全局才能保证三处长得一模一样。 */

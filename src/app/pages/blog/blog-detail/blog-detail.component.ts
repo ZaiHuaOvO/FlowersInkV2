@@ -36,8 +36,10 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
-import { CommentSectionComponent } from '../../../components/website/comment-section/comment-section.component';
-import { BlogCommentComponent } from '../../../components/blog/blog-comment/blog-comment.component';
+import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
+import { CommentService } from '../../../services/comment.service';
+import { articleCommentSource } from '../../../shared/comment/comment-source.factory';
+import type { CommentSource } from '../../../shared/comment/comment.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
@@ -84,8 +86,7 @@ const ANCHOR_TOP_OFFSET = 96;
     FlButtonComponent,
     CoffeeComponent,
     NzModalModule,
-    CommentSectionComponent,
-    BlogCommentComponent,
+    FlCommentBoardComponent,
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
@@ -144,6 +145,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private nzImageService: NzImageService,
     private modal: NzModalService,
     private visitorTrackingService: VisitorTrackingService,
+    private commentService: CommentService,
     destroyRef: DestroyRef,
   ) {
     this.destroyRef = destroyRef;
@@ -235,6 +237,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loading = true;
     this.blog.getBlogDetail(this.Id, fid).subscribe((res: any) => {
       this.data = res['data'];
+      // 评论数据源依赖文章 id，等详情回来才能定；目标不变就只建一次
+      this.commentSource = articleCommentSource(this.commentService, 'article', this.data.id);
       this.blogLikeCount = Number(this.data.likes ?? 0);
       this.restoreBlogLikeState();
       this.title.setTitle(`${this.data.title} | 花墨`);
@@ -573,8 +577,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     return `${y}-${m}-${d}`;
   }
 
-  /** 文章表情互动数据 */
-  commentData: any[] = [];
+  /** 文章评论区的数据源（详情返回后按文章 id 建立） */
+  commentSource?: CommentSource;
 
   /** 判断是否为置顶文章（模板调用） */
   isPinnedBlog(blog: any): boolean {
@@ -588,18 +592,6 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       nzTitle: '匿名提问',
       nzWidth: 'min(560px, 92vw)',
       nzFooter: null,
-    });
-  }
-
-  onReactionSelected(emoji: any): void {
-    this.blog.comment(this.Id, { emojiType: emoji.key }).subscribe({
-      next: (res: any) => {
-        this.commentData = res?.data ?? [];
-        this.msg.success(`已发送 ${emoji.text}`);
-      },
-      error: () => {
-        this.msg.error('发送失败，稍后再试试吧');
-      },
     });
   }
 }

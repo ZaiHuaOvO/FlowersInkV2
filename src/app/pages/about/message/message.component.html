@@ -15,7 +15,7 @@
             <ng-template #item let-item>
               <nz-comment [nzAuthor]="name" [nzDatetime]="date">
                 <nz-comment-content>
-                  <p class="content_text noto-sans-sc">{{ item.content }}</p>
+                  <fl-comment-content class="content_text noto-sans-sc" [content]="item.content"></fl-comment-content>
                 </nz-comment-content>
                 <ng-template #name>
                   @if (!item.url) {

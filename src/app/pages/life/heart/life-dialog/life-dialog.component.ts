@@ -10,7 +10,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { LifeCommentsComponent } from '../../../../components/life/life-comments/life-comments.component';
+import { FlCommentBoardComponent } from '../../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
+import { memoizeLifeCommentSources } from '../../../../shared/comment/comment-source.factory';
+import type { CommentSource } from '../../../../shared/comment/comment.model';
 import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { LifeService } from '../../life.service';
 import { LifeUiStateService } from '../../life-ui-state.service';
@@ -54,7 +56,7 @@ interface LifeDetailItem {
     NzImageModule,
     NzTagModule,
     NzTypographyModule,
-    LifeCommentsComponent,
+    FlCommentBoardComponent,
     FlTagDirective,
   ],
   templateUrl: './life-dialog.component.html',
@@ -71,6 +73,14 @@ export class LifeDialogComponent implements OnInit {
   private readonly imageService = inject(NzImageService);
   private readonly lifeService = inject(LifeService);
   private readonly uiState = inject(LifeUiStateService);
+
+  /** 按 lifeId 取评论区数据源（内部记忆化，保证引用稳定） */
+  private readonly sourceFor: (lifeId: number) => CommentSource = memoizeLifeCommentSources(this.lifeService);
+
+  /** 弹窗里只有一条点滴，模板直接用它取数据源 */
+  get commentSource(): CommentSource {
+    return this.sourceFor(this.item!.id);
+  }
 
   /** 详情数据（nzModalData 可能是原始 API 对象或已 normalize 的对象） */
   item: LifeDetailItem | null = null;

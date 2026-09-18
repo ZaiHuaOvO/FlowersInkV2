@@ -1,0 +1,194 @@
+/* ═══════════════════════════════════════════════════════════════
+   表情选择器（fl-emoji-picker）
+   分页：再花 / 方长 / ฅ•ω•ฅ（以后可加）
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 触发器 ── */
+.fe-trigger-wrap {
+  display: inline-flex;
+}
+
+.fe-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--fi-text-muted, #7a6756);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease),
+    color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fe-trigger:hover {
+  background: var(--fi-bg-soft, #f6eee5);
+  color: var(--fi-primary, #8b5a2b);
+}
+
+/* ── 弹出面板 ──
+   宽度按「一行 10 个」算：10×54 + 9×2(gap) + 16(左右内边距) = 574。
+   窄屏用 max-width 兜底，超宽时自动换成更少列。 */
+.fe-popover {
+  position: relative; /* 名字提示以它为定位参照 */
+  width: 574px;
+  max-width: calc(100vw - 24px);
+  box-sizing: border-box;
+  padding: 6px 8px 8px;
+}
+
+/* ── 名字提示 ──
+   手写而非 nz-tooltip：没有过渡、没有延迟，移入移出当帧生效。
+   绝对定位在格子正上方，且必须挂在 .fe-flow 外面，否则会被滚动容器的 overflow 裁掉。 */
+.fe-tip {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, -100%);
+  margin-top: -6px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(47, 33, 23, 0.92);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── 分页栏 ── */
+.fe-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--fi-border, #e8dacc);
+}
+
+.fe-tab {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 4px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--fi-text-muted, #7a6756);
+  font-family: var(--fi-font-base);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: background var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease),
+    color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease),
+    box-shadow var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fe-tab:hover {
+  background: var(--fi-bg-soft, #f6eee5);
+  color: var(--fi-text, #2f2117);
+}
+
+.fe-tab--active {
+  background: var(--fi-bg-soft, #f6eee5);
+  color: var(--fi-text, #2f2117);
+  box-shadow: inset 0 0 0 1.5px var(--fi-primary-outline, rgba(139, 90, 43, 0.3));
+}
+
+/* ── 表情流：像文字一样行内排列并自然换行（不是一行一个） ── */
+.fe-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  /* 顶部留白：hover 上移会让第一行溢出容器，overflow 容器会把溢出的部分裁掉 */
+  padding-top: 4px;
+  max-height: 348px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.fe-flow::-webkit-scrollbar {
+  width: 5px;
+}
+
+.fe-flow::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fe-flow::-webkit-scrollbar-thumb {
+  background: var(--fi-border-strong, #d0c0b0);
+  border-radius: 999px;
+}
+
+.fe-flow::-webkit-scrollbar-thumb:hover {
+  background: var(--fi-text-muted, #7a6756);
+}
+
+/* ── 单个表情 ── */
+.fe-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+  transform: translateY(0);
+  /* 基础态的 transition 在「移出」时生效 —— 快速归位 */
+  transition: transform 0.08s ease-out,
+    background var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+/* hover 态的 transition 在「移入」时生效 —— 慢慢抬起 */
+.fe-item:hover {
+  background: var(--fi-bg-soft, #f6eee5);
+  transform: translateY(-4px);
+  transition: transform 0.18s ease-out,
+    background var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+}
+
+.fe-item:active {
+  transform: translateY(-1px) scale(0.94);
+}
+
+/* 图片表情：50px，行内排列不换行 */
+.fe-item-img {
+  display: block;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* 颜文字：自适应宽度 */
+.fe-flow--text {
+  gap: 3px;
+}
+
+.fe-item--text {
+  width: auto;
+  height: auto;
+  padding: 5px 9px;
+  color: var(--fi-text, #2f2117);
+  font-family: var(--fi-font-base);
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.fe-item--text:hover {
+  color: var(--fi-primary, #8b5a2b);
+  transform: translateY(-1px);
+}

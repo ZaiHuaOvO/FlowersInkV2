@@ -16,10 +16,11 @@ import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 import { AboutService } from '../../../pages/about/about.service';
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
+import { findForeignImageUrl } from '../../../shared/comment/content-image-policy.util';
 import { ApiLimiterService } from '../../../services/api-limiter.service';
 import { GeneralService } from '../../../services/general.service';
 import { WindowService } from '../../../services/window.service';
-import { EmojiComponent } from '../../website/emoji/emoji.component';
+import { FlEmojiPickerComponent } from '../../../common_ui/fl_ui/fl-emoji-picker/fl-emoji-picker.component';
 import { SimpleCaptchaComponent } from '../../website/simple-captcha/simple-captcha.component';
 
 @Component({
@@ -37,7 +38,7 @@ import { SimpleCaptchaComponent } from '../../website/simple-captcha/simple-capt
     NzIconModule,
     NzPopoverModule,
     NzPaginationModule,
-    EmojiComponent,
+    FlEmojiPickerComponent,
     NzSelectModule,
     FlButtonComponent,
     FlInputDirective,
@@ -93,6 +94,13 @@ export class EditMessageComponent {
 
     if (!this.general.isNotEmpty(this.form.content)) {
       this.msg.info('留言内容还空着呢，写点什么吧 (๑•̀ㅂ•́)و✧');
+      this.loading = false;
+      return;
+    }
+
+    // 外链图片挡在验证码之前：即时反馈，且不会白白消耗掉一次性验证码
+    if (findForeignImageUrl(this.form.content)) {
+      this.msg.info('留言里的图片只能来自本站哦，请先把图片上传到本站再引用 (´-ω-`)');
       this.loading = false;
       return;
     }

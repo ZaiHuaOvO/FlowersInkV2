@@ -7,7 +7,10 @@ import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-tit
 import { WorldService } from '../world.service';
 import { QuickUp } from '../../../common_ui/animations/animation';
 import { EquipmentCardComponent } from '../../../components/world/equipment-card/equipment-card.component';
-import { CommentSectionComponent } from '../../../components/website/comment-section/comment-section.component';
+import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
+import { CommentService } from '../../../services/comment.service';
+import { articleCommentSource } from '../../../shared/comment/comment-source.factory';
+import type { CommentSource } from '../../../shared/comment/comment.model';
 
 @Component({
   selector: 'flower-equipment',
@@ -19,7 +22,7 @@ import { CommentSectionComponent } from '../../../components/website/comment-sec
     NzTypographyModule,
     BlogTitleComponent,
     EquipmentCardComponent,
-    CommentSectionComponent,
+    FlCommentBoardComponent,
   ],
   templateUrl: './equipment.component.html',
   styleUrl: './equipment.component.css',
@@ -29,7 +32,15 @@ export class EquipmentComponent implements OnInit {
   data: any[] = [];
   loading = true;
 
-  constructor(private world: WorldService) {}
+  /** 装备评论是模块级线程，没有 targetId，所以可以在构造时一次性定下来 */
+  readonly commentSource: CommentSource;
+
+  constructor(
+    private world: WorldService,
+    commentService: CommentService,
+  ) {
+    this.commentSource = articleCommentSource(commentService, 'equipment');
+  }
 
   ngOnInit(): void {
     this.getEquipment();
