@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 372,
+  "total": 374,
   "records": [
+    {
+      "uid": "a6b19b2",
+      "type": "fix",
+      "date": "2026-09-18",
+      "desc": "文章详情顶部的评论数改为与评论区一致，只计顶层评论，不再把楼中楼和站长回复算进去",
+      "important": false,
+      "repo": "api",
+      "sha": "a6b19b22591164e93835e9bc5b05754b3ff4364f"
+    },
+    {
+      "uid": "1de047a",
+      "type": "style",
+      "date": "2026-09-18",
+      "desc": "评论输入框去掉卡片边框与阴影，改为平铺，与「评论」标题左对齐",
+      "important": false,
+      "repo": "site",
+      "sha": "1de047a64d82c03685e497ce1cfd83fa968c2f8b"
+    },
     {
       "uid": "47be10c",
       "type": "chore",
