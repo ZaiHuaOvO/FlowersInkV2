@@ -6,7 +6,7 @@
 
   <!-- ════ 评论表单 ════ -->
   @if (showForm) {
-  <div class="fc-form-card" flCard @FadeSlide>
+  <div class="fc-form-card" @FadeSlide>
     <div class="fc-form" nz-flex nzVertical nzGap="small">
       <!-- 已有缓存身份：显示身份卡片；否则显示四个输入框 -->
       @if (hasCachedInfo && !editing) {

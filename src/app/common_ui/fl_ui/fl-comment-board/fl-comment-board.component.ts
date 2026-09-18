@@ -39,7 +39,6 @@ import {
   type CommentSource,
 } from '../../../shared/comment/comment.model';
 import { FlButtonComponent } from '../fl-button/fl-button.component';
-import { FlCardDirective } from '../fl-card/fl-card.directive';
 import { FlCommentCardComponent } from '../fl-comment-card/fl-comment-card.component';
 import { FlCommentEditorComponent } from '../fl-comment-editor/fl-comment-editor.component';
 import { FlInputDirective } from '../fl-input/fl-input.directive';
@@ -66,7 +65,6 @@ import { SimpleCaptchaComponent } from '../../../components/website/simple-captc
     NzSpinModule,
     NzTooltipModule,
     FlButtonComponent,
-    FlCardDirective,
     FlCommentCardComponent,
     FlCommentEditorComponent,
     FlInputDirective,

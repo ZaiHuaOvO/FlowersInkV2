@@ -34,10 +34,11 @@ fl-comment-content {
 
 /* ═══════════════ 表单 ═══════════════ */
 
+/* 平铺：表单不套卡片外壳（已去掉 flCard，即无背景/边框/圆角/阴影），
+   内边距一并归零，让表单与上方「评论 (N)」标题左对齐 */
 .fc-form-card {
   width: 100%;
-  padding: 20px;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .fc-form {
