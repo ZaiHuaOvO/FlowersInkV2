@@ -44,7 +44,7 @@ export class FlCommentEditorComponent {
   @Input() previewRole: 'visitor' | 'admin' = 'visitor';
 
   @Input() maxlength = 500;
-  @Input() placeholder = '写下你的想法吧 (๑•̀ㅂ•́)و✧';
+  @Input() placeholder = '写下你的想法吧 (๑•̀ㅂ•́)و✧ - 支持 Markdown 格式哦！';
   @Input() rows = 4;
   @Input() disabled = false;
   @Input() showCounter = true;
