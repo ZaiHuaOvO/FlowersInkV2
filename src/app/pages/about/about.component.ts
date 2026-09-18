@@ -274,8 +274,15 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   copyContact(key: string, value: string, label: string): void {
     navigator.clipboard.writeText(value).then(() => {
-      this.msg.success(`已复制${label}，欢迎邮件`);
+      this.msg.success(`已复制${label}，欢迎邮件_(:з」∠)_`);
       this.flashCopied(key);
+    }).catch(() => { });
+  }
+
+  copyRss(): void {
+    navigator.clipboard.writeText('https://flowersink.com/rss.xml').then(() => {
+      this.msg.success('已复制RSS地址，我努力创作的_(:з」∠)_');
+      this.flashCopied('rss');
     }).catch(() => { });
   }
 

@@ -525,6 +525,10 @@
   align-items: center;
 }
 
+.social-row--spaced {
+  margin-top: var(--fi-space-6);
+}
+
 .social-item {
   display: inline-flex;
   align-items: center;
