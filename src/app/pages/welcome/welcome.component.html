@@ -13,7 +13,7 @@
           <span class="hero-title-line1">喵呜喵呜，你好呀<span class="hero-emoji">ฅ•ω•ฅ</span></span>
           <span class="hero-title-line2">欢迎来到<span class="hero-title-highlight">花墨</span></span>
         </h1>
-        <p class="hero-subtitle">一只编程咪娘的博客 · 日常 · 游戏</p>
+        <p class="hero-subtitle">一只编程咪娘的博客 · 日常</p>
         <div class="hero-stats" [class.loaded]="!numLoading" nz-flex nzWrap="wrap" nzGap="small">
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/blog/all']">
             <span class="hero-stat-num">{{ info.blogTotal }}</span> 篇博客
@@ -21,10 +21,6 @@
           <span class="hero-stat-dot">·</span>
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/life']">
             <span class="hero-stat-num">{{ info.lifeTotal }}</span> 条点滴
-          </a>
-          <span class="hero-stat-dot">·</span>
-          <a class="hero-stat-item hero-stat-link" [routerLink]="['/game']">
-            <span class="hero-stat-num">{{ info.gameTotal }}</span> 个游戏
           </a>
           <span class="hero-stat-dot">·</span>
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/about']">
