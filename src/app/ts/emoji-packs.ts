@@ -66,10 +66,10 @@ export function isKnownEmoji(packKey: string, name: string): boolean {
  *
  * 两个细节：
  * - 用 URL 片段 `#fl-emoji` 做标记，而不是 title。因为 title 会被浏览器当成
- *   原生悬停提示显示出来 —— 之前写成 title="fl-emoji"，用户悬停看到的就是
- *   这串英文。改用片段后，alt 和 title 都可以放表情名（alt 兼作加载失败的
- *   兜底文案，title 就是悬停提示），标记藏在地址里不露面。
- * - CSS 侧靠 `img[src*="#fl-emoji"]` 命中，片段不参与图片请求，不影响加载。
+ *   原生悬停提示显示出来，那个提示又慢又不好看；标记藏在地址里不露面。
+ * - **不写 title**：表情名放在 alt 里。title 会触发浏览器原生提示，和
+ *   fl-comment-content 自己画的那套 0 延迟提示会同时冒出来。
+ *   CSS 侧靠 `img[src*="#fl-emoji"]` 命中，片段不参与图片请求，不影响加载。
  */
 export function replaceEmojiTokens(content: string): string {
   if (!content) {
@@ -80,7 +80,7 @@ export function replaceEmojiTokens(content: string): string {
     if (!item) {
       return whole;
     }
-    return `![${item.name}](${item.url}#fl-emoji "${item.name}")`;
+    return `![${item.name}](${item.url}#fl-emoji)`;
   });
 }
 

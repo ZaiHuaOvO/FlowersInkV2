@@ -1,3 +1,13 @@
-<div class="fl-comment-content">
+<div
+  class="fl-comment-content"
+  (mouseover)="onHover($event)"
+  (mouseout)="onLeave($event)"
+>
   <markdown [data]="rendered"></markdown>
+
+  <!-- 表情悬停提示：与表情弹窗同一套外观，移入移出当帧生效。
+       放在 <markdown> 之外的容器里，才不会被内容自己的布局影响 -->
+  @if (tipName) {
+  <span class="fc-emoji-tip" [style.left.px]="tipLeft" [style.top.px]="tipTop">{{ tipName }}</span>
+  }
 </div>
