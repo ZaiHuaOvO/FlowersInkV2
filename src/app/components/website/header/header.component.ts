@@ -80,20 +80,6 @@ export class HeaderComponent implements OnInit {
       showChildren: false
     },
     {
-      title: '游戏',
-      icon: 'bulb',
-      url: '/game',
-      child: [],
-      showChildren: false
-    },
-    {
-      title: '装备',
-      icon: 'desktop',
-      url: '/equipment',
-      child: [],
-      showChildren: false
-    },
-    {
       title: '友链',
       icon: 'link',
       url: '/link',
@@ -104,13 +90,6 @@ export class HeaderComponent implements OnInit {
       title: '关于',
       icon: 'user',
       url: '/about',
-      child: [],
-      showChildren: false
-    },
-    {
-      title: '工具箱',
-      icon: 'tool',
-      externalUrl: 'https://tool.flowersink.com/',
       child: [],
       showChildren: false
     },
