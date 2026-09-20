@@ -47,9 +47,14 @@ export function buildEmojiToken(packKey: string, name: string): string {
   return `[${packKey}:${name}]`;
 }
 
+/** 按包名 + 名字取条目；查不到返回 undefined */
+export function findEmojiItem(packKey: string, name: string): EmojiPackItem | undefined {
+  return IMAGE_INDEX.get(packKey)?.get(name);
+}
+
 /** 是否是清单里真实存在的表情（未知包名/名字一律不当表情处理） */
 export function isKnownEmoji(packKey: string, name: string): boolean {
-  return IMAGE_INDEX.get(packKey)?.has(name) ?? false;
+  return findEmojiItem(packKey, name) !== undefined;
 }
 
 /**

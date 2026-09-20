@@ -14,8 +14,17 @@
 
   <ng-template #contentTemplate>
     <div class="fe-popover">
-      <!-- 分页：再花 / 方长 / ฅ•ω•ฅ … 由 EMOJI_PACKS 驱动 -->
+      <!-- 分页：历史 / 再花 / 方长 / ฅ•ω•ฅ。
+           「历史」不在 EMOJI_PACKS 里（它是用户数据不是素材），单独渲染在最左 -->
       <nav class="fe-tabs">
+        <button
+          type="button"
+          class="fe-tab"
+          [class.fe-tab--active]="activeKey === historyKey"
+          (click)="selectTab(historyKey)"
+        >
+          历史
+        </button>
         @for (pack of packs; track pack.key) {
         <button
           type="button"
@@ -28,7 +37,24 @@
         }
       </nav>
 
-      @if (activePack; as pack) {
+      @if (activeKey === historyKey) {
+      <div class="fe-flow" (mouseleave)="clearName()">
+        @if (historyItems.length) {
+        @for (item of historyItems; track item.packKey + ':' + item.name) {
+        <button
+          type="button"
+          class="fe-item"
+          (mouseenter)="showName($event, item.name)"
+          (click)="selectImage(item.packKey, item.name)"
+        >
+          <img class="fe-item-img" [src]="item.url" [alt]="item.name" loading="lazy" />
+        </button>
+        }
+        } @else {
+        <p class="fe-empty">还没有用过的表情，用过的会出现在这里</p>
+        }
+      </div>
+      } @else if (activePack; as pack) {
         <!-- 图片表情包：像文字一样行内排列，自然换行 -->
         @if (pack.type === 'image') {
         <div class="fe-flow" (mouseleave)="clearName()">

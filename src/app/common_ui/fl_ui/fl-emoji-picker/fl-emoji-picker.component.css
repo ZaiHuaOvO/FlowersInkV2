@@ -132,6 +132,16 @@
   background: var(--fi-text-muted, #7a6756);
 }
 
+/* ── 历史页为空时的占位 ── */
+.fe-empty {
+  width: 100%;
+  margin: 0;
+  padding: 28px 8px;
+  text-align: center;
+  color: var(--fi-text-muted, #7a6756);
+  font-size: 13px;
+}
+
 /* ── 单个表情 ── */
 .fe-item {
   display: inline-flex;
