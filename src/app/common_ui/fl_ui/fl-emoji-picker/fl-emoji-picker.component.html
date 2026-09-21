@@ -15,49 +15,58 @@
   <ng-template #contentTemplate>
     <div class="fe-popover">
       <!-- 分页：历史 / 再花 / 方长 / ฅ•ω•ฅ。
-           「历史」不在 EMOJI_PACKS 里（它是用户数据不是素材），单独渲染在最左 -->
+           「历史」不在 EMOJI_PACKS 里（它是用户数据不是素材），单独渲染在最左；
+           其余分页由 EMOJI_PACKS 按 tab 归组得到，一个分页可能含多个包 -->
       <nav class="fe-tabs">
         <button
           type="button"
           class="fe-tab"
-          [class.fe-tab--active]="activeKey === historyKey"
+          [class.fe-tab--active]="activeTabKey === historyKey"
           (click)="selectTab(historyKey)"
         >
           历史
         </button>
-        @for (pack of packs; track pack.key) {
+        @for (tab of tabs; track tab.key) {
         <button
           type="button"
           class="fe-tab"
-          [class.fe-tab--active]="activeKey === pack.key"
-          (click)="selectTab(pack.key)"
+          [class.fe-tab--active]="activeTabKey === tab.key"
+          (click)="selectTab(tab.key)"
         >
-          {{ pack.label }}
+          {{ tab.label }}
         </button>
         }
       </nav>
 
-      @if (activeKey === historyKey) {
-      <div class="fe-flow" (mouseleave)="clearName()">
-        @if (historyItems.length) {
-        @for (item of historyItems; track item.packKey + ':' + item.name) {
-        <button
-          type="button"
-          class="fe-item"
-          (mouseenter)="showName($event, item.name)"
-          (click)="selectImage(item.packKey, item.name)"
-        >
-          <img class="fe-item-img" [src]="item.url" [alt]="item.name" loading="lazy" />
-        </button>
-        }
-        } @else {
-        <p class="fe-empty">还没有用过的表情，用过的会出现在这里</p>
-        }
-      </div>
-      } @else if (activePack; as pack) {
-        <!-- 图片表情包：像文字一样行内排列，自然换行 -->
-        @if (pack.type === 'image') {
+      @if (activeTabKey === historyKey) {
+      <div class="fe-scroll">
         <div class="fe-flow" (mouseleave)="clearName()">
+          @if (historyItems.length) {
+          @for (item of historyItems; track item.packKey + ':' + item.name) {
+          <button
+            type="button"
+            class="fe-item"
+            (mouseenter)="showName($event, item.name)"
+            (click)="selectImage(item.packKey, item.name)"
+          >
+            <img class="fe-item-img" [src]="item.url" [alt]="item.name" loading="lazy" />
+          </button>
+          }
+          } @else {
+          <p class="fe-empty">还没有用过的表情，用过的会出现在这里</p>
+          }
+        </div>
+      </div>
+      } @else {
+      <!-- 同一个分页下的多个包依次渲染，包与包之间加一条分割线 -->
+      <div class="fe-scroll">
+        @for (pack of activePacks; track pack.key; let first = $first) {
+        @if (!first) {
+        <div class="fe-divider" role="separator"></div>
+        }
+        <!-- 图片包：像文字一样行内排列，自然换行 -->
+        <div class="fe-flow" [class.fe-flow--text]="pack.type === 'text'" (mouseleave)="clearName()">
+          @if (pack.type === 'image') {
           @for (item of pack.items; track item.name) {
           <button
             type="button"
@@ -68,21 +77,21 @@
             <img class="fe-item-img" [src]="item.url" [alt]="item.name" loading="lazy" />
           </button>
           }
-        </div>
-        } @else {
-        <!-- 颜文字：直接插入文本 -->
-        <div class="fe-flow fe-flow--text">
+          } @else {
+          <!-- 颜文字：直接插入文本 -->
           @for (text of pack.items; track text) {
           <button type="button" class="fe-item fe-item--text" (click)="selectText(text)">
             {{ text }}
           </button>
           }
+          }
         </div>
         }
+      </div>
       }
 
       <!-- 名字提示：手写而非 nz-tooltip，移入移出当帧生效。
-           放在 .fe-flow 之外，否则会被滚动容器的 overflow 裁掉 -->
+           放在滚动容器之外，否则会被它的 overflow 裁掉 -->
       @if (hoveredName) {
       <span class="fe-tip" [style.left.px]="hoveredLeft" [style.top.px]="hoveredTop">{{ hoveredName }}</span>
       }

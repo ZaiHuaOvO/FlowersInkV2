@@ -102,30 +102,48 @@
   box-shadow: inset 0 0 0 1.5px var(--fi-primary-outline, rgba(139, 90, 43, 0.3));
 }
 
+/* ── 滚动容器 ──
+   一个分页下可能有多个包，滚动放在这层，整页共用一个滚动区 */
+.fe-scroll {
+  max-height: 348px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.fe-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.fe-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fe-scroll::-webkit-scrollbar-thumb {
+  background: var(--fi-border-strong, #d0c0b0);
+  border-radius: 999px;
+}
+
+.fe-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--fi-text-muted, #7a6756);
+}
+
+/* ── 同一分页下多个包之间的分割线 ──
+   做得很轻：只用来分组，不该抢表情本身的注意力 */
+.fe-divider {
+  height: 1px;
+  margin: 6px 6px 7px;
+  background: var(--fi-border, #e8dacc);
+  opacity: 0.7;
+}
+
 /* ── 表情流：像文字一样行内排列并自然换行（不是一行一个） ── */
 .fe-flow {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 2px;
-  /* 顶部留白：hover 上移会让第一行溢出容器，overflow 容器会把溢出的部分裁掉 */
+  /* 顶部留白：hover 上移会让第一行溢出，滚动容器的 overflow 会把溢出的部分裁掉 */
   padding-top: 4px;
-  max-height: 348px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.fe-flow::-webkit-scrollbar {
-  width: 5px;
-}
-
-.fe-flow::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.fe-flow::-webkit-scrollbar-thumb {
-  background: var(--fi-border-strong, #d0c0b0);
-  border-radius: 999px;
 }
 
 .fe-flow::-webkit-scrollbar-thumb:hover {

@@ -1,10 +1,20 @@
 {
   "_comment": "表情包清单配置。新增一个表情包 tab：把图片目录放进 src/assets 下，在 packs 里加一项，然后跑 npm run emoji:manifest。不需要改任何代码。",
   "_order": "order 是该包在弹窗里的展示顺序（填显示名，不含扩展名）。没列到的文件会按名称排在最后，生成时会打印提醒。设为 null 表示按名称排序。",
+  "_tab": "tab 是分组用的分页标识：多个包写同一个 tab 就会合并进同一个分页，按这里的先后顺序排列，包与包之间自动加一条分割线。分页顶部显示的名字取该页第一个包的 label，所以同页各包的 label 建议写成一致。",
   "packs": [
+    {
+      "key": "再花粉毛",
+      "label": "再花",
+      "tab": "再花",
+      "dir": "src/assets/再花粉毛",
+      "ext": [".gif"],
+      "order": null
+    },
     {
       "key": "再花",
       "label": "再花",
+      "tab": "再花",
       "dir": "src/assets/再花",
       "ext": [".png"],
       "order": [
@@ -18,6 +28,7 @@
     {
       "key": "方长",
       "label": "方长",
+      "tab": "方长",
       "dir": "src/assets/方长",
       "ext": [".gif"],
       "order": null

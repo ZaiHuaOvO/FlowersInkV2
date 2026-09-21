@@ -70,6 +70,7 @@ function renderTs(built, baseUrl, sourceNote) {
       '  {',
       `    key: ${JSON.stringify(pack.key)},`,
       `    label: ${JSON.stringify(pack.label ?? pack.key)},`,
+      `    tab: ${JSON.stringify(pack.tab ?? pack.key)},`,
       `    type: 'image',`,
       `    items: [`,
       ...items,
@@ -93,6 +94,8 @@ export interface EmojiPackItem {
 export interface EmojiImagePack {
   key: string;
   label: string;
+  /** 弹窗顶部的分页名；多个包共用同一个 tab 就会并到同一页，页内按包顺序排列 */
+  tab: string;
   type: 'image';
   items: EmojiPackItem[];
 }

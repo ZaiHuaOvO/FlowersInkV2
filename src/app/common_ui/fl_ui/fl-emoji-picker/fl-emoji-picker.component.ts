@@ -71,11 +71,47 @@ function writeHistory(entries: HistoryEntry[]): void {
   }
 }
 
-/** 初始分页：缓存里有、且这个分页仍然存在，就用它；否则用第一个（再花） */
-function resolveInitialPackKey(): string {
-  const fallback = EMOJI_PACKS[0]?.key ?? '';
+/** 初始分页：缓存里记的是「包」，要映射到它所属的分页；没有或已失效就用第一个 */
+function resolveInitialTabKey(): string {
+  const fallback = EMOJI_PACKS[0] ? packTabKey(EMOJI_PACKS[0]) : '';
   const saved = readSavedPackKey();
-  return saved && EMOJI_PACKS.some((pack) => pack.key === saved) ? saved : fallback;
+  if (!saved) {
+    return fallback;
+  }
+  const pack = EMOJI_PACKS.find((p) => p.key === saved);
+  return pack ? packTabKey(pack) : fallback;
+}
+
+/** 一个分页：由一到多个包组成，页内按包在配置里的先后顺序排列 */
+interface EmojiTab {
+  key: string;
+  /** 分页顶部显示的名字，取该页第一个包的 label */
+  label: string;
+  packs: EmojiPack[];
+}
+
+/** 包属于哪个分页：图片包读配置里的 tab，颜文字包自成一页 */
+function packTabKey(pack: EmojiPack): string {
+  return pack.type === 'image' ? pack.tab : pack.key;
+}
+
+/**
+ * 按 tab 归组。同一个 tab 的多个包（如「再花」与「再花粉毛」）并到同一页，
+ * 页内保持 packs 的先后顺序，两者之间在模板里插一条分割线；
+ * 分页顺序取各 tab 首次出现的顺序。
+ */
+function buildTabs(packs: readonly EmojiPack[]): EmojiTab[] {
+  const tabs: EmojiTab[] = [];
+  for (const pack of packs) {
+    const key = packTabKey(pack);
+    const existing = tabs.find((t) => t.key === key);
+    if (existing) {
+      existing.packs.push(pack);
+    } else {
+      tabs.push({ key, label: pack.label, packs: [pack] });
+    }
+  }
+  return tabs;
 }
 
 /**
@@ -112,12 +148,13 @@ export class FlEmojiPickerComponent {
 
   visible = false;
 
-  readonly packs = EMOJI_PACKS;
+  /** 分页列表：由 EMOJI_PACKS 按 tab 归组得到（同一 tab 的多个包并成一页） */
+  readonly tabs = buildTabs(EMOJI_PACKS);
 
   /** 历史分页的 key，模板里用它判断当前是否停在历史页 */
   readonly historyKey = HISTORY_KEY;
 
-  activeKey: string = resolveInitialPackKey();
+  activeTabKey: string = resolveInitialTabKey();
 
   /** 最近使用过的表情（只记图片包）。顺序为「从新到旧」 */
   private history: HistoryEntry[] = readHistory();
@@ -135,8 +172,9 @@ export class FlEmojiPickerComponent {
     this.rebuildHistoryItems();
   }
 
-  get activePack(): EmojiPack | undefined {
-    return this.packs.find((pack) => pack.key === this.activeKey);
+  /** 当前分页下的所有包（可能不止一个，模板里按顺序渲染并在包之间插分割线） */
+  get activePacks(): EmojiPack[] {
+    return this.tabs.find((tab) => tab.key === this.activeTabKey)?.packs ?? [];
   }
 
   selectImage(packKey: string, name: string): void {
@@ -186,7 +224,7 @@ export class FlEmojiPickerComponent {
 
   /** 切分页时把提示清掉，否则会残留上一个包的名字 */
   selectTab(key: string): void {
-    this.activeKey = key;
+    this.activeTabKey = key;
     this.clearName();
   }
 
