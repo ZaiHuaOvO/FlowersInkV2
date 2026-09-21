@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 378,
+  "total": 379,
   "records": [
+    {
+      "uid": "5a28c7e",
+      "type": "fix",
+      "date": "2026-09-21",
+      "desc": "修复上传 GIF 时返回打不开的 WebP 地址，改为返回压缩后的 GIF 并保留动画帧",
+      "important": false,
+      "repo": "api",
+      "sha": "5a28c7e71ee7484714cb0b52119f4c52236059f7"
+    },
     {
       "uid": "4cdbf1c",
       "type": "style",
