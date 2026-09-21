@@ -238,3 +238,20 @@
   background: color-mix(in srgb, var(--fi-primary, #8b5a2b) 8%, var(--fi-surface, #fff));
   font-weight: 600;
 }
+
+/* 去掉表格最外面一圈边框：只清掉边缘单元格朝外的那条边，表内网格线照旧 */
+.fl-comment-content table > :first-child > tr:first-child > * {
+  border-top: 0;
+}
+
+.fl-comment-content table > :last-child > tr:last-child > * {
+  border-bottom: 0;
+}
+
+.fl-comment-content tr > :first-child {
+  border-left: 0;
+}
+
+.fl-comment-content tr > :last-child {
+  border-right: 0;
+}
