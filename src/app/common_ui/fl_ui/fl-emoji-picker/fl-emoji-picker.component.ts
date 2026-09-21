@@ -7,8 +7,8 @@ import { EMOJI_PACKS, buildEmojiToken, findEmojiItem, type EmojiPack } from '../
 const PACK_STORAGE_KEY = 'fl_emoji_active_pack';
 /** 最近使用过的表情（只记图片包，颜文字是纯文本不入历史） */
 const HISTORY_STORAGE_KEY = 'fl_emoji_history';
-/** 历史最多记这么多条（一行 10 个 × 3 行，够一屏） */
-const HISTORY_MAX = 30;
+/** 历史最多记这么多条（一行 10 个 × 6 行）；满了再选新的，就从最旧的开始丢 */
+const HISTORY_MAX = 60;
 /** 历史分页的固定 key；它不在 EMOJI_PACKS 里，是单独渲染的一页 */
 const HISTORY_KEY = 'history';
 
