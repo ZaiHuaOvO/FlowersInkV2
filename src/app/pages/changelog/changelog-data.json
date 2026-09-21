@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 381,
+  "total": 382,
   "records": [
+    {
+      "uid": "7228b69",
+      "type": "fix",
+      "date": "2026-09-21",
+      "desc": "修复文章里的表格边框满宽、内容却缩在左边一小块的问题",
+      "important": false,
+      "repo": "site",
+      "sha": "7228b69dd238fb44f5e86b7421aedbf3eda59f43"
+    },
     {
       "uid": "4327b85",
       "type": "style",
