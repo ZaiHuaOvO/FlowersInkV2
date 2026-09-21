@@ -31,11 +31,13 @@
 }
 
 /* ── 弹出面板 ──
-   宽度按「一行 10 个」算：10×54 + 9×2(gap) + 16(左右内边距) = 574。
+   宽度按「一行 10 个」算：10×54 + 9×2(gap) + 16(左右内边距) = 558。
+   再让出 5px 给滚动条 —— 内容超高时它会占掉布局宽度，
+   不让的话第 10 个会被挤到下一行（只剩 9 个）。
    窄屏用 max-width 兜底，超宽时自动换成更少列。 */
 .fe-popover {
   position: relative; /* 名字提示以它为定位参照 */
-  width: 574px;
+  width: 580px;
   max-width: calc(100vw - 24px);
   box-sizing: border-box;
   padding: 6px 8px 8px;
@@ -165,8 +167,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 54px;
-  height: 54px;
+  /* 宽度按「一行正好 10 个」等分，而不是写死 54px：
+     内容超高时出现的滚动条会占掉十几像素，写死宽度的话第 10 个会被挤到下一行。
+     用百分比就与滚动条宽度无关；屏幕窄时格子自动变小、自动换行。
+     减 0.5px 是防浮点舍入导致 10 个刚好溢出 1px 而换行。 */
+  width: calc((100% - 18px) / 10 - 0.5px);
+  /* 最小尺寸：窄屏上放不下 10 个时就换行，而不是把格子一直压小。
+     40px 也保证手机上还有可点面积 */
+  min-width: 40px;
+  aspect-ratio: 1;
   padding: 0;
   border: 0;
   border-radius: 9px;
@@ -191,11 +200,11 @@
   transform: translateY(-1px) scale(0.94);
 }
 
-/* 图片表情：50px，行内排列不换行 */
+/* 图片表情：跟着格子等比放大缩小，行内排列不换行 */
 .fe-item-img {
   display: block;
-  width: 50px;
-  height: 50px;
+  width: 92%;
+  height: 92%;
   object-fit: contain;
   pointer-events: none;
 }
@@ -208,6 +217,8 @@
 .fe-item--text {
   width: auto;
   height: auto;
+  /* 颜文字按内容自适应，不参与「一行 10 个」的等分 */
+  aspect-ratio: auto;
   padding: 5px 9px;
   color: var(--fi-text, #2f2117);
   font-family: var(--fi-font-base);
