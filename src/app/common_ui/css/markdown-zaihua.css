@@ -398,13 +398,15 @@
   background: var(--md-surface);
 }
 
-/* ===== 表格 ===== */
+/* ===== 表格 =====
+   不要给 table 加 display: block + overflow-x: auto 来做横向滚动：
+   那样表格盒子被撑成满宽，内部的匿名表却仍按内容收缩，
+   窄表就会「边框满宽、内容只占左边一小块」。
+   宽度不足时让单元格换行（下面的 overflow-wrap 兜住长串），表格永远占满且不溢出。 */
 #currentAnchor table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
-  display: block;
-  overflow-x: auto;
   border: 1px solid var(--md-table-border);
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(58, 39, 22, 0.05);
@@ -432,7 +434,8 @@
   font-weight: 600;
   text-align: left;
   padding: 0.65rem 0.85rem;
-  white-space: nowrap;
+  /* 表头允许换行：不换行的话各列最小宽度之和可能超过容器，表格又会溢出 */
+  overflow-wrap: anywhere;
 }
 
 #currentAnchor tbody tr {
@@ -455,6 +458,7 @@
 #currentAnchor td {
   padding: 0.55rem 0.85rem;
   text-align: left;
+  overflow-wrap: anywhere;
 }
 
 /* ===== 图片 ===== */
