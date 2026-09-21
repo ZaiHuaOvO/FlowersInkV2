@@ -1,7 +1,7 @@
 /* eslint-disable */
 // ⚠️ 此文件由 FlowersInkV2/scripts/gen-emoji-manifest.mjs 自动生成，请勿手动编辑。
 // 重新生成：cd FlowersInkV2 && npm run emoji:manifest
-// 图片来源：assets/再花粉毛、assets/再花、assets/方长
+// 图片来源：assets/粉毛再花、assets/再花、assets/方长
 
 export interface EmojiPackItem {
   /** 显示名；也是 token 里用的名字，形如 [包名:显示名] */
@@ -21,30 +21,30 @@ export interface EmojiImagePack {
 
 export const EMOJI_IMAGE_PACKS: EmojiImagePack[] = [
   {
-    key: "再花粉毛",
-    label: "再花",
-    tab: "再花",
+    key: "粉毛再花",
+    label: "粉毛再花",
+    tab: "粉毛再花",
     type: 'image',
     items: [
-      { name: "不对", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E4%B8%8D%E5%AF%B9.gif" },
-      { name: "唱歌", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E5%94%B1%E6%AD%8C.gif" },
-      { name: "打call", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E6%89%93call.gif" },
-      { name: "得意", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E5%BE%97%E6%84%8F.gif" },
-      { name: "对的", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E5%AF%B9%E7%9A%84.gif" },
-      { name: "黑线", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E9%BB%91%E7%BA%BF.gif" },
-      { name: "慌张", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E6%85%8C%E5%BC%A0.gif" },
-      { name: "哭哭", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E5%93%AD%E5%93%AD.gif" },
-      { name: "摸头", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E6%91%B8%E5%A4%B4.gif" },
-      { name: "期待", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E6%9C%9F%E5%BE%85.gif" },
-      { name: "乞讨", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E4%B9%9E%E8%AE%A8.gif" },
-      { name: "生气", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E7%94%9F%E6%B0%94.gif" },
-      { name: "失魂", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E5%A4%B1%E9%AD%82.gif" },
-      { name: "睡着", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E7%9D%A1%E7%9D%80.gif" },
-      { name: "死机", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E6%AD%BB%E6%9C%BA.gif" },
-      { name: "无语", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E6%97%A0%E8%AF%AD.gif" },
-      { name: "心动", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E5%BF%83%E5%8A%A8.gif" },
-      { name: "疑惑", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E7%96%91%E6%83%91.gif" },
-      { name: "阴险", url: "assets/%E5%86%8D%E8%8A%B1%E7%B2%89%E6%AF%9B/%E9%98%B4%E9%99%A9.gif" },
+      { name: "不对", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E4%B8%8D%E5%AF%B9.gif" },
+      { name: "唱歌", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E5%94%B1%E6%AD%8C.gif" },
+      { name: "打call", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E6%89%93call.gif" },
+      { name: "得意", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E5%BE%97%E6%84%8F.gif" },
+      { name: "对的", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E5%AF%B9%E7%9A%84.gif" },
+      { name: "黑线", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E9%BB%91%E7%BA%BF.gif" },
+      { name: "慌张", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E6%85%8C%E5%BC%A0.gif" },
+      { name: "哭哭", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E5%93%AD%E5%93%AD.gif" },
+      { name: "摸头", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E6%91%B8%E5%A4%B4.gif" },
+      { name: "期待", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E6%9C%9F%E5%BE%85.gif" },
+      { name: "乞讨", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E4%B9%9E%E8%AE%A8.gif" },
+      { name: "生气", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E7%94%9F%E6%B0%94.gif" },
+      { name: "失魂", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E5%A4%B1%E9%AD%82.gif" },
+      { name: "睡着", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E7%9D%A1%E7%9D%80.gif" },
+      { name: "死机", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E6%AD%BB%E6%9C%BA.gif" },
+      { name: "无语", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E6%97%A0%E8%AF%AD.gif" },
+      { name: "心动", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E5%BF%83%E5%8A%A8.gif" },
+      { name: "疑惑", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E7%96%91%E6%83%91.gif" },
+      { name: "阴险", url: "assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E9%98%B4%E9%99%A9.gif" },
     ],
   },
   {

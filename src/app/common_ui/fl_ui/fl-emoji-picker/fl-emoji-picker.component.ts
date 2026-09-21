@@ -96,7 +96,7 @@ function packTabKey(pack: EmojiPack): string {
 }
 
 /**
- * 按 tab 归组。同一个 tab 的多个包（如「再花」与「再花粉毛」）并到同一页，
+ * 按 tab 归组。配置里 tab 写同一个值的多个包并到同一页，
  * 页内保持 packs 的先后顺序，两者之间在模板里插一条分割线；
  * 分页顺序取各 tab 首次出现的顺序。
  */
