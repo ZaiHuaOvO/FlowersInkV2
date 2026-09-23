@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 388,
+  "total": 390,
   "records": [
+    {
+      "uid": "bf6212c",
+      "type": "fix",
+      "date": "2026-09-23",
+      "desc": "评论与留言中填写的网址统一补齐协议头，拼错的地址也会被纠正",
+      "important": false,
+      "repo": "api",
+      "sha": "bf6212ce8265818f18df26c2e09ac2461977de15"
+    },
+    {
+      "uid": "f69979f",
+      "type": "fix",
+      "date": "2026-09-23",
+      "desc": "评论区与留言板填写网址后自动补全 https:// 前缀",
+      "important": false,
+      "repo": "site",
+      "sha": "f69979f93d48d43a4f2ff7b4bf93562d3b2a3726"
+    },
     {
       "uid": "eddeb6c",
       "type": "feat",
