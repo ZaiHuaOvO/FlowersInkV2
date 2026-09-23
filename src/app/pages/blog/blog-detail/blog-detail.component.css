@@ -498,6 +498,11 @@ nz-anchor {
   max-width: 100%;
 }
 
+/* #comment 页内锚点：与 #currentAnchor 标题一致，跳转后不被固定头部挡住 */
+#comment {
+  scroll-margin-top: 96px;
+}
+
 @media (max-width: 1200px) {
   .blog-detail-shell {
     grid-template-columns: minmax(0, 1fr);
