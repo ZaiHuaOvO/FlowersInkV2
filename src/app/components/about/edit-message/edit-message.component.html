@@ -17,7 +17,8 @@
               <ng-template #prefixTemplateUser><span nz-icon nzType="user"></span></ng-template>
 
               <nz-input-group [nzPrefix]="prefixTemplateCloud" class="message-input-group message-input-group--desktop">
-                <input type="text" nz-input flInput [(ngModel)]="form.url" placeholder="若有个人网站可填写" />
+                <input type="text" nz-input flInput [(ngModel)]="form.url" placeholder="若有个人网站可填写"
+                  (blur)="normalizeUrlField()" />
               </nz-input-group>
               <ng-template #prefixTemplateCloud><span nz-icon nzType="cloud"></span></ng-template>
 
@@ -39,7 +40,8 @@
 
             <nz-input-group [nzPrefix]="prefixTemplateCloud"
               class="message-input-group message-input-group--mobile-url">
-              <input type="text" nz-input flInput [(ngModel)]="form.url" placeholder="个人网站地址(若有)" />
+              <input type="text" nz-input flInput [(ngModel)]="form.url" placeholder="个人网站地址(若有)"
+                (blur)="normalizeUrlField()" />
             </nz-input-group>
             <ng-template #prefixTemplateCloud><span nz-icon nzType="cloud"></span></ng-template>
 

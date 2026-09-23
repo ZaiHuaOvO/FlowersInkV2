@@ -20,6 +20,7 @@ import { ApiLimiterService } from '../../../services/api-limiter.service';
 import { GeneralService } from '../../../services/general.service';
 import { loadCommenterInfo, saveCommenterInfo } from '../../../shared/utils/commenter-info.util';
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
+import { normalizeWebsiteUrl } from '../../../shared/utils/website-url.util';
 import { findForeignImageUrl } from '../../../shared/comment/content-image-policy.util';
 import {
   avatarInitial,
@@ -187,6 +188,11 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
     this.editing = !this.editing;
   }
 
+  /** 补齐网址协议头并纠正常见手误；输入框 blur 与提交前各调一次 */
+  normalizeWebsiteField(): void {
+    this.form.website = normalizeWebsiteUrl(this.form.website);
+  }
+
   private syncCardComment(): void {
     this.cardComment.name = this.form.name || '';
     this.cardComment.email = this.form.email || '';
@@ -285,6 +291,8 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
       this.msg.info('这个邮箱似曾相识……你该不会是再花吧 (｀・ω・´)');
       return;
     }
+
+    this.normalizeWebsiteField();
 
     if ((this.form.website ?? '').toLowerCase().includes('flowersink.com')) {
       this.msg.info('网址不可以是本站地址哦 (´-ω-`)');
@@ -405,6 +413,7 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
       return;
     }
 
+    this.normalizeWebsiteField();
     this.replySubmitting = true;
     const content = this.replyForm.content.trim();
 
@@ -471,7 +480,8 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
     const info = loadCommenterInfo();
     this.form.name = info.name ?? '';
     this.form.email = info.email ?? '';
-    this.form.website = info.website ?? '';
+    // 旧缓存里可能存着修复前拼坏的网址，载入时就地纠正
+    this.form.website = normalizeWebsiteUrl(info.website);
     this.form.avatarUrl = info.avatarUrl ?? '';
     this.syncCardComment();
   }

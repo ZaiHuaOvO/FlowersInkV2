@@ -45,7 +45,8 @@
         </label>
         <label class="fc-field">
           <span class="fc-field-label">网站(可选)</span>
-          <input nz-input flInput [(ngModel)]="form.website" [disabled]="submitting" maxlength="255" />
+          <input nz-input flInput [(ngModel)]="form.website" [disabled]="submitting" maxlength="255"
+            (blur)="normalizeWebsiteField()" />
         </label>
         <label class="fc-field">
           <span class="fc-field-label">头像(可选,填写图片地址)</span>
@@ -158,7 +159,7 @@
           <input nz-input flInput class="fc-reply-input--email" placeholder="邮箱（可选）" [(ngModel)]="form.email"
             maxlength="255" />
           <input nz-input flInput class="fc-reply-input--website" placeholder="网站（可选）" [(ngModel)]="form.website"
-            maxlength="255" />
+            maxlength="255" (blur)="normalizeWebsiteField()" />
           <input nz-input flInput class="fc-reply-input--avatar" placeholder="头像链接（可选）"
             [(ngModel)]="form.avatarUrl" maxlength="500" />
         </div>

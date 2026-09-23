@@ -1,5 +1,6 @@
 import { md5 } from '../utils/md5.util';
 import { buildQqAvatarUrl, getQqNumber } from '../utils/qq-avatar.util';
+import { normalizeWebsiteUrl } from '../utils/website-url.util';
 import {
   ZAIHUA_AVATAR,
   type AvatarState,
@@ -23,14 +24,7 @@ export function displayName(c: CommentItem): string {
 
 /** 补全协议头后的网站地址；空串表示没填 */
 export function displayWebsite(c: CommentItem): string {
-  if (!c.website) {
-    return '';
-  }
-  const url = c.website;
-  if (!url.startsWith('http://') && !url.startsWith('https://')) {
-    return 'https://' + url;
-  }
-  return url;
+  return normalizeWebsiteUrl(c.website);
 }
 
 /** 相对时间；无法解析的日期按「刚刚」处理（预览态会传空串） */

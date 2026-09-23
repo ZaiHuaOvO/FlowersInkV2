@@ -16,6 +16,7 @@ import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.
 import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.directive';
 import { AboutService } from '../../../pages/about/about.service';
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
+import { normalizeWebsiteUrl } from '../../../shared/utils/website-url.util';
 import { findForeignImageUrl } from '../../../shared/comment/content-image-policy.util';
 import { ApiLimiterService } from '../../../services/api-limiter.service';
 import { GeneralService } from '../../../services/general.service';
@@ -83,6 +84,11 @@ export class EditMessageComponent {
     });
   }
 
+  /** 补齐网址协议头并纠正常见手误；输入框 blur 与提交前各调一次 */
+  normalizeUrlField(): void {
+    this.form.url = normalizeWebsiteUrl(this.form.url);
+  }
+
   submit(): void {
     this.loading = true;
 
@@ -124,6 +130,8 @@ export class EditMessageComponent {
       this.loading = false;
       return;
     }
+
+    this.normalizeUrlField();
 
     this.about
       .addMessage({
