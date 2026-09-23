@@ -15,6 +15,8 @@
           <span class="article-meta-sep">·</span>
           <span nz-typography nzType="secondary">{{ data.articleCommentCount ?? 0 }} 评论</span>
           <span class="article-meta-sep">·</span>
+          <span nz-typography nzType="secondary">{{ data.wordCount ?? 0 }} 字</span>
+          <span class="article-meta-sep">·</span>
           <span nz-typography nzType="secondary">{{ data.date | date:'yyyy年MM月dd日' }}</span>
         </div>
         <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady">
@@ -58,7 +60,7 @@
         </div>
         <nz-divider></nz-divider>
         @if (commentSource; as source) {
-        <fl-comment-board [source]="source" title="评论"></fl-comment-board>
+        <fl-comment-board id="comment" [source]="source" title="评论"></fl-comment-board>
         }
       </nz-spin>
     </div>

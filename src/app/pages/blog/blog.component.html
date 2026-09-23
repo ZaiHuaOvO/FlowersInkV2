@@ -29,6 +29,7 @@
                     <a class="fi-simple-timeline-title" [class.is-starred]="blog.star" [routerLink]="['/blog', 'blog-detail', blog.id]">
                       @if (blog.star) {<span class="star-badge">[精选]</span>}
                       {{ blog.title }}
+                      @if (blog.wordCount) {<span class="fi-timeline-words"> - {{ blog.wordCount }}字</span>}
                     </a>
                   </div>
                 </div>

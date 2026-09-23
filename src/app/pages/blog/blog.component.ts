@@ -77,6 +77,8 @@ export class BlogComponent implements OnInit {
       .getBlogs({
         title: this.searchControl.value,
         limit: 999,
+        // 归档只用到标题/日期/字数，不必把 999 篇正文全拉下来
+        includeContent: false,
       })
       .subscribe((res: any) => {
         const blogs = res['data'].data ?? [];

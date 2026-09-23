@@ -84,6 +84,18 @@ a.fi-simple-timeline-title:hover {
   text-decoration-color: rgba(139, 90, 43, 0.35);
 }
 
+/* 标题右侧的字数，浅灰次要；hover 时保持灰色不跟随标题变色 */
+.fi-timeline-words {
+  font-size: var(--fi-font-size-sm);
+  color: var(--fi-text-muted);
+  white-space: nowrap;
+}
+
+a.fi-simple-timeline-title:hover .fi-timeline-words {
+  color: var(--fi-text-muted);
+  text-decoration: none;
+}
+
 /* ---- Mobile ---- */
 
 @media (max-width: 768px) {

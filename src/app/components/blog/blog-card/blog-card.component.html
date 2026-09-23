@@ -17,6 +17,7 @@
     <div nz-flex nzAlign="center" class="blog_meta_group">
       <span nz-typography nzType="secondary" class="blog_meta_text">{{blog.type}} · {{blog.tag}}</span>
       <span nz-typography nzType="secondary" class="blog_meta_text">{{blog.views}} 阅读</span>
+      <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.wordCount ?? 0 }} 字</span>
       <span nz-typography nzType="secondary" class="blog_meta_text">{{ blog.date | date:'yyyy年MM月dd日'}}</span>
     </div>
   </div>
