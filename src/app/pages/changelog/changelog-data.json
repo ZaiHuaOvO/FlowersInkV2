@@ -5,8 +5,44 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 384,
+  "total": 388,
   "records": [
+    {
+      "uid": "eddeb6c",
+      "type": "feat",
+      "date": "2026-09-23",
+      "desc": "新增文章真实字数统计，代码块与 markdown 语法符号不计入",
+      "important": false,
+      "repo": "api",
+      "sha": "eddeb6c4f82342364b4190ea59620b2fdd0614ab"
+    },
+    {
+      "uid": "f1c3f43",
+      "type": "feat",
+      "date": "2026-09-23",
+      "desc": "博客卡片、归档与详情页展示文章真实字数",
+      "important": false,
+      "repo": "site",
+      "sha": "f1c3f4361e2c65c47aea590c3f7843cc3bee9dcd"
+    },
+    {
+      "uid": "1e84fa8",
+      "type": "fix",
+      "date": "2026-09-23",
+      "desc": "点评论跳转后锚点标题不再被吸顶导航遮挡",
+      "important": false,
+      "repo": "site",
+      "sha": "1e84fa803ff00da15dfa726f6b1da72d19130805"
+    },
+    {
+      "uid": "4da2826",
+      "type": "chore",
+      "date": "2026-09-23",
+      "desc": "邮件通知的发件人与标题文案统一为「花墨」",
+      "important": false,
+      "repo": "api",
+      "sha": "4da2826783026bfc0a3b6ebedcadce6ed0e5c1e4"
+    },
     {
       "uid": "953bbc7",
       "type": "chore",
