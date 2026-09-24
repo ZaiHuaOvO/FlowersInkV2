@@ -35,6 +35,10 @@
         </span>
         }
 
+        @if (identityLabel) {
+        <span class="fc-badge-identity" [style.background]="identityColor">{{ identityLabel }}</span>
+        }
+
         <span class="fc-time" nz-tooltip [nzTooltipTitle]="comment.createDate | date:'yyyy-MM-dd HH:mm:ss'">
           {{ relativeTime(comment.createDate) }}
         </span>

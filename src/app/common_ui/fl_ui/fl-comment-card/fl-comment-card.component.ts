@@ -62,6 +62,19 @@ export class FlCommentCardComponent {
     return !this.preview && isPending(this.comment);
   }
 
+  /**
+   * 站长在后台按邮箱配的身份标签，没命中就是空串。
+   * 站长自己的回复已经有「猫猫头」，不再叠一个，避免两个徽章挤在一起。
+   */
+  get identityLabel(): string {
+    return this.zaihua ? '' : (this.comment.identityLabel ?? '');
+  }
+
+  /** 标签底色由接口下发；这里是兜底，防止历史数据缺字段时变成透明底白字 */
+  get identityColor(): string {
+    return this.comment.identityColor || '#c06078';
+  }
+
   /** 待审核评论不走 Gravatar，避免看起来像已通过 */
   get resolvedAvatarUrl(): string | null {
     return avatarUrl(this.comment, { pending: this.pending });

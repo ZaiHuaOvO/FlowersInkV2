@@ -16,6 +16,13 @@ export interface CommentItem {
   isApproved: boolean;
   isAdminReply: boolean;
   createDate: string;
+  /**
+   * 站长在后台按邮箱配的身份标签，如「🌸 花墨友人」。
+   * 服务端解析后下发，只有命中的评论才有这两个字段。
+   * 注意与上面的 `CommentIdentity`（访客自己填的身份信息）不是一回事。
+   */
+  identityLabel?: string;
+  identityColor?: string;
   /** 头像状态缓存，避免每次变更检测都重算 */
   _avatar?: AvatarState;
 }
