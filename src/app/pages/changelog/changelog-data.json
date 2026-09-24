@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 390,
+  "total": 392,
   "records": [
+    {
+      "uid": "f0aae38",
+      "type": "feat",
+      "date": "2026-09-24",
+      "desc": "按邮箱识别评论者身份，可为其配置专属标签并跟随其所有评论",
+      "important": false,
+      "repo": "api",
+      "sha": "f0aae38d735731e2d0ba26968e2102bddc0d2b28"
+    },
+    {
+      "uid": "34aa7c3",
+      "type": "feat",
+      "date": "2026-09-24",
+      "desc": "评论卡片昵称旁显示身份标签，用于标出好友与自己人",
+      "important": false,
+      "repo": "site",
+      "sha": "34aa7c3fa175f30986814f31a46522d4b1ed9f2e"
+    },
     {
       "uid": "bf6212c",
       "type": "fix",
