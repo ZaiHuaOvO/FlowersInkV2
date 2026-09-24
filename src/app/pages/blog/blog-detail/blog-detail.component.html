@@ -48,10 +48,6 @@
             <span class="blog-like-btn__text">{{ blogLiked ? '已喜欢' : '喜欢文章' }}</span>
             <span class="blog-like-btn__count">{{ blogLikeCount }}</span>
           </button>
-          <fl-button class="share-btn-article" routerLink="/donate">
-            <flower-coffee-icon></flower-coffee-icon>
-            <span class="donate-btn-label">赞赏</span>
-          </fl-button>
           @if (isPinnedBlog(data)) {
           <fl-button class="share-btn-article" (click)="openAskModal()">
             <span class="donate-btn-label">匿名提问</span>

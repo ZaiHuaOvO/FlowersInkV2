@@ -47,7 +47,6 @@ import { deriveWebpVariants } from '../../../shared/utils/image-url.util';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlButtonComponent } from '../../../common_ui/fl_ui/fl-button/fl-button.component';
-import { CoffeeComponent } from '../../../components/website/svg/coffee/coffee.component';
 import { AskQuestionComponent } from '../../../components/blog/ask-question/ask-question.component';
 import { isPinnedBlog } from '../../../shared/utils/blog-pinned.util';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
@@ -84,7 +83,6 @@ const ANCHOR_TOP_OFFSET = 96;
     NzImageModule,
     RouterModule,
     FlButtonComponent,
-    CoffeeComponent,
     NzModalModule,
     FlCommentBoardComponent,
   ],
