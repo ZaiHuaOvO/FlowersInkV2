@@ -25,10 +25,6 @@ nz-content {
   width: 6px;
 }
 
-.ant-spin-text {
-  color: var(--fi-text);
-}
-
 .ant-dropdown {
   animation-duration: var(--fi-motion-fast) !important;
   animation-timing-function: var(--fi-ease-standard) !important;
@@ -57,30 +53,57 @@ nz-content {
   white-space: pre-line;
 }
 
+/* ===== 全站加载态：粉毛再花「死机」gif + 统一「加载中」文案 =====
+   只作用于非 nzSimple 的 spin：游戏截图缩略图里那个 nzSimple 微缩 loading
+   宿主没有 .ant-spin-nested-loading，会自然跳过，保持原来的小圆点。 */
+
+/* 占满宽度，避免内容到位前只有窄窄一截 */
+.ant-spin-nested-loading {
+  width: 100%;
+}
+
 .ant-spin-nested-loading > div > .ant-spin.ant-spin-spinning {
   max-height: none !important;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* 指示器放在容器中上方，不贴顶边，避免遮挡上方内容 */
+  justify-content: flex-start;
+  padding-top: 88px;
 }
 
-.ant-spin-dot-holder {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* 加载期间给容器垫一个最小高度：内容到位前后高度一致，不会先矮后突然变高 */
+.ant-spin-nested-loading:has(.ant-spin-spinning) > .ant-spin-container {
+  min-height: 320px;
 }
 
-.ant-spin-text {
-  margin-top: 10px !important;
+/* 默认的转圈点换成 gif（::before 是 flex 首项，正好落在文案上方） */
+.ant-spin-nested-loading .ant-spin-dot {
+  display: none;
+}
+
+.ant-spin-nested-loading > div > .ant-spin.ant-spin-spinning::before {
+  content: '';
+  width: 106px;
+  height: 120px;
+  background: url('/assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E6%AD%BB%E6%9C%BA.gif') center /
+    contain no-repeat;
+}
+
+/* 各页原有的 nzTip 文案不再显示，统一成「加载中」。
+   选择器要带 .ant-spin-show-text —— ng-zorro 用
+   `.ant-spin.ant-spin-show-text .ant-spin-text`（3 个类）设了 display:block，
+   只写两个类压不住它。 */
+.ant-spin-nested-loading .ant-spin.ant-spin-show-text .ant-spin-text {
+  display: none;
+}
+
+.ant-spin-nested-loading > div > .ant-spin.ant-spin-spinning::after {
+  content: '加载中';
+  margin-top: 10px;
+  font-size: var(--fi-font-size-sm, 13px);
   line-height: 1.45;
-  text-align: center;
-}
-
-.ant-spin-nested-loading > div > .ant-spin.ant-spin-spinning .ant-spin-text {
-  position: static;
-  width: auto;
-  padding-top: 0;
+  color: var(--fi-text);
 }
 
 .ant-layout-content,
