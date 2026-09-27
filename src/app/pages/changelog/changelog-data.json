@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 395,
+  "total": 397,
   "records": [
+    {
+      "uid": "4e5d8b1",
+      "type": "feat",
+      "date": "2026-09-27",
+      "desc": "首页 hero 上方新增临时公告，点击弹窗查看 Markdown 详情",
+      "important": false,
+      "repo": "site",
+      "sha": "4e5d8b1a3b067c45525fdf69b4e5049006a5698d"
+    },
+    {
+      "uid": "6689bc3",
+      "type": "feat",
+      "date": "2026-09-27",
+      "desc": "新增临时公告接口，同一时刻只保留一条，按时间范围自动上下线",
+      "important": false,
+      "repo": "api",
+      "sha": "6689bc38a399eaa8e9c945f68911f1490724baa3"
+    },
     {
       "uid": "63a3ee3",
       "type": "fix",
