@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { FadeSlide, ExpandCollapse } from '../../../common_ui/animations/animation';
@@ -22,6 +23,7 @@ import { loadCommenterInfo, saveCommenterInfo } from '../../../shared/utils/comm
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 import { normalizeWebsiteUrl } from '../../../shared/utils/website-url.util';
 import { findForeignImageUrl } from '../../../shared/comment/content-image-policy.util';
+import { showWhitelistApprovedNotice } from '../../../shared/utils/whitelist-notice.util';
 import {
   avatarInitial,
   avatarUrl,
@@ -65,6 +67,7 @@ import { SimpleCaptchaComponent } from '../../../components/website/simple-captc
     NzIconModule,
     NzSpinModule,
     NzTooltipModule,
+    NzModalModule,
     FlButtonComponent,
     FlCommentCardComponent,
     FlCommentEditorComponent,
@@ -135,6 +138,7 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
     private readonly msg: NzMessageService,
     private readonly general: GeneralService,
     private readonly limiter: ApiLimiterService,
+    private readonly modal: NzModalService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -343,7 +347,10 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
         ...captchaPayload,
       })
       .subscribe({
-        next: () => {
+        next: (res: any) => {
+          // 白名单用户免审核：服务端落库即为已通过，本地乐观插入也要跟上，
+          // 否则会出现「弹窗说过审了、列表里那条却还标着待审核」
+          const autoApproved = res?.['data']?.['data']?.autoApproved === true;
           this.pendingComment = {
             id: Date.now(),
             parentId: null,
@@ -352,12 +359,16 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
             website: this.form.website || '',
             avatarUrl: this.form.avatarUrl || '',
             content,
-            isApproved: false,
+            isApproved: autoApproved,
             isAdminReply: false,
             createDate: new Date().toISOString(),
           };
           this.pendingNode = { ...this.pendingComment, children: [], _depth: 0 };
-          this.msg.success('评论提交成功！评论将在审核通过后展示 ✨');
+          if (autoApproved) {
+            showWhitelistApprovedNotice(this.modal);
+          } else {
+            this.msg.success('评论提交成功！评论将在审核通过后展示 ✨');
+          }
           this.form.content = '';
           this.captchaComponent?.refresh();
           this.limiter.markApiCall(this.source.limiterKey);
@@ -427,7 +438,8 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
         parentId: parentComment.id,
       })
       .subscribe({
-        next: () => {
+        next: (res: any) => {
+          const autoApproved = res?.['data']?.['data']?.autoApproved === true;
           this.pendingReply = {
             id: Date.now(),
             parentId: parentComment.id,
@@ -436,11 +448,15 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
             website: this.form.website || '',
             avatarUrl: this.form.avatarUrl || '',
             content,
-            isApproved: false,
+            isApproved: autoApproved,
             isAdminReply: false,
             createDate: new Date().toISOString(),
           };
-          this.msg.success('回复已提交，审核后将展示 ✨');
+          if (autoApproved) {
+            showWhitelistApprovedNotice(this.modal);
+          } else {
+            this.msg.success('回复已提交，审核后将展示 ✨');
+          }
           this.cacheFormInfo();
           this.cancelReply();
           this.replySubmitting = false;

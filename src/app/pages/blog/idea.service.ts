@@ -25,6 +25,8 @@ export interface IdeaListData {
 
 export interface IdeaCreateData {
   success: boolean;
+  /** 命中评论白名单被直接放行；用于弹「再花觉得你是好人」提示 */
+  autoApproved?: boolean;
   msg: string;
   idea: Idea;
 }

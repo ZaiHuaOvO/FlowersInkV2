@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { showWhitelistApprovedNotice } from '../../../shared/utils/whitelist-notice.util';
 import { SimpleCaptchaComponent } from '../../../components/website/simple-captcha/simple-captcha.component';
 import { IdeaService } from '../../../pages/blog/idea.service';
 import { ApiLimiterService } from '../../../services/api-limiter.service';
@@ -65,6 +67,7 @@ import { FlInputDirective } from '../fl-input/fl-input.directive';
     FormsModule,
     NzFlexModule,
     NzInputModule,
+    NzModalModule,
     FlButtonComponent,
     FlCommentContentComponent,
     FlCommentEditorComponent,
@@ -148,6 +151,7 @@ export class FlIdeaPopoverComponent implements OnChanges, OnInit {
     private readonly limiter: ApiLimiterService,
     private readonly general: GeneralService,
     private readonly msg: NzMessageService,
+    private readonly modal: NzModalService,
   ) {
     const cached = loadCommenterInfo();
     this.form.name = cached.name ?? '';
@@ -436,7 +440,12 @@ export class FlIdeaPopoverComponent implements OnChanges, OnInit {
       })
       .subscribe({
         next: (res) => {
-          this.msg.success('想法已提交，审核通过后就会显示 ✨');
+          // 白名单用户免审核：想法直接出现在正文里
+          if (res?.data?.autoApproved === true) {
+            showWhitelistApprovedNotice(this.modal);
+          } else {
+            this.msg.success('想法已提交，审核通过后就会显示 ✨');
+          }
           this.limiter.markApiCall(this.ideaService.limiterKey);
           saveCommenterInfo({
             name: this.form.name,
