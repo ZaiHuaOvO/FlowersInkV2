@@ -8,13 +8,13 @@
   "total": 403,
   "records": [
     {
-      "uid": "9197405",
+      "uid": "fe3db40",
       "type": "feat",
       "date": "2026-09-27",
-      "desc": "评论、回复与想法被直接放行时弹窗告知免审核通过",
+      "desc": "评论、回复与想法被直接放行时轻声提示免审核通过",
       "important": false,
       "repo": "site",
-      "sha": "919740573e461c4c5933416226c0e881d0888144"
+      "sha": "fe3db40dead0d2430ffbfac8ca6a6452ee36fee8"
     },
     {
       "uid": "58154e2",
