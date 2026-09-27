@@ -18,6 +18,8 @@ import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive
 import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
 import { MeCardComponent, MeCardProfile } from '../../components/website/me-card/me-card.component';
 import { isPinnedBlog } from '../../shared/utils/blog-pinned.util';
+import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
+import { AnnouncementDetailComponent } from './announcement-detail/announcement-detail.component';
 
 interface WelcomeStats {
   blogTotal: number;
@@ -48,6 +50,7 @@ interface WelcomeStats {
     NzTagModule,
     FlCardDirective,
     FlButtonComponent,
+    AnnouncementCardComponent,
   ],
   animations: [SlowUp, QuickUp],
 })
@@ -65,6 +68,9 @@ export class WelcomeComponent implements OnInit {
   };
   isMobile: boolean = false;
   scrollAtTop = true;
+
+  /** 当前生效的临时公告；null 表示不显示 hero 上方那张卡片 */
+  announcement: any = null;
   @ViewChild('more', { static: true })
   more!: TemplateRef<any>;
 
@@ -107,6 +113,17 @@ export class WelcomeComponent implements OnInit {
       this.info.profile = data.profile ?? undefined;
       this.numLoading = false;
     });
+
+    // 公告是可选内容，取不到就当没有，不要影响首页其余部分
+    this.welcome.getAnnouncement().subscribe({
+      next: (res: any) => {
+        this.announcement = res?.data ?? null;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.announcement = null;
+      },
+    });
   }
 
   ngAfterViewInit(): void {
@@ -145,6 +162,21 @@ export class WelcomeComponent implements OnInit {
 
   detail(): void {
     this.modal.create({ nzContent: this.more, nzFooter: [] },);
+  }
+
+  /** 公告卡片：标题放弹窗标题栏，正文与发布时间交给详情组件 */
+  openAnnouncement(): void {
+    if (!this.announcement) {
+      return;
+    }
+
+    this.modal.create({
+      nzTitle: this.announcement.title,
+      nzContent: AnnouncementDetailComponent,
+      nzData: this.announcement,
+      nzFooter: null,
+      nzWidth: 'min(560px, 92vw)',
+    });
   }
 
   copy(value: string): void {

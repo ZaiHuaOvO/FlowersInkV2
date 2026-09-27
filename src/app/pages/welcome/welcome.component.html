@@ -1,6 +1,13 @@
 <div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
   <!-- Hero 欢迎区 — 全屏无框 -->
   <section class="hero" id="hero-section">
+    <!-- 临时公告：只在时间窗口内出现，样式刻意克制 -->
+    @if (announcement) {
+    <div class="hero-announcement" @SlowUp>
+      <flower-announcement-card [title]="announcement.title"
+        (open)="openAnnouncement()"></flower-announcement-card>
+    </div>
+    }
     <div class="hero-body" nz-flex nzJustify="center" nzAlign="center" [nzGap]="isMobile ? 'small' : 'large'" @SlowUp>
       <div class="hero-avatar-wrapper">
         <a [routerLink]="['/about']" aria-label="前往关于我">

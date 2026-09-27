@@ -10,6 +10,7 @@ export const API = {
   INFO: '/site/visit',
   VISIT_DWELL: '/site/visit/dwell',
   SITE_INFO: '/site/info',
+  ANNOUNCEMENT_CURRENT: '/announcement/current',
   DAY_INFO: '/blog/info',
   LIFE: '/life',
   LIFE_YEAR: '/life/years',

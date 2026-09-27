@@ -25,4 +25,13 @@ export class WelcomeService {
   getWebInfo(): Observable<object> {
     return this.http.getCached(API.SITE_INFO, undefined, HTTP_CACHE_TTL.SHORT);
   }
+
+  /** 当前生效的临时公告；没有时接口返回 data: null */
+  getAnnouncement(): Observable<object> {
+    return this.http.getCached(
+      API.ANNOUNCEMENT_CURRENT,
+      undefined,
+      HTTP_CACHE_TTL.SHORT,
+    );
+  }
 }

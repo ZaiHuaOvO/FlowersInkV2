@@ -1,0 +1,52 @@
+/* 刻意做小做淡：它在 hero 里，不能盖过头像和欢迎语 */
+.announcement-card {
+    display: flex;
+    align-items: center;
+    gap: var(--fi-space-2);
+    max-width: min(520px, 100%);
+    padding: var(--fi-space-2) var(--fi-space-4);
+    border: 1px solid var(--fi-border);
+    font-family: var(--fi-font-base);
+    line-height: var(--fi-line-height-normal);
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.announcement-card:hover {
+    border-color: var(--fi-border-strong);
+}
+
+/* 标签与标题共用同一套文字度量，只差字重。
+   两边字号不同时，居中排列的 baseline 会错开，看起来就是「没对齐」。 */
+.announcement-label,
+.announcement-title {
+    color: var(--fi-text-muted);
+    font-size: var(--fi-font-size-xs);
+    letter-spacing: 0.05em;
+}
+
+.announcement-label {
+    flex: 0 0 auto;
+    font-weight: var(--fi-font-weight-semibold);
+    user-select: none;
+}
+
+.announcement-title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font-weight: var(--fi-font-weight-regular);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.announcement-card:hover .announcement-title {
+    color: var(--fi-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--fi-primary-outline);
+}

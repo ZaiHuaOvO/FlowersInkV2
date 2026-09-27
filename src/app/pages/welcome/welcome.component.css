@@ -21,6 +21,15 @@
     gap: clamp(24px, 4vw, 48px);
 }
 
+/* 公告在 hero-body 之上，跟随 hero 的纵向居中一起排布 */
+.hero-announcement {
+    display: flex;
+    justify-content: center;
+    width: min(var(--fi-page-max), 100%);
+    padding: 0 clamp(12px, 2.2vw, 28px);
+    margin-bottom: var(--fi-space-2);
+}
+
 .hero-avatar-wrapper {
     flex-shrink: 0;
     position: relative;
