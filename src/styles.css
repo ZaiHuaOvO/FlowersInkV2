@@ -71,15 +71,17 @@ body {
   display: none !important;
 }
 
-/* ── 白名单免审核弹窗里的表情包 ──
-   弹窗内容是一段 HTML 字符串（见 shared/utils/whitelist-notice.util.ts），渲染在组件视图
+/* ── 白名单免审核提示里的表情包 ──
+   提示内容是一段 HTML 字符串（见 shared/utils/whitelist-notice.util.ts），渲染在组件视图
    之外：组件作用域样式够不着，而 Angular 的 sanitizer 会把行内 style 属性剥掉。
-   所以尺寸只能落在全局样式里，用 class 指定。 */
+   所以尺寸只能落在全局样式里，用 class 指定。
+   轻提示是一行文字，表情要行内跟着文字走，靠 vertical-align 对齐基线。 */
 .whitelist-notice-sticker {
-  display: block;
-  width: 56px;
-  height: auto;
-  margin: 6px auto 0;
+  display: inline-block;
+  width: auto;
+  height: 22px;
+  margin-left: 6px;
+  vertical-align: -5px;
 }
 
 /* ── 自定义滚动条，防止宽度抖动 ── */

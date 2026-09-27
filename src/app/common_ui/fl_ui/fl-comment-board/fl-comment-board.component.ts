@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { FadeSlide, ExpandCollapse } from '../../../common_ui/animations/animation';
@@ -67,7 +66,6 @@ import { SimpleCaptchaComponent } from '../../../components/website/simple-captc
     NzIconModule,
     NzSpinModule,
     NzTooltipModule,
-    NzModalModule,
     FlButtonComponent,
     FlCommentCardComponent,
     FlCommentEditorComponent,
@@ -138,7 +136,6 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
     private readonly msg: NzMessageService,
     private readonly general: GeneralService,
     private readonly limiter: ApiLimiterService,
-    private readonly modal: NzModalService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -365,7 +362,7 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
           };
           this.pendingNode = { ...this.pendingComment, children: [], _depth: 0 };
           if (autoApproved) {
-            showWhitelistApprovedNotice(this.modal);
+            showWhitelistApprovedNotice(this.msg);
           } else {
             this.msg.success('评论提交成功！评论将在审核通过后展示 ✨');
           }
@@ -453,7 +450,7 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
             createDate: new Date().toISOString(),
           };
           if (autoApproved) {
-            showWhitelistApprovedNotice(this.modal);
+            showWhitelistApprovedNotice(this.msg);
           } else {
             this.msg.success('回复已提交，审核后将展示 ✨');
           }
