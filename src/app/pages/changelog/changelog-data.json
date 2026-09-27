@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 399,
+  "total": 400,
   "records": [
+    {
+      "uid": "a01249d",
+      "type": "fix",
+      "date": "2026-09-27",
+      "desc": "修复想法里的表情显示成文字、Markdown 不生效的问题",
+      "important": false,
+      "repo": "site",
+      "sha": "a01249d3fe0af58c56f3d0d889cf81af3a937cd6"
+    },
     {
       "uid": "52b7e8a",
       "type": "feat",
