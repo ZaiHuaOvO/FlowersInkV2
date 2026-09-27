@@ -10,17 +10,16 @@
   </nz-footer>
 </nz-layout>
 
-<!-- 全局自定义加载图标 (SpinKit Chase) -->
+<!-- 全局加载指示器：统一用「粉毛再花 · 死机」动图配「加载中」。
+     由 AppComponent 通过 nzConfigService.set('spin', { nzIndicator }) 设给全站 nz-spin -->
 <ng-template #loadingTemplate>
   <span class="global-loading-indicator">
-    <div class="sk-chase">
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-    </div>
+    <img
+      class="global-loading-gif"
+      src="assets/%E7%B2%89%E6%AF%9B%E5%86%8D%E8%8A%B1/%E6%AD%BB%E6%9C%BA.gif"
+      alt=""
+    />
+    <span class="global-loading-text">加载中</span>
   </span>
 </ng-template>
 
