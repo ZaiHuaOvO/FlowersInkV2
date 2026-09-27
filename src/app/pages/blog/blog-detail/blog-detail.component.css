@@ -153,22 +153,113 @@
   padding: 0 clamp(12px, 2.2vw, 24px);
 }
 
-/* 顶部返回栏：仅保留左侧返回图标，紧凑，与正文缩进对齐 */
-.site-page-header {
-  margin-bottom: var(--fi-space-2);
+/* 顶部条：左侧返回，右侧想法开关，同一行。
+   左右内边距与 .blog-detail-spin 保持一致，否则按钮会紧贴卡片边缘 */
+.article-topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--fi-space-3);
+  padding: var(--fi-space-3) clamp(12px, 2.2vw, 24px) var(--fi-space-2);
+  margin-bottom: var(--fi-space-1);
 }
 
-.site-page-header.ant-page-header {
-  padding: 8px clamp(12px, 2.2vw, 24px);
-}
-
-.site-page-header ::ng-deep .ant-page-header-back {
+.article-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-pill);
+  background: var(--fi-surface);
   color: var(--fi-text-muted);
-  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-sm);
+  line-height: 1;
+  padding: 7px 14px 7px 11px;
+  cursor: pointer;
+  transition:
+    color var(--fi-motion-fast) var(--fi-ease-standard),
+    border-color var(--fi-motion-fast) var(--fi-ease-standard),
+    background var(--fi-motion-fast) var(--fi-ease-standard),
+    transform var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
-.site-page-header ::ng-deep .ant-page-header-back:hover {
+.article-back:hover {
   color: var(--fi-primary);
+  border-color: var(--fi-primary);
+  background: var(--fi-primary-outline);
+  transform: translateX(-2px);
+}
+
+.article-back:active {
+  transform: translateX(-4px) scale(0.97);
+}
+
+.article-back nz-icon {
+  font-size: 14px;
+}
+
+/* 引导文案：靠右贴住开关，窄屏隐藏 */
+.article-topbar__hint {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: right;
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-text-caption);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.idea-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  /* 始终贴右：窄屏下引导文案被隐藏，没有它就会被挤到返回按钮旁边 */
+  margin-left: auto;
+  border: 1px dashed var(--fi-border-strong);
+  border-radius: var(--fi-radius-pill);
+  background: transparent;
+  padding: 6px 14px;
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-xs);
+  line-height: 1;
+  color: var(--fi-text-muted);
+  cursor: pointer;
+  transition:
+    color var(--fi-motion-fast) var(--fi-ease-standard),
+    border-color var(--fi-motion-fast) var(--fi-ease-standard),
+    background var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.idea-toggle:hover,
+.idea-toggle--on {
+  color: var(--fi-primary);
+  border-color: var(--fi-primary);
+}
+
+.idea-toggle--on {
+  border-style: solid;
+  background: var(--fi-primary-outline);
+}
+
+@media (max-width: 768px) {
+  .article-topbar__hint {
+    display: none;
+  }
+}
+
+/* 开关 hover 提示里的链接 */
+.idea-what-link {
+  color: var(--fi-primary);
+  font-size: var(--fi-font-size-xs);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+.idea-what-link:hover {
+  color: var(--fi-primary-hover);
 }
 
 /* 文章元信息行（标签 / 阅读 / 喜欢 / 评论 / 日期） */
@@ -533,4 +624,76 @@ nz-anchor {
     margin-top: var(--fi-space-5);
     padding: var(--fi-space-3);
   }
+}
+
+/* ── 段落想法 ── */
+.idea-host {
+  position: relative;
+}
+
+/* 想法开关与返回按钮已合并到顶部条，样式见上方 .article-topbar 一段 */
+
+/*
+ * 浮层容器。定位原点对齐正文顶部（而不是正文之后），
+ * 这样浮窗坐标是相对正文的小数值，不会被超长正文放大成几万像素。
+ * 浮窗绝不能塞进 #currentAnchor —— 它 overflow-x: hidden，
+ * 按 CSS 规范另一轴会被算成 auto，即它本身就是滚动容器，会横向裁掉浮窗。
+ */
+.idea-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  height: 0;
+}
+
+/*
+ * 「写想法」气泡：带一个指向下方被框选文字的小尖角。
+ * 定位用 CSS `translate` 属性而不是 transform，把 transform 让给 @BubbleIn 的
+ * 缩放动画，两者互不干扰。
+ */
+.idea-write-button {
+  position: absolute;
+  translate: -50% calc(-100% - 12px);
+  border: none;
+  border-radius: var(--fi-radius-md);
+  background: var(--fi-primary);
+  color: #fff;
+  font-size: var(--fi-font-size-xs);
+  font-weight: var(--fi-font-weight-medium);
+  line-height: 1;
+  padding: 7px 14px;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(58, 39, 22, 0.22);
+  transition: background var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.idea-write-button::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  translate: -50% 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--fi-primary);
+}
+
+.idea-write-button:hover {
+  background: var(--fi-primary-hover);
+}
+
+.idea-write-button:hover::after {
+  border-top-color: var(--fi-primary-hover);
+}
+
+.idea-write-button--blocked {
+  background: var(--fi-text-muted);
+  cursor: not-allowed;
+}
+
+.idea-write-button--blocked::after {
+  border-top-color: var(--fi-text-muted);
 }

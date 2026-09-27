@@ -153,3 +153,36 @@ export const ExpandCollapse = trigger('ExpandCollapse', [
     ),
   ]),
 ]);
+
+// 段落想法浮窗的入场 / 退场：淡入 + 轻微上浮放大，关闭时略快收回去
+// 只动 transform 与 opacity —— 浮窗的水平/垂直定位靠 CSS `translate` 属性，
+// 与这里的 transform 互不干扰，所以动画不会把浮窗位置带偏。
+export const PopoverIn = trigger('PopoverIn', [
+  transition(':enter', [
+    style({ opacity: 0, transform: 'translateY(8px) scale(0.96)' }),
+    animate(
+      '220ms cubic-bezier(0.22, 1, 0.36, 1)',
+      style({ opacity: 1, transform: 'translateY(0) scale(1)' })
+    ),
+  ]),
+  transition(':leave', [
+    animate(
+      '150ms cubic-bezier(0.4, 0, 1, 1)',
+      style({ opacity: 0, transform: 'translateY(4px) scale(0.98)' })
+    ),
+  ]),
+]);
+
+// 「写想法」气泡：从选区里弹出来
+export const BubbleIn = trigger('BubbleIn', [
+  transition(':enter', [
+    style({ opacity: 0, transform: 'scale(0.8)' }),
+    animate(
+      '180ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+      style({ opacity: 1, transform: 'scale(1)' })
+    ),
+  ]),
+  transition(':leave', [
+    animate('120ms ease-in', style({ opacity: 0, transform: 'scale(0.9)' })),
+  ]),
+]);

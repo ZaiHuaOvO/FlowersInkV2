@@ -48,6 +48,8 @@ export class FlCommentEditorComponent {
   @Input() rows = 4;
   @Input() disabled = false;
   @Input() showCounter = true;
+  /** 「写」这个 tab 的文案。评论区叫「评论」，段落想法那边叫「想法」 */
+  @Input() writeLabel = '评论';
   /** 表情面板弹出方向。用 *Left 变体让弹窗左边缘与表情按钮对齐、箭头靠左 */
   @Input() pickerPlacement: 'top' | 'bottom' | 'topLeft' | 'bottomLeft' = 'topLeft';
 

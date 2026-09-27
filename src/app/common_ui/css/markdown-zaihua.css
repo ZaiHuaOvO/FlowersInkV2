@@ -627,3 +627,50 @@
     max-width: 100%;
   }
 }
+
+/* ===== 段落想法的下划线 ===== */
+/*
+ * 这些 <mark> 是运行时插进正文 DOM 的，拿不到 Angular 的组件样式作用域，
+ * 所以必须写在全局样式表里。
+ *
+ * 只用 text-decoration：它不改变盒子尺寸，在 li（带 ::marker）、td、blockquote
+ * 里都不会破版。千万不要加 padding / margin / border-radius ——
+ * 那会撑高行盒、破坏表格行高。
+ *
+ * 线型用 2px 虚线并下移 5px：早期用的 1px 点线太贴字、几乎看不见。
+ */
+#currentAnchor mark.fi-idea-mark {
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline dashed var(--md-brand);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+#currentAnchor mark.fi-idea-mark:hover {
+  background: var(--md-selection);
+  text-decoration-color: var(--fi-primary-hover);
+}
+
+/* 浮窗正对着这一段：铺一层底色，让读者一眼看到自己框选了哪句话 */
+#currentAnchor mark.fi-idea-mark--active {
+  background: color-mix(in srgb, var(--fi-primary) 16%, transparent);
+  border-radius: 2px;
+}
+
+/* 只有待审核想法时线色更淡，读者能看出「这里有人写过但还没通过」 */
+#currentAnchor mark.fi-idea-mark--pending {
+  text-decoration-color: color-mix(in srgb, var(--fi-primary) 42%, transparent);
+}
+
+#currentAnchor mark.fi-idea-mark:focus-visible {
+  outline: 2px solid var(--fi-primary-outline);
+  outline-offset: 1px;
+}
+
+/* 链接本身就有一条下划线，再叠一条会显乱，收敛成同色 */
+#currentAnchor a mark.fi-idea-mark {
+  text-decoration-color: currentColor;
+}
+

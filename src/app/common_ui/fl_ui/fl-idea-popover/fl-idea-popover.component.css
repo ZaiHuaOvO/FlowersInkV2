@@ -1,0 +1,182 @@
+/*
+ * 浮窗本体。定位用 CSS `translate` 属性而不是 transform：
+ * 入场/退场动画由父组件挂在宿主上的 @PopoverIn 驱动，它动的是 transform，
+ * 两个属性互不干扰，所以动画不会把浮窗位置带偏。
+ */
+:host {
+  position: absolute;
+  z-index: 20;
+  display: block;
+  width: clamp(340px, 40vw, 620px);
+  translate: -50% calc(-100% - 14px);
+}
+
+/* 四条方向各一条 translate：left/top 给的是「贴边点」，方向决定往哪边铺开 */
+:host([data-placement='right']) {
+  translate: 14px -50%;
+}
+
+:host([data-placement='left']) {
+  translate: calc(-100% - 14px) -50%;
+}
+
+:host([data-placement='above']) {
+  translate: -50% calc(-100% - 14px);
+}
+
+:host([data-placement='below']) {
+  translate: -50% 14px;
+}
+
+@media (max-width: 768px) {
+  :host {
+    width: calc(100vw - 24px);
+  }
+}
+
+.fi-idea-popover {
+  display: flex;
+  flex-direction: column;
+  max-height: min(72vh, 660px);
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-md);
+  background: var(--fi-surface);
+  box-shadow: var(--fi-shadow);
+  /* 横向裁掉圆角外的内容；纵向自动：正常只有想法列表滚动，
+     固定部分（表单）已经撑到上限时，整个面板兜底滚动，不会把内容切掉 */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* 标题栏兼作拖拽把手 */
+.fi-idea-head {
+  display: flex;
+  align-items: center;
+  gap: var(--fi-space-2);
+  padding: var(--fi-space-2) var(--fi-space-4);
+  border-bottom: 1px solid var(--fi-border);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+:host(.fi-idea-popover--dragging) .fi-idea-head {
+  cursor: grabbing;
+}
+
+/* 纯 CSS 的「点阵」把手，省得引一个图标 */
+.fi-idea-grip {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 14px;
+  color: var(--fi-border-strong);
+  background-image: radial-gradient(currentColor 1px, transparent 1.2px);
+  background-size: 4px 4px;
+}
+
+.fi-idea-title {
+  flex: 1 1 auto;
+  font-size: var(--fi-font-size-sm);
+  font-weight: var(--fi-font-weight-semibold);
+  color: var(--fi-text);
+}
+
+.fi-idea-close {
+  border: none;
+  background: transparent;
+  padding: 0 var(--fi-space-1);
+  font-size: 18px;
+  line-height: 1;
+  color: var(--fi-text-muted);
+  cursor: pointer;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.fi-idea-close:hover {
+  color: var(--fi-primary);
+}
+
+/* 被批注的原文：面板里再显示一次，滚动正文时也能知道这条想法指的是哪句 */
+.fi-idea-quote {
+  margin: var(--fi-space-3) var(--fi-space-4) 0;
+  padding: var(--fi-space-2) var(--fi-space-3);
+  border-left: 3px solid var(--fi-primary);
+  background: var(--fi-bg-soft);
+  border-radius: var(--fi-radius-xs);
+  font-size: var(--fi-font-size-xs);
+  line-height: var(--fi-line-height-normal);
+  color: var(--fi-text-muted);
+  max-height: 4.8em;
+  overflow-y: auto;
+}
+
+/* 想法多时这里滚动；留个最小高度，别被下面的表单挤没了 */
+.fi-idea-list {
+  flex: 1 1 auto;
+  min-height: 96px;
+  overflow-y: auto;
+  padding: var(--fi-space-2) var(--fi-space-4);
+}
+
+.fi-idea-empty {
+  margin: 0;
+  padding: var(--fi-space-5) 0;
+  text-align: center;
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-text-muted);
+}
+
+/* 列表项直接复用评论卡片的结构与样式，只把头像缩小一点、间距收紧 */
+.fi-idea-item {
+  --fc-avatar-size: 34px;
+}
+
+.fi-idea-item + .fi-idea-item {
+  border-top: 1px dashed var(--fi-border);
+}
+
+.fi-idea-content {
+  font-size: var(--fi-font-size-sm);
+  line-height: var(--fi-line-height-relaxed);
+  color: var(--fi-text-body);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* 带网址的名字做成超链接（同评论区），下划线改用虚线与正文划线呼应 */
+.fi-idea-name-link {
+  border-bottom-style: dashed;
+}
+
+/* ── 写想法 ── */
+
+.fi-idea-compose {
+  flex: 0 0 auto;
+  padding: var(--fi-space-3) var(--fi-space-4) var(--fi-space-4);
+  border-top: 1px solid var(--fi-border);
+  background: var(--fi-bg-soft);
+}
+
+.fi-idea-identity-card {
+  padding-top: 0;
+  padding-bottom: var(--fi-space-2);
+}
+
+/* 表单四个字段在浮窗里排两列（.fc-form-row 默认是四列，塞进浮窗会太挤） */
+.fi-idea-form-row {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--fi-space-2) var(--fi-space-3);
+  margin-bottom: var(--fi-space-2);
+}
+
+@media (max-width: 560px) {
+  .fi-idea-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fi-idea-error {
+  margin: var(--fi-space-2) 0 0;
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-danger);
+}

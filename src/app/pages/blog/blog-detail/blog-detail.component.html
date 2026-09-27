@@ -3,7 +3,34 @@
   <div class="reading-progress-bar" [style.width.%]="readingProgress"></div>
   <div class="blog-detail-shell">
     <div class="content blog-detail-content" flCard nz-flex nzGap="middle" [nzVertical]="true" @QuickUp>
-      <nz-page-header class="site-page-header" (nzBack)="onBack()" nzBackIcon></nz-page-header>
+      <div class="article-topbar">
+        <button type="button" class="article-back" (click)="onBack()">
+          <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+          <span>返回</span>
+        </button>
+
+        <span class="article-topbar__hint">
+          @if (ideasEnabled) {
+            框选正文里的一段文字，就能写下你的想法
+          }
+        </span>
+
+        <button
+          type="button"
+          class="idea-toggle"
+          [class.idea-toggle--on]="ideasEnabled"
+          [attr.aria-pressed]="ideasEnabled"
+          (click)="toggleIdeas()"
+          nz-popover
+          nzPopoverTrigger="hover"
+          nzPopoverPlacement="bottomRight"
+          [nzPopoverMouseEnterDelay]="0.15"
+          [nzPopoverContent]="whatIsIdeaTpl"
+        >
+          <span nz-icon nzType="bulb" nzTheme="outline"></span>
+          <span>{{ ideasEnabled ? '关闭想法' : '显示想法' }}</span>
+        </button>
+      </div>
       <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
         <flower-blog-title class="article-title" [title]="data.title"></flower-blog-title>
         <div class="article-meta" nz-flex nzAlign="center" nzGap="small">
@@ -15,12 +42,49 @@
           <span class="article-meta-sep">·</span>
           <span nz-typography nzType="secondary">{{ data.articleCommentCount ?? 0 }} 评论</span>
           <span class="article-meta-sep">·</span>
+          <span nz-typography nzType="secondary">{{ data.articleIdeaCount ?? 0 }} 想法</span>
+          <span class="article-meta-sep">·</span>
           <span nz-typography nzType="secondary">{{ data.wordCount ?? 0 }} 字</span>
           <span class="article-meta-sep">·</span>
           <span nz-typography nzType="secondary">{{ data.date | date:'yyyy年MM月dd日' }}</span>
         </div>
-        <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady">
-        </markdown>
+        <div class="idea-host">
+          <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady">
+          </markdown>
+
+          <!-- 浮层单独一层，不能放进 #currentAnchor：它 overflow-x:hidden，会横向裁掉浮窗 -->
+          <div class="idea-layer" #ideaLayer>
+            @if (writeButton.visible && ideasEnabled) {
+            <button
+              type="button"
+              class="idea-write-button"
+              [class.idea-write-button--blocked]="writeButton.tooLong"
+              [style.left.px]="writeButton.left"
+              [style.top.px]="writeButton.top"
+              (click)="onWriteButtonClick()"
+              @BubbleIn
+            >
+              <span>{{ writeButton.tooLong ? '选得太长啦' : '写想法' }}</span>
+            </button>
+            }
+
+            @if (popover; as panel) {
+            <fl-idea-popover
+              @PopoverIn
+              [articleId]="Id"
+              [anchor]="panel.anchor"
+              [ideas]="panel.ideas"
+              [hasPending]="panel.hasPending"
+              [left]="panel.left"
+              [top]="panel.top"
+              [placement]="panel.placement"
+              [composing]="panel.composing"
+              (created)="onIdeaCreated($event)"
+              (closed)="closePopover()"
+            ></fl-idea-popover>
+            }
+          </div>
+        </div>
         <section class="copyright-card" aria-label="版权声明">
           <h3 nz-typography class="copyright-card__title">版权声明</h3>
           <div class="copyright-card__body" nz-flex [nzVertical]="true" nzGap="small">
@@ -111,3 +175,15 @@
     }
   </div>
 </div>
+
+<!-- 想法开关上的提示：点进去看「什么是想法」的说明文章 -->
+<ng-template #whatIsIdeaTpl>
+  <a
+    class="idea-what-link"
+    href="https://flowersink.com/blog/blog-detail/99"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    什么是想法？
+  </a>
+</ng-template>

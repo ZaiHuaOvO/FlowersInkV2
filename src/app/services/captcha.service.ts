@@ -7,6 +7,7 @@ export type CaptchaScene =
   | 'message'
   | 'link'
   | 'article-comment'
+  | 'article-idea'
   | 'life-comment'
   | 'module-comment'
   | 'question';

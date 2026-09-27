@@ -26,21 +26,21 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { GeneralService } from '../../../services/general.service';
-import { debounceTime } from 'rxjs';
+import { debounceTime, fromEvent } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
-import { SlowUp, QuickUp } from '../../../common_ui/animations/animation';
+import { SlowUp, QuickUp, PopoverIn, BubbleIn } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
 import { CommentService } from '../../../services/comment.service';
 import { articleCommentSource } from '../../../shared/comment/comment-source.factory';
 import type { CommentSource } from '../../../shared/comment/comment.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { ensureMarkdownRuntimeLoaded } from '../../../shared/utils/markdown-runtime-loader.util';
 import { deriveWebpVariants } from '../../../shared/utils/image-url.util';
@@ -51,6 +51,26 @@ import { AskQuestionComponent } from '../../../components/blog/ask-question/ask-
 import { isPinnedBlog } from '../../../shared/utils/blog-pinned.util';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { VisitorTrackingService } from '../../../services/visitor-tracking.service';
+import { IdeaService } from '../idea.service';
+import { FlIdeaPopoverComponent } from '../../../common_ui/fl_ui/fl-idea-popover/fl-idea-popover.component';
+import type {
+  Idea,
+  IdeaAnchor,
+  IdeaAnchorPayload,
+  IdeaAxis,
+  IdeaPlacement,
+} from '../../../shared/idea/idea.model';
+import {
+  IDEA_KEY_ATTRIBUTE,
+  IDEA_MARK_ACTIVE_CLASS,
+  IDEA_SELECTION_MAX_LENGTH,
+  applyIdeaMarks,
+  blockToAnchorPayload,
+  buildAxis,
+  clearIdeaMarks,
+  nearestBlock,
+  selectionToAnchorPayload,
+} from '../../../shared/idea/idea-anchor.util';
 
 /**
  * 页内跳转后标题距视口顶部的距离（吸顶导航 48px + 余量）。
@@ -71,12 +91,12 @@ const ANCHOR_TOP_OFFSET = 96;
     NzTypographyModule,
     NzDividerModule,
     MarkdownModule,
-    NzPageHeaderModule,
     NzAvatarModule,
     NzAnchorModule,
     DatePipe,
     BlogTitleComponent,
     NzTooltipModule,
+    NzPopoverModule,
     NzSpinModule,
     NzAffixModule,
     FlCardDirective,
@@ -85,10 +105,11 @@ const ANCHOR_TOP_OFFSET = 96;
     FlButtonComponent,
     NzModalModule,
     FlCommentBoardComponent,
+    FlIdeaPopoverComponent,
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
-  animations: [SlowUp, QuickUp],
+  animations: [SlowUp, QuickUp, PopoverIn, BubbleIn],
 })
 export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   Id: any;
@@ -111,6 +132,51 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   private isSyncing = false;
   markdownReady = false;
   private readonly destroyRef: DestroyRef;
+
+  // ── 段落想法 ──
+  /** 「关闭想法」开关状态，存在本地，下次进来沿用 */
+  ideasEnabled = true;
+  private ideaAnchors: IdeaAnchor[] = [];
+  private axis: IdeaAxis | null = null;
+  private ideasLoaded = false;
+  private markdownDomReady = false;
+  private static readonly IDEAS_ENABLED_KEY = 'fi_ideas_enabled';
+  /** 浮窗正对着的那段文字会作为一条临时锚点塞进渲染，用这个负 id 标记它 */
+  private static readonly PENDING_HIGHLIGHT_KEY = -1;
+  /** 已经回写过后端的漂移锚点，避免同一次阅读里反复请求 */
+  private readonly reportedDrift = new Set<number>();
+  /** 当前浮窗对应的区间，渲染成高亮，让用户看清自己框选了什么 */
+  private pendingHighlight: IdeaAnchor | null = null;
+
+  /** 框选后浮现的「写想法」按钮 */
+  writeButton = { visible: false, tooLong: false, left: 0, top: 0 };
+  private pendingSelection: IdeaAnchorPayload | null = null;
+  /** 当前选区落在哪个块上，浮窗跟随滚动时用它定位 */
+  private selectionAnchorEl: Element | null = null;
+  /** 选区自身的矩形快照：决定浮窗开在左边还是右边要用它，不能用整块 */
+  private selectionRectRef: DOMRect | null = null;
+
+  /** 浮窗：查看某段的想法 + 写想法 */
+  popover: {
+    anchor: IdeaAnchorPayload;
+    ideas: Idea[];
+    hasPending: boolean;
+    keyIds: number[];
+    left: number;
+    top: number;
+    placement: IdeaPlacement;
+    /** 是否默认展开写想法表单：框选入口展开，点虚线看想法不展开 */
+    composing: boolean;
+  } | null = null;
+  /** 浮窗跟随滚动重定位时用的锚点元素 */
+  private popoverAnchorEl: Element | null = null;
+  /** 打开浮窗的那次点击会冒泡到 document，等它过去再允许「点外面关闭」 */
+  private popoverReady = false;
+  private popoverRafId: number | null = null;
+  private popoverScrollListener: (() => void) | null = null;
+
+  @ViewChild('ideaLayer', { static: false })
+  ideaLayerRef?: ElementRef<HTMLElement>;
 
   /** 阅读进度 0–100 */
   readingProgress = 0;
@@ -144,12 +210,16 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private modal: NzModalService,
     private visitorTrackingService: VisitorTrackingService,
     private commentService: CommentService,
+    private ideaService: IdeaService,
     destroyRef: DestroyRef,
   ) {
     this.destroyRef = destroyRef;
     this.window.bindIsMobile(this.destroyRef, (isMobile) => {
       this.isMobile = isMobile;
+      this.hideWriteButton();
     });
+    this.restoreIdeasEnabled();
+    this.bindIdeaInteractions();
   }
 
   ngOnInit() {
@@ -178,6 +248,10 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.scrollListener?.();
+    this.popoverScrollListener?.();
+    if (this.popoverRafId !== null) {
+      cancelAnimationFrame(this.popoverRafId);
+    }
   }
 
   private async initMarkdownRuntime(): Promise<void> {
@@ -240,9 +314,14 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.blogLikeCount = Number(this.data.likes ?? 0);
       this.restoreBlogLikeState();
       this.title.setTitle(`${this.data.title} | 花墨`);
+      // 正文要换 DOM 了，先把想法标记与浮窗收干净，等 (ready) 再重画
+      this.markdownDomReady = false;
+      this.closePopover();
+      this.hideWriteButton();
       this.markdownContent = this.data.content;
       this.loading = false;
       this.loadRelatedBlogs();
+      this.loadIdeas();
     });
   }
 
@@ -295,6 +374,10 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.bindExternalLinks();
     this.bindImagePreview();
     this.scrollToInitialHash();
+
+    // markdown DOM 已就绪，可以和想法数据合流画出虚线了
+    this.markdownDomReady = true;
+    this.tryRenderIdeas();
   }
 
   /** 给 h1-h3 注入可复制/跳转的 # 锚点，并给代码块注入语言标签（供 markdown-zaihua.css 展示） */
@@ -450,6 +533,691 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onBack(): void {
     history.go(-1);
+  }
+
+  // ==================== 段落想法 ====================
+
+  /** 正文容器：markdown 渲染进 <markdown id="currentAnchor"> */
+  private ideaContainer(): HTMLElement | null {
+    return this.el.nativeElement.querySelector('#currentAnchor');
+  }
+
+  private restoreIdeasEnabled(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    try {
+      const stored = localStorage.getItem(
+        BlogDetailComponent.IDEAS_ENABLED_KEY,
+      );
+      if (stored !== null) {
+        this.ideasEnabled = stored !== '0';
+      }
+    } catch {
+      // 存储不可用时按默认（开启）处理
+    }
+  }
+
+  /** 「关闭想法」：关掉后不画任何虚线、不出「写想法」按钮，正文恢复纯净 */
+  toggleIdeas(): void {
+    this.ideasEnabled = !this.ideasEnabled;
+    try {
+      localStorage.setItem(
+        BlogDetailComponent.IDEAS_ENABLED_KEY,
+        this.ideasEnabled ? '1' : '0',
+      );
+    } catch {
+      // ignore
+    }
+
+    this.hideWriteButton();
+    this.closePopover();
+    this.tryRenderIdeas();
+  }
+
+  private loadIdeas(): void {
+    this.ideasLoaded = false;
+    this.ideaAnchors = [];
+    // 换了文章就重新计算哪些锚点需要回写
+    this.reportedDrift.clear();
+
+    this.ideaService.listIdeas(this.Id).subscribe({
+      next: (res: any) => {
+        const anchors = res?.data?.anchors;
+        this.ideaAnchors = Array.isArray(anchors) ? anchors : [];
+        this.ideasLoaded = true;
+        this.tryRenderIdeas();
+      },
+      error: () => {
+        // 想法拉不到不该影响正文阅读，静默降级成「没有想法」
+        this.ideaAnchors = [];
+        this.ideasLoaded = true;
+        this.tryRenderIdeas();
+      },
+    });
+  }
+
+  /**
+   * 幂等的渲染入口。想法数据与 markdown DOM 是两个异步源，谁后到都调这里。
+   * applyIdeaMarks 内部先清干净再画，所以切文章、重渲染都不会留下重复标记。
+   */
+  private tryRenderIdeas(): void {
+    const container = this.ideaContainer();
+    if (!container) return;
+
+    if (!this.ideasEnabled || !this.markdownDomReady || !this.ideasLoaded) {
+      clearIdeaMarks(container);
+      this.axis = null;
+      return;
+    }
+
+    // 浮窗正对着的那段一并画进去，渲染成高亮底
+    const anchors = this.pendingHighlight
+      ? [...this.ideaAnchors, this.pendingHighlight]
+      : this.ideaAnchors;
+
+    const rendered = applyIdeaMarks(container, anchors);
+    this.axis = rendered.axis;
+    this.refreshPopoverAnchorEl();
+    this.reportDriftedAnchors(rendered.drifted);
+  }
+
+  /**
+   * 把「位置漂移过、已被自动救回」的锚点回写后端，让数据收敛；
+   * 收敛之后下次打开就是精确命中，不必再每次重新推算。
+   */
+  private reportDriftedAnchors(drifted: IdeaAnchor[]): void {
+    for (const anchor of drifted) {
+      if (this.reportedDrift.has(anchor.id)) continue;
+      this.reportedDrift.add(anchor.id);
+      this.ideaService
+        .realignAnchor(anchor.id, {
+          startOffset: anchor.startOffset,
+          endOffset: anchor.endOffset,
+          anchorText: anchor.anchorText,
+          prefix: anchor.prefix ?? '',
+          suffix: anchor.suffix ?? '',
+        })
+        .subscribe({
+          // 回写失败无所谓：下次打开会重新推算，不影响阅读
+          error: () => this.reportedDrift.delete(anchor.id),
+        });
+    }
+  }
+
+  /** 把浮窗对应的区间标成「当前选中」，正文里会铺一层底色 */
+  private setPendingHighlight(payload: IdeaAnchorPayload): void {
+    this.pendingHighlight = {
+      id: BlogDetailComponent.PENDING_HIGHLIGHT_KEY,
+      startOffset: payload.startOffset,
+      endOffset: payload.endOffset,
+      anchorText: payload.anchorText,
+      prefix: payload.prefix,
+      suffix: payload.suffix,
+      hasPending: false,
+      ideas: [],
+      active: true,
+    };
+  }
+
+  /**
+   * 画完虚线会重建 <mark> 节点，浮窗若挂在旧节点上要重新指到新节点。
+   * 浮窗对应的那段永远是 active 那条，直接按类名找最省事。
+   */
+  private refreshPopoverAnchorEl(): void {
+    if (!this.popover) return;
+
+    const container = this.ideaContainer();
+    if (!container) return;
+
+    const next = container.querySelector(`mark.${IDEA_MARK_ACTIVE_CLASS}`);
+    if (next) {
+      this.popoverAnchorEl = next;
+    }
+  }
+
+  // ---- 事件绑定 ----
+
+  private bindIdeaInteractions(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    // 虚线是渲染后动态插入的，用事件委托，重渲染后无需重新绑定
+    fromEvent<MouseEvent>(this.el.nativeElement, 'click')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => this.onContentClick(event));
+
+    fromEvent<MouseEvent>(document, 'click')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => this.onDocumentClick(event));
+
+    fromEvent<KeyboardEvent>(document, 'keydown')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => {
+        if (event.key === 'Escape') {
+          this.closePopover();
+          this.hideWriteButton();
+        }
+      });
+
+    // 桌面端：mouseup 后等选区落定再看；selectionchange 兜住 Shift+方向键这类无鼠标操作
+    fromEvent<MouseEvent>(document, 'mouseup')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        if (this.isMobile) return;
+        setTimeout(() => this.syncWriteButton(), 0);
+      });
+
+    fromEvent(document, 'selectionchange')
+      .pipe(debounceTime(180), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        if (this.isMobile) return;
+        this.syncWriteButton();
+      });
+
+    this.bindPopoverReposition();
+  }
+
+  private bindPopoverReposition(): void {
+    const onScroll = () => {
+      if (!this.popover || this.popoverRafId !== null) return;
+      this.popoverRafId = requestAnimationFrame(() => {
+        this.popoverRafId = null;
+        this.repositionPopover();
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    this.popoverScrollListener = () =>
+      window.removeEventListener('scroll', onScroll);
+  }
+
+  private onContentClick(event: MouseEvent): void {
+    const container = this.ideaContainer();
+    if (!container) return;
+
+    const target = event.target as Element | null;
+    if (!target || !container.contains(target)) return;
+
+    const mark = target.closest(`mark[${IDEA_KEY_ATTRIBUTE}]`);
+    if (mark) {
+      event.preventDefault();
+      this.openPopoverForMark(mark);
+      return;
+    }
+
+    // 移动端没有拖拽框选，改成点段落 → 对整段写想法（整段有界，不受 200 字限制）
+    if (!this.isMobile || !this.ideasEnabled || this.popover) return;
+
+    const block = nearestBlock(target, container);
+    if (!block) return;
+
+    const axis = this.axis ?? buildAxis(container);
+    const payload = blockToAnchorPayload(axis, block);
+    if (!payload) return;
+
+    const existing = this.findOverlappingAnchor(payload);
+    if (existing) {
+      this.msg.info('这段文字已经有人写过想法啦，看看别人写了什么');
+      this.openPopoverForAnchor(existing, block, block.getBoundingClientRect());
+      return;
+    }
+
+    this.openComposePopover(payload, block, block.getBoundingClientRect());
+  }
+
+  private onDocumentClick(event: MouseEvent): void {
+    // 打开浮窗的那次点击本身会冒泡到这里，等它过去再允许「点外面关闭」
+    if (!this.popover || !this.popoverReady) return;
+
+    const target = event.target as Element | null;
+    if (
+      target &&
+      (target.closest('fl-idea-popover') ||
+        target.closest(`mark[${IDEA_KEY_ATTRIBUTE}]`) ||
+        target.closest('.idea-write-button') ||
+        // ng-zorro 的浮层（表情面板等）挂在 body 下的 cdk-overlay-container 里，
+        // 不在浮窗 DOM 内；不排除掉的话点一个表情就会把浮窗关掉
+        target.closest('.cdk-overlay-container'))
+    ) {
+      return;
+    }
+
+    this.closePopover();
+  }
+
+  // ---- 选区 →「写想法」按钮 ----
+
+  private syncWriteButton(): void {
+    if (!this.ideasEnabled) {
+      this.hideWriteButton();
+      return;
+    }
+
+    const container = this.ideaContainer();
+    if (!container) {
+      this.hideWriteButton();
+      return;
+    }
+
+    const active = document.activeElement;
+    if (
+      active instanceof HTMLElement &&
+      (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')
+    ) {
+      this.hideWriteButton();
+      return;
+    }
+
+    const selection = window.getSelection();
+    if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
+      this.hideWriteButton();
+      return;
+    }
+
+    const range = selection.getRangeAt(0);
+    if (!container.contains(range.commonAncestorContainer)) {
+      this.hideWriteButton();
+      return;
+    }
+
+    const axis = this.axis ?? buildAxis(container);
+    const payload = selectionToAnchorPayload(axis, range);
+    const layer = this.ideaLayerRef?.nativeElement;
+    const rect = this.selectionRect(range);
+    if (!payload || !layer || !rect) {
+      this.hideWriteButton();
+      return;
+    }
+
+    const layerRect = layer.getBoundingClientRect();
+    this.pendingSelection = payload;
+    this.selectionAnchorEl = nearestBlock(range.startContainer, container);
+    this.selectionRectRef = rect;
+    this.writeButton = {
+      visible: true,
+      tooLong: payload.anchorText.length > IDEA_SELECTION_MAX_LENGTH,
+      left: rect.left - layerRect.left + rect.width / 2,
+      top: rect.top - layerRect.top,
+    };
+  }
+
+  /** 跨节点的选区用 getBoundingClientRect 可能拿到空矩形，逐行 rect 更可靠 */
+  private selectionRect(range: Range): DOMRect | null {
+    const rects = range.getClientRects();
+    if (rects.length > 0) {
+      return rects[rects.length - 1];
+    }
+    const rect = range.getBoundingClientRect();
+    return rect.width || rect.height ? rect : null;
+  }
+
+  private hideWriteButton(): void {
+    if (!this.writeButton.visible) return;
+    this.writeButton = { ...this.writeButton, visible: false };
+    this.pendingSelection = null;
+    this.selectionAnchorEl = null;
+    this.selectionRectRef = null;
+  }
+
+  onWriteButtonClick(): void {
+    const payload = this.pendingSelection;
+    if (!payload) return;
+
+    if (payload.anchorText.length > IDEA_SELECTION_MAX_LENGTH) {
+      this.msg.info(
+        `一次最多框选 ${IDEA_SELECTION_MAX_LENGTH} 字哦，挑短一点的一段吧`,
+      );
+      return;
+    }
+
+    // 先在本地拦一次：已经有人写过的区间，别让用户白写一段再被后端拒
+    const existing = this.findOverlappingAnchor(payload);
+    // 定位要用选区自己的矩形（hideWriteButton 会把它清掉，所以先取出来）
+    const targetRect = this.selectionRectRef ?? undefined;
+    const anchorEl = this.selectionAnchorEl;
+    this.hideWriteButton();
+    window.getSelection()?.removeAllRanges();
+
+    if (existing) {
+      this.msg.info('这段文字已经有人写过想法啦，看看别人写了什么');
+      this.openPopoverForAnchor(existing, anchorEl, targetRect);
+      return;
+    }
+
+    this.openComposePopover(payload, anchorEl, targetRect);
+  }
+
+  private findOverlappingAnchor(payload: IdeaAnchorPayload): IdeaAnchor | null {
+    return (
+      this.ideaAnchors.find(
+        (anchor) =>
+          payload.startOffset < anchor.endOffset &&
+          payload.endOffset > anchor.startOffset,
+      ) ?? null
+    );
+  }
+
+  // ---- 浮窗 ----
+
+  /**
+   * 打开「写想法」浮窗。
+   *
+   * `targetRect` 必须是**选中文字自身**的矩形而不是所在段落的矩形：
+   * 段落占满整栏宽，左右两侧都没空间，浮窗就只能压在文字上；
+   * 用选区的矩形才能判断右边放不放得下。
+   */
+  private openComposePopover(
+    payload: IdeaAnchorPayload,
+    anchorEl: Element | null,
+    targetRect?: DOMRect,
+  ): void {
+    this.showPopover({
+      anchor: payload,
+      ideas: [],
+      hasPending: false,
+      keyIds: [],
+      // 框选后点「写想法」进来的，直接摊开表单
+      composing: true,
+      ...this.placePopover(undefined, targetRect),
+      anchorEl,
+    });
+  }
+
+  private openPopoverForAnchor(
+    anchor: IdeaAnchor,
+    anchorEl: Element | null,
+    targetRect?: DOMRect,
+  ): void {
+    this.showPopover({
+      anchor: this.toAnchorPayload(anchor),
+      ideas: anchor.ideas,
+      hasPending: anchor.hasPending,
+      keyIds: [anchor.id],
+      // 走到这里都是「本来就想写」的场景（选区撞上已有区间、移动端点段落）
+      composing: true,
+      ...this.placePopover(undefined, targetRect),
+      anchorEl,
+    });
+  }
+
+  private openPopoverForMark(mark: Element): void {
+    const keys = (mark.getAttribute(IDEA_KEY_ATTRIBUTE) ?? '')
+      .split(',')
+      .map((value) => Number(value))
+      .filter((value) => Number.isFinite(value));
+    const matched = this.ideaAnchors.filter((anchor) =>
+      keys.includes(anchor.id),
+    );
+    if (matched.length === 0) return;
+
+    const first = matched[0];
+    this.showPopover({
+      // 从已有虚线写想法时沿用这条线索原本的区间，后端据此把想法并进同一处
+      anchor: this.toAnchorPayload(first),
+      ideas: matched.flatMap((anchor) => anchor.ideas),
+      hasPending: matched.some((anchor) => anchor.hasPending),
+      keyIds: keys,
+      // 点虚线是「先看看别人写了什么」，表单收起来
+      composing: false,
+      ...this.placePopover(undefined, mark.getBoundingClientRect()),
+      anchorEl: mark,
+    });
+  }
+
+  private toAnchorPayload(anchor: IdeaAnchor): IdeaAnchorPayload {
+    return {
+      startOffset: anchor.startOffset,
+      endOffset: anchor.endOffset,
+      anchorText: anchor.anchorText,
+      prefix: anchor.prefix ?? '',
+      suffix: anchor.suffix ?? '',
+    };
+  }
+
+  private showPopover(state: {
+    anchor: IdeaAnchorPayload;
+    ideas: Idea[];
+    hasPending: boolean;
+    keyIds: number[];
+    left: number;
+    top: number;
+    placement: IdeaPlacement;
+    composing: boolean;
+    anchorEl: Element | null;
+  }): void {
+    this.popoverAnchorEl = state.anchorEl;
+    this.popover = {
+      anchor: state.anchor,
+      ideas: state.ideas,
+      hasPending: state.hasPending,
+      keyIds: state.keyIds,
+      left: state.left,
+      top: state.top,
+      placement: state.placement,
+      composing: state.composing,
+    };
+    this.popoverReady = false;
+    this.setPendingHighlight(state.anchor);
+    this.tryRenderIdeas();
+    setTimeout(() => {
+      this.popoverReady = true;
+    }, 0);
+  }
+
+  /**
+   * 浮窗宽度：优先量实际渲染值；还没渲染时按 CSS 的 clamp 规则估算。
+   * 两边必须一致 —— 早先按固定 320px 收拢，浮窗加宽后左侧就溢出到视口外了。
+   */
+  private popoverWidth(): number {
+    const host = this.el.nativeElement.querySelector(
+      'fl-idea-popover',
+    ) as HTMLElement | null;
+    const measured = host?.getBoundingClientRect().width ?? 0;
+    if (measured > 0) {
+      return measured;
+    }
+    const viewport = window.innerWidth;
+    if (viewport <= 768) {
+      return viewport - 24;
+    }
+    return Math.min(Math.max(340, viewport * 0.4), 620);
+  }
+
+  /** 浮窗高度未知时按 CSS 的 max-height 上限估一个，用于决定翻上还是翻下 */
+  private popoverHeight(): number {
+    const host = this.el.nativeElement.querySelector(
+      'fl-idea-popover',
+    ) as HTMLElement | null;
+    const measured = host?.getBoundingClientRect().height ?? 0;
+    if (measured > 0) {
+      return measured;
+    }
+    return Math.min(520, window.innerHeight * 0.72);
+  }
+
+  /**
+   * 位置换算 + 视口边界收拢。
+   *
+   * 优先级：右侧 → 左侧 → 上方 → 下方。开在右边是为了尽量不遮住被批注的文字，
+   * 右边放不下就退到左边，两边都放不下才回到"上/下"压在文字上。
+   *
+   * left/top 给的是「贴边点」而不是左上角：具体往哪边铺开由 CSS 的
+   * `translate`（按 data-placement）负责，所以这里要把 GAP 算进边界判断里。
+   */
+  private placePopover(
+    position: { left: number; top: number } | undefined,
+    targetRect: DOMRect | undefined,
+  ): { left: number; top: number; placement: IdeaPlacement } {
+    const layer = this.ideaLayerRef?.nativeElement;
+    if (!layer) {
+      // 兜底：跟 CSS 里的默认 translate 保持一致
+      return { left: 0, top: 0, placement: 'above' };
+    }
+
+    // 与浮窗 CSS 里的 translate 偏移保持一致
+    const GAP = 14;
+    const margin = 8;
+    const layerRect = layer.getBoundingClientRect();
+    const width = this.popoverWidth();
+    const height = this.popoverHeight();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    let left = position?.left ?? 0;
+    let top = position?.top ?? 0;
+    let placement: IdeaPlacement = 'right';
+
+    if (targetRect) {
+      const centerX =
+        targetRect.left - layerRect.left + targetRect.width / 2;
+      const centerY =
+        targetRect.top - layerRect.top + targetRect.height / 2;
+
+      const roomRight = viewportWidth - margin - targetRect.right;
+      const roomLeft = targetRect.left - margin;
+      const roomAbove = targetRect.top - margin;
+      const roomBelow = viewportHeight - margin - targetRect.bottom;
+
+      if (roomRight >= width + GAP) {
+        placement = 'right';
+      } else if (roomLeft >= width + GAP) {
+        placement = 'left';
+      } else if (roomAbove >= height + GAP) {
+        placement = 'above';
+      } else if (roomBelow >= height + GAP) {
+        placement = 'below';
+      } else {
+        // 四条边都放不下（窄屏）：挑空间最大的一侧，后面再靠收拢兜底
+        const best = Math.max(roomRight, roomLeft, roomAbove, roomBelow);
+        if (best === roomRight) placement = 'right';
+        else if (best === roomLeft) placement = 'left';
+        else if (best === roomAbove) placement = 'above';
+        else placement = 'below';
+      }
+
+      if (placement === 'right') {
+        left = targetRect.right - layerRect.left;
+        top = centerY;
+      } else if (placement === 'left') {
+        left = targetRect.left - layerRect.left;
+        top = centerY;
+      } else if (placement === 'below') {
+        left = centerX;
+        top = targetRect.bottom - layerRect.top;
+      } else {
+        left = centerX;
+        top = targetRect.top - layerRect.top;
+      }
+    }
+
+    // 按方向算出浮窗落在视口里的实际矩形，再整体推回可见范围
+    const anchorX = layerRect.left + left;
+    const anchorY = layerRect.top + top;
+    const projectedLeft =
+      placement === 'right'
+        ? anchorX + GAP
+        : placement === 'left'
+          ? anchorX - GAP - width
+          : anchorX - width / 2;
+    const projectedTop =
+      placement === 'below'
+        ? anchorY + GAP
+        : placement === 'above'
+          ? anchorY - GAP - height
+          : anchorY - height / 2;
+
+    let shiftX = 0;
+    if (projectedLeft < margin) {
+      shiftX = margin - projectedLeft;
+    } else if (projectedLeft + width > viewportWidth - margin) {
+      shiftX = Math.max(
+        viewportWidth - margin - (projectedLeft + width),
+        margin - projectedLeft,
+      );
+    }
+
+    let shiftY = 0;
+    if (projectedTop < margin) {
+      shiftY = margin - projectedTop;
+    } else if (projectedTop + height > viewportHeight - margin) {
+      shiftY = Math.max(
+        viewportHeight - margin - (projectedTop + height),
+        margin - projectedTop,
+      );
+    }
+
+    return { left: left + shiftX, top: top + shiftY, placement };
+  }
+
+  closePopover(): void {
+    if (!this.popover) return;
+    this.popover = null;
+    this.popoverAnchorEl = null;
+    this.popoverReady = false;
+    // 关掉浮窗就撤掉高亮，正文回到常态
+    this.pendingHighlight = null;
+    this.tryRenderIdeas();
+  }
+
+  private repositionPopover(): void {
+    const popover = this.popover;
+    if (!popover) return;
+
+    const target = this.popoverAnchorEl;
+    if (!target || !target.isConnected) {
+      this.closePopover();
+      return;
+    }
+
+    // 滚动时只跟着锚点走，不关闭：用户要的是浮窗一直悬在内容上。
+    // 锚点滚出视口后，placePopover 的边界收拢会把浮窗拉回视口内继续显示。
+    this.popover = {
+      ...popover,
+      ...this.placePopover(undefined, target.getBoundingClientRect()),
+    };
+  }
+
+  /** 新建成功：把想法并进本地锚点，立刻画出「待审核」虚线 */
+  onIdeaCreated(idea: Idea): void {
+    const current = this.popover;
+    if (!current) return;
+
+    const anchorId = idea.anchorId ?? current.keyIds[0] ?? -1;
+    const matched = this.ideaAnchors.find((anchor) => anchor.id === anchorId);
+
+    if (matched) {
+      if (!matched.ideas.some((item) => item.id === idea.id)) {
+        matched.ideas = [...matched.ideas, idea];
+      }
+      matched.hasPending = true;
+      this.popover = {
+        ...current,
+        ideas: matched.ideas,
+        hasPending: true,
+        keyIds: [matched.id],
+      };
+    } else {
+      // 后端新开了一条区间线索：本地补一条，偏移与提交的 payload 一致
+      const localAnchor: IdeaAnchor = {
+        id: anchorId,
+        startOffset: current.anchor.startOffset,
+        endOffset: current.anchor.endOffset,
+        anchorText: current.anchor.anchorText,
+        prefix: current.anchor.prefix,
+        suffix: current.anchor.suffix,
+        hasPending: true,
+        ideas: [idea],
+      };
+      this.ideaAnchors = [...this.ideaAnchors, localAnchor];
+      this.popover = {
+        ...current,
+        ideas: [idea],
+        hasPending: true,
+        keyIds: [anchorId],
+      };
+    }
+
+    this.ideasLoaded = true;
+    // 提交成功后由真实锚点（待审核淡虚线）接管，撤掉临时的选中高亮
+    this.pendingHighlight = null;
+    this.tryRenderIdeas();
   }
 
   onScroll(source: 'editor' | 'viewer'): void {
