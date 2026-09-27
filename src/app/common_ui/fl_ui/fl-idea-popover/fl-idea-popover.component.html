@@ -77,7 +77,12 @@
               <span class="fc-time">{{ relativeTime(idea.createDate) }}</span>
             </div>
 
-            <div class="fi-idea-content">{{ idea.content }}</div>
+            <!-- 内容交给评论区的渲染器：表情 token 转图片、Markdown 渲染、自动净化。
+                 别再退回纯文本插值 —— 那样 `[包名:名字]` 会原样显示、Markdown 也不生效 -->
+            <fl-comment-content
+              class="fi-idea-content"
+              [content]="idea.content"
+            ></fl-comment-content>
           </div>
         </div>
       </article>

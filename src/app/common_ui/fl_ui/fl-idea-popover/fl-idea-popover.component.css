@@ -135,11 +135,11 @@
   border-top: 1px dashed var(--fi-border);
 }
 
+/* 想法内容由 fl-comment-content 渲染（Markdown + 表情），
+   排版走全局 markdown-comment.css；这里只管断词与一点上间距 */
 .fi-idea-content {
-  font-size: var(--fi-font-size-sm);
-  line-height: var(--fi-line-height-relaxed);
-  color: var(--fi-text-body);
-  white-space: pre-wrap;
+  display: block;
+  margin-top: 2px;
   word-break: break-word;
 }
 

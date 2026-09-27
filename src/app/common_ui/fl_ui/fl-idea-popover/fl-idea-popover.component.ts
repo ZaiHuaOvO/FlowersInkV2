@@ -38,6 +38,7 @@ import {
 import { extractHttpErrorMessage } from '../../../shared/utils/http-error-message.util';
 import { normalizeWebsiteUrl } from '../../../shared/utils/website-url.util';
 import { FlButtonComponent } from '../fl-button/fl-button.component';
+import { FlCommentContentComponent } from '../fl-comment-content/fl-comment-content.component';
 import { FlCommentEditorComponent } from '../fl-comment-editor/fl-comment-editor.component';
 import { FlInputDirective } from '../fl-input/fl-input.directive';
 
@@ -65,6 +66,7 @@ import { FlInputDirective } from '../fl-input/fl-input.directive';
     NzFlexModule,
     NzInputModule,
     FlButtonComponent,
+    FlCommentContentComponent,
     FlCommentEditorComponent,
     FlInputDirective,
     SimpleCaptchaComponent,
