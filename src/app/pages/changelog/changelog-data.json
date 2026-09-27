@@ -5,8 +5,35 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 400,
+  "total": 403,
   "records": [
+    {
+      "uid": "9197405",
+      "type": "feat",
+      "date": "2026-09-27",
+      "desc": "评论、回复与想法被直接放行时弹窗告知免审核通过",
+      "important": false,
+      "repo": "site",
+      "sha": "919740573e461c4c5933416226c0e881d0888144"
+    },
+    {
+      "uid": "58154e2",
+      "type": "feat",
+      "date": "2026-09-27",
+      "desc": "新增评论白名单接口，名单内的评论与想法免审核直接通过",
+      "important": false,
+      "repo": "api",
+      "sha": "58154e2076695185ec0ed48e9f4931ff01e3397a"
+    },
+    {
+      "uid": "30cf5ff",
+      "type": "feat",
+      "date": "2026-09-27",
+      "desc": "友链文章改由后台定时预抓取，加载更快且结果不再时有时无",
+      "important": false,
+      "repo": "api",
+      "sha": "30cf5ffab1c314e799b1701394694a745dd745ea"
+    },
     {
       "uid": "a01249d",
       "type": "fix",
