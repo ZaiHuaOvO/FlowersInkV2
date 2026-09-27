@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 394,
+  "total": 395,
   "records": [
+    {
+      "uid": "63a3ee3",
+      "type": "fix",
+      "date": "2026-09-27",
+      "desc": "修复加载动画：之前转圈与动图同时显示，现在只保留动图",
+      "important": false,
+      "repo": "site",
+      "sha": "63a3ee343f654922eee62457a759aa0cc35f004b"
+    },
     {
       "uid": "e283c7e",
       "type": "style",
