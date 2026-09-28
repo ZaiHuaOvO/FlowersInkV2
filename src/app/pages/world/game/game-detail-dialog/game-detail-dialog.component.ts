@@ -7,16 +7,11 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
-import {
-  appendViewOriginalButton,
-  deriveWebpVariants,
-  inferOriginalImageUrl,
-} from '../../../../shared/utils/image-url.util';
+import { deriveWebpVariants } from '../../../../shared/utils/image-url.util';
 
 interface GameShotAsset {
   displayUrl: string;
   zoomUrl: string;
-  originalUrl: string;
 }
 
 @Component({
@@ -116,7 +111,7 @@ export class GameDetailDialogComponent {
     return this.game?.playStatus ?? 'completed';
   }
 
-  /** 截图像素信息：展示用 webp 地址，缩放层与"查看原图"用原图（与点滴一致） */
+  /** 截图像素信息：展示用 webp 地址，缩放层用 -zoom 变体 */
   get screenshots(): GameShotAsset[] {
     const list = Array.isArray(this.game?.img) ? this.game.img : [];
     return list
@@ -126,12 +121,9 @@ export class GameDetailDialogComponent {
           return null;
         }
         const { zoom } = deriveWebpVariants(url);
-        const originalRaw =
-          img && typeof img === 'object' ? String(img?.img_url ?? '').trim() : '';
         return {
           displayUrl: url,
           zoomUrl: zoom || url,
-          originalUrl: originalRaw || inferOriginalImageUrl(url),
         };
       })
       .filter(
@@ -139,14 +131,13 @@ export class GameDetailDialogComponent {
       );
   }
 
-  /** 点击截图：弹出图片预览（缩放层），并追加"查看原图"按钮 */
+  /** 点击截图：弹出图片预览（缩放层） */
   previewShot(event: MouseEvent, shot: GameShotAsset): void {
     event.stopPropagation();
     this.imageService.preview([{ src: shot.zoomUrl }], {
       nzZoom: 0.8,
       nzRotate: 0,
     });
-    appendViewOriginalButton(shot.originalUrl);
   }
 
   /** 截图逐张加载：前一张加载完成后开始加载下一张 */

@@ -16,17 +16,12 @@ import type { CommentSource } from '../../../../shared/comment/comment.model';
 import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { LifeService } from '../../life.service';
 import { LifeUiStateService } from '../../life-ui-state.service';
-import {
-  appendViewOriginalButton,
-  deriveWebpVariants,
-  inferOriginalImageUrl,
-} from '../../../../shared/utils/image-url.util';
+import { deriveWebpVariants } from '../../../../shared/utils/image-url.util';
 
 type LifeCategory = '美食' | '日常' | '游戏' | '摘抄' | '';
 
 interface LifeImageAsset {
   previewUrl: string;
-  originalUrl: string;
   displayUrl: string;
   zoomUrl: string;
 }
@@ -207,7 +202,6 @@ export class LifeDialogComponent implements OnInit {
       nzZoom: 0.8,
       nzRotate: 0,
     });
-    appendViewOriginalButton(image.originalUrl);
   }
 
   onImageError(event: Event, image: LifeImageAsset): void {
@@ -250,23 +244,18 @@ export class LifeDialogComponent implements OnInit {
     if (typeof rawImage === 'string') {
       const previewUrl = rawImage.trim();
       if (!previewUrl) return null;
-      return this.toLifeImageAsset(previewUrl, '');
+      return this.toLifeImageAsset(previewUrl);
     }
     const record = rawImage as Record<string, unknown>;
     const previewUrl = String(record['url'] ?? '').trim();
     if (!previewUrl) return null;
-    const originalRaw = String(record['img_url'] ?? '').trim();
-    return this.toLifeImageAsset(previewUrl, originalRaw);
+    return this.toLifeImageAsset(previewUrl);
   }
 
-  private toLifeImageAsset(
-    previewUrl: string,
-    originalRaw: string,
-  ): LifeImageAsset {
+  private toLifeImageAsset(previewUrl: string): LifeImageAsset {
     const { display, zoom } = deriveWebpVariants(previewUrl);
     return {
       previewUrl,
-      originalUrl: originalRaw || inferOriginalImageUrl(previewUrl),
       displayUrl: display || previewUrl,
       zoomUrl: zoom || previewUrl,
     };
