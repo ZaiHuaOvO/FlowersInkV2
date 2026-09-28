@@ -2,6 +2,18 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { marked } from 'marked';
+import {
+  SITE_ORIGIN,
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  SITE_IMAGE,
+  SITE_LANGUAGE,
+  buildRssXml,
+  buildSitemapXml,
+  escapeXml,
+  normalizeDescription,
+  withTrailingSlash,
+} from './seo-files.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,13 +21,15 @@ const projectRoot = path.resolve(__dirname, '..');
 const distRoot = path.join(projectRoot, 'dist', 'flowers-ink-v2', 'browser');
 // 模板读取 Angular 构建产物（含 <script> 注入），而非源码模板（源码无 script 标签）
 const templatePath = path.join(distRoot, 'index.html');
-const siteOrigin = 'https://flowersink.com';
+// 站点常量以及 sitemap / rss 的生成逻辑都在 seo-files.mjs 里：服务器上每小时重跑
+// 的定时任务（scripts/generate-seo-files.mjs）调用的是同一份实现，两边不会走偏。
+// 这里用别名接住原有名字，避免为了改名把整个文件都动一遍。
+const siteOrigin = SITE_ORIGIN;
 const apiOrigin = 'https://api.flowersink.com';
-const siteName = '花墨';
-const siteDescription =
-  '花墨是再花（前端工程师）的个人博客，记录生活随笔、书影音测评、美食旅行见闻与技术开发实践。';
-const siteLanguage = 'zh-CN';
-const defaultOgImage = 'https://api.flowersink.com/img/logo.png';
+const siteName = SITE_NAME;
+const siteDescription = SITE_DESCRIPTION;
+const siteLanguage = SITE_LANGUAGE;
+const defaultOgImage = SITE_IMAGE;
 const friendLinkLimit = 8;
 const useMockData = process.env.FLOWERSINK_STATIC_SEO_MOCK === '1';
 const allowOptionalFailure = process.env.FLOWERSINK_STATIC_SEO_OPTIONAL === '1';
@@ -32,14 +46,6 @@ marked.setOptions({
   breaks: true,
   gfm: true,
 });
-
-/** 目录型路径统一补尾斜杠，与 nginx 实际服务地址保持一致 */
-function withTrailingSlash(urlPath) {
-  if (urlPath === '/' || urlPath.includes('.') || urlPath.endsWith('/')) {
-    return urlPath;
-  }
-  return `${urlPath}/`;
-}
 
 /** 提取 markdown 正文第一张图片地址 */
 function extractFirstImage(content) {
@@ -712,7 +718,7 @@ function injectSeoHtml(template, options) {
     <meta name="twitter:description" content="${escapeHtmlAttr(options.description)}">
     <meta name="twitter:image" content="${escapeHtmlAttr(ogImage)}">
     <link rel="canonical" href="${escapeHtmlAttr(canonicalUrl)}">
-    <link rel="alternate" type="application/rss+xml" title="${siteName} RSS" href="${siteOrigin}/rss.xml">
+    <link rel="alternate" type="application/rss+xml" title="${siteName}" href="${siteOrigin}/rss.xml">
     ${options.extraHead ?? ''}
   `;
 
@@ -856,61 +862,6 @@ function buildBreadcrumbSchema(blog, canonicalPath) {
   };
 }
 
-function buildSitemapXml(blogs) {
-  const staticUrls = [
-    { url: '/', changefreq: 'daily', priority: 1.0 },
-    { url: '/welcome', changefreq: 'monthly', priority: 0.6 },
-    { url: '/blog/all', changefreq: 'weekly', priority: 0.8 },
-    { url: '/blog/article', changefreq: 'weekly', priority: 0.8 },
-    { url: '/blog/essay', changefreq: 'weekly', priority: 0.8 },
-    { url: '/link', changefreq: 'weekly', priority: 0.5 },
-    { url: '/about', changefreq: 'monthly', priority: 0.5 },
-    { url: '/book', changefreq: 'monthly', priority: 0.5 },
-    { url: '/game', changefreq: 'monthly', priority: 0.5 },
-    { url: '/equipment', changefreq: 'monthly', priority: 0.5 },
-    { url: '/changelog', changefreq: 'monthly', priority: 0.3 },
-    { url: '/life', changefreq: 'weekly', priority: 0.6 },
-    { url: '/rss.xml', changefreq: 'daily', priority: 0.4 },
-  ];
-
-  const entries = [
-    ...staticUrls.map(({ url, changefreq, priority }) => ({
-      url,
-      changefreq,
-      priority,
-      lastmod: null,
-    })),
-    ...blogs.map((blog) => ({
-      url: `/blog/blog-detail/${blog.id}`,
-      changefreq: 'weekly',
-      priority: blog.star ? 0.9 : 0.7,
-      lastmod: blog.date,
-    })),
-  ];
-
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries
-    .map(({ url, lastmod, changefreq, priority }) => `  <url>\n    <loc>${escapeXml(siteOrigin + withTrailingSlash(url))}</loc>${lastmod ? `\n    <lastmod>${new Date(lastmod).toISOString()}</lastmod>` : ''}${changefreq ? `\n    <changefreq>${changefreq}</changefreq>` : ''}${priority !== undefined ? `\n    <priority>${priority}</priority>` : ''}\n  </url>`)
-    .join('\n')}\n</urlset>\n`;
-}
-
-function buildRssXml(blogs) {
-  const items = blogs
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 50)
-    .map((blog) => {
-      const tags = String(blog.tag ?? '')
-        .split(',')
-        .map((tag) => tag.trim())
-        .filter(Boolean);
-      const categories = tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join('');
-      const detailUrl = `${siteOrigin}${withTrailingSlash(`/blog/blog-detail/${blog.id}`)}`;
-      return `  <item>\n    <title>${escapeXml(blog.title)}</title>\n    <link>${escapeXml(detailUrl)}</link>\n    <guid>${escapeXml(detailUrl)}</guid>\n${categories}    <description>${escapeXml(normalizeDescription(blog.description || blog.content))}</description>\n    <pubDate>${new Date(blog.date).toUTCString()}</pubDate>\n  </item>`;
-    })
-    .join('\n');
-
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>${escapeXml(`${siteName} RSS`)}</title>\n  <link>${escapeXml(`${siteOrigin}/`)}</link>\n  <description>${escapeXml(siteDescription)}</description>\n  <language>zh-CN</language>\n  <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>\n  <image>\n    <url>${escapeXml(defaultOgImage)}</url>\n    <title>${escapeXml(siteName)}</title>\n    <link>${escapeXml(`${siteOrigin}/`)}</link>\n  </image>\n${items}\n</channel>\n</rss>\n`;
-}
-
 function buildMockData() {
   return {
     blogs: {
@@ -947,16 +898,6 @@ function buildMockData() {
   };
 }
 
-function normalizeDescription(value) {
-  return String(value ?? '')
-    .replace(/[#>*`[\]_~-]/g, ' ')
-    .replace(/\!\[[^\]]*]\([^)]*\)/g, ' ')
-    .replace(/\[[^\]]*]\([^)]*\)/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 160) || siteDescription;
-}
-
 function formatDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
@@ -986,15 +927,6 @@ function escapeHtml(value) {
 
 function escapeHtmlAttr(value) {
   return escapeHtml(value);
-}
-
-function escapeXml(value) {
-  return String(value ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
 }
 
 function removeTagAll(input, pattern) {
