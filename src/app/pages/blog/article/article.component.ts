@@ -81,7 +81,14 @@ export class ArticleComponent implements OnInit {
 
   private loadBlogs(): void {
     this.loading = true;
-    this.blog.getBlogs({ type: '文章', limit: 999 }).subscribe((res: any) => {
+    this.blog
+      .getBlogs({
+        type: '文章',
+        limit: 999,
+        // 列表只用标题/标签/日期，正文由详情页单独取，别把全部正文拉下来
+        includeContent: false,
+      })
+      .subscribe((res: any) => {
       this.allData = res['data'].data ?? [];
       this.tagList = this.buildTagList(this.allData);
       this.page = 1;

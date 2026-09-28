@@ -130,7 +130,10 @@ export class WelcomeComponent implements OnInit {
     this.data = [];
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
-    this.welcome.getBlogs({ star: true }).subscribe((res: any) => {
+    // 精选卡片只展示摘要，正文没必要整篇拉下来
+    this.welcome
+      .getBlogs({ star: true, contentLength: 200 })
+      .subscribe((res: any) => {
       this.data = this.orderPinnedFirst(this.processedData(res['data'].data));
       this.cdr.detectChanges();
       this.loading = false;
@@ -148,14 +151,16 @@ export class WelcomeComponent implements OnInit {
   }
 
   processedData(data: any): any {
+    const PREVIEW_LENGTH = 200;
     const processedData = data.map((item: any) => {
-      if (item.content.length > 200) {
+      // API 已按 PREVIEW_LENGTH 截断，长度达到上限即说明原文更长
+      if (item.content.length >= PREVIEW_LENGTH) {
         return {
           ...item,
-          content: item.content.substring(0, 200) + '...', // 裁剪为200字并添加省略号
+          content: item.content.substring(0, PREVIEW_LENGTH) + '...',
         };
       }
-      return item; // 如果长度不超过200字，则保持原样
+      return item; // 如果长度不超过上限，则保持原样
     });
     return processedData;
   }
