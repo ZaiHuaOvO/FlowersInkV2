@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 404,
+  "total": 405,
   "records": [
+    {
+      "uid": "54ee07d",
+      "type": "chore",
+      "date": "2026-09-28",
+      "desc": "中文字体改为按需切片加载、列表接口不再下发全文，页面流量明显下降",
+      "important": false,
+      "repo": "site",
+      "sha": "54ee07d43c8a01b5f0018a203b4db140e49cb62f"
+    },
     {
       "uid": "8c9664f",
       "type": "chore",
