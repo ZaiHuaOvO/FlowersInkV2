@@ -38,6 +38,9 @@ testem.log
 /typings
 src/app/common_ui/design-md/
 
+# Derived: rebuild with scripts/fonts/corpus.py
+scripts/fonts/_corpus.txt
+
 # System files
 .DS_Store
 Thumbs.db
