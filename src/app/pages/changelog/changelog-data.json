@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 403,
+  "total": 404,
   "records": [
+    {
+      "uid": "8c9664f",
+      "type": "chore",
+      "date": "2026-09-28",
+      "desc": "RSS 与站点地图改为每小时自动更新，新文章不必等主站重新部署；RSS 标题精简为「花墨」",
+      "important": false,
+      "repo": "site",
+      "sha": "8c9664fa6e8cc72c4194576e23859f316606a395"
+    },
     {
       "uid": "fe3db40",
       "type": "feat",
