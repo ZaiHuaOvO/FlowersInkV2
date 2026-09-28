@@ -202,6 +202,8 @@ async function fetchJson(endpoint, params = {}) {
   const response = await fetch(url, {
     headers: {
       Accept: 'application/json',
+      // CDN 的 Referer 白名单会拦掉不带 Referer 的请求，本方脚本必须自报来源
+      Referer: siteOrigin,
     },
   });
 

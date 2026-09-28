@@ -16,7 +16,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildRssXml, buildSitemapXml } from './seo-files.mjs';
+import { buildRssXml, buildSitemapXml, SITE_ORIGIN } from './seo-files.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const API_ORIGIN = process.env.FLOWERSINK_API_ORIGIN ?? 'https://api.flowersink.com';
@@ -48,7 +48,8 @@ async function main() {
   const startedAt = Date.now();
 
   const url = `${API_ORIGIN}/blog?${BLOG_QUERY}`;
-  const response = await fetch(url);
+  // CDN 的 Referer 白名单会拦掉不带 Referer 的请求，本方脚本必须自报来源
+  const response = await fetch(url, { headers: { Referer: SITE_ORIGIN } });
   if (!response.ok) {
     throw new Error(`拉取文章列表失败：HTTP ${response.status} ${url}`);
   }
