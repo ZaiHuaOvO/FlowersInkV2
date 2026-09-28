@@ -14,6 +14,10 @@ if (fs.existsSync(gitUsrBin)) {
 const REMOTE_USER = 'root';
 const REMOTE_HOST = '47.109.133.108';
 const REMOTE_PATH = '/www/wwwroot/FlowersInkV2/browser';
+// 新版本先解到旁路目录、再整体换名就位。直接 tar 覆盖旧目录的话，历次构建的
+// chunk-*.js 因为文件名带 hash 不会重名，会一直堆在服务器上清不掉
+const REMOTE_NEW = `${REMOTE_PATH}.deploy-new`;
+const REMOTE_OLD = `${REMOTE_PATH}.deploy-old`;
 const REMOTE_SCRIPTS_PATH = '/www/wwwroot/FlowersInkV2/scripts';
 const SSH_KEY = path.join(process.env.HOME || process.env.USERPROFILE, '.ssh', 'flowersink_rsa');
 const DIST_DIR = path.resolve(__dirname, '..', 'dist', 'flowers-ink-v2', 'browser');
@@ -39,7 +43,12 @@ console.log('  ╭' + '─'.repeat(36) + '╮');
 console.log('  │   📦 打包飞到服务器上去~           │');
 console.log('  ╰' + '─'.repeat(36) + '╯');
 console.log('  ~ 把代码装进小包裹，咻~ 发射！');
-run(`tar czf - -C "${DIST_DIR}" . | ssh -i "${SSH_KEY}" -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} "tar xzf - -C ${REMOTE_PATH} && chown -R www:www ${REMOTE_PATH}"`);
+run(
+  `tar czf - -C "${DIST_DIR}" . | ssh -i "${SSH_KEY}" -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} ` +
+    `"set -e; rm -rf ${REMOTE_NEW} ${REMOTE_OLD}; mkdir -p ${REMOTE_NEW}; ` +
+    `tar xzf - -C ${REMOTE_NEW}; chown -R www:www ${REMOTE_NEW}; ` +
+    `mv ${REMOTE_PATH} ${REMOTE_OLD}; mv ${REMOTE_NEW} ${REMOTE_PATH}; rm -rf ${REMOTE_OLD}"`
+);
 console.log('  ~ 包裹已安全抵达服务器～');
 
 console.log('');
