@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 405,
+  "total": 406,
   "records": [
+    {
+      "uid": "e539fd6",
+      "type": "chore",
+      "date": "2026-09-28",
+      "desc": "点滴与游戏图不再提供「查看原图」，GIF 改用动态 WebP 后体积大幅下降",
+      "important": false,
+      "repo": "site",
+      "sha": "e539fd625a6f6a7e6d299e4550d2593efb45389e"
+    },
     {
       "uid": "54ee07d",
       "type": "chore",
