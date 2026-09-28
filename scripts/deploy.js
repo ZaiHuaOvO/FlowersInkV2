@@ -14,10 +14,10 @@ if (fs.existsSync(gitUsrBin)) {
 const REMOTE_USER = 'root';
 const REMOTE_HOST = '47.109.133.108';
 const REMOTE_PATH = '/www/wwwroot/FlowersInkV2/browser';
-// 新版本先解到旁路目录、再整体换名就位。直接 tar 覆盖旧目录的话，历次构建的
-// chunk-*.js 因为文件名带 hash 不会重名，会一直堆在服务器上清不掉
-const REMOTE_NEW = `${REMOTE_PATH}.deploy-new`;
-const REMOTE_OLD = `${REMOTE_PATH}.deploy-old`;
+// 带 hash 的资源文件名不重名，直接增量解包会让历次构建的产物一直堆着；
+// 但又不能部署时立刻删——CDN 上的 index.html 会滞后约 1 小时，那段时间
+// 访客拿到的旧 HTML 还在引用旧 chunk，删早了就是白屏。所以按时间留几天再清。
+const STALE_DAYS = 7;
 const REMOTE_SCRIPTS_PATH = '/www/wwwroot/FlowersInkV2/scripts';
 const SSH_KEY = path.join(process.env.HOME || process.env.USERPROFILE, '.ssh', 'flowersink_rsa');
 const DIST_DIR = path.resolve(__dirname, '..', 'dist', 'flowers-ink-v2', 'browser');
@@ -45,9 +45,12 @@ console.log('  ╰' + '─'.repeat(36) + '╯');
 console.log('  ~ 把代码装进小包裹，咻~ 发射！');
 run(
   `tar czf - -C "${DIST_DIR}" . | ssh -i "${SSH_KEY}" -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} ` +
-    `"set -e; rm -rf ${REMOTE_NEW} ${REMOTE_OLD}; mkdir -p ${REMOTE_NEW}; ` +
-    `tar xzf - -C ${REMOTE_NEW}; chown -R www:www ${REMOTE_NEW}; ` +
-    `mv ${REMOTE_PATH} ${REMOTE_OLD}; mv ${REMOTE_NEW} ${REMOTE_PATH}; rm -rf ${REMOTE_OLD}"`
+    `"set -e; tar xzf - -C ${REMOTE_PATH}; ` +
+    `find ${REMOTE_PATH} -maxdepth 1 -name 'chunk-*.js' -mtime +${STALE_DAYS} -delete; ` +
+    `find ${REMOTE_PATH} -maxdepth 1 -name 'main-*.js' -mtime +${STALE_DAYS} -delete; ` +
+    `find ${REMOTE_PATH} -maxdepth 1 -name 'polyfills-*.js' -mtime +${STALE_DAYS} -delete; ` +
+    `find ${REMOTE_PATH} -maxdepth 1 -name 'styles-*.css' -mtime +${STALE_DAYS} -delete; ` +
+    `chown -R www:www ${REMOTE_PATH}"`
 );
 console.log('  ~ 包裹已安全抵达服务器～');
 
