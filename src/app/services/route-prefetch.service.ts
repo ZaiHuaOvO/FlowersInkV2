@@ -8,7 +8,6 @@ type PrefetchKey =
   | 'blog.all'
   | 'blog.article'
   | 'blog.essay'
-  | 'blog.question'
   | 'blog.detail'
   | 'book.component'
   | 'game.component'
@@ -41,7 +40,6 @@ export class RoutePrefetchService {
     'blog.all': () => import('../pages/blog/blog.component'),
     'blog.article': () => import('../pages/blog/article/article.component'),
     'blog.essay': () => import('../pages/blog/essay/essay.component'),
-    'blog.question': () => import('../pages/blog/question/question.component'),
     'blog.detail': () => import('../pages/blog/blog-detail/blog-detail.component'),
 
     'book.component': () => import('../pages/world/book/book.component'),
@@ -88,7 +86,6 @@ export class RoutePrefetchService {
     window.setTimeout(() => {
       this.enqueue(
         [
-          'blog.question',
           'blog.detail',
           'book.component',
           'game.component',
@@ -145,9 +142,6 @@ export class RoutePrefetchService {
     }
     if (url.startsWith('/blog/all')) {
       return ['blog.routes', 'blog.all'];
-    }
-    if (url.startsWith('/blog/question')) {
-      return ['blog.routes', 'blog.question'];
     }
     if (url.startsWith('/blog/blog-detail')) {
       return ['blog.routes', 'blog.detail'];
