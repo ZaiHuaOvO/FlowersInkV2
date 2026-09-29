@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 406,
+  "total": 407,
   "records": [
+    {
+      "uid": "c82b146",
+      "type": "chore",
+      "date": "2026-09-29",
+      "desc": "移除长期空置的「问答」页，该类型下没有任何文章",
+      "important": false,
+      "repo": "site",
+      "sha": "c82b146f3aa637c57fd6e545040f171aa1332127"
+    },
     {
       "uid": "e539fd6",
       "type": "chore",
