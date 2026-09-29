@@ -137,11 +137,13 @@
 /*
   头像：正文里写成 `<img class="about-avatar">` 的图片按圆形头像渲染。
   图片是插图还是头像 markdown 本身分不出来，所以由正文显式指定。
+
+  这里**不设尺寸**——尺寸由正文的 `width` 属性决定（行内 style 会被 Angular 净化链路剥掉，
+  所以尺寸只能走 width/height 属性；CSS 一旦写死 width 就会盖过属性，让正文失去控制权）。
+  高度跟随比例，所以正文只写 width 也不会变形。
 */
 :host ::ng-deep #currentAnchor img.about-avatar {
-  width: 120px;
-  height: 120px;
-  max-width: 120px;
+  max-width: 100%;
   object-fit: cover;
   border-radius: 50%;
   border: 4px solid var(--fi-surface);
@@ -414,11 +416,5 @@
 @media (max-width: 768px) {
   .about-content {
     padding: var(--fi-space-6) var(--fi-space-3) var(--fi-space-8);
-  }
-
-  :host ::ng-deep #currentAnchor img.about-avatar {
-    width: 90px;
-    height: 90px;
-    max-width: 90px;
   }
 }
