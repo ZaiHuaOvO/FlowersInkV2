@@ -103,6 +103,8 @@ export class QuestionComponent implements OnInit {
         page: this.page,
         title: this.searchControl.value,
         tag: this.tag,
+        // 问题页把正文当 Markdown 渲染，必须显式要正文
+        includeContent: true,
       })
       .subscribe((res: any) => {
         this.data = res['data'].data;
@@ -135,6 +137,8 @@ export class QuestionComponent implements OnInit {
         title: this.searchControl.value,
         tag: this.tag,
         limit: 10,
+        // 问题页把正文当 Markdown 渲染，必须显式要正文
+        includeContent: true,
       })
       .subscribe((res: any) => {
         this.data = res['data'].data;
