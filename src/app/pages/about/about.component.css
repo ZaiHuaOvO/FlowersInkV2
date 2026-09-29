@@ -144,6 +144,9 @@
 */
 :host ::ng-deep #currentAnchor img.about-avatar {
   max-width: 100%;
+  /* 头像靠左：覆盖博客插图样式的 `margin: 1.5rem auto`（只改左右，上下留白不动） */
+  margin-left: 0;
+  margin-right: auto;
   object-fit: cover;
   border-radius: 50%;
   border: 4px solid var(--fi-surface);
