@@ -4,7 +4,7 @@
   <nav class="about-sidebar" aria-label="关于页面导航">
     <div class="sidebar-inner">
       <div class="sidebar-track">
-        @for (item of navItems; track item.id) {
+        @for (item of navItems(); track item.id) {
         <button class="sidebar-item" [class.sidebar-item--active]="activeSection() === item.id"
           (click)="scrollTo(item.id)" [attr.aria-label]="'跳转到' + item.label">
           <span class="sidebar-dot"></span>
@@ -16,209 +16,45 @@
   </nav>
   }
 
-
   <!-- ===== Main Content — centered column ===== -->
-  <main class="about-content" @QuickUp>
+  <main class="about-content">
 
-    <!-- ===== Section 1: 再花 (hero — fully centered) ===== -->
-    <section class="about-section" id="about-section-hero" data-section-id="hero" @SectionFade>
-      <div class="section-hero">
-        <img class="hero-avatar" src="https://api.flowersink.com/img/粉毛猫猫头.jpeg" alt="再花的头像" loading="eager"
-          decoding="async" />
-        <h1 class="hero-name">再花</h1>
-        <p class="hero-tagline">一个想要变得有趣的灵魂</p>
+    <!-- ===== 正文：整页内容（含头像与标题）来自后台编辑的 Markdown ===== -->
+    <nz-spin [nzTip]="'关于页正在赶来中'" [nzSpinning]="loadingMarkdown">
+      <markdown id="currentAnchor" [data]="markdownContent" (ready)="onMarkdownReady()"
+        [clipboard]="markdownReady"></markdown>
+    </nz-spin>
 
-        <div class="hero-intro">
-          <p class="hero-intro-p">
-            这里是<strong class="fi-primary-text">再花</strong>，丐版全栈工程师(自封的)
-          </p>
-          <p class="hero-intro-p">
-            很宅、很爱打游戏、很爱写东西、喜欢和人聊天
-          </p>
-          <p class="hero-intro-p">
-            喜欢琢磨电子类的东西，差生文具多，
-            <a class="section-link" [routerLink]="['/equipment']">查看我的装备图鉴</a>
-          </p>
-          <p class="hero-intro-p">
-            英年早婚，日常含妻量很高，每天都在围着老婆转。
-          </p>
-        </div>
-      </div>
-    </section>
+    <!-- ===== 编程小节的贡献图：动态数据，不进 markdown ===== -->
+    <flower-github-contributions class="about-contributions"></flower-github-contributions>
 
-    <!-- ===== Section 2: 爱好 ===== -->
-    <section class="about-section" id="about-section-hobbies" data-section-id="hobbies" @SectionFade>
-      <h2 class="section-title">爱好</h2>
-      <h3 class="connect-subtitle">游戏</h3>
-      <p>每天都会进行的活动，生命的终极意义。什么类型都会尝试一下。</p>
-      <p class="fi-secondary-text">玩了很多游戏，记录了一部分在<a class="section-link" [routerLink]="['/game']">再花的游戏库</a></p>
-      <h3 class="connect-subtitle">写作</h3>
-      <p>希望读者能够得到帮助或快乐。</p>
-      <p class="fi-secondary-text"><a class="section-link" [routerLink]="['/blog/all']">前往文归档</a>看看再花写(shui)了什么博客</p>
-      <h3 class="connect-subtitle">摸鱼</h3>
-      <p>工作只是获取劳动报酬，摸鱼才是在赚钱。</p>
-      <p class="fi-secondary-text">记录了许多令人开心的点滴，<a class="section-link" [routerLink]="['/life']">前往查看再花的日常</a></p>
-      <h3 class="connect-subtitle">编程</h3>
-      <p>编程可以用自己的双手创造世界。</p>
-      <p class="fi-secondary-text">与代码交流，比与人交流要轻松的多</p>
-      <flower-github-contributions></flower-github-contributions>
-    </section>
-
-    <!-- ===== Section 3: 连接 ===== -->
-    <section class="about-section" id="about-section-connect" data-section-id="connect" @SectionFade>
-      <h2 class="section-title">连接</h2>
-
-      <div class="social-row">
-        @for (contact of contacts; track contact.key) {
-        @if (contact.qrKey) {
-        <div class="social-item" [class.social-item--copied]="copiedCard() === contact.key"
-          (click)="copyContact(contact.key, contact.value, contact.label)" nz-popover
-          [nzPopoverContent]="qrContentFor(contact.qrKey)" nzPopconfirmPlacement="top">
-          <span nz-icon [nzType]="contact.icon" nzTheme="outline" class="social-item-icon"></span>
-          <span class="social-item-value">{{ contact.value }}</span>
-          <span class="social-item-extra">{{ contact.extra }}</span>
-        </div>
-        } @else {
-        <div class="social-item" [class.social-item--copied]="copiedCard() === contact.key"
-          (click)="copyContact(contact.key, contact.value, contact.label)">
-          <span nz-icon [nzType]="contact.icon" nzTheme="outline" class="social-item-icon"></span>
-          <span class="social-item-value">{{ contact.value }}</span>
-          <span class="social-item-extra">{{ contact.extra }}</span>
-        </div>
-        }
-        }
-        <div class="social-item" [class.social-item--copied]="copiedCard() === 'rss'" (click)="copyRss()">
-          <svg class="social-item-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="1em"
-            height="1em">
-            <path
-              d="M832.512 63.488q26.624 0 49.664 10.24t40.448 27.648 27.648 40.448 10.24 49.664l0 704.512q0 26.624-10.24 49.664t-27.648 40.448-40.448 27.648-49.664 10.24l-704.512 0q-26.624 0-49.664-10.24t-40.448-27.648-27.648-40.448-10.24-49.664l0-704.512q0-26.624 10.24-49.664t27.648-40.448 40.448-27.648 49.664-10.24l704.512 0zM188.416 923.648q19.456 0 36.864-7.168t30.208-19.968 19.968-30.208 7.168-36.864-7.168-36.864-19.968-30.208-30.208-19.968-36.864-7.168q-20.48 0-37.376 7.168t-30.208 19.968-20.48 30.208-7.168 36.864 7.168 36.864 20.48 30.208 30.208 19.968 37.376 7.168zM446.464 897.024l36.864 0q15.36 0 30.208 0.512t31.232 0.512 36.864-1.024q0-93.184-35.84-175.616t-97.28-143.872-143.872-96.768-175.616-35.328q-1.024 24.576-1.024 39.936l0 28.672q0 14.336 0.512 29.184t0.512 37.376q65.536 0 123.392 24.576t100.864 67.584 68.096 100.864 25.088 123.392zM707.584 894.976q36.864 0 49.152 0.512t18.432 1.536 15.872 1.024 41.472-2.048q0-145.408-55.296-272.896t-150.528-222.72-223.232-150.528-273.408-55.296q-1.024 25.6-1.024 36.864l0 16.384q0 4.096 0.512 5.632t0.512 7.168 0.512 18.432 0.512 40.448q119.808 0 224.768 45.056t183.296 123.392 123.392 183.296 45.056 223.744z"
-              fill="#8B5A2B"></path>
-          </svg>
-          <span class="social-item-value">flowersink.com/rss.xml</span>
-        </div>
-      </div>
-
-      <ng-template #qqQRCode><img loading="lazy" decoding="async" width="200" height="200"
-          src="assets/img/QRCode/qq.png" alt="QQ 二维码" /></ng-template>
-      <ng-template #wxQRCode><img loading="lazy" decoding="async" width="200" height="200"
-          src="assets/img/QRCode/wx.png" alt="微信二维码" /></ng-template>
-
-      <div class="social-row social-row--spaced">
-        @for (platform of socialPlatforms; track platform.label) {
-        <a class="social-item" rel="nofollow" [href]="platform.url" target="_blank">
-          @if (platform.label === '哔哩哔哩') {
-          <svg t="1739951000082" class="social-item-icon" viewBox="0 0 1024 1024" version="1.1"
-            xmlns="http://www.w3.org/2000/svg" p-id="5440" width="1em" height="1em">
-            <path
-              d="M1019.54782609 345.3106087c-3.20556522-142.1133913-127.15408696-169.36069565-127.15408696-169.36069566s-96.70121739-0.53426087-222.25252174-1.60278261l91.3586087-88.15304347s14.42504348-18.16486957-10.15095652-38.46678261c-24.576-20.30191304-26.17878261-11.21947826-34.72695653-5.87686957-7.47965217 5.3426087-117.00313043 112.72904348-136.23652174 131.96243479-49.68626087 0-101.50956522-0.53426087-151.73008695-0.53426087h17.63060869S315.392 43.98747826 306.84382609 38.1106087s-9.61669565-14.42504348-34.72695652 5.87686956c-24.576 20.30191304-10.15095652 38.46678261-10.15095653 38.46678261l93.49565218 90.82434783c-101.50956522 0-189.12834783 0.53426087-229.73217392 2.13704347C-5.69878261 213.34817391 4.45217391 345.3106087 4.45217391 345.3106087s1.60278261 283.15826087 0 426.34017391c14.42504348 143.18191304 124.48278261 166.15513043 124.48278261 166.15513043s43.8093913 1.06852174 76.39930435 1.06852174c3.20556522 9.08243478 5.87686957 53.96034783 56.0973913 53.96034783 49.68626087 0 56.0973913-53.96034783 56.09739131-53.96034783s365.96869565-1.60278261 396.42156522-1.60278261c1.60278261 15.49356522 9.08243478 56.63165217 59.30295652 56.09739131 49.68626087-1.06852174 53.42608696-59.30295652 53.42608695-59.30295652s17.09634783-1.60278261 67.85113044 0c118.60591304-21.90469565 125.55130435-160.81252174 125.55130435-160.81252174s-2.13704348-285.82956522-0.53426087-427.94295652z m-102.04382609 453.05321739c0 22.43895652-17.6306087 40.60382609-39.53530435 40.60382608h-721.25217391c-21.90469565 0-39.53530435-18.16486957-39.53530435-40.60382608V320.20034783c0-22.43895652 17.6306087-40.60382609 39.53530435-40.60382609h721.25217391c21.90469565 0 39.53530435 18.16486957 39.53530435 40.60382609v478.16347826z"
-              fill="#8B4513" p-id="5441"></path>
-            <path
-              d="M409.088 418.816l-203.264 38.912 17.408 76.288 201.216-38.912zM518.656 621.056c-49.664 106.496-94.208 26.112-94.208 26.112l-33.28 21.504s65.536 89.6 128 21.504c73.728 68.096 130.048-22.016 130.048-22.016l-30.208-19.456c0-0.512-52.736 75.776-100.352-27.648zM619.008 495.104l201.728 38.912 16.896-76.288-202.752-38.912z"
-              fill="#8B4513" p-id="5442"></path>
-          </svg>
-          } @else if (platform.label === '小红书') {
-          <svg t="1750054927890" class="social-item-icon" viewBox="0 0 1024 1024" version="1.1"
-            xmlns="http://www.w3.org/2000/svg" p-id="4346" width="1em" height="1em">
-            <path
-              d="M726.51776 457.45152c-6.70208-0.0768-13.39392 0-20.00384-0.0768-2.37056 0-3.0464 1.05984-3.0464 3.23072 0.0768 5.10976 0.0768 10.13248 0.0768 15.232v0.01024c0.07168 4.87936 0 9.7536 0.07168 14.56128 0 3.90656 0.68096 4.66944 4.45952 4.66944 7.1424 0.0768 14.27456 0 21.41696 0.0768 2.67776 0 3.72736-1.28 3.65056-3.75808-0.08704-9.1648-0.08704-18.31936-0.15872-27.48416a6.7584 6.7584 0 0 0-6.46656-6.46144z"
-              fill="#822800" p-id="4347"></path>
-            <path
-              d="M849.92 51.2h-675.84c-67.8656 0-122.88 55.0144-122.88 122.88v675.84c0 67.8656 55.0144 122.88 122.88 122.88h675.84c67.8656 0 122.88-55.0144 122.88-122.88V174.08c0-67.8656-55.0144-122.88-122.88-122.88zM250.78784 505.73312c-0.73728 10.59328-1.41312 21.25312-2.60608 31.8464-2.08896 18.39104-6.24128 36.26496-14.6432 52.864-2.16064 4.12672-5.13536 7.79776-8.18176 12.45696-1.85344-3.90656-3.41504-6.97856-4.82816-10.13248a3203.59424 3203.59424 0 0 1-14.79168-33.56672c-0.52736-1.2032-0.896-2.92352-0.36864-3.97824 3.19488-6.83008 3.41504-14.12096 3.85536-21.40672 0.60416-9.15968 1.35168-18.24256 2.01728-27.39712 0.51712-7.00416 0.80896-13.9776 1.39776-20.96128 0.67584-8.10496 1.49504-16.21504 2.16064-24.24832 0.14848-1.96608 1.04448-2.56 2.82624-2.56 11.0848 0 22.07744 0 33.16224-0.07168 2.37056 0 3.0464 0.98304 2.89792 3.23072-0.96768 14.63296-1.86368 29.28128-2.89792 43.92448z m71.29088 87.32672c-0.73728 9.46176-5.13536 17.49504-12.5696 23.5008-5.43232 4.352-11.74528 6.15936-18.6624 6.08256-5.87264 0-11.66848-0.0768-17.54112 0-2.00192 0-3.27168-0.60416-4.09088-2.55488-3.41504-7.6544-6.90688-15.32416-10.32192-22.97344-0.52736-1.13152-0.67584-2.33472-1.13152-3.456-1.63328-4.12672-1.5616-4.28544 2.97472-4.36224h13.90592c5.94944 0 8.47872-2.46784 8.5504-8.56576 0.07168-4.57216 0.07168-9.14944 0.07168-13.73696V494.2336c0.14848 0.15872 0.22016 0.15872 0.29696 0.15872V408.63744c0-4.28544 0.14848-4.43392 4.38784-4.43392h29.21472c5.13536 0 5.20704 0.14848 5.20704 5.40672 0 27.1872 0 54.36416 0.0768 81.47968 0.0768 23.87456 0.29696 47.75936 0.29696 71.6288 0 10.14272 0.14848 20.26496-0.6656 30.34112z m75.58656-28.90752c-4.98688 11.56096-10.19904 22.97344-15.31904 34.4576-0.45568 1.13664-1.19296 2.25792-2.3808 4.42368v0.01024c-2.97472-4.5056-6.0928-8.18176-8.11008-12.39552-2.82624-6.13888-4.5312-12.83584-7.35744-18.9952-3.0464-6.6816-4.15744-13.88032-5.57568-20.94592-1.1776-6.02112-1.40288-12.25216-1.8432-18.3296-1.2032-15.39584-2.23744-30.78656-3.44064-46.09536a2449.95584 2449.95584 0 0 0-2.0736-25.1648c-0.14848-1.50016 0.2304-2.176 1.94048-2.176 11.52512 0 22.97344-0.14848 34.49856-0.22016 2.1504 0 3.0464 0.96768 3.11808 2.9952 0.29696 4.65408 0.51712 9.31328 0.88576 13.97248 0.29696 3.83488 0.73728 7.6544 1.04448 11.41248 0.51712 5.40672 1.04448 10.81344 1.41312 16.14336 0.51712 6.90688 0.51712 13.81888 1.4848 20.63872 1.34144 10.4448 0.29696 21.10464 3.93216 31.32928 0.89088 2.40128-0.96768 6.08768-2.21696 8.93952z m84.28032 22.016c-2.89792 6.6816-6.02112 13.21472-8.99072 19.82464-1.64352 3.74784-3.19488 7.49568-4.76672 11.25376-1.85344 4.51072-3.11808 5.40672-7.87456 5.40672h-22.2976c-7.52128 0-15.0272 0.23552-22.53312-0.0768-3.56352-0.14336-7.0656-1.27488-10.62912-2.02752-1.792-0.36864-2.16064-1.42336-1.41312-3.14368a3709.71648 3709.71648 0 0 0 13.45024-29.21472c1.04448-2.24768 1.85344-4.65408 3.0464-6.90688 0.29696-0.6144 1.41312-1.28 2.00192-1.13152 12.42112 3.15392 25.13408 2.77504 37.76512 2.63168a874.6496 874.6496 0 0 1 20.07552 0c3.19488 0.00512 3.50208 0.45568 2.16576 3.38432z"
-              fill="#822800" p-id="4348"></path>
-          </svg>
-          } @else if (platform.label === '掘金') {
-          <span nz-icon class="social-item-icon">
-            <svg t="1739950939501" viewBox="0 0 1316 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4251"
-              width="1em" height="1em">
-              <path
-                d="M643.181714 247.698286l154.916572-123.172572L643.181714 0.256 643.072 0l-154.660571 124.269714 154.660571 123.245715 0.109714 0.182857z m0 388.461714h0.109715l399.579428-315.245714-108.361143-87.04-291.218285 229.888h-0.146286l-0.109714 0.146285L351.817143 234.093714l-108.251429 87.04 399.433143 315.136 0.146286-0.146285z m-0.146285 215.552l0.146285-0.146286 534.893715-422.034285 108.397714 87.04-243.309714 192L643.145143 1024 10.422857 525.056 0 516.754286l108.251429-86.893715L643.035429 851.748571z"
-                fill="#8B4513" p-id="4252"></path>
-            </svg>
-          </span>
-          } @else {
-          <span nz-icon [nzType]="platform.icon" nzTheme="outline" class="social-item-icon"></span>
-          }
-          <span class="social-item-name">{{ platform.label }}</span>
-          <span class="social-item-extra">{{ platform.extra }}</span>
-        </a>
-        }
-      </div>
-    </section>
-
-    <!-- ===== Section 4: 本站 ===== -->
-    <section class="about-section" id="about-section-site" data-section-id="site" @SectionFade>
-      <h2 class="section-title">本站</h2>
-
-      <p nz-typography class="site-para">我的网站项目名和域名为 FlowersInk，含义是<strong class="fi-primary-text">再花 (Flower) 的 ('s) 笔墨
-          (Ink)</strong>。</p>
-      <p nz-typography class="site-para">技术栈方面，前端使用的 Angular，组件库使用了 ng-zorro、ngx-markdown，后端使用的是 Nest.js</p>
-      <p nz-typography class="site-note">之所以选择 Angular，只是单纯的为了学习最新版 Angular 以及 Nest.js 写了一个练手项目（也就是花墨1.0），后来发现就这样似乎也挺不错
-      </p>
-      <p nz-typography class="site-note">最后也是在专精 Angular的路上越走越远，比如花墨的入口文件已经被我优化到了 43.20 kB</p>
-      <p nz-typography class="site-note">Angular 同时也是我吃饭用的东西（</p>
-
-      <h3 class="site-subtitle">大事记</h3>
-      <div class="fi-simple-timeline">
-        @for (item of websiteTimeline; track item) {
-        <div class="fi-simple-timeline-item">
-          <span class="fi-simple-timeline-dot" [class.timeline-dot--pending]="item.date === '未完待续'"></span>
-          <div class="fi-simple-timeline-content">
-            <span class="fi-simple-timeline-date">{{ item.date }}</span>
-            <span class="fi-simple-timeline-title">{{ item.title }}</span>
-            @if (item.text !== '') {
-            <span class="fi-secondary-text"> - {{ item.text }}</span>
-            }
-          </div>
-        </div>
-        }
-      </div>
-      <p nz-typography class="site-note">
-        如果你对花墨的发展感到好奇，欢迎访问
-        <a href="https://docs.qq.com/sheet/DY3BEZlZtaUNRVEZk?tab=BB08J2" target="_blank">《花墨开发升级计划》</a>
-      </p>
-      <p nz-typography class="site-note">
-        想看看花墨的足迹？<a [routerLink]="['/changelog']">点这里</a>可以看到本站所有的代码提交记录
-      </p>
-
-      <!-- <h3 class="site-subtitle">技术框架</h3>
-      <div class="tech-badges">
-        <span class="tech-badge">Angular 20</span>
-        <span class="tech-badge">NestJS</span>
-        <span class="tech-badge">MySQL</span>
-        <span class="tech-badge">阿里云 ECS</span>
-      </div> -->
-
-      <!-- 特别鸣谢 -->
-      <h3 class="site-subtitle">特别鸣谢</h3>
-      <div class="thanks-block">
-        <img class="thanks-avatar" src="https://api.flowersink.com/img/方长.jpg" alt="方长猫猫头" />
-        <p class="thanks-name">方长猫猫头</p>
-        <p class="thanks-desc">工作繁忙却在样式、功能等设计方面给予了许多建设性建议，老婆大人万岁。</p>
-      </div>
-    </section>
-
-    <!-- ===== Section 5: 留言 ===== -->
-    <section class="about-section" id="about-section-messages" data-section-id="messages" @SectionFade>
-      <h2 class="section-title">留言</h2>
+    <!-- ===== 留言：正文末尾的「## 留言」标题之后就是留言墙 ===== -->
+    <section class="about-messages">
       <nz-spin class="message-spin" [nzTip]="'留言正在赶来中'" [nzSpinning]="loadingMessages">
         <div nz-flex [nzVertical]="true">
           <flower-edit-message class="message-editor"></flower-edit-message>
-          <div class="fi-comment-wall">
-            @for (item of messages; track $index) {
-            <article class="fi-note">
-              <p class="fi-note__content">{{ item.content }}</p>
-              <footer class="fi-note__footer">
-                <span class="fi-note__name">
-                  @if (!item.url) {
-                  <span class="fi-note__author">{{ item.name }}</span>
-                  }
-                  @if (item.url) {
-                  <a class="fi-note__link" (click)="navigateToUrl(item.url)">{{ item.name }}</a>
-                  }
-                </span>
-                <time class="fi-note__date">{{ item.createDate | date:'yyyy-MM-dd' }}</time>
-              </footer>
-            </article>
+          <div class="fi-comment-wall" #wall>
+            @for (column of messageColumns(); track $index) {
+            <div class="fi-wall-col">
+              @for (note of column; track note.item.id) {
+              <article class="fi-note" [style.--fi-note-bg]="note.look.bg" [style.--fi-note-tilt]="note.look.tilt"
+                [style.--fi-note-offset]="note.look.offset" [style.--fi-note-pin-x]="note.look.pinX"
+                [style.--fi-note-delay]="note.look.delay">
+                <p class="fi-note__content">{{ note.item.content }}</p>
+                <footer class="fi-note__footer">
+                  <span class="fi-note__name">
+                    @if (!note.item.url) {
+                    <span class="fi-note__author">{{ note.item.name }}</span>
+                    }
+                    @if (note.item.url) {
+                    <a class="fi-note__link" (click)="navigateToUrl(note.item.url)">{{ note.item.name }}</a>
+                    }
+                  </span>
+                  <time class="fi-note__date">{{ note.item.createDate | date:'yyyy-MM-dd' }}</time>
+                </footer>
+              </article>
+              }
+            </div>
             } @empty {
             <div class="fi-comment-wall__empty">还没有留言</div>
             }

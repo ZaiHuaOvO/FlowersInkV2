@@ -1,294 +1,370 @@
 import {
   Component,
+  computed,
   DestroyRef,
+  ElementRef,
   inject,
   signal,
   AfterViewInit,
   OnDestroy,
   NgZone,
-  TemplateRef,
+  PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { RouterModule } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { EditMessageComponent } from '../../components/about/edit-message/edit-message.component';
 import { GithubContributionsComponent } from '../../components/about/github-contributions/github-contributions.component';
 import { AboutService } from './about.service';
 import { WindowService } from '../../services/window.service';
-import { QuickUp } from '../../common_ui/animations/animation';
+import { ensureMarkdownRuntimeLoaded } from '../../shared/utils/markdown-runtime-loader.util';
 
 interface NavItem {
   id: string;
   label: string;
 }
 
-interface TimelineItem {
-  date: string;
-  title: string;
-  text: string;
-}
-
-interface GameEntry {
+interface MessageItem {
+  id: number;
+  content: string;
+  url: string;
   name: string;
-  note: string;
+  createDate: string;
 }
 
-interface GameGroup {
-  label: string;
-  entries: GameEntry[];
+/** 便签的外观全部由留言 id 派生，保证同一条留言在任何时候都是同一个样子 */
+interface NoteLook {
+  bg: string;
+  tilt: string;
+  offset: string;
+  pinX: string;
+  delay: string;
 }
 
-interface WritingStat {
-  platform: string;
-  value: string;
+interface WallNote {
+  item: MessageItem;
+  look: NoteLook;
 }
 
-const SectionFade = trigger('SectionFade', [
-  transition(':enter', [
-    style({ opacity: 0, transform: 'translateY(24px)' }),
-    animate(
-      '320ms cubic-bezier(0.22, 1, 0.36, 1)',
-      style({ opacity: 1, transform: 'translateY(0)' })
-    ),
-  ]),
-]);
+/** 低饱和暖色纸，与站点主题同调 */
+const NOTE_COLORS = ['#f7e7c8', '#f2d3c3', '#d8e2ce', '#d6e2e8', '#e3dce8', '#e9dbc9'];
 
-const expandCollapse = trigger('expandCollapse', [
-  state('collapsed', style({ height: '0', overflow: 'hidden', opacity: 0 })),
-  state('expanded', style({ height: '*', overflow: 'hidden', opacity: 1 })),
-  transition('collapsed <=> expanded', animate('280ms cubic-bezier(0.22, 1, 0.36, 1)')),
-]);
+/** 滚动高亮的判定线：标题顶边进到这条线以上就算「当前区块」 */
+const ACTIVE_LINE = 120;
 
 @Component({
   selector: 'flower-about',
   standalone: true,
   imports: [
+    MarkdownModule,
     NzFlexModule,
-    NzIconModule,
-    NzTypographyModule,
-    NzDividerModule,
-    NzImageModule,
     NzSpinModule,
     NzPaginationModule,
-    NzPopoverModule,
     DatePipe,
-    RouterModule,
     EditMessageComponent,
     GithubContributionsComponent,
   ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css',
-  animations: [QuickUp, SectionFade, expandCollapse],
 })
 export class AboutComponent implements AfterViewInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
-  private observer: IntersectionObserver | null = null;
-  private sectionElements: Map<string, HTMLElement> = new Map();
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly router = inject(Router);
 
-  activeSection = signal<string>('hero');
-  private suppressObserver = false;
   isMobile = signal<boolean>(false);
-  expandedHobby = signal<Record<string, boolean>>({ game: false, writing: false });
-  copiedCard = signal<string | null>(null);
+
+  /** 关于页正文（Markdown），整页内容都由后台编辑 */
+  markdownContent = '';
+  loadingMarkdown = true;
+  markdownReady = false;
+
+  /** Prism / ClipboardJS 的加载 Promise，正文落地前要先 await 它 */
+  private markdownRuntime?: Promise<void>;
+
+  /** 左侧导航：完全由 markdown 渲染出的 h1/h2 派生，后台加一节就多一项 */
+  navItems = signal<NavItem[]>([]);
+  activeSection = signal<string>('');
 
   // ---- Message board state ----
-  messages: any[] = [];
+  messages = signal<MessageItem[]>([]);
   loadingMessages = true;
   messagePage = 1;
   messageCount = 0;
 
-  navItems: NavItem[] = [
-    { id: 'hero', label: '再花' },
-    { id: 'hobbies', label: '爱好' },
-    { id: 'connect', label: '连接' },
-    { id: 'site', label: '本站' },
-    { id: 'messages', label: '留言' },
-  ];
-
-  // ---- 游戏数据（桌面端 & 移动端统一使用） ----
-  gameGroups: GameGroup[] = [
-    {
-      label: '正在玩',
-      entries: [
-        { name: '三角洲行动', note: '我是区（蠕动ing）' },
-      ],
-    },
-    {
-      label: '在玩的手游',
-      entries: [
-        { name: '阴阳师', note: '我为什么要玩这个' },
-        { name: '想不想修真', note: '怀旧文字数值修仙游戏' },
-        { name: '崩铁/绝区零', note: '老米懂我喜欢什么' },
-      ],
-    },
-    {
-      label: '最喜欢的五款游戏',
-      entries: [
-        { name: '死亡搁浅', note: '小岛秀夫就是神' },
-        { name: '群星 (Stellaris)', note: '不知道玩什么就开一把' },
-        { name: '只狼：影逝二度', note: '心态蜕变的开始' },
-        { name: '艾尔登法环', note: '最爱的RPG没有之一' },
-        { name: '最终幻想14', note: '边骂边玩' },
-      ],
-    },
-  ];
-
-  // ---- 写作数据 ----
-  writingParagraphs: string[] = [
-    '初中由于字太丑被班主任要求每天练字，后逐渐爱上了练字和写作，自认为练的还算不错。笔尖沉甸甸的，充满知识的厚重感，我很喜欢这种感觉。',
-    '互联网的便利，让分享欲很强的我，热衷于在各个平台创作和写作。',
-  ];
-
-  writingStats: WritingStat[] = [
-    { platform: '知乎', value: '阅读 1,004,883' },
-    { platform: '掘金', value: '阅读 46,699' },
-    { platform: '花墨', value: '阅读 7,364' },
-  ];
-
-  writingClosing: string = '在作为技术初学者时，我热衷于用抽象复杂的语言来展示自己的高深和熟练。然而随着知识的摄取，我逐渐感觉自己的无知。现在我更想用简洁易懂、通俗的文字去讲清我所掌握的技术和经验。';
-
-  // ---- 联系方式 & 社区平台 ----
-  contacts: { icon: string; label: string; value: string; key: string; qrKey: string; extra: string }[] = [
-    // { icon: 'qq', label: 'QQ', value: '446840401', key: 'qq', qrKey: 'qq', extra: '' },
-    // { icon: 'wechat', label: '微信', value: 'zaihua_huahua', key: 'wechat', qrKey: 'wx', extra: '工作应酬用' },
-    { icon: 'mail', label: '邮箱', value: 'ZyZy1724@gmail.com', key: 'email', qrKey: '', extra: '' },
-  ];
-
-  socialPlatforms: { icon: string; label: string; url: string; extra: string }[] = [
-    { icon: 'github', label: 'GitHub', url: 'https://github.com/ZaiHuaOvO', extra: '开发' },
-    { icon: 'bilibili', label: '哔哩哔哩', url: 'https://space.bilibili.com/37339368', extra: '剪辑' },
-    { icon: 'xiaohongshu', label: '小红书', url: 'https://www.xiaohongshu.com/user/profile/611e060e00000000200289fc', extra: '拼豆' },
-    { icon: 'zhihu', label: '知乎', url: 'https://www.zhihu.com/people/zai-hua-14-76', extra: '停更' },
-    { icon: 'juejin', label: '掘金', url: 'https://juejin.cn/user/4002664676073741', extra: '停更' },
-  ];
-
-  websiteTimeline: TimelineItem[] = [
-    { date: '2024/10/10', title: '项目在云服务器上部署', text: '什么，我有博客了？' },
-    { date: '2024/10/31', title: '域名通过工信部、公安联网双备案', text: '' },
-    { date: '2024/11/06', title: '正式进入运营', text: '' },
-    { date: '2025/01/03', title: '友链功能上线', text: '第一个友链会是谁呢？' },
-    { date: '2025/02/20', title: '游戏板块上线', text: '游戏糕手再花上线！' },
-    { date: '2025/10/10', title: '建站一周年，加入十年之约', text: '一周年快乐！' },
-    { date: '2026/04/09', title: '大幅重写并优化花墨的底层逻辑，花墨变得更快了', text: 'Angular糕手再花(不是)' },
-    { date: '2026/04/10', title: '统一并完善了花墨的主题样式和细节，花墨变得更好看了', text: '' },
-    { date: '2026/04/20', title: '点滴功能回归！开始碎碎念', text: '' },
-    { date: '2026/04/28', title: '花墨真正接入了 CDN', text: '以前一直接错了！' },
-    { date: '2026/07/15', title: '新增博客和点滴评论功能', text: '为网站加上一些交互感' },
-    { date: '2026/07/24', title: '重写了一个可爱的欢迎页', text: '' },
-    { date: '2026/08/04', title: '新增装备图鉴模块', text: '记录一下我的老朋友们' },
-    { date: '未完待续', title: '', text: '' },
-  ];
+  /** 便签墙的实际可用宽度，决定列数 */
+  private wallWidth = signal(0);
+  messageColumns = computed<WallNote[][]>(() =>
+    this.buildWall(this.messages(), this.wallWidth()),
+  );
 
   constructor(
     private window: WindowService,
     private about: AboutService,
-    private msg: NzMessageService,
     private zone: NgZone,
   ) {
     this.window.bindIsMobile(this.destroyRef, (mobile) => {
       this.isMobile.set(mobile);
     });
+    this.markdownRuntime = this.initMarkdownRuntime();
+    this.loadAboutPage();
     this.loadMessages();
   }
 
   ngAfterViewInit(): void {
-    this.setupScrollSpy();
+    this.observeWallWidth();
   }
 
   ngOnDestroy(): void {
-    this.observer?.disconnect();
+    this.wallObserver?.disconnect();
+    this.detachScrollSpy();
+  }
+
+  /* ---------- about content ---------- */
+
+  private loadAboutPage(): void {
+    this.loadingMarkdown = true;
+    this.about.getAboutPage().subscribe({
+      next: async (res: any) => {
+        // 必须等运行时就绪再塞正文。clipboard 从 false 翻成 true 会让 ngx-markdown
+        // 重渲染一遍，而重渲染会清掉已经搬进正文里的贡献图组件。
+        await this.markdownRuntime;
+        this.markdownContent = res?.data?.content ?? '';
+        this.loadingMarkdown = false;
+      },
+      error: () => {
+        this.loadingMarkdown = false;
+      },
+    });
+  }
+
+  /**
+   * Prism / ClipboardJS 只在这里补：关于页正文可能被写成带代码块的样式。
+   * 与正文并发加载，只在内部消化失败，永不 reject。
+   */
+  private async initMarkdownRuntime(): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    try {
+      await ensureMarkdownRuntimeLoaded();
+      this.markdownReady = true;
+    } catch {
+      this.markdownReady = false;
+    }
+  }
+
+  /** markdown DOM 就绪：派生导航、接管站内链接、把占位符换成组件、同步一次高亮 */
+  onMarkdownReady(): void {
+    this.buildNav();
+    this.bindLinks();
+    this.mountContributions();
+    this.updateActiveSection();
+  }
+
+  /**
+   * 正文里单独一行 `@github-contributions` 会被换成贡献图组件。
+   * 不写这一行时组件就留在正文之后（模板里的默认位置）。
+   * 重渲染后占位符会重新出现，所以这个方法本身要幂等。
+   */
+  private mountContributions(): void {
+    const container = this.markdownContainer();
+    const widget = this.host.nativeElement.querySelector('.about-contributions');
+    if (!container || !widget) {
+      return;
+    }
+
+    const marker = Array.from(container.querySelectorAll('p')).find(
+      (paragraph) => paragraph.textContent?.trim() === '@github-contributions'
+    );
+
+    marker?.replaceWith(widget);
+  }
+
+  /**
+   * 导航项 = 正文里的 h1/h2，一项都不写死。
+   * 「留言」就在正文末尾，所以留言墙的入口也来自同一处，后台加一节导航就多一项。
+   */
+  private buildNav(): void {
+    const container = this.markdownContainer();
+    if (!container) {
+      this.navItems.set([]);
+      return;
+    }
+
+    const items: NavItem[] = [];
+    container
+      .querySelectorAll('h1:not(blockquote h1), h2:not(blockquote h2)')
+      .forEach((node, index) => {
+        const heading = node as HTMLElement;
+        const id = `about-heading-${index}`;
+        heading.id = id;
+        items.push({ id, label: heading.textContent?.trim() ?? '' });
+      });
+
+    this.navItems.set(items);
+  }
+
+  /**
+   * 正文里的链接：
+   * - 站内路径（/game、/blog/all…）走 Router，保持单页跳转
+   * - 站外链接新窗口打开
+   * - mailto:/tel: 之类保持浏览器默认行为
+   */
+  private bindLinks(): void {
+    const container = this.markdownContainer();
+    if (!container) {
+      return;
+    }
+
+    container.querySelectorAll('a[href]').forEach((node) => {
+      const link = node as HTMLAnchorElement;
+      const href = link.getAttribute('href') ?? '';
+      if (href.startsWith('#')) {
+        return;
+      }
+
+      if (href.startsWith('/')) {
+        link.addEventListener('click', (event: MouseEvent) => {
+          event.preventDefault();
+          void this.router.navigateByUrl(href);
+        });
+        return;
+      }
+
+      if (/^https?:/i.test(href)) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+    });
+  }
+
+  private markdownContainer(): HTMLElement | null {
+    return this.host.nativeElement.querySelector('#currentAnchor');
   }
 
   /* ---------- scrollspy ---------- */
 
-  private setupScrollSpy(): void {
-    for (const item of this.navItems) {
-      const el = document.getElementById(`about-section-${item.id}`);
-      if (el) this.sectionElements.set(item.id, el);
+  private scrollHandler: (() => void) | null = null;
+
+  private attachScrollSpy(): void {
+    if (!isPlatformBrowser(this.platformId) || this.scrollHandler) {
+      return;
+    }
+    const onScroll = () => this.updateActiveSection();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    this.scrollHandler = () => window.removeEventListener('scroll', onScroll);
+  }
+
+  private detachScrollSpy(): void {
+    this.scrollHandler?.();
+    this.scrollHandler = null;
+  }
+
+  private updateActiveSection(): void {
+    const items = this.navItems();
+    if (!items.length) {
+      return;
     }
 
-    if (this.sectionElements.size === 0) return;
+    this.attachScrollSpy();
 
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        if (this.suppressObserver) return;
-        for (const entry of entries) {
-          const id = (entry.target as HTMLElement).dataset['sectionId'];
-          if (entry.isIntersecting && id) {
-            this.activeSection.set(id);
-            break;
-          }
-        }
-      },
-      { rootMargin: '-10% 0px -40% 0px' },
-    );
-
-    this.sectionElements.forEach((el) => this.observer!.observe(el));
+    // 每次现算位置：留言墙载入 / 窗口缩放都会改变正文高度，缓存 offsetTop 会失准
+    let active = items[0].id;
+    for (const item of items) {
+      const el = document.getElementById(item.id);
+      if (el && el.getBoundingClientRect().top <= ACTIVE_LINE) {
+        active = item.id;
+      }
+    }
+    this.activeSection.set(active);
   }
 
   scrollTo(id: string): void {
-    // Immediately highlight the clicked nav item and suppress observer
-    this.activeSection.set(id);
-    this.suppressObserver = true;
-    setTimeout(() => { this.suppressObserver = false; }, 600);
-
-    if (id === 'hero') {
+    // 第一项是 hero 标题，回到顶部才能连头像一起看到
+    if (id === this.navItems()[0]?.id) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    const sectionEl = this.sectionElements.get(id);
-    if (sectionEl) {
-      const titleEl = sectionEl.querySelector<HTMLElement>('h2.section-title');
-      if (titleEl) {
-        titleEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
+
+    document
+      .getElementById(id)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  /* ---------- hobbies ---------- */
+  /* ---------- sticky note wall ---------- */
 
-  toggleHobby(hobby: 'game' | 'writing'): void {
-    this.expandedHobby.update(v => ({ ...v, [hobby]: !v[hobby] }));
+  @ViewChild('wall') private wallRef?: ElementRef<HTMLElement>;
+  private wallObserver: ResizeObserver | null = null;
+
+  private observeWallWidth(): void {
+    const el = this.wallRef?.nativeElement;
+    if (!el) return;
+
+    // 同步量一次，否则首帧会先按单列铺开、下一帧才跳成多列
+    this.wallWidth.set(el.getBoundingClientRect().width);
+
+    if (typeof ResizeObserver === 'undefined') return;
+    this.wallObserver = new ResizeObserver(([entry]) => {
+      const width = entry.contentRect.width;
+      this.zone.run(() => this.wallWidth.set(width));
+    });
+    this.wallObserver.observe(el);
   }
 
-  /* ---------- copy ---------- */
-
-  @ViewChild('qqQRCode', { static: true }) qqQRCode!: TemplateRef<any>;
-  @ViewChild('wxQRCode', { static: true }) wxQRCode!: TemplateRef<any>;
-
-  qrContentFor(qrKey: string): TemplateRef<any> {
-    return qrKey === 'qq' ? this.qqQRCode : this.wxQRCode;
+  private wallColumnCount(width: number): number {
+    if (width >= 880) return 4;
+    if (width >= 740) return 3;
+    if (width >= 470) return 2;
+    return 1;
   }
 
-  copyContact(key: string, value: string, label: string): void {
-    navigator.clipboard.writeText(value).then(() => {
-      this.msg.success(`已复制${label}，欢迎邮件_(:з」∠)_`);
-      this.flashCopied(key);
-    }).catch(() => { });
+  /** 轮转分配：第 i 条留言落到第 i 列，读起来就是「从新到旧、从左到右」 */
+  private buildWall(items: MessageItem[], width: number): WallNote[][] {
+    if (!items.length) return [];
+
+    const count = this.wallColumnCount(width);
+    // 单列（窄屏）时收敛倾斜与错位，避免一列里东倒西歪太晃眼
+    const scale = count === 1 ? 0.35 : 1;
+    const columns: WallNote[][] = Array.from({ length: count }, () => []);
+
+    items.forEach((item, index) => {
+      columns[index % count].push({ item, look: this.buildLook(item, index, scale) });
+    });
+
+    return columns;
   }
 
-  copyRss(): void {
-    navigator.clipboard.writeText('https://flowersink.com/rss.xml').then(() => {
-      this.msg.success('已复制RSS地址，我努力创作的_(:з」∠)_');
-      this.flashCopied('rss');
-    }).catch(() => { });
+  private buildLook(item: MessageItem, index: number, scale: number): NoteLook {
+    const random = this.noteRandom(item.id);
+    const color = NOTE_COLORS[Math.floor(random() * NOTE_COLORS.length)];
+    const tilt = (random() * 3.4 - 1.7) * scale;
+    const offset = (random() * 7 - 3.5) * scale;
+    const pinX = random() * 16 - 8;
+
+    return {
+      bg: color,
+      tilt: tilt.toFixed(2),
+      offset: `${offset.toFixed(1)}px`,
+      pinX: `${pinX.toFixed(1)}px`,
+      delay: `${Math.min(index * 26, 520)}ms`,
+    };
   }
 
-  private flashCopied(card: string): void {
-    this.copiedCard.set(card);
-    setTimeout(() => this.copiedCard.set(null), 1500);
+  /** mulberry32：同一个 id 永远得到同一串「随机」数 */
+  private noteRandom(seed: number): () => number {
+    let state = (Math.imul(seed, 0x9e3779b1) + 0x6d2b79f5) >>> 0;
+    return () => {
+      state = (state + 0x6d2b79f5) >>> 0;
+      let t = Math.imul(state ^ (state >>> 15), 1 | state);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
   }
 
   /* ---------- messages ---------- */
@@ -298,7 +374,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     this.about
       .getMessageList({ isApproved: true, pageSize: 30, page: this.messagePage })
       .subscribe((res: any) => {
-        this.messages = res['data'].data;
+        this.messages.set(res['data'].data ?? []);
         this.messageCount = res['data'].count;
         this.loadingMessages = false;
       });

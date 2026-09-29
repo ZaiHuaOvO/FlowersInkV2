@@ -11,6 +11,7 @@ export const API = {
   VISIT_DWELL: '/site/visit/dwell',
   SITE_INFO: '/site/info',
   ANNOUNCEMENT_CURRENT: '/announcement/current',
+  ABOUT_CURRENT: '/about/current',
   DAY_INFO: '/blog/info',
   LIFE: '/life',
   LIFE_YEAR: '/life/years',

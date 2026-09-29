@@ -10,6 +10,14 @@ import { HTTP_CACHE_TTL } from '../../shared/constants/http-cache.constants';
 export class AboutService {
   constructor(private http: HttpService) {}
 
+  getAboutPage(): Observable<object> {
+    return this.http.getCached(
+      API.ABOUT_CURRENT,
+      undefined,
+      HTTP_CACHE_TTL.DETAIL
+    );
+  }
+
   getMessageList(data?: any): Observable<object> {
     return this.http.getCached(API.MESSAGE, data, HTTP_CACHE_TTL.LIST);
   }

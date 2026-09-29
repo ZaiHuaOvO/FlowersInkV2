@@ -1,5 +1,5 @@
 /* ============================================================
-   About Page — Unified editorial layout with fixed sidebar nav
+   About Page — 正文由后台 Markdown 驱动，页面只保留导航 / 贡献图 / 留言墙
    ============================================================ */
 
 /* ---- Page shell ---- */
@@ -117,626 +117,48 @@
   font-weight: var(--fi-font-weight-semibold);
 }
 
-/* ---- Mobile horizontal nav ---- */
-
-.about-mobile-nav {
-  display: flex;
-  gap: var(--fi-space-2);
-  overflow-x: auto;
-  padding: var(--fi-space-2) var(--fi-space-4) var(--fi-space-3);
-  position: sticky;
-  top: 48px;
-  background: var(--fi-bg);
-  z-index: 10;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.about-mobile-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.mobile-nav-item {
-  flex-shrink: 0;
-  padding: 6px var(--fi-space-5);
-  border: 1px solid var(--fi-border);
-  border-radius: var(--fi-radius-pill);
-  background: transparent;
-  color: var(--fi-text-muted);
-  font-family: var(--fi-font-base);
-  font-size: var(--fi-font-size-md);
-  font-weight: var(--fi-font-weight-medium);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
-}
-
-.mobile-nav-item:hover {
-  background: var(--fi-surface-soft);
-  color: var(--fi-primary);
-  border-color: var(--fi-primary-outline);
-}
-
-.mobile-nav-item--active {
-  background: var(--fi-primary);
-  color: #fff;
-  border-color: var(--fi-primary);
-}
-
-/* ---- Main Content — centered, no sidebar offset ---- */
+/* ---- Main Content — centered column ---- */
 
 .about-content {
   width: min(100%, var(--fi-page-max-narrow));
   margin: 0 auto;
-  padding: var(--fi-space-7) 0 var(--fi-space-8);
+  padding: var(--fi-space-7) clamp(12px, 2.2vw, 28px) var(--fi-space-8);
 }
 
-/* Section spacing replaces old dividers */
-.about-section {
-  padding: 0 clamp(12px, 2.2vw, 28px);
-  margin-bottom: 64px;
+/*
+  博客的 `#currentAnchor img`（70% 宽 + 边框阴影）是给文章插图的，
+  套到关于页的头像上会渲染成几百 px 的大图，这里给图片收一个上限。
+  markdown 注入的 img 不带组件的 _ngcontent 属性，必须经 ::ng-deep 才能命中。
+*/
+:host ::ng-deep #currentAnchor img {
+  max-width: min(70%, 240px);
 }
 
-.about-section:last-child {
-  margin-bottom: 0;
-}
-
-/* Sections that use the hero layout (section 1) need extra space */
-.about-section:first-child {
-  margin-top: var(--fi-space-2);
-}
-
-
-.section-title {
-  font-size: var(--fi-font-size-xl);
-  font-weight: var(--fi-font-weight-bold);
-  color: var(--fi-text-heading);
-  margin: 0 0 var(--fi-space-5);
-  letter-spacing: 0.02em;
-  position: relative;
-  scroll-margin-top: 80px;
-}
-
-.section-title::after {
-  content: '';
-  display: block;
-  margin-top: 6px;
-  width: 100%;
-  height: 3px;
-  background: var(--fi-primary-outline);
-  border-radius: 2px;
-}
-
-/* ============================================================
-   Shared secondary text
-   ============================================================ */
-
-.fi-secondary-text {
-  font-size: var(--fi-font-size-xs);
-  color: var(--fi-text-muted);
-  opacity: 0.65;
-  user-select: none;
-}
-
-/* ============================================================
-   Section 1: Hero — centered layout
-   ============================================================ */
-
-.section-hero {
-  text-align: center;
-  padding: var(--fi-space-9) var(--fi-space-2) var(--fi-space-8);
-}
-
-.hero-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--fi-space-5);
-  margin-bottom: var(--fi-space-7);
-}
-
-.hero-avatar {
+/*
+  头像：正文里写成 `<img class="about-avatar">` 的图片按圆形头像渲染。
+  图片是插图还是头像 markdown 本身分不出来，所以由正文显式指定。
+*/
+:host ::ng-deep #currentAnchor img.about-avatar {
   width: 120px;
   height: 120px;
-  border-radius: 50%;
+  max-width: 120px;
   object-fit: cover;
+  border-radius: 50%;
   border: 4px solid var(--fi-surface);
   box-shadow: 0 10px 30px rgba(139, 90, 43, 0.18);
 }
 
-.hero-text-block {
-  text-align: center;
-}
+/* ---- 贡献图：默认位置在正文之后，正文里写 @github-contributions 时会被搬进正文 ---- */
 
-.hero-name {
-  font-size: 34px;
-  font-weight: var(--fi-font-weight-bold);
-  color: var(--fi-text-heading);
-  margin: var(--fi-space-4) 0 var(--fi-space-2);
-  letter-spacing: 0.05em;
-  line-height: 1.2;
-}
-
-.hero-tagline {
-  font-size: var(--fi-font-size-lg);
-  color: var(--fi-text-muted);
-  font-style: italic;
-  margin: 0 0 var(--fi-space-6);
-  line-height: 1.5;
-}
-
-.hero-facts {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--fi-space-3);
-  flex-wrap: wrap;
-}
-
-.hero-fact {
-  font-size: var(--fi-font-size-sm);
-  color: var(--fi-text-muted);
-  font-weight: var(--fi-font-weight-medium);
-  padding: 3px var(--fi-space-3);
-  background: var(--fi-surface-soft);
-  border: 1px solid var(--fi-border);
-  border-radius: var(--fi-radius-pill);
-  letter-spacing: 0.02em;
-}
-
-.hero-fact-divider {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--fi-border);
-  flex-shrink: 0;
-}
-
-.hero-intro {
-  max-width: 620px;
-  margin: var(--fi-space-3) auto 0;
-  text-align: left;
-  padding: 0 var(--fi-space-2);
-}
-
-.hero-intro-p {
-  font-size: var(--fi-font-size-lg);
-  line-height: var(--fi-line-height-relaxed);
-  color: var(--fi-text-body);
-  margin: 0 0 var(--fi-space-4);
-  position: relative;
-  padding-left: var(--fi-space-3);
-  border-left: 2px solid var(--fi-primary-outline);
-}
-
-.hero-intro-p:last-child {
-  margin-bottom: 0;
-}
-
-.hero-intro-p .fi-primary-text {
-  font-weight: var(--fi-font-weight-semibold);
-}
-
-/* ============================================================
-   Section 2: Hobbies — expandable panels (plain, no card)
-   ============================================================ */
-
-.hobby-panel {
-  margin-bottom: var(--fi-space-3);
-}
-
-.hobby-panel-header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: var(--fi-space-3) 0 var(--fi-space-3) var(--fi-space-2);
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-family: var(--fi-font-base);
-  font-size: var(--fi-font-size-lg);
-  font-weight: var(--fi-font-weight-semibold);
-  color: var(--fi-text-heading);
-  line-height: 1.4;
-  user-select: none;
-}
-
-.hobby-panel-header::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 1em;
-  border-radius: 2px;
-  background: var(--fi-primary-outline);
-}
-
-.hobby-panel-header:hover {
-  color: var(--fi-primary);
-}
-
-.hobby-panel-arrow {
-  font-size: 14px;
-  color: var(--fi-text-muted);
-  transition: transform var(--fi-motion-fast) var(--fi-ease-standard);
-}
-
-.hobby-panel--expanded .hobby-panel-arrow {
-  transform: rotate(180deg);
-}
-
-.hobby-panel-body {
-  padding: var(--fi-space-3) 0 0;
-}
-
-/* Animation wrapper for expand/collapse */
-.hobby-panel-body-wrap {
-  overflow: hidden;
-}
-
-/* Game layout: text left, images right */
-.game-layout {
-  display: flex;
-  gap: var(--fi-space-5);
-  align-items: flex-start;
-}
-
-.game-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.game-images {
-  display: flex;
-  flex-direction: row;
-  gap: var(--fi-space-3);
-  flex-shrink: 0;
-  width: 420px;
-}
-
-.game-img-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-  min-width: 0;
-}
-
-.game-img-label {
-  font-size: var(--fi-font-size-sm);
-  color: var(--fi-text-muted);
-  opacity: 0.7;
-  line-height: 1.3;
-}
-
-.game-img-item img {
-  width: 100%;
-  height: auto;
-  border-radius: var(--fi-radius-sm);
-  border: 1px solid var(--fi-border);
-}
-
-/* Game entries */
-.game-text-section {
-  font-size: var(--fi-font-size-lg);
-  margin: var(--fi-space-3) 0 var(--fi-space-2);
-  color: var(--fi-text-heading);
-}
-
-.game-entry {
-  padding: var(--fi-space-1) 0 var(--fi-space-1) var(--fi-space-2);
-  border-left: 2px solid var(--fi-primary-outline);
-  margin-bottom: var(--fi-space-1);
-  font-size: var(--fi-font-size-lg);
-  line-height: 1.6;
-  transition: border-color var(--fi-motion-fast) var(--fi-ease-standard);
-}
-
-.game-entry:hover {
-  border-left-color: var(--fi-primary);
-}
-
-.game-entry .fi-primary-text {
-  font-size: var(--fi-font-size-lg);
-  font-weight: var(--fi-font-weight-semibold);
-}
-
-.game-entry .fi-secondary-text {
-  font-size: var(--fi-font-size-sm);
-  color: var(--fi-text-muted);
-  opacity: 0.7;
-}
-
-.game-entry--cta {
-  margin-top: var(--fi-space-3);
-  border-left-color: transparent;
-  padding-left: 0;
-}
-
-.section-link {
-  /* font-size: var(--fi-font-size-md); */
-  color: var(--fi-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  font-weight: var(--fi-font-weight-medium);
-  cursor: pointer;
-  transition: color var(--fi-motion-fast);
-}
-
-.section-link:hover {
-  color: var(--fi-primary-hover);
-}
-
-/* Writing */
-.write-para {
-  font-size: var(--fi-font-size-lg);
-  line-height: var(--fi-line-height-relaxed);
-  margin-bottom: var(--fi-space-3);
-  color: var(--fi-text-body);
-}
-
-.write-stats {
-  display: flex;
-  gap: var(--fi-space-4);
-  padding: var(--fi-space-4) 0;
-  margin-bottom: var(--fi-space-3);
-  flex-wrap: wrap;
-  border-top: 1px dashed var(--fi-border);
-  border-bottom: 1px dashed var(--fi-border);
-}
-
-.write-stat {
-  font-size: var(--fi-font-size-sm);
-  color: var(--fi-text-muted);
-  letter-spacing: 0.02em;
-}
-
-.write-stat .fi-primary-text {
-  font-weight: var(--fi-font-weight-semibold);
-}
-
-/* ============================================================
-   Section 3: Connect
-   ============================================================ */
-
-.connect-subtitle {
-  font-size: var(--fi-font-size-lg);
-  font-weight: var(--fi-font-weight-semibold);
-  color: var(--fi-text-heading);
-  margin: var(--fi-space-5) 0 var(--fi-space-3);
-  padding-left: var(--fi-space-2);
-  border-left: 3px solid var(--fi-primary-outline);
-  line-height: 1.4;
-}
-
-.connect-subtitle:not(:first-of-type) {
-  margin-top: var(--fi-space-7);
-}
-
-/* Social row */
-.social-row {
-  display: flex;
-  gap: var(--fi-space-5);
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.social-row--spaced {
-  margin-top: var(--fi-space-6);
-}
-
-.social-item {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--fi-space-2);
-  padding: var(--fi-space-2) var(--fi-space-3);
-  border: 1px solid transparent;
-  border-radius: var(--fi-radius-sm);
-  text-decoration: none;
-  color: var(--fi-text);
-  font-size: var(--fi-font-size-md);
-  font-weight: var(--fi-font-weight-medium);
-  cursor: pointer;
-  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
-}
-
-.social-item:hover {
-  border-color: var(--fi-border);
-  background: var(--fi-surface-soft);
-  color: var(--fi-primary);
-}
-
-.social-item-icon {
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
-  color: var(--fi-primary);
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.social-item-icon svg {
-  width: 20px;
-  height: 20px;
+.about-contributions {
   display: block;
+  margin-top: var(--fi-space-8);
 }
 
-.social-item-name {
-  white-space: nowrap;
-}
+/* ---- 留言 ---- */
 
-.social-item-value {
-  font-size: var(--fi-font-size-md);
-  color: var(--fi-text);
-  font-weight: var(--fi-font-weight-semibold);
-}
-
-.social-item--copied {
-  border-color: var(--fi-success);
-  background: var(--fi-success-bg);
-}
-
-.social-item-extra {
-  font-size: var(--fi-font-size-xs);
-  color: var(--fi-text-muted);
-  opacity: 0.65;
-  line-height: 1.3;
-}
-
-/* ============================================================
-   Section 4: Site
-   ============================================================ */
-
-.site-subtitle {
-  font-size: var(--fi-font-size-lg);
-  font-weight: var(--fi-font-weight-semibold);
-  color: var(--fi-text-heading);
-  margin: var(--fi-space-5) 0 var(--fi-space-3);
-  padding-left: var(--fi-space-2);
-  border-left: 3px solid var(--fi-primary-outline);
-  line-height: 1.4;
-}
-
-.site-para {
-  font-size: var(--fi-font-size-lg);
-  line-height: var(--fi-line-height-relaxed);
-  margin-bottom: var(--fi-space-3);
-  color: var(--fi-text-body);
-}
-
-.site-note {
-  font-size: var(--fi-font-size-md);
-  color: var(--fi-text-muted);
-  margin-top: var(--fi-space-3);
-  font-style: italic;
-}
-
-.site-note a {
-  text-decoration: none;
-  color: var(--fi-primary);
-  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
-}
-
-.site-note a:hover {
-  color: var(--fi-primary-hover);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* Tech badges */
-.tech-badges {
-  display: flex;
-  gap: var(--fi-space-2);
-  flex-wrap: wrap;
-  padding: var(--fi-space-3) 0 var(--fi-space-2);
-}
-
-.tech-badge {
-  display: inline-block;
-  padding: 4px var(--fi-space-3);
-  border: 1px solid var(--fi-tag-border);
-  border-radius: var(--fi-radius-pill);
-  background: var(--fi-tag-bg);
-  color: var(--fi-tag-text);
-  font-size: var(--fi-font-size-sm);
-  font-weight: var(--fi-font-weight-medium);
-  letter-spacing: 0.02em;
-  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
-}
-
-.tech-badge:hover {
-  background: var(--fi-tag-bg-hover);
-  border-color: var(--fi-tag-border-hover);
-}
-
-/* Thanks */
-.thanks-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: var(--fi-space-5) var(--fi-space-4);
-  margin-top: var(--fi-space-3);
-  border: 1px solid var(--fi-border);
-  border-radius: var(--fi-radius-sm);
-  background: var(--fi-surface-soft);
-  text-align: center;
-}
-
-.thanks-avatar {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.thanks-name {
-  margin: 0;
-  font-size: var(--fi-font-size-md);
-  font-weight: 600;
-  color: var(--fi-text-heading);
-}
-
-.thanks-desc {
-  margin: 0;
-  font-size: var(--fi-font-size-sm);
-  color: var(--fi-text-muted);
-  line-height: 1.6;
-}
-
-/* Update note */
-.update-note {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+.about-messages {
   margin-top: var(--fi-space-6);
-  line-height: 1.5;
-}
-
-.update-note span {
-  font-size: var(--fi-font-size-xs);
-  color: var(--fi-text-muted);
-  opacity: 0.55;
-  user-select: none;
-}
-
-/* Timeline description text — small, light brown */
-.fi-simple-timeline .fi-secondary-text {
-  font-size: var(--fi-font-size-sm);
-  color: var(--fi-text-muted);
-  opacity: 0.7;
-}
-
-/* Timeline pending dot */
-.timeline-dot--pending {
-  background: var(--fi-border) !important;
-  animation: fi-dot-pulse 2s ease-in-out infinite;
-}
-
-@keyframes fi-dot-pulse {
-
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(0.8);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-/* ============================================================
-   Section 5: Messages — Sticky Note Wall
-   ============================================================ */
-
-.message-desc {
-  margin-bottom: var(--fi-space-4);
 }
 
 .message-spin {
@@ -747,23 +169,24 @@
   width: 100%;
 }
 
-/* ---- Sticky note color variants (low saturation, warm paper) ---- */
-.fi-note--cream { --fi-note-bg: #f7e7c8; }
-.fi-note--peach { --fi-note-bg: #f2d3c3; }
-.fi-note--sage { --fi-note-bg: #d8e2ce; }
-.fi-note--blue { --fi-note-bg: #d6e2e8; }
-.fi-note--lavender { --fi-note-bg: #e3dce8; }
-.fi-note--brown { --fi-note-bg: #e9dbc9; }
-
-/* ---- Wall: CSS columns masonry ---- */
+/* ---- Wall：由 TS 轮转分配好的若干列，保持错落感 ---- */
 .fi-comment-wall {
-  column-count: 4;
-  column-gap: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
   margin-top: var(--fi-space-9);
 }
 
+.fi-wall-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
 .fi-comment-wall__empty {
-  column-span: all;
+  flex: 1 1 auto;
   padding: var(--fi-space-8);
   text-align: center;
   font-size: var(--fi-font-size-lg);
@@ -773,100 +196,89 @@
   border-radius: var(--fi-radius-md);
 }
 
+/* ---- 便签本体：颜色 / 倾斜 / 错位 / 图钉位置都由 --fi-note-* 驱动 ---- */
 .fi-note {
   position: relative;
   box-sizing: border-box;
-  break-inside: avoid;
-  margin: 0 0 28px;
   width: 100%;
-  min-height: 180px;
-  padding: 30px 24px 22px;
-  border-radius: 2px;
+  min-height: 176px;
+  padding: 30px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 3px 2px 2px 3px;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 46%),
-    radial-gradient(rgba(80, 50, 30, 0.025) 0.6px, transparent 0.6px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 52%),
+    radial-gradient(rgba(80, 50, 30, 0.055) 0.5px, transparent 0.5px) 0 0 / 4px 4px repeat,
     var(--fi-note-bg, #f7e7c8);
   box-shadow:
-    0 2px 3px rgba(58, 39, 22, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 1px rgba(58, 39, 22, 0.06),
     0 8px 14px rgba(58, 39, 22, 0.08),
-    0 16px 26px rgba(58, 39, 22, 0.06);
+    0 16px 26px rgba(58, 39, 22, 0.05);
   cursor: default;
   z-index: 1;
-  transform: translateY(var(--fi-note-offset, 0px)) var(--fi-note-rot, rotate(0deg));
+  transform: translateY(var(--fi-note-offset, 0px)) rotate(calc(var(--fi-note-tilt, 0) * 1deg));
   transition:
     transform var(--fi-motion-normal) var(--fi-ease-standard),
     box-shadow var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
-/* Stable per-note rotation — document order stays consistent */
-.fi-note:nth-child(6n + 1) { --fi-note-rot: rotate(-1.4deg); }
-.fi-note:nth-child(6n + 2) { --fi-note-rot: rotate(1.1deg); }
-.fi-note:nth-child(6n + 3) { --fi-note-rot: rotate(-0.7deg); }
-.fi-note:nth-child(6n + 4) { --fi-note-rot: rotate(1.7deg); }
-.fi-note:nth-child(6n + 5) { --fi-note-rot: rotate(-1deg); }
-.fi-note:nth-child(6n) { --fi-note-rot: rotate(0.6deg); }
-
-/* Slight vertical drift (±3~5px) — keeps the wall from looking like a
-   rigid grid while the columns layout stays intact */
-.fi-note:nth-child(3n + 1) { --fi-note-offset: 4px; }
-.fi-note:nth-child(3n + 2) { --fi-note-offset: -3px; }
-.fi-note:nth-child(3n) { --fi-note-offset: 2px; }
-
-/* Very subtle edge irregularity — barely-visible, non-uniform corners */
-.fi-note:nth-child(4n + 1) { border-radius: 3px 2px 2px 3px; }
-.fi-note:nth-child(4n + 2) { border-radius: 2px 3px 3px 2px; }
-.fi-note:nth-child(4n + 3) { border-radius: 3px 3px 2px 2px; }
-.fi-note:nth-child(4n) { border-radius: 2px 2px 3px 3px; }
-
-/* Stable color assignment, decoupled from rotation */
-.fi-note:nth-child(6n + 1) { --fi-note-bg: #f7e7c8; }
-.fi-note:nth-child(6n + 2) { --fi-note-bg: #f2d3c3; }
-.fi-note:nth-child(6n + 3) { --fi-note-bg: #d8e2ce; }
-.fi-note:nth-child(6n + 4) { --fi-note-bg: #d6e2e8; }
-.fi-note:nth-child(6n + 5) { --fi-note-bg: #e3dce8; }
-.fi-note:nth-child(6n) { --fi-note-bg: #e9dbc9; }
+/* ---- 右上角微微翘起的纸角，hover 时多掀开一点 ---- */
+.fi-note::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 17px;
+  height: 17px;
+  background: linear-gradient(225deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.3) 52%, rgba(58, 39, 22, 0.16));
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  filter: drop-shadow(-1px 1px 1px rgba(58, 39, 22, 0.12));
+  transform-origin: 100% 0;
+  transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
+  z-index: 3;
+  pointer-events: none;
+}
 
 /* ---- Pushpin (bronze, unified across all notes) ---- */
 .fi-note::before {
   content: '';
   position: absolute;
-  top: 10px;
-  left: 49%;
-  width: 12px;
-  height: 12px;
-  margin-left: -6px;
+  top: 9px;
+  left: calc(50% + var(--fi-note-pin-x, 0px));
+  width: 13px;
+  height: 13px;
+  margin-left: -6.5px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #a96f3b, #8b5a2b 55%, #6a411d);
+  background: radial-gradient(circle at 34% 30%, #c68d51, #a96f3b 45%, #6f4720 100%);
   box-shadow:
-    0 2px 3px rgba(58, 39, 22, 0.28),
-    inset 0 1px 1px rgba(255, 255, 255, 0.35);
-  z-index: 2;
+    0 2px 3px rgba(58, 39, 22, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45),
+    0 0 0 0.5px rgba(255, 255, 255, 0.22);
+  z-index: 4;
   transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
 }
-
-/* Slight per-note pushpin drift — mimics hand-placed pins */
-.fi-note:nth-child(3n + 1)::before { left: 47%; }
-.fi-note:nth-child(3n + 2)::before { left: 52%; }
-.fi-note:nth-child(3n)::before { left: 49%; }
 
 /* ---- Content ---- */
 .fi-note__content {
   margin: 0;
+  flex: 1 1 auto;
   color: var(--fi-text);
   font-size: 15px;
   line-height: 1.75;
+  white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: anywhere;
 }
 
 .fi-note__footer {
-  margin-top: 16px;
-  padding-top: 10px;
+  margin-top: 14px;
+  padding-top: 9px;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 10px;
-  border-top: 1px dashed rgba(47, 33, 23, 0.12);
+  border-top: 1px dashed rgba(47, 33, 23, 0.14);
 }
 
 .fi-note__author {
@@ -903,44 +315,34 @@
 }
 
 /* ---- Hover: the paper lifts off the wall, kept subtle ---- */
+/* 保留各自原倾角的 22%，hover 时不会被拉成整齐一致 */
 .fi-note:hover {
-  transform: translateY(-5px) scale(1.025) rotate(0deg);
+  transform: translateY(-5px) scale(1.025) rotate(calc(var(--fi-note-tilt, 0) * 0.22deg));
   box-shadow:
-    0 3px 6px rgba(58, 39, 22, 0.08),
-    0 10px 18px rgba(58, 39, 22, 0.1),
-    0 20px 34px rgba(58, 39, 22, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 3px 6px rgba(58, 39, 22, 0.09),
+    0 12px 20px rgba(58, 39, 22, 0.11),
+    0 22px 36px rgba(58, 39, 22, 0.08);
   z-index: 10;
 }
-
-/* Keep a small residual angle matching each note's original rotation
-   so hovered notes never all snap perfectly straight (doc §23). */
-.fi-note:nth-child(6n + 1):hover { transform: translateY(-5px) scale(1.025) rotate(-0.3deg); }
-.fi-note:nth-child(6n + 2):hover { transform: translateY(-5px) scale(1.025) rotate(0.2deg); }
-.fi-note:nth-child(6n + 3):hover { transform: translateY(-5px) scale(1.025) rotate(-0.15deg); }
-.fi-note:nth-child(6n + 4):hover { transform: translateY(-5px) scale(1.025) rotate(0.35deg); }
-.fi-note:nth-child(6n + 5):hover { transform: translateY(-5px) scale(1.025) rotate(-0.2deg); }
-.fi-note:nth-child(6n):hover { transform: translateY(-5px) scale(1.025) rotate(0.1deg); }
 
 .fi-note:hover::before {
   transform: translateY(-1px);
 }
 
-/* ---- Entrance stagger (kept light; respects reduced motion) ---- */
-.fi-note {
-  animation: fi-note-in 300ms var(--fi-ease-standard) backwards;
+.fi-note:hover::after {
+  transform: scale(1.4);
 }
 
-.fi-note:nth-child(1) { animation-delay: 0ms; }
-.fi-note:nth-child(2) { animation-delay: 40ms; }
-.fi-note:nth-child(3) { animation-delay: 80ms; }
-.fi-note:nth-child(4) { animation-delay: 120ms; }
-.fi-note:nth-child(5) { animation-delay: 160ms; }
-.fi-note:nth-child(n + 6) { animation-delay: 200ms; }
+/* ---- Entrance stagger：按全局序号铺开，读起来就是从左到右依次出现 ---- */
+.fi-note {
+  animation: fi-note-in 340ms var(--fi-ease-standard) var(--fi-note-delay, 0ms) backwards;
+}
 
 @keyframes fi-note-in {
   from {
     opacity: 0;
-    transform: translateY(calc(8px + var(--fi-note-offset, 0px))) scale(0.98) var(--fi-note-rot, rotate(0deg));
+    transform: translateY(calc(10px + var(--fi-note-offset, 0px))) scale(0.97) rotate(calc(var(--fi-note-tilt, 0) * 1deg));
   }
 }
 
@@ -967,54 +369,38 @@
   }
 }
 
-/* ---- Responsive: 4 → 3 → 2 → 1 columns ---- */
-@media (max-width: 1199px) {
-  .fi-comment-wall {
-    column-count: 3;
-  }
-}
-
+/* ---- Responsive：列数由 TS 依据墙体实际宽度决定，这里只收紧间距 ---- */
 @media (max-width: 899px) {
   .fi-comment-wall {
-    column-count: 2;
+    gap: 20px;
+  }
+
+  .fi-wall-col {
+    gap: 22px;
+  }
+
+  .fi-note {
+    padding: 26px 19px 18px;
   }
 }
 
 @media (max-width: 599px) {
   .fi-comment-wall {
-    column-count: 1;
+    gap: 16px;
   }
-}
 
-@media (max-width: 899px) {
+  .fi-wall-col {
+    gap: 18px;
+  }
+
   .fi-note {
-    padding: 26px 20px 20px;
+    padding: 24px 17px 16px;
+    min-height: 150px;
   }
-}
-
-@media (max-width: 599px) {
-  .fi-note {
-    padding: 24px 18px 18px;
-  }
-
-  /* Mobile: much gentler rotation */
-  .fi-note:nth-child(6n + 1) { --fi-note-rot: rotate(-0.5deg); }
-  .fi-note:nth-child(6n + 2) { --fi-note-rot: rotate(0.4deg); }
-  .fi-note:nth-child(6n + 3) { --fi-note-rot: rotate(-0.3deg); }
-  .fi-note:nth-child(6n + 4) { --fi-note-rot: rotate(0.6deg); }
-  .fi-note:nth-child(6n + 5) { --fi-note-rot: rotate(-0.4deg); }
-  .fi-note:nth-child(6n) { --fi-note-rot: rotate(0.2deg); }
 
   .fi-note:hover {
-    transform: translateY(-4px) scale(1.02) rotate(0deg);
+    transform: translateY(-4px) scale(1.015) rotate(calc(var(--fi-note-tilt, 0) * 0.22deg));
   }
-
-  .fi-note:nth-child(6n + 1):hover { transform: translateY(-4px) scale(1.02) rotate(-0.1deg); }
-  .fi-note:nth-child(6n + 2):hover { transform: translateY(-4px) scale(1.02) rotate(0.08deg); }
-  .fi-note:nth-child(6n + 3):hover { transform: translateY(-4px) scale(1.02) rotate(-0.06deg); }
-  .fi-note:nth-child(6n + 4):hover { transform: translateY(-4px) scale(1.02) rotate(0.1deg); }
-  .fi-note:nth-child(6n + 5):hover { transform: translateY(-4px) scale(1.02) rotate(-0.08deg); }
-  .fi-note:nth-child(6n):hover { transform: translateY(-4px) scale(1.02) rotate(0.04deg); }
 
   .fi-note__content {
     font-size: var(--fi-font-size-md);
@@ -1027,126 +413,12 @@
 
 @media (max-width: 768px) {
   .about-content {
-    padding: 0 0 var(--fi-space-8);
+    padding: var(--fi-space-6) var(--fi-space-3) var(--fi-space-8);
   }
 
-  .about-section {
-    padding: 0 var(--fi-space-3);
-    margin-bottom: 48px;
-  }
-
-  /* Hero */
-  .section-hero {
-    padding: var(--fi-space-6) var(--fi-space-3) var(--fi-space-6);
-  }
-
-  .hero-main {
-    gap: var(--fi-space-4);
-    margin-bottom: var(--fi-space-5);
-  }
-
-  .hero-name {
-    font-size: 26px;
-  }
-
-  .hero-tagline {
-    font-size: var(--fi-font-size-md);
-    margin-bottom: var(--fi-space-4);
-  }
-
-  .hero-avatar {
+  :host ::ng-deep #currentAnchor img.about-avatar {
     width: 90px;
     height: 90px;
-  }
-
-  .hero-intro-p {
-    font-size: var(--fi-font-size-md);
-  }
-
-  .hero-intro {
-    padding: 0;
-  }
-
-  /* Section title */
-  .section-title {
-    font-size: var(--fi-font-size-lg);
-    margin-bottom: var(--fi-space-3);
-  }
-
-  /* Hobbies */
-  .hobby-panel-header {
-    font-size: var(--fi-font-size-md);
-  }
-
-  .hobby-panel-body {
-    padding-top: var(--fi-space-2);
-  }
-
-  .game-layout {
-    flex-direction: column;
-  }
-
-  .game-images {
-    width: 100%;
-    flex-direction: row;
-  }
-
-  .game-img-item {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .game-entry,
-  .game-text-section,
-  .write-para {
-    font-size: var(--fi-font-size-md);
-  }
-
-  /* Connect */
-  .social-row {
-    gap: var(--fi-space-1);
-  }
-
-  .social-item {
-    padding: var(--fi-space-2);
-    font-size: var(--fi-font-size-sm);
-  }
-
-  .social-item-icon {
-    width: 18px;
-    height: 18px;
-    font-size: 18px;
-  }
-
-  .social-item-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* Site */
-  .site-para {
-    font-size: var(--fi-font-size-md);
-  }
-
-  .site-subtitle {
-    font-size: var(--fi-font-size-md);
-  }
-
-  .tech-badges {
-    gap: var(--fi-space-1);
-  }
-
-  .tech-badge {
-    font-size: var(--fi-font-size-xs);
-    padding: 3px var(--fi-space-2);
-  }
-
-  .thanks-block {
-    padding: var(--fi-space-4);
-  }
-
-  .thanks-avatar {
-    width: 96px;
-    height: 96px;
+    max-width: 90px;
   }
 }
