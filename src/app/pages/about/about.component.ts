@@ -187,8 +187,8 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * 导航项 = 正文里的 h1/h2，一项都不写死。
-   * 「留言」就在正文末尾，所以留言墙的入口也来自同一处，后台加一节导航就多一项。
+   * 导航项 = 正文里的一号标题（`#`）。
+   * 二号标题及以下不进导航，「留言」等区块要有自己的导航项就得用 `#` 写。
    */
   private buildNav(): void {
     const container = this.markdownContainer();
@@ -199,7 +199,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
     const items: NavItem[] = [];
     container
-      .querySelectorAll('h1:not(blockquote h1), h2:not(blockquote h2)')
+      .querySelectorAll('h1:not(blockquote h1)')
       .forEach((node, index) => {
         const heading = node as HTMLElement;
         const id = `about-heading-${index}`;
