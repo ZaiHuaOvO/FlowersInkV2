@@ -83,7 +83,6 @@ export class ArticleComponent implements OnInit {
     this.loading = true;
     this.blog
       .getBlogs({
-        type: '文章',
         limit: 999,
         // 列表只用标题/标签/日期，正文由详情页单独取，别把全部正文拉下来
         includeContent: false,

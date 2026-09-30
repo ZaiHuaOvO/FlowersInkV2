@@ -7,7 +7,6 @@ type PrefetchKey =
   | 'blog.routes'
   | 'blog.all'
   | 'blog.article'
-  | 'blog.essay'
   | 'blog.detail'
   | 'book.component'
   | 'game.component'
@@ -39,7 +38,6 @@ export class RoutePrefetchService {
     'blog.routes': () => import('../pages/blog/blog.routes'),
     'blog.all': () => import('../pages/blog/blog.component'),
     'blog.article': () => import('../pages/blog/article/article.component'),
-    'blog.essay': () => import('../pages/blog/essay/essay.component'),
     'blog.detail': () => import('../pages/blog/blog-detail/blog-detail.component'),
 
     'book.component': () => import('../pages/world/book/book.component'),
@@ -76,7 +74,6 @@ export class RoutePrefetchService {
           'blog.routes',
           'blog.all',
           'blog.article',
-          'blog.essay',
         ],
         false
       );
@@ -134,11 +131,9 @@ export class RoutePrefetchService {
       return ['welcome.routes', 'welcome.component'];
     }
 
-    if (url.startsWith('/blog/article')) {
+    // /blog/essay 已改跳转写作页，预取同一份 chunk
+    if (url.startsWith('/blog/article') || url.startsWith('/blog/essay')) {
       return ['blog.routes', 'blog.article'];
-    }
-    if (url.startsWith('/blog/essay')) {
-      return ['blog.routes', 'blog.essay'];
     }
     if (url.startsWith('/blog/all')) {
       return ['blog.routes', 'blog.all'];
@@ -147,7 +142,7 @@ export class RoutePrefetchService {
       return ['blog.routes', 'blog.detail'];
     }
     if (url.startsWith('/blog')) {
-      return ['blog.routes', 'blog.all', 'blog.article', 'blog.essay'];
+      return ['blog.routes', 'blog.all', 'blog.article'];
     }
 
     if (url.startsWith('/equipment')) {

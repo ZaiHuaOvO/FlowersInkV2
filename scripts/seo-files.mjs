@@ -81,7 +81,6 @@ export function buildSitemapXml(blogs) {
     { url: '/welcome', changefreq: 'monthly', priority: 0.6 },
     { url: '/blog/all', changefreq: 'weekly', priority: 0.8 },
     { url: '/blog/article', changefreq: 'weekly', priority: 0.8 },
-    { url: '/blog/essay', changefreq: 'weekly', priority: 0.8 },
     { url: '/link', changefreq: 'weekly', priority: 0.5 },
     { url: '/about', changefreq: 'monthly', priority: 0.5 },
     { url: '/book', changefreq: 'monthly', priority: 0.5 },

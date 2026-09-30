@@ -108,39 +108,27 @@ async function main() {
       path.join(distRoot, 'blog', 'all', 'index.html'),
       renderBlogListPage(template, blogItems, friendLinks, {
         canonicalPath: '/blog/all',
-        description: '花墨博客归档，按时间收录再花发布的所有文章与随笔。',
+        description: '花墨博客归档，按时间收录再花发布的全部文章。',
         title: `博客归档 | ${siteName}`,
         heading: '博客归档',
       }),
     ),
     writeFileEnsured(
       path.join(distRoot, 'blog', 'article', 'index.html'),
-      renderBlogListPage(
-        template,
-        blogItems.filter((item) => item?.type === '文章'),
-        friendLinks,
-        {
-          canonicalPath: '/blog/article',
-          description:
-            '花墨技术文章列表，聚合技术分享、开发实践与教程内容。',
-          title: `技术文章 | ${siteName}`,
-          heading: '技术文章',
-        },
-      ),
+      renderBlogListPage(template, blogItems, friendLinks, {
+        canonicalPath: '/blog/article',
+        description: '花墨的写作列表，收录再花的全部文章，可按标签筛选与搜索。',
+        title: `写作 | ${siteName}`,
+        heading: '写作',
+      }),
     ),
     writeFileEnsured(
       path.join(distRoot, 'blog', 'essay', 'index.html'),
-      renderBlogListPage(
-        template,
-        blogItems.filter((item) => item?.type === '随笔'),
-        friendLinks,
-        {
-          canonicalPath: '/blog/essay',
-          description: '花墨随笔列表，记录再花的日常想法、总结与个人表达。',
-          title: `随笔 | ${siteName}`,
-          heading: '随笔',
-        },
-      ),
+      renderRedirectPage(template, {
+        canonicalPath: '/blog/essay',
+        toPath: '/blog/article',
+        title: `随笔 | ${siteName}`,
+      }),
     ),
     writeFileEnsured(
       path.join(distRoot, 'about', 'index.html'),
@@ -276,7 +264,7 @@ function renderWelcomePage(template, blogs, friendLinks, canonicalPath) {
       <article class="fi-seo-card">
         <h2><a href="${withTrailingSlash(`/blog/blog-detail/${blog.id}`)}">${escapeHtml(blog.title)}</a></h2>
         <p>${escapeHtml(normalizeDescription(blog.description || blog.content))}</p>
-        <p class="fi-seo-meta">${escapeHtml(blog.type || '')} · ${escapeHtml(blog.tag || '')}</p>
+        <p class="fi-seo-meta">${escapeHtml(blog.tag || '')}</p>
       </article>
     `).join('')
     : '<p>精选文章整理中。</p>';
@@ -320,7 +308,7 @@ function renderBlogListPage(template, blogs, friendLinks, options) {
         <article class="fi-seo-card">
           <h2><a href="${withTrailingSlash(`/blog/blog-detail/${blog.id}`)}">${escapeHtml(blog.title)}</a></h2>
           <p>${escapeHtml(normalizeDescription(blog.description || blog.content))}</p>
-          <p class="fi-seo-meta">${formatDate(blog.date)} · ${escapeHtml(blog.type || '')} · ${escapeHtml(blog.tag || '')}</p>
+          <p class="fi-seo-meta">${formatDate(blog.date)} · ${escapeHtml(blog.tag || '')}</p>
         </article>
       `).join('')
     : '<p>文章整理中。</p>';
@@ -349,6 +337,30 @@ function renderBlogListPage(template, blogs, friendLinks, options) {
     canonicalPath: options.canonicalPath,
     ogType: 'website',
     body,
+  });
+}
+
+/** 已废弃路径的静态跳转页：canonical 指向新地址，用户与爬虫都直接落到新页 */
+function renderRedirectPage(template, options) {
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>页面已迁移</h1>
+        <p>该地址已并入写作页，正在跳转……</p>
+      </header>
+      <section class="fi-seo-section">
+        <p><a href="${withTrailingSlash(options.toPath)}">若未自动跳转，请点击这里</a></p>
+      </section>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: options.title,
+    description: '页面已迁移到写作列表。',
+    canonicalPath: options.toPath,
+    ogType: 'website',
+    body,
+    extraHead: `<meta http-equiv="refresh" content="0; url=${withTrailingSlash(options.toPath)}">`,
   });
 }
 
@@ -398,7 +410,7 @@ function renderBlogDetailPage(template, blog, friendLinks) {
         <header class="fi-seo-header">
           <h1>${escapeHtml(blog.title)}</h1>
           <p>${escapeHtml(description)}</p>
-          <p class="fi-seo-meta">${escapeHtml(blog.type || '')} · ${escapeHtml(blog.tag || '')} · ${formatDate(blog.date)}</p>
+          <p class="fi-seo-meta">${escapeHtml(blog.tag || '')} · ${formatDate(blog.date)}</p>
         </header>
         <div class="fi-seo-markdown">
           ${articleHtml}
@@ -422,7 +434,6 @@ function renderBlogDetailPage(template, blog, friendLinks) {
     body,
     extraHead: `
       <meta property="article:published_time" content="${new Date(blog.date).toISOString()}">
-      <meta property="article:section" content="${escapeHtmlAttr(blog.type || '博客')}">
       <meta property="article:tag" content="${escapeHtmlAttr(blog.tag || '')}">
       <script type="application/ld+json">${JSON.stringify(schema)}</script>
       <script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>
@@ -822,7 +833,7 @@ function buildArticleSchema(blog, canonicalPath, description, ogImage) {
     description,
     image: ogImage,
     inLanguage: siteLanguage,
-    articleSection: blog.type,
+    keywords: blog.tag || undefined,
     author: {
       '@type': 'Person',
       name: '再花',

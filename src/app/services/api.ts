@@ -6,7 +6,6 @@ export const API = {
   BLOG: '/blog',
   BLOG_RELATED: '/blog/related',
   TAG: '/blog/tag',
-  TYPE: '/blog/type',
   INFO: '/site/visit',
   VISIT_DWELL: '/site/visit/dwell',
   SITE_INFO: '/site/info',

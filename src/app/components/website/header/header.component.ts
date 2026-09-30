@@ -52,24 +52,15 @@ export class HeaderComponent implements OnInit {
     {
       title: '写作',
       icon: 'edit',
-      URL: 'blog',
-      child: [
-        {
-          title: '技术',
-          icon: '',
-          url: '/blog/article',
-        },
-        {
-          title: '随笔',
-          icon: '',
-          url: '/blog/essay',
-        },
-        {
-          title: '文归档',
-          icon: '',
-          url: '/blog/all',
-        },
-      ],
+      url: '/blog/article',
+      child: [],
+      showChildren: false
+    },
+    {
+      title: '归档',
+      icon: 'clock-circle',
+      url: '/blog/all',
+      child: [],
       showChildren: false
     },
     {
