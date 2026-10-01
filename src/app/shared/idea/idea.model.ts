@@ -23,6 +23,10 @@ export interface IdeaAnchor {
   suffix?: string | null;
   /** 这段文字上是否存在（别人或自己的）待审核想法，用于画占位虚线 */
   hasPending: boolean;
+  /** 这条区间下全部想法数（含待审核），用于虚线上的数字角标 */
+  ideaCount?: number;
+  /** 其中待审核的想法数，ideaCount - pendingCount 即已通过数 */
+  pendingCount?: number;
   ideas: Idea[];
   /**
    * 当前浮窗正对着这一段（新框选或点开的虚线）。
@@ -73,6 +77,8 @@ export interface IdeaSegment {
   keys: number[];
   /** 这段下只有待审核想法，用更淡的样式 */
   pendingOnly: boolean;
+  /** 这段覆盖的全部想法数（含待审核），虚线上的数字角标用它 */
+  count: number;
   /** 浮窗正对着这一段，高亮出来 */
   active: boolean;
 }

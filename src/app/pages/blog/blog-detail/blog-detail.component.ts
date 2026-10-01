@@ -63,6 +63,7 @@ import type {
 import {
   IDEA_KEY_ATTRIBUTE,
   IDEA_MARK_ACTIVE_CLASS,
+  IDEA_MARK_CLASS,
   IDEA_SELECTION_MAX_LENGTH,
   applyIdeaMarks,
   blockToAnchorPayload,
@@ -136,11 +137,15 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   // ── 段落想法 ──
   /** 「关闭想法」开关状态，存在本地，下次进来沿用 */
   ideasEnabled = true;
+  /** 首访引导：第一次打开文章时教用户怎么用想法（一次性，可关闭） */
+  showIdeaOnboarding = false;
+  private ideaOnboarded = false;
   private ideaAnchors: IdeaAnchor[] = [];
   private axis: IdeaAxis | null = null;
   private ideasLoaded = false;
   private markdownDomReady = false;
   private static readonly IDEAS_ENABLED_KEY = 'fi_ideas_enabled';
+  private static readonly IDEA_ONBOARDING_KEY = 'fi_idea_onboarded';
   /** 浮窗正对着的那段文字会作为一条临时锚点塞进渲染，用这个负 id 标记它 */
   private static readonly PENDING_HIGHLIGHT_KEY = -1;
   /** 已经回写过后端的漂移锚点，避免同一次阅读里反复请求 */
@@ -219,6 +224,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.hideWriteButton();
     });
     this.restoreIdeasEnabled();
+    this.restoreIdeaOnboarding();
     this.bindIdeaInteractions();
   }
 
@@ -556,6 +562,38 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** 首访引导是否已看过，本地只记一个布尔，跟文章无关 */
+  private restoreIdeaOnboarding(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    try {
+      this.ideaOnboarded =
+        localStorage.getItem(BlogDetailComponent.IDEA_ONBOARDING_KEY) !== null;
+    } catch {
+      // 存储不可用时视为没看过，每次都引导
+    }
+    this.updateOnboardingVisibility();
+  }
+
+  private updateOnboardingVisibility(): void {
+    this.showIdeaOnboarding = this.ideasEnabled && !this.ideaOnboarded;
+  }
+
+  dismissIdeaOnboarding(): void {
+    this.ideaOnboarded = true;
+    try {
+      localStorage.setItem(BlogDetailComponent.IDEA_ONBOARDING_KEY, '1');
+    } catch {
+      // ignore
+    }
+    this.showIdeaOnboarding = false;
+  }
+
+  get onboardingText(): string {
+    return this.isMobile
+      ? '点一下正文里的某一段，就能写下你的想法；点带虚线的段落，能看到大家的想法'
+      : '选中正文里的一段文字，就能写下你的想法；点带虚线的段落，能看到大家的想法';
+  }
+
   /** 「关闭想法」：关掉后不画任何虚线、不出「写想法」按钮，正文恢复纯净 */
   toggleIdeas(): void {
     this.ideasEnabled = !this.ideasEnabled;
@@ -571,6 +609,25 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.hideWriteButton();
     this.closePopover();
     this.tryRenderIdeas();
+    this.updateOnboardingVisibility();
+  }
+
+  /**
+   * 点 meta 行的「N 想法」：滚到正文第一条想法。
+   * 想法被关掉时先打开再定位；真的一条都没有就提示写下第一条。
+   */
+  onIdeaCountClick(): void {
+    if (!this.ideasEnabled) {
+      this.toggleIdeas();
+    }
+    const first = this.ideaContainer()?.querySelector(
+      `mark.${IDEA_MARK_CLASS}`,
+    );
+    if (first) {
+      first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    this.msg.info('这篇文章还没有想法，选中一段文字，写下第一条吧');
   }
 
   private loadIdeas(): void {
@@ -1185,6 +1242,11 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (matched) {
       if (!matched.ideas.some((item) => item.id === idea.id)) {
         matched.ideas = [...matched.ideas, idea];
+        // 后端下发的 ideaCount/pendingCount 是本次提交前的值，本地把刚加的这条补上
+        matched.ideaCount = (matched.ideaCount ?? matched.ideas.length - 1) + 1;
+        if (!idea.isApproved) {
+          matched.pendingCount = (matched.pendingCount ?? 0) + 1;
+        }
       }
       matched.hasPending = true;
       this.popover = {
@@ -1203,6 +1265,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         prefix: current.anchor.prefix,
         suffix: current.anchor.suffix,
         hasPending: true,
+        ideaCount: 1,
+        pendingCount: idea.isApproved ? 0 : 1,
         ideas: [idea],
       };
       this.ideaAnchors = [...this.ideaAnchors, localAnchor];

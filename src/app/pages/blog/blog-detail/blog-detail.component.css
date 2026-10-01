@@ -278,6 +278,74 @@
   opacity: 0.55;
 }
 
+/* meta 行里可点的「N 想法」：点一下滚到正文第一条想法 */
+.article-meta-idea {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: var(--fi-font-size-sm);
+  color: var(--fi-primary);
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  line-height: 1.5;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.article-meta-idea:hover {
+  color: var(--fi-primary-hover);
+}
+
+/* 首访引导横幅：一次性教用户怎么用想法，横向留白与顶部条一致 */
+.idea-onboarding {
+  display: flex;
+  align-items: center;
+  gap: var(--fi-space-2);
+  margin: 0 clamp(12px, 2.2vw, 24px) var(--fi-space-2);
+  padding: var(--fi-space-2) var(--fi-space-3);
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-primary-outline);
+  color: var(--fi-text-muted);
+  font-size: var(--fi-font-size-sm);
+  line-height: 1.5;
+}
+
+.idea-onboarding__icon {
+  flex: 0 0 auto;
+  color: var(--fi-primary);
+  font-size: var(--fi-font-size-md);
+}
+
+.idea-onboarding__text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.idea-onboarding__close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--fi-text-caption);
+  cursor: pointer;
+  padding: 2px;
+  line-height: 1;
+  border-radius: var(--fi-radius-xs);
+  transition:
+    color var(--fi-motion-fast) var(--fi-ease-standard),
+    background var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.idea-onboarding__close:hover {
+  color: var(--fi-primary);
+  background: var(--fi-surface-soft);
+}
+
 nz-anchor {
   padding: 0;
   display: block;

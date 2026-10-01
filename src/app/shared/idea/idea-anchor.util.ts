@@ -35,6 +35,7 @@ export const IDEA_MARK_CLASS = 'fi-idea-mark';
 export const IDEA_MARK_PENDING_CLASS = 'fi-idea-mark--pending';
 export const IDEA_MARK_ACTIVE_CLASS = 'fi-idea-mark--active';
 export const IDEA_KEY_ATTRIBUTE = 'data-idea-keys';
+export const IDEA_COUNT_CLASS = 'fi-idea-count';
 
 export const IDEA_SELECTION_MAX_LENGTH = 200;
 
@@ -418,6 +419,8 @@ export function computeSegments(
         // 这段一条已通过的想法都没有（可能是别人待审核的，也可能是自己刚提交的），
         // 用更淡的虚线表示"还不能正式读"
         pendingOnly: !anchor.ideas.some((idea) => idea.isApproved),
+        // 数字角标要含待审核的总数；老接口没带 ideaCount 时回退按可见想法数
+        count: anchor.ideaCount ?? anchor.ideas.length,
         active: anchor.active === true,
       });
       byRun.set(index, list);
@@ -441,6 +444,7 @@ function mergeSegments(segments: IdeaSegment[]): IdeaSegment[] {
       last.end = Math.max(last.end, segment.end);
       last.pendingOnly = last.pendingOnly && segment.pendingOnly;
       last.active = last.active || segment.active;
+      last.count = (last.count ?? 0) + (segment.count ?? 0);
       segment.keys.forEach((key) => {
         if (!last.keys.includes(key)) {
           last.keys.push(key);
@@ -455,7 +459,13 @@ function mergeSegments(segments: IdeaSegment[]): IdeaSegment[] {
 }
 
 /** 移除所有已画的虚线，并把被拆碎的文本节点合并回去 */
-export function clearIdeaMarks(root: Element): void {  const marks = Array.from(
+export function clearIdeaMarks(root: Element): void {
+  // 数字角标是 <mark> 的子元素，先摘掉，否则拆 mark 时会被当成正文文本留在轴上
+  Array.from(root.querySelectorAll(`.${IDEA_COUNT_CLASS}`)).forEach((el) =>
+    el.remove(),
+  );
+
+  const marks = Array.from(
     root.querySelectorAll(`mark.${IDEA_MARK_CLASS}`),
   );
   if (marks.length === 0) {
@@ -545,6 +555,15 @@ export function renderIdeaMarks(
           mark.setAttribute('tabindex', '0');
           parent.insertBefore(mark, target);
           mark.appendChild(target);
+
+          // 数字角标挂在整段虚线的末尾（segment.end 落在这个节点上），
+          // 说明这是这段的最后一个 <mark>，只在这里挂一个角标
+          if (to === segment.end && (segment.count ?? 0) > 0) {
+            const count = ownerDocument.createElement('span');
+            count.className = IDEA_COUNT_CLASS;
+            count.textContent = String(segment.count);
+            mark.appendChild(count);
+          }
         });
       });
   });
