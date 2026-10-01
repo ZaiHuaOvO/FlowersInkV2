@@ -1,4 +1,11 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
@@ -9,7 +16,6 @@ import { BlogService } from '../blog.service';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { RefreshUp, SlowUp, QuickUp } from '../../../common_ui/animations/animation';
@@ -33,7 +39,6 @@ import {
     BlogCardComponent,
     NzIconModule,
     NzTypographyModule,
-    NzPaginationModule,
     RouterModule,
     BlogTitleComponent,
     NzSpinModule,
@@ -46,18 +51,26 @@ import {
   styleUrl: './article.component.css',
   animations: [SlowUp, QuickUp, RefreshUp],
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, AfterViewInit {
   data: any[] = [];
   private allData: any[] = [];
-  page = 1;
-  pageSize = 10;
-  count = 0;
+  /** 已按标签/关键词过滤后的全量结果，滚动时从它递增切片 */
+  private filtered: any[] = [];
+  /** 每次「加载更多」追加的条数 */
+  private readonly pageSize = 10;
+  /** 当前已渲染条数（相对 filtered） */
+  private visibleCount = 0;
   selectedTag = '';
   tagList: TagFilterItem[] = [];
   loading = true;
+  hasMore = false;
   listMotionTick = 0;
   searchControl = new FormControl('');
   isMobile = false;
+
+  @ViewChild('loadMoreSentinel')
+  private loadMoreSentinel?: ElementRef<HTMLElement>;
+  private sentinelObserver?: IntersectionObserver;
 
   constructor(
     private blog: BlogService,
@@ -70,13 +83,26 @@ export class ArticleComponent implements OnInit {
     this.searchControl.valueChanges
       .pipe(debounceTime(500), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.page = 1;
         this.applyFilter();
       });
+    this.destroyRef.onDestroy(() => this.sentinelObserver?.disconnect());
   }
 
   ngOnInit(): void {
     this.loadBlogs();
+  }
+
+  ngAfterViewInit(): void {
+    this.sentinelObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          this.loadMore();
+        }
+      },
+      // 提前一屏多点触发，滚到底之前下一页就已经铺好，看不出等待
+      { rootMargin: '0px 0px 400px 0px' },
+    );
+    this.observeSentinel();
   }
 
   private loadBlogs(): void {
@@ -90,7 +116,6 @@ export class ArticleComponent implements OnInit {
       .subscribe((res: any) => {
       this.allData = res['data'].data ?? [];
       this.tagList = this.buildTagList(this.allData);
-      this.page = 1;
       this.applyFilter();
       this.loading = false;
       this.listMotionTick += 1;
@@ -108,9 +133,10 @@ export class ArticleComponent implements OnInit {
       .sort((a, b) => b.count - a.count);
   }
 
+  /** 标签或关键词变化：重算结果集并回到第一屏 */
   private applyFilter(): void {
     const keyword = (this.searchControl.value ?? '').trim().toLowerCase();
-    const filtered = this.allData.filter((blog) => {
+    this.filtered = this.allData.filter((blog) => {
       if (this.selectedTag && blog.tag !== this.selectedTag) {
         return false;
       }
@@ -120,24 +146,39 @@ export class ArticleComponent implements OnInit {
       return true;
     });
 
-    this.count = filtered.length;
-    const totalPages = Math.max(1, Math.ceil(this.count / this.pageSize));
-    if (this.page > totalPages) {
-      this.page = totalPages;
-    }
-    const start = (this.page - 1) * this.pageSize;
-    this.data = filtered.slice(start, start + this.pageSize);
+    this.visibleCount = this.pageSize;
+    this.renderVisible();
     this.listMotionTick += 1;
+  }
+
+  private renderVisible(): void {
+    this.data = this.filtered.slice(0, this.visibleCount);
+    this.hasMore = this.visibleCount < this.filtered.length;
+  }
+
+  /** 哨兵进入视口时追加下一页 */
+  private loadMore(): void {
+    if (!this.hasMore || this.loading) {
+      return;
+    }
+    this.visibleCount += this.pageSize;
+    this.renderVisible();
+    // 追加后哨兵可能仍在视口内，重新 observe 才能再触发一次回调
+    this.observeSentinel();
+  }
+
+  private observeSentinel(): void {
+    const el = this.loadMoreSentinel?.nativeElement;
+    if (!el || !this.sentinelObserver) {
+      return;
+    }
+    this.sentinelObserver.unobserve(el);
+    this.sentinelObserver.observe(el);
   }
 
   selectTag(tag: string): void {
     this.selectedTag = tag;
-    this.page = 1;
-    this.applyFilter();
-  }
-
-  pageChange(page: number): void {
-    this.page = page;
     this.applyFilter();
   }
 }
+

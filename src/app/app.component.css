@@ -51,17 +51,9 @@ nz-footer {
   color: var(--fi-text);
 }
 
-/* nzSimple 的微缩 loading（游戏截图缩略图里那个）：图缩小、不显示文案。
-   必须用后代选择器——emulated 封装只给最后一段简单选择器加 _ngcontent 属性，
-   把属性挂在 nz-spin 上永远不会命中。 */
-nz-spin:not(.ant-spin-nested-loading) .global-loading-gif {
-  width: 30px;
-  height: 34px;
-}
-
-nz-spin:not(.ant-spin-nested-loading) .global-loading-text {
-  display: none;
-}
+/* nzSimple 的微缩加载图（游戏截图、博客列表底部那两处）定在 fi-overrides.css 的
+   「全站加载态布局」里。别把这组规则搬回这里：nz-spin 宿主元素带的是使用方组件的
+   _ngcontent（游戏弹窗还在 CDK overlay 内），组件作用域的选择器永远不命中。 */
 
 @media (max-width: 768px) {
     nz-header.app-header {

@@ -11,7 +11,7 @@
     margin-top: var(--fi-space-3);
 }
 
-.content>nz-spin {
+.content > .list-wrap {
     flex: 1 1 auto;
     min-width: 0;
 }
@@ -31,6 +31,24 @@
 
 .tag {
     width: 100%;
+}
+
+/* 滚动哨兵兼加载位：贴在列表底部，不覆盖卡片 */
+.load-more {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 还有下一页时留出加载位的高度，全部加载完就收起来，不留空档 */
+.load-more--active {
+    min-height: 44px;
+}
+
+/* 首屏还没有卡片时，让加载指示器落在内容区里，而不是顶在最上面 */
+.load-more--empty {
+    min-height: 320px;
 }
 
 nz-select {

@@ -11,9 +11,9 @@
     </ng-template>
     }
     <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle">
-        <nz-spin [nzTip]="'文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
-            <div nz-flex nzGap="middle" [nzVertical]="true" [@RefreshUp]="listMotionTick">
-                @for (item of data; track item) {
+        <div class="list-wrap" @QuickUp>
+            <div class="list" nz-flex nzGap="middle" [nzVertical]="true" [@RefreshUp]="listMotionTick">
+                @for (item of data; track item.id) {
                 <div flCard flCardHover>
                     <flower-blog-card
                         [blog]="item"
@@ -22,10 +22,15 @@
                     ></flower-blog-card>
                 </div>
                 }
-                <nz-pagination [nzPageIndex]="page" [nzTotal]="count" [nzHideOnSinglePage]="true"
-                    (nzPageIndexChange)="pageChange($event)"></nz-pagination>
+                <!-- 滚动哨兵兼加载位：贴着列表底部，进入视口就再渲染一页 -->
+                <div class="load-more" #loadMoreSentinel [class.load-more--active]="hasMore"
+                    [class.load-more--empty]="loading && !data.length">
+                    @if (loading) {
+                    <nz-spin nzSimple></nz-spin>
+                    }
+                </div>
             </div>
-        </nz-spin>
+        </div>
         @if (!isMobile) {
         <div class="me" @SlowUp>
             <nz-affix [nzOffsetTop]="72">
