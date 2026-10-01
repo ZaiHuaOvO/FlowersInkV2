@@ -674,16 +674,16 @@
   text-decoration-color: currentColor;
 }
 
-/* 虚线末尾的数字角标：这一段一共有几条想法（含待审核）。
+/* 虚线末尾的角标：一个小圆胶囊，数字显示这一段的想法数（含待审核）。
    放在 <mark> 内，点它也能像点虚线一样打开浮窗；
-   vertical-align: super + 小字号，避免撑高行盒、破坏表格行高。 */
+   vertical-align: sub 让它落在文字右下角、贴近虚线，不撑高行盒。 */
 #currentAnchor mark.fi-idea-mark .fi-idea-count {
   display: inline-block;
   margin-left: 3px;
   font-size: 0.72em;
   font-weight: var(--fi-font-weight-semibold);
   line-height: 1;
-  vertical-align: super;
+  vertical-align: sub;
   color: var(--md-brand);
   background: var(--fi-primary-outline);
   border-radius: var(--fi-radius-pill);

@@ -78,6 +78,12 @@ export function buildAxis(root: Element): IdeaAxis {
       continue;
     }
 
+    // 数量角标里的数字是渲染辅助元素，不属于正文，别让它进文本轴，
+    // 否则选区换算出来的偏移会被这些数字带偏
+    if (text.parentElement?.closest(`.${IDEA_COUNT_CLASS}`)) {
+      continue;
+    }
+
     const owner = nearestBlock(text, root);
     if (!owner) {
       // 落到代码块、图片说明之外等不可批注处：断开当前 run

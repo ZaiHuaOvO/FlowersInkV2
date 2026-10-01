@@ -199,24 +199,12 @@
   font-size: 14px;
 }
 
-/* 引导文案：靠右贴住开关，窄屏隐藏 */
-.article-topbar__hint {
-  flex: 1 1 auto;
-  min-width: 0;
-  text-align: right;
-  font-size: var(--fi-font-size-xs);
-  color: var(--fi-text-caption);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .idea-toggle {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   flex: 0 0 auto;
-  /* 始终贴右：窄屏下引导文案被隐藏，没有它就会被挤到返回按钮旁边 */
+  /* 始终贴右，否则会被挤到返回按钮旁边 */
   margin-left: auto;
   border: 1px dashed var(--fi-border-strong);
   border-radius: var(--fi-radius-pill);
@@ -242,12 +230,6 @@
 .idea-toggle--on {
   border-style: solid;
   background: var(--fi-primary-outline);
-}
-
-@media (max-width: 768px) {
-  .article-topbar__hint {
-    display: none;
-  }
 }
 
 /* 开关 hover 提示里的链接 */
@@ -278,24 +260,16 @@
   opacity: 0.55;
 }
 
-/* meta 行里可点的「N 想法」：点一下滚到正文第一条想法 */
-.article-meta-idea {
-  border: none;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  font-family: inherit;
-  font-size: var(--fi-font-size-sm);
-  color: var(--fi-primary);
+/* meta 行里可点的「N 想法」：和周围 nz-typography 同排（字号/行高/基线一致），
+   只用品牌色 + 鼠标指针提示可点，点一下滚到正文第一条想法 */
+.article-meta ::ng-deep .ant-typography.article-meta-idea {
+  color: var(--fi-primary) !important;
   cursor: pointer;
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-  line-height: 1.5;
   transition: color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
-.article-meta-idea:hover {
-  color: var(--fi-primary-hover);
+.article-meta ::ng-deep .ant-typography.article-meta-idea:hover {
+  color: var(--fi-primary-hover) !important;
 }
 
 /* 首访引导横幅：一次性教用户怎么用想法，横向留白与顶部条一致 */

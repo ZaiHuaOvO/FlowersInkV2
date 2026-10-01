@@ -9,12 +9,6 @@
           <span>返回</span>
         </button>
 
-        <span class="article-topbar__hint">
-          @if (ideasEnabled) {
-            框选正文里的一段文字，就能写下你的想法
-          }
-        </span>
-
         <button
           type="button"
           class="idea-toggle"
@@ -56,9 +50,18 @@
           <span class="article-meta-sep">·</span>
           <span nz-typography nzType="secondary">{{ data.articleCommentCount ?? 0 }} 评论</span>
           <span class="article-meta-sep">·</span>
-          <button type="button" class="article-meta-idea" (click)="onIdeaCountClick()">
+          <span
+            nz-typography
+            nzType="secondary"
+            class="article-meta-idea"
+            role="button"
+            tabindex="0"
+            (click)="onIdeaCountClick()"
+            (keydown.enter)="onIdeaCountClick()"
+            (keydown.space)="$event.preventDefault(); onIdeaCountClick()"
+          >
             {{ data.articleIdeaCount ?? 0 }} 想法
-          </button>
+          </span>
           <span class="article-meta-sep">·</span>
           <span nz-typography nzType="secondary">{{ data.wordCount ?? 0 }} 字</span>
           <span class="article-meta-sep">·</span>
