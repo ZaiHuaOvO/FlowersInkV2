@@ -51,7 +51,7 @@ export class LinkCardComponent implements OnInit {
     }
     if (this.avatarState === 'gravatar' && this.link.email) {
       const hash = md5(this.link.email.trim().toLowerCase());
-      return `https://www.gravatar.com/avatar/${hash}?d=404&s=80`;
+      return `https://dn-qiniu-avatar.qbox.me/avatar/${hash}?d=404&s=80`;
     }
     if (this.avatarState === 'qq' && this.link.email) {
       const qq = getQqNumber(this.link.email);

@@ -91,7 +91,7 @@ export function avatarUrl(c: CommentItem, options?: { pending?: boolean }): stri
   }
   if (state === 'gravatar' && c.email) {
     const hash = md5(c.email.trim().toLowerCase());
-    return `https://www.gravatar.com/avatar/${hash}?d=404&s=80`;
+    return `https://dn-qiniu-avatar.qbox.me/avatar/${hash}?d=404&s=80`;
   }
   if (state === 'qq' && c.email) {
     const qq = getQqNumber(c.email);
