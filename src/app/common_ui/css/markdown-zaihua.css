@@ -681,7 +681,7 @@
   display: inline-block;
   margin-left: 3px;
   font-size: 0.72em;
-  font-weight: var(--fi-font-weight-semibold);
+  font-weight: var(--fi-font-weight-regular);
   line-height: 1;
   vertical-align: sub;
   color: var(--md-brand);

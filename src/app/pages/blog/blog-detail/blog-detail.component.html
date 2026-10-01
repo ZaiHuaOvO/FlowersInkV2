@@ -9,6 +9,12 @@
           <span>返回</span>
         </button>
 
+        <span class="article-topbar__hint">
+          @if (ideasEnabled) {
+            框选正文里的一段文字，就能写下你的想法
+          }
+        </span>
+
         <button
           type="button"
           class="idea-toggle"
@@ -25,20 +31,6 @@
           <span>{{ ideasEnabled ? '关闭想法' : '显示想法' }}</span>
         </button>
       </div>
-      @if (showIdeaOnboarding) {
-      <div class="idea-onboarding" @SlowUp>
-        <span nz-icon nzType="bulb" nzTheme="outline" class="idea-onboarding__icon"></span>
-        <span class="idea-onboarding__text">{{ onboardingText }}</span>
-        <button
-          type="button"
-          class="idea-onboarding__close"
-          aria-label="知道了"
-          (click)="dismissIdeaOnboarding()"
-        >
-          <span nz-icon nzType="close"></span>
-        </button>
-      </div>
-      }
       <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
         <flower-blog-title class="article-title" [title]="data.title"></flower-blog-title>
         <div class="article-meta" nz-flex nzAlign="center" nzGap="small">
