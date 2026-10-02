@@ -16,7 +16,12 @@ export class HttpService {
   private api = API.BASE_URL;
   private readonly getCache = new Map<string, CachedGetEntry>();
 
+  // GET/DELETE 不带请求体，不设 Content-Type，避免触发无谓的 preflight
   private httpOptions = {
+    withCredentials: true,
+  };
+
+  private jsonHttpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
@@ -79,19 +84,19 @@ export class HttpService {
 
   post<T>(url: string, body: unknown): Observable<T> {
     return this.http
-      .post<T>(this.api + url, body, this.httpOptions)
+      .post<T>(this.api + url, body, this.jsonHttpOptions)
       .pipe(catchError(this.handleError));
   }
 
   put<T>(url: string, body: unknown): Observable<T> {
     return this.http
-      .put<T>(this.api + url, body, this.httpOptions)
+      .put<T>(this.api + url, body, this.jsonHttpOptions)
       .pipe(catchError(this.handleError));
   }
 
   patch<T>(url: string, body: unknown): Observable<T> {
     return this.http
-      .patch<T>(this.api + url, body, this.httpOptions)
+      .patch<T>(this.api + url, body, this.jsonHttpOptions)
       .pipe(catchError(this.handleError));
   }
 
