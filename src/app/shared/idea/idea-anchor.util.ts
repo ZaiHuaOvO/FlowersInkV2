@@ -504,9 +504,13 @@ export function renderIdeaMarks(
 
   segments.forEach((list, runIndex) => {
     const run = axis.runs[runIndex];
-    if (!run) {
+    if (!run || list.length === 0) {
       return;
     }
+
+    // 这段话（一个 run 即一个段落/块）里所有想法的总数，只在最后一个想法的虚线末尾挂一个角标
+    const runTotal = list.reduce((sum, seg) => sum + (seg.count ?? 0), 0);
+    const lastEnd = Math.max(...list.map((seg) => seg.end));
 
     // 从右往左处理：splitText 不会影响已处理过的右侧偏移
     [...list]
@@ -520,6 +524,7 @@ export function renderIdeaMarks(
           classNames.push(IDEA_MARK_PENDING_CLASS);
         }
         const className = classNames.join(' ');
+        const isLastSegment = segment.end === lastEnd;
 
         let cursor = 0;
         run.nodes.forEach((node) => {
@@ -562,12 +567,12 @@ export function renderIdeaMarks(
           parent.insertBefore(mark, target);
           mark.appendChild(target);
 
-          // 数字角标挂在整段虚线的末尾（segment.end 落在这个节点上），
-          // 说明这是这段的最后一个 <mark>，只在这里挂一个角标
-          if (to === segment.end && (segment.count ?? 0) > 0) {
+          // 角标只挂在整段话最后一个想法的虚线末尾，数量是这段话的想法总数
+          if (isLastSegment && to === segment.end && runTotal > 0) {
             const count = ownerDocument.createElement('span');
             count.className = IDEA_COUNT_CLASS;
-            count.textContent = String(segment.count);
+            count.textContent = String(runTotal);
+            count.setAttribute('title', `这段话一共有 ${runTotal} 个想法`);
             mark.appendChild(count);
           }
         });

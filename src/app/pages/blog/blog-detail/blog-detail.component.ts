@@ -61,6 +61,7 @@ import type {
   IdeaPlacement,
 } from '../../../shared/idea/idea.model';
 import {
+  IDEA_COUNT_CLASS,
   IDEA_KEY_ATTRIBUTE,
   IDEA_MARK_ACTIVE_CLASS,
   IDEA_MARK_CLASS,
@@ -753,6 +754,9 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const target = event.target as Element | null;
     if (!target || !container.contains(target)) return;
+
+    // 角标不可点：鼠标移上去只显示「这段话一共有 X 个想法」，不打开浮窗
+    if (target.closest(`.${IDEA_COUNT_CLASS}`)) return;
 
     const mark = target.closest(`mark[${IDEA_KEY_ATTRIBUTE}]`);
     if (mark) {
