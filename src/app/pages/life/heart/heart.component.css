@@ -207,7 +207,7 @@
 
 .month-section {
   position: relative;
-  scroll-margin-top: 86px;
+  scroll-margin-top: calc(86px + var(--fi-safe-top));
   margin-bottom: 28px;
 }
 
@@ -557,6 +557,16 @@ h4 {
 
 .like-btn--animate .anticon {
   animation: heartPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 移动端评论/点赞按钮抬到 44px 触控标准 */
+@media (max-width: 768px) {
+  .comment-btn,
+  .like-btn {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
 }
 
 @keyframes likeBurst {

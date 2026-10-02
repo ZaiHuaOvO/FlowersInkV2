@@ -7,8 +7,10 @@ import { HeaderComponent } from './components/website/header/header.component';
 import { FooterComponent } from './components/website/footer/footer.component';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { BackTopComponent } from './components/website/back-top/back-top.component';
+import { BookmarkPromptComponent } from './components/website/bookmark-prompt/bookmark-prompt.component';
 import { RoutePrefetchService } from './services/route-prefetch.service';
 import { VisitorTrackingService } from './services/visitor-tracking.service';
+import { getSafeTopInset } from './shared/utils/safe-area.util';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,7 @@ import { VisitorTrackingService } from './services/visitor-tracking.service';
     HeaderComponent,
     FooterComponent,
     BackTopComponent,
+    BookmarkPromptComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -35,8 +38,8 @@ export class AppComponent implements AfterViewInit {
     private viewportScroller: ViewportScroller,
   ) {
     // 路由自带的锚点滚动不认 CSS 的 scroll-margin-top，这里给它同样的偏移，
-    // 避免 #标题 定位后被 48px 固定头部挡住（数值与 markdown-zaihua.css 一致）
-    this.viewportScroller.setOffset([0, 96]);
+    // 避免 #标题 定位后被固定头部挡住（数值与 markdown-zaihua.css 一致，含安全区）
+    this.viewportScroller.setOffset([0, 96 + getSafeTopInset()]);
   }
 
   ngAfterViewInit(): void {

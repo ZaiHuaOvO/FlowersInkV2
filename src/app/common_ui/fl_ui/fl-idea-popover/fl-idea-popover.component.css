@@ -169,7 +169,7 @@
   margin-bottom: var(--fi-space-2);
 }
 
-@media (max-width: 560px) {
+@media (max-width: 480px) {
   .fi-idea-form-row {
     grid-template-columns: 1fr;
   }
@@ -179,4 +179,70 @@
   margin: var(--fi-space-2) 0 0;
   font-size: var(--fi-font-size-xs);
   color: var(--fi-danger);
+}
+
+/* ===== 全屏抽屉模式（移动端）===== */
+:host(.fi-idea-popover--sheet) {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  translate: none;
+  z-index: 1000;
+}
+
+:host(.fi-idea-popover--sheet) .fi-idea-popover {
+  height: 100%;
+  max-height: none;
+  border-radius: var(--fi-radius-lg) var(--fi-radius-lg) 0 0;
+  border-bottom: none;
+  animation: fi-sheet-slide-up var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+/* 全屏模式没有拖拽：隐藏把手，标题栏只作抬头，恢复默认触控 */
+:host(.fi-idea-popover--sheet) .fi-idea-grip {
+  display: none;
+}
+
+:host(.fi-idea-popover--sheet) .fi-idea-head {
+  cursor: default;
+  touch-action: auto;
+  min-height: 52px;
+  padding: var(--fi-space-2) var(--fi-space-3);
+}
+
+/* 左侧返回按钮（表单屏回详情屏，详情屏关闭抽屉） */
+:host(.fi-idea-popover--sheet) .fi-idea-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 var(--fi-space-2) 0 0;
+  border: none;
+  background: transparent;
+  color: var(--fi-primary);
+  font-size: var(--fi-font-size-md);
+  font-weight: var(--fi-font-weight-medium);
+  cursor: pointer;
+}
+
+:host(.fi-idea-popover--sheet) .fi-idea-back .anticon {
+  font-size: 16px;
+}
+
+/* 关闭按钮放大到 44px 触控标准 */
+:host(.fi-idea-popover--sheet) .fi-idea-close {
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 22px;
+  padding: 0;
+}
+
+@keyframes fi-sheet-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

@@ -22,7 +22,7 @@
 }
 
 /* Hide sidebar when viewport is too narrow for it to fit beside content */
-@media (max-width: 1240px) {
+@media (max-width: 1200px) {
   .about-sidebar {
     display: none;
   }
@@ -375,7 +375,7 @@
 }
 
 /* ---- Responsive：列数由 TS 依据墙体实际宽度决定，这里只收紧间距 ---- */
-@media (max-width: 899px) {
+@media (max-width: 1024px) {
   .fi-comment-wall {
     gap: 20px;
   }
@@ -389,7 +389,7 @@
   }
 }
 
-@media (max-width: 599px) {
+@media (max-width: 480px) {
   .fi-comment-wall {
     gap: 16px;
   }

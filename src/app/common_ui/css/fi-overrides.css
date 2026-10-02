@@ -6,7 +6,7 @@ nz-content {
 }
 
 .ant-layout-header {
-  height: 48px !important;
+  height: calc(48px + var(--fi-safe-top)) !important;
 }
 
 .ant-typography a {

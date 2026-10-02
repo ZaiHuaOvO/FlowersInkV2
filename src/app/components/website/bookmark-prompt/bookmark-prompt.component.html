@@ -1,0 +1,18 @@
+@if (visible) {
+<div class="bookmark-prompt" role="dialog" aria-label="加入书签提示" @promptAnim>
+  <button type="button" class="bookmark-prompt__close" aria-label="关闭" (click)="onClose()">×</button>
+
+  @if (!showSteps) {
+  <p class="bookmark-prompt__text">喜欢花墨吗？你可以将它加入书签</p>
+  <div class="bookmark-prompt__row">
+    <button type="button" class="bookmark-prompt__primary" (click)="onBookmarkClick()">加入书签</button>
+    <button type="button" class="bookmark-prompt__ghost" (click)="onDismissForever()">不再提醒</button>
+  </div>
+  } @else {
+  <p class="bookmark-prompt__text bookmark-prompt__text--steps">{{ steps }}</p>
+  <div class="bookmark-prompt__row">
+    <button type="button" class="bookmark-prompt__primary" (click)="onGotIt()">知道了</button>
+  </div>
+  }
+</div>
+}

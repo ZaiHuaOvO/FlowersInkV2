@@ -13,6 +13,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { showWhitelistApprovedNotice } from '../../../shared/utils/whitelist-notice.util';
 import { SimpleCaptchaComponent } from '../../../components/website/simple-captcha/simple-captcha.component';
@@ -66,6 +67,7 @@ import { FlInputDirective } from '../fl-input/fl-input.directive';
     FormsModule,
     NzFlexModule,
     NzInputModule,
+    NzIconModule,
     FlButtonComponent,
     FlCommentContentComponent,
     FlCommentEditorComponent,
@@ -90,6 +92,8 @@ export class FlIdeaPopoverComponent implements OnChanges, OnInit {
   @Input() top = 0;
   /** 浮窗挂在选中文字的哪一侧（默认右侧，尽量不遮挡文字） */
   @Input() placement: IdeaPlacement = 'right';
+  /** 全屏抽屉模式（移动端）：占满视口、去掉拖拽与浮动定位 */
+  @Input() sheetMode = false;
 
   // 拖拽偏移叠在父组件算出的位置上，这样滚动跟随与手工拖动互不干扰
   private dragX = 0;
@@ -98,11 +102,11 @@ export class FlIdeaPopoverComponent implements OnChanges, OnInit {
   private dragOrigin = { x: 0, y: 0, baseX: 0, baseY: 0, rect: null as DOMRect | null };
 
   @HostBinding('style.left.px') get hostLeft(): number {
-    return this.left + this.dragX;
+    return this.sheetMode ? 0 : this.left + this.dragX;
   }
 
   @HostBinding('style.top.px') get hostTop(): number {
-    return this.top + this.dragY;
+    return this.sheetMode ? 0 : this.top + this.dragY;
   }
 
   // CSS 里按 data-placement 决定 translate，四个方向各一条规则
@@ -112,6 +116,10 @@ export class FlIdeaPopoverComponent implements OnChanges, OnInit {
 
   @HostBinding('class.fi-idea-popover--dragging') get isDragging(): boolean {
     return this.dragging;
+  }
+
+  @HostBinding('class.fi-idea-popover--sheet') get isSheet(): boolean {
+    return this.sheetMode;
   }
 
   @Output() created = new EventEmitter<Idea>();
@@ -216,6 +224,7 @@ export class FlIdeaPopoverComponent implements OnChanges, OnInit {
   // ---- 拖拽：只在标题栏按下时才生效 ----
 
   startDrag(event: PointerEvent): void {
+    if (this.sheetMode) return;
     // 只响应左键；关闭按钮不当作拖拽把手
     if (event.button !== 0) return;
     const target = event.target as HTMLElement | null;
@@ -374,6 +383,15 @@ export class FlIdeaPopoverComponent implements OnChanges, OnInit {
     this.closed.emit();
   }
 
+  /** 全屏抽屉左侧返回按钮：表单屏回详情屏，详情屏关闭整个抽屉 */
+  onSheetBack(): void {
+    if (this.showForm) {
+      this.showForm = false;
+    } else {
+      this.close();
+    }
+  }
+
   submit(): void {
     const content = (this.form.content ?? '').trim();
 
@@ -456,6 +474,10 @@ export class FlIdeaPopoverComponent implements OnChanges, OnInit {
           this.editingIdentity = false;
           // 提交成功即清空正文并顺手清掉草稿
           this.onContentChange('');
+          // 全屏抽屉模式下发表成功回到「详情」屏，让人看到刚提交的待审核想法
+          if (this.sheetMode) {
+            this.showForm = false;
+          }
 
           const idea = res?.data?.idea;
           if (idea) {

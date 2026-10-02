@@ -1,14 +1,25 @@
 <div class="fi-idea-popover">
   <header
     class="fi-idea-head"
-    title="按住这里可以拖动浮窗"
+    [attr.title]="sheetMode ? null : '按住这里可以拖动浮窗'"
     (pointerdown)="startDrag($event)"
     (pointermove)="onDragMove($event)"
     (pointerup)="endDrag($event)"
     (pointercancel)="endDrag($event)"
   >
+    @if (sheetMode) {
+    <button
+      type="button"
+      class="fi-idea-back"
+      aria-label="返回"
+      (click)="onSheetBack()"
+    >
+      <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+      <span>返回</span>
+    </button>
+    }
     <span class="fi-idea-grip" aria-hidden="true"></span>
-    <span class="fi-idea-title">段落想法</span>
+    <span class="fi-idea-title">{{ sheetMode ? (showForm ? '写想法' : '想法') : '段落想法' }}</span>
     <button
       type="button"
       class="fi-idea-close"

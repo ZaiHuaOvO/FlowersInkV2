@@ -289,7 +289,7 @@
 /* 月份区块（markdown 风格 h3） */
 .month-section {
   position: relative;
-  scroll-margin-top: 86px;
+  scroll-margin-top: calc(86px + var(--fi-safe-top));
   margin-bottom: 34px;
 }
 
@@ -689,7 +689,7 @@
 }
 
 /* ── 响应式：窄屏隐藏侧栏，展示 FAB 与移动端标签行 ── */
-@media (max-width: 1080px) {
+@media (max-width: 1200px) {
   .changelog-affix-left,
   .changelog-affix-right {
     display: none;

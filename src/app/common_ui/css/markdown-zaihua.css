@@ -67,7 +67,7 @@
   line-height: 1.4;
   letter-spacing: -0.01em;
   position: relative;
-  scroll-margin-top: 96px;
+  scroll-margin-top: calc(96px + var(--fi-safe-top));
 }
 
 #currentAnchor h1 {
@@ -147,7 +147,7 @@
 /* h1 也补上锚点偏移（h2~h6 在上面的规则里已设同一值）；
    该值需与 app.component.ts 里 ViewportScroller.setOffset 保持一致 */
 #currentAnchor h1 {
-  scroll-margin-top: 96px;
+  scroll-margin-top: calc(96px + var(--fi-safe-top));
 }
 
 /* ===== 段落 & 列表 ===== */
@@ -593,7 +593,7 @@
 /* ===== 响应式 ===== */
 @media (max-width: 768px) {
   #currentAnchor {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.7;
   }
 

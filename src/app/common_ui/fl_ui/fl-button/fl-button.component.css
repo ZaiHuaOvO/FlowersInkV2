@@ -123,3 +123,17 @@
   border-color: #dfd7cf;
   background: rgba(139, 90, 43, 0.08);
 }
+
+/* 移动端主操作按钮抬到 44px 触控标准，并让内容居中（桌面保持原紧凑尺寸） */
+@media (max-width: 768px) {
+  .fl-button--md,
+  .fl-button--lg {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--fi-space-2);
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}

@@ -21,7 +21,7 @@ nz-header.app-header {
 }
 
 nz-content {
-  margin-top: 48px;
+  margin-top: calc(48px + var(--fi-safe-top));
   background: #fff8f3;
 }
 

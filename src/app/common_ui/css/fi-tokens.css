@@ -135,7 +135,24 @@
   font-display: swap;
 }
 
+/* ============================================================
+   断点约定（Breakpoint Convention）
+   ⚠️ CSS 的 @media 不支持 var()，所以断点只能硬编码，此处仅作文档约定，
+   不要试图抽成 --fi-bp-* 变量再用进媒体查询。
+   全站统一 4 档：
+     480px   小屏手机（表单/网格收单列、收紧间距）
+     768px   手机/平板分界（与 WindowService.isMobile 的 width <= 768 对齐）
+     1024px  中间过渡（卡片元信息堆叠、便签墙间距等）
+     1200px  宽屏分界（侧栏收拢、桌面网格）
+   ============================================================ */
+
 :root {
+  /* 安全区（刘海 / 底部 Home 指示条）。仅当 viewport-fit=cover 时有非零值，普通机型回落 0。 */
+  --fi-safe-top: env(safe-area-inset-top, 0px);
+  --fi-safe-right: env(safe-area-inset-right, 0px);
+  --fi-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --fi-safe-left: env(safe-area-inset-left, 0px);
+
   --fi-bg: #fff8f3;
   --fi-bg-soft: #fff8f3;
   --fi-surface: #ffffff;

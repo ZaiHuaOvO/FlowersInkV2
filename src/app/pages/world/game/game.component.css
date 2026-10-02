@@ -75,7 +75,7 @@
     font-size: var(--fi-font-size-lg);
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .game-grid--overview>.game-grid__col--overview {
         flex: 0 0 25%;
         max-width: 25%;

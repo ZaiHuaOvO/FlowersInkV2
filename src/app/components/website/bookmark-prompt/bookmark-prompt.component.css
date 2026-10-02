@@ -1,0 +1,92 @@
+.bookmark-prompt {
+  position: fixed;
+  bottom: calc(20px + var(--fi-safe-bottom));
+  left: 50%;
+  translate: -50% 0;
+  z-index: 1005;
+  max-width: min(360px, calc(100vw - 32px));
+  width: max-content;
+  padding: var(--fi-space-3) var(--fi-space-4);
+  background: var(--fi-surface);
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-md);
+  box-shadow: var(--fi-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-2);
+}
+
+.bookmark-prompt__close {
+  position: absolute;
+  top: 6px;
+  inset-inline-end: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--fi-text-muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: var(--fi-radius-xs);
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+    background-color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.bookmark-prompt__close:hover {
+  color: var(--fi-primary);
+  background: var(--fi-bg-soft);
+}
+
+.bookmark-prompt__text {
+  margin: 0;
+  padding-inline-end: 20px;
+  font-size: var(--fi-font-size-md);
+  line-height: var(--fi-line-height-normal);
+  color: var(--fi-text);
+}
+
+.bookmark-prompt__text--steps {
+  color: var(--fi-text-muted);
+}
+
+.bookmark-prompt__row {
+  display: flex;
+  align-items: center;
+  gap: var(--fi-space-2);
+  justify-content: center;
+}
+
+.bookmark-prompt__primary {
+  min-height: 40px;
+  min-width: 96px;
+  padding: 0 var(--fi-space-4);
+  border: 1px solid var(--fi-primary);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-primary);
+  color: #fff;
+  font-size: var(--fi-font-size-md);
+  font-weight: var(--fi-font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.bookmark-prompt__primary:hover {
+  background: var(--fi-primary-hover);
+}
+
+.bookmark-prompt__ghost {
+  min-height: 40px;
+  min-width: 96px;
+  padding: 0 var(--fi-space-3);
+  border: none;
+  background: transparent;
+  color: var(--fi-text-muted);
+  font-size: var(--fi-font-size-md);
+  cursor: pointer;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.bookmark-prompt__ghost:hover {
+  color: var(--fi-primary);
+}

@@ -18,6 +18,7 @@ import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive
 import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
 import { MeCardComponent, MeCardProfile } from '../../components/website/me-card/me-card.component';
 import { isPinnedBlog } from '../../shared/utils/blog-pinned.util';
+import { getSafeTopInset } from '../../shared/utils/safe-area.util';
 import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
 import { AnnouncementDetailComponent } from './announcement-detail/announcement-detail.component';
 
@@ -197,7 +198,7 @@ export class WelcomeComponent implements OnInit {
   scrollToContent(): void {
     const el = document.getElementById('content-start');
     if (el) {
-      const headerOffset = 60; // 48px header + 12px 留白
+      const headerOffset = 60 + getSafeTopInset(); // 48px header + 12px 留白 + 安全区
       const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
       window.scrollTo({ top, behavior: 'smooth' });
     }

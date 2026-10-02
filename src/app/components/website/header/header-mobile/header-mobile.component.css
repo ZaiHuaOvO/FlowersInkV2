@@ -319,7 +319,7 @@
 .mobile-menu-footer {
   flex-shrink: 0;
   text-align: center;
-  padding: 16px 20px;
+  padding: 16px 20px calc(16px + var(--fi-safe-bottom));
   border-top: 1px solid var(--fi-border);
 }
 

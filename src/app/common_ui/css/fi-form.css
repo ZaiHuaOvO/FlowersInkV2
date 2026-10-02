@@ -29,6 +29,14 @@ textarea.fl-input-control.ant-input {
   min-height: 100px;
 }
 
+/* 移动端输入控件抬到 40px（够点又不显 Material 臃肿）；桌面维持紧凑默认 */
+@media (max-width: 768px) {
+  .fl-input-control.ant-input,
+  .ant-input-affix-wrapper {
+    min-height: 40px;
+  }
+}
+
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
   border-color: var(--fi-form-border-hover) !important;
   background: var(--fi-form-bg-hover) !important;

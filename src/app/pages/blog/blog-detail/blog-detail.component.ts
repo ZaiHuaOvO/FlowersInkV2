@@ -38,6 +38,7 @@ import { WindowService } from '../../../services/window.service';
 import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
 import { CommentService } from '../../../services/comment.service';
 import { articleCommentSource } from '../../../shared/comment/comment-source.factory';
+import { getSafeTopInset } from '../../../shared/utils/safe-area.util';
 import type { CommentSource } from '../../../shared/comment/comment.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
@@ -67,7 +68,6 @@ import {
   IDEA_MARK_CLASS,
   IDEA_SELECTION_MAX_LENGTH,
   applyIdeaMarks,
-  blockToAnchorPayload,
   buildAxis,
   clearIdeaMarks,
   nearestBlock,
@@ -80,7 +80,7 @@ import {
  * 需与 markdown-zaihua.css 的 scroll-margin-top、app.component.ts 的
  * ViewportScroller.setOffset 保持一致，否则目录/锚点/深链接三种入口落点会不一致。
  */
-const ANCHOR_TOP_OFFSET = 96;
+const ANCHOR_TOP_OFFSET = 96 + getSafeTopInset();
 
 @Component({
   selector: 'flower-blog-detail',
@@ -175,6 +175,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   private popoverAnchorEl: Element | null = null;
   /** 打开浮窗的那次点击会冒泡到 document，等它过去再允许「点外面关闭」 */
   private popoverReady = false;
+  /** 气泡用 pointerdown 打开抽屉后，紧随的 click 冒泡要吞掉，否则会误关刚开的抽屉 */
+  private suppressNextDocClick = false;
   private popoverRafId: number | null = null;
   private popoverScrollListener: (() => void) | null = null;
 
@@ -726,10 +728,17 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => this.syncWriteButton(), 0);
       });
 
+    // 移动端框选用 touchend 收尾（触屏没有 mouseup）
+    fromEvent<TouchEvent>(document, 'touchend')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        if (!this.isMobile) return;
+        setTimeout(() => this.syncWriteButton(), 0);
+      });
+
     fromEvent(document, 'selectionchange')
       .pipe(debounceTime(180), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        if (this.isMobile) return;
         this.syncWriteButton();
       });
 
@@ -766,27 +775,17 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    // 移动端没有拖拽框选，改成点段落 → 对整段写想法（整段有界，不受 200 字限制）
-    if (!this.isMobile || !this.ideasEnabled || this.popover) return;
-
-    const block = nearestBlock(target, container);
-    if (!block) return;
-
-    const axis = this.axis ?? buildAxis(container);
-    const payload = blockToAnchorPayload(axis, block);
-    if (!payload) return;
-
-    const existing = this.findOverlappingAnchor(payload);
-    if (existing) {
-      this.msg.info('这段文字已经有人写过想法啦，看看别人写了什么');
-      this.openPopoverForAnchor(existing, block, block.getBoundingClientRect());
-      return;
-    }
-
-    this.openComposePopover(payload, block, block.getBoundingClientRect());
+    // 移动端不再「点任意段落就写想法」——那正是滑动时误触的根源；
+    // 手机上写想法统一走「框选文字 → 写想法气泡」，点虚线才打开详情抽屉。
   }
 
   private onDocumentClick(event: MouseEvent): void {
+    // 气泡 pointerdown 打开抽屉后紧随的那次 click，吞掉（见 suppressNextDocClick）
+    if (this.suppressNextDocClick) {
+      this.suppressNextDocClick = false;
+      return;
+    }
+
     // 打开浮窗的那次点击本身会冒泡到这里，等它过去再允许「点外面关闭」
     if (!this.popover || !this.popoverReady) return;
 
@@ -880,7 +879,9 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectionRectRef = null;
   }
 
-  onWriteButtonClick(): void {
+  onWriteButtonClick(event?: PointerEvent): void {
+    // pointerdown 先于「点击清空选区」触发，移动端靠它钉住选区；只响应主键
+    if (event && event.button !== 0) return;
     const payload = this.pendingSelection;
     if (!payload) return;
 
@@ -896,6 +897,9 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     // 定位要用选区自己的矩形（hideWriteButton 会把它清掉，所以先取出来）
     const targetRect = this.selectionRectRef ?? undefined;
     const anchorEl = this.selectionAnchorEl;
+    // pointerdown 之后浏览器还会派发一次 click 冒泡到 document，屏蔽掉，
+    // 否则 onDocumentClick 会以为「点了外面」把刚开的抽屉关掉
+    this.suppressNextDocClick = true;
     this.hideWriteButton();
     window.getSelection()?.removeAllRanges();
 
@@ -1059,7 +1063,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       left: state.left,
       top: state.top,
       placement: state.placement,
-      composing: state.composing,
+      // 移动端统一先进「详情」屏，再点「写想法」切到表单（两步）
+      composing: this.isMobile ? false : state.composing,
     };
     this.popoverReady = false;
     this.setPendingHighlight(state.anchor);

@@ -1,6 +1,6 @@
 .back-top {
   position: fixed;
-  bottom: 48px;
+  bottom: calc(48px + var(--fi-safe-bottom));
   inset-inline-end: 96px;
   z-index: 99;
   cursor: pointer;
@@ -10,6 +10,14 @@
     opacity var(--fi-motion-normal) var(--fi-ease-standard),
     transform var(--fi-motion-normal) var(--fi-ease-standard);
   pointer-events: none;
+}
+
+/* 移动端没有右侧侧边栏，回到桌面那套 96px 留白没有意义，改贴右下角 */
+@media (max-width: 768px) {
+  .back-top {
+    inset-inline-end: 16px;
+    bottom: calc(16px + var(--fi-safe-bottom));
+  }
 }
 
 .back-top--visible {

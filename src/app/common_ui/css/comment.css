@@ -107,7 +107,7 @@ fl-comment-content {
   width: 100%;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .fc-actions {
     flex-wrap: wrap;
     gap: 8px;
@@ -339,6 +339,14 @@ fl-comment-content {
   color: var(--fi-text-muted, #9ca3af);
   cursor: pointer;
   transition: color var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
+  position: relative;
+}
+
+/* 扩大触控热区到 ≥44px，视觉保持小字「回复」不变 */
+.fc-reply-btn::before {
+  content: '';
+  position: absolute;
+  inset: -16px -8px;
 }
 
 .fc-reply-btn:hover,
@@ -464,7 +472,7 @@ fl-comment-content {
   min-width: 120px;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .fc-reply-form-row {
     flex-direction: column;
   }
@@ -605,7 +613,7 @@ fl-comment-content {
 
 /* ═══════════════ 响应式 ═══════════════ */
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .fc-content {
     font-size: 13px;
   }

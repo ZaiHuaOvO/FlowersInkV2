@@ -9,7 +9,7 @@
 /* ===== 阅读进度条 ===== */
 .reading-progress-bar {
   position: fixed;
-  top: 48px;
+  top: calc(48px + var(--fi-safe-top));
   left: 0;
   height: 3px;
   background: var(--fi-primary);
@@ -610,7 +610,7 @@ nz-anchor {
 
 /* #comment 页内锚点：与 #currentAnchor 标题一致，跳转后不被固定头部挡住 */
 #comment {
-  scroll-margin-top: 96px;
+  scroll-margin-top: calc(96px + var(--fi-safe-top));
 }
 
 @media (max-width: 1200px) {
@@ -643,6 +643,18 @@ nz-anchor {
     margin-top: var(--fi-space-5);
     padding: var(--fi-space-3);
   }
+
+  /* 顶栏与点赞按钮抬到 44px 触控标准 */
+  .article-back,
+  .idea-toggle {
+    min-height: 44px;
+    padding: 8px 16px;
+  }
+
+  .blog-like-btn {
+    min-height: 44px;
+    padding: 8px 16px;
+  }
 }
 
 /* ── 段落想法 ── */
@@ -663,7 +675,9 @@ nz-anchor {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  /* 必须高于固定导航栏（z-index 999），否则全屏想法抽屉会被导航栏盖住头部。
+     桌面浮窗跟着一起抬高，只在「选中文字滚到接近导航栏」时才可能遮住导航，可接受。 */
+  z-index: 1001;
   height: 0;
 }
 

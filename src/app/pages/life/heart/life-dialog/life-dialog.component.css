@@ -331,6 +331,16 @@
   animation: lifeLikeBurst 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* 移动端评论/点赞按钮抬到 44px 触控标准 */
+@media (max-width: 768px) {
+  .life-comment-btn,
+  .life-like-btn {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+}
+
 @keyframes lifeLikeBurst {
   0% { transform: scale(1); }
   15% { transform: scale(1.25); }
@@ -341,7 +351,7 @@
 }
 
 /* ── 移动端 ── */
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .life-dialog-card {
     padding: 16px;
   }

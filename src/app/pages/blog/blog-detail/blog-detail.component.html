@@ -98,7 +98,7 @@
               [class.idea-write-button--blocked]="writeButton.tooLong"
               [style.left.px]="writeButton.left"
               [style.top.px]="writeButton.top"
-              (click)="onWriteButtonClick()"
+              (pointerdown)="onWriteButtonClick($event)"
               @BubbleIn
             >
               <span>{{ writeButton.tooLong ? '选得太长啦' : '写想法' }}</span>
@@ -116,6 +116,7 @@
               [top]="panel.top"
               [placement]="panel.placement"
               [composing]="panel.composing"
+              [sheetMode]="isMobile"
               (created)="onIdeaCreated($event)"
               (closed)="closePopover()"
             ></fl-idea-popover>
