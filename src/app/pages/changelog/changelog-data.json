@@ -5,8 +5,53 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 419,
+  "total": 424,
   "records": [
+    {
+      "uid": "9d5f939",
+      "type": "feat",
+      "date": "2026-10-02",
+      "desc": "手机端想法改为全屏两步抽屉，查看与写想法分开，点段落不再误触",
+      "important": false,
+      "repo": "site",
+      "sha": "9d5f939fddf8172e85f0439ff3b2e8a6b585c8ca"
+    },
+    {
+      "uid": "9d5f939",
+      "type": "fix",
+      "date": "2026-10-02",
+      "desc": "手机端适配刘海屏与底部横条，固定头部、回到顶部按钮不再被遮挡",
+      "important": false,
+      "repo": "site",
+      "sha": "9d5f939fddf8172e85f0439ff3b2e8a6b585c8ca"
+    },
+    {
+      "uid": "9d5f939",
+      "type": "chore",
+      "date": "2026-10-02",
+      "desc": "手机端按钮与输入框放大更易点按，正文放大到 16px",
+      "important": false,
+      "repo": "site",
+      "sha": "9d5f939fddf8172e85f0439ff3b2e8a6b585c8ca"
+    },
+    {
+      "uid": "9d5f939",
+      "type": "feat",
+      "date": "2026-10-02",
+      "desc": "支持添加到主屏幕，桌面图标改用头像",
+      "important": false,
+      "repo": "site",
+      "sha": "9d5f939fddf8172e85f0439ff3b2e8a6b585c8ca"
+    },
+    {
+      "uid": "9d5f939",
+      "type": "feat",
+      "date": "2026-10-02",
+      "desc": "浏览一段时间后弹出加入书签提示，可永久不再提醒",
+      "important": false,
+      "repo": "site",
+      "sha": "9d5f939fddf8172e85f0439ff3b2e8a6b585c8ca"
+    },
     {
       "uid": "e84b289",
       "type": "feat",
