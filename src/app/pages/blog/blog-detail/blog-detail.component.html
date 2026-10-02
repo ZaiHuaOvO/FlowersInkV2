@@ -34,25 +34,51 @@
       <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
         <flower-blog-title class="article-title" [title]="data.title"></flower-blog-title>
         <div class="article-meta" nz-flex nzAlign="center" nzGap="small">
-          <span nz-typography nzType="secondary">{{ data.tag }}</span>
+          @if (data.tags?.length) {
+            @for (tag of data.tags; track tag.label) {
+              <span class="article-meta-stat" nz-typography nzType="secondary">
+                @if (tag.icon) {
+                  <span nz-icon [nzType]="tag.icon" nzTheme="outline"></span>
+                }
+                <span>{{ tag.label }}</span>
+              </span>
+              @if (!$last) {
+                <span class="article-meta-sep">·</span>
+              }
+            }
+          } @else {
+            <span nz-typography nzType="secondary">{{ data.tag }}</span>
+          }
           <span class="article-meta-sep">·</span>
-          <span nz-typography nzType="secondary">{{ data.views }} 阅读</span>
+          <span class="article-meta-stat" nz-typography nzType="secondary" nz-tooltip nzTooltipTitle="阅读">
+            <span nz-icon nzType="eye" nzTheme="outline"></span>
+            <span>{{ data.views }}</span>
+          </span>
           <span class="article-meta-sep">·</span>
-          <span nz-typography nzType="secondary">{{ data.likes ?? 0 }} 喜欢</span>
+          <span class="article-meta-stat" nz-typography nzType="secondary" nz-tooltip nzTooltipTitle="喜欢">
+            <span nz-icon nzType="heart" nzTheme="outline"></span>
+            <span>{{ data.likes ?? 0 }}</span>
+          </span>
           <span class="article-meta-sep">·</span>
-          <span nz-typography nzType="secondary">{{ data.articleCommentCount ?? 0 }} 评论</span>
+          <span class="article-meta-stat" nz-typography nzType="secondary" nz-tooltip nzTooltipTitle="评论">
+            <span nz-icon nzType="message" nzTheme="outline"></span>
+            <span>{{ data.articleCommentCount ?? 0 }}</span>
+          </span>
           <span class="article-meta-sep">·</span>
           <span
+            class="article-meta-stat article-meta-idea"
             nz-typography
             nzType="secondary"
-            class="article-meta-idea"
+            nz-tooltip
+            nzTooltipTitle="想法"
             role="button"
             tabindex="0"
             (click)="onIdeaCountClick()"
             (keydown.enter)="onIdeaCountClick()"
             (keydown.space)="$event.preventDefault(); onIdeaCountClick()"
           >
-            {{ data.articleIdeaCount ?? 0 }} 想法
+            <span nz-icon nzType="bulb" nzTheme="outline"></span>
+            <span>{{ data.articleIdeaCount ?? 0 }}</span>
           </span>
           <span class="article-meta-sep">·</span>
           <span nz-typography nzType="secondary">{{ data.wordCount ?? 0 }} 字</span>

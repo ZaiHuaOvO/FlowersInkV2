@@ -278,6 +278,13 @@
   opacity: 0.55;
 }
 
+/* icon + 数字 的计数项（阅读 / 喜欢 / 评论 / 想法） */
+.article-meta-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* meta 行里可点的「N 想法」：和周围 nz-typography 同排（字号/行高/基线一致），
    只用品牌色 + 鼠标指针提示可点，点一下滚到正文第一条想法 */
 .article-meta ::ng-deep .ant-typography.article-meta-idea {
