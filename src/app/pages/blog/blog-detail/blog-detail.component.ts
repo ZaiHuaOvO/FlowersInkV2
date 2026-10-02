@@ -71,6 +71,7 @@ import {
   buildAxis,
   clearIdeaMarks,
   nearestBlock,
+  pointToGlobalOffset,
   selectionToAnchorPayload,
 } from '../../../shared/idea/idea-anchor.util';
 
@@ -761,7 +762,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     const mark = target.closest(`mark[${IDEA_KEY_ATTRIBUTE}]`);
     if (mark) {
       event.preventDefault();
-      this.openPopoverForMark(mark);
+      this.openPopoverForMark(mark, event);
       return;
     }
 
@@ -960,7 +961,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private openPopoverForMark(mark: Element): void {
+  private openPopoverForMark(mark: Element, event?: MouseEvent): void {
     const keys = (mark.getAttribute(IDEA_KEY_ATTRIBUTE) ?? '')
       .split(',')
       .map((value) => Number(value))
@@ -970,18 +971,62 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     if (matched.length === 0) return;
 
-    const first = matched[0];
+    // 视觉合并后一个 mark 可能覆盖多条想法：优先按点击位置落到具体那一条
+    let targets = matched;
+    if (matched.length > 1 && event) {
+      const offset = this.globalOffsetAtPoint(event);
+      if (offset !== null) {
+        const hit = matched.filter(
+          (anchor) =>
+            anchor.startOffset <= offset && offset < anchor.endOffset,
+        );
+        if (hit.length > 0) {
+          targets = hit;
+        }
+        // 点在两条想法的间隙上：不落到任何一条，保持展示合并后的全部
+      }
+    }
+
+    const first = targets[0];
     this.showPopover({
       // 从已有虚线写想法时沿用这条线索原本的区间，后端据此把想法并进同一处
       anchor: this.toAnchorPayload(first),
-      ideas: matched.flatMap((anchor) => anchor.ideas),
-      hasPending: matched.some((anchor) => anchor.hasPending),
-      keyIds: keys,
+      ideas: targets.flatMap((anchor) => anchor.ideas),
+      hasPending: targets.some((anchor) => anchor.hasPending),
+      keyIds: targets.map((anchor) => anchor.id),
       // 点虚线是「先看看别人写了什么」，表单收起来
       composing: false,
       ...this.placePopover(undefined, mark.getBoundingClientRect()),
       anchorEl: mark,
     });
+  }
+
+  /** 点击位置 → 正文文本轴上的全局偏移，用于把合并后的虚线点击解析到具体那条想法 */
+  private globalOffsetAtPoint(event: MouseEvent): number | null {
+    const axis = this.axis;
+    if (!axis) return null;
+
+    let node: Node | null = null;
+    let offset = 0;
+    if (document.caretPositionFromPoint) {
+      const pos = document.caretPositionFromPoint(event.clientX, event.clientY);
+      if (pos) {
+        node = pos.offsetNode;
+        offset = pos.offset;
+      }
+    } else if ((document as any).caretRangeFromPoint) {
+      const range = (document as any).caretRangeFromPoint(
+        event.clientX,
+        event.clientY,
+      );
+      if (range) {
+        node = range.startContainer;
+        offset = range.startOffset;
+      }
+    }
+
+    if (!node) return null;
+    return pointToGlobalOffset(axis, node, offset);
   }
 
   private toAnchorPayload(anchor: IdeaAnchor): IdeaAnchorPayload {

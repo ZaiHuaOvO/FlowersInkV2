@@ -678,16 +678,16 @@
 
 /* 虚线末尾的角标：一个小圆胶囊，数字显示这段话（一个段落）里的想法总数。
    不可点，鼠标移上去用 title 显示「这段话一共有 X 个想法」；
-   vertical-align: sub 让它落在文字右下角、贴近虚线，不撑高行盒。 */
+   数字用最细字重、略加深的颜色，既不抢眼又能看清；vertical-align: sub 让它贴近虚线。 */
 #currentAnchor mark.fi-idea-mark .fi-idea-count {
   display: inline-block;
   margin-left: 3px;
   font-size: 0.72em;
-  font-weight: var(--fi-font-weight-regular);
+  font-weight: var(--fi-font-weight-light);
   line-height: 1;
   vertical-align: sub;
   cursor: default;
-  color: color-mix(in srgb, var(--fi-primary) 42%, transparent);
+  color: color-mix(in srgb, var(--fi-primary) 55%, transparent);
   background: var(--fi-primary-outline);
   border-radius: var(--fi-radius-pill);
   padding: 1px 5px;
@@ -697,7 +697,7 @@
 
 /* 待审核时更浅的灰，角标也跟着变灰 */
 #currentAnchor mark.fi-idea-mark--pending .fi-idea-count {
-  color: color-mix(in srgb, var(--fi-text-muted) 45%, transparent);
+  color: color-mix(in srgb, var(--fi-text-muted) 60%, transparent);
   background: color-mix(in srgb, var(--fi-text-muted) 15%, transparent);
 }
 

@@ -492,6 +492,45 @@ export function clearIdeaMarks(root: Element): void {
   root.normalize();
 }
 
+/** 同一段里相邻两条虚线间隔不超过这个字数时，视觉上合成一条连续的线 */
+const IDEA_MERGE_GAP = 3;
+
+/**
+ * 视觉合并：把同一段里「相邻且间隔 ≤ gap 个字」的虚线合成一条连续的线。
+ * 只改样式不改数据——合并后的 keys 仍保留每一条锚点 id，点击时再按位置落到具体那条。
+ * active（浮窗正对着的临时高亮）不参与合并。
+ */
+function mergeCloseSegments(
+  segments: IdeaSegment[],
+  gap: number,
+): IdeaSegment[] {
+  const sorted = [...segments].sort((a, b) => a.start - b.start);
+  const merged: IdeaSegment[] = [];
+
+  for (const segment of sorted) {
+    const last = merged[merged.length - 1];
+    if (
+      last &&
+      !last.active &&
+      !segment.active &&
+      segment.start - last.end <= gap
+    ) {
+      last.end = Math.max(last.end, segment.end);
+      last.pendingOnly = last.pendingOnly && segment.pendingOnly;
+      last.count = (last.count ?? 0) + (segment.count ?? 0);
+      segment.keys.forEach((key) => {
+        if (!last.keys.includes(key)) {
+          last.keys.push(key);
+        }
+      });
+      continue;
+    }
+    merged.push({ ...segment, keys: [...segment.keys] });
+  }
+
+  return merged;
+}
+
 /**
  * 画出虚线。按 run 手写 splitText + insertBefore，
  * 不用 surroundContents —— 选区跨到 strong/em/a 等元素边界时它会直接抛异常
@@ -508,12 +547,13 @@ export function renderIdeaMarks(
       return;
     }
 
-    // 这段话（一个 run 即一个段落/块）里所有想法的总数，只在最后一个想法的虚线末尾挂一个角标
+    // 视觉合并：间隔 ≤3 个字的虚线合成一条；总数仍按原始所有想法算
+    const visual = mergeCloseSegments(list, IDEA_MERGE_GAP);
     const runTotal = list.reduce((sum, seg) => sum + (seg.count ?? 0), 0);
-    const lastEnd = Math.max(...list.map((seg) => seg.end));
+    const lastEnd = Math.max(...visual.map((seg) => seg.end));
 
     // 从右往左处理：splitText 不会影响已处理过的右侧偏移
-    [...list]
+    [...visual]
       .sort((a, b) => b.start - a.start)
       .forEach((segment) => {
         // active 优先：浮窗正对着的这段用高亮样式，而不是"待审核"的淡虚线
