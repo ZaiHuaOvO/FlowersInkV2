@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 417,
+  "total": 419,
   "records": [
+    {
+      "uid": "e84b289",
+      "type": "feat",
+      "date": "2026-10-02",
+      "desc": "博客详情元信息与标签改用图标展示，标签无图标时回退文字",
+      "important": false,
+      "repo": "site",
+      "sha": "e84b289ad782967d3cb9ad97a88b4b6750b01dd3"
+    },
+    {
+      "uid": "281ab4d",
+      "type": "feat",
+      "date": "2026-10-02",
+      "desc": "标签新增图标字段，详情接口返回标签图标",
+      "important": false,
+      "repo": "api",
+      "sha": "281ab4d202227feb8a951b908d21b6c0366483f1"
+    },
     {
       "uid": "172c43b",
       "type": "feat",
