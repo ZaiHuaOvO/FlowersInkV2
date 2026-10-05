@@ -45,7 +45,12 @@ export class FlCommentCardComponent {
 
   @Input() avatarSize = 40;
 
+  /** 编辑窗口剩余秒数；> 0 时显示编辑按钮与倒计时 */
+  @Input() editSecondsLeft = 0;
+
   @Output() replyToggle = new EventEmitter<void>();
+
+  @Output() edit = new EventEmitter<void>();
 
   // 模板里直接调用的纯函数，转成字段避免每次变更检测重新解析
   protected readonly displayName = displayName;

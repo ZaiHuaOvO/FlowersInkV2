@@ -25,6 +25,8 @@ export interface CommentItem {
   identityColor?: string;
   /** 头像状态缓存，避免每次变更检测都重算 */
   _avatar?: AvatarState;
+  /** 本地提交时间戳（乐观待审核评论用），驱动「编辑」按钮的 2 分钟窗口 */
+  submittedAt?: number;
 }
 
 /** 树形节点（顶层评论 + 递归子回复） */
@@ -69,6 +71,8 @@ export interface CommentSource {
   list(): Observable<unknown>;
   /** 提交评论；回复时 payload 带 parentId */
   create(payload: CommentSubmitPayload): Observable<unknown>;
+  /** 编辑自己刚发布的评论（commentId 为提交响应返回的真实 id） */
+  edit(commentId: number, payload: CommentSubmitPayload): Observable<unknown>;
   /** 验证码场景，透传给 flower-simple-captcha */
   captchaScene: CaptchaScene;
   /** 前端提交限流 key */

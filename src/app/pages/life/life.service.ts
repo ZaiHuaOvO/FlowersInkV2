@@ -51,4 +51,21 @@ export class LifeService {
         }),
       );
   }
+
+  editLifeComment(
+    lifeId: number,
+    commentId: number,
+    data: any,
+  ): Observable<object> {
+    return this.http
+      .patch<object>(API.LIFE + `/${lifeId}/comments/${commentId}/edit`, data)
+      .pipe(
+        tap(() => {
+          this.http.invalidateGetCache([
+            API.LIFE,
+            API.LIFE + `/${lifeId}/comments`,
+          ]);
+        }),
+      );
+  }
 }

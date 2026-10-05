@@ -42,6 +42,20 @@ export class CommentService {
     );
   }
 
+  editComment(
+    type: CommentTargetType,
+    targetId: number | string | undefined,
+    commentId: number,
+    data: any,
+  ): Observable<object> {
+    const base = this.buildCommentUrl(type, targetId);
+    return this.http.patch<object>(`${base}/${commentId}/edit`, data).pipe(
+      tap(() => {
+        this.http.invalidateGetCache([base]);
+      }),
+    );
+  }
+
   private buildCommentUrl(
     type: CommentTargetType,
     targetId?: number | string,

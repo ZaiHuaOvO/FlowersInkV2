@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -13,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { FadeSlide, ExpandCollapse } from '../../../common_ui/animations/animation';
@@ -42,6 +44,10 @@ import {
 } from '../../../shared/comment/comment.model';
 import { FlButtonComponent } from '../fl-button/fl-button.component';
 import { FlCommentCardComponent } from '../fl-comment-card/fl-comment-card.component';
+import {
+  FlCommentEditDialogComponent,
+  type CommentEditResult,
+} from '../fl-comment-edit-dialog/fl-comment-edit-dialog.component';
 import { FlCommentEditorComponent } from '../fl-comment-editor/fl-comment-editor.component';
 import { FlInputDirective } from '../fl-input/fl-input.directive';
 import { SimpleCaptchaComponent } from '../../../components/website/simple-captcha/simple-captcha.component';
@@ -64,6 +70,7 @@ import { SimpleCaptchaComponent } from '../../../components/website/simple-captc
     NgTemplateOutlet,
     NzFlexModule,
     NzIconModule,
+    NzModalModule,
     NzSpinModule,
     NzTooltipModule,
     FlButtonComponent,
@@ -76,7 +83,7 @@ import { SimpleCaptchaComponent } from '../../../components/website/simple-captc
   styleUrl: './fl-comment-board.component.css',
   animations: [FadeSlide, ExpandCollapse],
 })
-export class FlCommentBoardComponent implements OnInit, OnChanges {
+export class FlCommentBoardComponent implements OnInit, OnChanges, OnDestroy {
   /** 数据源适配器。必须是稳定引用（每个目标一个实例），换引用即重新拉取。 */
   @Input({ required: true }) source!: CommentSource;
 
@@ -111,6 +118,11 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
   /** 待审核的回复 */
   pendingReply: CommentItem | null = null;
 
+  // ---- 编辑（刚提交的评论，前端 2 分钟窗口） ----
+  private readonly editWindowMs = 2 * 60 * 1000;
+  now = Date.now();
+  private editTimer?: ReturnType<typeof setInterval>;
+
   // ---- 回复 ----
   replyTargetId: number | null = null;
   replySubmitting = false;
@@ -136,6 +148,7 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
     private readonly msg: NzMessageService,
     private readonly general: GeneralService,
     private readonly limiter: ApiLimiterService,
+    private readonly modal: NzModalService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -149,6 +162,12 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
     this.editing = !this.hasCachedInfo;
     if (this.source) {
       this.resetAndFetch();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.editTimer !== undefined) {
+      clearInterval(this.editTimer);
     }
   }
 
@@ -275,6 +294,51 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
     return children;
   }
 
+  // ---- 编辑（刚提交的评论） ----
+
+  /** 编辑窗口剩余秒数（倒计时）；只对刚提交的评论、且窗口内非 0 */
+  editSecondsLeft(node: CommentNode): number {
+    if (!node.submittedAt) {
+      return 0;
+    }
+    const msLeft = this.editWindowMs - (this.now - node.submittedAt);
+    return msLeft > 0 ? Math.ceil(msLeft / 1000) : 0;
+  }
+
+  openEdit(comment: CommentItem): void {
+    const modalRef = this.modal.create({
+      nzTitle: '编辑评论',
+      nzWidth: 560,
+      nzMaskClosable: false,
+      nzFooter: null,
+      nzContent: FlCommentEditDialogComponent,
+      nzData: { comment, source: this.source },
+    });
+    modalRef.afterClose.subscribe((result: CommentEditResult | null) => {
+      if (!result) {
+        return;
+      }
+      if (this.pendingComment && this.pendingComment.id === comment.id) {
+        Object.assign(this.pendingComment, result);
+        this.pendingNode = {
+          ...this.pendingComment,
+          children: [],
+          _depth: 0,
+        };
+      } else if (this.pendingReply && this.pendingReply.id === comment.id) {
+        Object.assign(this.pendingReply, result);
+      }
+    });
+  }
+
+  private ensureEditTimer(): void {
+    if (this.editTimer === undefined) {
+      this.editTimer = setInterval(() => {
+        this.now = Date.now();
+      }, 1000);
+    }
+  }
+
   // ---- 提交 ----
 
   submit(): void {
@@ -348,8 +412,9 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
           // 白名单用户免审核：服务端落库即为已通过，本地乐观插入也要跟上，
           // 否则会出现「弹窗说过审了、列表里那条却还标着待审核」
           const autoApproved = res?.['data']?.['data']?.autoApproved === true;
+          const serverId = res?.['data']?.['data']?.comment?.id;
           this.pendingComment = {
-            id: Date.now(),
+            id: serverId ?? Date.now(),
             parentId: null,
             name: this.form.name || '匿名',
             email: this.form.email || '',
@@ -359,8 +424,10 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
             isApproved: autoApproved,
             isAdminReply: false,
             createDate: new Date().toISOString(),
+            submittedAt: Date.now(),
           };
           this.pendingNode = { ...this.pendingComment, children: [], _depth: 0 };
+          this.ensureEditTimer();
           if (autoApproved) {
             showWhitelistApprovedNotice(this.msg);
           } else {
@@ -437,8 +504,9 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
       .subscribe({
         next: (res: any) => {
           const autoApproved = res?.['data']?.['data']?.autoApproved === true;
+          const serverId = res?.['data']?.['data']?.comment?.id;
           this.pendingReply = {
-            id: Date.now(),
+            id: serverId ?? Date.now(),
             parentId: parentComment.id,
             name: this.form.name || '匿名',
             email: this.form.email || '',
@@ -448,7 +516,9 @@ export class FlCommentBoardComponent implements OnInit, OnChanges {
             isApproved: autoApproved,
             isAdminReply: false,
             createDate: new Date().toISOString(),
+            submittedAt: Date.now(),
           };
+          this.ensureEditTimer();
           if (autoApproved) {
             showWhitelistApprovedNotice(this.msg);
           } else {

@@ -43,6 +43,10 @@
           {{ relativeTime(comment.createDate) }}
         </span>
 
+        @if (editSecondsLeft > 0) {
+        <button type="button" class="fc-reply-btn" (click)="edit.emit()">编辑({{ editSecondsLeft }}秒)</button>
+        }
+
         @if (showReplyButton) {
         <button type="button" class="fc-reply-btn" [class.is-active]="replyActive" (click)="replyToggle.emit()">
           {{ replyActive ? '取消回复' : '回复' }}

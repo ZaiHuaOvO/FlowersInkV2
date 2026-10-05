@@ -22,6 +22,8 @@ export function articleCommentSource(
   return {
     list: () => commentService.getComments(type, targetId),
     create: (payload) => commentService.createComment(type, targetId, payload),
+    edit: (commentId, payload) =>
+      commentService.editComment(type, targetId, commentId, payload),
     captchaScene: meta.captchaScene,
     limiterKey: meta.limiterKey,
   };
@@ -32,6 +34,8 @@ export function lifeCommentSource(lifeService: LifeService, lifeId: number): Com
   return {
     list: () => lifeService.getLifeComments(lifeId),
     create: (payload) => lifeService.createLifeComment(lifeId, payload),
+    edit: (commentId, payload) =>
+      lifeService.editLifeComment(lifeId, commentId, payload),
     captchaScene: 'life-comment',
     limiterKey: 'life-comment',
   };

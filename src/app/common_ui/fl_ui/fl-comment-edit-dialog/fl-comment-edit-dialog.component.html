@@ -1,0 +1,18 @@
+<div class="edit-dialog" nz-flex nzVertical nzGap="small">
+  <div nz-flex nzGap="small">
+    <input nz-input flInput placeholder="名称" [(ngModel)]="name" [disabled]="submitting" maxlength="50" />
+    <input nz-input flInput placeholder="邮箱（可选）" [(ngModel)]="email" [disabled]="submitting" maxlength="255" />
+  </div>
+  <div nz-flex nzGap="small">
+    <input nz-input flInput placeholder="网站（可选）" [(ngModel)]="website" [disabled]="submitting" maxlength="255" />
+    <input nz-input flInput placeholder="头像链接（可选）" [(ngModel)]="avatarUrl" [disabled]="submitting" maxlength="500" />
+  </div>
+  <textarea nz-input rows="4" maxlength="500" placeholder="修改你的评论内容..." [(ngModel)]="content" [disabled]="submitting"></textarea>
+  <flower-simple-captcha [scene]="captchaScene" #captcha [disabled]="submitting" [inline]="true"></flower-simple-captcha>
+  <div class="edit-actions" nz-flex nzJustify="flex-end" nzGap="small">
+    <fl-button (click)="cancel()">取消</fl-button>
+    <fl-button [disabled]="submitting || !content.trim()" (click)="submit()">
+      {{ submitting ? '提交中...' : '提交修改' }}
+    </fl-button>
+  </div>
+</div>

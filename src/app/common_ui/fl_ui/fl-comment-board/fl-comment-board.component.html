@@ -121,9 +121,11 @@
   <fl-comment-card
     [comment]="node"
     [avatarSize]="avatarSizeFor(node)"
+    [editSecondsLeft]="editSecondsLeft(node)"
     [showReplyButton]="!isPending(node) && isZaiHua(node)"
     [replyActive]="replyTargetId === node.id"
     (replyToggle)="toggleReply(node)"
+    (edit)="openEdit(node)"
   >
     @if (replyTargetId === node.id) {
     <div flCardExtras class="fc-inline-reply" @FadeSlide>
