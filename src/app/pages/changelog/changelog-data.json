@@ -5,8 +5,107 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 430,
+  "total": 441,
   "records": [
+    {
+      "uid": "b41da28",
+      "type": "style",
+      "date": "2026-10-07",
+      "desc": "首页头像与欢迎语改为依次进场，比整体浮现更有层次",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "style",
+      "date": "2026-10-07",
+      "desc": "全站加载动画统一为同一尺寸，写作列表不再是小图标",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "fix",
+      "date": "2026-10-07",
+      "desc": "评论区的昵称、邮箱等输入框恢复正常样式，不再是浏览器默认外观",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "style",
+      "date": "2026-10-07",
+      "desc": "空状态与 404 页换成哭泣的粉毛猫，去掉多余漂浮装饰",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "feat",
+      "date": "2026-10-07",
+      "desc": "新增设计规范页，站内色彩、排版、动效与组件可一屏查看",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "chore",
+      "date": "2026-10-07",
+      "desc": "移除重复的站外字体请求，首屏不再被外部字体拖慢",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "style",
+      "date": "2026-10-07",
+      "desc": "图片加载完成后淡入、列表条目依次浮现，浏览更灵动",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "style",
+      "date": "2026-10-07",
+      "desc": "导航与按钮悬停时轻微抬起，交互反馈更明显",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "style",
+      "date": "2026-10-07",
+      "desc": "统一全站入场动画节奏，页面浮现得更利落",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "fix",
+      "date": "2026-10-07",
+      "desc": "键盘 Tab 浏览时能看到当前焦点位置",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
+    {
+      "uid": "b41da28",
+      "type": "chore",
+      "date": "2026-10-07",
+      "desc": "系统开启减少动态效果时，站内动画自动静止",
+      "important": false,
+      "repo": "site",
+      "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
+    },
     {
       "uid": "15febcc",
       "type": "feat",
