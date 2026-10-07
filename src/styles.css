@@ -12,7 +12,7 @@
 @import url('app/common_ui/css/markdown-zaihua.css');
 @import url('app/common_ui/css/markdown-comment.css');
 @import url('app/common_ui/css/comment.css');
-ml,
+html,
 body {
   background: #fff8f3;
 }

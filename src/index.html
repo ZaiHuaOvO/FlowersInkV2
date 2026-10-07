@@ -34,26 +34,12 @@
   <link rel="canonical" href="https://flowersink.com/" />
   <!-- BlogsClub 标识 -->
   <link rel="prefetch" as="image" href="https://www.blogsclub.org/badge/flowersink.com">
-  <!-- 字体导入 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Emoji:wght@300..700&family=Noto+Sans+SC:wght@100..900&display=swap"
-    rel="stylesheet">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
+  <!--
+    字体一律走自托管（见 app/common_ui/css/fi-tokens.css 的 @font-face）：
+    InterVar / NotoSansSCVar（按 unicode-range 切 14 片）/ NotoEmojiVar。
+    不要再加 fonts.googleapis.com 的外链——那几条既是渲染阻塞，又和自托管这套重复，
+    而对国内访客的可达性不稳定。
+  -->
 </head>
 
 <body>

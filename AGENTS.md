@@ -44,7 +44,7 @@
 
 ## 应用结构
 
-- Angular 20 standalone 架构
+- Angular 21 standalone 架构
 - 主路由分组：
   - `/welcome`
   - `/blog`
@@ -157,6 +157,15 @@
 6. **回提原则**：一个样式在第二个页面复用出现时，必须回提到共享层（`fi-base.css` 或 `fi-tokens.css`）。
 7. **ng-zorro 兼容**：`nzColor` 等组件属性不支持 CSS 变量，改用 `:host ::ng-deep` 覆盖对应 DOM 元素的 `color`/`border-color`。
 8. **提交说明必须包含**：复用了哪些既有 token/样式、新增了哪些 token、为什么不能继续复用（如有）。
+9. **先看样式设计页**：新增页面或组件前，先看 `/design`（`pages/design/`）确认可复用件；不要只看 `fl_ui/README.md` —— 那份只覆盖 `fl_ui` 那十来个组件，覆盖不到 markdown 排版、卡片族、标尺与动效。
+10. **改公共样式必须同步样式页**：改动 `fi-tokens.css` 或任一 `fl_ui` 组件后，必须在**同一次提交**里同步 `/design` 对应章节；新增 token 要同时加进 `pages/design/design-tokens.data.ts`（那里只放名字与用途，值由页面运行时从 `:root` 读取）。
+11. **样式页自身禁止复制值**：`pages/design/` 里颜色/间距/圆角一律引用 `var(--fi-*)`，组件一律直接 import 复用，页面私有 CSS 只允许写展示脚手架（色块网格、标尺条、动效舞台等）。
+
+### 样式设计页（`/design`）
+
+- 路由：`app.routes.ts` 里的懒加载 `design` 路由；入口是站内页脚底部的「设计规范」。
+- 它是公开页，但**对搜索引擎 `noindex`、不写进 sitemap**（工具页，不与内容页抢权重）。
+- **新增路由必须同步 `scripts/generate-static-seo.mjs`**：该脚本为每个已知路由生成静态 SEO 外壳。漏加的话线上该页会回落到根目录那份外壳（顶着首页的 canonical 与 meta），肉眼看不出来但抓取与分享都会错。
 
 ## 治理代码审查清单
 

@@ -18,7 +18,7 @@ import { WindowService } from '../../../services/window.service';
 import { WorldService } from '../world.service';
 import { GameCardComponent } from '../../../components/world/game-card/game-card.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { QuickUp } from '../../../common_ui/animations/animation';
+import { QuickUp, StaggerList } from '../../../common_ui/animations/animation';
 import { CommentService } from '../../../services/comment.service';
 import { articleCommentSource } from '../../../shared/comment/comment-source.factory';
 import type { CommentSource } from '../../../shared/comment/comment.model';
@@ -52,7 +52,7 @@ type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
-  animations: [QuickUp],
+  animations: [QuickUp, StaggerList],
 })
 export class GameComponent {
   data: any[] = [];

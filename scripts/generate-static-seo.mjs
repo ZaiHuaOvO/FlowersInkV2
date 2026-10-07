@@ -154,6 +154,10 @@ async function main() {
       path.join(distRoot, 'life', 'index.html'),
       renderLifePage(template, lifeItems, friendLinks),
     ),
+    writeFileEnsured(
+      path.join(distRoot, 'design', 'index.html'),
+      renderDesignPage(template),
+    ),
   ]);
 
   for (const blog of blogItems) {
@@ -706,6 +710,41 @@ function renderLifePage(template, lifeItems, friendLinks) {
   });
 }
 
+function renderDesignPage(template) {
+  // 工具页：页脚有入口、给真人访客看，但 noindex —— 不参与排名、也不写进 sitemap。
+  // 漏掉这个外壳的话，线上 /design 会回落到根目录那份 index.html，
+  // 也就是顶着首页的 canonical 和 meta（肉眼看不出来，但分享与抓取都会错）。
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>设计规范</h1>
+        <p>花墨主站的视觉说明书：颜色、间距、圆角、阴影、排版、动效与公共组件，全部现场真实渲染。</p>
+      </header>
+      <section class="fi-seo-section">
+        <h2>本页包含</h2>
+        <ul>
+          <li>色彩 token、间距与圆角标尺、阴影三档</li>
+          <li>语义排版类，以及字号 / 字重 / 行高标尺与字体栈</li>
+          <li>动效节奏，与全部 Angular 触发器（含可现场预览的备用动效）</li>
+          <li>fl-button / fl-input / fl-card / fl-tag / fl-alert 等公共组件</li>
+          <li>正文 Markdown 排版、评论区组成件、加载与空状态、卡片族</li>
+          <li>无障碍基线与四层样式归属约定</li>
+        </ul>
+      </section>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `设计规范 | ${siteName}`,
+    description:
+      '花墨主站的设计系统展示页：颜色、排版、动效与公共组件都在这儿真实渲染，供开发参考与浏览。',
+    canonicalPath: '/design',
+    ogType: 'website',
+    robots: 'noindex,follow',
+    body,
+  });
+}
+
 function injectSeoHtml(template, options) {
   const canonicalUrl = new URL(
     withTrailingSlash(options.canonicalPath),
@@ -718,7 +757,7 @@ function injectSeoHtml(template, options) {
   const head = `
     <title>${escapeHtml(options.title)}</title>
     <meta name="description" content="${escapeHtmlAttr(options.description)}">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="${escapeHtmlAttr(options.robots ?? 'index,follow')}">
     <meta property="og:site_name" content="${escapeHtmlAttr(siteName)}">
     <meta property="og:locale" content="${siteLanguage}">
     <meta property="og:title" content="${escapeHtmlAttr(options.title)}">

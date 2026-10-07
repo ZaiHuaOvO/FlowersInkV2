@@ -147,3 +147,91 @@ a:hover {
   from { opacity: 0; transform: translateX(-24px); }
   to   { opacity: 1; transform: translateX(0); }
 }
+
+/* ============================================================
+   Image fade-in (FlImgFadeDirective)
+   ============================================================ */
+
+/*
+ * 图片淡入 —— 未加载完先停住，解码就绪后播一次淡入。
+ *
+ * **为什么用「动画 + animation-play-state」而不是 transition：**
+ *
+ * 1. 权重打不过组件样式。组件样式在全局样式之后注入，像我原来写的
+ *    `img.fl-img-fade--loaded { transition: opacity … }` 和点滴页的
+ *    `.image-item-wrapper img { transition: transform … }` 权重相同、它在后面，
+ *    于是 opacity 过渡被整个顶掉 —— 透明度变瞬时，观感就是「图片直接蹦出来」。
+ *    全站有三处 img 规则声明了 transition（点滴、点滴详情、游戏详情截图），
+ *    正好就是出问题的那几处；没声明 transition 的页面当时是好的。
+ *    动画是另一个属性，组件里也没给 img 写过 animation，不会互相覆盖。
+ *
+ * 2. 不依赖「先画过一帧」。transition 要元素先以旧值绘制过一次才会动，
+ *    动画从 from 关键帧开始播，缓存命中的图片也能稳定淡入。
+ *
+ * 隐藏态同时用两种方式兜底：animation-fill-mode: both 停在 from，
+ * 以及显式的 opacity: 0（万一某浏览器不给暂停中的动画做 backwards fill）。
+ * 播放后动画声明在层叠里压得住普通声明，所以一定能到 opacity: 1。
+ *
+ * 缓动特意不用 --fi-ease-standard：那是 ease-out-quint，前段极快，
+ * 用在透明度上 320ms 里有 88% 在头 70ms 就走完了，看上去像没有动画。
+ */
+@keyframes fi-img-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+img.fl-img-fade {
+  opacity: 0;
+  animation: fi-img-fade-in var(--fi-motion-slow) ease-out both;
+  animation-play-state: paused;
+}
+
+img.fl-img-fade--loaded {
+  animation-play-state: running;
+}
+
+/* ============================================================
+   Accessibility
+   ============================================================ */
+
+/*
+ * 键盘焦点环 —— 只在键盘导航时出现（:focus-visible），鼠标点击不出环。
+ * ng-zorro 的预构建样式里写了 `.ant-btn:focus { outline: 0 }`，而 angular.json 里
+ * ng-zorro 的 CSS 排在 styles.css 之后，同权重会被它盖掉，所以这里必须 !important
+ * （与 fi-overrides.css 处理 ng-zorro 覆盖是同一套做法）。
+ */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[role='button']:focus-visible,
+[tabindex]:not([tabindex='-1']):focus-visible,
+.ant-btn:focus-visible,
+.ant-input:focus-visible,
+.ant-tag:focus-visible {
+  outline: 2px solid var(--fi-primary) !important;
+  outline-offset: 2px;
+}
+
+/*
+ * 前庭敏感用户：停掉位移、缩放与循环动画，只保留颜色类过渡。
+ * 颜色变化不会引起不适，全砍掉反而让 hover 反馈一并消失。
+ *
+ * 注意这里只管得住 CSS 动画 / 过渡；Angular 触发器走 Web Animations API，
+ * 媒体查询管不到它，那一半在 app.config.ts 里用 provideNoopAnimations 处理。
+ */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property: color, background-color, border-color, box-shadow, fill, stroke !important;
+    transition-duration: var(--fi-motion-fast) !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -16,6 +17,7 @@ import { PlanetComponent } from '../svg/planet/planet.component';
     NzIconModule,
     NzAvatarModule,
     NzTypographyModule,
+    RouterLink,
   ],
 })
 export class FooterComponent { }

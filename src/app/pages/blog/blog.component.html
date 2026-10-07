@@ -20,7 +20,7 @@
         @for (item of data; track item) {
           <div class="blog" flCard>
             <h2 nz-typography>{{item.year}}年 <span class="year-count">· {{item.data.length}} 篇</span></h2>
-            <div class="fi-simple-timeline">
+            <div class="fi-simple-timeline" @StaggerList>
               @for (blog of item.data; track blog) {
                 <div class="fi-simple-timeline-item" [class.is-starred-item]="blog.star">
                   <span class="fi-simple-timeline-dot"></span>

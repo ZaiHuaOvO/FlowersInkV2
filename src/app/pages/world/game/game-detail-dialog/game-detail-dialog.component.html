@@ -11,7 +11,7 @@
 
     @if (coverUrl) {
       <div class="game-dialog-cover">
-        <img loading="lazy" decoding="async" [src]="coverUrl" [alt]="name + '封面'" />
+        <img flImgFade loading="lazy" decoding="async" [src]="coverUrl" [alt]="name + '封面'" />
       </div>
     }
 
@@ -73,7 +73,7 @@
             @for (shot of screenshots; track shot.displayUrl; let i = $index) {
               <div class="game-dialog-shot" (click)="previewShot($event, shot)">
                 @if (i < readyShotCount) {
-                  <img decoding="async" [src]="shot.displayUrl" [alt]="name + '截图 ' + (i + 1)" (load)="onShotLoad(i)" (error)="onShotError(i)" />
+                  <img flImgFade decoding="async" [src]="shot.displayUrl" [alt]="name + '截图 ' + (i + 1)" (load)="onShotLoad(i)" (error)="onShotError(i)" />
                 } @else {
                   <div class="game-dialog-shot-loading">
                     <nz-spin nzSimple></nz-spin>

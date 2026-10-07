@@ -24,7 +24,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { GeneralService } from '../../../services/general.service';
 import { debounceTime, fromEvent } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -510,6 +509,30 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         img.setAttribute('loading', 'lazy');
       }
       img.setAttribute('decoding', 'async');
+
+      // 正文图片淡入。Markdown 是 innerHTML 注入的，FlImgFadeDirective 够不到，
+      // 所以在这里手动加同名类（样式复用 fi-base.css 里那一套），处理方式与指令保持一致：
+      // 一律先停住（缓存命中的也要淡入，否则回访时看不到任何动画）；
+      // 缓存命中的直接开播；未加载完的等 decode() 落地再播，
+      // 否则动画会在「还没画出来」的图上跑完，观感就是没有动画。
+      const reveal = () => img.classList.add('fl-img-fade--loaded');
+      img.classList.add('fl-img-fade');
+
+      if (img.complete) {
+        if (img.naturalWidth > 0 || img.getAttribute('src')) {
+          reveal();
+        }
+      } else {
+        const settle = () => {
+          if (typeof img.decode === 'function') {
+            img.decode().then(reveal, reveal);
+            return;
+          }
+          reveal();
+        };
+        img.addEventListener('load', settle, { once: true });
+        img.addEventListener('error', settle, { once: true });
+      }
 
       return {
         src: zoom || originalSrc,

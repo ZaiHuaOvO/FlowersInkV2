@@ -242,8 +242,11 @@
   --fi-motion-normal: 0.24s;
   --fi-motion-slow: 0.32s;
   --fi-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
-  --fi-motion-lift: 0px;
+  /* hover 抬升行程：通用 -1px（导航/按钮/子菜单），卡片 -2px，表情格子 -4px。
+     改 --fi-motion-lift 为 0px 可一键关掉全站通用抬升。 */
+  --fi-motion-lift: -1px;
   --fi-motion-lift-card: -2px;
+  --fi-motion-lift-emoji: -4px;
 
   --fi-font-base: "InterVar", "NotoSansSCVar", "NotoEmojiVar", "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
   --fi-font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;

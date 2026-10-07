@@ -2,6 +2,7 @@
   @for (item of data; track item) {
     <div class="waterfall-item" (click)="isMobile ? getLifeDetailMobile(item) : getLifeDetail(item)">
       <img
+        flImgFade
         loading="lazy"
         decoding="async"
         [src]="item.image_first[0].url"

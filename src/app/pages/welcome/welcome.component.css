@@ -326,3 +326,54 @@
         animation-delay: 0ms !important;
     }
 }
+
+/* ============================================================
+   Hero 入场：头像 → 欢迎语 → 副标题 → 按钮，依次错开一点点进场
+   ------------------------------------------------------------
+   关键在「起点错开」而不是「等上一个播完」：
+   每段动画 0.5s，起点只错开 90~100ms，所以它们**互相重叠**——
+   看上去是一个一个来，整段却只花 0.75s 就收尾，访客不用等。
+   想让层次更分明就把间隔调大（代价是变慢），想更利落就调小。
+
+   位移取 20px，沿用站内入场动画既有尺度（16~20px 轻微滑入）。
+   用 fill: both，元素在延迟期间就停在起始状态，
+   不会先以正常样子露一下再突然归位。
+   系统开启「减少动态效果」时，全局规则会把时长压到 0.01ms，
+   配合 both 直接落到终态，不会卡在起始状态。
+   ============================================================ */
+
+.hero-avatar-wrapper {
+    animation: fi-hero-in-left 0.5s var(--fi-ease-standard) both;
+}
+
+.hero-title {
+    animation: fi-hero-in-right 0.5s var(--fi-ease-standard) 0.09s both;
+}
+
+.hero-subtitle {
+    animation: fi-hero-in-up 0.5s var(--fi-ease-standard) 0.18s both;
+}
+
+.hero-actions {
+    animation: fi-hero-in-fade 0.5s var(--fi-ease-standard) 0.28s both;
+}
+
+@keyframes fi-hero-in-left {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fi-hero-in-right {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fi-hero-in-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fi-hero-in-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

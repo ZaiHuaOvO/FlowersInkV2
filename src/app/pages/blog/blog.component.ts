@@ -10,7 +10,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../components/blog/blog-title/blog-title.component';
-import { SlowUp, QuickUp } from '../../common_ui/animations/animation';
+import { SlowUp, QuickUp, StaggerList } from '../../common_ui/animations/animation';
 import {
   groupByYearDesc,
   sortByDateDesc,
@@ -39,7 +39,7 @@ import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive
     FlInputDirective,
     FlCardDirective,
   ],
-  animations: [SlowUp, QuickUp],
+  animations: [SlowUp, QuickUp, StaggerList],
 })
 export class BlogComponent implements OnInit {
   data: any[] = [];

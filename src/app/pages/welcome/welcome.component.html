@@ -8,7 +8,9 @@
         (open)="openAnnouncement()"></flower-announcement-card>
     </div>
     }
-    <div class="hero-body" nz-flex nzJustify="center" nzAlign="center" [nzGap]="isMobile ? 'small' : 'large'" @SlowUp>
+    <!-- 入场动画交给各元素自己的 CSS 动画（见 welcome.component.css 末尾），
+         这里不再整块 @SlowUp —— 整块动的话就没有「一个一个进场」的层次了 -->
+    <div class="hero-body" nz-flex nzJustify="center" nzAlign="center" [nzGap]="isMobile ? 'small' : 'large'">
       <div class="hero-avatar-wrapper">
         <a [routerLink]="['/about']" aria-label="前往关于我">
           <img class="hero-avatar" src="https://api.flowersink.com/img/粉毛猫猫头.jpeg" alt="再花的猫娘头像" loading="eager"

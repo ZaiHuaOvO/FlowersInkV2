@@ -1,0 +1,635 @@
+/* ============================================================
+   /design 设计系统页 —— 页面私有样式
+   只允许写"展示脚手架"（色块网格、标尺条、动效舞台、重播按钮等）。
+   颜色 / 圆角 / 阴影 / 间距 / 动效一律引用 --fi-* token，
+   组件外观一律由被复用的公共组件自己负责，本文件不得重新定义它们。
+   ============================================================ */
+
+/* ── 页头 ─────────────────────────────────────────── */
+
+.ds-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-3);
+  margin-bottom: var(--fi-space-6);
+}
+
+.ds-intro-note {
+  padding: var(--fi-space-3) var(--fi-space-4);
+  border-left: 3px solid var(--fi-primary-outline);
+  background: var(--fi-surface-soft);
+  border-radius: var(--fi-radius-xs);
+}
+
+/* ── 骨架：侧栏目录 + 正文 ─────────────────────────── */
+
+.ds-body {
+  display: flex;
+  gap: var(--fi-space-6);
+  align-items: flex-start;
+}
+
+/* 吸顶交给 nz-affix：外层 nz-layout 是 overflow:hidden，
+   在它里面 CSS sticky 找不到可滚动的祖先，等于不生效 */
+.ds-nav-affix {
+  flex: 0 0 168px;
+}
+
+.ds-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--fi-space-3);
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+}
+
+.ds-nav-title {
+  font-size: var(--fi-font-size-sm);
+  color: var(--fi-text-caption);
+  margin-bottom: var(--fi-space-1);
+}
+
+.ds-nav-link {
+  display: block;
+  width: 100%;
+  padding: 5px var(--fi-space-2);
+  border: none;
+  border-radius: var(--fi-radius-xs);
+  background: transparent;
+  color: var(--fi-text-muted);
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-sm);
+  text-align: start;
+  cursor: pointer;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard),
+    background-color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.ds-nav-link:hover {
+  color: var(--fi-primary);
+  background: var(--fi-surface-soft);
+}
+
+.ds-nav-link.is-active {
+  color: var(--fi-primary);
+  background: var(--fi-primary-outline);
+  font-weight: var(--fi-font-weight-semibold);
+}
+
+.ds-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ── 分区 ─────────────────────────────────────────── */
+
+.ds-section {
+  margin-bottom: var(--fi-space-8);
+  /* 固定头部 48px + 留白，点目录跳过来时标题不被压住 */
+  scroll-margin-top: calc(48px + var(--fi-safe-top) + var(--fi-space-3));
+}
+
+.ds-section-title {
+  margin: 0 0 var(--fi-space-2);
+  padding-bottom: var(--fi-space-2);
+  border-bottom: 1px solid var(--fi-border);
+}
+
+.ds-section-desc {
+  margin: 0 0 var(--fi-space-4);
+  line-height: var(--fi-line-height-relaxed);
+}
+
+.ds-subsection {
+  margin-top: var(--fi-space-5);
+}
+
+.ds-subsection-title {
+  display: block;
+  margin: 0 0 var(--fi-space-1);
+  font-size: var(--fi-font-size-lg);
+}
+
+.ds-subsection-desc {
+  margin: 0 0 var(--fi-space-3);
+  line-height: var(--fi-line-height-relaxed);
+}
+
+.ds-hint {
+  margin: var(--fi-space-3) 0 0;
+  line-height: var(--fi-line-height-relaxed);
+}
+
+.ds-section code,
+.ds-subsection code,
+.ds-intro code {
+  padding: 1px 5px;
+  border-radius: var(--fi-radius-xs);
+  background: var(--fi-surface-soft);
+  font-family: var(--fi-font-mono);
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-text-heading);
+}
+
+/* ── 通用示例容器 ─────────────────────────────────── */
+
+.ds-demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fi-space-3);
+  padding: var(--fi-space-4);
+}
+
+.ds-demo-row--wrap {
+  gap: var(--fi-space-2);
+}
+
+.ds-demo-row--cards>* {
+  flex: 1 1 240px;
+}
+
+.ds-demo-row--shadow {
+  align-items: stretch;
+}
+
+.ds-demo-row--icons {
+  justify-content: center;
+  gap: var(--fi-space-5);
+  color: var(--fi-primary);
+}
+
+/* 品牌图形本体自带的 width/height 各不相同，一排看过去高低不齐。
+   它们各自的 <svg> 在别的组件模板里，emulated 封装够不到，只能用 ::ng-deep
+   （项目里覆盖 ng-zorro 也是这个做法），统一到同一个方框。
+   viewBox 都是方的，等比缩放不会变形。 */
+.ds-demo-row--brand-icons ::ng-deep svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.ds-demo-row--ui-icons {
+  font-size: 28px;
+}
+
+.ds-demo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-4);
+  padding: var(--fi-space-4);
+}
+
+.ds-demo-block {
+  width: 100%;
+}
+
+.ds-sample-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-2);
+  padding: var(--fi-space-4);
+}
+
+/* ── 色板 ─────────────────────────────────────────── */
+
+.ds-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: var(--fi-space-3);
+}
+
+/* 色彩章节顶部的一排核心色 */
+.ds-demo-row--brand .ds-swatch {
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-sm);
+}
+
+.ds-swatch-card {
+  overflow: hidden;
+  padding: 0;
+}
+
+.ds-swatch {
+  height: 56px;
+  /* 浅色块也要看得见边界，否则白底白块分不清 */
+  border-bottom: 1px solid var(--fi-border);
+}
+
+.ds-swatch-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--fi-space-3);
+}
+
+.ds-token-name {
+  font-family: var(--fi-font-mono);
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-text-heading);
+  word-break: break-all;
+}
+
+.ds-token-value {
+  font-family: var(--fi-font-mono);
+  font-size: var(--fi-font-size-sm);
+  color: var(--fi-primary);
+}
+
+.ds-token-usage {
+  line-height: var(--fi-line-height-normal);
+}
+
+/* ── 标尺 ─────────────────────────────────────────── */
+
+.ds-scale {
+  padding: var(--fi-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-3);
+}
+
+.ds-scale--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+
+.ds-scale-row {
+  display: flex;
+  align-items: center;
+  gap: var(--fi-space-3);
+  min-height: 24px;
+}
+
+.ds-scale-row--type {
+  align-items: baseline;
+}
+
+.ds-scale-row--stack {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.ds-scale-name {
+  flex: 0 0 168px;
+  font-family: var(--fi-font-mono);
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-text-heading);
+}
+
+.ds-scale-value {
+  flex: 0 0 72px;
+  font-family: var(--fi-font-mono);
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-primary);
+}
+
+.ds-scale-bar {
+  display: block;
+  height: 12px;
+  border-radius: var(--fi-radius-xs);
+  background: var(--fi-primary);
+}
+
+.ds-stack-value {
+  flex: 1 1 320px;
+  font-family: var(--fi-font-mono);
+  font-size: var(--fi-font-size-xs);
+  color: var(--fi-text-muted);
+  word-break: break-all;
+}
+
+.ds-radius-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ds-radius-box {
+  display: block;
+  width: 72px;
+  height: 72px;
+  background: var(--fi-primary-outline);
+  border: 1px solid var(--fi-primary);
+}
+
+/* ── 阴影 ─────────────────────────────────────────── */
+
+.ds-shadow-item {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-1);
+  padding: var(--fi-space-5);
+  border-radius: var(--fi-radius-md);
+  background: var(--fi-surface);
+}
+
+/* ── 排版 ─────────────────────────────────────────── */
+
+.ds-type-list {
+  padding: var(--fi-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-4);
+}
+
+.ds-type-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-2);
+  padding-bottom: var(--fi-space-3);
+  border-bottom: 1px dashed var(--fi-border);
+}
+
+.ds-type-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.ds-type-sample {
+  margin: 0;
+}
+
+.ds-type-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--fi-space-2);
+}
+
+.ds-type-preview {
+  flex: 1 1 200px;
+  color: var(--fi-text-body);
+}
+
+.ds-type-preview--block {
+  flex: 1 1 260px;
+}
+
+.ds-code-block {
+  padding: var(--fi-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-3);
+}
+
+/* ── 动效 ─────────────────────────────────────────── */
+
+.ds-motion-track {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 140px;
+  height: 20px;
+}
+
+.ds-motion-slider {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--fi-radius-xs);
+  background: var(--fi-primary);
+}
+
+.ds-motion-track:hover .ds-motion-slider {
+  transform: translateX(118px);
+}
+
+.ds-lift-chip {
+  display: inline-block;
+  padding: 2px var(--fi-space-2);
+  border-radius: var(--fi-radius-xs);
+  background: var(--fi-primary-outline);
+  color: var(--fi-primary);
+  font-size: var(--fi-font-size-xs);
+}
+
+.ds-motion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--fi-space-3);
+}
+
+.ds-motion-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--fi-space-2);
+  padding: var(--fi-space-3);
+}
+
+.ds-motion-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  overflow: hidden;
+  border-radius: var(--fi-radius-xs);
+  background: var(--fi-surface-soft);
+}
+
+/*
+ * 舞台上同时出现多个元素是可能的（比如退场动画被打断、来不及移除），
+ * flex 会把它们并排摆放 —— 看起来就是「当前这个往左移，右边冒出来一个一样的」。
+ * 让它们都绝对定位并居中，就始终重叠在同一处，不会并排。
+ * 用 inset + margin: auto 居中（不能用 transform，transform 被动画占着）。
+ */
+.ds-motion-stage>.ds-motion-box,
+.ds-motion-stage>.ds-stagger-stage {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+}
+
+.ds-motion-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--fi-space-2) var(--fi-space-3);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-primary);
+  color: var(--fi-text-inverse);
+  font-size: var(--fi-font-size-xs);
+  white-space: nowrap;
+}
+
+.ds-motion-box--sm {
+  padding: 4px var(--fi-space-2);
+}
+
+.ds-stagger-stage {
+  display: flex;
+  gap: var(--fi-space-2);
+}
+
+/* ── 表单 ─────────────────────────────────────────── */
+
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-1);
+}
+
+.ds-field-label {
+  color: var(--fi-text-caption);
+}
+
+.ds-focus-input {
+  max-width: 220px;
+}
+
+/* ── 版式容器 ─────────────────────────────────────── */
+
+.ds-layout-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-2);
+}
+
+.ds-layout-name {
+  color: var(--fi-text-caption);
+}
+
+.ds-layout-box {
+  display: block;
+  padding: var(--fi-space-3) var(--fi-space-4);
+  border: 1px dashed var(--fi-primary);
+  border-radius: var(--fi-radius-xs);
+  background: var(--fi-primary-outline);
+  color: var(--fi-text-body);
+  font-size: var(--fi-font-size-sm);
+}
+
+/* ── 正文排版区 ───────────────────────────────────── */
+
+.ds-markdown-wrap {
+  padding: var(--fi-space-4) var(--fi-space-5);
+  overflow-x: auto;
+}
+
+/* ── 评论区 ───────────────────────────────────────── */
+
+.ds-reply-indent {
+  padding-left: var(--fi-space-6);
+}
+
+/* ── 状态 ─────────────────────────────────────────── */
+
+.ds-spin-target {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  border-radius: var(--fi-radius-xs);
+  background: var(--fi-surface-soft);
+  color: var(--fi-text-muted);
+  font-size: var(--fi-font-size-sm);
+}
+
+/* ── 卡片族 ───────────────────────────────────────── */
+
+.ds-card-family {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--fi-space-4);
+}
+
+.ds-card-family__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-2);
+  min-width: 0;
+}
+
+.ds-card-family__label {
+  font-family: var(--fi-font-mono);
+}
+
+/* ── 响应式 ───────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .ds-body {
+    gap: var(--fi-space-4);
+  }
+
+  .ds-nav-affix {
+    flex-basis: 140px;
+  }
+
+  .ds-scale-name {
+    flex-basis: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ds-body {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* 移动端目录变成顶部的横向滚动条，不需要吸顶。
+     nz-affix 会把 position/top 写成内联样式，只能 !important 压掉；
+     而真正被固定的是它模板里的 .ant-affix，emulated 封装够不到，所以用 ::ng-deep。 */
+  .ds-nav-affix {
+    flex: none;
+    width: 100%;
+  }
+
+  .ds-nav-affix ::ng-deep .ant-affix {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: auto !important;
+  }
+
+  .ds-nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-height: none;
+    padding: var(--fi-space-2);
+  }
+
+  .ds-nav-title {
+    display: none;
+  }
+
+  .ds-nav-link {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    /* 移动端这是本页的主导航，按站内的 44px 触控下限来 */
+    min-height: 44px;
+    padding: 6px var(--fi-space-3);
+  }
+
+  .ds-swatch-grid,
+  .ds-scale--grid,
+  .ds-motion-grid,
+  .ds-card-family {
+    grid-template-columns: 1fr;
+  }
+
+  .ds-scale-row {
+    flex-wrap: wrap;
+  }
+
+  .ds-scale-name {
+    flex-basis: 100%;
+  }
+
+  .ds-motion-track {
+    flex-basis: 120px;
+  }
+
+  .ds-motion-track:hover .ds-motion-slider {
+    transform: translateX(98px);
+  }
+}

@@ -85,17 +85,20 @@ nz-content {
   display: none;
 }
 
-/* nzSimple 的微缩加载图（游戏详情弹窗的截图占位、博客列表底部的加载位）。
-   判据是宿主没有 .ant-spin-nested-loading —— nzSimple 时 ng-zorro 不加这个类。
+/* 全站加载图标只有一个尺寸（106×120 的「死机」动图 + 「加载中」，见 app.component.css）。
+   唯一的例外是游戏详情弹窗里的截图缩略图占位：那不是页面级加载态，而是一个约 130px 的
+   方形格子，放不下完整动图。
+   判据用容器类、而不是 `nzSimple` —— 写作列表底部的加载位也用 nzSimple，
+   但那一处属于页面级加载态，应该和别的页面同一个尺寸。
    规则只能放全局：nz-spin 宿主元素属于使用方组件（游戏弹窗还在 CDK overlay 里，
    根本不在 app-root 子树下），拿不到 AppComponent 的 _ngcontent，
    写在 app.component.css 里时祖先那一段永远不成立。 */
-nz-spin:not(.ant-spin-nested-loading) .global-loading-gif {
+.game-dialog-shot-loading .global-loading-gif {
   width: 30px;
   height: 34px;
 }
 
-nz-spin:not(.ant-spin-nested-loading) .global-loading-text {
+.game-dialog-shot-loading .global-loading-text {
   display: none;
 }
 

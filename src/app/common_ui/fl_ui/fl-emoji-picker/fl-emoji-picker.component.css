@@ -194,7 +194,7 @@
 /* hover 态的 transition 在「移入」时生效 —— 慢慢抬起 */
 .fe-item:hover {
   background: var(--fi-bg-soft, #f6eee5);
-  transform: translateY(-4px);
+  transform: translateY(var(--fi-motion-lift-emoji, -4px));
   transition: transform 0.18s ease-out,
     background var(--fi-motion-fast, 0.18s) var(--fi-ease-standard, ease);
 }

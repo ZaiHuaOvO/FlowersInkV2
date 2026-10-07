@@ -67,7 +67,7 @@
                 <div class="image-grid" [ngClass]="getImageGridClass(item)">
                     @for (image of item.images; track image.previewUrl) {
                     <div class="image-item-wrapper {{ getImageItemClass(item) }}" (click)="previewZoom($event, image)">
-                      <img loading="lazy" decoding="async"
+                      <img flImgFade loading="lazy" decoding="async"
                         [src]="image.displayUrl" (error)="onImageError($event, image)" alt="点滴图片" />
                       <div class="image-overlay">
                         <span class="origin-btn-icon">

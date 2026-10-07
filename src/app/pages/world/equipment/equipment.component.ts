@@ -5,7 +5,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { WorldService } from '../world.service';
-import { QuickUp } from '../../../common_ui/animations/animation';
+import { QuickUp, StaggerList } from '../../../common_ui/animations/animation';
 import { EquipmentCardComponent } from '../../../components/world/equipment-card/equipment-card.component';
 import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
 import { CommentService } from '../../../services/comment.service';
@@ -26,7 +26,7 @@ import type { CommentSource } from '../../../shared/comment/comment.model';
   ],
   templateUrl: './equipment.component.html',
   styleUrl: './equipment.component.css',
-  animations: [QuickUp],
+  animations: [QuickUp, StaggerList],
 })
 export class EquipmentComponent implements OnInit {
   data: any[] = [];

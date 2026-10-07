@@ -4,26 +4,13 @@
     gap: var(--fi-space-3);
 }
 
-.error-cat {
-    position: relative;
-    display: inline-flex;
-    margin-bottom: var(--fi-space-2);
-}
-
+/* 哭哭的原始尺寸只有 106×120：保持原始比例整张显示，不做圆形裁切（会切掉表情） */
 .error-cat-img {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 6px 20px rgba(139, 90, 43, 0.2);
-    border: 3px solid #fff;
-    animation: error-cat-tilt 2s ease-in-out infinite;
-}
-
-@keyframes error-cat-tilt {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-6deg); }
-    75% { transform: rotate(6deg); }
+    width: 140px;
+    height: auto;
+    border-radius: var(--fi-radius-md);
+    box-shadow: var(--fi-shadow-soft);
+    border: 3px solid var(--fi-surface);
 }
 
 .error-code {

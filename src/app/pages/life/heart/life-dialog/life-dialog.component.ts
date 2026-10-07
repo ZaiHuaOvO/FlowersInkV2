@@ -14,6 +14,7 @@ import { FlCommentBoardComponent } from '../../../../common_ui/fl_ui/fl-comment-
 import { memoizeLifeCommentSources } from '../../../../shared/comment/comment-source.factory';
 import type { CommentSource } from '../../../../shared/comment/comment.model';
 import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { FlImgFadeDirective } from '../../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
 import { LifeService } from '../../life.service';
 import { LifeUiStateService } from '../../life-ui-state.service';
 import { deriveWebpVariants } from '../../../../shared/utils/image-url.util';
@@ -53,6 +54,7 @@ interface LifeDetailItem {
     NzTypographyModule,
     FlCommentBoardComponent,
     FlTagDirective,
+    FlImgFadeDirective,
   ],
   templateUrl: './life-dialog.component.html',
   styleUrls: ['./life-dialog.component.css'],

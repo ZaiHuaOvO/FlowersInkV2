@@ -16,7 +16,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { FoodWaterfallComponent } from '../../../components/life/food-waterfall/food-waterfall.component';
 import { NodataComponent } from '../../../components/website/nodata/nodata.component';
-import { QuickUp, SlowUp } from '../../../common_ui/animations/animation';
+import { QuickUp, SlowUp, StaggerList } from '../../../common_ui/animations/animation';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { BookCardComponent } from '../../../components/world/book-card/book-card.component';
@@ -48,7 +48,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
   ],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css',
-  animations: [SlowUp, QuickUp],
+  animations: [SlowUp, QuickUp, StaggerList],
 })
 export class BookComponent implements OnInit {
   data: any[] = [];

@@ -18,6 +18,7 @@
           class="game-grid game-grid--overview"
           [nzGutter]="[20,20]"
           nzJustify="center"
+          @StaggerList
         >
           @for (game of data; track game; let i = $index) {
             <nz-col

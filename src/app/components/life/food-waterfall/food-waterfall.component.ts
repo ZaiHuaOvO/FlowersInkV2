@@ -12,11 +12,12 @@ import { LifeDialogComponent } from '../../../pages/life/heart/life-dialog/life-
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { WindowService } from '../../../services/window.service';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { FlImgFadeDirective } from '../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
 
 @Component({
   selector: 'flower-food-waterfall',
   standalone: true,
-  imports: [NzTypographyModule, NzModalModule, FlCardDirective],
+  imports: [NzTypographyModule, NzModalModule, FlCardDirective, FlImgFadeDirective],
   templateUrl: './food-waterfall.component.html',
   styleUrl: './food-waterfall.component.css',
 })

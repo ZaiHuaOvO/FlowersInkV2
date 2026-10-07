@@ -1,0 +1,830 @@
+<!-- 设计系统展示页 /design -->
+<div class="ds-page fi-page">
+
+  <flower-blog-title [title]="'设计规范'"></flower-blog-title>
+
+  <header class="ds-intro" @QuickUp>
+    <p class="fi-text-body">
+      这一页是花墨的视觉说明书：颜色、间距、圆角、阴影、排版、动效，以及全站所有可复用的界面元素，
+      都在这儿按真实的样子排开。
+    </p>
+    <p class="ds-intro-note fi-text-caption">
+      所有示例都是站内正在使用的那一套——同一个颜色、同一个圆角、同一个按钮、同一套正文排版。
+      看到的就是站内任意页面会得到的样子。
+    </p>
+  </header>
+
+  <div class="ds-body">
+
+    <!-- ── 侧栏目录 ────────────────────────────────── -->
+    <!-- 吸顶用 nz-affix 而不是 CSS sticky：外层 nz-layout 是 overflow:hidden，
+         在它里面 sticky 找不到可滚动的祖先，等于不生效 -->
+    <div class="ds-nav-affix">
+      <nz-affix [nzOffsetTop]="affixOffsetTop">
+        <nav class="ds-nav" flCard>
+          <span class="ds-nav-title fi-text-strong">目录</span>
+          @for (s of sections; track s.id) {
+          <button type="button" class="ds-nav-link" [class.is-active]="activeSection() === s.id"
+            (click)="jumpTo(s.id)">{{ s.title }}</button>
+          }
+        </nav>
+      </nz-affix>
+    </div>
+
+    <main class="ds-main">
+
+      <!-- ── 1 色彩 ─────────────────────────────────── -->
+      <section class="ds-section" id="color" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">色彩</h2>
+        <p class="ds-section-desc fi-text-caption">
+          每个色块都标注了名称、实际色值与使用场合。
+        </p>
+        <div class="ds-demo-row ds-demo-row--brand" flCard>
+          <div class="ds-swatch" [style.background]="'var(--fi-primary)'"></div>
+          <div class="ds-swatch" [style.background]="'var(--fi-bg-page)'"></div>
+          <div class="ds-swatch" [style.background]="'var(--fi-surface)'"></div>
+          <div class="ds-swatch" [style.background]="'var(--fi-text-heading)'"></div>
+          <div class="ds-swatch" [style.background]="'var(--fi-text-muted)'"></div>
+          <span class="fi-text-caption">主色 · 页面底色 · 卡片底色 · 标题文字 · 说明文字</span>
+        </div>
+
+        @for (group of colorGroups; track group.id) {
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">{{ group.title }}</h3>
+          <p class="ds-subsection-desc fi-text-caption">{{ group.desc }}</p>
+          <div class="ds-swatch-grid">
+            @for (t of group.tokens; track t.name) {
+            <div class="ds-swatch-card" flCard>
+              <div class="ds-swatch" [style.background]="'var(' + t.name + ')'"></div>
+              <div class="ds-swatch-meta">
+                <code class="ds-token-name">{{ t.name }}</code>
+                <span class="ds-token-value">{{ valueOf(t.name) }}</span>
+                <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+        }
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">用在界面上的样子</h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            颜色落到真实的按钮、链接、标签上之后的样子。
+          </p>
+          <div class="ds-demo-row" flCard>
+            <fl-button variant="solid">主操作按钮</fl-button>
+            <fl-button variant="outline">次操作按钮</fl-button>
+            <fl-button variant="ghost">轻量按钮</fl-button>
+            <a class="fi-text-link" href="#color">链接文字走 --fi-primary</a>
+            <span class="fi-primary-text">品牌色强调文字</span>
+            <nz-tag flTag>默认标签</nz-tag>
+            <nz-tag flTag flTagVariant="solid">实色标签</nz-tag>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 2 间距 ─────────────────────────────────── -->
+      <section class="ds-section" id="space" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">间距</h2>
+        <p class="ds-section-desc fi-text-caption">
+          9 档间距标尺。条形长度就是实际间距大小。
+        </p>
+        <div class="ds-scale" flCard>
+          @for (t of spacing; track t.name) {
+          <div class="ds-scale-row">
+            <code class="ds-scale-name">{{ t.name }}</code>
+            <span class="ds-scale-value">{{ valueOf(t.name) }}</span>
+            <span class="ds-scale-bar" [style.width]="'var(' + t.name + ')'"></span>
+          </div>
+          }
+        </div>
+      </section>
+
+      <!-- ── 3 圆角 ─────────────────────────────────── -->
+      <section class="ds-section" id="radius" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">圆角</h2>
+        <p class="ds-section-desc fi-text-caption">
+          5 档圆角标尺，另有输入框与标签两个历史例外值。
+        </p>
+        <div class="ds-scale ds-scale--grid" flCard>
+          @for (t of radii; track t.name) {
+          <div class="ds-radius-item">
+            <span class="ds-radius-box" [style.border-radius]="'var(' + t.name + ')'"></span>
+            <code class="ds-token-name">{{ t.name }}</code>
+            <span class="ds-token-value">{{ valueOf(t.name) }}</span>
+            <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+          </div>
+          }
+        </div>
+      </section>
+
+      <!-- ── 4 阴影 ─────────────────────────────────── -->
+      <section class="ds-section" id="shadow" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">阴影</h2>
+        <p class="ds-section-desc fi-text-caption">三档。静态卡片用 soft，hover 抬升用 hover。</p>
+        <div class="ds-demo-row ds-demo-row--shadow">
+          @for (t of shadows; track t.name) {
+          <div class="ds-shadow-item" [style.box-shadow]="'var(' + t.name + ')'">
+            <code class="ds-token-name">{{ t.name }}</code>
+            <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+          </div>
+          }
+        </div>
+      </section>
+
+      <!-- ── 5 排版 ─────────────────────────────────── -->
+      <section class="ds-section" id="type" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">排版</h2>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">文字层级</h3>
+          <div class="ds-type-list" flCard>
+            @for (t of textClasses; track t.className) {
+            <div class="ds-type-item">
+              <p [class]="t.className" class="ds-type-sample">{{ t.sample }}</p>
+              <div class="ds-type-meta">
+                <code class="ds-token-name">.{{ t.className }}</code>
+                <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">字号标尺</h3>
+          <div class="ds-scale" flCard>
+            @for (t of fontSizes; track t.name) {
+            <div class="ds-scale-row ds-scale-row--type">
+              <code class="ds-scale-name">{{ t.name }}</code>
+              <span class="ds-scale-value">{{ valueOf(t.name) }}</span>
+              <span class="ds-type-preview" [style.font-size]="'var(' + t.name + ')'">花墨 Ag 123</span>
+              <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+            </div>
+            }
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">字重与行高</h3>
+          <div class="ds-scale" flCard>
+            @for (t of fontWeights; track t.name) {
+            <div class="ds-scale-row">
+              <code class="ds-scale-name">{{ t.name }}</code>
+              <span class="ds-scale-value">{{ valueOf(t.name) }}</span>
+              <span class="ds-type-preview" [style.font-weight]="'var(' + t.name + ')'">花墨 · 字重演示</span>
+              <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+            </div>
+            }
+            @for (t of lineHeights; track t.name) {
+            <div class="ds-scale-row">
+              <code class="ds-scale-name">{{ t.name }}</code>
+              <span class="ds-scale-value">{{ valueOf(t.name) }}</span>
+              <span class="ds-type-preview ds-type-preview--block" [style.line-height]="'var(' + t.name + ')'">
+                行高演示：一段需要换行的文字，用来看出不同行高对阅读节奏的影响。
+              </span>
+              <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+            </div>
+            }
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">字体</h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            自托管的可变字体：西文 Inter、中文 Noto Sans SC（按用字分片、按需加载）、表情 Noto Emoji。
+          </p>
+          <div class="ds-code-block" flCard>
+            @for (t of fontFamilies; track t.name) {
+            <div class="ds-scale-row ds-scale-row--stack">
+              <code class="ds-scale-name">{{ t.name }}</code>
+              <code class="ds-stack-value">{{ valueOf(t.name) }}</code>
+              <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+            </div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 6 动效 ─────────────────────────────────── -->
+      <section class="ds-section" id="motion" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">动效</h2>
+        <p class="ds-section-desc fi-text-caption">
+          全站共用一组节奏：三档时长、一条缓动曲线。移动感统一，才不会这里轻快、那里拖沓。
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">时长与缓动（悬停试试）</h3>
+          <div class="ds-scale" flCard>
+            @for (t of motionDurations; track t.name) {
+            <div class="ds-scale-row">
+              <code class="ds-scale-name">{{ t.name }}</code>
+              <span class="ds-scale-value">{{ valueOf(t.name) }}</span>
+              <span class="ds-motion-track">
+                <span class="ds-motion-slider"
+                  [style.transition]="'transform var(' + t.name + ') var(--fi-ease-standard)'"></span>
+              </span>
+              <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+            </div>
+            }
+            @for (t of motionEases; track t.name) {
+            <div class="ds-scale-row">
+              <code class="ds-scale-name">{{ t.name }}</code>
+              <code class="ds-stack-value">{{ valueOf(t.name) }}</code>
+              <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+            </div>
+            }
+            @for (t of motionLifts; track t.name) {
+            <div class="ds-scale-row">
+              <code class="ds-scale-name">{{ t.name }}</code>
+              <span class="ds-scale-value">{{ valueOf(t.name) }}</span>
+              <span class="ds-lift-chip" [style.transform]="'translateY(var(' + t.name + '))'">抬升行程</span>
+              <span class="ds-token-usage fi-text-caption">{{ t.usage }}</span>
+            </div>
+            }
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">页面里用到的动效（点「重播」演示）</h3>
+
+          <div class="ds-motion-grid">
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('QuickUp')">
+                @if (isVisible('QuickUp')) {
+                <div class="ds-motion-box" @QuickUp>QuickUp</div>
+                }
+              </div>
+              <code class="ds-token-name">QuickUp</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('QuickUp').usage }} · {{ motionInfo('QuickUp').duration }}</span>
+              <fl-button size="md" (click)="replay('QuickUp')">重播</fl-button>
+            </div>
+
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('QuickDown')">
+                @if (isVisible('QuickDown')) {
+                <div class="ds-motion-box" @QuickDown>QuickDown</div>
+                }
+              </div>
+              <code class="ds-token-name">QuickDown</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('QuickDown').usage }} · {{ motionInfo('QuickDown').duration }}</span>
+              <fl-button size="md" (click)="replay('QuickDown')">重播</fl-button>
+            </div>
+
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('SlowUp')">
+                @if (isVisible('SlowUp')) {
+                <div class="ds-motion-box" @SlowUp>SlowUp</div>
+                }
+              </div>
+              <code class="ds-token-name">SlowUp</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('SlowUp').usage }} · {{ motionInfo('SlowUp').duration }}</span>
+              <fl-button size="md" (click)="replay('SlowUp')">重播</fl-button>
+            </div>
+
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('SlowDown')">
+                @if (isVisible('SlowDown')) {
+                <div class="ds-motion-box" @SlowDown>SlowDown</div>
+                }
+              </div>
+              <code class="ds-token-name">SlowDown</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('SlowDown').usage }} · {{ motionInfo('SlowDown').duration }}</span>
+              <fl-button size="md" (click)="replay('SlowDown')">重播</fl-button>
+            </div>
+
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('RefreshUp')">
+                @if (isVisible('RefreshUp')) {
+                <div class="ds-motion-box" @RefreshUp>RefreshUp</div>
+                }
+              </div>
+              <code class="ds-token-name">RefreshUp</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('RefreshUp').usage }} · {{ motionInfo('RefreshUp').duration }}</span>
+              <fl-button size="md" (click)="replay('RefreshUp')">重播</fl-button>
+            </div>
+
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('StaggerList')">
+                @if (isVisible('StaggerList')) {
+                <!-- 子元素必须是 @for 出来的：StaggerList 靠 query(':enter') 抓条目，
+                     写死的静态子元素不算「进入」，抓不到（线上各页也是这么用的） -->
+                <div class="ds-stagger-stage" @StaggerList>
+                  @for (n of staggerItems; track n) {
+                  <span class="ds-motion-box ds-motion-box--sm">{{ n }}</span>
+                  }
+                </div>
+                }
+              </div>
+              <code class="ds-token-name">StaggerList</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('StaggerList').usage }} · {{ motionInfo('StaggerList').duration }}</span>
+              <fl-button size="md" (click)="replay('StaggerList')">重播</fl-button>
+            </div>
+
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('FadeSlide')">
+                @if (isVisible('FadeSlide')) {
+                <div class="ds-motion-box" @FadeSlide>FadeSlide</div>
+                }
+              </div>
+              <code class="ds-token-name">FadeSlide</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('FadeSlide').usage }} · {{ motionInfo('FadeSlide').duration }}</span>
+              <fl-button size="md" (click)="replay('FadeSlide')">重播</fl-button>
+            </div>
+
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('ExpandCollapse')">
+                @if (isVisible('ExpandCollapse')) {
+                <div class="ds-motion-box" @ExpandCollapse>ExpandCollapse</div>
+                }
+              </div>
+              <code class="ds-token-name">ExpandCollapse</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('ExpandCollapse').usage }} · {{ motionInfo('ExpandCollapse').duration }}</span>
+              <fl-button size="md" (click)="replay('ExpandCollapse')">重播</fl-button>
+            </div>
+
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('PopoverIn')">
+                @if (isVisible('PopoverIn')) {
+                <div class="ds-motion-box" @PopoverIn>PopoverIn</div>
+                }
+              </div>
+              <code class="ds-token-name">PopoverIn</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('PopoverIn').usage }} · {{ motionInfo('PopoverIn').duration }}</span>
+              <fl-button size="md" (click)="replay('PopoverIn')">重播</fl-button>
+            </div>
+
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('BubbleIn')">
+                @if (isVisible('BubbleIn')) {
+                <div class="ds-motion-box" @BubbleIn>BubbleIn</div>
+                }
+              </div>
+              <code class="ds-token-name">BubbleIn</code>
+              <span class="ds-token-usage fi-text-caption">{{ motionInfo('BubbleIn').usage }} · {{ motionInfo('BubbleIn').duration }}</span>
+              <fl-button size="md" (click)="replay('BubbleIn')">重播</fl-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">备选动效（已做好，暂时没用上）</h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            这批动效做好了但还没用在页面上，需要「从左滑入」这类效果时可以直接取用。下面是现场演示。
+          </p>
+          <div class="ds-motion-grid">
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('QuickLeft')">
+                @if (isVisible('QuickLeft')) {
+                <div class="ds-motion-box" @QuickLeft>QuickLeft</div>
+                }
+              </div>
+              <code class="ds-token-name">QuickLeft</code>
+              <fl-button size="md" (click)="replay('QuickLeft')">重播</fl-button>
+            </div>
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('QuickRight')">
+                @if (isVisible('QuickRight')) {
+                <div class="ds-motion-box" @QuickRight>QuickRight</div>
+                }
+              </div>
+              <code class="ds-token-name">QuickRight</code>
+              <fl-button size="md" (click)="replay('QuickRight')">重播</fl-button>
+            </div>
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('SlowLeft')">
+                @if (isVisible('SlowLeft')) {
+                <div class="ds-motion-box" @SlowLeft>SlowLeft</div>
+                }
+              </div>
+              <code class="ds-token-name">SlowLeft</code>
+              <fl-button size="md" (click)="replay('SlowLeft')">重播</fl-button>
+            </div>
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('SlowRight')">
+                @if (isVisible('SlowRight')) {
+                <div class="ds-motion-box" @SlowRight>SlowRight</div>
+                }
+              </div>
+              <code class="ds-token-name">SlowRight</code>
+              <fl-button size="md" (click)="replay('SlowRight')">重播</fl-button>
+            </div>
+            <div class="ds-motion-card" flCard>
+              <div class="ds-motion-stage" [@.disabled]="!isVisible('SlideEnter')">
+                @if (isVisible('SlideEnter')) {
+                <div class="ds-motion-box" [@SlideEnter]="{ value: '', params: { offset: '24px' } }">SlideEnter</div>
+                }
+              </div>
+              <code class="ds-token-name">SlideEnter</code>
+              <span class="ds-token-usage fi-text-caption">靠 <code>params.offset</code> 控制方向</span>
+              <fl-button size="md" (click)="replay('SlideEnter')">重播</fl-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">减少动态效果</h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            访客的系统里开启「减少动态效果」时，站内的位移与循环动画会停下来，颜色变化保留。
+          </p>
+        </div>
+      </section>
+
+      <!-- ── 7 按钮 ─────────────────────────────────── -->
+      <section class="ds-section" id="button" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">按钮</h2>
+        <p class="ds-section-desc fi-text-caption">
+          <code>variant</code>（outline / solid / ghost）× <code>size</code>（sm / md / lg）×
+          <code>disabled</code> × <code>block</code>。<code>routerLink</code> 可直接当路由跳转用。
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">变体 × 尺寸</h3>
+          <div class="ds-demo-stack" flCard>
+            <div class="ds-demo-row">
+              <fl-button variant="outline" size="sm">outline · sm</fl-button>
+              <fl-button variant="outline" size="md">outline · md</fl-button>
+              <fl-button variant="outline" size="lg">outline · lg</fl-button>
+            </div>
+            <div class="ds-demo-row">
+              <fl-button variant="solid" size="sm">solid · sm</fl-button>
+              <fl-button variant="solid" size="md">solid · md</fl-button>
+              <fl-button variant="solid" size="lg">solid · lg</fl-button>
+            </div>
+            <div class="ds-demo-row">
+              <fl-button variant="ghost" size="sm">ghost · sm</fl-button>
+              <fl-button variant="ghost" size="md">ghost · md</fl-button>
+              <fl-button variant="ghost" size="lg">ghost · lg</fl-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">状态与布局</h3>
+          <div class="ds-demo-stack" flCard>
+            <div class="ds-demo-row">
+              <fl-button variant="solid">可点</fl-button>
+              <fl-button variant="solid" [disabled]="true">禁用</fl-button>
+              <fl-button variant="outline" type="submit">type=submit</fl-button>
+            </div>
+            <div class="ds-demo-block">
+              <fl-button variant="solid" [block]="true">block —— 铺满容器宽度</fl-button>
+            </div>
+          </div>
+          <p class="ds-hint fi-text-caption">
+            手机端主操作按钮与输入框都是 44px 高，手指够得着；评论区那几个小图标按钮保持小巧，但可点范围同样放大过。
+          </p>
+        </div>
+      </section>
+
+      <!-- ── 8 表单 ─────────────────────────────────── -->
+      <section class="ds-section" id="input" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">表单</h2>
+        <p class="ds-section-desc fi-text-caption">
+          输入框与文本域。点进去能看到聚焦时的状态，鼠标划过也有反馈。
+        </p>
+        <div class="ds-demo-stack" flCard>
+          <div class="ds-field">
+            <span class="ds-field-label fi-text-caption">默认</span>
+            <input nz-input flInput placeholder="搜索文章" [(ngModel)]="inputValue" />
+          </div>
+          <div class="ds-field">
+            <span class="ds-field-label fi-text-caption">多行</span>
+            <textarea nz-input flInput rows="3" [(ngModel)]="textareaValue"></textarea>
+          </div>
+          <div class="ds-field">
+            <span class="ds-field-label fi-text-caption">禁用</span>
+            <input nz-input flInput disabled [value]="'禁用态的底色、边框与文字色都来自 token'" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 9 卡片 ─────────────────────────────────── -->
+      <section class="ds-section" id="card" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">卡片</h2>
+        <p class="ds-section-desc fi-text-caption">
+          两档：静态卡片，以及鼠标悬停时会轻轻抬起的卡片。
+        </p>
+        <div class="ds-demo-row ds-demo-row--cards">
+          <div class="ds-sample-card" flCard>
+            <span class="fi-text-strong">静态卡片</span>
+            <span class="fi-text-caption">只有表面、边框与柔和阴影。</span>
+          </div>
+          <div class="ds-sample-card" flCard flCardHover>
+            <span class="fi-text-strong">可悬浮卡片</span>
+            <span class="fi-text-caption">鼠标移上去试试抬升与阴影变化。</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 10 标签 ────────────────────────────────── -->
+      <section class="ds-section" id="tag" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">标签</h2>
+        <p class="ds-section-desc fi-text-caption">
+          三种变体 × 可选交互。用于分类、状态、筛选。
+        </p>
+        <div class="ds-demo-stack" flCard>
+          <div class="ds-demo-row">
+            <nz-tag flTag>soft（默认）</nz-tag>
+            <nz-tag flTag flTagVariant="outline">outline</nz-tag>
+            <nz-tag flTag flTagVariant="solid">solid</nz-tag>
+          </div>
+          <div class="ds-demo-row">
+            <nz-tag flTag flTagInteractive>可交互（悬停试试）</nz-tag>
+            <nz-tag flTag flTagVariant="outline" flTagInteractive>outline · 可交互</nz-tag>
+          </div>
+        </div>
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">筛选条 · <code>fl-tag-filter</code></h3>
+          <div class="ds-demo-row" flCard>
+            <fl-tag-filter [items]="tagFilterItems" [selected]="selectedTagFilter"
+              (select)="selectTagFilter($event)"></fl-tag-filter>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 11 提示 ────────────────────────────────── -->
+      <section class="ds-section" id="alert" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">提示</h2>
+        <p class="ds-section-desc fi-text-caption">4 种语义 × 3 种变体。</p>
+        <div class="ds-demo-stack" flCard>
+          <div class="ds-demo-stack">
+            <nz-alert flAlert nzType="info" nzMessage="信息 · soft" nzDescription="默认变体，底色最浅。"></nz-alert>
+            <nz-alert flAlert nzType="success" nzMessage="成功 · soft" nzDescription="用于操作成功反馈。"></nz-alert>
+            <nz-alert flAlert nzType="warning" nzMessage="警告 · soft" nzDescription="用于需要留意但不阻断的信息。"></nz-alert>
+            <nz-alert flAlert nzType="error" nzMessage="错误 · soft" nzDescription="用于失败与需要修正的信息。"></nz-alert>
+          </div>
+          <div class="ds-demo-stack">
+            <nz-alert flAlert flAlertVariant="outline" nzType="info" nzMessage="信息 · outline" nzDescription="描边变体，适合叠在卡片里。"></nz-alert>
+            <nz-alert flAlert flAlertVariant="solid" nzType="warning" nzMessage="警告 · solid" nzDescription="实色变体，用于需要抢注意力的场合。"></nz-alert>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 12 版式容器 ────────────────────────────── -->
+      <section class="ds-section" id="layout" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">版式容器</h2>
+        <p class="ds-section-desc fi-text-caption">
+          页面内容的宽度与留白。三种版式覆盖了站内所有页面。
+        </p>
+        <div class="ds-demo-stack" flCard>
+          <div class="ds-layout-demo">
+            <span class="ds-layout-name fi-text-caption">标准页宽</span>
+            <span class="ds-layout-box">最大宽度 {{ valueOf('--fi-page-max') }}，左右留白随屏幕收缩</span>
+          </div>
+          <div class="ds-layout-demo">
+            <span class="ds-layout-name fi-text-caption">窄版页宽</span>
+            <span class="ds-layout-box" style="max-width: 60%">最大宽度 {{ valueOf('--fi-page-max-narrow') }}，长文更好读</span>
+          </div>
+          <div class="ds-layout-demo">
+            <span class="ds-layout-name fi-text-caption">正文 + 侧栏</span>
+            <span class="ds-layout-box">
+              双栏：主区自适应，侧栏固定 304~316px。窄屏时上下堆叠。
+            </span>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">断点</h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            全站统一 4 档，分别对应小屏手机、手机/平板分界、中间过渡与宽屏。
+          </p>
+          <div class="ds-scale" flCard>
+            @for (b of breakpoints; track b.value) {
+            <div class="ds-scale-row">
+              <code class="ds-scale-name">{{ b.value }}</code>
+              <span class="ds-token-usage fi-text-caption">{{ b.usage }}</span>
+            </div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 13 正文排版 ────────────────────────────── -->
+      <section class="ds-section" id="markdown" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">正文排版</h2>
+        <p class="ds-section-desc fi-text-caption">
+          博客正文的排版。下面这段是真实渲染结果，和文章页里看到的一模一样：标题、引用、列表、行内代码、代码块、表格。
+        </p>
+        <div class="ds-markdown-wrap" flCard>
+          <markdown id="currentAnchor" [data]="markdownSample"></markdown>
+        </div>
+      </section>
+
+      <!-- ── 14 评论区 ──────────────────────────────── -->
+      <section class="ds-section" id="comment" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">评论区</h2>
+        <p class="ds-section-desc fi-text-caption">
+          评论区的三个组成件：内容排版、单条评论卡片、输入框。完整评论区在文章、游戏、装备、点滴页面上。
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">内容排版</h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            评论正文同样支持 Markdown，站内表情以行内小图显示。
+          </p>
+          <div class="ds-sample-card" flCard>
+            <fl-comment-content [content]="commentDraft"></fl-comment-content>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">单条评论卡片</h3>
+          <div class="ds-demo-stack" flCard>
+            <fl-comment-card [comment]="demoComment" [showReplyButton]="true" [avatarSize]="40"></fl-comment-card>
+            <div class="ds-reply-indent">
+              <fl-comment-card [comment]="demoReply" [avatarSize]="32"></fl-comment-card>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">输入框</h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            「评论 / 预览」双页签，内置表情选择器。
+          </p>
+          <fl-comment-editor [content]="commentDraft" (contentChange)="commentDraft = $event" [rows]="4"
+            [maxlength]="500"></fl-comment-editor>
+        </div>
+      </section>
+
+      <!-- ── 15 状态 ────────────────────────────────── -->
+      <section class="ds-section" id="state" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">状态</h2>
+        <p class="ds-section-desc fi-text-caption">
+          数据还没到时的样子：加载中、骨架屏、空状态。
+        </p>
+        <div class="ds-demo-stack" flCard>
+          <div class="ds-demo-row">
+            <fl-button size="md" (click)="toggleSpinDemo()">
+              {{ spinDemo ? '停止 loading' : '开始 loading' }}
+            </fl-button>
+            <span class="fi-text-caption">加载中</span>
+          </div>
+          <nz-spin [nzSpinning]="spinDemo" [nzTip]="'数据正在赶来中'">
+            <div class="ds-spin-target">内容区</div>
+          </nz-spin>
+
+          <div class="ds-demo-row">
+            <fl-button size="md" (click)="toggleSkeletonDemo()">
+              {{ skeletonDemo ? '停止骨架' : '开始骨架' }}
+            </fl-button>
+            <span class="fi-text-caption">骨架屏</span>
+          </div>
+          <nz-skeleton [nzActive]="skeletonDemo" [nzLoading]="skeletonDemo">
+            <div class="ds-spin-target">骨架屏结束后显示的内容</div>
+          </nz-skeleton>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">空状态</h3>
+          <div class="ds-sample-card" flCard>
+            <flower-nodata></flower-nodata>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 16 卡片族 ──────────────────────────────── -->
+      <section class="ds-section" id="cards" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">卡片族</h2>
+        <p class="ds-section-desc fi-text-caption">
+          各个模块的列表项卡片。放在一起，是为了看清它们是不是同一套视觉语言。
+        </p>
+        <div class="ds-card-family">
+          <div class="ds-card-family__item">
+            <span class="ds-card-family__label fi-text-caption">文章</span>
+            <div flCard flCardHover>
+              <flower-blog-card [blog]="demoBlog" [loading]="false"></flower-blog-card>
+            </div>
+          </div>
+          <div class="ds-card-family__item">
+            <span class="ds-card-family__label fi-text-caption">友链</span>
+            <flower-link-card [link]="demoLink"></flower-link-card>
+          </div>
+          <div class="ds-card-family__item">
+            <span class="ds-card-family__label fi-text-caption">游戏</span>
+            <flower-game-card [game]="demoGame"></flower-game-card>
+          </div>
+          <div class="ds-card-family__item">
+            <span class="ds-card-family__label fi-text-caption">装备</span>
+            <flower-equipment-card [item]="demoEquipment"></flower-equipment-card>
+          </div>
+          <div class="ds-card-family__item">
+            <span class="ds-card-family__label fi-text-caption">作者</span>
+            <flower-me-card [info]="demoMeCard" [numLoading]="false"></flower-me-card>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 17 时间轴与切换 ────────────────────────── -->
+      <section class="ds-section" id="timeline" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">时间轴与切换</h2>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">时间轴</h3>
+          <p class="ds-subsection-desc fi-text-caption">归档与点滴共用，圆点跟随主色。</p>
+          <div class="ds-sample-card" flCard>
+            <div class="fi-simple-timeline">
+              <div class="fi-simple-timeline-item">
+                <span class="fi-simple-timeline-dot"></span>
+                <div class="fi-simple-timeline-content">
+                  <span class="fi-simple-timeline-date">10/07</span>
+                  <span class="fi-simple-timeline-title">普通条目</span>
+                </div>
+              </div>
+              <div class="fi-simple-timeline-item is-starred-item">
+                <span class="fi-simple-timeline-dot"></span>
+                <div class="fi-simple-timeline-content">
+                  <span class="fi-simple-timeline-date">10/02</span>
+                  <span class="fi-simple-timeline-title is-starred">精选条目 <span class="star-badge">[精选]</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">切换条</h3>
+          <div class="ds-sample-card" flCard>
+            <div class="fi-tab-bar">
+              @for (tab of tabs; track tab) {
+              <span class="fi-tab" [class.fi-tab--active]="activeTab === tab" (click)="selectTab(tab)">{{ tab }}</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">圆点指示器</h3>
+          <div class="ds-sample-card" flCard>
+            <div class="fi-dots">
+              @for (d of dotCount; track d) {
+              <span class="fi-dot" [class.fi-dot--active]="activeDot === d" (click)="selectDot(d)"></span>
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 18 图标 ────────────────────────────────── -->
+      <section class="ds-section" id="icon" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">图标</h2>
+        <p class="ds-section-desc fi-text-caption">
+          第一排是站内自带的品牌与装饰图形，第二排是常用界面图标。两者尺寸已统一。
+        </p>
+        <div class="ds-demo-row ds-demo-row--icons ds-demo-row--brand-icons" flCard>
+          <flower-rss></flower-rss>
+          <flower-sitemap></flower-sitemap>
+          <flower-planet></flower-planet>
+          <flower-coffee-icon></flower-coffee-icon>
+          <flower-forever></flower-forever>
+        </div>
+        <div class="ds-demo-row ds-demo-row--icons ds-demo-row--ui-icons" flCard>
+          <span nz-icon nzType="search" nzTheme="outline"></span>
+          <span nz-icon nzType="menu" nzTheme="outline"></span>
+          <span nz-icon nzType="heart" nzTheme="outline"></span>
+          <span nz-icon nzType="heart" nzTheme="fill"></span>
+          <span nz-icon nzType="message" nzTheme="outline"></span>
+          <span nz-icon nzType="smile" nzTheme="outline"></span>
+          <span nz-icon nzType="up" nzTheme="outline"></span>
+          <span nz-icon nzType="link" nzTheme="outline"></span>
+        </div>
+      </section>
+
+      <!-- ── 19 无障碍 ──────────────────────────────── -->
+      <section class="ds-section" id="a11y" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">无障碍</h2>
+        <p class="ds-section-desc fi-text-caption">
+          键盘操作，以及访客开了「减少动态效果」时的表现。
+        </p>
+        <div class="ds-demo-stack" flCard>
+          <div class="ds-subsection">
+            <h3 class="ds-subsection-title fi-text-strong">键盘焦点</h3>
+            <p class="ds-subsection-desc fi-text-caption">
+              按 Tab 键浏览时，当前聚焦的元素会显示一圈暖棕描边；用鼠标点击时不会出现。
+            </p>
+            <div class="ds-demo-row">
+              <fl-button variant="outline">按钮</fl-button>
+              <a class="fi-text-link" tabindex="0">链接</a>
+              <input nz-input flInput placeholder="输入框" class="ds-focus-input" />
+            </div>
+          </div>
+          <div class="ds-subsection">
+            <h3 class="ds-subsection-title fi-text-strong">减少动态效果</h3>
+            <p class="ds-subsection-desc fi-text-caption">
+              访客系统里开启「减少动态效果」后，站内的位移与循环动画会停下来，颜色变化保留。
+            </p>
+          </div>
+          <div class="ds-subsection">
+            <h3 class="ds-subsection-title fi-text-strong">图标按钮</h3>
+            <p class="ds-subsection-desc fi-text-caption">
+              只有图标、没有文字的按钮，都带一句可读的文字说明，读屏软件能念出来。
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>

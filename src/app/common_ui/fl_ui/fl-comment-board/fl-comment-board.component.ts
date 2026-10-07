@@ -13,6 +13,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -70,6 +71,7 @@ import { SimpleCaptchaComponent } from '../../../components/website/simple-captc
     NgTemplateOutlet,
     NzFlexModule,
     NzIconModule,
+    NzInputModule,
     NzModalModule,
     NzSpinModule,
     NzTooltipModule,

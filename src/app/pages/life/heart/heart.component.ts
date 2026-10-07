@@ -29,6 +29,7 @@ import { memoizeLifeCommentSources } from '../../../shared/comment/comment-sourc
 import type { CommentSource } from '../../../shared/comment/comment.model';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { FlImgFadeDirective } from '../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
 import { QuickUp, RefreshUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
 import { LifeService } from '../life.service';
@@ -89,6 +90,7 @@ interface YearNavigator {
     FlCommentBoardComponent,
     FlCardDirective,
     FlTagDirective,
+    FlImgFadeDirective,
   ],
   templateUrl: './heart.component.html',
   styleUrl: './heart.component.css',

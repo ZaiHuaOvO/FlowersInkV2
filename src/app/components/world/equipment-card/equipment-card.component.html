@@ -27,6 +27,6 @@
 
 <ng-template #coverTemplate>
   <div class="img-container" [ngStyle]="{ 'padding': (item.imagePadding ?? 32) + 'px' }">
-    <img loading="lazy" decoding="async" [src]="item.image" alt="" />
+    <img flImgFade loading="lazy" decoding="async" [src]="item.image" alt="" />
   </div>
 </ng-template>

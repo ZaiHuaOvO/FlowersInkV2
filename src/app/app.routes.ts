@@ -92,6 +92,13 @@ export const routes: Routes = [
       import('./pages/changelog/changelog.component').then((m) => m.ChangelogComponent),
   },
   {
+    // 设计系统展示页：改 fi-tokens / fl_ui 后必须同步本页，约定见 AGENTS.md
+    path: 'design',
+    title: '花墨 | 设计规范',
+    loadComponent: () =>
+      import('./pages/design/design.component').then((m) => m.DesignComponent),
+  },
+  {
     path: 'link',
     loadChildren: () =>
       import('./pages/link/link.routes').then((m) => m.LINK_ROUTES),

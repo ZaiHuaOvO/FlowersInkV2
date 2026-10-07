@@ -8,6 +8,7 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { FlImgFadeDirective } from '../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
 
 @Component({
   selector: 'flower-book-card',
@@ -24,6 +25,7 @@ import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.direct
     DatePipe,
     DecimalPipe,
     FlCardDirective,
+    FlImgFadeDirective,
   ],
   templateUrl: './book-card.component.html',
   styleUrl: './book-card.component.css',

@@ -7,6 +7,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { FlImgFadeDirective } from '../../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
 import { deriveWebpVariants } from '../../../../shared/utils/image-url.util';
 
 interface GameShotAsset {
@@ -25,6 +26,7 @@ interface GameShotAsset {
     NzImageModule,
     NzSpinModule,
     FlTagDirective,
+    FlImgFadeDirective,
   ],
   templateUrl: './game-detail-dialog.component.html',
   styleUrl: './game-detail-dialog.component.css',

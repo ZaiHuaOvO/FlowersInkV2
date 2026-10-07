@@ -5,6 +5,7 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { FlImgFadeDirective } from '../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
 
 @Component({
   selector: 'flower-equipment-card',
@@ -17,6 +18,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     NzTagModule,
     NzTypographyModule,
     FlTagDirective,
+    FlImgFadeDirective,
   ],
   templateUrl: './equipment-card.component.html',
   styleUrl: './equipment-card.component.css',

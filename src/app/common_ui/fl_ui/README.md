@@ -74,7 +74,7 @@ export class ExampleComponent {}
 
 ### 主题变量
 
-变量来源：`src/styles.css`
+变量来源：`src/app/common_ui/css/fi-tokens.css`
 
 | CSS 变量 | 说明 |
 |---|---|
@@ -120,7 +120,7 @@ export class ExampleComponent {}
 
 ### 主题变量
 
-变量来源：`src/styles.css`
+变量来源：`src/app/common_ui/css/fi-tokens.css`
 
 | CSS 变量 | 说明 |
 |---|---|
@@ -162,7 +162,7 @@ export class ExampleComponent {}
 
 ### 主题变量
 
-变量来源：`src/styles.css`
+变量来源：`src/app/common_ui/css/fi-tokens.css`
 
 | CSS 变量 | 说明 |
 |---|---|
@@ -210,7 +210,7 @@ export class ExampleComponent {}
 
 ### 主题变量
 
-变量来源：`src/styles.css`
+变量来源：`src/app/common_ui/css/fi-tokens.css`
 
 | CSS 变量 | 说明 |
 |---|---|
@@ -257,7 +257,7 @@ export class ExampleComponent {}
 
 ### 主题变量
 
-变量来源：`src/styles.css`
+变量来源：`src/app/common_ui/css/fi-tokens.css`
 
 | CSS 变量 | 说明 |
 |---|---|
