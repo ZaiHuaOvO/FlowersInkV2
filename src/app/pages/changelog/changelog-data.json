@@ -48,7 +48,7 @@
       "type": "feat",
       "date": "2026-10-07",
       "desc": "新增设计规范页，站内色彩、排版、动效与组件可一屏查看",
-      "important": false,
+      "important": true,
       "repo": "site",
       "sha": "b41da288a4d574038fc62be7950a7a7f7bf488d9"
     },
