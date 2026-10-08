@@ -243,9 +243,10 @@ export class ExampleComponent {}
 ### 示例
 
 ```html
-<nz-alert flAlert nzType="info" [nzMessage]="title" [nzDescription]="content"></nz-alert>
-<nz-alert flAlert flAlertVariant="outline" nzType="success" [nzDescription]="content"></nz-alert>
-<nz-alert flAlert flAlertVariant="solid" nzType="warning" [nzDescription]="content"></nz-alert>
+<!-- 四种 nzType 各自有色。建议开 nzShowIcon：类型图标是识别类型的主要视觉线索 -->
+<nz-alert flAlert nzShowIcon nzType="info" [nzMessage]="title" [nzDescription]="content"></nz-alert>
+<nz-alert flAlert flAlertVariant="outline" nzShowIcon nzType="success" [nzDescription]="content"></nz-alert>
+<nz-alert flAlert flAlertVariant="solid" nzShowIcon nzType="warning" [nzDescription]="content"></nz-alert>
 ```
 
 ### API
@@ -257,19 +258,23 @@ export class ExampleComponent {}
 
 ### 主题变量
 
-变量来源：`src/app/common_ui/css/fi-tokens.css`
+颜色按 `nzType` 取自**语义 token**，不再是一组独立的 `--fi-alert-*`：
 
 | CSS 变量 | 说明 |
 |---|---|
-| `--fi-alert-bg` | 默认背景 |
-| `--fi-alert-border` | 默认边框 |
-| `--fi-alert-text` | 默认文字色 |
-| `--fi-alert-icon` | 图标色 |
-| `--fi-alert-mark-bg` | `mark` 背景色 |
-| `--fi-alert-mark-text` | `mark` 文字色 |
-| `--fi-alert-bg-strong` | `solid` 背景 |
-| `--fi-alert-border-strong` | `solid` 边框 |
-| `--fi-alert-text-strong` | `solid` 文字色 |
+| `--fi-info` / `--fi-info-bg` | `nzType="info"` 的前景色 / 浅底色 |
+| `--fi-success` / `--fi-success-bg` | 同上，`success` |
+| `--fi-warning` / `--fi-warning-bg` | 同上，`warning` |
+| `--fi-danger` / `--fi-danger-bg` | 同上，`error`（ng-zorro 的类名是 `ant-alert-error`） |
+| `--fi-alert-bg` | 没有类型类时的兜底底色 |
+| `--fi-text-body` | 说明行文字 |
+| `--fi-text-inverse` | `solid` 变体的文字 |
+
+变体内派生的三个值——`--fi-alert-strong`（标题色与实色底）、`--fi-alert-soft-border`（soft / outline 描边）、`--fi-alert-mark-bg`（`mark` 底色）——都在 `fi-alert.css` 里用 `color-mix` 从前景色算出来，不在 token 层另立一套。
+
+**为什么标题不直接用语义色**：那几个色是按「大色块」挑的，当正文色太浅。实测它们压在自己的 `-bg` 上只有 info 3.63 / success 3.67 / warning 2.49 / danger 4.65，除 danger 外都不到 WCAG AA。所以标题是「语义色往 `--fi-text-heading` 压暗 45%」（7.6 / 7.8 / 6.3 / 8.8，均过 AAA），仍然看得出色相。
+
+改 `--fi-warning` 一处，警告提示的底、边、图标、标题会一起变。
 
 ## `fl-comment-board`
 

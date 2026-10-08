@@ -216,15 +216,11 @@
   --fi-tag-border-hover: #cda983;
   --fi-tag-text-hover: #6a421f;
 
+  /* 提示框的颜色按 nzType 走语义色（--fi-info / -success / -warning / -danger 各带 -bg），
+     不再是这里一组独立的棕色变量；这里只留一个「没有类型类」时的兜底底色。
+     原本的 -border / -text / -icon / -mark-* / -bg-strong / -border-strong / -text-strong
+     在改法之后已无人引用，2026-10-08 移除。详见 common_ui/css/fi-alert.css */
   --fi-alert-bg: #f8efe5;
-  --fi-alert-border: #d6bc9d;
-  --fi-alert-text: #6f4b2a;
-  --fi-alert-icon: #8b5a2b;
-  --fi-alert-mark-bg: #ead7c3;
-  --fi-alert-mark-text: #8b5a2b;
-  --fi-alert-bg-strong: #8b5a2b;
-  --fi-alert-border-strong: #8b5a2b;
-  --fi-alert-text-strong: #fffaf5;
 
   --fi-form-bg: #ffffff;
   --fi-form-bg-hover: #fffdf9;

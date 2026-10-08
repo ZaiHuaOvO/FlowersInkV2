@@ -547,17 +547,37 @@
       <!-- ── 11 提示 ────────────────────────────────── -->
       <section class="ds-section" id="alert" @QuickUp>
         <h2 class="ds-section-title fi-text-title-2">提示</h2>
-        <p class="ds-section-desc fi-text-caption">4 种语义 × 3 种变体。</p>
+        <p class="ds-section-desc fi-text-caption">
+          四种语义（信息 / 成功 / 警告 / 错误）× 三种变体（soft / outline / solid）。
+          底色、描边、图标都跟随语义色；标题用压暗后的语义色，保证浅底上也读得清。
+        </p>
         <div class="ds-demo-stack" flCard>
-          <div class="ds-demo-stack">
-            <nz-alert flAlert nzType="info" nzMessage="信息 · soft" nzDescription="默认变体，底色最浅。"></nz-alert>
-            <nz-alert flAlert nzType="success" nzMessage="成功 · soft" nzDescription="用于操作成功反馈。"></nz-alert>
-            <nz-alert flAlert nzType="warning" nzMessage="警告 · soft" nzDescription="用于需要留意但不阻断的信息。"></nz-alert>
-            <nz-alert flAlert nzType="error" nzMessage="错误 · soft" nzDescription="用于失败与需要修正的信息。"></nz-alert>
+          <div class="ds-subsection">
+            <h3 class="ds-subsection-title fi-text-strong">soft —— 默认，浅底</h3>
+            <div class="ds-demo-stack">
+              <nz-alert flAlert nzShowIcon nzType="info" nzMessage="信息" nzDescription="中性说明，不打断阅读。"></nz-alert>
+              <nz-alert flAlert nzShowIcon nzType="success" nzMessage="成功" nzDescription="操作已完成的反馈。"></nz-alert>
+              <nz-alert flAlert nzShowIcon nzType="warning" nzMessage="警告" nzDescription="需要留意，但不阻断操作。"></nz-alert>
+              <nz-alert flAlert nzShowIcon nzType="error" nzMessage="错误" nzDescription="操作失败，或内容需要修正。"></nz-alert>
+            </div>
           </div>
-          <div class="ds-demo-stack">
-            <nz-alert flAlert flAlertVariant="outline" nzType="info" nzMessage="信息 · outline" nzDescription="描边变体，适合叠在卡片里。"></nz-alert>
-            <nz-alert flAlert flAlertVariant="solid" nzType="warning" nzMessage="警告 · solid" nzDescription="实色变体，用于需要抢注意力的场合。"></nz-alert>
+          <div class="ds-subsection">
+            <h3 class="ds-subsection-title fi-text-strong">outline —— 白底描边</h3>
+            <div class="ds-demo-stack">
+              <nz-alert flAlert flAlertVariant="outline" nzShowIcon nzType="info" nzMessage="信息"></nz-alert>
+              <nz-alert flAlert flAlertVariant="outline" nzShowIcon nzType="success" nzMessage="成功"></nz-alert>
+              <nz-alert flAlert flAlertVariant="outline" nzShowIcon nzType="warning" nzMessage="警告"></nz-alert>
+              <nz-alert flAlert flAlertVariant="outline" nzShowIcon nzType="error" nzMessage="错误"></nz-alert>
+            </div>
+          </div>
+          <div class="ds-subsection">
+            <h3 class="ds-subsection-title fi-text-strong">solid —— 实色底</h3>
+            <div class="ds-demo-stack">
+              <nz-alert flAlert flAlertVariant="solid" nzShowIcon nzType="info" nzMessage="信息"></nz-alert>
+              <nz-alert flAlert flAlertVariant="solid" nzShowIcon nzType="success" nzMessage="成功"></nz-alert>
+              <nz-alert flAlert flAlertVariant="solid" nzShowIcon nzType="warning" nzMessage="警告"></nz-alert>
+              <nz-alert flAlert flAlertVariant="solid" nzShowIcon nzType="error" nzMessage="错误"></nz-alert>
+            </div>
           </div>
         </div>
       </section>

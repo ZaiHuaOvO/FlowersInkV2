@@ -1,59 +1,133 @@
+/* ============================================================
+   fi-alert.css — nz-alert 主题（配合 fl-alert 指令）
+   ------------------------------------------------------------
+   按 nzType 映射到站内已有的语义 token，不再是一律棕色。
+
+   1. 类型 → 语义色：只在下面那 4 条规则里映射一次，
+      其余各处都从 --fi-alert-fg 派生，加类型不用改别处。
+      类型类是 ng-zorro 加在**内层 .ant-alert** 上的
+      （宿主 nz-alert 只有 fl-alert-host / fl-alert-<variant>），
+      所以选择器必须落到内层。
+
+   2. 文字不能直接用语义色。那些色是按「大色块」挑的，当正文色太浅 ——
+      实测它们压在自己的 -bg 上：info 3.63:1 · success 3.67:1 ·
+      warning 2.49:1 · danger 4.65:1，除 danger 外都不到 WCAG AA 的 4.5:1。
+      所以标题用 color-mix 把语义色往标题色压暗 45%：
+        info 7.64 · success 7.83 · warning 6.33 · danger 8.75（均过 AAA）
+      说明行用 --fi-text-body（13~14:1）。
+      实色变体的底也用压暗后的色 —— 直接用原色配反白文字的话
+      warning 只有 2.60:1。
+
+   3. color-mix 站内已在 5 个文件里使用（含 markdown 两套共享样式），
+      不是新依赖；且它的浏览器支持面比 fi-overrides.css 里的 :has() 更广。
+   ============================================================ */
+
+/* ---------- 1. 类型 → 语义色 ---------- */
+
+nz-alert.fl-alert-host .ant-alert.ant-alert-info {
+  --fi-alert-fg: var(--fi-info);
+  --fi-alert-soft-bg: var(--fi-info-bg);
+}
+
+nz-alert.fl-alert-host .ant-alert.ant-alert-success {
+  --fi-alert-fg: var(--fi-success);
+  --fi-alert-soft-bg: var(--fi-success-bg);
+}
+
+nz-alert.fl-alert-host .ant-alert.ant-alert-warning {
+  --fi-alert-fg: var(--fi-warning);
+  --fi-alert-soft-bg: var(--fi-warning-bg);
+}
+
+nz-alert.fl-alert-host .ant-alert.ant-alert-error {
+  --fi-alert-fg: var(--fi-danger);
+  --fi-alert-soft-bg: var(--fi-danger-bg);
+}
+
+/* ---------- 2. 派生值 + 默认（soft）外观 ---------- */
+
 nz-alert.fl-alert-host .ant-alert {
+  /* 兜底：万一没有类型类，退回主色，不至于边框背景全空 */
+  --fi-alert-fg: var(--fi-primary);
+  --fi-alert-soft-bg: var(--fi-alert-bg);
+
+  /* 下面三个都从 --fi-alert-fg 算出来，所以类型只需在上面映射一次 */
+  --fi-alert-strong: color-mix(in srgb, var(--fi-alert-fg) 45%, var(--fi-text-heading));
+  --fi-alert-soft-border: color-mix(in srgb, var(--fi-alert-fg) 30%, var(--fi-surface));
+  --fi-alert-mark-bg: color-mix(in srgb, var(--fi-alert-fg) 22%, var(--fi-surface));
+
   border-radius: var(--fi-radius-sm) !important;
-  border: 1px solid var(--fi-alert-border) !important;
-  background: var(--fi-alert-bg) !important;
+  border: 1px solid var(--fi-alert-soft-border) !important;
+  background: var(--fi-alert-soft-bg) !important;
   box-shadow: var(--fi-shadow-soft);
 }
 
 nz-alert.fl-alert-host .ant-alert-icon {
-  color: var(--fi-alert-icon) !important;
+  color: var(--fi-alert-fg) !important;
 }
 
 nz-alert.fl-alert-host .ant-alert-message,
+nz-alert.fl-alert-host .ant-alert-message strong,
+nz-alert.fl-alert-host .ant-alert-message em {
+  color: var(--fi-alert-strong) !important;
+}
+
+/* 说明行统一用正文色：无论调用方塞什么标签进来，都保证读得清 */
 nz-alert.fl-alert-host .ant-alert-description,
-nz-alert.fl-alert-host .ant-typography,
-nz-alert.fl-alert-host p,
-nz-alert.fl-alert-host span,
-nz-alert.fl-alert-host h1,
-nz-alert.fl-alert-host h2,
-nz-alert.fl-alert-host h3,
-nz-alert.fl-alert-host h4,
-nz-alert.fl-alert-host h5,
-nz-alert.fl-alert-host h6,
-nz-alert.fl-alert-host li,
-nz-alert.fl-alert-host strong {
-  color: var(--fi-alert-text) !important;
+nz-alert.fl-alert-host .ant-alert-description .ant-typography,
+nz-alert.fl-alert-host .ant-alert-description p,
+nz-alert.fl-alert-host .ant-alert-description span,
+nz-alert.fl-alert-host .ant-alert-description h1,
+nz-alert.fl-alert-host .ant-alert-description h2,
+nz-alert.fl-alert-host .ant-alert-description h3,
+nz-alert.fl-alert-host .ant-alert-description h4,
+nz-alert.fl-alert-host .ant-alert-description h5,
+nz-alert.fl-alert-host .ant-alert-description h6,
+nz-alert.fl-alert-host .ant-alert-description li,
+nz-alert.fl-alert-host .ant-alert-description strong {
+  color: var(--fi-text-body) !important;
 }
 
 nz-alert.fl-alert-host mark {
-  color: var(--fi-alert-mark-text) !important;
+  color: var(--fi-alert-strong) !important;
   background: var(--fi-alert-mark-bg) !important;
   border-radius: 4px;
   padding: 0 4px;
 }
 
+/* ---------- 3. 变体 ---------- */
+
+/* outline：白底 + 语义色描边与文字 */
 nz-alert.fl-alert-host.fl-alert-outline .ant-alert {
-  background: #ffffff !important;
+  background: var(--fi-surface) !important;
+  border-color: var(--fi-alert-fg) !important;
 }
 
+/* solid：压暗后的语义色做底 + 反白文字 */
 nz-alert.fl-alert-host.fl-alert-solid .ant-alert {
-  background: var(--fi-alert-bg-strong) !important;
-  border-color: var(--fi-alert-border-strong) !important;
+  background: var(--fi-alert-strong) !important;
+  border-color: var(--fi-alert-strong) !important;
 }
 
 nz-alert.fl-alert-host.fl-alert-solid .ant-alert-icon,
 nz-alert.fl-alert-host.fl-alert-solid .ant-alert-message,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-message strong,
 nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description,
-nz-alert.fl-alert-host.fl-alert-solid .ant-typography,
-nz-alert.fl-alert-host.fl-alert-solid p,
-nz-alert.fl-alert-host.fl-alert-solid span,
-nz-alert.fl-alert-host.fl-alert-solid h1,
-nz-alert.fl-alert-host.fl-alert-solid h2,
-nz-alert.fl-alert-host.fl-alert-solid h3,
-nz-alert.fl-alert-host.fl-alert-solid h4,
-nz-alert.fl-alert-host.fl-alert-solid h5,
-nz-alert.fl-alert-host.fl-alert-solid h6,
-nz-alert.fl-alert-host.fl-alert-solid li,
-nz-alert.fl-alert-host.fl-alert-solid strong {
-  color: var(--fi-alert-text-strong) !important;
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description .ant-typography,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description p,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description span,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description h1,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description h2,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description h3,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description h4,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description h5,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description h6,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description li,
+nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description strong {
+  color: var(--fi-text-inverse) !important;
+}
+
+nz-alert.fl-alert-host.fl-alert-solid mark {
+  color: var(--fi-alert-strong) !important;
+  background: var(--fi-text-inverse) !important;
 }
