@@ -778,15 +778,28 @@ function injectSeoHtml(template, options) {
     .replace(/<title>[\s\S]*?<\/title>/i, head)
     .replace(
       /<app-root>[\s\S]*?<\/app-root>/i,
-      `<app-root>${bodyContent}</app-root>`,
+      `<app-root>${bodyContent}${buildBootHint()}</app-root>`,
     );
 
+  // noscript 兜底：禁用 JS 时 Angular 永远不会接管，静态壳必须自己可见，
+  // 而加载提示要永久藏起来——否则它会一直显示「正在加载」却永远等不到结果
   html = html.replace(
     '</head>',
-    `<style>${buildStaticSeoStyle()}</style></head>`,
+    `<style>${buildStaticSeoStyle()}</style>` +
+      `<noscript><style>.fi-seo-shell{visibility:visible}.fi-boot-hint{display:none}</style></noscript></head>`,
   );
 
   return html;
+}
+
+// 放在 app-root 内，Angular 接管时会连同静态壳一起被替换掉，不需要额外的清理代码
+function buildBootHint() {
+  return `
+    <div class="fi-boot-hint" role="status">
+      <span class="fi-boot-hint__spinner" aria-hidden="true"></span>
+      <span class="fi-boot-hint__text">正在加载…</span>
+    </div>
+  `;
 }
 
 function buildStaticSeoStyle() {
@@ -794,6 +807,16 @@ function buildStaticSeoStyle() {
     app-root{display:block}
     app-root a{color:#8b5a2b;text-decoration:none}
     app-root a:hover{text-decoration:underline}
+    /* Angular 启动前藏起静态壳，用户只看到空白背景：用 visibility 而非 opacity，
+       否则壳里的链接仍可点击、可 Tab 聚焦，也会被读屏软件读一遍 */
+    .fi-seo-shell{visibility:hidden}
+    /* 加载提示延迟出现：启动够快时（<600ms）用户根本看不到它，只有慢连接才给反馈；
+       pointer-events:none 保证它不挡任何点击 */
+    .fi-boot-hint{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;gap:var(--fi-space-2);pointer-events:none;opacity:0;color:var(--fi-text-muted);animation:fi-boot-hint-in .24s ease .6s forwards}
+    .fi-boot-hint__spinner{width:18px;height:18px;border:2px solid var(--fi-primary-outline);border-top-color:var(--fi-primary);border-radius:50%;animation:fi-boot-spin .8s linear infinite}
+    .fi-boot-hint__text{font-size:var(--fi-font-size-sm);letter-spacing:.02em}
+    @keyframes fi-boot-hint-in{to{opacity:1}}
+    @keyframes fi-boot-spin{to{transform:rotate(360deg)}}
     .fi-seo-shell{display:flex;flex-direction:column;gap:24px}
     .fi-seo-header h1{margin:0 0 12px;font-size:2rem;line-height:1.2;color:#5b3f20}
     .fi-seo-header p,.fi-seo-meta{margin:0;color:#6f604f;line-height:1.7}
