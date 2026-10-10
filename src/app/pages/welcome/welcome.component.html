@@ -12,9 +12,17 @@
          这里不再整块 @SlowUp —— 整块动的话就没有「一个一个进场」的层次了 -->
     <div class="hero-body" nz-flex nzJustify="center" nzAlign="center" [nzGap]="isMobile ? 'small' : 'large'">
       <div class="hero-avatar-wrapper">
-        <a [routerLink]="['/about']" aria-label="前往关于我">
-          <img class="hero-avatar" src="https://api.flowersink.com/img/粉毛猫猫头.jpeg" alt="再花的猫娘头像" loading="eager"
-            decoding="async" />
+        <a class="hero-avatar-link" [routerLink]="['/about']" aria-label="前往关于我">
+          <span class="hero-avatar-float">
+            <span class="hero-avatar-disc"></span>
+            <span class="hero-avatar-inner">
+              <!-- 同一张抠好的透明图放两片：一片裁成圆形框住身体，一片只留圆上方那一条让头顶破框 -->
+              <img class="hero-avatar-img hero-avatar-img--base" src="/assets/img/hero-avatar-cutout.webp"
+                alt="再花的猫娘头像" loading="eager" decoding="async" />
+              <img class="hero-avatar-img hero-avatar-img--pop" src="/assets/img/hero-avatar-cutout.webp" alt=""
+                loading="eager" decoding="async" />
+            </span>
+          </span>
         </a>
       </div>
       <div class="hero-text" nz-flex [nzVertical]="true" [nzGap]="isMobile ? 'small' : 'middle'">

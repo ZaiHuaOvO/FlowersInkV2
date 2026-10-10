@@ -30,22 +30,75 @@
     margin-bottom: var(--fi-space-2);
 }
 
+/* ── Hero 头像 ── 圆形底座 + 人物「顶部破框」 ──
+   原图是白底方图，直接圆形裁切做不到破框，所以另存了一张透明底版本
+   src/assets/img/hero-avatar-cutout.webp（2000x2000 原稿压到 512、WebP q85，约 38KB）。
+
+   人物按 --fi-hero-avatar-scale 放大后底边与圆底对齐，头顶和呆毛就自然越过圆的上沿。
+   同一张图渲染两片（见 html），两片的 top/height 完全一致，改倍数也不会错位：
+     --base 用 circle() 裁成圆 —— 等于原来的圆形头像，管下半身；
+     --pop  上半身整块不裁 —— 压在 --base 上面。
+
+   为什么 --pop 不能只留「圆上沿以上那一条」：圆环是一条 4px 的环，
+   头发越过圆边的地方若只留一条水平带，圆环在偏离圆顶 ±26° 以外就露出来压在头发上，
+   那条水平边还会从头发中间切过去，看起来头顶和身体断成两截。
+   改成上半身整块不裁之后，凡是不透明处都盖住了圆环，「环压头发」根本不会发生；
+   收边摆在整个圆的圆心高度，那个高度上人物本来就刚好贴在圆边上，看不出接口。
+   想让头顶多露一点就调大 --fi-hero-avatar-scale，想更收敛就往 1 靠。 */
 .hero-avatar-wrapper {
     flex-shrink: 0;
     position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    --fi-hero-avatar-size: clamp(140px, 18vw, 200px);
+    --fi-hero-avatar-ring: 4px;
+    --fi-hero-avatar-inner: calc(var(--fi-hero-avatar-size) - 2 * var(--fi-hero-avatar-ring));
+    --fi-hero-avatar-scale: 1.15;
+    width: var(--fi-hero-avatar-size);
+    height: var(--fi-hero-avatar-size);
 }
 
-.hero-avatar {
-    width: clamp(140px, 18vw, 200px);
-    height: clamp(140px, 18vw, 200px);
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 12px 36px rgba(139, 90, 43, 0.2);
-    border: 4px solid #fff;
+.hero-avatar-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+
+/* 只负责浮动。入场动画在 .hero-avatar-wrapper 上，两个动画都写 transform，
+   放同一个元素会互相顶掉，所以这里单独一层 */
+.hero-avatar-float {
+    position: absolute;
+    inset: 0;
     animation: hero-float 3s ease-in-out infinite;
+}
+
+.hero-avatar-disc {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--fi-surface);
+    border: var(--fi-hero-avatar-ring) solid var(--fi-surface);
+    box-shadow: 0 12px 36px rgba(139, 90, 43, 0.2);
+}
+
+.hero-avatar-inner {
+    position: absolute;
+    inset: var(--fi-hero-avatar-ring);
+}
+
+.hero-avatar-img {
+    position: absolute;
+    left: 50%;
+    width: auto;
+    height: calc(var(--fi-hero-avatar-inner) * var(--fi-hero-avatar-scale));
+    top: calc(var(--fi-hero-avatar-inner) * (1 - var(--fi-hero-avatar-scale)));
+    transform: translateX(-50%);
+}
+
+.hero-avatar-img--base {
+    clip-path: circle(calc(var(--fi-hero-avatar-inner) / 2) at 50% calc(100% - var(--fi-hero-avatar-inner) / 2));
+}
+
+.hero-avatar-img--pop {
+    clip-path: inset(0 0 calc(var(--fi-hero-avatar-inner) / 2) 0);
 }
 
 @keyframes hero-float {
