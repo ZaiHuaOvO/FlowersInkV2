@@ -51,7 +51,7 @@
     --fi-hero-avatar-size: clamp(140px, 18vw, 200px);
     --fi-hero-avatar-ring: 4px;
     --fi-hero-avatar-inner: calc(var(--fi-hero-avatar-size) - 2 * var(--fi-hero-avatar-ring));
-    --fi-hero-avatar-scale: 1.15;
+    --fi-hero-avatar-scale: 1.13;
     width: var(--fi-hero-avatar-size);
     height: var(--fi-hero-avatar-size);
 }
