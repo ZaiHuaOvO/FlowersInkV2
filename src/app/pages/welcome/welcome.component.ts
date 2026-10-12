@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DestroyRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { WelcomeService } from './welcome.service';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -21,6 +21,38 @@ import { isPinnedBlog } from '../../shared/utils/blog-pinned.util';
 import { getSafeTopInset } from '../../shared/utils/safe-area.util';
 import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
 import { AnnouncementDetailComponent } from './announcement-detail/announcement-detail.component';
+
+/**
+ * 首页 hero 的入场动画方案，每次加载随机挑一套。
+ * 新增方案：这里加名字，welcome.component.css 里补一个 .hero--<名字> 块，
+ * 两块之间互不干涉，同一时刻只有一个 .hero--* 生效。
+ */
+const HERO_PLANS = ['a', 'b'] as const;
+type HeroPlan = (typeof HERO_PLANS)[number];
+
+/** 方案 B 的 hero 动画收尾时刻（ms）：擦字到 0.86s 结束，这里留一点缓冲 */
+const HERO_B_SETTLE_MS = 900;
+
+/**
+ * 各方案从页面出现到 hero 动画收尾要等多久（ms）：数据与按钮在这之后才进场，
+ * 0 表示这套方案没有「等动画」这一段。新增方案时在这里补一条。
+ */
+const HERO_SETTLE_MS: Record<HeroPlan, number> = { a: 0, b: HERO_B_SETTLE_MS };
+
+/**
+ * 随机取一套方案；地址带上 ?hero=a / ?hero=b 时锁定那一种，
+ * 方便本地反复对照同一套动画（不写就是随机）。
+ */
+function pickHeroPlan(): HeroPlan {
+  const forced =
+    typeof window === 'undefined'
+      ? null
+      : new URLSearchParams(window.location.search).get('hero');
+  if (forced && (HERO_PLANS as readonly string[]).includes(forced)) {
+    return forced as HeroPlan;
+  }
+  return HERO_PLANS[Math.floor(Math.random() * HERO_PLANS.length)];
+}
 
 interface WelcomeStats {
   blogTotal: number;
@@ -70,10 +102,18 @@ export class WelcomeComponent implements OnInit {
   isMobile: boolean = false;
   scrollAtTop = true;
 
+  /** 本页生效的 hero 入场方案（每次加载随机） */
+  readonly heroPlan = pickHeroPlan();
+  /** hero 入场动画是否已收尾：收尾前数据与按钮先不出来（方案 A 没有这一段，一直算收尾） */
+  heroSettled = HERO_SETTLE_MS[this.heroPlan] === 0;
+
   /** 当前生效的临时公告；null 表示不显示 hero 上方那张卡片 */
   announcement: any = null;
   @ViewChild('more', { static: true })
   more!: TemplateRef<any>;
+
+  @ViewChild('heroBody') heroBody?: ElementRef<HTMLElement>;
+  @ViewChild('heroText') heroText?: ElementRef<HTMLElement>;
 
   constructor(
     private welcome: WelcomeService,
@@ -125,9 +165,24 @@ export class WelcomeComponent implements OnInit {
         this.announcement = null;
       },
     });
+
+    // 方案 B 里数据与按钮要等 hero 收尾才进场；用计时而不是 CSS 延迟，
+    // 这样接口慢也只是晚一点淡入，不会在等待之上再叠一层。
+    // 开了「减少动态效果」时不摆这 0.9s 的架子，直接全部就位。
+    const settleMs = HERO_SETTLE_MS[this.heroPlan];
+    if (settleMs) {
+      const reduced = !!this.document.defaultView?.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+      const settle = setTimeout(() => {
+        this.heroSettled = true;
+      }, reduced ? 0 : settleMs);
+      this.destroyRef.onDestroy(() => clearTimeout(settle));
+    }
   }
 
   ngAfterViewInit(): void {
+    this.applyHeroShift();
     this.data = [];
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
@@ -139,6 +194,28 @@ export class WelcomeComponent implements OnInit {
       this.cdr.detectChanges();
       this.loading = false;
     });
+  }
+
+  /**
+   * 方案 B 的头像从「页面中线」起跳，所以得先知道头像中线离页面中线有多远。
+   * 版面是 [头像][间距][文案] 三段居中排的，于是
+   *     偏移 =（间距 + 文案宽）/ 2
+   * 量出来的值写进 --fi-hero-b-shift，头像的起跳位置与左移距离都读这一个值。
+   * 窄屏是竖排（头像本来就在中间），不用挪，不给值就是原地跳一下。
+   */
+  private applyHeroShift(): void {
+    if (this.heroPlan !== 'b' || this.isMobile) {
+      return;
+    }
+    const body = this.heroBody?.nativeElement;
+    const text = this.heroText?.nativeElement;
+    const win = this.document.defaultView;
+    if (!body || !text || !win) {
+      return;
+    }
+    const gap = parseFloat(win.getComputedStyle(body).columnGap) || 0;
+    const shift = (gap + text.getBoundingClientRect().width) / 2;
+    body.style.setProperty('--fi-hero-b-shift', `${Math.round(shift)}px`);
   }
 
   /** 置顶文章（id=0）永远排在精选列表最前，其余保持原有顺序。 */

@@ -1,6 +1,7 @@
 <div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
   <!-- Hero 欢迎区 — 全屏无框 -->
-  <section class="hero" id="hero-section">
+  <section class="hero" id="hero-section" [class.hero--a]="heroPlan === 'a'" [class.hero--b]="heroPlan === 'b'"
+    [class.hero--settled]="heroSettled">
     <!-- 临时公告：只在时间窗口内出现，样式刻意克制 -->
     @if (announcement) {
     <div class="hero-announcement" @SlowUp>
@@ -8,30 +9,33 @@
         (open)="openAnnouncement()"></flower-announcement-card>
     </div>
     }
-    <!-- 入场动画交给各元素自己的 CSS 动画（见 welcome.component.css 末尾），
+    <!-- 入场动画交给各元素自己的 CSS 动画（见 welcome.component.css 末尾的 .hero--a / .hero--b），
          这里不再整块 @SlowUp —— 整块动的话就没有「一个一个进场」的层次了 -->
-    <div class="hero-body" nz-flex nzJustify="center" nzAlign="center" [nzGap]="isMobile ? 'small' : 'large'">
-      <div class="hero-avatar-wrapper">
-        <a class="hero-avatar-link" [routerLink]="['/about']" aria-label="前往关于我">
-          <span class="hero-avatar-float">
-            <span class="hero-avatar-disc"></span>
-            <span class="hero-avatar-inner">
-              <!-- 同一张抠好的透明图放两片：一片裁成圆形框住身体，一片只留圆上方那一条让头顶破框 -->
-              <img class="hero-avatar-img hero-avatar-img--base" src="/assets/img/hero-avatar-cutout.webp"
-                alt="再花的猫娘头像" loading="eager" decoding="async" />
-              <img class="hero-avatar-img hero-avatar-img--pop" src="/assets/img/hero-avatar-cutout.webp" alt=""
-                loading="eager" decoding="async" />
+    <div class="hero-body" #heroBody nz-flex nzJustify="center" nzAlign="center"
+      [nzGap]="isMobile ? 'small' : 'large'">
+      <div class="hero-avatar-slide">
+        <div class="hero-avatar-wrapper">
+          <a class="hero-avatar-link" [routerLink]="['/about']" aria-label="前往关于我">
+            <span class="hero-avatar-float">
+              <span class="hero-avatar-disc"></span>
+              <span class="hero-avatar-inner">
+                <!-- 同一张抠好的透明图放两片：一片裁成圆形框住身体，一片只留圆上方那一条让头顶破框 -->
+                <img class="hero-avatar-img hero-avatar-img--base" src="/assets/img/hero-avatar-cutout.webp"
+                  alt="再花的猫娘头像" loading="eager" decoding="async" />
+                <img class="hero-avatar-img hero-avatar-img--pop" src="/assets/img/hero-avatar-cutout.webp" alt=""
+                  loading="eager" decoding="async" />
+              </span>
             </span>
-          </span>
-        </a>
+          </a>
+        </div>
       </div>
-      <div class="hero-text" nz-flex [nzVertical]="true" [nzGap]="isMobile ? 'small' : 'middle'">
+      <div class="hero-text" #heroText nz-flex [nzVertical]="true" [nzGap]="isMobile ? 'small' : 'middle'">
         <h1 class="hero-title">
           <span class="hero-title-line1">喵呜喵呜，你好呀<span class="hero-emoji">ฅ•ω•ฅ</span></span>
           <span class="hero-title-line2">欢迎来到<span class="hero-title-highlight">花墨</span></span>
         </h1>
         <p class="hero-subtitle">一只编程咪娘的博客 · 日常</p>
-        <div class="hero-stats" [class.loaded]="!numLoading" nz-flex nzWrap="wrap" nzGap="small">
+        <div class="hero-stats" [class.loaded]="heroSettled && !numLoading" nz-flex nzWrap="wrap" nzGap="small">
           <a class="hero-stat-item hero-stat-link" [routerLink]="['/blog/all']">
             <span class="hero-stat-num">{{ info.blogTotal }}</span> 篇博客
           </a>

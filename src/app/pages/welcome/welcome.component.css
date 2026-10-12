@@ -45,6 +45,12 @@
    改成上半身整块不裁之后，凡是不透明处都盖住了圆环，「环压头发」根本不会发生；
    收边摆在整个圆的圆心高度，那个高度上人物本来就刚好贴在圆边上，看不出接口。
    想让头顶多露一点就调大 --fi-hero-avatar-scale，想更收敛就往 1 靠。 */
+.hero-avatar-slide {
+    /* 方案 B 要把头像从页面中线滑回原位，那段位移单独占一层，
+       免得跟 wrapper 上的入场/跳动动画抢同一个 transform（同层会互相顶掉）。 */
+    flex-shrink: 0;
+}
+
 .hero-avatar-wrapper {
     flex-shrink: 0;
     position: relative;
@@ -393,8 +399,16 @@
 }
 
 /* ============================================================
-   Hero 入场：头像 → 欢迎语 → 副标题 → 按钮，依次错开一点点进场
+   Hero 入场动画：方案 A / 方案 B 每次加载随机二选一
    ------------------------------------------------------------
+   两套方案的终点完全一样（头像在左、文案在右、数据与按钮在下方），
+   只是进场顺序与动效不同，整段都控制在 0.9s 上下，访客不用等。
+   方案类由 welcome.component.ts 的 HERO_PLANS 随机打上，
+   同一时刻只有一个 .hero--* 生效。
+   新增方案 C / D：这里加一个 .hero--<名字> 块就够了，别处不用动。
+   ============================================================ */
+
+/* ── 方案 A：头像 → 欢迎语 → 副标题 → 按钮，依次错开一点点进场 ──
    关键在「起点错开」而不是「等上一个播完」：
    每段动画 0.5s，起点只错开 90~100ms，所以它们**互相重叠**——
    看上去是一个一个来，整段却只花 0.75s 就收尾，访客不用等。
@@ -407,19 +421,19 @@
    配合 both 直接落到终态，不会卡在起始状态。
    ============================================================ */
 
-.hero-avatar-wrapper {
+.hero--a .hero-avatar-wrapper {
     animation: fi-hero-in-left 0.5s var(--fi-ease-standard) both;
 }
 
-.hero-title {
+.hero--a .hero-title {
     animation: fi-hero-in-right 0.5s var(--fi-ease-standard) 0.09s both;
 }
 
-.hero-subtitle {
+.hero--a .hero-subtitle {
     animation: fi-hero-in-up 0.5s var(--fi-ease-standard) 0.18s both;
 }
 
-.hero-actions {
+.hero--a .hero-actions {
     animation: fi-hero-in-fade 0.5s var(--fi-ease-standard) 0.28s both;
 }
 
@@ -442,3 +456,112 @@
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+
+/* ── 方案 B：头像在页面中间跳一下 → 往左滑回原位 → 顺手把文字「擦」出来 ──
+   时间线（改这里要同步 welcome.component.ts 的 HERO_B_SETTLE_MS）：
+     0     ~0.42s  头像在页面中线上跳一下（0.6 → 1.14 → 0.96 → 1）
+     0.36s ~0.86s  往左滑回原位；标题与副标题同时从左往右擦出来
+     0.90s         收尾，数据与按钮再从下方依次渐入
+
+   头像的起跳位置读 --fi-hero-b-shift（量不到时兜底 0，也就是原地跳一下）：
+   这个值由 welcome.component.ts 按实测版面算，不写死，
+   换屏宽、换文案长度，头像都还落在页面中线上。
+   左移单独占一层，是为了不跟 wrapper 上的缩放抢 transform。
+   擦边的虚化宽度看 --fi-hero-b-feather，想更糊就调大。 */
+
+.hero--b .hero-avatar-wrapper {
+    animation: fi-hero-b-pop 0.42s var(--fi-ease-standard) both;
+}
+
+.hero--b .hero-avatar-slide {
+    /* 头像要压在文字上面：擦出来的字先从头像底下钻出来，
+       头像往左滑过去才把它让开。
+       flex 子项本来不吃 z-index，但 z-index 对 flex 子项是生效的；
+       文字那边（.hero-title / .hero-subtitle）因为挂了遮罩动画会各自成一层、
+       且 z-index 为 auto，所以这里给 1 才能稳稳压住。 */
+    z-index: 1;
+    animation: fi-hero-b-slide 0.5s var(--fi-ease-standard) 0.36s both;
+}
+
+/* 文字不是淡入，是「擦」出来：遮罩从 0 宽一路长到比文字还宽，
+   擦边那一小段是渐变到透明的，所以边是虚的 —— 像被擦开的雾。
+   用遮罩而不是 clip-path：clip-path 的边是硬的，而且 inset(0) 会一直留着，
+   按钮 hover 的抬升与安全余量都会被裁掉。
+   只挂标题与副标题这两个元素 —— 它们同宽、左边缘对齐，
+   擦出来的是同一条竖线；渐变里的颜色只是遮罩通道，不是主题色。 */
+.hero--b .hero-title,
+.hero--b .hero-subtitle {
+    --fi-hero-b-feather: 48px;
+    mask-image: linear-gradient(90deg, black 0, black calc(100% - var(--fi-hero-b-feather)), transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, black 0, black calc(100% - var(--fi-hero-b-feather)), transparent 100%);
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    animation: fi-hero-b-wipe 0.5s var(--fi-ease-standard) 0.36s both;
+}
+
+/* 数据与按钮：等 hero 收尾之后，再从下方依次渐入。
+   收尾是 TS 计时打上 .hero--settled，而不是把这些延迟写进动画里——
+   接口慢的时候只是晚一点淡入，不会在等待之上再叠一层。 */
+.hero--b .hero-stats {
+    opacity: 0;
+    transition: none;
+}
+
+.hero--b .hero-actions {
+    opacity: 0;
+}
+
+.hero--b.hero--settled .hero-stats.loaded,
+.hero--b.hero--settled .hero-actions {
+    animation: fi-hero-b-rise 0.36s var(--fi-ease-standard) both;
+}
+
+.hero--b.hero--settled .hero-actions {
+    animation-delay: 0.1s;
+}
+
+@keyframes fi-hero-b-pop {
+    0%   { opacity: 0; transform: scale(0.6); }
+    22%  { opacity: 1; transform: scale(1.14); }
+    52%  { transform: scale(0.96); }
+    70%  { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fi-hero-b-slide {
+    from { transform: translateX(var(--fi-hero-b-shift, 0px)); }
+    to   { transform: translateX(0); }
+}
+
+@keyframes fi-hero-b-wipe {
+    from {
+        mask-size: 0 100%;
+        -webkit-mask-size: 0 100%;
+    }
+    to {
+        mask-size: calc(100% + var(--fi-hero-b-feather)) 100%;
+        -webkit-mask-size: calc(100% + var(--fi-hero-b-feather)) 100%;
+    }
+}
+
+@keyframes fi-hero-b-rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 「减少动态效果」：全局规则把时长压到 0.01ms，但延迟还留着，
+   方案 B 的 0.36s / 0.1s 会让内容先空一会儿再突然出现，这里把延迟一并归零。 */
+@media (prefers-reduced-motion: reduce) {
+
+    .hero--a .hero-avatar-wrapper,
+    .hero--a .hero-title,
+    .hero--a .hero-subtitle,
+    .hero--a .hero-actions,
+    .hero--b .hero-avatar-wrapper,
+    .hero--b .hero-avatar-slide,
+    .hero--b .hero-title,
+    .hero--b .hero-subtitle {
+        animation-delay: 0s !important;
+    }
+}
+
