@@ -613,18 +613,30 @@ nz-anchor {
   scroll-margin-top: calc(96px + var(--fi-safe-top));
 }
 
-@media (max-width: 1200px) {
+/* 769–1200px：保留两栏（目录、相关文章还有地方放），只把侧栏收窄让宽度给正文。
+   原来这里是把 grid 塌成单列，但侧栏里的 nz-affix 并没有跟着关掉：单列之后
+   <aside class="me"> 被挤到正文下面，吸顶时变成一张近乎整行宽的浮层钉在页面上，
+   下面那句 .me { position: static } 挡不住它（nz-affix 是自己给内部元素上
+   position: fixed 的）。保留两栏就不存在这个问题。
+   ⚠️ .me 基础规则带 min-width: 260px，比这里的列宽还大，必须一并放开，
+   否则侧栏会撑破列、压到正文上。 */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .blog-detail-shell {
+    grid-template-columns: minmax(0, 1fr) clamp(230px, 22vw, 300px);
+  }
+
+  .me {
+    min-width: 0;
+  }
+}
+
+/* ≤768px：单列。侧栏在模板里由 !isMobile 控制、根本不渲染，
+   这一列必须显式收掉，否则会空出一条侧栏宽的空白。 */
+@media (max-width: 768px) {
   .blog-detail-shell {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .me {
-    position: static;
-    top: auto;
-  }
-}
-
-@media (max-width: 768px) {
   .article {
     padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
   }
