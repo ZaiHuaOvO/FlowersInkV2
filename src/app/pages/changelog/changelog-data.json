@@ -5,8 +5,53 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 445,
+  "total": 450,
   "records": [
+    {
+      "uid": "e561d5c",
+      "type": "style",
+      "date": "2026-10-12",
+      "desc": "关于页立绘改为与正文并排，窄屏自动换成单独一行",
+      "important": false,
+      "repo": "site",
+      "sha": "e561d5cc29920477b2f21b9374db4369b6cb2dfe"
+    },
+    {
+      "uid": "0826f74",
+      "type": "fix",
+      "date": "2026-10-12",
+      "desc": "站点标题统一为「花墨」，不再带「| 再花的博客」后缀",
+      "important": false,
+      "repo": "site",
+      "sha": "0826f74849d6c3f75c2ddb6628689bba3b888be3"
+    },
+    {
+      "uid": "9442ed6",
+      "type": "style",
+      "date": "2026-10-12",
+      "desc": "平板端归档、友链、点滴的正文铺满页面，不再两侧留白",
+      "important": false,
+      "repo": "site",
+      "sha": "9442ed6b33f8b44bb0514b4ffe2e73c35943d6df"
+    },
+    {
+      "uid": "8f2090c",
+      "type": "fix",
+      "date": "2026-10-12",
+      "desc": "窄屏下博文详情的目录与相关文章不再被挤成整行浮层",
+      "important": false,
+      "repo": "site",
+      "sha": "8f2090c5c7d751be8e19bcdeb90183a8fb866f29"
+    },
+    {
+      "uid": "94eafa2",
+      "type": "fix",
+      "date": "2026-10-12",
+      "desc": "平板端点滴的时间跳转改为左侧窄条，正文不再被年月导航盖住",
+      "important": false,
+      "repo": "site",
+      "sha": "94eafa285f3fc7e97adb051e9d7ef05db1e6f64f"
+    },
     {
       "uid": "d7f137d",
       "type": "style",
