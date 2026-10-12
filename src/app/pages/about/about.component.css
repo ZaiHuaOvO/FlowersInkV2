@@ -153,6 +153,31 @@
   box-shadow: 0 10px 30px rgba(139, 90, 43, 0.18);
 }
 
+/*
+  立绘：正文里写成 `<img class="about-portrait">` 的图片右浮动，与所在小节的正文并排。
+  图和头像一样是透明底立绘，必须清掉博客插图那套圆角/边框/阴影，否则会在透明区域外框出一个方块。
+  尺寸仍由正文的 width 属性决定，这里只给一个不撑破版心的上限。
+
+  右边距不能是 0：贴死版心右缘的话，正文行短时中间会空出一大片，
+  立绘看着离文字很远。留一段右边距把它往文字方向拉近。
+*/
+:host ::ng-deep #currentAnchor img.about-portrait {
+  float: right;
+  max-width: min(42%, 260px);
+  margin: 0.25rem 15% 1rem 1.5rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/*
+  浮动立绘比所在小节高时，会淌进下一节把正文挤成窄条。
+  每个 `#` 标题都从浮动之外重新起一行，把立绘关在它自己的小节里。
+*/
+:host ::ng-deep #currentAnchor h1 {
+  clear: both;
+}
+
 /* ---- 贡献图：默认位置在正文之后，正文里写 @github-contributions 时会被搬进正文 ---- */
 
 .about-contributions {
@@ -419,5 +444,12 @@
 @media (max-width: 768px) {
   .about-content {
     padding: var(--fi-space-6) var(--fi-space-3) var(--fi-space-8);
+  }
+
+  /* 窄屏没有并排的余地：取消浮动，立绘单独居中占一行 */
+  :host ::ng-deep #currentAnchor img.about-portrait {
+    float: none;
+    max-width: min(70%, 260px);
+    margin: 1.5rem auto;
   }
 }
