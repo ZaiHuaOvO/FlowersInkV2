@@ -1,5 +1,7 @@
 <div class="life-timeline-page" nz-flex [nzVertical]="true" nzAlign="center">
   <div class="life-timeline-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="start">
+    <!-- 左侧时间跳转：>1200px 是完整年月侧栏，769–1200px 收成窄竖条；
+         手机端仍走右下角悬浮按钮 + 底部弹层，不渲染这块 -->
     @if (!isMobile) {
     <div class="timeline-affix-left">
       <nz-affix [nzOffsetTop]="affixOffsetTop">
@@ -29,6 +31,18 @@
     }
     <main class="timeline-main" @QuickUp>
       <flower-blog-title [title]="'再花的点滴'"></flower-blog-title>
+
+      <!-- 平板端：右栏标签筛选平铺成一行胶囊（桌面端由右侧栏承担，
+           手机端不显示，这里 display:none） -->
+      <div class="mobile-tag-row">
+        @for (tagItem of tagFilters; track tagItem.value) {
+        <button type="button" class="mobile-tag-button" [class.active]="selectedTag === tagItem.value"
+          (click)="selectTag(tagItem.value)">
+          {{ tagItem.label === '' ? '全部' : tagItem.label }}
+          <span class="tag-count">{{ getTagCount(tagItem.value) }}</span>
+        </button>
+        }
+      </div>
 
       <nz-spin [nzSpinning]="loading" [nzTip]="loadingMessage">
         @if (!loading && sectionList.length === 0) {

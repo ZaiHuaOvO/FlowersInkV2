@@ -922,29 +922,153 @@ h4 {
   to { transform: translateY(0); }
 }
 
-@media (max-width: 1200px) {
+/* ============================================================
+   平板 / 窄窗口（769–1200px）：窄竖条时间跳转
+   ------------------------------------------------------------
+   这里原本是把三栏改成上下堆叠（flex-direction: column），但两侧栏是
+   nz-affix 吸顶的：堆叠后左侧年月导航变成整行宽的一大块，吸顶之后直接压在
+   点滴流上面，往下滚就一直盖着内容（用户报的就是这个）。
+
+   改成「窄竖条」：年份是小标签，当前年份的月份排成一个个正方形数字块，
+   点哪个月跳哪个月；正文列铺满时间轴右侧剩下的宽度（不再给 700px 上限）；
+   右侧标签栏平铺到时间线顶部变成一行胶囊。
+
+   只从 769px 起启用：手机端页面左右内边距只有 8px，再插一根固定竖条会同时
+   盖住页面标题和当月大标题，正文还要少掉约 45px（375px 屏上接近 13%）。
+   手机端继续用原来的悬浮按钮 + 底部弹层，不占正文宽度。
+   ============================================================ */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .life-timeline-page {
+    --life-sidebar-left-width: 64px;
+  }
+
+  /* 铺满页面内容盒：原先把容器卡在「窄竖条 + 正文 700px 上限」的和上，
+     正文列最宽只能到 700px（平板段 769–1200px 下只占视口 78%），
+     右边空出一大片。平板端本来就窄，不再给正文设上限。 */
   .life-timeline-content {
-    flex-direction: column;
+    width: 100%;
   }
 
-  .timeline-affix-left,
+  /* 右侧标签栏移到正文顶部，桌面侧栏整体让位 */
   .timeline-affix-right {
+    display: none;
+  }
+
+  .mobile-tag-row {
+    display: flex;
+  }
+
+  .timeline-main {
     flex: 1 1 auto;
-    width: 100%;
+    max-width: none;
   }
 
-  .timeline-sidebar {
-    width: 100%;
+  /* 卡片自己也带 --life-main-max-width 上限，一并放开，否则正文列铺满了、
+     卡片还卡在 700px，等于白改 */
+  .timeline-card {
+    max-width: none;
   }
 
-  .timeline-stream {
-    --timeline-stream-padding-left: 32px;
+  .current-month-header h2 {
+    font-size: 36px;
+  }
+
+  /* ── 左侧窄竖条 ── */
+  .timeline-sidebar-left {
+    padding: 0;
+  }
+
+  .year-nav-list {
+    align-items: center;
+    gap: 10px;
+    max-height: calc(100vh - 116px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .year-nav-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .year-block {
+    align-items: center;
+    gap: 6px;
+  }
+
+  .year-button {
+    width: 100%;
+    padding: 2px 0;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0;
+    color: var(--fi-text-muted);
+  }
+
+  .month-nav-list {
+    align-items: center;
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+    gap: 6px;
+  }
+
+  /* 折叠动画的高度上限：一年最多 12 个月 × (40px + 6px) = 552px */
+  .month-nav-list.expanded {
+    max-height: 600px;
+  }
+
+  /* 月份：正方形数字块。底色沿用站内标签胶囊的 --fi-tag-* 一组 token——
+     页面底色（#fff8f3）与 --fi-surface（#fff）几乎同色，纯白方块看不出边界。 */
+  .month-button {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    margin-left: 0;
+    padding: 0;
+    border: 1px solid var(--fi-tag-border);
+    border-radius: var(--fi-radius-xs);
+    background: var(--fi-tag-bg);
+    color: var(--fi-tag-text);
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .month-button::before {
+    display: none;
+  }
+
+  .month-button:hover {
+    border-color: var(--fi-tag-border-hover);
+    background: var(--fi-tag-bg-hover);
+    color: var(--fi-tag-text-hover);
+  }
+
+  .month-button.active {
+    padding-left: 0;
+    border-color: var(--fi-primary);
+    background: var(--fi-primary);
+    color: var(--fi-text-inverse);
+    font-weight: 600;
+  }
+
+  .month-button.active:hover {
+    background: var(--fi-primary-hover);
+    color: var(--fi-text-inverse);
   }
 }
 
 @media (max-width: 768px) {
   .life-timeline-page {
     padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
+  }
+
+  /* 手机端时间轴收窄（这条原来挂在 ≤1200px 的媒体查询里，平板改用窄竖条后
+     挪到这里，避免连带把平板也收窄） */
+  .timeline-stream {
+    --timeline-stream-padding-left: 32px;
   }
 
   .current-month-header h2 {

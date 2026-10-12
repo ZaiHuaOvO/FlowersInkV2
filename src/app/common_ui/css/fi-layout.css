@@ -50,6 +50,55 @@
   margin-bottom: var(--fi-space-5);
 }
 
+/* ============================================================
+   窄屏筛选胶囊行
+   ------------------------------------------------------------
+   侧栏在窄屏收起后，把「分类 / 标签筛选」平铺成一行可横向滑动的胶囊。
+   由页面自身的媒体查询打开（本样式只负责外观与默认隐藏）。
+
+   类名仍沿用 mobile-*：它在 点滴 与 更新记录 两页复用，两页都在 ≤1200px
+   打开它（不只是手机端），改名会同时动到两页模板，收益不大。
+   ============================================================ */
+.mobile-tag-row {
+  display: none;
+  gap: var(--fi-space-2);
+  overflow-x: auto;
+  padding: 4px 0 14px;
+  margin-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.mobile-tag-row::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-tag-button {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: var(--fi-bg-soft);
+  color: var(--fi-primary);
+  border-radius: var(--fi-radius-pill);
+  padding: 6px 12px;
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-sm);
+  cursor: pointer;
+  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.mobile-tag-button:hover,
+.mobile-tag-button.active {
+  background: var(--fi-primary);
+  color: var(--fi-text-inverse);
+}
+
+.mobile-tag-button.active .tag-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--fi-text-inverse);
+}
+
 @media (max-width: 768px) {
   .fi-page-sidebar-layout {
     flex-direction: column;
