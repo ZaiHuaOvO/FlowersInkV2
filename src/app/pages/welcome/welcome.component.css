@@ -340,6 +340,18 @@
     min-height: 200px;
 }
 
+/* 平板 / 窄窗口（769–1024px）：侧栏按 24vw 算下来也还是贴着 304px 的下限，
+   而这一段正文列只剩 400px 上下，最吃紧。把侧栏收到 264px 给正文让位——
+   264px 是 me-card 里那个 196px 定宽头像加上两侧内边距后还能松得开的下限，
+   再窄头像就会贴边。≥1025px 时正文已经够宽，不动。 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .me {
+        flex: 0 0 264px;
+        width: 264px;
+        min-width: 264px;
+    }
+}
+
 @media (max-width: 768px) {
     .hero {
         min-height: calc(100vh - 48px);

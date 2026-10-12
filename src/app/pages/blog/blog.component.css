@@ -10,9 +10,12 @@
     min-height: 420px;
 }
 
-.archive-content {
-    width: min(60vw, var(--fi-page-max-narrow));
-}
+/* 归档的主列宽度就交给 .content 的 min(--fi-page-max-narrow, 100%)：
+   它本来就是「窄屏铺满、宽屏收到 980px」。
+   原来这里另有一条 .archive-content { width: min(60vw, 980px) } 盖在上面，
+   60vw 在平板段（769–1200px）会算出 461–720px，正文只占视口 60%，
+   两侧白白留一大片；而 ≤768px 又写回 width: 100%，等于手机端铺满、平板端反而缩着。
+   两条都已删除，模板里也不再挂 archive-content 这个类。 */
 
 .blog {
     padding: clamp(20px, 2.8vw, 28px);
@@ -145,10 +148,6 @@ a.fi-simple-timeline-title.is-starred:hover {
 
     .content {
         min-height: auto;
-    }
-
-    .archive-content {
-        width: 100%;
     }
 
     .blog {

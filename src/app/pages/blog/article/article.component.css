@@ -23,6 +23,17 @@
     min-height: 200px;
 }
 
+/* 平板 / 窄窗口（769–1024px）：28vw 算下来也还是贴着 280px 下限，而这一段
+   列表只剩 420px 上下。这里侧栏只有一个搜索框 + 标签云，没有定宽内容，
+   收窄不影响观感，把宽度让给列表。≥1025px 时正文够宽，不动。 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .me {
+        flex: 0 0 240px;
+        width: 240px;
+        min-width: 240px;
+    }
+}
+
 .search {
     width: 100%;
     padding: var(--fi-space-3);
