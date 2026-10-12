@@ -292,7 +292,10 @@ function renderWelcomePage(template, blogs, friendLinks, canonicalPath) {
   `;
 
   return injectSeoHtml(template, {
-    title: `${siteName} | 再花的博客`,
+    // 首页标题就是站点名本身，不再挂「| 再花的博客」这类副标题：
+    // 站点名要能被收录站点/分享卡片原样读成「花墨」，多一截后缀就会被当成站名的一部分。
+    // 其余页面仍是「页面名 | 花墨」（见上面的 title: `... | ${siteName}`）。
+    title: siteName,
     description: siteDescription,
     canonicalPath,
     ogType: 'website',
