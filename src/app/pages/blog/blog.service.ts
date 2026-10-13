@@ -45,4 +45,12 @@ export class BlogService {
   getTags(): Observable<object> {
     return this.http.getCached(API.TAG, undefined, HTTP_CACHE_TTL.LONG);
   }
+
+  /**
+   * 标签筛选条可选图标的目录。
+   * 静态数据、由 API 统一维护（后台的图标选择器读同一份），所以缓存给到 LONG。
+   */
+  getTagIcons(): Observable<object> {
+    return this.http.getCached(API.TAG_ICONS, undefined, HTTP_CACHE_TTL.LONG);
+  }
 }

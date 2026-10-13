@@ -43,7 +43,7 @@
                     </ng-template>
                     <div class="tag" nz-flex nzAlign="start" nzJustify="start" [nzVertical]="true">
                         <h5 nz-typography>文章标签</h5>
-                        <fl-tag-filter [items]="tagList" [selected]="selectedTag"
+                        <fl-tag-filter [items]="tagList" [tagIcons]="tagIcons" [selected]="selectedTag"
                             (select)="selectTag($event)"></fl-tag-filter>
                     </div>
                 </div>

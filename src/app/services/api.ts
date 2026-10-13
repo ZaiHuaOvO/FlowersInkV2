@@ -6,6 +6,8 @@ export const API = {
   BLOG: '/blog',
   BLOG_RELATED: '/blog/related',
   TAG: '/blog/tag',
+  /** 标签筛选条可选图标的目录（key + 中文名 + 几何），由 API 统一维护 */
+  TAG_ICONS: '/blog/tag/icons',
   INFO: '/site/visit',
   VISIT_DWELL: '/site/visit/dwell',
   SITE_INFO: '/site/info',

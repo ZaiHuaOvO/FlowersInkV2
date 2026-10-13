@@ -26,7 +26,11 @@ import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.com
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
 import { FlTagDirective } from '../../common_ui/fl_ui/fl-tag/fl-tag.directive';
-import { FlTagFilterComponent } from '../../common_ui/fl_ui/fl-tag-filter/fl-tag-filter.component';
+import {
+  FlTagFilterComponent,
+  TagFilterIcon,
+} from '../../common_ui/fl_ui/fl-tag-filter/fl-tag-filter.component';
+import { BlogService } from '../blog/blog.service';
 import { FlCommentCardComponent } from '../../common_ui/fl_ui/fl-comment-card/fl-comment-card.component';
 import { FlCommentContentComponent } from '../../common_ui/fl_ui/fl-comment-content/fl-comment-content.component';
 import { FlCommentEditorComponent } from '../../common_ui/fl_ui/fl-comment-editor/fl-comment-editor.component';
@@ -203,11 +207,13 @@ export class DesignComponent implements AfterViewInit, OnDestroy {
 
   /* ---- 各交互演示的本地状态 ---- */
   readonly tagFilterItems = [
-    { tag: '教程', count: 18 },
-    { tag: '见闻', count: 12 },
-    { tag: '再花', count: 9 },
-    { tag: '游戏', count: 6 },
+    { tag: '教程', count: 18, icon: 'book' },
+    { tag: '见闻', count: 12, icon: 'eye' },
+    { tag: '再花', count: 9, icon: 'user' },
+    { tag: '游戏', count: 6, icon: 'gamepad' },
   ];
+  /** 筛选条图标目录。和主站一样从接口取 —— 样式页不自己抄一份几何 */
+  tagIcons: TagFilterIcon[] = [];
   selectedTagFilter = '';
   inputValue = '';
   textareaValue = '支持多行输入。\n状态样式与单行输入一致。';
@@ -326,6 +332,7 @@ export class DesignComponent implements AfterViewInit, OnDestroy {
   private isProgrammaticScroll = false;
   private programmaticScrollTimer?: ReturnType<typeof setTimeout>;
   private readonly host = inject(ElementRef);
+  private readonly blog = inject(BlogService);
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: object) {}
 
@@ -335,6 +342,19 @@ export class DesignComponent implements AfterViewInit, OnDestroy {
     }
     this.readTokenValues();
     this.observeSections();
+    this.loadTagIcons();
+  }
+
+  /** 标签筛选条示例要用真实图形，所以目录也走接口取，不在样式页里抄一份 */
+  private loadTagIcons(): void {
+    this.blog.getTagIcons().subscribe({
+      next: (res: any) => {
+        this.tagIcons = res?.data ?? [];
+      },
+      error: () => {
+        this.tagIcons = [];
+      },
+    });
   }
 
   ngOnDestroy(): void {

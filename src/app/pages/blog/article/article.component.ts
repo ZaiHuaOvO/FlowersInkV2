@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime } from 'rxjs';
+import { catchError, debounceTime, forkJoin, of } from 'rxjs';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { BlogCardComponent } from '../../../components/blog/blog-card/blog-card.component';
@@ -25,6 +25,7 @@ import { FlInputDirective } from '../../../common_ui/fl_ui/fl-input/fl-input.dir
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import {
   FlTagFilterComponent,
+  TagFilterIcon,
   TagFilterItem,
 } from '../../../common_ui/fl_ui/fl-tag-filter/fl-tag-filter.component';
 
@@ -62,6 +63,10 @@ export class ArticleComponent implements OnInit, AfterViewInit {
   private visibleCount = 0;
   selectedTag = '';
   tagList: TagFilterItem[] = [];
+  /** 筛选条可选的图标目录（API 下发），后台配图标读的是同一份 */
+  tagIcons: TagFilterIcon[] = [];
+  /** 标签名 → 图标 key，来自标签表；筛选条的每个标签按它取图形 */
+  private tagIconByLabel = new Map<string, string>();
   loading = true;
   hasMore = false;
   listMotionTick = 0;
@@ -107,19 +112,42 @@ export class ArticleComponent implements OnInit, AfterViewInit {
 
   private loadBlogs(): void {
     this.loading = true;
-    this.blog
-      .getBlogs({
+    // 三个请求一起等：图标目录和标签表都到位了再渲染筛选条，
+    // 否则会出现「先是一排默认图形、过一下才换成配好的」这种闪动。
+    forkJoin({
+      blogs: this.blog.getBlogs({
         limit: 999,
         // 列表只用标题/标签/日期，正文由详情页单独取，别把全部正文拉下来
         includeContent: false,
-      })
-      .subscribe((res: any) => {
-      this.allData = res['data'].data ?? [];
+      }),
+      // 这两个只影响筛选条的图标，拿不到也不该连累列表
+      tags: this.blog.getTags().pipe(catchError(() => of(null))),
+      icons: this.blog.getTagIcons().pipe(catchError(() => of(null))),
+    }).subscribe((res: any) => {
+      this.allData = res.blogs?.data?.data ?? [];
+      this.tagIcons = res.icons?.data ?? [];
+      this.tagIconByLabel = this.buildTagIconMap(res.tags?.data);
       this.tagList = this.buildTagList(this.allData);
       this.applyFilter();
       this.loading = false;
       this.listMotionTick += 1;
     });
+  }
+
+  /** 标签名 → 图标 key。标签表里没配的标签不会进这个 map，前端会回落到默认图形 */
+  private buildTagIconMap(tagRows: any): Map<string, string> {
+    const map = new Map<string, string>();
+    if (!Array.isArray(tagRows)) {
+      return map;
+    }
+    for (const row of tagRows) {
+      const label = String(row?.label ?? '').trim();
+      const icon = String(row?.filterIcon ?? '').trim();
+      if (label && icon) {
+        map.set(label, icon);
+      }
+    }
+    return map;
   }
 
   private buildTagList(blogs: any[]): TagFilterItem[] {
@@ -129,7 +157,11 @@ export class ArticleComponent implements OnInit, AfterViewInit {
       map[tag] = (map[tag] ?? 0) + 1;
     });
     return Object.keys(map)
-      .map((tag) => ({ tag, count: map[tag] }))
+      .map((tag) => ({
+        tag,
+        count: map[tag],
+        icon: this.tagIconByLabel.get(tag),
+      }))
       .sort((a, b) => b.count - a.count);
   }
 
