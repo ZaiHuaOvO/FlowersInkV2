@@ -18,6 +18,7 @@ import { FlImgFadeDirective } from '../../../../common_ui/fl_ui/fl-img-fade/fl-i
 import { LifeService } from '../../life.service';
 import { LifeUiStateService } from '../../life-ui-state.service';
 import { deriveWebpVariants } from '../../../../shared/utils/image-url.util';
+import { previewLifeImages } from '../../../../shared/utils/image-preview.util';
 
 type LifeCategory = '美食' | '日常' | '游戏' | '摘抄' | '';
 
@@ -198,12 +199,10 @@ export class LifeDialogComponent implements OnInit {
       : 'image-item-wrapper image-item-square';
   }
 
-  previewZoom(event: MouseEvent, image: LifeImageAsset): void {
+  /** 点击图片：预览本条整组图并定位到点击的那张，可在预览里左右翻页 */
+  previewZoom(event: MouseEvent, images: LifeImageAsset[], index: number): void {
     event.stopPropagation();
-    this.imageService.preview([{ src: image.zoomUrl }], {
-      nzZoom: 0.8,
-      nzRotate: 0,
-    });
+    previewLifeImages(this.imageService, images, index);
   }
 
   onImageError(event: Event, image: LifeImageAsset): void {

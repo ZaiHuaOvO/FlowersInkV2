@@ -36,6 +36,7 @@ import { LifeService } from '../life.service';
 import { LifeUiStateService } from '../life-ui-state.service';
 import { LifeDialogComponent } from './life-dialog/life-dialog.component';
 import { deriveWebpVariants } from '../../../shared/utils/image-url.util';
+import { previewLifeImages } from '../../../shared/utils/image-preview.util';
 
 type LifeCategory = '美食' | '日常' | '游戏' | '摘抄' | '';
 
@@ -434,20 +435,10 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
       : 'image-item-wrapper image-item-square';
   }
 
-  previewCompressed(image: LifeImageAsset): void {
-    this.imageService.preview([{ src: image.previewUrl }], {
-      nzZoom: 0.8,
-      nzRotate: 0,
-    });
-  }
-
-  /** 点击网格图：预览 webp 缩放层 */
-  previewZoom(event: MouseEvent, image: LifeImageAsset): void {
+  /** 点击网格图：预览本条的整组图并定位到点击的那张，可在预览里左右翻页 */
+  previewZoom(event: MouseEvent, images: LifeImageAsset[], index: number): void {
     event.stopPropagation();
-    this.imageService.preview([{ src: image.zoomUrl }], {
-      nzZoom: 0.8,
-      nzRotate: 0,
-    });
+    previewLifeImages(this.imageService, images, index);
   }
 
   /** webp 展示变体缺失时回退到原压缩图 */
