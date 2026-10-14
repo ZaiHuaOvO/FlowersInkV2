@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 456,
+  "total": 457,
   "records": [
+    {
+      "uid": "eb76759",
+      "type": "style",
+      "date": "2026-10-14",
+      "desc": "友链页名片的 LOGO 地址旁补了句 Gravatar 说明，鼠标移入才显示",
+      "important": false,
+      "repo": "site",
+      "sha": "eb767597f503b5de4b912659a1b3738c257ec2b7"
+    },
     {
       "uid": "ec6f1eb",
       "type": "feat",
