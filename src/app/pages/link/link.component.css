@@ -114,6 +114,46 @@
     padding: 1px 0;
 }
 
+/* LOGO 地址那行的补充说明。
+   默认（触屏 / 窄屏）单独占一行；够宽且能悬停时挪到「复制」右边，跟着行悬停淡入，
+   这样平时不占额外高度。「标签 + 地址 + 复制」始终锁在一组里，
+   否则窄屏会连复制按钮一起换行。 */
+.profile-info-row--stacked {
+    flex-wrap: wrap;
+}
+
+.profile-info-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.profile-info-hint {
+    flex-basis: 100%;
+    font-size: var(--fi-font-size-xs);
+    line-height: 1.4;
+    color: var(--fi-text-muted);
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 769px) {
+    .profile-info-row--stacked {
+        flex-wrap: nowrap;
+    }
+
+    .profile-info-hint {
+        flex-basis: auto;
+        flex-shrink: 0;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity var(--fi-motion-fast) var(--fi-ease-standard);
+    }
+
+    .profile-info-row:hover .profile-info-hint {
+        opacity: 1;
+    }
+}
+
 .profile-info-label {
     font-size: var(--fi-font-size-md);
     color: var(--fi-text-muted);

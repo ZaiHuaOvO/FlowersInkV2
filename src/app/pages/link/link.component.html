@@ -28,12 +28,15 @@
                     <button class="row-copy-btn" (click)="copyField('网站名称', '花墨', 'name')">{{ copiedRow === 'name' ?
                         '✓复制' : '复制' }}</button>
                 </div>
-                <div class="profile-info-row">
-                    <span class="profile-info-label">LOGO地址：</span>
-                    <span class="profile-info-value">https://api.flowersink.com/img/logo.png</span>
-                    <button class="row-copy-btn"
-                        (click)="copyField('LOGO地址', 'https://api.flowersink.com/img/logo.png', 'logo')">{{ copiedRow
-                        === 'logo' ? '✓ 复制' : '复制' }}</button>
+                <div class="profile-info-row profile-info-row--stacked">
+                    <span class="profile-info-line">
+                        <span class="profile-info-label">LOGO地址：</span>
+                        <span class="profile-info-value">https://api.flowersink.com/img/logo.png</span>
+                        <button class="row-copy-btn"
+                            (click)="copyField('LOGO地址', 'https://api.flowersink.com/img/logo.png', 'logo')">{{
+                            copiedRow === 'logo' ? '✓ 复制' : '复制' }}</button>
+                    </span>
+                    <span class="profile-info-hint">邮箱带 Gravatar，可选</span>
                 </div>
                 <div class="profile-info-row">
                     <span class="profile-info-label">网站地址：</span>
@@ -145,9 +148,9 @@
                         <div class="form-field">
                             <label nz-typography class="form-label">网站头像地址</label>
                             <div class="input-with-preview">
-                                <input nz-input flInput nz-tooltip type="text" [nzTooltipTitle]="'若为空则会检测联系邮箱的 Gavater'"
-                                    nzTooltipTrigger="focus" (input)="onLogoChange()" [(ngModel)]="form.logo"
-                                    name="logo" placeholder="">
+                                <input nz-input flInput nz-tooltip type="text"
+                                    [nzTooltipTitle]="'若为空则会按联系邮箱取 Gravatar 头像'" nzTooltipTrigger="focus"
+                                    (input)="onLogoChange()" [(ngModel)]="form.logo" name="logo" placeholder="">
                                 @if (logoPreviewUrl) {
                                 <img class="logo-preview" [src]="logoPreviewUrl" alt="logo预览" width="32" height="32"
                                     (error)="logoPreviewUrl = ''">
