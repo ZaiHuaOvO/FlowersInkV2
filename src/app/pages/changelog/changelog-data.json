@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 454,
+  "total": 456,
   "records": [
+    {
+      "uid": "ec6f1eb",
+      "type": "feat",
+      "date": "2026-10-14",
+      "desc": "友链页改成书签式列表，悬停星星可以看我对每位朋友的评价",
+      "important": true,
+      "repo": "site",
+      "sha": "ec6f1eb4497e88ddc40e837f00b8de2e54663151"
+    },
+    {
+      "uid": "b59446d",
+      "type": "feat",
+      "date": "2026-10-14",
+      "desc": "友链数据新增评价字段，主站据此展示对每位朋友的点评",
+      "important": false,
+      "repo": "api",
+      "sha": "b59446de7541d7e8a195f71eed42ec0c88e93ab7"
+    },
     {
       "uid": "2f82ef3",
       "type": "feat",
