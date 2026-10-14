@@ -6,10 +6,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { SlowUp, QuickUp, StaggerList } from '../../common_ui/animations/animation';
+import { SlowUp, QuickUp, StaggerList, ExpandCollapse } from '../../common_ui/animations/animation';
 import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
@@ -39,7 +38,6 @@ interface ArticleItem {
     NzFlexModule,
     NzTypographyModule,
     NzGridModule,
-    NzSkeletonModule,
     NzInputModule,
     NzTooltipModule,
     NzModalModule,
@@ -51,7 +49,7 @@ interface ArticleItem {
   ],
   templateUrl: './link.component.html',
   styleUrl: './link.component.css',
-  animations: [SlowUp, QuickUp, StaggerList],
+  animations: [SlowUp, QuickUp, StaggerList, ExpandCollapse],
 })
 export class LinkComponent implements OnInit {
   private readonly modal = inject(NzModalService);
@@ -61,6 +59,7 @@ export class LinkComponent implements OnInit {
   loading = true;
   articleLoading = true;
   submitting = false;
+  showApplyForm = false;
   email = 'ZyZy1724@gmail.com';
   articleUpdatedAt = '';
   links: Array<{
@@ -107,12 +106,16 @@ export class LinkComponent implements OnInit {
     private readonly msg: NzMessageService,
     private readonly limiter: ApiLimiterService,
   ) {
-    this.link
-      .getLinks({ isApproved: true })
-      .subscribe((res: any) => {
-        this.links = res['data'].data;
+    this.link.getLinks({ isApproved: true }).subscribe({
+      next: (res: any) => {
+        this.links = res['data']?.data ?? [];
         this.loading = false;
-      });
+      },
+      error: () => {
+        this.links = [];
+        this.loading = false;
+      },
+    });
 
     this.getFriendArticles();
   }

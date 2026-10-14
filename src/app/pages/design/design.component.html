@@ -429,6 +429,14 @@
             访客的系统里开启「减少动态效果」时，站内的位移与循环动画会停下来，颜色变化保留。
           </p>
         </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">页面私有的入场</h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            首页 hero 区那套入场（头像跳动左滑、文字擦出来）不挂在 trigger 上，是 welcome 页自己写的 CSS keyframes，所以不在上面的目录里。
+            只此一处、一次性的入场写在页面里更省事；需要复用或需要「重播」的显隐与列表动效，才收进 trigger。
+          </p>
+        </div>
       </section>
 
       <!-- ── 7 按钮 ─────────────────────────────────── -->
@@ -618,6 +626,10 @@
             </div>
             }
           </div>
+          <p class="ds-hint fi-text-caption">
+            页面主列一律写 <code>min(var(--fi-page-max), 100%)</code>（窄版页换成 <code>--fi-page-max-narrow</code>）：宽屏收到上限、窄屏铺满。
+            <strong>不要写成 <code>min(70vw, …)</code></strong>——那在平板段（769~1200px）只占视口 70%，两侧会白留一大片，这个坑已经踩过两次。
+          </p>
         </div>
       </section>
 
@@ -719,10 +731,6 @@
             </div>
           </div>
           <div class="ds-card-family__item">
-            <span class="ds-card-family__label fi-text-caption">友链</span>
-            <flower-link-card [link]="demoLink"></flower-link-card>
-          </div>
-          <div class="ds-card-family__item">
             <span class="ds-card-family__label fi-text-caption">游戏</span>
             <flower-game-card [game]="demoGame"></flower-game-card>
           </div>
@@ -734,6 +742,29 @@
             <span class="ds-card-family__label fi-text-caption">作者</span>
             <flower-me-card [info]="demoMeCard" [numLoading]="false"></flower-me-card>
           </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">列表行 · <code>flower-link-card</code></h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            不是卡片：小图标 + 名称 + 一句话简介，没有底色也没有边框，所以它不在上面那面墙里。
+            友链页的「朋友们」用它做两列排布；悬停整行会染色并右移 2px。
+          </p>
+          <div class="ds-sample-card" flCard>
+            <div class="ds-link-demo">
+              <flower-link-card [link]="demoLink"></flower-link-card>
+              <flower-link-card [link]="demoLinkPlain"></flower-link-card>
+            </div>
+          </div>
+          <p class="ds-hint fi-text-caption">
+            有评价的行，悬停后右侧才浮出星星；再悬停星星（键盘聚焦也行）才露出气泡。没有评价的行右边什么都不显示，这就是两种行的区别。
+          </p>
+          <p class="ds-hint fi-text-caption">
+            气泡是浮层：贴行下沿不留缝（视觉间距靠内层 padding 造），并且 <code>pointer-events: none</code>——鼠标扫过不会闪，也不会挡住下面的行。
+          </p>
+          <p class="ds-hint fi-text-caption">
+            两个踩过的坑：<code>z-index</code> 要加在整格上，加在行内部没用——卡片宿主带着入场动画残留的 <code>transform</code>，本身就是层叠上下文，会把气泡锁在格子里被后面的格子盖住；两列网格要写 <code>minmax(0, 1fr)</code>，裸 <code>1fr</code> 会被行内 nowrap 的文字顶宽、溢出页面。
+          </p>
         </div>
       </section>
 

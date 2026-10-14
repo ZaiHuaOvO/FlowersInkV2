@@ -277,12 +277,21 @@ export class DesignComponent implements AfterViewInit, OnDestroy {
     createDate: '2026-10-07 12:05:00',
   };
 
-  /* ---- 卡片族的示例数据 ---- */
+  /* ---- 卡片族 / 列表行的示例数据 ---- */
   readonly demoLink = {
     id: 1,
     name: '示例友链',
     url: 'https://flowersink.com',
-    description: '友链卡片的排版示意：左侧头像、右侧名称、简介与网址。',
+    description: '书签行的排版示意：左侧小图标，右侧名称与一句话简介。',
+    evaluation: '写了很久的朋友，更新不快，但每一篇都认真。',
+  };
+
+  /** 没有评价的那一行：右边不会出现星星，用来对比入口的出现条件 */
+  readonly demoLinkPlain = {
+    id: 2,
+    name: '另一位朋友',
+    url: 'https://example.com',
+    description: '没写评价的友链，右侧什么都不显示。',
   };
 
   readonly demoMeCard = {

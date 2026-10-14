@@ -1,24 +1,47 @@
-<a class="content link-card" flCard flCardHover nz-flex [nzGap]="25" nzJustify="start" nzAlign="start" [href]="link.url" target="_blank">
-    <div class="link-avatar-wrapper">
-        @if (!showFallback && avatarSrc) {
-        <img
-            loading="lazy"
-            decoding="async"
-            class="link-avatar-img"
-            [class.loaded]="avatarLoaded"
-            [src]="avatarSrc"
-            referrerpolicy="no-referrer"
-            alt=""
-            height="75"
-            (load)="avatarLoaded = true"
-            (error)="onAvatarError()">
-        }
-        @if (showFallback) {
-        <span class="link-avatar-fallback" nz-flex nzAlign="center" nzJustify="center">{{ initial }}</span>
-        }
+<div class="link-row">
+    <!-- 可跳转的部分是这一整个 a；评价按钮是它的兄弟节点，所以点评价不会连带跳转 -->
+    <a class="link-main" [href]="link.url" target="_blank" rel="noopener noreferrer">
+        <span class="link-logo-wrap">
+            @if (!showFallback && avatarSrc) {
+            <img
+                loading="lazy"
+                decoding="async"
+                class="link-logo"
+                [src]="avatarSrc"
+                referrerpolicy="no-referrer"
+                alt=""
+                width="36"
+                height="36"
+                (load)="avatarLoaded = true"
+                (error)="onAvatarError()">
+            }
+            @if (showFallback) {
+            <span class="link-logo-fallback">{{ initial }}</span>
+            }
+        </span>
+
+        <span class="link-text">
+            <span class="link-name">{{ link.name }}</span>
+            @if (link.description) {
+            <span class="link-desc">{{ link.description }}</span>
+            }
+        </span>
+    </a>
+
+    @if (link.evaluation) {
+    <div class="link-eval">
+        <button
+            type="button"
+            class="link-eval-btn"
+            [attr.aria-label]="'再花对「' + link.name + '」的评价'">
+            <span class="link-eval-icon" aria-hidden="true">✦</span>
+        </button>
+        <span class="link-eval-bubble">
+            <span class="link-eval-inner">
+                <span class="link-eval-label">再花的评价</span>
+                <span class="link-eval-text">{{ link.evaluation }}</span>
+            </span>
+        </span>
     </div>
-    <div nz-flex [nzVertical]="true" nzJustify="center" nzGap="small" class="noto-sans-sc">
-        <span nz-typography class="link_name">{{link.name}}</span>
-        <span nz-typography class="link_description">{{link.description}}</span>
-    </div>
-</a>
+    }
+</div>

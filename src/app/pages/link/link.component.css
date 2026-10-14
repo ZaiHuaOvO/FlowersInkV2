@@ -5,11 +5,10 @@
     padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
 }
 
-/* 主列宽度沿用站内其它页的写法（首页/写作页同款）：窄屏铺满、宽屏收到
-   --fi-page-max。原来是 min(70vw, --fi-page-max)，70vw 在平板段
-   （769–1200px）只有 538–840px，正文只占视口 70%，两侧白留一大片。 */
+/* 主列宽度沿用博客/归档页的窄版写法：宽屏收到 --fi-page-max-narrow（980px）。
+   友链是一列人名片，不需要首页那种宽度，980px 下两列书签行读起来最舒服。 */
 .content {
-    width: min(var(--fi-page-max), 100%);
+    width: min(var(--fi-page-max-narrow), 100%);
     min-height: 420px;
     margin-top: var(--fi-space-3);
     padding: clamp(22px, 3vw, 34px) clamp(18px, 5vw, 48px);
@@ -42,13 +41,7 @@
     font-size: var(--fi-font-size-sm);
 }
 
-/* ====== Profile card ====== */
-.profile-card {
-    padding: clamp(16px, 2vw, 24px);
-    border-radius: var(--fi-radius-md);
-    border: 1px solid var(--fi-border);
-}
-
+/* ====== 我的信息（平铺，不再套卡片） ====== */
 .profile-card-header {
     display: flex;
     justify-content: space-between;
@@ -156,20 +149,10 @@
     opacity: 1;
 }
 
-/* ====== Apply form ====== */
-.apply-rules {
-    padding: clamp(16px, 2vw, 24px);
-    border-radius: var(--fi-radius-md);
-}
-
-.apply-rules h4 {
-    margin: 0 0 var(--fi-space-3);
-    color: var(--fi-primary-active);
-}
-
-.apply-form {
-    padding: clamp(16px, 2vw, 24px);
-    border-radius: var(--fi-radius-md);
+/* ====== 申请须知 / 申请表单（平铺，不再套卡片） ====== */
+/* 表单常驻收起，由这一行的入口按钮展开 */
+.apply-entry {
+    padding-top: var(--fi-space-2);
 }
 
 .form-field {
@@ -257,78 +240,107 @@
     color: var(--fi-primary);
 }
 
-/* ====== Friend articles ====== */
-.friend-article-list {
+/* ====== 朋友们的文章（与书签列表同一套行样式） ====== */
+.article-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fi-space-1);
     width: 100%;
 }
 
-.friend-article-item {
-    gap: 16px;
-    padding: 16px 18px;
-    text-decoration: none;
-    transition: transform var(--fi-motion-normal) var(--fi-ease-standard),
-                box-shadow var(--fi-motion-normal) var(--fi-ease-standard);
-}
-
-.friend-article-item:hover {
-    transform: translateY(-1px);
-}
-
-.friend-article-main {
-    min-width: 0;
-    flex: 1;
-}
-
-.friend-article-item-title {
-    color: var(--fi-primary-active);
-    font-weight: bolder;
-    font-size: 16px;
-    line-height: 1.6;
-    word-break: break-word;
-    display: inline-flex;
+.article-row {
+    display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--fi-space-3);
+    min-height: 56px;
+    padding: var(--fi-space-2) var(--fi-space-3);
+    border: 1px solid transparent;
+    border-radius: var(--fi-radius-sm);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--fi-motion-normal) var(--fi-ease-standard),
+                border-color var(--fi-motion-normal) var(--fi-ease-standard),
+                transform var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
-.friend-article-arrow {
-    opacity: 0;
-    transition: opacity var(--fi-motion-normal), transform var(--fi-motion-normal);
-    font-size: 14px;
-    color: var(--fi-primary);
+.article-row:hover {
+    background: var(--fi-card-bg-hover);
+    border-color: var(--fi-border);
 }
 
-.friend-article-item:hover .friend-article-arrow {
-    opacity: 1;
-    transform: translateX(3px);
+.article-row:focus-visible {
+    outline: 0;
+    border-color: var(--fi-primary);
+    box-shadow: 0 0 0 3px var(--fi-primary-outline);
 }
 
-.friend-article-summary {
-    font-size: var(--font-size-sm, 13px);
-    line-height: 1.5;
+.article-logo-wrap {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: var(--fi-radius-sm);
+    overflow: hidden;
+    background: var(--fi-bg-soft);
+}
+
+.article-logo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* favicon 是低分辨率小图，contain + 留白比 cover 更清楚 */
+.article-logo--favicon {
+    object-fit: contain;
+    padding: 5px;
+}
+
+.article-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.article-title {
+    font-size: var(--fi-font-size-md);
+    font-weight: var(--fi-font-weight-semibold);
+    line-height: 1.35;
+    color: var(--fi-text);
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.article-summary {
+    font-size: var(--fi-font-size-xs);
+    line-height: 1.4;
+    color: var(--fi-text-muted);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.article-tail {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fi-space-2);
+    flex-shrink: 0;
+    font-size: var(--fi-font-size-xs);
     color: var(--fi-text-muted);
 }
 
-.friend-article-meta {
-    row-gap: 4px;
-    align-items: center;
+.article-date {
+    white-space: nowrap;
 }
 
-.source-favicon {
-    border-radius: 2px;
-    vertical-align: middle;
-}
-
-.source-avatar {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    object-fit: cover;
-    vertical-align: middle;
-    border: 1px solid var(--fi-border);
-    background: var(--fi-bg-soft);
+.article-arrow {
+    font-size: var(--fi-font-size-sm);
+    color: var(--fi-primary);
+    transition: opacity var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
 .source-tag {
@@ -341,22 +353,61 @@
     white-space: nowrap;
 }
 
+@media (hover: hover) and (pointer: fine) {
+    .article-row:hover {
+        transform: translateX(2px);
+    }
+
+    .article-arrow {
+        opacity: 0;
+    }
+
+    .article-row:hover .article-title,
+    .article-row:focus-visible .article-title {
+        color: var(--fi-primary-active);
+    }
+
+    .article-row:hover .article-arrow,
+    .article-row:focus-visible .article-arrow {
+        opacity: 1;
+    }
+}
+
+/* ====== 朋友们的书签列表 ====== */
+.link-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--fi-space-1) var(--fi-space-3);
+    width: 100%;
+}
+
+/* 悬停（键盘聚焦也算）的那一格抬到邻格之上。
+   卡片宿主身上带着入场动画残留的 transform（还有 opacity），本身就是层叠上下文，
+   气泡会被锁在格子里，于是按 DOM 顺序排在后面的格子会盖住它 —— 必须抬这一格本身，
+   只抬里层的 .link-row 没有用。 */
+.link-list-item {
+    position: relative;
+}
+
+.link-list-item:hover,
+.link-list-item:focus-within {
+    z-index: 3;
+}
+
 /* ====== Skeleton ====== */
-.skeleton-card {
-    padding: clamp(18px, 2.2vw, 24px);
-    border-radius: var(--fi-radius-md);
-}
-
-.skeleton-link-card {
+.skeleton-row {
     display: flex;
-    gap: 25px;
-    align-items: flex-start;
+    align-items: center;
+    gap: var(--fi-space-3);
+    min-height: 56px;
+    padding: var(--fi-space-2) var(--fi-space-3);
 }
 
-.skeleton-avatar {
-    width: 75px;
-    min-width: 75px;
-    height: 75px;
+.skeleton-logo {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    flex-shrink: 0;
     border-radius: var(--fi-radius-sm);
     background: var(--fi-skeleton-bg, linear-gradient(90deg, var(--fi-border) 25%, var(--fi-surface-soft) 50%, var(--fi-border) 75%));
     background-size: 200% 100%;
@@ -368,8 +419,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 12px;
-    padding: 8px 0;
+    gap: 8px;
+    min-width: 0;
 }
 
 .skeleton-line {
@@ -394,9 +445,10 @@
     100% { background-position: -200% 0; }
 }
 
-.skeleton-article {
-    padding: 16px 18px;
-    border-radius: var(--fi-radius-md);
+.skeleton-logo--sm {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
 }
 
 /* ====== Empty state ====== */
@@ -429,7 +481,23 @@
         text-align: center;
     }
 
-    .friend-article-item {
-        flex-direction: column;
+    /* 必须是 minmax(0, 1fr)：裸 1fr 的最小值是 min-content，行内 nowrap 的
+       名称会把轨道顶得比容器还宽（390px 视口下曾量到 460px），点按染色就会溢出页面 */
+    .link-list {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* 文章行：来源与日期让到第二行，和标题左对齐（32px 图标 + 12px 间距） */
+    .article-row {
+        flex-wrap: wrap;
+    }
+
+    .article-text {
+        flex: 1 1 calc(100% - 44px);
+    }
+
+    .article-tail {
+        flex-basis: 100%;
+        padding-left: 44px;
     }
 }

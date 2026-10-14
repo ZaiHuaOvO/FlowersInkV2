@@ -1,75 +1,231 @@
-.link-card {
-    padding: clamp(18px, 2.2vw, 24px);
-    border-radius: var(--fi-radius-md);
-    transition: transform var(--fi-motion-normal) var(--fi-ease-standard),
-                box-shadow var(--fi-motion-normal) var(--fi-ease-standard);
+:host {
+    display: block;
 }
 
-.link-card:hover {
-    transform: translateY(var(--fi-motion-lift-card));
+.link-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--fi-space-1);
+    min-height: 56px;
+    padding: var(--fi-space-2) var(--fi-space-3);
+    border: 1px solid transparent;
+    border-radius: var(--fi-radius-sm);
+    transition: background-color var(--fi-motion-normal) var(--fi-ease-standard),
+                border-color var(--fi-motion-normal) var(--fi-ease-standard),
+                transform var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
-.link-card:hover .link-avatar-img {
-    transform: scale(1.05);
+.link-row:hover {
+    background: var(--fi-card-bg-hover);
+    border-color: var(--fi-border);
 }
 
-.link-card:hover .link-avatar-fallback {
-    transform: scale(1.05);
-}
-
-.link_name {
-    font-weight: bolder;
-    color: var(--fi-primary-active);
-}
-
-.link_description {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.5;
-}
-
-.content {
-    cursor: pointer;
+.link-main {
+    display: flex;
+    align-items: center;
+    gap: var(--fi-space-3);
+    flex: 1 1 auto;
+    min-width: 0;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.link-avatar-wrapper {
-    width: 75px;
-    height: 75px;
-    min-width: 75px;
+.link-main:focus-visible {
+    outline: 0;
+    border-radius: var(--fi-radius-xs);
+    box-shadow: 0 0 0 3px var(--fi-primary-outline);
+}
+
+.link-logo-wrap {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
     border-radius: var(--fi-radius-sm);
     overflow: hidden;
     background: var(--fi-bg-soft);
-    position: relative;
 }
 
-.link-avatar-img {
+.link-logo {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: var(--fi-radius-sm);
-    transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
-    background: var(--fi-bg-soft);
 }
 
-.link-avatar-img.loaded {
-    background: transparent;
-}
-
-.link-avatar-fallback {
-    width: 75px;
-    height: 75px;
-    min-width: 75px;
-    border-radius: var(--fi-radius-sm);
+.link-logo-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
     background: var(--fi-primary);
     color: var(--fi-text-inverse);
-    font-size: 28px;
-    font-weight: 600;
+    font-size: var(--fi-font-size-lg);
+    font-weight: var(--fi-font-weight-semibold);
+    user-select: none;
+}
+
+.link-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.link-name {
+    font-size: var(--fi-font-size-md);
+    font-weight: var(--fi-font-weight-semibold);
+    line-height: 1.35;
+    color: var(--fi-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.link-desc {
+    font-size: var(--fi-font-size-xs);
+    line-height: 1.4;
+    color: var(--fi-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ====== 评价入口（有评价才渲染） ====== */
+.link-eval {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.link-eval-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    user-select: none;
-    transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--fi-radius-pill);
+    background: transparent;
+    color: var(--fi-text-muted);
+    cursor: pointer;
+    transition: opacity var(--fi-motion-fast) var(--fi-ease-standard),
+                color var(--fi-motion-fast) var(--fi-ease-standard),
+                background-color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.link-eval-btn:hover {
+    color: var(--fi-primary);
+    background: var(--fi-tag-bg);
+}
+
+.link-eval-btn:focus-visible {
+    outline: 0;
+    color: var(--fi-primary);
+    box-shadow: 0 0 0 3px var(--fi-primary-outline);
+}
+
+.link-eval-icon {
+    font-size: var(--fi-font-size-xs);
+    line-height: 1;
+}
+
+/* 气泡紧贴按钮下沿（top:100%），视觉间距由内层的 padding-top 造：
+   留真缝的话鼠标从按钮移向气泡会闪一下。
+   只读内容，pointer-events: none —— 扫过不该把它弄掉，也不该挡住下面的行。 */
+.link-eval-bubble {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 5;
+    padding-top: var(--fi-space-2);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity var(--fi-motion-normal) var(--fi-ease-standard),
+                transform var(--fi-motion-normal) var(--fi-ease-standard),
+                visibility var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+.link-eval-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: max-content;
+    max-width: min(280px, 60vw);
+    /* 纵向内边距比横向收紧，抵掉标签行带来的一部分高度 */
+    padding: 6px var(--fi-space-3);
+    border: 1px solid var(--fi-border);
+    border-radius: var(--fi-radius-sm);
+    background: var(--fi-surface);
+    box-shadow: var(--fi-shadow);
+    color: var(--fi-text);
+    font-size: var(--fi-font-size-xs);
+    line-height: var(--fi-line-height-normal);
+    text-align: left;
+    white-space: normal;
+}
+
+/* 标签用主色加粗，和正文拉开；只改颜色和字重，不占额外高度
+   （--fi-font-size-xs 已是全站最小字号，不能再小，所以靠深浅区分） */
+.link-eval-label {
+    line-height: 1.2;
+    font-weight: var(--fi-font-weight-semibold);
+    color: var(--fi-primary-active);
+}
+
+/* 只有悬停（或键盘聚焦）才展开，没有"钉住"状态。
+   这条刻意放在媒体查询之外：触屏浏览器点一下会保留住 :hover，
+   等于白捡一套「点开 / 点别处收起」，不必自己维护开关状态。 */
+.link-eval:hover .link-eval-bubble,
+.link-eval-btn:focus-visible + .link-eval-bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .link-row:hover {
+        transform: translateX(2px);
+    }
+
+    .link-row:hover .link-name,
+    .link-main:focus-visible .link-name {
+        color: var(--fi-primary-active);
+    }
+
+    /* 评价图标平时不出现 —— 看不见的按钮也不该能点到，所以一并关掉事件 */
+    .link-eval-btn {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .link-row:hover .link-eval-btn,
+    .link-eval-btn:focus-visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* 触屏：图标常显。点行会直接跳转，入口要是也藏起来就再也点不到了 */
+@media (hover: none) {
+    .link-eval-btn {
+        position: relative;
+        width: 34px;
+        height: 34px;
+    }
+
+    /* 视觉仍是 34px 的圆，点按热区扩到 44px（行高 56px，撑得下，不会盖到相邻行） */
+    .link-eval-btn::after {
+        content: '';
+        position: absolute;
+        inset: -5px;
+    }
 }

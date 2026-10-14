@@ -548,6 +548,20 @@
   min-width: 0;
 }
 
+/* 列表行演示区：照抄友链页的两列网格间距，让示范和线上长一样。
+   两列必须是 minmax(0, 1fr)，裸 1fr 会被行内 nowrap 的文字顶宽。 */
+.ds-link-demo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--fi-space-1) var(--fi-space-3);
+}
+
+@media (max-width: 768px) {
+  .ds-link-demo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .ds-card-family__label {
   font-family: var(--fi-font-mono);
 }

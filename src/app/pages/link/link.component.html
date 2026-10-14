@@ -8,7 +8,7 @@
         </div>
 
         <!-- ====== 个人信息名片 ====== -->
-        <div class="profile-card" flCard @QuickUp>
+        <div @QuickUp>
             <div class="profile-card-header">
                 <div nz-flex nzAlign="center" nzGap="small">
                     <img class="profile-avatar" src="https://api.flowersink.com/img/logo.png" alt="花墨" width="40"
@@ -60,23 +60,19 @@
         <div class="section-head">
             <span class="section-icon">✦</span>
             <h3 nz-typography class="section-title">朋友们</h3>
-            @if (!loading) {
+            @if (!loading && links.length) {
             <span nz-typography nzType="secondary" class="section-count">共 {{ links.length }} 个</span>
             }
         </div>
 
         @if (loading) {
-        <div nz-row [nzGutter]="[16, 16]">
+        <div class="link-list">
             @for (sk of skeletonCards; track sk) {
-            <div nz-col nzXs="24" nzSm="12" nzLg="8">
-                <div class="skeleton-card" flCard>
-                    <div class="skeleton-link-card">
-                        <div class="skeleton-avatar"></div>
-                        <div class="skeleton-text">
-                            <div class="skeleton-line skeleton-line--title"></div>
-                            <div class="skeleton-line skeleton-line--desc"></div>
-                        </div>
-                    </div>
+            <div class="skeleton-row">
+                <div class="skeleton-logo"></div>
+                <div class="skeleton-text">
+                    <div class="skeleton-line skeleton-line--title"></div>
+                    <div class="skeleton-line skeleton-line--desc"></div>
                 </div>
             </div>
             }
@@ -84,12 +80,17 @@
         }
 
         @if (!loading) {
-        <div nz-row [nzGutter]="[16, 16]" @StaggerList>
+        <div class="link-list" @StaggerList>
             @for (link of links; track link) {
-            <div nz-col nzXs="24" nzSm="12" nzLg="8">
-                <flower-link-card [link]="link"></flower-link-card>
-            </div>
+            <flower-link-card class="link-list-item" [link]="link"></flower-link-card>
             }
+        </div>
+        }
+
+        @if (!loading && !links.length) {
+        <div class="empty-state" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true" nzGap="small">
+            <span class="empty-icon">🐾</span>
+            <p nz-typography nzType="secondary">暂时没能取到朋友们的链接，刷新一下试试吧</p>
         </div>
         }
 
@@ -100,8 +101,7 @@
         </div>
 
         <div nz-flex [nzVertical]="true" nzGap="middle">
-            <div class="apply-rules" flCard>
-                <h4 nz-typography>友链申请须知</h4>
+            <div class="apply-rules">
                 <article nz-typography class="link-note">
                     <p nz-typography>1. 友链最终需要是双向的</p>
                     <p nz-typography>2. 已经与我产生了一定的连接（包括但不限于邮件联系、网站互动等） - <span
@@ -117,7 +117,14 @@
                 </article>
             </div>
 
-            <div class="apply-form" flCard>
+            <div class="apply-entry">
+                <fl-button [variant]="showApplyForm ? 'ghost' : 'solid'" (click)="showApplyForm = !showApplyForm">
+                    @if (showApplyForm) {收起表单} @else {申请友链}
+                </fl-button>
+            </div>
+
+            @if (showApplyForm) {
+            <div class="apply-form" @ExpandCollapse>
                 <nz-row [nzGutter]="[20, 4]">
                     <div nz-col nzXs="24" nzMd="8">
                         <div class="form-field">
@@ -191,6 +198,7 @@
                     </fl-button>
                 </div>
             </div>
+            }
         </div>
 
         <!-- ====== 朋友们的文章 ====== -->
@@ -205,45 +213,46 @@
         </div>
 
         @if (articleLoading) {
-        <div nz-flex [nzVertical]="true" nzGap="small">
+        <div class="article-list">
             @for (sk of skeletonArticles; track sk) {
-            <div class="skeleton-article" flCard nz-flex nzAlign="center" nzJustify="space-between">
-                <nz-skeleton [nzParagraph]="{rows: 1, width: '60%'}" [nzActive]="true"></nz-skeleton>
+            <div class="skeleton-row">
+                <div class="skeleton-logo skeleton-logo--sm"></div>
+                <div class="skeleton-text">
+                    <div class="skeleton-line skeleton-line--title"></div>
+                    <div class="skeleton-line skeleton-line--desc"></div>
+                </div>
             </div>
             }
         </div>
         }
 
         @if (!articleLoading && friendArticles.length) {
-        <div class="friend-article-list" nz-flex [nzVertical]="true" nzGap="small" @StaggerList>
+        <div class="article-list" @StaggerList>
             @for (article of friendArticles; track article.link) {
-            <a class="friend-article-item" flCard flCardHover nz-flex nzJustify="space-between" nzAlign="start"
-                [href]="article.link" target="_blank" rel="noopener noreferrer">
-                <div nz-flex [nzVertical]="true" nzGap="small" class="friend-article-main">
-                    <span nz-typography class="friend-article-item-title">
-                        {{ article.title }}
-                        <span class="friend-article-arrow">→</span>
-                    </span>
-                    @if (article.summary) {
-                    <span nz-typography nzType="secondary" class="friend-article-summary">
-                        {{ article.summary }}
-                    </span>
+            <a class="article-row" [href]="article.link" target="_blank" rel="noopener noreferrer">
+                <span class="article-logo-wrap">
+                    @if (article.sourceAvatar) {
+                    <img class="article-logo" [src]="article.sourceAvatar" alt="" width="32" height="32"
+                        loading="lazy" (error)="article.sourceAvatar = undefined">
                     }
-                    <div nz-flex nzWrap="wrap" nzGap="small" class="friend-article-meta">
-                        @if (article.sourceAvatar) {
-                        <img class="source-avatar" [src]="article.sourceAvatar" alt="" width="20" height="20"
-                            loading="lazy" (error)="article.sourceAvatar = undefined">
-                        }
-                        @else if (article.sourceFavicon) {
-                        <img class="source-favicon" [src]="article.sourceFavicon" alt="" width="14" height="14"
-                            loading="lazy">
-                        }
-                        <span class="source-tag">{{ article.source }}</span>
-                        <span nz-typography nzType="secondary">
-                            {{ article.publishDate | date:'yyyy-MM-dd HH:mm' }}
-                        </span>
-                    </div>
-                </div>
+                    @else if (article.sourceFavicon) {
+                    <img class="article-logo article-logo--favicon" [src]="article.sourceFavicon" alt="" width="32"
+                        height="32" loading="lazy">
+                    }
+                </span>
+
+                <span class="article-text">
+                    <span class="article-title">{{ article.title }}</span>
+                    @if (article.summary) {
+                    <span class="article-summary">{{ article.summary }}</span>
+                    }
+                </span>
+
+                <span class="article-tail">
+                    <span class="source-tag">{{ article.source }}</span>
+                    <span class="article-date">{{ article.publishDate | date:'yyyy-MM-dd' }}</span>
+                    <span class="article-arrow" aria-hidden="true">↗</span>
+                </span>
             </a>
             }
         </div>
