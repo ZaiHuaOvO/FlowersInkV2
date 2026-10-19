@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  importProvidersFrom,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
@@ -13,6 +14,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideMarkdown } from 'ngx-markdown';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
 
 registerLocaleData(zh);
@@ -50,5 +52,7 @@ export const appConfig: ApplicationConfig = {
     // 之前只在 blog.routes.ts 里注册，别的路由用 <markdown> 会 NullInjectorError。
     provideMarkdown(),
     provideNzConfig(ngZorroConfig),
+    // 外链确认弹窗需要根级 NzModalService，不能等某个懒加载页面再提供
+    importProvidersFrom(NzModalModule),
   ],
 };

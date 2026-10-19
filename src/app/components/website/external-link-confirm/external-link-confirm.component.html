@@ -1,0 +1,15 @@
+<div class="elc-head">
+  <h2 class="elc-title">即将离开花墨</h2>
+</div>
+
+<div class="elc-target">
+  <span class="elc-host">{{ host }}</span>
+  <span class="elc-url">{{ url }}</span>
+</div>
+
+<p class="elc-note">你即将前往花墨以外的网站。外部链接不受花墨控制，域名可能易主或失效；请勿在陌生站点输入账号、密码或支付信息。</p>
+
+<div class="elc-actions">
+  <fl-button #cancelButton variant="outline" (click)="cancel()">取消</fl-button>
+  <fl-button variant="solid" (click)="confirm()">继续访问</fl-button>
+</div>

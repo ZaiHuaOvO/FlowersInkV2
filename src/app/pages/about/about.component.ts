@@ -21,6 +21,7 @@ import { EditMessageComponent } from '../../components/about/edit-message/edit-m
 import { GithubContributionsComponent } from '../../components/about/github-contributions/github-contributions.component';
 import { AboutService } from './about.service';
 import { WindowService } from '../../services/window.service';
+import { ExternalLinkService } from '../../services/external-link.service';
 import { ensureMarkdownRuntimeLoaded } from '../../shared/utils/markdown-runtime-loader.util';
 
 interface NavItem {
@@ -107,6 +108,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     private window: WindowService,
     private about: AboutService,
     private zone: NgZone,
+    private externalLink: ExternalLinkService,
   ) {
     this.window.bindIsMobile(this.destroyRef, (mobile) => {
       this.isMobile.set(mobile);
@@ -384,6 +386,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = `http://${url}`;
     }
-    window.open(url, '_blank');
+    this.externalLink.open(url);
   }
 }

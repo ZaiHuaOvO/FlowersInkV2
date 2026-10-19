@@ -9,6 +9,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { FlImgFadeDirective } from '../../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
 import { deriveWebpVariants } from '../../../../shared/utils/image-url.util';
+import { ExternalLinkService } from '../../../../services/external-link.service';
 
 interface GameShotAsset {
   displayUrl: string;
@@ -38,6 +39,7 @@ export class GameDetailDialogComponent {
   readyShotCount = 1;
 
   private readonly imageService = inject(NzImageService);
+  private readonly externalLink = inject(ExternalLinkService);
 
   get game(): any {
     return this.nzModalData?.data ?? this.nzModalData;
@@ -159,7 +161,7 @@ export class GameDetailDialogComponent {
 
   goToContent(): void {
     if (this.game?.content) {
-      window.open(this.game.content, '_blank');
+      this.externalLink.open(this.game.content);
     }
   }
 }
