@@ -4,6 +4,7 @@ import {
   ExternalLinkConfirmComponent,
   ExternalLinkConfirmData,
 } from '../components/website/external-link-confirm/external-link-confirm.component';
+import { IDEA_KEY_ATTRIBUTE } from '../shared/idea/idea-anchor.util';
 
 /**
  * 直通、不弹确认的域名：
@@ -45,12 +46,24 @@ export class ExternalLinkService {
     this.request(target.href);
   }
 
+  /** 这个地址点下去会不会先弹全站外链确认（站外 http(s) 为 true） */
+  needsConfirm(raw: string): boolean {
+    const url = this.parse(raw);
+    return url !== null && !this.isTrusted(url);
+  }
+
   private openInNewTab(url: string): void {
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   private readonly onClick = (event: MouseEvent): void => {
     if (event.button !== 0) {
+      return;
+    }
+    // 带想法的虚线里的链接交给想法 UI：它会先让用户在「看想法 / 打开链接」之间选，
+    // 选「打开链接」时再回到这里走外链确认
+    const target = event.target as Element | null;
+    if (target?.closest?.(`mark[${IDEA_KEY_ATTRIBUTE}]`)) {
       return;
     }
     this.intercept(event);

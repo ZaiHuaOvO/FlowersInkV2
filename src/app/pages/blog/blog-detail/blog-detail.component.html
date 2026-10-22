@@ -105,6 +105,40 @@
             </button>
             }
 
+            @if (linkChoice.visible) {
+            <div
+              class="idea-link-choice"
+              [class.idea-link-choice--above]="linkChoice.above"
+              [style.left.px]="linkChoice.left"
+              [style.top.px]="linkChoice.top"
+              role="menu"
+              aria-label="这段文字既是链接又有想法"
+              @BubbleIn
+            >
+              <button
+                type="button"
+                class="idea-link-choice__item"
+                role="menuitem"
+                (click)="onLinkChoiceIdeas($event)"
+              >
+                <span nz-icon nzType="bulb" nzTheme="outline"></span>
+                <span>查看想法</span>
+              </button>
+              <button
+                type="button"
+                class="idea-link-choice__item"
+                role="menuitem"
+                (click)="onLinkChoiceLink($event)"
+              >
+                <span nz-icon nzType="link" nzTheme="outline"></span>
+                <span class="idea-link-choice__label">打开链接</span>
+                @if (linkChoice.host) {
+                <span class="idea-link-choice__host">{{ linkChoice.host }}</span>
+                }
+              </button>
+            </div>
+            }
+
             @if (popover; as panel) {
             <fl-idea-popover
               @PopoverIn

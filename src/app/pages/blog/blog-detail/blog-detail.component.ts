@@ -52,6 +52,7 @@ import { isPinnedBlog } from '../../../shared/utils/blog-pinned.util';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { VisitorTrackingService } from '../../../services/visitor-tracking.service';
 import { IdeaService } from '../idea.service';
+import { ExternalLinkService } from '../../../services/external-link.service';
 import { FlIdeaPopoverComponent } from '../../../common_ui/fl_ui/fl-idea-popover/fl-idea-popover.component';
 import type {
   Idea,
@@ -179,6 +180,24 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   private popoverRafId: number | null = null;
   private popoverScrollListener: (() => void) | null = null;
 
+  /**
+   * 「既带想法又是超链接」的文字被点击时弹出的二选一气泡：
+   * 用户先选「查看想法」还是「打开链接」，避免掉进"点了就跳走、看不到想法"。
+   */
+  linkChoice = {
+    visible: false,
+    left: 0,
+    top: 0,
+    above: false,
+    href: '',
+    host: '',
+    newTab: false,
+  };
+  /** 气泡背后那段想法的锚点 id 与点击信息，选「查看想法」时据此重新打开浮窗 */
+  private linkChoiceKeys: number[] = [];
+  private linkChoiceRect: DOMRect | null = null;
+  private linkChoicePoint: { x: number; y: number } | null = null;
+
   @ViewChild('ideaLayer', { static: false })
   ideaLayerRef?: ElementRef<HTMLElement>;
 
@@ -215,6 +234,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private visitorTrackingService: VisitorTrackingService,
     private commentService: CommentService,
     private ideaService: IdeaService,
+    private externalLink: ExternalLinkService,
     destroyRef: DestroyRef,
   ) {
     this.destroyRef = destroyRef;
@@ -321,6 +341,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       // 正文要换 DOM 了，先把想法标记与浮窗收干净，等 (ready) 再重画
       this.markdownDomReady = false;
       this.closePopover();
+      this.closeLinkChoice();
       this.hideWriteButton();
       this.markdownContent = this.data.content;
       this.loading = false;
@@ -597,6 +618,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.hideWriteButton();
+    this.closeLinkChoice();
     this.closePopover();
     this.tryRenderIdeas();
   }
@@ -739,6 +761,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((event) => {
         if (event.key === 'Escape') {
           this.closePopover();
+          this.closeLinkChoice();
           this.hideWriteButton();
         }
       });
@@ -770,6 +793,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private bindPopoverReposition(): void {
     const onScroll = () => {
+      // 二选一气泡贴在点击处，滚动后位置就不可信了，直接收起
+      this.closeLinkChoice();
       if (!this.popover || this.popoverRafId !== null) return;
       this.popoverRafId = requestAnimationFrame(() => {
         this.popoverRafId = null;
@@ -794,6 +819,19 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     const mark = target.closest(`mark[${IDEA_KEY_ATTRIBUTE}]`);
     if (mark) {
       event.preventDefault();
+      const link = target.closest('a[href]') as HTMLAnchorElement | null;
+      const href = link?.getAttribute('href') ?? '';
+      // 文字同时是超链接又想看想法：先让用户选，别直接跳走
+      if (
+        link &&
+        href &&
+        !href.startsWith('#') &&
+        this.isHttpLink(href) &&
+        (link.contains(mark) || mark.contains(link))
+      ) {
+        this.openLinkChoice(mark, link, event);
+        return;
+      }
       this.openPopoverForMark(mark, event);
       return;
     }
@@ -809,21 +847,24 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    // 打开浮窗的那次点击本身会冒泡到这里，等它过去再允许「点外面关闭」
-    if (!this.popover || !this.popoverReady) return;
-
     const target = event.target as Element | null;
     if (
       target &&
       (target.closest('fl-idea-popover') ||
         target.closest(`mark[${IDEA_KEY_ATTRIBUTE}]`) ||
         target.closest('.idea-write-button') ||
+        target.closest('.idea-link-choice') ||
         // ng-zorro 的浮层（表情面板等）挂在 body 下的 cdk-overlay-container 里，
         // 不在浮窗 DOM 内；不排除掉的话点一个表情就会把浮窗关掉
         target.closest('.cdk-overlay-container'))
     ) {
       return;
     }
+
+    this.closeLinkChoice();
+
+    // 打开浮窗的那次点击本身会冒泡到这里，等它过去再允许「点外面关闭」
+    if (!this.popover || !this.popoverReady) return;
 
     this.closePopover();
   }
@@ -924,6 +965,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     // 否则 onDocumentClick 会以为「点了外面」把刚开的抽屉关掉
     this.suppressNextDocClick = true;
     this.hideWriteButton();
+    this.closeLinkChoice();
     window.getSelection()?.removeAllRanges();
 
     if (existing) {
@@ -989,10 +1031,26 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private openPopoverForMark(mark: Element, event?: MouseEvent): void {
+    this.closeLinkChoice();
     const keys = (mark.getAttribute(IDEA_KEY_ATTRIBUTE) ?? '')
       .split(',')
       .map((value) => Number(value))
       .filter((value) => Number.isFinite(value));
+
+    this.openPopoverForKeys(
+      keys,
+      mark.getBoundingClientRect(),
+      event ? { x: event.clientX, y: event.clientY } : null,
+      mark,
+    );
+  }
+
+  private openPopoverForKeys(
+    keys: number[],
+    targetRect: DOMRect,
+    point: { x: number; y: number } | null,
+    anchorEl: Element | null,
+  ): void {
     const matched = this.ideaAnchors.filter((anchor) =>
       keys.includes(anchor.id),
     );
@@ -1000,8 +1058,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // 视觉合并后一个 mark 可能覆盖多条想法：优先按点击位置落到具体那一条
     let targets = matched;
-    if (matched.length > 1 && event) {
-      const offset = this.globalOffsetAtPoint(event);
+    if (matched.length > 1 && point) {
+      const offset = this.globalOffsetAtPoint(point.x, point.y);
       if (offset !== null) {
         const hit = matched.filter(
           (anchor) =>
@@ -1023,29 +1081,148 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       keyIds: targets.map((anchor) => anchor.id),
       // 点虚线是「先看看别人写了什么」，表单收起来
       composing: false,
-      ...this.placePopover(undefined, mark.getBoundingClientRect()),
-      anchorEl: mark,
+      ...this.placePopover(undefined, targetRect),
+      anchorEl,
     });
   }
 
+  // ---- 「看想法 / 打开链接」二选一气泡 ----
+
+  /** 气泡高度估算：两项各 40px + 内边距，用于决定往上还是往下弹 */
+  private static readonly LINK_CHOICE_HEIGHT = 96;
+
+  private openLinkChoice(
+    mark: Element,
+    link: HTMLAnchorElement,
+    event: MouseEvent,
+  ): void {
+    const layer = this.ideaLayerRef?.nativeElement;
+    if (!layer) return;
+
+    // 下面会关掉浮窗重绘虚线（<mark> 会被替换），元素信息必须提前取走
+    const keys = (mark.getAttribute(IDEA_KEY_ATTRIBUTE) ?? '')
+      .split(',')
+      .map((value) => Number(value))
+      .filter((value) => Number.isFinite(value));
+    const rect = mark.getBoundingClientRect();
+    const href = link.getAttribute('href') ?? '';
+    if (!href) return;
+
+    const external = this.externalLink.needsConfirm(href);
+    const host = external ? this.linkHost(href) : '';
+
+    this.hideWriteButton();
+    this.closePopover();
+    this.closeLinkChoice();
+
+    const layerRect = layer.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    // 气泡自身宽约 240px、靠 translate(-50%) 居中，先把中心点收进能放得下的范围
+    const halfWidth = Math.min(120, layerRect.width / 2);
+    const centerX = rect.left - layerRect.left + rect.width / 2;
+    const left = Math.min(
+      Math.max(centerX, halfWidth + 8),
+      Math.max(halfWidth + 8, layerRect.width - halfWidth - 8),
+    );
+    const above =
+      rect.bottom + 10 + BlogDetailComponent.LINK_CHOICE_HEIGHT >
+      viewportHeight - 8;
+
+    this.linkChoiceKeys = keys;
+    this.linkChoiceRect = rect;
+    this.linkChoicePoint = { x: event.clientX, y: event.clientY };
+    this.linkChoice = {
+      visible: true,
+      left,
+      top: above
+        ? rect.top - layerRect.top - 10
+        : rect.bottom - layerRect.top + 10,
+      above,
+      href,
+      host,
+      newTab: link.target === '_blank',
+    };
+  }
+
+  closeLinkChoice(): void {
+    if (!this.linkChoice.visible) return;
+    this.linkChoice = { ...this.linkChoice, visible: false };
+    this.linkChoiceKeys = [];
+    this.linkChoiceRect = null;
+    this.linkChoicePoint = null;
+  }
+
+  onLinkChoiceIdeas(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const keys = this.linkChoiceKeys;
+    const rect = this.linkChoiceRect;
+    const point = this.linkChoicePoint;
+    this.closeLinkChoice();
+    if (!rect || keys.length === 0) return;
+
+    // 虚线是渲染出来的，重绘后原节点已失效，按 keys 重新找一段
+    const mark =
+      this.ideaContainer()?.querySelector(
+        `mark[${IDEA_KEY_ATTRIBUTE}="${keys.join(',')}"]`,
+      ) ?? null;
+    this.openPopoverForKeys(keys, rect, point, mark);
+  }
+
+  onLinkChoiceLink(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const { href, newTab } = this.linkChoice;
+    this.closeLinkChoice();
+    if (!href) return;
+
+    // 站外链接统一回到全站外链出口，二次确认弹窗不会被这次选择绕过
+    if (this.externalLink.needsConfirm(href)) {
+      this.externalLink.open(href);
+      return;
+    }
+    if (newTab) {
+      window.open(href, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    window.location.assign(href);
+  }
+
+  private linkHost(href: string): string {
+    try {
+      return new URL(href, document.baseURI).hostname.replace(/^www\./, '');
+    } catch {
+      return '';
+    }
+  }
+
+  /** 只对 http(s) 链接弹二选一；mailto:、javascript: 之类照旧直接看想法 */
+  private isHttpLink(href: string): boolean {
+    try {
+      const { protocol } = new URL(href, document.baseURI);
+      return protocol === 'http:' || protocol === 'https:';
+    } catch {
+      return false;
+    }
+  }
+
   /** 点击位置 → 正文文本轴上的全局偏移，用于把合并后的虚线点击解析到具体那条想法 */
-  private globalOffsetAtPoint(event: MouseEvent): number | null {
+  private globalOffsetAtPoint(x: number, y: number): number | null {
     const axis = this.axis;
     if (!axis) return null;
 
     let node: Node | null = null;
     let offset = 0;
     if (document.caretPositionFromPoint) {
-      const pos = document.caretPositionFromPoint(event.clientX, event.clientY);
+      const pos = document.caretPositionFromPoint(x, y);
       if (pos) {
         node = pos.offsetNode;
         offset = pos.offset;
       }
     } else if ((document as any).caretRangeFromPoint) {
-      const range = (document as any).caretRangeFromPoint(
-        event.clientX,
-        event.clientY,
-      );
+      const range = (document as any).caretRangeFromPoint(x, y);
       if (range) {
         node = range.startContainer;
         offset = range.startOffset;

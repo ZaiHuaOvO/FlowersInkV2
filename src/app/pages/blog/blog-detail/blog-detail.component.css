@@ -742,3 +742,68 @@ nz-anchor {
 .idea-write-button--blocked::after {
   border-top-color: var(--fi-text-muted);
 }
+
+/*
+ * 「查看想法 / 打开链接」二选一气泡：文字既是超链接又想看想法时弹出。
+ * 定位和「写想法」一样用 CSS `translate`，transform 留给 @BubbleIn 的缩放动画。
+ */
+.idea-link-choice {
+  position: absolute;
+  translate: -50% 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 168px;
+  max-width: 240px;
+  padding: var(--fi-space-1);
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-md);
+  background: var(--fi-surface);
+  box-shadow: var(--fi-shadow);
+  transform-origin: top center;
+}
+
+.idea-link-choice--above {
+  translate: -50% -100%;
+  transform-origin: bottom center;
+}
+
+.idea-link-choice__item {
+  display: flex;
+  align-items: center;
+  gap: var(--fi-space-2);
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: var(--fi-radius-sm);
+  background: transparent;
+  color: var(--fi-text);
+  font-size: var(--fi-font-size-sm);
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--fi-motion-fast) var(--fi-ease-standard),
+    color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.idea-link-choice__item:hover,
+.idea-link-choice__item:focus-visible {
+  background: var(--fi-primary-outline);
+  color: var(--fi-primary-active);
+  outline: none;
+}
+
+.idea-link-choice__label {
+  flex: 0 0 auto;
+}
+
+.idea-link-choice__host {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fi-text-muted);
+  font-size: var(--fi-font-size-xs);
+  text-align: right;
+}
