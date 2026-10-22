@@ -813,25 +813,31 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     const target = event.target as Element | null;
     if (!target || !container.contains(target)) return;
 
+    const mark = target.closest(`mark[${IDEA_KEY_ATTRIBUTE}]`);
+    const link = target.closest('a[href]') as HTMLAnchorElement | null;
+    const href = link?.getAttribute('href') ?? '';
+
+    // 虚线画在超链接上时，整段（含数量角标）都先让用户选看想法还是打开链接。
+    // 必须先 preventDefault，否则外链拦截器对虚线内的点击是放行的，
+    // 浏览器会直接按默认行为跳走（角标尤其容易漏掉）
+    if (
+      mark &&
+      link &&
+      href &&
+      !href.startsWith('#') &&
+      this.isHttpLink(href) &&
+      (link.contains(mark) || mark.contains(link))
+    ) {
+      event.preventDefault();
+      this.openLinkChoice(mark, link, event);
+      return;
+    }
+
     // 角标不可点：鼠标移上去只显示「这段话一共有 X 个想法」，不打开浮窗
     if (target.closest(`.${IDEA_COUNT_CLASS}`)) return;
 
-    const mark = target.closest(`mark[${IDEA_KEY_ATTRIBUTE}]`);
     if (mark) {
       event.preventDefault();
-      const link = target.closest('a[href]') as HTMLAnchorElement | null;
-      const href = link?.getAttribute('href') ?? '';
-      // 文字同时是超链接又想看想法：先让用户选，别直接跳走
-      if (
-        link &&
-        href &&
-        !href.startsWith('#') &&
-        this.isHttpLink(href) &&
-        (link.contains(mark) || mark.contains(link))
-      ) {
-        this.openLinkChoice(mark, link, event);
-        return;
-      }
       this.openPopoverForMark(mark, event);
       return;
     }
