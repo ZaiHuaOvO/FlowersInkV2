@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 460,
+  "total": 462,
   "records": [
+    {
+      "uid": "be138b3",
+      "type": "chore",
+      "date": "2026-10-23",
+      "desc": "博客评论数改为统计评论人数，同一个人只算一次",
+      "important": false,
+      "repo": "api",
+      "sha": "be138b399fa52581b1b04200438bb9120c742487"
+    },
+    {
+      "uid": "15ab523",
+      "type": "fix",
+      "date": "2026-10-23",
+      "desc": "跨加粗的想法虚线，鼠标移入时整句一起高亮",
+      "important": false,
+      "repo": "site",
+      "sha": "15ab52372898235cb35f9f7fd57bedc8f30f730e"
+    },
     {
       "uid": "f589a29",
       "type": "fix",
