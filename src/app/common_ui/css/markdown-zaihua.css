@@ -650,7 +650,8 @@
   text-underline-offset: 5px;
 }
 
-#currentAnchor mark.fi-idea-mark:hover {
+#currentAnchor mark.fi-idea-mark:hover,
+#currentAnchor mark.fi-idea-mark--hover {
   background: var(--md-selection);
   text-decoration-color: var(--fi-primary-hover);
 }

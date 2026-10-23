@@ -66,6 +66,7 @@ import {
   IDEA_KEY_ATTRIBUTE,
   IDEA_MARK_ACTIVE_CLASS,
   IDEA_MARK_CLASS,
+  IDEA_MARK_HOVER_CLASS,
   IDEA_SELECTION_MAX_LENGTH,
   applyIdeaMarks,
   buildAxis,
@@ -684,8 +685,21 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const rendered = applyIdeaMarks(container, anchors);
     this.axis = rendered.axis;
+    this.restoreIdeaHover(container);
     this.refreshPopoverAnchorEl();
     this.reportDriftedAnchors(rendered.drifted);
+  }
+
+  /** 重绘会换掉 <mark> 节点，鼠标还停着的话把同组高亮补回去 */
+  private restoreIdeaHover(container: Element): void {
+    const hovered = container.querySelector(
+      `mark[${IDEA_KEY_ATTRIBUTE}]:hover`,
+    );
+    const keys = hovered?.getAttribute(IDEA_KEY_ATTRIBUTE) ?? '';
+    if (!keys) return;
+    container
+      .querySelectorAll(`mark[${IDEA_KEY_ATTRIBUTE}="${keys}"]`)
+      .forEach((el) => el.classList.add(IDEA_MARK_HOVER_CLASS));
   }
 
   /**
@@ -751,6 +765,16 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     fromEvent<MouseEvent>(this.el.nativeElement, 'click')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((event) => this.onContentClick(event));
+
+    // 一段想法跨过 <strong>/<em>/<a> 时会被拆成多个 <mark>，
+    // 悬停要让同一锚点的所有片段一起亮，不能只靠 CSS :hover
+    fromEvent<PointerEvent>(this.el.nativeElement, 'pointerover')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => this.syncIdeaHover(event, true));
+
+    fromEvent<PointerEvent>(this.el.nativeElement, 'pointerout')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => this.syncIdeaHover(event, false));
 
     fromEvent<MouseEvent>(document, 'click')
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -844,6 +868,43 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // 移动端不再「点任意段落就写想法」——那正是滑动时误触的根源；
     // 手机上写想法统一走「框选文字 → 写想法气泡」，点虚线才打开详情抽屉。
+  }
+
+  /**
+   * 同一锚点的多个 <mark> 片段一起高亮 / 一起取消。
+   * 片段是「想法跨过 <strong> 等行内元素」时被拆出来的，样式必须按锚点同步。
+   */
+  private syncIdeaHover(event: PointerEvent, entering: boolean): void {
+    const container = this.ideaContainer();
+    if (!container) return;
+
+    const target = event.target as Element | null;
+    const mark = target?.closest(`mark[${IDEA_KEY_ATTRIBUTE}]`);
+    if (!mark || !container.contains(mark)) return;
+
+    const keys = mark.getAttribute(IDEA_KEY_ATTRIBUTE) ?? '';
+    if (!keys) return;
+
+    if (entering) {
+      this.clearIdeaHover(container);
+      container
+        .querySelectorAll(`mark[${IDEA_KEY_ATTRIBUTE}="${keys}"]`)
+        .forEach((el) => el.classList.add(IDEA_MARK_HOVER_CLASS));
+      return;
+    }
+
+    // 在同一锚点的片段之间移动（含移到数量角标上）不算离开
+    const next = (event.relatedTarget as Element | null)?.closest?.(
+      `mark[${IDEA_KEY_ATTRIBUTE}]`,
+    );
+    if (next && next.getAttribute(IDEA_KEY_ATTRIBUTE) === keys) return;
+    this.clearIdeaHover(container);
+  }
+
+  private clearIdeaHover(container: Element): void {
+    container
+      .querySelectorAll(`.${IDEA_MARK_HOVER_CLASS}`)
+      .forEach((el) => el.classList.remove(IDEA_MARK_HOVER_CLASS));
   }
 
   private onDocumentClick(event: MouseEvent): void {

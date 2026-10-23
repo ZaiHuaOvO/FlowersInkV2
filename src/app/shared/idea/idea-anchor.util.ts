@@ -34,6 +34,12 @@ const CONTEXT_LENGTH = 32;
 export const IDEA_MARK_CLASS = 'fi-idea-mark';
 export const IDEA_MARK_PENDING_CLASS = 'fi-idea-mark--pending';
 export const IDEA_MARK_ACTIVE_CLASS = 'fi-idea-mark--active';
+/**
+ * 悬停高亮。一段想法跨过 <strong>/<em>/<a> 时会被拆成多个 <mark>，
+ * 单靠 CSS :hover 只有鼠标下那一片会亮；这个类由页面在鼠标进出时
+ * 同步给同一锚点的全部片段。
+ */
+export const IDEA_MARK_HOVER_CLASS = 'fi-idea-mark--hover';
 export const IDEA_KEY_ATTRIBUTE = 'data-idea-keys';
 export const IDEA_COUNT_CLASS = 'fi-idea-count';
 
