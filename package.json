@@ -15,7 +15,9 @@
     "deploy": "node scripts/deploy.js",
     "emoji:manifest": "node scripts/gen-emoji-manifest.mjs",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "visual": "node scripts/visual-check.mjs"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +53,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "less": "^4.4.2",
     "less-loader": "^12.3.0",
+    "stylelint": "^17.16.0",
     "typescript": "~5.9.3"
   },
   "volta": {

@@ -1,0 +1,70 @@
+{
+  "detector": {
+    "ignoreRules": [
+      "broken-image"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "createdAt": "2026-10-26T04:16:33.493Z",
+        "reason": "仅用于「弹出来」的语义：想法气泡、点赞爆发（见 DESIGN.md §6）"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/app/common_ui/css/markdown-zaihua.css"
+        ],
+        "createdAt": "2026-10-26T04:17:07.941Z",
+        "reason": "侧边粗描边是引用块/气泡引线的既定表达，见 DESIGN.md §9"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/app/common_ui/css/markdown-comment.css"
+        ],
+        "createdAt": "2026-10-26T04:17:11.457Z",
+        "reason": "侧边粗描边是引用块/气泡引线的既定表达，见 DESIGN.md §9"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/app/common_ui/fl_ui/fl-idea-popover/fl-idea-popover.component.css"
+        ],
+        "createdAt": "2026-10-26T04:17:14.957Z",
+        "reason": "侧边粗描边是引用块/气泡引线的既定表达，见 DESIGN.md §9"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/app/pages/blog/blog-detail/blog-detail.component.css"
+        ],
+        "createdAt": "2026-10-26T04:17:18.380Z",
+        "reason": "侧边粗描边是引用块/气泡引线的既定表达，见 DESIGN.md §9"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/app/pages/design/design.component.css"
+        ],
+        "createdAt": "2026-10-26T04:17:22.981Z",
+        "reason": "侧边粗描边是引用块/气泡引线的既定表达，见 DESIGN.md §9"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/app/pages/blog/blog-detail/blog-detail.component.css"
+        ],
+        "createdAt": "2026-10-26T04:17:26.379Z",
+        "reason": "气泡三角形箭头，见 DESIGN.md §9"
+      }
+    ]
+  }
+}

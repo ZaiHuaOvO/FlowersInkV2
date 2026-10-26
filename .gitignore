@@ -54,3 +54,8 @@ Thumbs.db
 .VSCodeCounter/2025-09-23_14-36-22/results.md
 .VSCodeCounter/2025-09-23_14-36-22/results.txt
 .claude/
+# Impeccable 项目级安装（技能包 + 引擎二进制），与 .claude/ 一样不入库
+.agents/
+.impeccable/config.local.json
+# 视觉回归快照与截图（scripts/visual-check.mjs 产出）
+.visual/

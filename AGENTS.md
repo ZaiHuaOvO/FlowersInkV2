@@ -40,7 +40,7 @@
 | 测试环境启动 | `npm run st` |
 | 生产配置启动 | `npm run sp` |
 | 构建 | `npm run build` / `npm run build:test` / `npm run build:prod` / `npm run build:fast` / `npm run build:full` / `npm run watch` |
-| 检查 | `npm run test` |
+| 检查 | `npm run test` / `npm run lint:css` / `npm run visual` |
 
 ## 应用结构
 
@@ -145,37 +145,32 @@
 - 不要把现有上传对象数组压平成字符串 URL。
 - 不要忽略 `fl_ui` 和现有主站视觉系统。
 
-## 前端复用治理规则
+## 设计系统
 
-每次开发涉及样式时，必须遵守以下规则（来源于 `src/docs/ai/frontend-reuse-governance-draft.md`）：
+写任何 UI 代码前先读：
 
-1. **先复用后新增**：在 `src/app/common_ui/css/` 和 `fl_ui/` 中搜索是否已有可复用 token/组件/样式，禁止复制粘贴。
-2. **禁止裸色值**：页面 CSS 中禁止直接使用十六进制色值（如 `#4096ff`），必须引用 `--fi-*` token。
-3. **禁止裸字号**：页面 CSS 中禁止写随机字号值（如 `13px/15px/17px`），优先使用 `--fi-font-size-*` token。
-4. **布局尺寸例外**：固定布局尺寸（如 `min-height: 420px`、`grid-template-columns` 中的具体值、`calc(100vh - 48px)`）不属于治理范围，维持原样。
-5. **排版语义类优先**：强调文本使用 `.fi-text-strong`、链接文本使用 `.fi-text-link`，不要重新定义局部粗体/链接类。
-6. **回提原则**：一个样式在第二个页面复用出现时，必须回提到共享层（`fi-base.css` 或 `fi-tokens.css`）。
-7. **ng-zorro 兼容**：`nzColor` 等组件属性不支持 CSS 变量，改用 `:host ::ng-deep` 覆盖对应 DOM 元素的 `color`/`border-color`。
-8. **提交说明必须包含**：复用了哪些既有 token/样式、新增了哪些 token、为什么不能继续复用（如有）。
-9. **先看样式设计页**：新增页面或组件前，先看 `/design`（`pages/design/`）确认可复用件；不要只看 `fl_ui/README.md` —— 那份只覆盖 `fl_ui` 那十来个组件，覆盖不到 markdown 排版、卡片族、标尺与动效。
-10. **改公共样式必须同步样式页**：改动 `fi-tokens.css` 或任一 `fl_ui` 组件后，必须在**同一次提交**里同步 `/design` 对应章节；新增 token 要同时加进 `pages/design/design-tokens.data.ts`（那里只放名字与用途，值由页面运行时从 `:root` 读取）。
-11. **样式页自身禁止复制值**：`pages/design/` 里颜色/间距/圆角一律引用 `var(--fi-*)`，组件一律直接 import 复用，页面私有 CSS 只允许写展示脚手架（色块网格、标尺条、动效舞台等）。
+- 根目录 `DESIGN.md` —— 设计规则单一入口（颜色、排版、间距、组件、动效、响应式、无障碍、品牌例外）。
+- 根目录 `PRODUCT.md` —— 稳定的产品背景，不含视觉规则。
+
+分层职责、复用与回提流程、审查清单、变更顺序见 `src/docs/ai/design-system-governance.md`。
+审计证据与检测器例外见 `src/docs/ai/design-system-audit.md`，迁移批次见 `design-system-migration-plan.md`。
+
+以下四条是硬约束：
+
+1. **先复用后新增**：搜 `common_ui/css/` → `fl_ui/` → 相邻页面，禁止复制粘贴同类样式。
+2. **禁止裸值**：页面 CSS 不写十六进制色值、不新造字号，用 `--fi-*` token 或 `.fi-text-*` 语义类。
+3. **第二处复用必须回提**到 `fi-*.css` 或 `fl_ui/`，两个引用点同批改。
+4. **改公共层必须同步展示页**：改 `fi-tokens.css` 或任一 `fl_ui` 组件后，在同一次改动里更新 `/design`；新增 token 同时加进 `pages/design/design-tokens.data.ts`（只写名字与用途）。
+
+品牌例外（Inter 字体、奶油底、棕金主色、引用块侧条、气泡回弹）见 `DESIGN.md` §9，**不要为了通过检测器而改**。
 
 ### 样式设计页（`/design`）
 
 - 路由：`app.routes.ts` 里的懒加载 `design` 路由；入口是站内页脚底部的「设计规范」。
 - 它是公开页，但**对搜索引擎 `noindex`、不写进 sitemap**（工具页，不与内容页抢权重）。
 - **新增路由必须同步 `scripts/generate-static-seo.mjs`**：该脚本为每个已知路由生成静态 SEO 外壳。漏加的话线上该页会回落到根目录那份外壳（顶着首页的 canonical 与 meta），肉眼看不出来但抓取与分享都会错。
+- 该页颜色/间距一律 `var(--fi-*)`，组件一律 import 真实实现，页面私有 CSS 只允许写展示脚手架。
 
-## 治理代码审查清单
-
-每次合并涉及样式变更时，审查以下事项：
-
-- 是否使用 `--fi-*` token，而不是硬编码色值/字号？
-- 是否复用已有组件样式（`fl-button`、`fl-tag`、`fi-text-*` 等），而非新建重复类？
-- 是否把通用样式错误放进页面私有文件？
-- 是否影响现有组件状态（hover/active/disabled）一致性？
-- 是否验证桌面端与移动端表现？
 
 ## 当前状态
 

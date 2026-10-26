@@ -1,17 +1,19 @@
 <h1 align="center">花墨</h1>
 <p align="center">
-  <img src="https://img.shields.io/badge/angular-20.0.6-red">
+  <img src="https://img.shields.io/badge/angular-21.2.17-red">
   <img src="https://img.shields.io/badge/node_js-22.12.0-green">
-  <img src="https://img.shields.io/badge/ng--zorro-20.0.0-blue">
+  <img src="https://img.shields.io/badge/ng--zorro-21.3.1-blue">
   <img src="https://img.shields.io/badge/Author-%E5%86%8D%E8%8A%B1-pink">
 </p>
 <hr>
 
 ## 项目简介
 
-本项目是基于`Angular20`（尽可能保持最新）开发的个人博客，兼容手机端。
+本项目是基于 `Angular 21`（standalone）开发的个人博客主站，纯客户端构建，兼容手机端。
 
 项目实现网址：[花墨](https://flowersink.com/)
+
+设计规则见 [DESIGN.md](./DESIGN.md)，产品背景见 [PRODUCT.md](./PRODUCT.md)，开发约束见 [AGENTS.md](./AGENTS.md)。
 
 ## 使用
 
@@ -22,6 +24,8 @@
 在项目根目录执行`ng serve`运行本项目。
 
 # 项目结构
+
+> 下面的树状图是建站初期的示意，**可能滞后**。目录与文件的权威来源是 `src/app` 下的实际内容；组件与页面分层约定见 `AGENTS.md`。
 
 `src`目录下的目录结构如下：
 

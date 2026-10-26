@@ -16,6 +16,13 @@
 | `fl-comment-content` | 评论内容渲染（Markdown + 表情 token） | `src/app/common_ui/fl_ui/fl-comment-content/fl-comment-content.component.ts` | [前往](#fl-comment-content) |
 | `fl-comment-card` | 单条评论卡片 | `src/app/common_ui/fl_ui/fl-comment-card/fl-comment-card.component.ts` | [前往](#fl-comment-card) |
 | `fl-emoji-picker` | 表情选择器（再花 / 方长 / 颜文字三个分页） | `src/app/common_ui/fl_ui/fl-emoji-picker/fl-emoji-picker.component.ts` | [前往](#fl-emoji-picker) |
+| `flower-error-state` | 加载失败提示（文案 + 重新加载），替代各页自己写的错误态 | `src/app/common_ui/fl_ui/fl-error-state/fl-error-state.component.ts` | — |
+
+另有三个组件尚未在本文件写章节，用法直接看源码与 `/design`：
+
+- `fl-tag-filter` —— 分类/标签筛选条（图标 + 计数），`changelog`、`life` 与 `/design` 在用。
+- `fl-idea-popover` —— 段落想法浮窗（查看与撰写），`blog-detail` 在用。
+- `fl-img-fade` —— 图片解码完成后淡入的指令（`FlImgFadeDirective`），全站图片在用。
 
 ## 目录
 
@@ -56,7 +63,7 @@ export class ExampleComponent {}
 <fl-button>默认按钮</fl-button>
 <fl-button variant="solid">主要按钮</fl-button>
 <fl-button variant="ghost">轻量按钮</fl-button>
-<fl-button [routerLink]="['/about/me']">了解再花</fl-button>
+<fl-button [routerLink]="['/about']">了解再花</fl-button>
 <fl-button type="submit">发布</fl-button>
 <fl-button [block]="true">铺满容器</fl-button>
 ```
@@ -125,7 +132,7 @@ export class ExampleComponent {}
 | CSS 变量 | 说明 |
 |---|---|
 | `--fi-input-radius` | 输入框圆角 |
-| `--fi-input-border-color` | 输入框边框色 |
+| `--fi-form-border` | 输入框边框色 |
 | `--fi-primary` | focus 主色 |
 | `--fi-primary-outline` | focus 阴影色 |
 
