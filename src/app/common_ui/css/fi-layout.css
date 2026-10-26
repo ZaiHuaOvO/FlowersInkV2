@@ -4,6 +4,14 @@
    Usage: Apply .fi-page / .fi-page-sidebar-layout to page shells
    ============================================================ */
 
+/* 视口高度容器：页面最外层用它撑满一屏。
+   100dvh 修正移动端地址栏伸缩导致的高度跳动；不支持 dvh 的浏览器回落到 100vh。
+   48px 是固定头部高度（见 fi-overrides.css 的 .ant-layout-header）。 */
+.fi-screen {
+  min-height: calc(100vh - 48px);
+  min-height: calc(100dvh - 48px);
+}
+
 /* 标准页面容器 */
 .fi-page {
   width: 100%;
@@ -14,6 +22,21 @@
 
 .fi-page--narrow {
   max-width: var(--fi-page-max-narrow);
+}
+
+/* 铺满视口的外壳：不限宽，只负责外边距。
+   给「外壳满宽 + 内层自己收窄」的页面用（写作用 / 友链），
+   等价于它们原先各自写的 .welcome / .message，避免每页复制一份 padding。 */
+.fi-page--flush {
+  width: 100%;
+  max-width: 100%;
+  padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
+}
+
+@media (max-width: 768px) {
+  .fi-page--flush {
+    padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
+  }
 }
 
 /* 带侧边栏的双栏布局 */
@@ -38,9 +61,9 @@
 
 /* 内容卡片标题统一 */
 .fi-page-title {
-  color: var(--fi-primary) !important;
-  font-weight: 700 !important;
-  margin-bottom: var(--fi-space-4) !important;
+  color: var(--fi-primary);
+  font-weight: 700;
+  margin-bottom: var(--fi-space-4);
 }
 
 /* 页面通用头部描述 */

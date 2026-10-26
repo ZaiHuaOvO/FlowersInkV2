@@ -3,7 +3,7 @@
   bottom: calc(20px + var(--fi-safe-bottom));
   left: 50%;
   translate: -50% 0;
-  z-index: 1005;
+  z-index: var(--fi-z-toast);
   max-width: min(360px, calc(100vw - 32px));
   width: max-content;
   padding: var(--fi-space-3) var(--fi-space-4);

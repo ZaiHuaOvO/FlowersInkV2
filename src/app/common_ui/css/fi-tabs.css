@@ -15,19 +15,22 @@
 
 .fi-tab {
   padding: 4px var(--fi-space-4);
+  border: 0;
+  background: transparent;
   color: var(--fi-text-muted);
   font-family: var(--fi-font-base);
   font-size: var(--fi-font-size-lg);
   font-weight: var(--fi-font-weight-medium);
-  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
+  transition: background-color var(--fi-motion-fast) var(--fi-ease-standard),
+    color var(--fi-motion-fast) var(--fi-ease-standard);
   cursor: pointer;
   user-select: none;
   line-height: 1.4;
 }
 
 .fi-tab--active {
-  background: var(--fi-primary) !important;
-  color: #fff !important;
+  background: var(--fi-primary);
+  color: #fff;
   border-radius: var(--fi-radius-sm);
 }
 

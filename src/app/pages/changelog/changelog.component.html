@@ -1,4 +1,4 @@
-<div class="changelog-page" nz-flex [nzVertical]="true" nzAlign="center">
+<div class="changelog-page fi-screen fi-page--flush" nz-flex [nzVertical]="true" nzAlign="center">
   <div class="changelog-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="start">
     <div class="changelog-affix-left">
       <nz-affix [nzOffsetTop]="affixOffsetTop">
@@ -77,7 +77,7 @@
       </div>
 
       @if (sectionList.length === 0) {
-      <p class="changelog-empty">该分类下暂无更新记录。</p>
+      <p class="changelog-empty fi-empty-note">该分类下暂无更新记录。</p>
       }
 
       @for (section of sectionList; track trackSection($index, section)) {
@@ -119,9 +119,9 @@
             </button>
             }
           </div>
-          <div class="curator-note">
-            <h6>CHANGELOG</h6>
-            <p>开发、修复与优化的每一步足迹</p>
+          <div class="fi-note">
+            <p class="fi-note__label">CHANGELOG</p>
+            <p class="fi-note__text">开发、修复与优化的每一步足迹</p>
           </div>
         </aside>
       </nz-affix>
@@ -141,7 +141,7 @@
 <div class="mobile-nav-overlay" (click)="closeMobileNav()">
   <div class="mobile-nav-sheet" (click)="$event.stopPropagation()">
     <div class="mobile-nav-header">
-      <h4>跳转到</h4>
+      <h3>跳转到</h3>
       <button type="button" class="mobile-nav-close" (click)="closeMobileNav()" aria-label="关闭">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" width="20" height="20">
@@ -151,7 +151,7 @@
     </div>
     <div class="mobile-nav-body">
       @if (yearNavigator.length === 0) {
-      <p class="changelog-empty">暂无更新记录。</p>
+      <p class="changelog-empty fi-empty-note">暂无更新记录。</p>
       }
       @for (yearBlock of yearNavigator; track yearBlock.year) {
       <section class="mobile-nav-year">

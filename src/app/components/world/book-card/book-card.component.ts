@@ -34,19 +34,20 @@ export class BookCardComponent {
   @Input() book: any;
 
   getColor(status: string): string {
+    // 角标底色用 token：原来的 #c79664 / #b98552 配白字只有 2.6~3.5:1
     if (!status) {
-      return '#b98552';
+      return 'var(--fi-tag-text)';
     }
     if (status.includes('笔记')) {
-      return '#7a4d23';
+      return 'var(--fi-primary-hover)';
     }
     if (status.includes('在读')) {
-      return '#a97441';
+      return 'var(--fi-badge-gold-strong)';
     }
     if (status.includes('已读')) {
-      return '#c79664';
+      return 'var(--fi-badge-gold)';
     }
-    return '#b98552';
+    return 'var(--fi-tag-text)';
   }
 
   hasNote(target = this.book): boolean {

@@ -7,6 +7,9 @@
 
 .blog_title {
     margin: 0;
+    /* 标题层级是 h3（页面 h1 → 卡片 h3 不跳级），视觉尺寸沿用原来的 h4 档：20px / 1.4 */
+    font-size: var(--fi-font-size-2xl);
+    line-height: 1.4;
     color: var(--fi-primary) !important;
     display: flex;
     align-items: center;

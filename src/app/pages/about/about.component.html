@@ -2,13 +2,13 @@
   <!-- ===== Fixed Left Sidebar Nav (desktop only) ===== -->
   @if (!isMobile()) {
   <nav class="about-sidebar" aria-label="关于页面导航">
-    <div class="sidebar-inner">
-      <div class="sidebar-track">
+    <div class="fi-side-toc">
+      <div class="fi-side-toc-track">
         @for (item of navItems(); track item.id) {
-        <button class="sidebar-item" [class.sidebar-item--active]="activeSection() === item.id"
+        <button class="fi-side-toc-item" [class.fi-side-toc-item--active]="activeSection() === item.id"
           (click)="scrollTo(item.id)" [attr.aria-label]="'跳转到' + item.label">
-          <span class="sidebar-dot"></span>
-          <span class="sidebar-label">{{ item.label }}</span>
+          <span class="fi-side-toc-dot"></span>
+          <span class="fi-side-toc-label">{{ item.label }}</span>
         </button>
         }
       </div>
@@ -20,9 +20,13 @@
   <main class="about-content">
 
     <!-- ===== 正文：整页内容（含头像与标题）来自后台编辑的 Markdown ===== -->
-    <nz-spin [nzTip]="'关于页正在赶来中'" [nzSpinning]="loadingMarkdown">
+    <nz-spin [nzTip]="'关于页正在赶来中'" [nzSpinning]="loadingMarkdown" [nzDelay]="600">
+      @if (loadError) {
+      <flower-error-state (retry)="retryLoadAbout()" message="关于页正文没有加载出来"></flower-error-state>
+      } @else {
       <markdown id="currentAnchor" [data]="markdownContent" (ready)="onMarkdownReady()"
         [clipboard]="markdownReady"></markdown>
+      }
     </nz-spin>
 
     <!-- ===== 编程小节的贡献图：动态数据，不进 markdown ===== -->
@@ -30,7 +34,7 @@
 
     <!-- ===== 留言：正文末尾的「## 留言」标题之后就是留言墙 ===== -->
     <section class="about-messages">
-      <nz-spin class="message-spin" [nzTip]="'留言正在赶来中'" [nzSpinning]="loadingMessages">
+      <nz-spin class="message-spin" [nzTip]="'留言正在赶来中'" [nzSpinning]="loadingMessages" [nzDelay]="600">
         <div nz-flex [nzVertical]="true">
           <flower-edit-message class="message-editor"></flower-edit-message>
           <div class="fi-comment-wall" #wall>

@@ -10,6 +10,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../components/blog/blog-title/blog-title.component';
+import { FlErrorStateComponent } from '../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 import { SlowUp, QuickUp, StaggerList } from '../../common_ui/animations/animation';
 import {
   groupByYearDesc,
@@ -38,6 +39,7 @@ import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive
     RouterLink,
     FlInputDirective,
     FlCardDirective,
+    FlErrorStateComponent,
   ],
   animations: [SlowUp, QuickUp, StaggerList],
 })
@@ -45,6 +47,7 @@ export class BlogComponent implements OnInit {
   data: any[] = [];
   count = 0;
   loading = true;
+  loadError = false;
   /** 置顶文章（id=0），展示在时间轴外的顶部横幅，不进入年份分组。 */
   pinnedBlog: any = null;
   searchControl = new FormControl('');
@@ -73,6 +76,7 @@ export class BlogComponent implements OnInit {
 
   getBlog(): void {
     this.loading = true;
+    this.loadError = false;
     this.welcome
       .getBlogs({
         title: this.searchControl.value,
@@ -80,11 +84,17 @@ export class BlogComponent implements OnInit {
         // 归档只用到标题/日期/字数，不必把 999 篇正文全拉下来
         includeContent: false,
       })
-      .subscribe((res: any) => {
-        const blogs = res['data'].data ?? [];
-        this.data = this.processAndGroupData(blogs);
-        this.count = res['data'].count;
-        this.loading = false;
+      .subscribe({
+        next: (res: any) => {
+          const blogs = res['data'].data ?? [];
+          this.data = this.processAndGroupData(blogs);
+          this.count = res['data'].count;
+          this.loading = false;
+        },
+        error: () => {
+          this.loadError = true;
+          this.loading = false;
+        },
       });
   }
 

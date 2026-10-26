@@ -61,11 +61,11 @@
 }
 
 .game-dialog-badge--not-recommended {
-  background: #8a8a8a;
+  background: var(--fi-badge-gray);
 }
 
 .game-dialog-badge--average {
-  background: #c4a06d;
+  background: var(--fi-badge-gold);
 }
 
 .game-dialog-cover {

@@ -1,4 +1,4 @@
-<div class="welcome" nz-flex [nzVertical]="true" nzAlign="center">
+<div class="welcome fi-screen fi-page--flush" nz-flex [nzVertical]="true" nzAlign="center">
   <div class="content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true">
     <flower-blog-title [title]="'文归档'"></flower-blog-title>
     <div class="search" flCard nz-flex nzAlign="center" nzJustify="center" @QuickUp>
@@ -9,7 +9,10 @@
         <span nz-icon nzType="search"></span>
       </ng-template>
     </div>
-    <nz-spin class="archive-spin" [nzTip]="'归档正在努力赶来中'" [nzSpinning]="loading" @SlowUp>
+    <nz-spin class="archive-spin" [nzTip]="'归档正在努力赶来中'" [nzSpinning]="loading" [nzDelay]="600" @SlowUp>
+      @if (loadError) {
+      <flower-error-state (retry)="getBlog()"></flower-error-state>
+      } @else {
       <div nz-flex nzAlign="center" [nzVertical]="true" nzGap="middle">
         @if (pinnedBlog) {
           <a class="archive-pin" flCard [routerLink]="['/blog', 'blog-detail', pinnedBlog.id]">
@@ -38,6 +41,7 @@
           </div>
         }
       </div>
+      }
     </nz-spin>
   </div>
 </div>

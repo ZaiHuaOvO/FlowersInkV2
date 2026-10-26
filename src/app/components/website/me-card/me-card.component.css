@@ -30,6 +30,10 @@
 
 .name {
     margin: 0;
+    /* 名字不是文档标题，用 p 而不是 h5，避免打乱标题层级；字号/字重沿用原 h5 观感 */
+    font-size: var(--fi-font-size-lg);
+    font-weight: var(--fi-font-weight-semibold);
+    line-height: var(--fi-line-height-normal);
     color: var(--fi-primary);
     letter-spacing: 0.02em;
 }
@@ -170,7 +174,6 @@
 .fi-secondary-text {
     font-size: var(--fi-font-size-xs);
     color: var(--fi-text-muted);
-    opacity: 0.65;
     user-select: none;
 }
 
@@ -199,6 +202,5 @@
 .char-count-line .fi-secondary-text {
     font-size: var(--fi-font-size-xs);
     color: var(--fi-text-muted);
-    opacity: 0.65;
     user-select: none;
 }

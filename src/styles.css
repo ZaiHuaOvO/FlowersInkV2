@@ -1,9 +1,16 @@
+/* ng-zorro 的预构建样式放进 vendor 层：
+   未分层的规则（下面所有 common_ui 与页面样式）永远胜过分层规则，
+   于是「谁覆盖谁」不再取决于 angular.json 里的加载顺序。 */
+@import url('../node_modules/ng-zorro-antd/ng-zorro-antd.min.css') layer(vendor);
+
 @import url('app/common_ui/css/fi-tokens.css');
 @import url('app/common_ui/css/fi-base.css');
 @import url('app/common_ui/css/fi-card.css');
 @import url('app/common_ui/css/fi-tabs.css');
 @import url('app/common_ui/css/fi-dots.css');
 @import url('app/common_ui/css/fi-tag.css');
+@import url('app/common_ui/css/fi-tag-filter.css');
+@import url('app/common_ui/css/fi-side-toc.css');
 @import url('app/common_ui/css/fi-alert.css');
 @import url('app/common_ui/css/fi-form.css');
 @import url('app/common_ui/css/fi-overrides.css');
@@ -14,7 +21,7 @@
 @import url('app/common_ui/css/comment.css');
 html,
 body {
-  background: #fff8f3;
+  background: var(--fi-bg);
 }
 
 /* ── 点滴详情弹窗：透明背景，只展示点滴卡片本身 ── */
@@ -101,21 +108,21 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 90, 43, 0.18);
+  background: color-mix(in srgb, var(--fi-primary) 18%, transparent);
   border-radius: 6px;
   transition: background 200ms ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 90, 43, 0.5);
+  background: color-mix(in srgb, var(--fi-primary) 50%, transparent);
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: #8b5a2b;
+  background: var(--fi-primary);
 }
 
 /* Firefox */
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(139, 90, 43, 0.18) transparent;
+  scrollbar-color: color-mix(in srgb, var(--fi-primary) 18%, transparent) transparent;
 }

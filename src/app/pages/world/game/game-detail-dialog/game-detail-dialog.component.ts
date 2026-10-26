@@ -136,7 +136,7 @@ export class GameDetailDialogComponent {
   }
 
   /** 点击截图：弹出图片预览（缩放层） */
-  previewShot(event: MouseEvent, shot: GameShotAsset): void {
+  previewShot(event: Event, shot: GameShotAsset): void {
     event.stopPropagation();
     this.imageService.preview([{ src: shot.zoomUrl }], {
       nzZoom: 0.8,

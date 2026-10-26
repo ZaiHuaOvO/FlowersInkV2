@@ -1,9 +1,4 @@
-.book {
-    width: 100%;
-    max-width: 100%;
-    min-height: calc(100vh - 48px);
-    padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
-}
+/* 页面外壳（满宽 + 视口高度 + 外边距）走 .fi-screen / .fi-page--flush */
 
 .content {
     width: min(var(--fi-page-max), 100%);
@@ -38,9 +33,6 @@ nz-tag {
 }
 
 @media (max-width: 768px) {
-    .book {
-        padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
-    }
 
     .content {
         min-height: auto;

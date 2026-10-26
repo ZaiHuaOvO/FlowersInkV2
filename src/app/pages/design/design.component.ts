@@ -22,6 +22,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { FlAlertDirective } from '../../common_ui/fl_ui/fl-alert/fl-alert.directive';
+import { FlErrorStateComponent } from '../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.component';
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
@@ -117,6 +118,7 @@ interface NavSection {
     NzTagModule,
     NzTypographyModule,
     FlAlertDirective,
+    FlErrorStateComponent,
     FlButtonComponent,
     FlCardDirective,
     FlInputDirective,
@@ -509,6 +511,11 @@ export class DesignComponent implements AfterViewInit, OnDestroy {
 
   selectDot(index: number): void {
     this.activeDot = index;
+  }
+
+  /** 错误态示例：只演示按钮的存在，不做真实请求 */
+  demoRetry(): void {
+    this.spinDemo = false;
   }
 
   toggleSpinDemo(): void {

@@ -200,7 +200,7 @@ export class LifeDialogComponent implements OnInit {
   }
 
   /** 点击图片：预览本条整组图并定位到点击的那张，可在预览里左右翻页 */
-  previewZoom(event: MouseEvent, images: LifeImageAsset[], index: number): void {
+  previewZoom(event: Event, images: LifeImageAsset[], index: number): void {
     event.stopPropagation();
     previewLifeImages(this.imageService, images, index);
   }

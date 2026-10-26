@@ -153,23 +153,37 @@
   --fi-safe-bottom: env(safe-area-inset-bottom, 0px);
   --fi-safe-left: env(safe-area-inset-left, 0px);
 
-  --fi-bg: #fff8f3;
-  --fi-bg-soft: #fff8f3;
+  /* 底色：页面 / 容器 / 浮层。
+     当前页面底、容器、浮层各是同一个值，层级靠边框与阴影表达；
+     要真正分开时只改 --fi-bg-page 与 --fi-surface，别名会自动跟随。 */
+  --fi-bg-page: #fff8f3;
+  --fi-bg: var(--fi-bg-page);
+  --fi-bg-soft: var(--fi-bg-page);
   --fi-surface: #ffffff;
   --fi-surface-soft: #fcf8f2;
-  --fi-card-bg: #ffffff;
-  --fi-card-bg-hover: #fcf8f2;
+  --fi-card-bg: var(--fi-surface);
+  --fi-card-bg-hover: var(--fi-surface-soft);
+  --fi-bg-container: var(--fi-surface);
+  --fi-bg-elevated: var(--fi-surface);
+
+  /* 边框：中性描边 / 强调描边（hover、时间轴线） */
   --fi-border: #e5e7eb;
   --fi-border-strong: #d0c0b0;
-  --fi-bg-page: #fff8f3;
-  --fi-bg-container: #ffffff;
-  --fi-bg-elevated: #ffffff;
+
+  /* 文字：正文与标题当前同色，层级靠字号与字重 */
   --fi-text: #2f2117;
-  --fi-text-muted: #7a6756;
-  --fi-text-heading: #2f2117;
-  --fi-text-body: #2f2117;
+  --fi-text-heading: var(--fi-text);
+  --fi-text-body: var(--fi-text);
   --fi-text-caption: #7a6756;
+  --fi-text-muted: var(--fi-text-caption);
   --fi-text-inverse: #fffaf5;
+
+  /* 代码块（Markdown 正文与评论共用一套深色底） */
+  --fi-code-bg: #2a1f18;
+  --fi-code-bg-top: #30241c;
+  --fi-code-fg: #f4ede6;
+
+  /* 品牌色与语义色 */
   --fi-primary: #8b5a2b;
   --fi-primary-hover: #7a4d23;
   --fi-primary-active: #6a411d;
@@ -206,15 +220,19 @@
   --fi-control-height-lg: 44px;
 
   --fi-input-radius: 5px;
-  --fi-input-border-color: #d8c8b8;
 
   --fi-tag-radius: 6px;
   --fi-tag-bg: #f4e7d8;
   --fi-tag-border: #d8bd9d;
   --fi-tag-text: #7b5530;
-  --fi-tag-bg-hover: #ead7bf;
-  --fi-tag-border-hover: #cda983;
+  --fi-tag-bg-hover: #ead7bf;  --fi-tag-border-hover: #cda983;
   --fi-tag-text-hover: #6a421f;
+
+  /* 状态角标底色（阅读状态、游戏分类）。原先是散落在组件里的 #c79664 / #c4a06d / #8a8a8a，
+     配白字只有 2.4~3.5:1；这里统一压深到白字 ≥4.5:1。 */
+  --fi-badge-gold: #96683a;
+  --fi-badge-gold-strong: #8a5f30;
+  --fi-badge-gray: #6b6b6b;
 
   /* 提示框的颜色按 nzType 走语义色（--fi-info / -success / -warning / -danger 各带 -bg），
      不再是这里一组独立的棕色变量；这里只留一个「没有类型类」时的兜底底色。
@@ -234,6 +252,16 @@
   --fi-form-disabled-text: #b39a84;
   --fi-form-focus-ring: 0 0 0 2px var(--fi-primary-outline);
 
+  /* 层叠顺序：只覆盖「跨组件」的那几层，页面内部的 1~5 留在各自组件里。
+     数值沿用线上现状，改这里等于改全站覆盖关系，必须逐页验证。 */
+  --fi-z-base: 1;
+  --fi-z-float: 99;
+  --fi-z-sticky: 100;
+  --fi-z-scrim: 999;
+  --fi-z-popover: 1000;
+  --fi-z-popover-raised: 1001;
+  --fi-z-toast: 1005;
+
   --fi-motion-fast: 0.16s;
   --fi-motion-normal: 0.24s;
   --fi-motion-slow: 0.32s;
@@ -246,12 +274,14 @@
 
   --fi-font-base: "InterVar", "NotoSansSCVar", "NotoEmojiVar", "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
   --fi-font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+  --fi-font-size-2xs: 11px;
   --fi-font-size-xs: 12px;
   --fi-font-size-sm: 13px;
   --fi-font-size-md: 14px;
   --fi-font-size-lg: 16px;
   --fi-font-size-xl: 18px;
-  --fi-font-size-2xl: 24px;
+  --fi-font-size-2xl: 20px;
+  --fi-font-size-3xl: 24px;
   --fi-line-height-tight: 1.25;
   --fi-line-height-normal: 1.5;
   --fi-line-height-relaxed: 1.75;

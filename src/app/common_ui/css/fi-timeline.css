@@ -143,15 +143,15 @@ a.fi-simple-timeline-title:hover .fi-timeline-words {
   width: 10px;
   height: 10px;
   border-width: 2px;
-  border-color: var(--fi-primary) !important;
-  color: var(--fi-primary) !important;
-  background: var(--fi-surface-soft) !important;
+  border-color: var(--fi-primary);
+  color: var(--fi-primary);
+  background: var(--fi-surface-soft);
   box-shadow: 0 0 0 3px var(--fi-primary-outline);
   left: -0.5px;
 }
 
 .fi-brown-timeline .ant-timeline-item-tail {
-  border-left: 2px solid var(--fi-border) !important;
+  border-left: 2px solid var(--fi-border);
 }
 
 .fi-brown-timeline .ant-timeline-item-content {
@@ -167,13 +167,13 @@ a.fi-simple-timeline-title:hover .fi-timeline-words {
 }
 
 .fi-brown-timeline .timeline-row > * {
-  margin: 0 !important;
-  line-height: 1.6 !important;
+  margin: 0;
+  line-height: 1.6;
 }
 
 .fi-brown-timeline .timeline-date {
   min-width: 110px;
-  color: var(--fi-text-muted) !important;
+  color: var(--fi-text-muted);
   white-space: nowrap;
 }
 

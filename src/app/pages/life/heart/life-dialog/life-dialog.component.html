@@ -19,7 +19,10 @@
     @if (item.images.length > 0) {
     <div class="image-grid" [ngClass]="getImageGridClass()">
       @for (image of item.images; track image.previewUrl) {
-      <div class="{{ getImageItemClass() }}" (click)="previewZoom($event, item.images, $index)">
+      <div class="{{ getImageItemClass() }}" role="button" tabindex="0" aria-label="预览这张点滴图片"
+        (click)="previewZoom($event, item.images, $index)"
+        (keydown.enter)="previewZoom($event, item.images, $index)"
+        (keydown.space)="$event.preventDefault(); previewZoom($event, item.images, $index)">
         <img flImgFade loading="lazy" decoding="async" [src]="image.displayUrl" (error)="onImageError($event, image)" alt="点滴图片" />
         <div class="image-overlay">
           <span class="origin-btn-icon">

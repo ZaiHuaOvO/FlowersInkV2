@@ -3,10 +3,6 @@
   --chg-sidebar-left-width: 210px;
   --chg-sidebar-right-width: 230px;
   --chg-layout-gap: var(--fi-space-5);
-  width: 100%;
-  max-width: 100%;
-  min-height: calc(100vh - 48px);
-  padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
 }
 
 .changelog-content {
@@ -424,94 +420,15 @@
   margin-top: 1px;
 }
 
-/* ── 右侧标签筛选 ── */
-.tag-filter-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+/* ── 右侧标签筛选 ──
+   按钮 / 图标 / 计数的样式统一在 common_ui/css/fi-tag-filter.css，
+   与 fl-tag-filter 组件、点滴页共用一套，此处不再重复定义。 */
 
-.tag-filter-button {
-  width: 100%;
-  border: 0;
-  background: var(--fi-bg-soft);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--fi-font-base);
-  padding: 10px 12px;
-  cursor: pointer;
-  color: var(--fi-primary);
-  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
-}
-
-.tag-filter-button:active {
-  transform: scale(0.96);
-}
-
-.tag-filter-button:hover,
-.tag-filter-button.active {
-  background: var(--fi-primary);
-  color: var(--fi-text-inverse);
-}
-
-.tag-filter-main {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  font-size: 14px;
-}
-
-.tag-count {
-  font-size: 11px;
-  min-width: 20px;
-  height: 18px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--fi-primary-outline);
-  color: var(--fi-primary);
-  border-radius: 999px;
-  padding: 0 7px;
-  font-weight: 600;
-  transition: all var(--fi-motion-fast) var(--fi-ease-standard);
-}
-
-.tag-filter-button:hover .tag-count,
-.tag-filter-button.active .tag-count {
-  background: rgba(255, 255, 255, 0.25);
-  color: var(--fi-text-inverse);
-}
-
-.curator-note {
-  margin-top: 18px;
-  border-radius: var(--fi-radius-md);
-  background: var(--fi-tag-bg);
-  padding: 14px 12px;
-}
-
-.curator-note h6 {
-  margin: 0;
-  font-size: 12px;
-  letter-spacing: 1px;
-  color: var(--fi-primary);
-}
-
-.curator-note p {
-  margin: 8px 0 0;
-  font-size: 13px;
-  line-height: 1.8;
-  color: var(--fi-text-muted);
-}
+/* 说明便签统一在 common_ui/css/fi-card.css（.fi-note），此处不再重复定义。 */
 
 .changelog-empty {
   margin: 0;
   padding: 40px 0;
-  text-align: center;
-  color: var(--fi-text-muted);
-  font-size: 14px;
 }
 
 /* ── 移动端标签横向滚动 ──
@@ -523,7 +440,7 @@
   position: fixed;
   bottom: 28px;
   right: 20px;
-  z-index: 100;
+  z-index: var(--fi-z-sticky);
   width: 52px;
   height: 52px;
   border-radius: 50%;
@@ -546,7 +463,7 @@
 .mobile-nav-overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: var(--fi-z-popover);
   background: rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: flex-end;
@@ -573,7 +490,7 @@
   flex-shrink: 0;
 }
 
-.mobile-nav-header h4 {
+.mobile-nav-header h3 {
   margin: 0;
   font-size: 16px;
   color: var(--fi-text);
@@ -676,9 +593,6 @@
 }
 
 @media (max-width: 768px) {
-  .changelog-page {
-    padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
-  }
 
   .summary-count {
     font-size: 38px;

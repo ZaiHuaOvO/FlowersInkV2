@@ -23,6 +23,8 @@ export class BlogCardComponent implements OnInit {
   @Input() loading: boolean = true;
   @Input() href: string | null = null;
   @Input() pinned: boolean = false;
+  /** 标题级别：列表页用 h3；页面标题本身就是列表标题时（首页精选）传 h2，避免跳级 */
+  @Input() titleTag: 'h2' | 'h3' = 'h3';
 
   constructor() {}
 

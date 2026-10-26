@@ -1,0 +1,106 @@
+/* ============================================================
+   fi-side-toc.css — 带时间轴圆点的页内目录（侧栏）
+   Layer: Component
+   ------------------------------------------------------------
+   标记：
+     .fi-side-toc
+       .fi-side-toc-track            ← 竖向连线由 ::before 画
+         button.fi-side-toc-item[.fi-side-toc-item--active]
+           span.fi-side-toc-dot
+           span.fi-side-toc-label
+   来源：关于页与赞赏页原本各有一份逐字相同的 .sidebar-* 实现。
+   ============================================================ */
+
+.fi-side-toc {
+  position: relative;
+}
+
+.fi-side-toc-track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 0;
+}
+
+/* 竖线与圆点中心对齐 */
+.fi-side-toc-track::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--fi-border);
+  border-radius: 1px;
+}
+
+.fi-side-toc-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 6px 8px 6px 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--fi-font-base);
+  z-index: 1;
+  border-radius: var(--fi-radius-sm);
+  transition: background-color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.fi-side-toc-item:hover {
+  background: var(--fi-surface-soft);
+}
+
+.fi-side-toc-dot {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--fi-surface);
+  border: 2px solid var(--fi-border);
+  transition: border-color var(--fi-motion-normal) var(--fi-ease-standard),
+    background-color var(--fi-motion-normal) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-normal) var(--fi-ease-standard),
+    width var(--fi-motion-normal) var(--fi-ease-standard),
+    height var(--fi-motion-normal) var(--fi-ease-standard),
+    transform var(--fi-motion-normal) var(--fi-ease-standard);
+  z-index: 2;
+}
+
+.fi-side-toc-item:hover .fi-side-toc-dot {
+  border-color: var(--fi-primary);
+  background: var(--fi-primary-outline);
+  transform: translateY(-50%) scale(1.15);
+}
+
+.fi-side-toc-item--active .fi-side-toc-dot {
+  width: 14px;
+  height: 14px;
+  border-color: var(--fi-primary);
+  background: var(--fi-primary);
+  box-shadow: 0 0 0 6px var(--fi-primary-outline);
+}
+
+.fi-side-toc-label {
+  font-size: var(--fi-font-size-sm);
+  color: var(--fi-text-muted);
+  font-weight: var(--fi-font-weight-medium);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+  line-height: 1.4;
+}
+
+.fi-side-toc-item:hover .fi-side-toc-label {
+  color: var(--fi-text);
+}
+
+.fi-side-toc-item--active .fi-side-toc-label {
+  color: var(--fi-primary);
+  font-weight: var(--fi-font-weight-semibold);
+}

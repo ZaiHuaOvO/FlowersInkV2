@@ -9,7 +9,7 @@ nz-header {
   position: fixed;
   inset: 0 0 auto 0;
   width: 100%;
-  z-index: 999;
+  z-index: var(--fi-z-scrim);
   background: #fff8f4;
   backdrop-filter: none;
   border-bottom: 0;

@@ -6,10 +6,10 @@
 }
 
 .ant-card {
-  border: 1px solid var(--fi-border) !important;
-  border-radius: var(--fi-radius-md) !important;
-  background: var(--fi-card-bg) !important;
-  box-shadow: var(--fi-shadow-soft) !important;
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-md);
+  background: var(--fi-card-bg);
+  box-shadow: var(--fi-shadow-soft);
 }
 
 .fl-card-hover {
@@ -45,7 +45,7 @@
 
 .fl-icon-button:hover {
   background: var(--fi-surface-soft);
-  border-color: #d1d5db;
+  border-color: var(--fi-border-strong);
   color: var(--fi-primary-hover);
 }
 
@@ -53,4 +53,31 @@
   outline: 0;
   border-color: var(--fi-primary);
   box-shadow: 0 0 0 3px var(--fi-primary-outline);
+}
+
+/* ============================================================
+   说明便签（更新记录 / 点滴两页侧栏底部共用）
+   原本两页各有一份逐字相同的 .curator-note 实现。
+   文字用 --fi-tag-text（压在这一底色上 5.4:1），不用 --fi-text-muted（4.4:1）。
+   ============================================================ */
+
+.fi-note {
+  margin-top: 18px;
+  border-radius: var(--fi-radius-md);
+  background: var(--fi-tag-bg);
+  padding: 14px 12px;
+}
+
+.fi-note__label {
+  margin: 0;
+  font-size: var(--fi-font-size-xs);
+  letter-spacing: 1px;
+  color: var(--fi-primary);
+}
+
+.fi-note__text {
+  margin: 8px 0 0;
+  font-size: var(--fi-font-size-sm);
+  line-height: 1.8;
+  color: var(--fi-tag-text);
 }

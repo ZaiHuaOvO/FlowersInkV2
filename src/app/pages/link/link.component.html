@@ -1,4 +1,4 @@
-<div class="message" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
+<div class="message fi-screen fi-page--flush" nz-flex nzAlign="center" nzJustify="center" [nzVertical]="true">
     <div class="content" flCard nz-flex [nzVertical]="true" nzGap="middle" @QuickUp>
 
         <!-- ====== 页面标题 ====== -->
@@ -67,6 +67,10 @@
             <span nz-typography nzType="secondary" class="section-count">共 {{ links.length }} 个</span>
             }
         </div>
+
+        @if (loadError) {
+        <flower-error-state (retry)="reloadLinks()" message="友链没有加载出来"></flower-error-state>
+        }
 
         @if (loading) {
         <div class="link-list">

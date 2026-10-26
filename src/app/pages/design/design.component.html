@@ -715,6 +715,16 @@
             <flower-nodata></flower-nodata>
           </div>
         </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">加载失败</h3>
+          <p class="ds-subsection-desc fi-text-caption">
+            接口拿不到数据时用它，和「没有数据」区分开；按钮会重新发起同一次请求。
+          </p>
+          <div class="ds-sample-card" flCard>
+            <flower-error-state message="内容没有加载出来" (retry)="demoRetry()"></flower-error-state>
+          </div>
+        </div>
       </section>
 
       <!-- ── 16 卡片族 ──────────────────────────────── -->
@@ -800,7 +810,8 @@
           <div class="ds-sample-card" flCard>
             <div class="fi-tab-bar">
               @for (tab of tabs; track tab) {
-              <span class="fi-tab" [class.fi-tab--active]="activeTab === tab" (click)="selectTab(tab)">{{ tab }}</span>
+              <button type="button" class="fi-tab" [class.fi-tab--active]="activeTab === tab"
+                [attr.aria-pressed]="activeTab === tab" (click)="selectTab(tab)">{{ tab }}</button>
               }
             </div>
           </div>
@@ -811,7 +822,9 @@
           <div class="ds-sample-card" flCard>
             <div class="fi-dots">
               @for (d of dotCount; track d) {
-              <span class="fi-dot" [class.fi-dot--active]="activeDot === d" (click)="selectDot(d)"></span>
+              <button type="button" class="fi-dot" [class.fi-dot--active]="activeDot === d"
+                [attr.aria-label]="'第 ' + (d + 1) + ' 屏'" [attr.aria-pressed]="activeDot === d"
+                (click)="selectDot(d)"></button>
               }
             </div>
           </div>

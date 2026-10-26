@@ -17,6 +17,7 @@ import { SimpleCaptchaComponent } from '../../components/website/simple-captcha/
 import { extractHttpErrorMessage } from '../../shared/utils/http-error-message.util';
 import { ApiLimiterService } from '../../services/api-limiter.service';
 import { LinkService } from './link.service';
+import { FlErrorStateComponent } from '../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 
 interface ArticleItem {
   title: string;
@@ -46,6 +47,7 @@ interface ArticleItem {
     FlInputDirective,
     FlCardDirective,
     SimpleCaptchaComponent,
+    FlErrorStateComponent,
   ],
   templateUrl: './link.component.html',
   styleUrl: './link.component.css',
@@ -57,6 +59,7 @@ export class LinkComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
 
   loading = true;
+  loadError = false;
   articleLoading = true;
   submitting = false;
   showApplyForm = false;
@@ -113,11 +116,29 @@ export class LinkComponent implements OnInit {
       },
       error: () => {
         this.links = [];
+        this.loadError = true;
         this.loading = false;
       },
     });
 
     this.getFriendArticles();
+  }
+
+  /** 错误态里的「重新加载」 */
+  reloadLinks(): void {
+    this.loadError = false;
+    this.loading = true;
+    this.link.getLinks({ isApproved: true }).subscribe({
+      next: (res: any) => {
+        this.links = res['data']?.data ?? [];
+        this.loading = false;
+      },
+      error: () => {
+        this.links = [];
+        this.loadError = true;
+        this.loading = false;
+      },
+    });
   }
 
   ngOnInit(): void {

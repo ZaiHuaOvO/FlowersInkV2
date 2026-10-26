@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.state-card {
+  border: 1px solid var(--fi-border);
+  background: var(--fi-card-bg);
+  border-radius: var(--fi-radius-md);
+  padding: 18px;
+}
+
+.state-title {
+  margin: 0;
+  font-size: var(--fi-font-size-md);
+  font-weight: var(--fi-font-weight-semibold);
+  color: var(--fi-danger);
+}
+
+.state-detail {
+  margin: var(--fi-space-2) 0 0;
+  font-size: var(--fi-font-size-sm);
+  color: var(--fi-text-muted);
+}
+
+.state-btn {
+  margin-top: var(--fi-space-3);
+  border: 0;
+  border-radius: var(--fi-radius-xs);
+  background: var(--fi-primary);
+  color: var(--fi-text-inverse);
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-sm);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background-color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.state-btn:hover {
+  background: var(--fi-primary-hover);
+}
+
+.state-btn:focus-visible {
+  outline: 2px solid var(--fi-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .state-btn {
+    min-height: var(--fi-control-height-lg);
+    padding-inline: var(--fi-space-4);
+  }
+}

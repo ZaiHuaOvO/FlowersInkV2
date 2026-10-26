@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   color: var(--fi-text);
-  background: var(--fi-bg) !important;
+  background: var(--fi-bg);
   font-family: var(--fi-font-base);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   text-rendering: optimizeLegibility;
@@ -13,7 +13,7 @@ body {
 app-root {
   display: block;
   min-height: 100vh;
-  background: var(--fi-bg) !important;
+  background: var(--fi-bg);
 }
 
 button,
@@ -47,7 +47,7 @@ a:hover {
 }
 
 .fi-page-title {
-  color: var(--fi-primary) !important;
+  color: var(--fi-primary);
 }
 
 .fi-signature-line {
@@ -71,7 +71,7 @@ a:hover {
    ============================================================ */
 
 .fi-text-title-1 {
-  font-size: var(--fi-font-size-2xl);
+  font-size: var(--fi-font-size-3xl);
   font-weight: var(--fi-font-weight-bold);
   line-height: var(--fi-line-height-tight);
   color: var(--fi-text-heading);
@@ -123,6 +123,20 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* ng-zorro 的次要文字默认是 45% 黑，压在奶油底上只有 3.3:1；
+   统一到站内的次要文字色（5.1:1）。 */
+.ant-typography.ant-typography-secondary {
+  color: var(--fi-text-muted);
+}
+
+/* 列表 / 区块内的空状态文案；整页空态用 <flower-nodata>，不要用这个 */
+.fi-empty-note {
+  margin: 0;
+  text-align: center;
+  color: var(--fi-text-muted);
+  font-size: var(--fi-font-size-md);
 }
 
 /*
@@ -197,7 +211,7 @@ img.fl-img-fade--loaded {
 /*
  * 键盘焦点环 —— 只在键盘导航时出现（:focus-visible），鼠标点击不出环。
  * ng-zorro 的预构建样式里写了 `.ant-btn:focus { outline: 0 }`，而 angular.json 里
- * ng-zorro 的 CSS 排在 styles.css 之后，同权重会被它盖掉，所以这里必须 !important
+ * ng-zorro 的 CSS 排在 styles.css 之后，同权重会被它盖掉，所以这里必须
  * （与 fi-overrides.css 处理 ng-zorro 覆盖是同一套做法）。
  */
 a:focus-visible,
@@ -208,7 +222,7 @@ summary:focus-visible,
 .ant-btn:focus-visible,
 .ant-input:focus-visible,
 .ant-tag:focus-visible {
-  outline: 2px solid var(--fi-primary) !important;
+  outline: 2px solid var(--fi-primary);
   outline-offset: 2px;
 }
 
@@ -224,14 +238,14 @@ summary:focus-visible,
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-property: color, background-color, border-color, box-shadow, fill, stroke !important;
-    transition-duration: var(--fi-motion-fast) !important;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-property: color, background-color, border-color, box-shadow, fill, stroke;
+    transition-duration: var(--fi-motion-fast);
   }
 
   html {
-    scroll-behavior: auto !important;
+    scroll-behavior: auto;
   }
 }
 

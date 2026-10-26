@@ -1,6 +1,9 @@
 <div class="waterfall-container" flCard>
   @for (item of data; track item) {
-    <div class="waterfall-item" (click)="isMobile ? getLifeDetailMobile(item) : getLifeDetail(item)">
+    <div class="waterfall-item" role="button" tabindex="0" aria-label="查看这条点滴"
+      (click)="isMobile ? getLifeDetailMobile(item) : getLifeDetail(item)"
+      (keydown.enter)="isMobile ? getLifeDetailMobile(item) : getLifeDetail(item)"
+      (keydown.space)="$event.preventDefault(); isMobile ? getLifeDetailMobile(item) : getLifeDetail(item)">
       <img
         flImgFade
         loading="lazy"

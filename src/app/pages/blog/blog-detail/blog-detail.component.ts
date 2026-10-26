@@ -54,6 +54,7 @@ import { VisitorTrackingService } from '../../../services/visitor-tracking.servi
 import { IdeaService } from '../idea.service';
 import { ExternalLinkService } from '../../../services/external-link.service';
 import { FlIdeaPopoverComponent } from '../../../common_ui/fl_ui/fl-idea-popover/fl-idea-popover.component';
+import { FlErrorStateComponent } from '../../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 import type {
   Idea,
   IdeaAnchor,
@@ -110,6 +111,7 @@ const ANCHOR_TOP_OFFSET = 96 + getSafeTopInset();
     NzModalModule,
     FlCommentBoardComponent,
     FlIdeaPopoverComponent,
+    FlErrorStateComponent,
   ],
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.css',
@@ -123,6 +125,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   tag = '';
   tagList: any[] = [];
   loading = true;
+  loadError = false;
   markdownContent: string = '';
   anchors: Array<{
     children: Array<{ href: string; title: string }>;
@@ -332,22 +335,29 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   getBlogDetail(): void {
     const fid = this.visitorTrackingService.getVisitorFid() || undefined;
     this.loading = true;
-    this.blog.getBlogDetail(this.Id, fid).subscribe((res: any) => {
-      this.data = res['data'];
-      // 评论数据源依赖文章 id，等详情回来才能定；目标不变就只建一次
-      this.commentSource = articleCommentSource(this.commentService, 'article', this.data.id);
-      this.blogLikeCount = Number(this.data.likes ?? 0);
-      this.restoreBlogLikeState();
-      this.title.setTitle(`${this.data.title} | 花墨`);
-      // 正文要换 DOM 了，先把想法标记与浮窗收干净，等 (ready) 再重画
-      this.markdownDomReady = false;
-      this.closePopover();
-      this.closeLinkChoice();
-      this.hideWriteButton();
-      this.markdownContent = this.data.content;
-      this.loading = false;
-      this.loadRelatedBlogs();
-      this.loadIdeas();
+    this.loadError = false;
+    this.blog.getBlogDetail(this.Id, fid).subscribe({
+      next: (res: any) => {
+        this.data = res['data'];
+        // 评论数据源依赖文章 id，等详情回来才能定；目标不变就只建一次
+        this.commentSource = articleCommentSource(this.commentService, 'article', this.data.id);
+        this.blogLikeCount = Number(this.data.likes ?? 0);
+        this.restoreBlogLikeState();
+        this.title.setTitle(`${this.data.title} | 花墨`);
+        // 正文要换 DOM 了，先把想法标记与浮窗收干净，等 (ready) 再重画
+        this.markdownDomReady = false;
+        this.closePopover();
+        this.closeLinkChoice();
+        this.hideWriteButton();
+        this.markdownContent = this.data.content;
+        this.loading = false;
+        this.loadRelatedBlogs();
+        this.loadIdeas();
+      },
+      error: () => {
+        this.loadError = true;
+        this.loading = false;
+      },
     });
   }
 

@@ -28,6 +28,7 @@ import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-boa
 import { memoizeLifeCommentSources } from '../../../shared/comment/comment-source.factory';
 import type { CommentSource } from '../../../shared/comment/comment.model';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
+import { FlErrorStateComponent } from '../../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { FlImgFadeDirective } from '../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
 import { QuickUp, RefreshUp } from '../../../common_ui/animations/animation';
@@ -92,6 +93,7 @@ interface YearNavigator {
     FlCardDirective,
     FlTagDirective,
     FlImgFadeDirective,
+    FlErrorStateComponent,
   ],
   templateUrl: './heart.component.html',
   styleUrl: './heart.component.css',
@@ -436,7 +438,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** 点击网格图：预览本条的整组图并定位到点击的那张，可在预览里左右翻页 */
-  previewZoom(event: MouseEvent, images: LifeImageAsset[], index: number): void {
+  previewZoom(event: Event, images: LifeImageAsset[], index: number): void {
     event.stopPropagation();
     previewLifeImages(this.imageService, images, index);
   }
@@ -574,6 +576,11 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     setTimeout(() => this.waitForModalTeardown(callback), 16);
+  }
+
+  /** 错误态里的「重新加载」 */
+  retryLoad(): void {
+    this.fetchTimeline();
   }
 
   private fetchTimeline(): void {

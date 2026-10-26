@@ -1,9 +1,4 @@
-.welcome {
-    width: 100%;
-    max-width: 100%;
-    min-height: calc(100vh - 48px);
-    padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
-}
+/* 页面外壳（宽度 / 外边距）走 common_ui/css/fi-layout.css 的 .fi-page--flush */
 
 .content {
     width: min(var(--fi-page-max-narrow), 100%);
@@ -24,7 +19,7 @@
 
 .blog h2 {
     margin: 0 0 16px;
-    font-size: var(--fi-font-size-2xl);
+    font-size: var(--fi-font-size-3xl);
     color: var(--fi-primary);
     letter-spacing: 0.02em;
 }
@@ -140,10 +135,6 @@ a.fi-simple-timeline-title.is-starred:hover {
 @media (max-width: 768px) {
     .fi-simple-timeline-item.is-starred-item .fi-simple-timeline-content::before {
         left: calc(-1 * var(--fi-space-2));
-    }
-
-    .welcome {
-        padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
     }
 
     .content {

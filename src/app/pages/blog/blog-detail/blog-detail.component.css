@@ -1,8 +1,4 @@
 .article {
-  width: 100%;
-  max-width: 100%;
-  min-height: calc(100vh - 48px);
-  padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
   background: var(--fi-bg);
 }
 
@@ -13,7 +9,7 @@
   left: 0;
   height: 3px;
   background: var(--fi-primary);
-  z-index: 100;
+  z-index: var(--fi-z-sticky);
   transition: width 60ms linear;
   pointer-events: none;
 }
@@ -571,6 +567,15 @@ nz-anchor {
   background: color-mix(in srgb, var(--fi-text-muted) 6%, transparent);
 }
 
+/* 侧栏作者卡的名字：用 p 而不是 h5，避免把评论区的标题层级带乱；
+   字号/字重保持原来的 h5 观感 */
+.me-name {
+  margin: 0;
+  font-size: var(--fi-font-size-lg);
+  font-weight: var(--fi-font-weight-semibold);
+  color: var(--fi-text-heading);
+}
+
 .copyright-card__title {
   margin: 0 0 var(--fi-space-2);
   color: var(--fi-primary);
@@ -689,7 +694,7 @@ nz-anchor {
   right: 0;
   /* 必须高于固定导航栏（z-index 999），否则全屏想法抽屉会被导航栏盖住头部。
      桌面浮窗跟着一起抬高，只在「选中文字滚到接近导航栏」时才可能遮住导航，可接受。 */
-  z-index: 1001;
+  z-index: var(--fi-z-popover-raised);
   height: 0;
 }
 

@@ -56,20 +56,20 @@ nz-alert.fl-alert-host .ant-alert {
   --fi-alert-soft-border: color-mix(in srgb, var(--fi-alert-fg) 30%, var(--fi-surface));
   --fi-alert-mark-bg: color-mix(in srgb, var(--fi-alert-fg) 22%, var(--fi-surface));
 
-  border-radius: var(--fi-radius-sm) !important;
-  border: 1px solid var(--fi-alert-soft-border) !important;
-  background: var(--fi-alert-soft-bg) !important;
+  border-radius: var(--fi-radius-sm);
+  border: 1px solid var(--fi-alert-soft-border);
+  background: var(--fi-alert-soft-bg);
   box-shadow: var(--fi-shadow-soft);
 }
 
 nz-alert.fl-alert-host .ant-alert-icon {
-  color: var(--fi-alert-fg) !important;
+  color: var(--fi-alert-fg);
 }
 
 nz-alert.fl-alert-host .ant-alert-message,
 nz-alert.fl-alert-host .ant-alert-message strong,
 nz-alert.fl-alert-host .ant-alert-message em {
-  color: var(--fi-alert-strong) !important;
+  color: var(--fi-alert-strong);
 }
 
 /* 说明行统一用正文色：无论调用方塞什么标签进来，都保证读得清 */
@@ -85,12 +85,12 @@ nz-alert.fl-alert-host .ant-alert-description h5,
 nz-alert.fl-alert-host .ant-alert-description h6,
 nz-alert.fl-alert-host .ant-alert-description li,
 nz-alert.fl-alert-host .ant-alert-description strong {
-  color: var(--fi-text-body) !important;
+  color: var(--fi-text-body);
 }
 
 nz-alert.fl-alert-host mark {
-  color: var(--fi-alert-strong) !important;
-  background: var(--fi-alert-mark-bg) !important;
+  color: var(--fi-alert-strong);
+  background: var(--fi-alert-mark-bg);
   border-radius: 4px;
   padding: 0 4px;
 }
@@ -99,14 +99,14 @@ nz-alert.fl-alert-host mark {
 
 /* outline：白底 + 语义色描边与文字 */
 nz-alert.fl-alert-host.fl-alert-outline .ant-alert {
-  background: var(--fi-surface) !important;
-  border-color: var(--fi-alert-fg) !important;
+  background: var(--fi-surface);
+  border-color: var(--fi-alert-fg);
 }
 
 /* solid：压暗后的语义色做底 + 反白文字 */
 nz-alert.fl-alert-host.fl-alert-solid .ant-alert {
-  background: var(--fi-alert-strong) !important;
-  border-color: var(--fi-alert-strong) !important;
+  background: var(--fi-alert-strong);
+  border-color: var(--fi-alert-strong);
 }
 
 nz-alert.fl-alert-host.fl-alert-solid .ant-alert-icon,
@@ -124,10 +124,10 @@ nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description h5,
 nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description h6,
 nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description li,
 nz-alert.fl-alert-host.fl-alert-solid .ant-alert-description strong {
-  color: var(--fi-text-inverse) !important;
+  color: var(--fi-text-inverse);
 }
 
 nz-alert.fl-alert-host.fl-alert-solid mark {
-  color: var(--fi-alert-strong) !important;
-  background: var(--fi-text-inverse) !important;
+  color: var(--fi-alert-strong);
+  background: var(--fi-text-inverse);
 }

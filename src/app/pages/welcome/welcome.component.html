@@ -55,7 +55,9 @@
       </div>
     </div>
     <!-- 向下滚动提示 -->
-    <div class="hero-scroll-hint" [class.hidden]="!scrollAtTop" (click)="scrollToContent()">
+    <div class="hero-scroll-hint" role="button" tabindex="0" aria-label="滚动到精选内容"
+      [class.hidden]="!scrollAtTop" (click)="scrollToContent()"
+      (keydown.enter)="scrollToContent()" (keydown.space)="$event.preventDefault(); scrollToContent()">
       <span class="hero-scroll-text">看看再花为你精选的文章</span>
       <span class="hero-scroll-arrow"></span>
     </div>
@@ -65,17 +67,21 @@
   <div class="content-area" id="content-start">
     <flower-blog-title [title]="'花墨的精选文章'"></flower-blog-title>
     <div class="content" nz-flex nzJustify="center" nzAlign="start" nzGap="middle">
-      <nz-spin [nzTip]="'精选文章正在努力赶来中'" [nzSpinning]="loading" @QuickUp>
+      <nz-spin [nzTip]="'精选文章正在努力赶来中'" [nzSpinning]="loading" [nzDelay]="600" @QuickUp>
+        @if (loadError) {
+        <flower-error-state (retry)="loadFeatured()" message="精选文章没有加载出来"></flower-error-state>
+        } @else {
         <div nz-flex nzGap="middle" [nzVertical]="true" class="blog-list">
           @for (item of data; track item; let i = $index) {
           <div class="blog-list-item" [style.animation-delay]="i * 60 + 'ms'">
             <div flCard flCardHover>
-              <flower-blog-card [blog]="item" [loading]="loading" [pinned]="item.pinned"
+              <flower-blog-card [blog]="item" [loading]="loading" [pinned]="item.pinned" titleTag="h2"
                 [href]="'/blog/blog-detail/' + item.id"></flower-blog-card>
             </div>
           </div>
           }
         </div>
+        }
       </nz-spin>
       @if (!isMobile) {
       <div class="me" @SlowUp>
@@ -97,7 +103,7 @@
       叭叭啦叭叭，你好呀这里是<mark>再花</mark>，这里是我的个人网站<mark>花墨</mark><br>
       漫展里与我同行的是我的妻子<mark>方长</mark>，我俩都是<strong>游戏宅</strong>（什么都玩），偶尔会看看番但强度不高。<br>
       除了游戏，我比较偏向<strong>技术宅</strong>，喜欢开发小东西（例如本网站）、视频剪辑。关于我的更多信息可以查看本站的 <a nz-button nzType="link"
-        [routerLink]="'/about'" target="_blank">[关于我]</a><br>
+        [routerLink]="'/about'" target="_blank" rel="noopener">[关于我]</a><br>
       方长是<strong>手工娘</strong>，喜欢拼豆（还有乐高、手链等手工）。同时也是<strong>厨娘</strong>，本花的专属饲养员=v=
     </p>
     <h5 nz-typography>扩列相关</h5>

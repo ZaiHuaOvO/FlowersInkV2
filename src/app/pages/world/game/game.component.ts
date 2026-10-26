@@ -23,6 +23,7 @@ import { CommentService } from '../../../services/comment.service';
 import { articleCommentSource } from '../../../shared/comment/comment-source.factory';
 import type { CommentSource } from '../../../shared/comment/comment.model';
 import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
+import { FlErrorStateComponent } from '../../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 import { GameDetailDialogComponent } from './game-detail-dialog/game-detail-dialog.component';
 
 type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
@@ -49,6 +50,7 @@ type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
     GameCardComponent,
     NzGridModule,
     FlCommentBoardComponent,
+    FlErrorStateComponent,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
@@ -57,6 +59,7 @@ type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
 export class GameComponent {
   data: any[] = [];
   loading = true;
+  loadError = false;
   isMobile: boolean = false;
   totalGames = 0;
   totalPlayingTime = 0;
@@ -112,11 +115,18 @@ export class GameComponent {
   }
 
   getGame(): void {
-    this.world.getGameList().subscribe((res: any) => {
-      this.data = this.sortGamesByFinishDate(res['data'].games ?? []);
-      this.totalGames = res['data'].totalGames;
-      this.totalPlayingTime = res['data'].totalPlayingTime;
-      this.loading = false;
+    this.loadError = false;
+    this.world.getGameList().subscribe({
+      next: (res: any) => {
+        this.data = this.sortGamesByFinishDate(res['data'].games ?? []);
+        this.totalGames = res['data'].totalGames;
+        this.totalPlayingTime = res['data'].totalPlayingTime;
+        this.loading = false;
+      },
+      error: () => {
+        this.loadError = true;
+        this.loading = false;
+      },
     });
   }
 

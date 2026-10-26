@@ -285,7 +285,6 @@
     color: var(--fi-text-muted);
     white-space: nowrap;
     letter-spacing: 0.3px;
-    opacity: 0.7;
 }
 
 .hero-scroll-arrow {

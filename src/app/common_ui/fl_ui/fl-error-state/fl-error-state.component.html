@@ -1,0 +1,7 @@
+<div class="state-card" role="alert">
+  <h3 class="state-title">{{ message }}</h3>
+  @if (detail) {
+  <p class="state-detail">{{ detail }}</p>
+  }
+  <button type="button" class="state-btn" (click)="retry.emit()">重新加载</button>
+</div>

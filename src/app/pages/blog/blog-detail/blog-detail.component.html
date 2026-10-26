@@ -1,4 +1,4 @@
-<div class="article blog-detail-page" nz-flex [nzVertical]="true" #editor>
+<div class="article blog-detail-page fi-screen fi-page--flush" nz-flex [nzVertical]="true" #editor>
   <!-- 阅读进度条 -->
   <div class="reading-progress-bar" [style.width.%]="readingProgress"></div>
   <div class="blog-detail-shell">
@@ -31,7 +31,10 @@
           <span>{{ ideasEnabled ? '关闭想法' : '显示想法' }}</span>
         </button>
       </div>
-      <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading">
+      <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" [nzDelay]="600">
+        @if (loadError) {
+        <flower-error-state (retry)="getBlogDetail()" message="这篇文章没有加载出来"></flower-error-state>
+        } @else {
         <flower-blog-title class="article-title" [title]="data.title"></flower-blog-title>
         <div class="article-meta" nz-flex nzAlign="center" nzGap="small">
           @if (data.tags?.length) {
@@ -158,7 +161,7 @@
           </div>
         </div>
         <section class="copyright-card" aria-label="版权声明">
-          <h3 nz-typography class="copyright-card__title">版权声明</h3>
+          <h2 nz-typography class="copyright-card__title">版权声明</h2>
           <div class="copyright-card__body" nz-flex [nzVertical]="true" nzGap="small">
             <p nz-typography>
               本文采用
@@ -194,6 +197,7 @@
         @if (commentSource; as source) {
         <fl-comment-board id="comment" [source]="source" title="评论"></fl-comment-board>
         }
+        }
       </nz-spin>
     </div>
     <!-- /.blog-detail-content -->
@@ -205,7 +209,7 @@
           <div class="me_box" flCard nz-flex nzAlign="center" nzJustify="start" nzGap="middle">
             <nz-avatar [nzSize]="64" nzSrc="https://api.flowersink.com/img/粉毛猫猫头.jpeg" nzShape="circle"></nz-avatar>
             <div nz-flex [nzVertical]="true">
-              <h5 nz-typography>再花</h5>
+              <p nz-typography class="me-name">再花</p>
               <span nz-typography nzType="secondary">猫猫头前端工程师</span>
             </div>
           </div>

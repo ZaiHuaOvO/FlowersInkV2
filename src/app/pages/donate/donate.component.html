@@ -2,13 +2,13 @@
   <!-- ===== 桌面左侧标题导航 ===== -->
   @if (!isMobile()) {
   <nav class="donate-sidebar" aria-label="赞赏页面导航">
-    <div class="sidebar-inner">
-      <div class="sidebar-track">
+    <div class="fi-side-toc">
+      <div class="fi-side-toc-track">
         @for (item of navItems; track item.id) {
-        <button class="sidebar-item" [class.sidebar-item--active]="activeSection() === item.id"
+        <button class="fi-side-toc-item" [class.fi-side-toc-item--active]="activeSection() === item.id"
           (click)="scrollTo(item.id)" [attr.aria-label]="'跳转到' + item.label">
-          <span class="sidebar-dot"></span>
-          <span class="sidebar-label">{{ item.label }}</span>
+          <span class="fi-side-toc-dot"></span>
+          <span class="fi-side-toc-label">{{ item.label }}</span>
         </button>
         }
       </div>
@@ -72,10 +72,16 @@
       <p class="donate-note">最好别低于1元，不然我真的不知道拿来干啥，现在买个泡泡糖都要5毛。</p>
 
       <div class="qr-row">
-        <div class="qr-card" (click)="previewImage(qrAlipaySrc, '支付宝收款码')">
+        <div class="qr-card" role="button" tabindex="0" aria-label="预览支付宝收款码"
+          (click)="previewImage(qrAlipaySrc, '支付宝收款码')"
+          (keydown.enter)="previewImage(qrAlipaySrc, '支付宝收款码')"
+          (keydown.space)="$event.preventDefault(); previewImage(qrAlipaySrc, '支付宝收款码')">
           <img class="qr-image" [src]="qrAlipaySrc" alt="支付宝收款码" loading="lazy" decoding="async" />
         </div>
-        <div class="qr-card" (click)="previewImage(qrWechatSrc, '微信收款码')">
+        <div class="qr-card" role="button" tabindex="0" aria-label="预览微信收款码"
+          (click)="previewImage(qrWechatSrc, '微信收款码')"
+          (keydown.enter)="previewImage(qrWechatSrc, '微信收款码')"
+          (keydown.space)="$event.preventDefault(); previewImage(qrWechatSrc, '微信收款码')">
           <img class="qr-image" [src]="qrWechatSrc" alt="微信收款码" loading="lazy" decoding="async" />
         </div>
       </div>

@@ -14,8 +14,8 @@
   --md-brand-hover: var(--fi-primary-hover);
   --md-surface: var(--fi-surface);
   --md-surface-soft: var(--fi-surface-soft);
-  --md-code-bg: #2a1f18;
-  --md-code-fg: #f4ede6;
+  --md-code-bg: var(--fi-code-bg);
+  --md-code-fg: var(--fi-code-fg);
   --md-code-inline-bg: color-mix(in srgb, var(--fi-primary) 6%, var(--fi-surface));
   --md-code-inline-border: color-mix(in srgb, var(--fi-primary) 26%, var(--fi-surface));
   --md-blockquote-bg: color-mix(in srgb, var(--fi-primary) 6%, var(--fi-surface-soft));
@@ -310,7 +310,7 @@
 /* ===== 代码块 ===== */
 #currentAnchor pre {
   position: relative;
-  background: linear-gradient(180deg, #30241c, var(--md-code-bg) 64px);
+  background: linear-gradient(180deg, var(--fi-code-bg-top), var(--md-code-bg) 64px);
   color: var(--md-code-fg);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -356,6 +356,19 @@
 
 #currentAnchor .markdown-clipboard-toolbar.hover {
   opacity: 1;
+}
+
+/* 复制按钮不能只在鼠标悬停时出现：
+   键盘 Tab 进到按钮时（focus-within）显示，触屏（无 hover）直接常显。 */
+#currentAnchor .code-toolbar:focus-within .markdown-clipboard-toolbar,
+#currentAnchor .markdown-clipboard-toolbar:focus-within {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  #currentAnchor .markdown-clipboard-toolbar {
+    opacity: 1;
+  }
 }
 
 #currentAnchor .markdown-clipboard-toolbar .markdown-clipboard-button {

@@ -2,15 +2,15 @@
 .ant-layout-content,
 .ant-layout-footer,
 nz-content {
-  background: var(--fi-bg) !important;
+  background: var(--fi-bg);
 }
 
 .ant-layout-header {
-  height: calc(48px + var(--fi-safe-top)) !important;
+  height: calc(48px + var(--fi-safe-top));
 }
 
 .ant-typography a {
-  color: var(--fi-primary) !important;
+  color: var(--fi-primary);
 }
 
 .ant-anchor-wrapper {
@@ -18,7 +18,7 @@ nz-content {
 }
 
 .ant-anchor-wrapper::-webkit-scrollbar-thumb {
-  background: #d1c1ae;
+  background: var(--fi-border-strong);
 }
 
 .ant-anchor-wrapper::-webkit-scrollbar {
@@ -26,14 +26,14 @@ nz-content {
 }
 
 .ant-dropdown {
-  animation-duration: var(--fi-motion-fast) !important;
-  animation-timing-function: var(--fi-ease-standard) !important;
+  animation-duration: var(--fi-motion-fast);
+  animation-timing-function: var(--fi-ease-standard);
 }
 
 .ant-drawer-content-wrapper,
 .ant-drawer-content {
-  transition-duration: var(--fi-motion-normal) !important;
-  transition-timing-function: var(--fi-ease-standard) !important;
+  transition-duration: var(--fi-motion-normal);
+  transition-timing-function: var(--fi-ease-standard);
 }
 
 .ant-drawer-content {
@@ -41,12 +41,12 @@ nz-content {
 }
 
 .ant-collapse-header {
-  padding-left: 0 !important;
+  padding-left: 0;
 }
 
 .ant-comment-avatar img {
-  width: 100% !important;
-  height: 100% !important;
+  width: 100%;
+  height: 100%;
 }
 
 .ant-card-meta-description {
@@ -63,7 +63,7 @@ nz-content {
 }
 
 .ant-spin-nested-loading > div > .ant-spin.ant-spin-spinning {
-  max-height: none !important;
+  max-height: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,12 +109,12 @@ nz-content {
 
 /* ===== Mobile Drawer (header-mobile) ===== */
 .mobile-drawer .ant-drawer-body {
-  padding: 0 !important;
+  padding: 0;
   overflow: hidden;
 }
 
 .mobile-drawer .ant-drawer-header {
-  display: none !important;
+  display: none;
 }
 
 .mobile-drawer .ant-drawer-content-wrapper {
@@ -131,10 +131,10 @@ nz-content {
    scope via the .cdk-overlay-container ancestor. */
 .cdk-overlay-container .ant-popover:has(.emoji-popover) .ant-popover-inner,
 .cdk-overlay-container .ant-popover:has(.emoji-popover) .ant-popover-inner-content {
-  max-width: 360px !important;
+  max-width: 360px;
 }
 
 .cdk-overlay-container .ant-popover:has(.comment-emoji-panel) .ant-popover-inner,
 .cdk-overlay-container .ant-popover:has(.comment-emoji-panel) .ant-popover-inner-content {
-  max-width: 400px !important;
+  max-width: 400px;
 }

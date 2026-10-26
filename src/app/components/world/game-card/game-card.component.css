@@ -3,7 +3,7 @@
 }
 
 .game-card-surface {
-    border-radius: var(--fi-radius-sm);
+    border-radius: var(--fi-radius-md);
     width: 100%;
     transition: transform var(--fi-motion-normal) var(--fi-ease-standard),
         box-shadow var(--fi-motion-normal) var(--fi-ease-standard),
@@ -50,8 +50,9 @@
 }
 
 .game-card-surface--not-recommended {
-    --fi-border: #d1d5db;
-    opacity: 0.82;
+    --fi-border: var(--fi-border-strong);
+    /* 0.82 会把卡内文字压到 3.9:1；「不推荐」的降权主要靠角标与灰度封面表达 */
+    opacity: 0.95;
 }
 
 .game-card-surface--not-recommended .img-container img {
@@ -95,11 +96,11 @@
 }
 
 .game-recommend-badge--not-recommended {
-    background: #8a8a8a;
+    background: var(--fi-badge-gray);
 }
 
 .game-recommend-badge--average {
-    background: #c4a06d;
+    background: var(--fi-badge-gold);
 }
 
 .game-overview-body {

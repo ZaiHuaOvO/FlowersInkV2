@@ -8,6 +8,7 @@
     [ngClass]="hasNote(book) ? 'content' : 'no_content'"
     [href]="hasNote(book) ? book.content : null"
     target="_blank"
+    rel="noopener"
     (click)="handleClick($event, hasNote(book))"
   >
     <img

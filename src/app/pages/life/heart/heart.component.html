@@ -44,8 +44,10 @@
         }
       </div>
 
-      <nz-spin [nzSpinning]="loading" [nzTip]="loadingMessage">
-        @if (!loading && sectionList.length === 0) {
+      <nz-spin [nzSpinning]="loading" [nzTip]="loadingMessage" [nzDelay]="600">
+        @if (errorMessage) {
+        <flower-error-state [message]="errorMessage" (retry)="retryLoad()"></flower-error-state>
+        } @else if (!loading && sectionList.length === 0) {
         <section class="state-card" flCard>
           <flower-nodata></flower-nodata>
         </section>
@@ -57,7 +59,7 @@
         <div class="timeline-stream" [@RefreshUp]="filterMotionTick">
           @for (section of sectionList; track trackSection($index, section)) {
           <section class="month-section" [attr.data-section-key]="section.key" #monthSection>
-            <h4 class="month-title">{{ section.label }}</h4>
+            <h3 class="month-title">{{ section.label }}</h3>
 
             @for (item of section.items; track trackItem($index, item)) {
             <article class="timeline-row">
@@ -68,7 +70,7 @@
                 </nz-tag>
                 @if (item.title) {
                 <header class="timeline-card-header">
-                  <h4>{{ item.title }}</h4>
+                  <h3>{{ item.title }}</h3>
                 </header>
                 }
 
@@ -80,7 +82,11 @@
                 @if (item.images.length > 0) {
                 <div class="image-grid" [ngClass]="getImageGridClass(item)">
                     @for (image of item.images; track image.previewUrl) {
-                    <div class="image-item-wrapper {{ getImageItemClass(item) }}" (click)="previewZoom($event, item.images, $index)">
+                    <div class="image-item-wrapper {{ getImageItemClass(item) }}" role="button" tabindex="0"
+                      aria-label="预览这张点滴图片"
+                      (click)="previewZoom($event, item.images, $index)"
+                      (keydown.enter)="previewZoom($event, item.images, $index)"
+                      (keydown.space)="$event.preventDefault(); previewZoom($event, item.images, $index)">
                       <img flImgFade loading="lazy" decoding="async"
                         [src]="image.displayUrl" (error)="onImageError($event, image)" alt="点滴图片" />
                       <div class="image-overlay">
@@ -201,9 +207,9 @@
         }
       </div>
 
-      <div class="curator-note">
-        <h6>LIFE'S NOTE</h6>
-        <p>这里充满了再花的日常碎碎念</p>
+      <div class="fi-note">
+        <p class="fi-note__label">LIFE'S NOTE</p>
+        <p class="fi-note__text">这里充满了再花的日常碎碎念</p>
       </div>
     </aside>
       </nz-affix>
@@ -224,7 +230,7 @@
     <div class="mobile-nav-overlay" (click)="closeMobileNav()">
       <div class="mobile-nav-sheet" (click)="$event.stopPropagation()">
         <div class="mobile-nav-header">
-          <h4>跳转到</h4>
+          <h3>跳转到</h3>
           <button type="button" class="mobile-nav-close" (click)="closeMobileNav()" aria-label="关闭">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
               <path d="M18 6L6 18M6 6l12 12" />

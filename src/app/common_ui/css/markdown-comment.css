@@ -16,8 +16,8 @@
   --cm-body: var(--fi-text-body, #3d2f24);
   --cm-muted: var(--fi-text-muted, #7a6756);
   --cm-brand: var(--fi-primary, #8b5a2b);
-  --cm-code-bg: #2a1f18;
-  --cm-code-fg: #f4ede6;
+  --cm-code-bg: var(--fi-code-bg);
+  --cm-code-fg: var(--fi-code-fg);
   --cm-inline-code-bg: color-mix(in srgb, var(--fi-primary, #8b5a2b) 7%, var(--fi-surface, #fff));
   --cm-quote-bg: color-mix(in srgb, var(--fi-primary, #8b5a2b) 6%, var(--fi-surface-soft, #faf7f4));
   --cm-line: color-mix(in srgb, var(--fi-primary, #8b5a2b) 20%, var(--fi-surface, #fff));

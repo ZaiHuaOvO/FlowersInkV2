@@ -1,9 +1,4 @@
-.equipment {
-    width: 100%;
-    max-width: 100%;
-    min-height: calc(100vh - 48px);
-    padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
-}
+/* 页面外壳（满宽 + 视口高度 + 外边距）走 .fi-screen / .fi-page--flush */
 
 .equipment-content {
     width: min(90vw, 1440px);
@@ -56,16 +51,9 @@
     padding: var(--fi-space-8) var(--fi-space-4);
 }
 
-.equipment-empty-text {
-    color: var(--fi-text-muted);
-    font-size: var(--fi-font-size-lg);
-    text-align: center;
-}
+/* 空状态文案走 common_ui/css/fi-base.css 的 .fi-empty-note */
 
 @media (max-width: 768px) {
-    .equipment {
-        padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
-    }
 
     .equipment-content {
         width: 100%;

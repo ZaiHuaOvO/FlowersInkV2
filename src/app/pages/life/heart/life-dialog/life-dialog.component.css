@@ -76,7 +76,7 @@
 .life-card-tag.ant-tag.tag-game,
 .life-card-tag.ant-tag.tag-excerpt,
 .life-card-tag.ant-tag.tag-default {
-  background: rgba(139, 90, 43, 0.14) !important;
+  background: rgba(139, 90, 43, 0.10) !important;
   color: var(--fi-primary) !important;
 }
 

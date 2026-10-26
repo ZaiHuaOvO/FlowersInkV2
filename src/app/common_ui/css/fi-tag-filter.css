@@ -1,0 +1,94 @@
+/* ============================================================
+   fi-tag-filter.css — 侧栏标签/分类筛选条
+   Layer: Component
+   ------------------------------------------------------------
+   原本在 fl-tag-filter 组件与 changelog / life 两个页面里各有一份
+   逐字相同的实现。这里统一，三处共用（组件与页面的模板结构一致）。
+   标记：<button class="tag-filter-button" [class.active]> 内包
+        <span class="tag-filter-main"><svg/><span/>…</span><span class="tag-count"/>
+   ============================================================ */
+
+.tag-filter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tag-filter-button {
+  width: 100%;
+  border: 0;
+  background: var(--fi-bg-soft);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--fi-font-base);
+  padding: 10px 12px;
+  cursor: pointer;
+  color: var(--fi-primary);
+  transition: background-color var(--fi-motion-fast) var(--fi-ease-standard),
+    color var(--fi-motion-fast) var(--fi-ease-standard),
+    transform var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.tag-filter-button:active {
+  transform: scale(0.96);
+}
+
+.tag-filter-button:hover,
+.tag-filter-button.active {
+  background: var(--fi-primary);
+  color: var(--fi-text-inverse);
+}
+
+.tag-filter-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: var(--fi-font-size-md);
+}
+
+.tag-filter-icon-svg {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fi-text-muted);
+  flex: 0 0 16px;
+}
+
+.tag-filter-icon-svg svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tag-filter-button:hover .tag-filter-icon-svg,
+.tag-filter-button.active .tag-filter-icon-svg {
+  color: var(--fi-text-inverse);
+}
+
+.tag-count {
+  font-size: var(--fi-font-size-2xs);
+  min-width: 20px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fi-primary-outline);
+  color: var(--fi-primary);
+  border-radius: var(--fi-radius-pill);
+  padding: 0 7px;
+  font-weight: var(--fi-font-weight-semibold);
+  transition: background-color var(--fi-motion-fast) var(--fi-ease-standard),
+    color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+/* 激活/悬停时按钮变主色，角标如果还用反白半透明底，
+   合成出来是 #a8825e，反白文字压上去只有 3.4:1。这里改成压暗方向。 */
+.tag-filter-button:hover .tag-count,
+.tag-filter-button.active .tag-count {
+  background: color-mix(in srgb, var(--fi-text-heading) 30%, transparent);
+  color: var(--fi-text-inverse);
+}

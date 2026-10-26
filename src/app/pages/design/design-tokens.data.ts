@@ -100,6 +100,16 @@ export const COLOR_GROUPS: DesignTokenGroup[] = [
       { name: '--fi-border-strong', usage: '强调描边（hover、时间轴线）', kind: 'color' },
     ],
   },
+  {
+    id: 'color-code',
+    title: '代码块',
+    desc: '正文与评论共用一套深色底，改这两组值两处一起变。',
+    tokens: [
+      { name: '--fi-code-bg', usage: '代码块底色', kind: 'color' },
+      { name: '--fi-code-bg-top', usage: '代码块顶部渐变起点', kind: 'color' },
+      { name: '--fi-code-fg', usage: '代码文字色', kind: 'color' },
+    ],
+  },
 ];
 
 /* ------------------------------------------------------------------
@@ -141,6 +151,12 @@ export const LAYOUT_TOKENS: DesignToken[] = [
   { name: '--fi-control-height-sm', usage: '小号控件高度', kind: 'length' },
   { name: '--fi-control-height-md', usage: '中号控件高度', kind: 'length' },
   { name: '--fi-control-height-lg', usage: '大号控件高度（移动端触控下限 44px）', kind: 'length' },
+  { name: '--fi-z-float', usage: '回顶按钮等浮动件（低于吸顶导航）', kind: 'length' },
+  { name: '--fi-z-sticky', usage: '吸顶导航、移动端导航面板', kind: 'length' },
+  { name: '--fi-z-scrim', usage: '全站遮罩层', kind: 'length' },
+  { name: '--fi-z-popover', usage: '浮层：想法气泡、移动端遮罩面板', kind: 'length' },
+  { name: '--fi-z-popover-raised', usage: '浮层内的抬升内容', kind: 'length' },
+  { name: '--fi-z-toast', usage: '轻提示（最高层）', kind: 'length' },
 ];
 
 /* ------------------------------------------------------------------
@@ -148,12 +164,14 @@ export const LAYOUT_TOKENS: DesignToken[] = [
    ------------------------------------------------------------------ */
 
 export const FONT_SIZES: DesignToken[] = [
-  { name: '--fi-font-size-xs', usage: '角标、极小说明', kind: 'fontSize' },
+  { name: '--fi-font-size-2xs', usage: '角标、徽标', kind: 'fontSize' },
+  { name: '--fi-font-size-xs', usage: '极小说明', kind: 'fontSize' },
   { name: '--fi-font-size-sm', usage: '说明文字、元信息', kind: 'fontSize' },
   { name: '--fi-font-size-md', usage: '正文', kind: 'fontSize' },
   { name: '--fi-font-size-lg', usage: '正文强调 / 移动端正文字号', kind: 'fontSize' },
   { name: '--fi-font-size-xl', usage: '小节标题', kind: 'fontSize' },
-  { name: '--fi-font-size-2xl', usage: '页面标题', kind: 'fontSize' },
+  { name: '--fi-font-size-2xl', usage: '区块大标题 / 页面副标题', kind: 'fontSize' },
+  { name: '--fi-font-size-3xl', usage: '页面标题', kind: 'fontSize' },
 ];
 
 export const FONT_WEIGHTS: DesignToken[] = [

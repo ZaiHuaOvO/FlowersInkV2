@@ -8,6 +8,7 @@ import { WorldService } from '../world.service';
 import { QuickUp, StaggerList } from '../../../common_ui/animations/animation';
 import { EquipmentCardComponent } from '../../../components/world/equipment-card/equipment-card.component';
 import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
+import { FlErrorStateComponent } from '../../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 import { CommentService } from '../../../services/comment.service';
 import { articleCommentSource } from '../../../shared/comment/comment-source.factory';
 import type { CommentSource } from '../../../shared/comment/comment.model';
@@ -23,6 +24,7 @@ import type { CommentSource } from '../../../shared/comment/comment.model';
     BlogTitleComponent,
     EquipmentCardComponent,
     FlCommentBoardComponent,
+    FlErrorStateComponent,
   ],
   templateUrl: './equipment.component.html',
   styleUrl: './equipment.component.css',
@@ -31,6 +33,7 @@ import type { CommentSource } from '../../../shared/comment/comment.model';
 export class EquipmentComponent implements OnInit {
   data: any[] = [];
   loading = true;
+  loadError = false;
 
   /** 装备评论是模块级线程，没有 targetId，所以可以在构造时一次性定下来 */
   readonly commentSource: CommentSource;
@@ -47,11 +50,18 @@ export class EquipmentComponent implements OnInit {
   }
 
   getEquipment(): void {
-    this.world.getEquipmentList().subscribe((res: any) => {
-      this.data = (res?.data?.categories ?? []).filter(
-        (cat: any) => (cat?.items?.length ?? 0) > 0,
-      );
-      this.loading = false;
+    this.loadError = false;
+    this.world.getEquipmentList().subscribe({
+      next: (res: any) => {
+        this.data = (res?.data?.categories ?? []).filter(
+          (cat: any) => (cat?.items?.length ?? 0) > 0,
+        );
+        this.loading = false;
+      },
+      error: () => {
+        this.loadError = true;
+        this.loading = false;
+      },
     });
   }
 }

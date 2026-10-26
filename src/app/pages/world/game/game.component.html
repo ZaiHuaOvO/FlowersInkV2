@@ -1,4 +1,4 @@
-<div class="game" nz-flex [nzVertical]="true" nzAlign="center">
+<div class="game fi-screen fi-page--flush" nz-flex [nzVertical]="true" nzAlign="center">
   <div class="content game-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true" @QuickUp>
     <flower-blog-title [title]="'再花的游戏库'"></flower-blog-title>
     <div class="game-toolbar">
@@ -12,7 +12,10 @@
       </p>
       <div class="game-toolbar__spacer" aria-hidden="true"></div>
     </div>
-    <nz-spin class="game-spin" [nzTip]="'游戏正在努力赶来中'" [nzSpinning]="loading">
+    <nz-spin class="game-spin" [nzTip]="'游戏正在努力赶来中'" [nzSpinning]="loading" [nzDelay]="600">
+      @if (loadError) {
+      <flower-error-state (retry)="getGame()"></flower-error-state>
+      } @else {
       @if (data.length > 0) {
         <nz-row
           class="game-grid game-grid--overview"
@@ -36,8 +39,9 @@
       } @else if (!loading) {
         <div class="game-empty" nz-flex nzAlign="center" nzJustify="center" nzVertical>
           <span class="game-empty-icon">🎮</span>
-          <span nz-typography class="game-empty-text">还没有记录任何游戏</span>
+          <span nz-typography class="fi-empty-note">还没有记录任何游戏</span>
         </div>
+      }
       }
     </nz-spin>
     <fl-comment-board [source]="commentSource" title="评论"></fl-comment-board>

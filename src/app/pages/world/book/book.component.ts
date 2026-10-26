@@ -22,6 +22,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { BookCardComponent } from '../../../components/world/book-card/book-card.component';
 import { RouterModule } from '@angular/router';
 import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { FlErrorStateComponent } from '../../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 
 @Component({
   selector: 'flower-book',
@@ -45,6 +46,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
     BookCardComponent,
     RouterModule,
     FlTagDirective,
+    FlErrorStateComponent,
   ],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css',
@@ -53,6 +55,7 @@ import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive
 export class BookComponent implements OnInit {
   data: any[] = [];
   loading = true;
+  loadError = false;
   isMobile: boolean = false;
   totalBooks = 0;
   totalReadingTime = 0;
@@ -73,11 +76,18 @@ export class BookComponent implements OnInit {
   }
 
   getBook(): void {
-    this.world.getBookList().subscribe((res: any) => {
-      this.data = res['data'].books;
-      this.totalBooks = res['data'].totalBooks;
-      this.totalReadingTime = res['data'].totalReadingTime;
-      this.loading = false;
+    this.loadError = false;
+    this.world.getBookList().subscribe({
+      next: (res: any) => {
+        this.data = res['data'].books;
+        this.totalBooks = res['data'].totalBooks;
+        this.totalReadingTime = res['data'].totalReadingTime;
+        this.loading = false;
+      },
+      error: () => {
+        this.loadError = true;
+        this.loading = false;
+      },
     });
   }
 }

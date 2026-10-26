@@ -23,6 +23,7 @@ import { AboutService } from './about.service';
 import { WindowService } from '../../services/window.service';
 import { ExternalLinkService } from '../../services/external-link.service';
 import { ensureMarkdownRuntimeLoaded } from '../../shared/utils/markdown-runtime-loader.util';
+import { FlErrorStateComponent } from '../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 
 interface NavItem {
   id: string;
@@ -68,6 +69,7 @@ const ACTIVE_LINE = 120;
     DatePipe,
     EditMessageComponent,
     GithubContributionsComponent,
+    FlErrorStateComponent,
   ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css',
@@ -83,6 +85,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   /** 关于页正文（Markdown），整页内容都由后台编辑 */
   markdownContent = '';
   loadingMarkdown = true;
+  loadError = false;
   markdownReady = false;
 
   /** Prism / ClipboardJS 的加载 Promise，正文落地前要先 await 它 */
@@ -129,8 +132,14 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   /* ---------- about content ---------- */
 
+  /** 错误态里的「重新加载」 */
+  retryLoadAbout(): void {
+    this.loadAboutPage();
+  }
+
   private loadAboutPage(): void {
     this.loadingMarkdown = true;
+    this.loadError = false;
     this.about.getAboutPage().subscribe({
       next: async (res: any) => {
         // 必须等运行时就绪再塞正文。clipboard 从 false 翻成 true 会让 ngx-markdown
@@ -140,6 +149,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
         this.loadingMarkdown = false;
       },
       error: () => {
+        this.loadError = true;
         this.loadingMarkdown = false;
       },
     });

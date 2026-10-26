@@ -21,6 +21,7 @@ import { isPinnedBlog } from '../../shared/utils/blog-pinned.util';
 import { getSafeTopInset } from '../../shared/utils/safe-area.util';
 import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
 import { AnnouncementDetailComponent } from './announcement-detail/announcement-detail.component';
+import { FlErrorStateComponent } from '../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 
 /**
  * 首页 hero 的入场动画方案，每次加载随机挑一套。
@@ -84,12 +85,14 @@ interface WelcomeStats {
     FlCardDirective,
     FlButtonComponent,
     AnnouncementCardComponent,
+    FlErrorStateComponent,
   ],
   animations: [SlowUp, QuickUp],
 })
 export class WelcomeComponent implements OnInit {
   data: any[] = [];
   loading = true;
+  loadError = false;
   numLoading = true;
   info: WelcomeStats = {
     blogTotal: 0,
@@ -183,17 +186,28 @@ export class WelcomeComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.applyHeroShift();
+    this.loadFeatured();
+  }
+
+  /** 精选文章；错误态里的「重新加载」也走这里 */
+  loadFeatured(): void {
     this.data = [];
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+    this.loadError = false;
+    this.loading = true;
     // 精选卡片只展示摘要，正文没必要整篇拉下来
     this.welcome
       .getBlogs({ star: true, contentLength: 200 })
-      .subscribe((res: any) => {
-      this.data = this.orderPinnedFirst(this.processedData(res['data'].data));
-      this.cdr.detectChanges();
-      this.loading = false;
-    });
+      .subscribe({
+        next: (res: any) => {
+          this.data = this.orderPinnedFirst(this.processedData(res['data'].data));
+          this.cdr.detectChanges();
+          this.loading = false;
+        },
+        error: () => {
+          this.loadError = true;
+          this.loading = false;
+        },
+      });
   }
 
   /**

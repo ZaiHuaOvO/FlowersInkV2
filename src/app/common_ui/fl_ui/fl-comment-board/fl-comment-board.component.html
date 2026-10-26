@@ -1,7 +1,7 @@
 <div class="fc-root">
   @if (shouldShowPanel) {
   @if (title) {
-  <h3 class="fc-title">{{ title }} ({{ commentCount }})</h3>
+  <h2 class="fc-title">{{ title }} ({{ commentCount }})</h2>
   }
 
   <!-- ════ 评论表单 ════ -->
@@ -78,7 +78,7 @@
   }
 
   <!-- ════ 评论列表 ════ -->
-  <nz-spin [nzSpinning]="loading">
+  <nz-spin [nzSpinning]="loading" [nzDelay]="600">
     <div class="fc-list" nz-flex nzVertical>
       @if (pendingNode) {
       <ng-template [ngTemplateOutlet]="commentNodeTmpl" [ngTemplateOutletContext]="{ $implicit: pendingNode }">

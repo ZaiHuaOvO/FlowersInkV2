@@ -1,7 +1,10 @@
-<div class="book" nz-flex [nzVertical]="true" nzAlign="center">
+<div class="book fi-screen fi-page--flush" nz-flex [nzVertical]="true" nzAlign="center">
   <div class="content book-content" nz-flex nzGap="middle" nzJustify="start" nzAlign="center" [nzVertical]="true">
     <flower-blog-title [title]="'再花的图书馆'"></flower-blog-title>
-    <nz-spin [nzTip]="'书籍正在努力赶来中'" [nzSpinning]="loading" style="width: 100%;">
+    <nz-spin [nzTip]="'书籍正在努力赶来中'" [nzSpinning]="loading" [nzDelay]="600" style="width: 100%;">
+      @if (loadError) {
+      <flower-error-state (retry)="getBook()"></flower-error-state>
+      } @else {
       <div class="book-main" nz-flex nzAlign="center" nzJustify="center" [nzGap]="30" [nzVertical]="true" @SlowUp>
         <div @QuickUp nz-flex [nzVertical]="true" nzAlign="center" nzGap="small" class="noto-sans-sc">
           <span nz-typography>
@@ -18,6 +21,7 @@
           }
         </div>
       </div>
+      }
     </nz-spin>
   </div>
 </div>

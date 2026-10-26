@@ -187,7 +187,7 @@
   inset: 0;
   width: 100%;
   translate: none;
-  z-index: 1000;
+  z-index: var(--fi-z-popover);
 }
 
 :host(.fi-idea-popover--sheet) .fi-idea-popover {

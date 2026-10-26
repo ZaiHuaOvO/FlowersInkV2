@@ -158,6 +158,10 @@ async function main() {
       path.join(distRoot, 'design', 'index.html'),
       renderDesignPage(template),
     ),
+    writeFileEnsured(
+      path.join(distRoot, 'donate', 'index.html'),
+      renderDonatePage(template),
+    ),
   ]);
 
   for (const blog of blogItems) {
@@ -748,8 +752,34 @@ function renderDesignPage(template) {
   });
 }
 
-function injectSeoHtml(template, options) {
-  const canonicalUrl = new URL(
+function renderDonatePage(template) {
+  // 赞赏页：有独立路由但没有静态外壳，线上会回落到首页那份 canonical / meta。
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>关于赞赏</h1>
+        <p>花墨是再花一个人写、一个人维护的站点。如果这里的内容帮到过你，可以请再花喝杯奶茶。</p>
+      </header>
+      <section class="fi-seo-section">
+        <h2>赞赏方式</h2>
+        <ul>
+          <li>支付宝 / 微信收款码（页面上可直接查看大图）</li>
+          <li>赞赏完全自愿，不影响任何内容的阅读</li>
+        </ul>
+      </section>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `关于赞赏 | ${siteName}`,
+    description: '支持花墨继续写下去：赞赏方式与用途说明。',
+    canonicalPath: '/donate',
+    ogType: 'website',
+    body,
+  });
+}
+
+function injectSeoHtml(template, options) {  const canonicalUrl = new URL(
     withTrailingSlash(options.canonicalPath),
     siteOrigin,
   ).toString();

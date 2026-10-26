@@ -1,9 +1,4 @@
-.message {
-    width: 100%;
-    max-width: 100%;
-    min-height: calc(100vh - 48px);
-    padding: var(--fi-space-6) clamp(12px, 2.2vw, 28px) var(--fi-space-7);
-}
+/* 页面外壳（宽度 / 外边距）走 common_ui/css/fi-layout.css 的 .fi-page--flush */
 
 /* 主列宽度沿用博客/归档页的窄版写法：宽屏收到 --fi-page-max-narrow（980px）。
    友链是一列人名片，不需要首页那种宽度，980px 下两列书签行读起来最舒服。 */
@@ -504,10 +499,6 @@
 
 /* ====== Responsive ====== */
 @media (max-width: 768px) {
-    .message {
-        padding: var(--fi-space-3) var(--fi-space-2) var(--fi-space-6);
-    }
-
     .content {
         width: 100%;
         margin-top: var(--fi-space-2);

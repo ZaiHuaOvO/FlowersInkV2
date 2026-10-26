@@ -1,7 +1,9 @@
 <div class="captcha-block" nz-flex [nzVertical]="true" nzGap="small">
   <div class="captcha-body" [class.captcha-body--inline]="inline" nz-flex nzGap="small"
     [nzWrap]="inline ? 'nowrap' : 'wrap'">
-    <div class="captcha-question" [class.captcha-question--disabled]="disabled || loading" (click)="onQuestionClick()"
+    <div class="captcha-question" role="button" tabindex="0" aria-label="换一道题"
+      [class.captcha-question--disabled]="disabled || loading" (click)="onQuestionClick()"
+      (keydown.enter)="onQuestionClick()" (keydown.space)="$event.preventDefault(); onQuestionClick()"
       (copy)="preventCopy($event)">
       @if (question) {
       <span nz-typography>{{ question }}</span>
