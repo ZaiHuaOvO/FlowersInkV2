@@ -68,6 +68,7 @@ CSS 的层叠规则：**未分层规则永远胜过分层规则**（不看顺序
 - `npm run lint:css`：stylelint，拦裸色值、重复声明、过深嵌套（见 `stylelint.config.mjs`）。
 - `npx impeccable detect src/`：设计反模式的静态检测；`detect http://localhost:4202/<route>` 才会跑对比度、标题层级等需要解析 DOM 的规则。
 - `npm run visual`：用本机 Chrome 无头渲染全部路由，产出计算样式快照与截图（`.visual/`，不入库）。
+  **默认拦截站点埋点上报**（`POST /site/visit`、`/site/visit/dwell`），本机测试不会计入访问统计；确实要计数时加 `--track`。
   命令：`npm run visual -- --out .visual/before`，改完再 `--out .visual/after`，最后
   `node scripts/visual-check.mjs --diff .visual/before .visual/after`。**视觉类改动必须用它做前后对比**，这是项目里唯一能挡住「看起来变了」的网。
 - `--block-api` 会阻断接口，用于验收错误态。

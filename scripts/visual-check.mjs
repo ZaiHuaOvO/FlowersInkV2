@@ -13,6 +13,9 @@
  *   node scripts/visual-check.mjs --base http://localhost:4202 --out .visual/after
  *   node scripts/visual-check.mjs --diff .visual/before .visual/after
  *
+ * 统计保护：默认拦截 POST /site/visit 与 /site/visit/dwell，避免本机测试污染站点访问统计
+ * （验证脚本本身要计数时加 --track）。
+ *
  * 只依赖 Node 22 内置的 WebSocket 与 fetch，不引入 puppeteer。
  */
 import { spawn } from 'node:child_process';
@@ -306,6 +309,12 @@ async function record() {
       if (process.argv.includes('--block-api')) {
         await cdp.send('Network.setBlockedURLs', { urls: ['*api.flowersink.com*'] });
         process.stdout.write('  (已阻断 api.flowersink.com，用于验收错误态)\n');
+      } else if (!process.argv.includes('--track')) {
+        // 本机测试不该算进站点访问统计：把埋点上报拦掉（页面其它请求照常）
+        await cdp.send('Network.setBlockedURLs', {
+          urls: ['*site/visit', '*site/visit/dwell'],
+        });
+        process.stdout.write('  (已拦截站点埋点上报；需要计数时加 --track)\n');
       }
       for (const [name, route] of routes) {
         process.stdout.write(`  ${vp.name.padEnd(7)} ${name}\n`);
