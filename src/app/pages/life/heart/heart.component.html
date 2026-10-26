@@ -51,7 +51,8 @@
         <section class="state-card" flCard>
           <flower-nodata></flower-nodata>
         </section>
-        } @else {
+        } @else if (!loading) {
+        <div class="timeline-reveal" [class.fi-reveal-in]="timelineRevealed">
         <header class="current-month-header">
           <h2>{{ activeSection?.label }}</h2>
           <p>ATMOSPHERIC CHRONOLOGY</p>
@@ -142,6 +143,7 @@
             }
           </section>
           }
+        </div>
         </div>
         }
       </nz-spin>

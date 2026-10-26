@@ -87,6 +87,8 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   loadingMarkdown = true;
   loadError = false;
   markdownReady = false;
+  /** 正文落地后才给容器加淡入类，避免和页面入场叠加 */
+  contentRevealed = false;
 
   /** Prism / ClipboardJS 的加载 Promise，正文落地前要先 await 它 */
   private markdownRuntime?: Promise<void>;
@@ -98,6 +100,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   // ---- Message board state ----
   messages = signal<MessageItem[]>([]);
   loadingMessages = true;
+  messagesRevealed = false;
   messagePage = 1;
   messageCount = 0;
 
@@ -140,6 +143,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   private loadAboutPage(): void {
     this.loadingMarkdown = true;
     this.loadError = false;
+    this.contentRevealed = false;
     this.about.getAboutPage().subscribe({
       next: async (res: any) => {
         // 必须等运行时就绪再塞正文。clipboard 从 false 翻成 true 会让 ngx-markdown
@@ -147,6 +151,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
         await this.markdownRuntime;
         this.markdownContent = res?.data?.content ?? '';
         this.loadingMarkdown = false;
+        this.contentRevealed = true;
       },
       error: () => {
         this.loadError = true;
@@ -383,12 +388,14 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   loadMessages(): void {
     this.loadingMessages = true;
+    this.messagesRevealed = false;
     this.about
       .getMessageList({ isApproved: true, pageSize: 30, page: this.messagePage })
       .subscribe((res: any) => {
         this.messages.set(res['data'].data ?? []);
         this.messageCount = res['data'].count;
         this.loadingMessages = false;
+        this.messagesRevealed = true;
       });
   }
 

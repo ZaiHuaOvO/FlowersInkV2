@@ -111,6 +111,8 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loading = true;
   loadingMessage = '点滴整理中...';
+  /** 时间轴落地后才给容器加淡入类，避免整页内容「啪」地跳出来 */
+  timelineRevealed = false;
   isMobile = false;
   errorMessage = '';
   affixOffsetTop = 84;
@@ -585,6 +587,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private fetchTimeline(): void {
     this.loading = true;
+    this.timelineRevealed = false;
     this.pickLoadingMessage();
     this.errorMessage = '';
 
@@ -609,6 +612,7 @@ export class HeartComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.applyFilterAndNavigator();
         this.loading = false;
+        this.timelineRevealed = true;
       },
       error: () => {
         this.loading = false;

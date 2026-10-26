@@ -126,6 +126,8 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   tagList: any[] = [];
   loading = true;
   loadError = false;
+  /** 正文落地后才给容器加淡入类，避免内容「啪」地跳出来 */
+  detailRevealed = false;
   markdownContent: string = '';
   anchors: Array<{
     children: Array<{ href: string; title: string }>;
@@ -336,6 +338,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     const fid = this.visitorTrackingService.getVisitorFid() || undefined;
     this.loading = true;
     this.loadError = false;
+    this.detailRevealed = false;
     this.blog.getBlogDetail(this.Id, fid).subscribe({
       next: (res: any) => {
         this.data = res['data'];
@@ -351,6 +354,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.hideWriteButton();
         this.markdownContent = this.data.content;
         this.loading = false;
+        this.detailRevealed = true;
         this.loadRelatedBlogs();
         this.loadIdeas();
       },

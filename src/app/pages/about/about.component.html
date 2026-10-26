@@ -20,7 +20,8 @@
   <main class="about-content">
 
     <!-- ===== 正文：整页内容（含头像与标题）来自后台编辑的 Markdown ===== -->
-    <nz-spin [nzTip]="'关于页正在赶来中'" [nzSpinning]="loadingMarkdown" [nzDelay]="600">
+    <nz-spin [nzTip]="'关于页正在赶来中'" [nzSpinning]="loadingMarkdown" [nzDelay]="600"
+      [class.fi-reveal-in]="contentRevealed">
       @if (loadError) {
       <flower-error-state (retry)="retryLoadAbout()" message="关于页正文没有加载出来"></flower-error-state>
       } @else {
@@ -37,7 +38,7 @@
       <nz-spin class="message-spin" [nzTip]="'留言正在赶来中'" [nzSpinning]="loadingMessages" [nzDelay]="600">
         <div nz-flex [nzVertical]="true">
           <flower-edit-message class="message-editor"></flower-edit-message>
-          <div class="fi-comment-wall" #wall>
+          <div class="fi-comment-wall" #wall [class.fi-reveal-in]="messagesRevealed">
             @for (column of messageColumns(); track $index) {
             <div class="fi-wall-col">
               @for (note of column; track note.item.id) {
@@ -60,7 +61,9 @@
               }
             </div>
             } @empty {
+            @if (!loadingMessages) {
             <div class="fi-comment-wall__empty">还没有留言</div>
+            }
             }
           </div>
           <nz-pagination class="message-pagination" [nzPageIndex]="messagePage" [nzTotal]="messageCount" nzSimple

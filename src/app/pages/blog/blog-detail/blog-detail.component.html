@@ -31,7 +31,8 @@
           <span>{{ ideasEnabled ? '关闭想法' : '显示想法' }}</span>
         </button>
       </div>
-      <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" [nzDelay]="600">
+      <nz-spin class="blog-detail-spin" [nzTip]="'博客正在赶来中'" [nzSpinning]="loading" [nzDelay]="600"
+        [class.fi-reveal-in]="detailRevealed">
         @if (loadError) {
         <flower-error-state (retry)="getBlogDetail()" message="这篇文章没有加载出来"></flower-error-state>
         } @else {

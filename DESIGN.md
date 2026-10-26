@@ -95,6 +95,7 @@
 
 - 三档时长（fast/normal/slow）+ 一条缓动 `--fi-ease-standard`。Angular 触发器在 `common_ui/animations/animation.ts` 里另存同一组常量（Web Animations API 不认 CSS 变量），`/design` 动效章节是两边的对照表。
 - 入场：页面主体 20px 上浮 + 淡入；侧栏晚半拍。**不再加路由转场**（懒加载 + 页面自入场已是这套架构的正解）。
+- 异步内容落地：数据到位那一刻才给容器加 `.fi-reveal-in`（`fi-base.css`），纯不透明度 320ms 淡入、不位移。加载中的骨架屏同样走 600ms 门槛，不许一进页面就闪一下再换掉。
 - 不做：滚动揭示（会推迟已加载内容的可见时间）、无限环境动画（现有 4 个已足够）、纯装饰弹跳。
 - 回弹曲线（`cubic-bezier(0.34,1.56,0.64,1)`）**只用于「弹出来」的语义**：想法气泡、点赞爆发。其他地方用 `--fi-ease-standard`。
 - 循环/位移动画必须被 `fi-base.css` 的 `prefers-reduced-motion` 覆盖；Angular 侧的减少动态由 `app.config.ts` 关闭。

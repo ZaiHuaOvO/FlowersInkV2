@@ -139,19 +139,23 @@
   flex-basis: 10px;
 }
 
-/* ── 加载占位图 ── */
+/* ── 加载占位图 ──
+   600ms 之内就载入完成时整块不出现，避免「先闪一格灰格子再换成真图」；
+   真数据抵达的淡入由模板上的 .fi-reveal-in 负责。 */
 .gh-skeleton-line {
   display: block;
   height: 14px;
   border-radius: 6px;
   background: linear-gradient(
     90deg,
-    var(--fi-border) 25%,
-    var(--fi-surface-soft) 50%,
-    var(--fi-border) 75%
+    var(--fi-border-strong) 25%,
+    var(--fi-surface) 50%,
+    var(--fi-border-strong) 75%
   );
   background-size: 200% 100%;
-  animation: gh-shimmer 1.4s ease-in-out infinite;
+  opacity: 0;
+  animation: gh-skeleton-appear var(--fi-motion-normal) ease-out 600ms forwards,
+    gh-shimmer 1.4s ease-in-out 800ms infinite;
 }
 
 .gh-skeleton-line--title {
@@ -159,16 +163,41 @@
   max-width: 280px;
 }
 
+/* 占位时把「月份标签」与「图例」两行的高度一并留出来，
+   真图落地时高度不变，下方内容不会被顶一下 */
+.gh-chart--loading {
+  padding-top: 14px;
+  padding-bottom: 22px;
+}
+
 .gh-skeleton-graph {
+  position: relative;
+  overflow: hidden;
   display: flex;
   gap: 3px;
+  opacity: 0;
+  animation: gh-skeleton-appear var(--fi-motion-normal) ease-out 600ms forwards;
+}
+
+/* 一道横向扫光：让占位格读起来是「正在加载」，而不是「全是 0 提交的空热力图」 */
+.gh-skeleton-graph::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--fi-surface) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: gh-skeleton-sweep 1.6s ease-in-out 800ms infinite;
 }
 
 .gh-cell--skeleton {
-  background: var(--fi-border);
+  background: var(--fi-border-strong);
   border-radius: 2.5px;
-  opacity: 0.55;
-  animation: gh-skeleton-pulse 1.4s ease-in-out infinite;
+  opacity: 0.3;
 }
 
 /* ── 错误态 ── */
@@ -208,7 +237,12 @@
   100% { background-position: -200% 0; }
 }
 
-@keyframes gh-skeleton-pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.9; }
+@keyframes gh-skeleton-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gh-skeleton-sweep {
+  0% { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
 }

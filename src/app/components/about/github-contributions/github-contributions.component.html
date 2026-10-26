@@ -3,7 +3,7 @@
     @if (loading) {
     <span class="gh-skeleton-line gh-skeleton-line--title"></span>
     } @else {
-    <p class="gh-total">{{ totalText }}</p>
+    <p class="gh-total fi-reveal-in">{{ totalText }}</p>
     }
     <nav class="gh-tabs" aria-label="时间范围筛选">
       <button type="button" class="gh-tab" [class.gh-tab--active]="selectedKey === 'last'"
@@ -16,9 +16,9 @@
   </header>
 
   @if (loading) {
-  <div class="gh-chart">
+  <div class="gh-chart gh-chart--loading">
     <div class="gh-graph">
-      <div class="gh-skeleton-graph" aria-label="正在加载 GitHub 贡献数据">
+      <div class="gh-skeleton-graph" role="status" aria-label="正在加载 GitHub 贡献数据">
         @for (col of skeletonColumns; track col) {
         <div class="gh-col">
           @for (row of skeletonRows; track row) {
@@ -35,7 +35,7 @@
     <button type="button" class="gh-retry" (click)="retry()">重试</button>
   </div>
   } @else {
-  <div class="gh-chart" #ghChart>
+  <div class="gh-chart fi-reveal-in" #ghChart>
     <div class="gh-graph">
       <div class="gh-months">
         @for (col of columns; track $index) {

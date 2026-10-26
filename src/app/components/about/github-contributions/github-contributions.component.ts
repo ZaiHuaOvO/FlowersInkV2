@@ -109,7 +109,8 @@ export class GithubContributionsComponent implements OnInit {
       this.loading = false;
       const activeKey = loaded['last'] ? 'last' : this.tabKeys.find((k) => loaded[k])!;
       this.selectedKey = activeKey;
-      this.applyPayload(loaded[activeKey]);
+      // 首次渲染时图体是随 @if 新建的，模板上的 .fi-reveal-in 已经淡入，别再播一遍
+      this.applyPayload(loaded[activeKey], false);
     });
   }
 
@@ -170,7 +171,7 @@ export class GithubContributionsComponent implements OnInit {
     return tabs;
   }
 
-  private applyPayload(payload: GithubContributionsData): void {
+  private applyPayload(payload: GithubContributionsData, animate = true): void {
     const total = payload.total ?? 0;
     const period =
       payload.mode === 'year' && payload.year !== undefined
@@ -178,10 +179,12 @@ export class GithubContributionsComponent implements OnInit {
         : '近一年';
     this.totalText = `${total.toLocaleString('en-US')} 次提交，${period}`;
     this.columns = this.buildColumns(payload);
-    this.animateChartIn();
+    if (animate) {
+      this.animateChartIn();
+    }
   }
 
-  /** 切换筛选/刷新后对整图做一次淡入，避免生硬跳变 */
+  /** 切换筛选后对整图做一次淡入，避免生硬跳变（只动不透明度，不做位移） */
   private animateChartIn(): void {
     const el = this.ghChart?.nativeElement;
     if (!el || typeof el.animate !== 'function') {
@@ -190,11 +193,8 @@ export class GithubContributionsComponent implements OnInit {
     try {
       el.style.opacity = '0';
       el.animate(
-        [
-          { opacity: 0, transform: 'translateY(6px)' },
-          { opacity: 1, transform: 'translateY(0)' },
-        ],
-        { duration: 220, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+        [{ opacity: 0 }, { opacity: 1 }],
+        { duration: 240, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
       ).onfinish = () => {
         el.style.opacity = '';
       };
