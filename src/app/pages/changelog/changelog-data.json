@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 465,
+  "total": 466,
   "records": [
+    {
+      "uid": "50e885d",
+      "type": "fix",
+      "date": "2026-10-27",
+      "desc": "修复博客详情页的想法浮窗被右侧卡片挡住的问题",
+      "important": false,
+      "repo": "site",
+      "sha": "50e885d3a71a0c3866d76afbaaa564fd278a0013"
+    },
     {
       "uid": "173ff43",
       "type": "chore",
