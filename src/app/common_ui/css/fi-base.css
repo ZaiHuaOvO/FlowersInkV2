@@ -180,8 +180,15 @@ a:hover {
   to   { opacity: 1; }
 }
 
+/*
+ * 不加 fill-mode：动画结束后元素要回到「没有动画」的状态。
+ * 带 `both`（或 forwards）时动画会一直留在 effect 里，浏览器因此始终把这个
+ * 容器当成层叠上下文 —— 里面的浮层再高的 z-index 也抬不出这一层，
+ * 文章详情页的想法浮窗就是被它挡在右侧栏卡片下面的。
+ * 首尾值本来就是 0 → 1，不填也看不出区别（本动画没有 delay）。
+ */
 .fi-reveal-in {
-  animation: fi-reveal-fade-in var(--fi-motion-slow) ease-out both;
+  animation: fi-reveal-fade-in var(--fi-motion-slow) ease-out;
 }
 
 /* ============================================================
