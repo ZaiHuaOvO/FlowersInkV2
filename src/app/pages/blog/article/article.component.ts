@@ -16,7 +16,7 @@ import { BlogService } from '../blog.service';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
 import { RefreshUp, SlowUp, QuickUp } from '../../../common_ui/animations/animation';
 import { WindowService } from '../../../services/window.service';
@@ -80,6 +80,8 @@ export class ArticleComponent implements OnInit, AfterViewInit {
   constructor(
     private blog: BlogService,
     private window: WindowService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
     private readonly destroyRef: DestroyRef,
   ) {
     this.window.bindIsMobile(this.destroyRef, (isMobile) => {
@@ -88,6 +90,18 @@ export class ArticleComponent implements OnInit, AfterViewInit {
     this.searchControl.valueChanges
       .pipe(debounceTime(500), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
+        this.applyFilter();
+      });
+    // 地址栏是标签状态的唯一出口：直接访问 ?tag=xxx、浏览器前进后退都从这里同步。
+    // 点击标签时也会写回地址，subscription 收到同值直接跳过，避免重复筛选。
+    this.route.queryParamMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        const tag = (params.get('tag') ?? '').trim();
+        if (tag === this.selectedTag) {
+          return;
+        }
+        this.selectedTag = tag;
         this.applyFilter();
       });
     this.destroyRef.onDestroy(() => this.sentinelObserver?.disconnect());
@@ -128,6 +142,14 @@ export class ArticleComponent implements OnInit, AfterViewInit {
       this.tagIcons = res.icons?.data ?? [];
       this.tagIconByLabel = this.buildTagIconMap(res.tags?.data);
       this.tagList = this.buildTagList(this.allData);
+      // 地址里带了不存在的标签：回落到「全部」并清掉参数，避免打开后一片空白
+      if (
+        this.selectedTag &&
+        !this.tagList.some((item) => item.tag === this.selectedTag)
+      ) {
+        this.selectedTag = '';
+        this.writeTagToUrl('');
+      }
       this.applyFilter();
       this.loading = false;
       this.listMotionTick += 1;
@@ -209,8 +231,22 @@ export class ArticleComponent implements OnInit, AfterViewInit {
   }
 
   selectTag(tag: string): void {
+    if (tag === this.selectedTag) {
+      return;
+    }
     this.selectedTag = tag;
     this.applyFilter();
+    this.writeTagToUrl(tag);
+  }
+
+  /** 把当前标签写回地址（空串表示「全部」，顺带移除参数） */
+  private writeTagToUrl(tag: string): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tag: tag || null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
   }
 }
 

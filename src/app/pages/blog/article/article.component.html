@@ -1,10 +1,13 @@
 <div class="article fi-screen fi-page--flush" nz-flex [nzVertical]="true" nzAlign="center">
     <flower-blog-title [title]="'写作'"></flower-blog-title>
     @if (isMobile) {
-    <div class="search" flCard @QuickUp>
+    <div class="search mobile-search" flCard @QuickUp>
         <nz-input-group [nzSuffix]="suffixIconSearch">
             <input type="text" nz-input flInput placeholder="搜索文章" [formControl]="searchControl" />
         </nz-input-group>
+        <!-- 移动端标签入口：同一套筛选条，横向滚动；选中值照常写回 ?tag= -->
+        <fl-tag-filter layout="chips" [items]="tagList" [tagIcons]="tagIcons" [selected]="selectedTag"
+            (select)="selectTag($event)"></fl-tag-filter>
     </div>
     <ng-template #suffixIconSearch>
         <span nz-icon nzType="search"></span>

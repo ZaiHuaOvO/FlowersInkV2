@@ -92,3 +92,29 @@
   background: color-mix(in srgb, var(--fi-text-heading) 30%, transparent);
   color: var(--fi-text-inverse);
 }
+
+/* chips —— 横向滚动形态（写作页移动端筛选入口）。
+   竖排侧栏在窄屏会被拉成一长列，这里收成一排可横滑的胶囊，
+   保持同一套按钮/图标/计数标记，只是换布局。 */
+.tag-filter--chips .tag-filter-list {
+  flex-direction: row;
+  gap: var(--fi-space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tag-filter--chips .tag-filter-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tag-filter--chips .tag-filter-button {
+  width: auto;
+  flex: 0 0 auto;
+  gap: var(--fi-space-2);
+  padding: 0 var(--fi-space-3);
+  /* 移动端触控目标不小于 44px */
+  min-height: 44px;
+  border-radius: var(--fi-radius-pill);
+  white-space: nowrap;
+}

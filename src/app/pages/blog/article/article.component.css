@@ -35,6 +35,13 @@
     height: auto;
 }
 
+/* 移动端搜索卡：搜索框与标签条上下排，一个卡片里放完 */
+.mobile-search {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fi-space-3);
+}
+
 .tag {
     width: 100%;
 }

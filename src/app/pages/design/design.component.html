@@ -550,6 +550,13 @@
               (select)="selectTagFilter($event)"></fl-tag-filter>
           </div>
         </div>
+        <div class="ds-subsection">
+          <h3 class="ds-subsection-title fi-text-strong">chips —— 横向滚动（移动端筛选入口）</h3>
+          <div class="ds-demo-row" flCard>
+            <fl-tag-filter layout="chips" [items]="tagFilterItems" [tagIcons]="tagIcons"
+              [selected]="selectedTagFilter" (select)="selectTagFilter($event)"></fl-tag-filter>
+          </div>
+        </div>
       </section>
 
       <!-- ── 11 提示 ────────────────────────────────── -->

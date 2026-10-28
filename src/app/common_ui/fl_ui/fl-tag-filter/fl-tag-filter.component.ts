@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 /**
  * 筛选条图标的图形原语。几何由 API 统一下发
@@ -59,15 +66,44 @@ const FALLBACK_SHAPES: TagFilterIconShape[] = [
   standalone: true,
   templateUrl: './fl-tag-filter.component.html',
   styleUrl: './fl-tag-filter.component.css',
+  host: {
+    '[class.tag-filter--chips]': "layout === 'chips'",
+  },
 })
-export class FlTagFilterComponent {
+export class FlTagFilterComponent implements AfterViewChecked {
   /** 各标签及其数量（不含「全部」） */
   @Input() items: TagFilterItem[] = [];
   /** 可选图标目录（来自 API）；空则全部回落到默认「标签」图形 */
   @Input() tagIcons: TagFilterIcon[] = [];
   /** 当前选中标签，空串表示全部 */
   @Input() selected = '';
+  /** list = 侧栏竖排（默认）；chips = 移动端横向滚动条 */
+  @Input() layout: 'list' | 'chips' = 'list';
   @Output() select = new EventEmitter<string>();
+
+  /** chips 形态下已把哪个选中项滚进可视区，避免每轮变更检测重复滚动 */
+  private scrolledSelection: string | null = null;
+
+  constructor(private readonly host: ElementRef<HTMLElement>) {}
+
+  /**
+   * chips 是横向滚动的：深链或前进后退切到的标签可能在可视区外，
+   * 只有选中状态本身不会告诉用户「当前筛的是哪个」。这里把它滚回中间。
+   */
+  ngAfterViewChecked(): void {
+    if (this.layout !== 'chips' || this.selected === this.scrolledSelection) {
+      return;
+    }
+    const active = this.host.nativeElement.querySelector<HTMLElement>(
+      '.tag-filter-button.active',
+    );
+    // 数据还没到时没有选中按钮，等下一次检测，不能提前记为已滚
+    if (!active) {
+      return;
+    }
+    this.scrolledSelection = this.selected;
+    active.scrollIntoView({ block: 'nearest', inline: 'center' });
+  }
 
   get totalCount(): number {
     return this.items.reduce((sum, item) => sum + item.count, 0);
