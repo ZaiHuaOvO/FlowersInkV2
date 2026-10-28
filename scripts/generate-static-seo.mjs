@@ -9,7 +9,9 @@ import {
   SITE_IMAGE,
   SITE_LANGUAGE,
   buildRssXml,
+  buildTagRssXml,
   buildSitemapXml,
+  TAG_FEEDS,
   escapeXml,
   normalizeDescription,
   withTrailingSlash,
@@ -92,6 +94,12 @@ async function main() {
     writeFileEnsured(path.join(distRoot, 'robots.txt'), buildRobotsTxt()),
     writeFileEnsured(path.join(distRoot, 'sitemap.xml'), sitemapXml),
     writeFileEnsured(path.join(distRoot, 'rss.xml'), rssXml),
+    ...TAG_FEEDS.map((feed) =>
+      writeFileEnsured(
+        path.join(distRoot, `rss-${feed.slug}.xml`),
+        buildTagRssXml(blogItems, feed),
+      ),
+    ),
     writeFileEnsured(
       path.join(distRoot, 'link', 'index.html'),
       renderLinkPage(template, friendLinks),

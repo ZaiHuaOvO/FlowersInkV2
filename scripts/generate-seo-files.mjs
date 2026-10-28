@@ -16,7 +16,14 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildRssXml, buildSitemapXml, SITE_ORIGIN } from './seo-files.mjs';
+import {
+  buildRssXml,
+  buildSitemapXml,
+  buildTagRssXml,
+  filterBlogsByTag,
+  TAG_FEEDS,
+  SITE_ORIGIN,
+} from './seo-files.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const API_ORIGIN = process.env.FLOWERSINK_API_ORIGIN ?? 'https://api.flowersink.com';
@@ -70,9 +77,22 @@ async function main() {
   await writeAtomic(path.join(outDir, 'rss.xml'), buildRssXml(blogs));
   await writeAtomic(path.join(outDir, 'sitemap.xml'), buildSitemapXml(blogs));
 
+  // 标签订阅单独成文件；标签暂时没有文章时也照常写出一份空频道
+  const tagFeedCounts = [];
+  for (const feed of TAG_FEEDS) {
+    await writeAtomic(
+      path.join(outDir, `rss-${feed.slug}.xml`),
+      buildTagRssXml(blogs, feed),
+    );
+    tagFeedCounts.push(
+      `${feed.slug}=${filterBlogsByTag(blogs, feed.tag).length} 篇`,
+    );
+  }
+
   console.log(
     `[generate-seo-files] 已更新 ${outDir} 下的 rss.xml 与 sitemap.xml，` +
-      `共 ${blogs.length} 篇文章，耗时 ${Date.now() - startedAt}ms`,
+      `共 ${blogs.length} 篇文章，耗时 ${Date.now() - startedAt}ms` +
+      (tagFeedCounts.length ? `（标签订阅：${tagFeedCounts.join('，')}）` : ''),
   );
 }
 

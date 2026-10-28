@@ -24,6 +24,20 @@ export const RSS_DESCRIPTION = '再花的个人博客：生活随笔、书影音
 /** RSS 最多收录多少篇（保持订阅体积可控） */
 export const RSS_ITEM_LIMIT = 50;
 
+/**
+ * 标签专属订阅。
+ * slug 决定文件名 `rss-<slug>.xml`，tag 必须与博客标签完全一致（按逗号分隔后的单个 token 比对）。
+ * 新增一个只含某标签的订阅，就在这里加一条。
+ */
+export const TAG_FEEDS = [
+  {
+    slug: 'haowu',
+    tag: '好物',
+    title: `${SITE_NAME} · 好物`,
+    description: '再花用过、买过、真心觉得值得分享的东西。',
+  },
+];
+
 /** 目录型路径统一补尾斜杠，与 nginx 实际服务地址保持一致 */
 export function withTrailingSlash(urlPath) {
   if (urlPath === '/' || urlPath.includes('.') || urlPath.endsWith('/')) {
@@ -54,17 +68,25 @@ export function normalizeDescription(value) {
   );
 }
 
-export function buildRssXml(blogs) {
+/** 博客的 tag 字段是逗号分隔的标签串，拆成 token 才能精确比对 */
+export function parseBlogTags(blog) {
+  return String(blog.tag ?? '')
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
+export function buildRssXml(blogs, channel = {}) {
+  const channelTitle = channel.title ?? SITE_NAME;
+  const channelLink = channel.link ?? `${SITE_ORIGIN}/`;
+  const channelDescription = channel.description ?? RSS_DESCRIPTION;
+
   const items = blogs
     .slice()
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, RSS_ITEM_LIMIT)
     .map((blog) => {
-      const tags = String(blog.tag ?? '')
-        .split(',')
-        .map((tag) => tag.trim())
-        .filter(Boolean);
-      const categories = tags
+      const categories = parseBlogTags(blog)
         .map((tag) => `<category>${escapeXml(tag)}</category>`)
         .join('');
       const detailUrl = `${SITE_ORIGIN}${withTrailingSlash(`/blog/blog-detail/${blog.id}`)}`;
@@ -72,7 +94,22 @@ export function buildRssXml(blogs) {
     })
     .join('\n');
 
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>${escapeXml(SITE_NAME)}</title>\n  <link>${escapeXml(`${SITE_ORIGIN}/`)}</link>\n  <description>${escapeXml(RSS_DESCRIPTION)}</description>\n  <language>${SITE_LANGUAGE}</language>\n  <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>\n  <image>\n    <url>${escapeXml(SITE_IMAGE)}</url>\n    <title>${escapeXml(SITE_NAME)}</title>\n    <link>${escapeXml(`${SITE_ORIGIN}/`)}</link>\n  </image>\n${items}\n</channel>\n</rss>\n`;
+  // 标签订阅与主订阅共用同一套 guid 与摘要口径，同一篇文章不会被当成两篇
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>${escapeXml(channelTitle)}</title>\n  <link>${escapeXml(channelLink)}</link>\n  <description>${escapeXml(channelDescription)}</description>\n  <language>${SITE_LANGUAGE}</language>\n  <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>\n  <image>\n    <url>${escapeXml(SITE_IMAGE)}</url>\n    <title>${escapeXml(channelTitle)}</title>\n    <link>${escapeXml(channelLink)}</link>\n  </image>\n${items}\n</channel>\n</rss>\n`;
+}
+
+/** 只保留含指定标签的文章（按标签 token 精确匹配） */
+export function filterBlogsByTag(blogs, tagLabel) {
+  return blogs.filter((blog) => parseBlogTags(blog).includes(tagLabel));
+}
+
+/** 只保留含指定标签的文章，没有匹配时输出一个合法的空频道 */
+export function buildTagRssXml(blogs, feed) {
+  return buildRssXml(filterBlogsByTag(blogs, feed.tag), {
+    title: feed.title,
+    link: `${SITE_ORIGIN}${withTrailingSlash('/blog/article')}`,
+    description: feed.description,
+  });
 }
 
 export function buildSitemapXml(blogs) {
@@ -89,6 +126,11 @@ export function buildSitemapXml(blogs) {
     { url: '/changelog', changefreq: 'monthly', priority: 0.3 },
     { url: '/life', changefreq: 'weekly', priority: 0.6 },
     { url: '/rss.xml', changefreq: 'daily', priority: 0.4 },
+    ...TAG_FEEDS.map((feed) => ({
+      url: `/rss-${feed.slug}.xml`,
+      changefreq: 'daily',
+      priority: 0.3,
+    })),
   ];
 
   const entries = [
