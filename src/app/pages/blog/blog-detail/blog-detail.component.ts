@@ -26,7 +26,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { GeneralService } from '../../../services/general.service';
 import { debounceTime, fromEvent } from 'rxjs';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzAnchorModule } from 'ng-zorro-antd/anchor';
@@ -230,6 +230,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private blog: BlogService,
     private general: GeneralService,
     private activateInfo: ActivatedRoute,
+    private router: Router,
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId: object,
     private window: WindowService,
@@ -358,11 +359,21 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadRelatedBlogs();
         this.loadIdeas();
       },
-      error: () => {
+      error: (error: unknown) => {
+        // 文章已被删除/从未存在：接口回 404，这不是「加载失败」，交给站内 404 页。
+        // 这里保持 loading 不落地，跳转前只看到转圈，不会闪一屏空文章。
+        if (this.isNotFound(error)) {
+          this.router.navigate(['/404'], { replaceUrl: true });
+          return;
+        }
         this.loadError = true;
         this.loading = false;
       },
     });
+  }
+
+  private isNotFound(error: unknown): boolean {
+    return (error as { status?: number } | null)?.status === 404;
   }
 
   private loadRelatedBlogs(): void {

@@ -170,6 +170,10 @@ async function main() {
       path.join(distRoot, 'donate', 'index.html'),
       renderDonatePage(template),
     ),
+    writeFileEnsured(
+      path.join(distRoot, '404', 'index.html'),
+      renderNotFoundPage(template),
+    ),
   ]);
 
   for (const blog of blogItems) {
@@ -783,6 +787,35 @@ function renderDonatePage(template) {
     description: '支持花墨继续写下去：赞赏方式与用途说明。',
     canonicalPath: '/donate',
     ogType: 'website',
+    body,
+  });
+}
+
+function renderNotFoundPage(template) {
+  // 文章下线后详情页会跳到 /404（路由由 ** 兜底）。没有这份外壳时，
+  // 直接访问 /404 会回落到首页外壳，顶着首页的 canonical 被当成首页收录。
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>页面未找到</h1>
+        <p>这个页面可能已经下线或被移走了，去别处逛逛吧。</p>
+      </header>
+      <section class="fi-seo-section">
+        <h2>可以试试</h2>
+        <ul>
+          <li><a href="${withTrailingSlash('/')}">回到首页</a></li>
+          <li><a href="${withTrailingSlash('/blog/article')}">看看写作列表</a></li>
+        </ul>
+      </section>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `页面未找到 | ${siteName}`,
+    description: '这个页面可能已经下线或被移走了。',
+    canonicalPath: '/404',
+    ogType: 'website',
+    robots: 'noindex,follow',
     body,
   });
 }
