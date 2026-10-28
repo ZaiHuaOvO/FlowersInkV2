@@ -16,19 +16,20 @@
     "emoji:manifest": "node scripts/gen-emoji-manifest.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "audit": "npm audit --registry=https://registry.npmjs.org/",
     "lint:css": "stylelint \"src/**/*.css\"",
     "visual": "node scripts/visual-check.mjs"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "21.2.17",
-    "@angular/common": "21.2.17",
-    "@angular/compiler": "21.2.17",
-    "@angular/core": "21.2.17",
-    "@angular/forms": "21.2.17",
-    "@angular/platform-browser": "21.2.17",
-    "@angular/platform-browser-dynamic": "21.2.17",
-    "@angular/router": "21.2.17",
+    "@angular/animations": "21.2.25",
+    "@angular/common": "21.2.25",
+    "@angular/compiler": "21.2.25",
+    "@angular/core": "21.2.25",
+    "@angular/forms": "21.2.25",
+    "@angular/platform-browser": "21.2.25",
+    "@angular/platform-browser-dynamic": "21.2.25",
+    "@angular/router": "21.2.25",
     "clipboard": "^2.0.11",
     "emoji-toolkit": "^9.0.1",
     "mermaid": "^11.12.1",
@@ -40,9 +41,9 @@
     "zone.js": "^0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "21.2.17",
-    "@angular/cli": "21.2.17",
-    "@angular/compiler-cli": "21.2.17",
+    "@angular-devkit/build-angular": "21.2.28",
+    "@angular/cli": "21.2.28",
+    "@angular/compiler-cli": "21.2.25",
     "@types/jasmine": "~5.1.12",
     "@types/node": "^24.10.0",
     "jasmine-core": "~5.12.1",
@@ -55,6 +56,10 @@
     "less-loader": "^12.3.0",
     "stylelint": "^17.16.0",
     "typescript": "~5.9.3"
+  },
+  "overrides": {
+    "katex": "^0.19.1",
+    "undici": "^7.30.1"
   },
   "volta": {
     "node": "22.12.0",
