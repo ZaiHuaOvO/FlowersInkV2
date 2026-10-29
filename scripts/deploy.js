@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
@@ -15,8 +15,8 @@ const REMOTE_USER = 'root';
 const REMOTE_HOST = '47.109.133.108';
 const REMOTE_PATH = '/www/wwwroot/FlowersInkV2/browser';
 // 带 hash 的资源文件名不重名，直接增量解包会让历次构建的产物一直堆着；
-// 但又不能部署时立刻删——CDN 上的 index.html 会滞后约 1 小时，那段时间
-// 访客拿到的旧 HTML 还在引用旧 chunk，删早了就是白屏。所以按时间留几天再清。
+// 但又不能部署时立刻删——index.html 在边缘有 300 秒缓存，部署后靠刷新缓存
+// 才立刻失效，多留几天能兜住刷新失败的情况，删早了就是白屏。所以按时间留几天再清。
 const STALE_DAYS = 7;
 const REMOTE_SCRIPTS_PATH = '/www/wwwroot/FlowersInkV2/scripts';
 const SSH_KEY = path.join(process.env.HOME || process.env.USERPROFILE, '.ssh', 'flowersink_rsa');
@@ -26,8 +26,62 @@ const DIST_DIR = path.resolve(__dirname, '..', 'dist', 'flowers-ink-v2', 'browse
 const SEO_SCRIPTS_DIR = path.resolve(__dirname);
 const SEO_SCRIPT_FILES = ['seo-files.mjs', 'generate-seo-files.mjs'];
 
+// 部署后必须刷新边缘缓存：index.html 有 300 秒缓存，不刷新的话旧 HTML
+// 会继续引用这次已经换掉的旧 chunk，最长 5 分钟内访客是白屏。
+const ESA_SITE_ID = '181038186332384';
+const ESA_PURGE_FILES = ['https://flowersink.com/', 'https://flowersink.com/index.html'];
+// 这几个目录下有按路由预生成的静态 SEO 外壳，同样要一起刷
+const ESA_PURGE_DIRS = [
+  'https://flowersink.com/blog/',
+  'https://flowersink.com/life/',
+  'https://flowersink.com/about/',
+  'https://flowersink.com/book/',
+  'https://flowersink.com/equipment/',
+];
+
 function run(cmd) {
   execSync(cmd, { stdio: 'inherit', shell: true });
+}
+
+// 用 execFileSync 而不是 run()：Windows 下 execSync 走 cmd.exe，
+// 单引号不生效，JSON 参数会被拆坏。传数组参数可以完全避开 shell 转义。
+function resolveAliyunCli() {
+  const candidates = [
+    'aliyun',
+    path.join(process.env.HOME || process.env.USERPROFILE || '', 'bin', 'aliyun-cli', 'aliyun.exe'),
+  ];
+  for (const candidate of candidates) {
+    try {
+      execFileSync(candidate, ['version'], { stdio: 'ignore' });
+      return candidate;
+    } catch {
+      // 换下一个候选
+    }
+  }
+  return null;
+}
+
+function purgeEsaCache() {
+  const cli = resolveAliyunCli();
+  if (!cli) {
+    console.log('  ⚠ 没找到 aliyun CLI，缓存没有刷新！');
+    console.log('    旧 index.html 最长 5 分钟内仍会引用旧 chunk，请手动刷新。');
+    return;
+  }
+  const purge = (type, content) =>
+    execFileSync(
+      cli,
+      ['esa', 'PurgeCaches', '--SiteId', ESA_SITE_ID, '--Type', type, '--Content', JSON.stringify(content)],
+      { stdio: 'ignore' }
+    );
+  try {
+    purge('file', { Files: ESA_PURGE_FILES });
+    purge('directory', { Directories: ESA_PURGE_DIRS });
+    console.log('  ~ 首页与各栏目目录已刷新～');
+  } catch (err) {
+    console.log('  ⚠ 缓存刷新失败，请手动去 ESA 控制台刷新');
+    console.log('    ' + (err && err.message ? err.message : err));
+  }
 }
 
 console.log('');
@@ -53,6 +107,12 @@ run(
     `chown -R www:www ${REMOTE_PATH}"`
 );
 console.log('  ~ 包裹已安全抵达服务器～');
+
+console.log('');
+console.log('  ╭' + '─'.repeat(36) + '╮');
+console.log('  │   🧹 刷新边缘缓存~                 │');
+console.log('  ╰' + '─'.repeat(36) + '╯');
+purgeEsaCache();
 
 console.log('');
 console.log('  ╭' + '─'.repeat(36) + '╮');
