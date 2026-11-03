@@ -17,6 +17,13 @@ nz-content {
   margin: 10px;
 }
 
+/* nz-anchor 给 wrapper 内联了 max-height:100vh + overflow:auto，
+   目录较长时会和侧栏自身的滚动叠成两条滚动条；这里把滚动统一交给外层 */
+.sidebar-card__body--toc .ant-anchor-wrapper {
+  max-height: none !important;
+  overflow: visible;
+}
+
 .ant-anchor-wrapper::-webkit-scrollbar-thumb {
   background: var(--fi-border-strong);
 }
