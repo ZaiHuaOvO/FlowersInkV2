@@ -47,6 +47,9 @@ export class ExternalLinkConfirmComponent implements AfterViewInit {
   }
 
   confirm(): void {
+    // window.open 会立刻把当前页切到后台，而后台标签里的离场动画会被浏览器冻结，
+    // 弹窗要等切回来才接着播完。所以确认跳转时跳过离场动画、同步销毁弹窗。
+    this.modalRef.updateConfig({ nzNoAnimation: true });
     this.modalRef.close();
     window.open(this.url, '_blank', 'noopener,noreferrer');
   }
