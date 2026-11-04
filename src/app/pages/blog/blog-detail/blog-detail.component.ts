@@ -607,7 +607,30 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onBack(): void {
-    history.go(-1);
+    if (this.hasPreviousPage()) {
+      history.go(-1);
+      return;
+    }
+    void this.router.navigate(['/blog/article'], { replaceUrl: true });
+  }
+
+  /**
+   * RSS / 外链直入时历史栈里没有上一页，go(-1) 会是空操作。
+   * 相关文章走 routerLink，是 SPA 导航，靠 navigationId 自增识别；
+   * 卡片链接走整页加载，Router 的 navigationId 会重置为 1，只能靠同源 referrer 认出来。
+   */
+  private hasPreviousPage(): boolean {
+    if ((window.history.state?.navigationId ?? 0) > 1) {
+      return true;
+    }
+    if (window.history.length <= 1) {
+      return false;
+    }
+    try {
+      return new URL(document.referrer).origin === window.location.origin;
+    } catch {
+      return false;
+    }
   }
 
   // ==================== 段落想法 ====================
