@@ -145,3 +145,62 @@ nz-content {
 .cdk-overlay-container .ant-popover:has(.comment-emoji-panel) .ant-popover-inner-content {
   max-width: 400px;
 }
+
+/* ===== Popconfirm 确认气泡（全站统一） =====
+   CDK overlay 挂在 app-root 之外，页面作用域样式够不着，只能写在全局。
+   用 :has(.ant-popover-message) 只命中 popconfirm，不影响表情 / 普通 popover。
+   圆角与按钮沿用 --fi-radius / --fi-primary，避免 antd 默认的直角与蓝色。 */
+.cdk-overlay-container .ant-popover:has(.ant-popover-message) .ant-popover-inner {
+  border-radius: var(--fi-radius-md);
+  box-shadow: var(--fi-shadow);
+}
+
+.cdk-overlay-container .ant-popover:has(.ant-popover-message) .ant-popover-inner-content,
+.cdk-overlay-container .ant-popover:has(.ant-popover-message) .ant-popover-message-title {
+  color: var(--fi-text);
+  font-size: var(--fi-font-size-md);
+}
+
+.cdk-overlay-container .ant-popover:has(.ant-popover-message) .ant-popover-message-icon .anticon {
+  color: var(--fi-primary);
+}
+
+.cdk-overlay-container .ant-popover:has(.ant-popover-message) .ant-popover-buttons .ant-btn {
+  min-height: 30px;
+  padding: 4px 12px;
+  border-color: var(--fi-border);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-surface);
+  color: var(--fi-text-muted);
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-sm);
+  line-height: 1.2;
+  box-shadow: none;
+  transition:
+    color var(--fi-motion-fast) var(--fi-ease-standard),
+    border-color var(--fi-motion-fast) var(--fi-ease-standard),
+    background-color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.cdk-overlay-container .ant-popover:has(.ant-popover-message) .ant-popover-buttons .ant-btn:hover {
+  background: var(--fi-surface-soft);
+  border-color: var(--fi-border-strong);
+  color: var(--fi-primary-hover);
+}
+
+.cdk-overlay-container .ant-popover:has(.ant-popover-message) .ant-popover-buttons .ant-btn.ant-btn-primary {
+  background: var(--fi-primary);
+  border-color: var(--fi-primary);
+  color: var(--fi-text-inverse);
+}
+
+.cdk-overlay-container .ant-popover:has(.ant-popover-message) .ant-popover-buttons .ant-btn.ant-btn-primary:hover {
+  background: var(--fi-primary-hover);
+  border-color: var(--fi-primary-hover);
+  color: var(--fi-text-inverse);
+}
+
+.cdk-overlay-container .ant-popover:has(.ant-popover-message) .ant-popover-buttons .ant-btn.ant-btn-primary:active {
+  background: var(--fi-primary-active);
+  border-color: var(--fi-primary-active);
+}
