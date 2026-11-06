@@ -5,8 +5,35 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 474,
+  "total": 477,
   "records": [
+    {
+      "uid": "833c22f",
+      "type": "style",
+      "date": "2026-11-06",
+      "desc": "全站确认气泡改为圆角与品牌棕金配色",
+      "important": false,
+      "repo": "site",
+      "sha": "833c22fdeb77fd85b712f7e091fec83684145ea1"
+    },
+    {
+      "uid": "3c31fa7",
+      "type": "fix",
+      "date": "2026-11-06",
+      "desc": "手机端文章返回按钮失效时会自动回到写作列表",
+      "important": false,
+      "repo": "site",
+      "sha": "3c31fa7b6616e90b1ed4fd6928e325a669cbcd74"
+    },
+    {
+      "uid": "f68c765",
+      "type": "feat",
+      "date": "2026-11-06",
+      "desc": "友链申请规则更新，提交前需确认已阅读规则",
+      "important": false,
+      "repo": "site",
+      "sha": "f68c765497cc0ccaed216a4de8f3fdb77d875879"
+    },
     {
       "uid": "6cf00b0",
       "type": "fix",
