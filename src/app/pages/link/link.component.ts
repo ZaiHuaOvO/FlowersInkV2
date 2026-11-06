@@ -6,6 +6,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SlowUp, QuickUp, StaggerList, ExpandCollapse } from '../../common_ui/animations/animation';
@@ -41,6 +42,7 @@ interface ArticleItem {
     NzGridModule,
     NzInputModule,
     NzTooltipModule,
+    NzPopconfirmModule,
     NzModalModule,
     LinkCardComponent,
     FlButtonComponent,
