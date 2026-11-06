@@ -607,11 +607,31 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onBack(): void {
-    if (this.hasPreviousPage()) {
-      history.go(-1);
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const writingUrl = ['/blog/article'];
+    if (!this.hasPreviousPage()) {
+      void this.router.navigate(writingUrl, { replaceUrl: true });
       return;
     }
-    void this.router.navigate(['/blog/article'], { replaceUrl: true });
+
+    // 手机端新标签页 / 内嵌浏览器里 history.length 和 referrer 可能不可靠：
+    // 明明显示有上一页，history.back() 却是空操作。等一拍确认页面没动，就兜底去写作列表。
+    const currentHref = window.location.href;
+    let leftPage = false;
+    const markLeft = () => {
+      leftPage = true;
+    };
+    window.addEventListener('popstate', markLeft, { once: true });
+    window.addEventListener('pagehide', markLeft, { once: true });
+    history.back();
+    window.setTimeout(() => {
+      window.removeEventListener('popstate', markLeft);
+      window.removeEventListener('pagehide', markLeft);
+      if (!leftPage && window.location.href === currentHref) {
+        void this.router.navigate(writingUrl, { replaceUrl: true });
+      }
+    }, 600);
   }
 
   /**
