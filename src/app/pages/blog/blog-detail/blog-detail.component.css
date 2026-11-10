@@ -281,16 +281,19 @@
   gap: 4px;
 }
 
-/* meta 行里可点的「N 想法」：和周围 nz-typography 同排（字号/行高/基线一致），
-   只用品牌色 + 鼠标指针提示可点，点一下滚到正文第一条想法 */
-.article-meta ::ng-deep .ant-typography.article-meta-idea {
+/* meta 行里可点的计数项（「N 评论」跳评论区、「N 想法」跳第一条想法）：
+   和周围 nz-typography 同排（字号/行高/基线一致），
+   只用品牌色 + 鼠标指针提示可点 */
+.article-meta ::ng-deep .ant-typography.article-meta-jump {
   color: var(--fi-primary) !important;
   cursor: pointer;
   transition: color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
-.article-meta ::ng-deep .ant-typography.article-meta-idea:hover {
+.article-meta ::ng-deep .ant-typography.article-meta-jump:hover {
   color: var(--fi-primary-hover) !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 nz-anchor {

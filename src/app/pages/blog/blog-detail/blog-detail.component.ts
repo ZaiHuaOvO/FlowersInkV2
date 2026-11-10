@@ -710,6 +710,18 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.msg.info('这篇文章还没有想法，选中一段文字，写下第一条吧');
   }
 
+  /** 点 meta 行的「N 评论」：滚到评论区（#comment 的 scroll-margin-top 已在样式里避开固定头部） */
+  onCommentCountClick(): void {
+    const board = this.el.nativeElement.querySelector(
+      '#comment',
+    ) as HTMLElement | null;
+    if (board) {
+      board.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    this.msg.info('评论区还在赶来，稍等一下');
+  }
+
   private loadIdeas(): void {
     this.ideasLoaded = false;
     this.ideaAnchors = [];

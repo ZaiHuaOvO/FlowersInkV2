@@ -64,19 +64,32 @@
             <span>{{ data.likes ?? 0 }}</span>
           </span>
           <span class="article-meta-sep">·</span>
-          <span class="article-meta-stat" nz-typography nzType="secondary" nz-tooltip nzTooltipTitle="评论人数">
+          <span
+            class="article-meta-stat article-meta-jump article-meta-comment"
+            nz-typography
+            nzType="secondary"
+            nz-tooltip
+            nzTooltipTitle="评论人数"
+            role="button"
+            tabindex="0"
+            aria-label="跳到评论区"
+            (click)="onCommentCountClick()"
+            (keydown.enter)="onCommentCountClick()"
+            (keydown.space)="$event.preventDefault(); onCommentCountClick()"
+          >
             <span nz-icon nzType="message" nzTheme="outline"></span>
             <span>{{ data.articleCommentCount ?? 0 }}</span>
           </span>
           <span class="article-meta-sep">·</span>
           <span
-            class="article-meta-stat article-meta-idea"
+            class="article-meta-stat article-meta-jump article-meta-idea"
             nz-typography
             nzType="secondary"
             nz-tooltip
             nzTooltipTitle="想法"
             role="button"
             tabindex="0"
+            aria-label="跳到正文第一条想法"
             (click)="onIdeaCountClick()"
             (keydown.enter)="onIdeaCountClick()"
             (keydown.space)="$event.preventDefault(); onIdeaCountClick()"
