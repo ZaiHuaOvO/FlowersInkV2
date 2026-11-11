@@ -39,14 +39,14 @@
       </nav>
 
       @if (activeTabKey === historyKey) {
-      <div class="fe-scroll">
+      <div class="fe-scroll" (scroll)="clearName()">
         <div class="fe-flow" (mouseleave)="clearName()">
           @if (historyItems.length) {
           @for (item of historyItems; track item.packKey + ':' + item.name) {
           <button
             type="button"
             class="fe-item"
-            (mouseenter)="showName($event, item.name)"
+            (mouseenter)="showName($event, item.name, item.url)"
             (click)="selectImage(item.packKey, item.name)"
           >
             <img class="fe-item-img" [src]="item.url" [alt]="item.name" loading="lazy" />
@@ -59,7 +59,7 @@
       </div>
       } @else {
       <!-- 同一个分页下的多个包依次渲染，包与包之间加一条分割线 -->
-      <div class="fe-scroll">
+      <div class="fe-scroll" (scroll)="clearName()">
         @for (pack of activePacks; track pack.key; let first = $first) {
         @if (!first) {
         <div class="fe-divider" role="separator"></div>
@@ -71,7 +71,7 @@
           <button
             type="button"
             class="fe-item"
-            (mouseenter)="showName($event, item.name)"
+            (mouseenter)="showName($event, item.name, item.url)"
             (click)="selectImage(pack.key, item.name)"
           >
             <img class="fe-item-img" [src]="item.url" [alt]="item.name" loading="lazy" />
@@ -90,10 +90,21 @@
       </div>
       }
 
-      <!-- 名字提示：手写而非 nz-tooltip，移入移出当帧生效。
+      <!-- 表情预览浮窗：大图 + 底部名字。
+           图片和格子里是同一个 URL，已加载过就直接命中缓存，无需等待。
+           手写而非 nz-tooltip：无延迟、无淡入淡出，移入移出当帧生效；
+           pointer-events: none 让它完全不挡后面的格子。
            放在滚动容器之外，否则会被它的 overflow 裁掉 -->
-      @if (hoveredName) {
-      <span class="fe-tip" [style.left.px]="hoveredLeft" [style.top.px]="hoveredTop">{{ hoveredName }}</span>
+      @if (hoveredName && hoveredUrl) {
+      <span
+        class="fe-preview"
+        [class.fe-preview--below]="hoveredBelow"
+        [style.left.px]="hoveredLeft"
+        [style.top.px]="hoveredTop"
+      >
+        <img class="fe-preview-img" [src]="hoveredUrl" [alt]="hoveredName" decoding="async" />
+        <span class="fe-preview-name">{{ hoveredName }}</span>
+      </span>
       }
     </div>
   </ng-template>

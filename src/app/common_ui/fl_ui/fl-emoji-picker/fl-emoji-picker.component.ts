@@ -12,6 +12,12 @@ const HISTORY_MAX = 60;
 /** 历史分页的固定 key；它不在 EMOJI_PACKS 里，是单独渲染的一页 */
 const HISTORY_KEY = 'history';
 
+/** 预览浮窗的近似尺寸：用于判断上方放不放得下、以及夹住左右边界，实际尺寸由 CSS 决定 */
+const PREVIEW_HEIGHT = 124;
+const PREVIEW_WIDTH = 108;
+/** 浮窗与格子之间的留白 */
+const PREVIEW_GAP = 6;
+
 interface HistoryEntry {
   packKey: string;
   name: string;
@@ -146,7 +152,19 @@ export class FlEmojiPickerComponent {
    */
   @Input() placement: 'top' | 'bottom' | 'topLeft' | 'bottomLeft' = 'topLeft';
 
-  visible = false;
+  private _visible = false;
+
+  /** 弹窗关闭时顺手清掉预览，否则下次打开会残留上一次的浮窗 */
+  get visible(): boolean {
+    return this._visible;
+  }
+
+  set visible(value: boolean) {
+    this._visible = value;
+    if (!value) {
+      this.clearName();
+    }
+  }
 
   /** 分页列表：由 EMOJI_PACKS 按 tab 归组得到（同一 tab 的多个包并成一页） */
   readonly tabs = buildTabs(EMOJI_PACKS);
@@ -162,11 +180,15 @@ export class FlEmojiPickerComponent {
   /** 历史页要渲染的项：已还原成清单条目，失效的（被改名/删除）自动剔除 */
   historyItems: HistoryItem[] = [];
 
-  /** 当前悬停的表情名；空串表示不显示提示 */
+  /** 当前悬停的表情名；空串表示不显示预览 */
   hoveredName = '';
-  /** 提示相对 .fe-popover 的位置（格子顶边中点） */
+  /** 悬停表情的图片地址：与格子里是同一个 URL，浏览器缓存命中，预览立即显示 */
+  hoveredUrl = '';
+  /** 预览相对 .fe-popover 的位置（格子中线处） */
   hoveredLeft = 0;
   hoveredTop = 0;
+  /** 上方空间不够时翻到格子下方 */
+  hoveredBelow = false;
 
   constructor() {
     this.rebuildHistoryItems();
@@ -192,10 +214,9 @@ export class FlEmojiPickerComponent {
     this.emojiSelected.emit(text);
   }
 
-  /** 选中之后收起弹窗，并把名字提示清掉 */
+  /** 选中之后收起弹窗（visible 的 setter 会顺带把预览清掉） */
   private closeAfterSelect(): void {
     this.visible = false;
-    this.hoveredName = '';
   }
 
   /**
@@ -222,14 +243,18 @@ export class FlEmojiPickerComponent {
     }, []);
   }
 
-  /** 切分页时把提示清掉，否则会残留上一个包的名字 */
+  /** 切分页时把预览清掉，否则会残留上一个包的 */
   selectTab(key: string): void {
     this.activeTabKey = key;
     this.clearName();
   }
 
-  /** 悬停到某个表情：记录名字与位置。位置在移入那一刻算，够准且省一次监听 */
-  showName(event: MouseEvent, name: string): void {
+  /**
+   * 悬停到某个表情：记录名字、图片与位置。
+   * 位置在移入那一刻算，够准且省一次监听；浮窗本身 pointer-events: none，
+   * 不接收任何鼠标事件，所以不会挡住后面的格子。
+   */
+  showName(event: MouseEvent, name: string, url: string): void {
     const cell = event.currentTarget as HTMLElement;
     const popover = cell.closest('.fe-popover') as HTMLElement | null;
     if (!popover) {
@@ -237,13 +262,23 @@ export class FlEmojiPickerComponent {
     }
     const cellRect = cell.getBoundingClientRect();
     const popRect = popover.getBoundingClientRect();
+    // 水平居中在格子上，并夹在面板内：最左 / 最右一列不会把浮窗顶出去
+    const half = PREVIEW_WIDTH / 2 + 2;
+    const center = cellRect.left - popRect.left + cellRect.width / 2;
+    const maxLeft = Math.max(half, popRect.width - half);
     this.hoveredName = name;
-    this.hoveredLeft = cellRect.left - popRect.left + cellRect.width / 2;
-    this.hoveredTop = cellRect.top - popRect.top;
+    this.hoveredUrl = url;
+    this.hoveredLeft = Math.min(Math.max(center, half), maxLeft);
+    // 面板内上方放不下就翻到格子下方：贴顶部时不会悬到分页栏或面板外面去
+    const spaceAbove = cellRect.top - popRect.top;
+    this.hoveredBelow = spaceAbove < PREVIEW_HEIGHT + PREVIEW_GAP;
+    this.hoveredTop =
+      (this.hoveredBelow ? cellRect.bottom : cellRect.top) - popRect.top;
   }
 
-  /** 离开整个表情区才清空：在格子之间移动时只换名字，不闪 */
+  /** 离开整个表情区才清空：在格子之间移动时只换内容，不闪 */
   clearName(): void {
     this.hoveredName = '';
+    this.hoveredUrl = '';
   }
 }
