@@ -241,6 +241,15 @@ export class VisitorTrackingService {
       };
     }
 
+    // 博客归档 / 写作两个列表页
+    if (/^\/blog\/(?:all|article)\/?$/.test(normalized)) {
+      return {
+        path: normalized,
+        pageType: 'blog_list',
+        resourceType: 'blog',
+      };
+    }
+
     if (normalized === '/' || normalized === '/welcome') {
       return {
         path: normalized,
