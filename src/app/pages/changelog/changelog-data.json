@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 482,
+  "total": 484,
   "records": [
+    {
+      "uid": "8ad7fbd",
+      "type": "style",
+      "date": "2026-11-13",
+      "desc": "输入框聚焦改为柔棕边框与淡光晕，不再出现深棕描边",
+      "important": false,
+      "repo": "site",
+      "sha": "8ad7fbde9a7782c322076a88b18af2c37ccde1d9"
+    },
+    {
+      "uid": "51c9a55",
+      "type": "fix",
+      "date": "2026-11-13",
+      "desc": "窗口较矮时，博客详情、写作与首页侧栏不再压住页脚",
+      "important": false,
+      "repo": "site",
+      "sha": "51c9a5580c9ecca6bb63bdd30e3929f85fe4b2d5"
+    },
     {
       "uid": "d0b663f",
       "type": "fix",
