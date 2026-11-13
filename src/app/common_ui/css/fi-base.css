@@ -242,6 +242,9 @@ img.fl-img-fade--loaded {
  * ng-zorro 的预构建样式里写了 `.ant-btn:focus { outline: 0 }`，而 angular.json 里
  * ng-zorro 的 CSS 排在 styles.css 之后，同权重会被它盖掉，所以这里必须
  * （与 fi-overrides.css 处理 ng-zorro 覆盖是同一套做法）。
+ *
+ * 输入框不在这里：文本输入框点击也会命中 :focus-visible，给描边会变成一圈实心深棕；
+ * 它的聚焦态由 fi-form.css 的柔棕边框 + 淡光晕负责。
  */
 a:focus-visible,
 button:focus-visible,
@@ -249,7 +252,6 @@ summary:focus-visible,
 [role='button']:focus-visible,
 [tabindex]:not([tabindex='-1']):focus-visible,
 .ant-btn:focus-visible,
-.ant-input:focus-visible,
 .ant-tag:focus-visible {
   outline: 2px solid var(--fi-primary);
   outline-offset: 2px;

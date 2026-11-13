@@ -247,10 +247,11 @@
   --fi-form-placeholder: #a88b73;
   --fi-form-border: #d8c8b8;
   --fi-form-border-hover: #cda983;
-  --fi-form-border-focus: var(--fi-primary);
+  /* 聚焦态比品牌色浅一档：输入框只需「看得出正在编辑」，不必是满饱和深棕 */
+  --fi-form-border-focus: color-mix(in srgb, var(--fi-primary) 55%, var(--fi-form-border));
   --fi-form-disabled-border: #e1d7ca;
   --fi-form-disabled-text: #b39a84;
-  --fi-form-focus-ring: 0 0 0 2px var(--fi-primary-outline);
+  --fi-form-focus-ring: 0 0 0 3px color-mix(in srgb, var(--fi-primary) 9%, transparent);
 
   /* 层叠顺序：只覆盖「跨组件」的那几层，页面内部的 1~5 留在各自组件里。
      数值沿用线上现状，改这里等于改全站覆盖关系，必须逐页验证。 */

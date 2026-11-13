@@ -37,7 +37,7 @@ textarea.fl-input-control.ant-input {
   }
 }
 
-.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-focused):not(:focus-within):hover {
   border-color: var(--fi-form-border-hover);
   background: var(--fi-form-bg-hover);
 }
@@ -51,8 +51,8 @@ textarea.fl-input-control.ant-input {
   background: var(--fi-form-bg);
 }
 
-.fl-input-control.ant-input:hover:not(:disabled):not(.ant-input-disabled),
-.ant-input:hover:not(:disabled):not(.ant-input-disabled) {
+.fl-input-control.ant-input:not(:focus):hover:not(:disabled):not(.ant-input-disabled),
+.ant-input:not(:focus):hover:not(:disabled):not(.ant-input-disabled) {
   border-color: var(--fi-form-border-hover);
   background: var(--fi-form-bg-hover);
 }
@@ -88,7 +88,7 @@ textarea.fl-input-control.ant-input {
     background-color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
-.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+.ant-select:not(.ant-select-disabled):not(.ant-select-focused):not(.ant-select-open):hover .ant-select-selector {
   border-color: var(--fi-form-border-hover);
   background: var(--fi-form-bg-hover);
 }
