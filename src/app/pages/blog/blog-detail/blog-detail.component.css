@@ -61,8 +61,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--fi-space-2);
-  /* 左侧内容撑满视口，右侧不会被截断 */
-  max-height: calc(100vh - 72px - var(--fi-space-6) - var(--fi-space-7));
+  /* 左侧内容撑满视口，右侧不会被截断。
+     侧栏由 nz-affix 固定定位，不参与文档流：页面滚到底时文档流里的页脚
+     （实测约 99px）会占据视口底部，固定侧栏不会自动让位，窗口一矮，
+     最下面的「相关文章」就会压在页脚上。所以这里把「72px 顶距 + 99px 页脚
+     + 13px 间隙」一起扣掉；页脚高度变了要同步这个 112px。 */
+  max-height: calc(100vh - 72px - 112px);
   overflow: hidden;
 }
 
