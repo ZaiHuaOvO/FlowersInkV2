@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 484,
+  "total": 485,
   "records": [
+    {
+      "uid": "8e9dd45",
+      "type": "feat",
+      "date": "2026-11-16",
+      "desc": "游戏页改为蛇形时间轴，正在游玩并入时间轴，详情弹窗重做",
+      "important": true,
+      "repo": "site",
+      "sha": "8e9dd45f5e7598d975513b9955679e56e0092c96"
+    },
     {
       "uid": "8ad7fbd",
       "type": "style",
