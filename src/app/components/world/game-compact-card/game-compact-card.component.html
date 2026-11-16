@@ -1,0 +1,38 @@
+<a
+  class="compact-card"
+  flCard
+  flCardHover
+  [attr.href]="'/game/' + game.id"
+  [attr.aria-label]="ariaLabel || game.name"
+  (click)="onCardClick($event)"
+>
+  <span class="compact-card__cover">
+    @if (coverUrl) {
+    <img
+      flImgFade
+      loading="lazy"
+      decoding="async"
+      [src]="coverUrl"
+      [alt]="game.name + ' 封面'"
+    />
+    } @else {
+    <span class="compact-card__cover-empty" aria-hidden="true">{{ initial }}</span>
+    }
+    <span class="compact-card__badge">
+      <flower-game-recommend-badge
+        [recommend]="game.recommend"
+      ></flower-game-recommend-badge>
+    </span>
+  </span>
+
+  <span class="compact-card__body">
+    <span class="compact-card__name">{{ game.name }}</span>
+    <span class="compact-card__meta">
+      @if (statusText) {
+      <span class="compact-card__status">{{ statusText }}</span>
+      } @if (metaText) {
+      <span class="compact-card__detail">{{ metaText }}</span>
+      }
+    </span>
+  </span>
+</a>

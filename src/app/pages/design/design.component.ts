@@ -319,9 +319,11 @@ export class DesignComponent implements AfterViewInit, OnDestroy {
   };
 
   readonly demoGame = {
+    id: 0,
     name: '示例游戏',
     tag: 'RPG',
-    time: '42小时',
+    time: 42,
+    recommend: 'recommended' as const,
     imgFirst: [{ url: 'assets/img/web/洱海.png' }],
   };
 

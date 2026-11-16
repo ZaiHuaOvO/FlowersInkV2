@@ -51,16 +51,20 @@ body {
   display: none !important;
 }
 
-/* ── 游戏详情弹窗：透明背景，只展示游戏卡片本身（与点滴一致） ── */
+/* ── 游戏详情弹窗：透明背景，弹窗自身不再内部滚动，由 wrap 承担页面滚动 ── */
 .game-detail-modal-wrap {
-  /* 顶部对齐（初次加载显示在页面顶部），完整卡片由 wrap 滚动浏览 */
+  display: flex;
   align-items: flex-start;
+  justify-content: center;
   overflow-y: auto;
+  padding-block: var(--fi-space-6);
 }
 
-/* 缩放动画以弹窗顶部为原点展开，避免打开时定位到弹窗中部 */
+/* 居中弹窗，缩放动画以自身中心为原点 */
 .game-detail-modal-wrap .ant-modal {
-  transform-origin: 50% 0 !important;
+  top: 0;
+  padding-bottom: 0;
+  transform-origin: 50% 50% !important;
 }
 
 .game-detail-modal-wrap .ant-modal-content {
@@ -76,6 +80,23 @@ body {
 
 .game-detail-modal-wrap .ant-modal-close {
   display: none !important;
+}
+
+@media (max-width: 768px) {
+  .game-detail-modal-wrap {
+    padding-block: 0;
+  }
+
+  .game-detail-modal-wrap .ant-modal {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 0;
+    top: 0;
+  }
+
+  .game-detail-modal-wrap .ant-modal-content {
+    border-radius: 0;
+  }
 }
 
 /* ── 白名单免审核提示里的表情包 ──

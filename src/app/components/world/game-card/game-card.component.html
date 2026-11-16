@@ -1,59 +1,28 @@
-<nz-card
-  class="game-card-surface game-card-surface--overview"
-  [class.game-card-surface--recommended]="isRecommended"
-  [class.game-card-surface--not-recommended]="isNotRecommended"
-  [class.game-card-surface--average]="isAverage"
-  [nzCover]="coverTemplate"
+<a
+  class="game-tile"
+  flCard
+  flCardHover
+  [attr.href]="'/game/' + game.id"
+  [attr.title]="game.name"
+  [attr.aria-label]="ariaLabel || game.name"
   (click)="onCardClick($event)"
 >
-  <div class="game-overview-body" nz-flex [nzVertical]="true" nzGap="small">
-    <div class="game-overview-title">
-      <span nz-typography class="game-overview-name">{{game.name}}</span>
-      @if (game.tag !== '') {
-        <nz-tag flTag flTagVariant="soft" class="game-platform-tag">
-          <span nz-typography class="game-tag-text">{{game.tag}}</span>
-        </nz-tag>
-      }
-    </div>
-    <div class="game-overview-meta">
-      @if (showTime) {
-        <span nz-typography class="game-overview-label">游戏时长</span>
-        <strong class="game-metric">{{game.time}}小时</strong>
-      } @else {
-        <span nz-typography class="game-overview-label game-overview-label--full game-status-emphasis">{{ statusLabel }}</span>
-      }
-    </div>
-    <div class="game-overview-meta">
-      @if (showStatusDate) {
-        <span nz-typography class="game-overview-label">{{ statusLabel }}</span>
-        <strong class="game-metric">{{displayStatusDate | date:'yyyy-MM-dd'}}</strong>
-      } @else if (currentPlayStatus === 'till_now') {
-        <span nz-typography class="game-overview-label game-overview-label--full game-status-emphasis">至今仍在游玩</span>
-      } @else if (currentPlayStatus === 'playing') {
-        <span nz-typography class="game-overview-label game-overview-label--placeholder" aria-hidden="true">
-          正在努力游玩中
-        </span>
-      }
-    </div>
-  </div>
-</nz-card>
-
-<ng-template #coverTemplate>
-  <div class="img-container">
+  <span class="game-tile__cover">
+    @if (coverUrl) {
     <img
       flImgFade
       loading="lazy"
       decoding="async"
-      class="imgFirst"
-      [src]="game.imgFirst[0].url"
-      [alt]="game.name"
+      [src]="coverUrl"
+      [alt]="game.name + ' 封面'"
     />
-    @if (isRecommended) {
-      <span class="game-recommend-badge game-recommend-badge--recommended">👍 推荐</span>
-    } @else if (isNotRecommended) {
-      <span class="game-recommend-badge game-recommend-badge--not-recommended">👎 不推荐</span>
-    } @else if (isAverage) {
-      <span class="game-recommend-badge game-recommend-badge--average">一般</span>
+    } @else {
+    <span class="game-tile__cover-empty" aria-hidden="true">{{ initial }}</span>
     }
-  </div>
-</ng-template>
+    <span class="game-tile__badge">
+      <flower-game-recommend-badge
+        [recommend]="game.recommend"
+      ></flower-game-recommend-badge>
+    </span>
+  </span>
+</a>

@@ -1,0 +1,116 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    direction: ltr;
+}
+
+.compact-card {
+    display: flex;
+    align-items: center;
+    gap: var(--fi-space-3);
+    width: 100%;
+    height: 100%;
+    padding: var(--fi-space-3);
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+}
+
+.compact-card__cover {
+    position: relative;
+    flex: 0 0 120px;
+    width: 120px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--fi-radius-sm);
+    background: var(--fi-surface-soft);
+}
+
+.compact-card__cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.compact-card__cover-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: var(--fi-tag-bg);
+    color: var(--fi-primary);
+    font-size: var(--fi-font-size-2xl);
+    font-weight: var(--fi-font-weight-bold);
+}
+
+.compact-card__badge {
+    position: absolute;
+    top: var(--fi-space-1);
+    left: var(--fi-space-1);
+    z-index: 1;
+}
+
+.compact-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--fi-space-1);
+    min-width: 0;
+}
+
+.compact-card__name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    color: var(--fi-text-heading);
+    font-size: var(--fi-font-size-lg);
+    font-weight: var(--fi-font-weight-semibold);
+    line-height: var(--fi-line-height-normal);
+    overflow-wrap: anywhere;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.compact-card:hover .compact-card__name {
+    color: var(--fi-primary-hover);
+}
+
+.compact-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--fi-space-1) var(--fi-space-2);
+    min-width: 0;
+    color: var(--fi-text-muted);
+    font-size: var(--fi-font-size-xs);
+}
+
+.compact-card__status {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 8px;
+    border: 1px solid var(--fi-border);
+    border-radius: var(--fi-radius-pill);
+    background: var(--fi-surface-soft);
+    color: var(--fi-text-caption);
+    font-size: var(--fi-font-size-xs);
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.compact-card__detail {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    .compact-card__cover {
+        flex-basis: 96px;
+        width: 96px;
+    }
+}

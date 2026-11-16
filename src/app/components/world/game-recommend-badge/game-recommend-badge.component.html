@@ -1,0 +1,13 @@
+@if (state) {
+<span
+  class="game-recommend-badge"
+  [class.game-recommend-badge--recommended]="state === 'recommended'"
+  [class.game-recommend-badge--average]="state === 'average'"
+  [class.game-recommend-badge--not-recommended]="state === 'not_recommended'"
+>
+  @if (state === 'recommended') {
+  <nz-icon nzType="check"></nz-icon>
+  }
+  {{ label }}
+</span>
+}

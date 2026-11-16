@@ -1,93 +1,96 @@
 <div class="game-dialog">
   @if (game) {
-  <article class="game-dialog-card">
-    @if (isRecommended) {
-      <span class="game-dialog-badge game-dialog-badge--recommended">👍 推荐</span>
-    } @else if (isNotRecommended) {
-      <span class="game-dialog-badge game-dialog-badge--not-recommended">👎 不推荐</span>
-    } @else if (isAverage) {
-      <span class="game-dialog-badge game-dialog-badge--average">一般</span>
-    }
-
-    @if (coverUrl) {
+  <article class="game-dialog-card" [class.game-dialog-card--gallery]="hasScreenshots" tabindex="-1">
+    <header class="game-dialog-hero">
+      @if (coverUrl) {
       <div class="game-dialog-cover">
-        <img flImgFade loading="lazy" decoding="async" [src]="coverUrl" [alt]="name + '封面'" />
+        <img
+          flImgFade
+          loading="lazy"
+          decoding="async"
+          [src]="coverUrl"
+          [alt]="name + ' 封面'"
+        />
       </div>
-    }
-
-    <div class="game-dialog-inner">
-      <header class="game-dialog-header">
-        <h4 class="game-dialog-name">{{ name }}</h4>
-        <div class="game-dialog-tags" nz-flex nzAlign="center" nzGap="small" nzWrap="wrap">
-          @if (platform) {
-            <nz-tag flTag flTagVariant="outline">
-              <span nz-typography class="game-dialog-tag-text">{{ platform }}</span>
-            </nz-tag>
-          }
-          @if (tag) {
-            <nz-tag flTag flTagVariant="soft">
-              <span nz-typography class="game-dialog-tag-text">{{ tag }}</span>
-            </nz-tag>
-          }
-        </div>
-      </header>
-
-      @if (description) {
-        <p class="game-dialog-description">{{ description }}</p>
+      } @else {
+      <div class="game-dialog-cover game-dialog-cover--empty" aria-hidden="true">
+        {{ name.slice(0, 1) }}
+      </div>
       }
 
-      <div class="game-dialog-meta">
-        @if (showStatusDate) {
-          <div class="game-dialog-meta-item">
-            <span class="game-dialog-meta-label">{{ statusLabel }}</span>
-            <strong class="game-dialog-meta-value">{{ displayStatusDate | date:'yyyy-MM-dd' }}</strong>
-          </div>
-        } @else if (currentPlayStatus === 'till_now') {
-          <div class="game-dialog-meta-item">
-            <span class="game-dialog-meta-label">状态</span>
-            <strong class="game-dialog-meta-value game-dialog-status-emphasis">至今仍在游玩</strong>
-          </div>
-        } @else if (currentPlayStatus === 'playing') {
-          <div class="game-dialog-meta-item">
-            <span class="game-dialog-meta-label">状态</span>
-            <strong class="game-dialog-meta-value game-dialog-status-emphasis">正在努力游玩中</strong>
-          </div>
-        }
-        @if (showTime) {
-          <div class="game-dialog-meta-item">
-            <span class="game-dialog-meta-label">游戏时长</span>
-            <strong class="game-dialog-meta-value">{{ game.time }}小时</strong>
-          </div>
-        }
-        @if (hasContent) {
-          <button type="button" class="game-dialog-link" (click)="goToContent()">
-            [ 玩后感 ]
-          </button>
+      <div class="game-dialog-heading">
+        <h2 class="game-dialog-name">{{ name }}</h2>
+        @if (tag || game.recommend) {
+        <div class="game-dialog-subline">
+          @if (tag) {
+          <p class="game-dialog-quip">「{{ tag }}」</p>
+          }
+          <flower-game-recommend-badge
+            [recommend]="game.recommend"></flower-game-recommend-badge>
+        </div>
         }
       </div>
 
-      @if (screenshots.length > 0) {
-        <div class="game-dialog-section">
-          <h5 class="game-dialog-section-title">游戏截图</h5>
-          <div class="game-dialog-screenshots">
-            @for (shot of screenshots; track shot.displayUrl; let i = $index) {
-              <div class="game-dialog-shot" role="button" tabindex="0" [attr.aria-label]="'预览第 ' + (i + 1) + ' 张截图'"
-                (click)="previewShot($event, shot)"
-                (keydown.enter)="previewShot($event, shot)"
-                (keydown.space)="$event.preventDefault(); previewShot($event, shot)">
-                @if (i < readyShotCount) {
-                  <img flImgFade decoding="async" [src]="shot.displayUrl" [alt]="name + '截图 ' + (i + 1)" (load)="onShotLoad(i)" (error)="onShotError(i)" />
-                } @else {
-                  <div class="game-dialog-shot-loading">
-                    <nz-spin nzSimple></nz-spin>
-                  </div>
-                }
-              </div>
-            }
-          </div>
+      <button
+        #closeButton
+        type="button"
+        class="game-dialog-close"
+        aria-label="关闭游戏详情"
+        (click)="close()">
+        <nz-icon nzType="close"></nz-icon>
+      </button>
+    </header>
+
+    <div class="game-dialog-body">
+      <dl class="game-dialog-meta">
+        @for (item of metaItems; track item.label) {
+        <div class="game-dialog-meta-item">
+          <dt>{{ item.label }}</dt>
+          <dd>{{ item.value }}</dd>
         </div>
+        }
+      </dl>
+
+      @if (hasDescription) {
+      <section class="game-dialog-section">
+        <h3 class="game-dialog-section-title">个人评价</h3>
+        <p class="game-dialog-description">{{ description }}</p>
+      </section>
+      }
+
+      @if (hasContent) {
+      <button type="button" class="game-dialog-link" (click)="goToContent()">
+        <nz-icon nzType="link"></nz-icon>
+        <span>阅读完整玩后感</span>
+        <span aria-hidden="true">→</span>
+      </button>
       }
     </div>
+
+    @if (hasScreenshots) {
+    <section class="game-dialog-gallery">
+      <h3 class="game-dialog-section-title">
+        游戏截图 · {{ screenshots.length }}
+      </h3>
+      <div class="game-dialog-screenshots">
+        @for (shot of screenshots; track shot.displayUrl; let i = $index) {
+        <button
+          type="button"
+          class="game-dialog-shot"
+          [attr.aria-label]="'预览第 ' + (i + 1) + ' 张截图'"
+          (click)="previewShot($event, i)">
+          <img
+            flImgFade
+            loading="lazy"
+            decoding="async"
+            [src]="shot.displayUrl"
+            [alt]="name + ' 截图 ' + (i + 1)"
+          />
+        </button>
+        }
+      </div>
+    </section>
+    }
   </article>
   }
 </div>

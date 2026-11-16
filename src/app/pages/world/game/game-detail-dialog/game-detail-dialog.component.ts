@@ -1,45 +1,60 @@
-import { Component, inject } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  viewChild,
+} from '@angular/core';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { FlTagDirective } from '../../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
 import { FlImgFadeDirective } from '../../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
-import { deriveWebpVariants } from '../../../../shared/utils/image-url.util';
+import { GameRecommendBadgeComponent } from '../../../../components/world/game-recommend-badge/game-recommend-badge.component';
 import { ExternalLinkService } from '../../../../services/external-link.service';
+import { deriveWebpVariants } from '../../../../shared/utils/image-url.util';
+import {
+  formatGameDate,
+  formatHours,
+  hasStatusDate,
+  playStatusText,
+  statusDateLabel,
+  type GamePlayStatus,
+} from '../game-display.util';
 
 interface GameShotAsset {
   displayUrl: string;
   zoomUrl: string;
 }
 
+interface GameMetaItem {
+  label: string;
+  value: string;
+}
+
 @Component({
   selector: 'flower-game-detail-dialog',
   standalone: true,
   imports: [
-    DatePipe,
-    NzFlexModule,
-    NzTagModule,
-    NzTypographyModule,
+    NzIconModule,
     NzImageModule,
-    NzSpinModule,
-    FlTagDirective,
     FlImgFadeDirective,
+    GameRecommendBadgeComponent,
   ],
   templateUrl: './game-detail-dialog.component.html',
   styleUrl: './game-detail-dialog.component.css',
 })
-export class GameDetailDialogComponent {
-  nzModalData: any = inject(NZ_MODAL_DATA);
+export class GameDetailDialogComponent implements AfterViewInit {
+  readonly nzModalData: any = inject(NZ_MODAL_DATA);
 
-  /** 截图按顺序加载：当前可加载到的下标（含），初始为 1（第一张开始加载） */
-  readyShotCount = 1;
-
+  private readonly modalRef = inject(NzModalRef);
   private readonly imageService = inject(NzImageService);
   private readonly externalLink = inject(ExternalLinkService);
+  private readonly closeButton =
+    viewChild<ElementRef<HTMLButtonElement>>('closeButton');
+
+  ngAfterViewInit(): void {
+    this.closeButton()?.nativeElement.focus({ preventScroll: true });
+  }
 
   get game(): any {
     return this.nzModalData?.data ?? this.nzModalData;
@@ -61,69 +76,103 @@ export class GameDetailDialogComponent {
     return String(this.game?.description ?? '');
   }
 
+  get hasDescription(): boolean {
+    return this.description.trim().length > 0;
+  }
+
   get hasContent(): boolean {
-    return !!this.game?.content;
-  }
-
-  get isRecommended(): boolean {
-    return this.game?.recommend === 'recommended';
-  }
-
-  get isNotRecommended(): boolean {
-    return this.game?.recommend === 'not_recommended';
-  }
-
-  get isAverage(): boolean {
-    return this.game?.recommend === 'average';
+    return String(this.game?.content ?? '').trim().length > 0;
   }
 
   get coverUrl(): string {
-    const first = this.game?.imgFirst?.[0];
-    if (first?.url) {
-      return first.url;
+    const cover = this.game?.imgFirst?.[0];
+    if (typeof cover === 'string') {
+      return cover;
     }
-    const img0 = this.game?.img?.[0];
-    return typeof img0 === 'string' ? img0 : (img0?.url ?? '');
+    if (cover?.url) {
+      return cover.url;
+    }
+
+    const fallback = this.game?.img?.[0];
+    if (typeof fallback === 'string') {
+      return fallback;
+    }
+    return fallback?.url ?? '';
   }
 
-  get showTime(): boolean {
-    return this.currentPlayStatus !== 'playing' && this.game?.time !== null && this.game?.time !== undefined;
+  get currentPlayStatus(): GamePlayStatus {
+    return (this.game?.playStatus ?? 'completed') as GamePlayStatus;
   }
 
-  get statusLabel(): string {
-    if (this.currentPlayStatus === 'till_now') {
-      return '至今';
-    }
-    if (this.currentPlayStatus === 'abandoned') {
-      return '弃坑时间';
-    }
-    if (this.currentPlayStatus === 'completed') {
-      return '通关时间';
-    }
-    return '正在努力游玩中';
+  get statusText(): string {
+    return playStatusText(this.currentPlayStatus);
   }
 
   get showStatusDate(): boolean {
-    return this.currentPlayStatus === 'abandoned' || this.currentPlayStatus === 'completed';
+    return (
+      hasStatusDate(this.currentPlayStatus) && !!this.game?.statusDate
+    );
   }
 
-  get displayStatusDate(): string | null | undefined {
-    return this.game?.statusDate ?? this.game?.finishDate;
+  get statusDateText(): string {
+    return formatGameDate(this.game?.statusDate);
   }
 
-  get currentPlayStatus(): 'till_now' | 'abandoned' | 'completed' | 'playing' {
-    return this.game?.playStatus ?? 'completed';
+  get statusDateLabelText(): string {
+    return statusDateLabel(this.currentPlayStatus);
   }
 
-  /** 截图像素信息：展示用 webp 地址，缩放层用 -zoom 变体 */
+  get hasTime(): boolean {
+    return this.game?.time !== null && this.game?.time !== undefined;
+  }
+
+  get timeText(): string {
+    return formatHours(this.game?.time);
+  }
+
+  get metaItems(): GameMetaItem[] {
+    const items: GameMetaItem[] = [];
+
+    if (this.platform) {
+      items.push({ label: '平台', value: this.platform });
+    }
+
+    const type =
+      this.game?.gameType === 'online'
+        ? '网游'
+        : this.game?.gameType === 'single'
+          ? '单机'
+          : '';
+    if (type) {
+      items.push({ label: '类型', value: type });
+    }
+
+    if (this.hasTime) {
+      items.push({ label: '游玩时长', value: `${this.timeText} 小时` });
+    }
+
+    items.push({ label: '状态', value: this.statusText });
+
+    if (this.showStatusDate) {
+      items.push({
+        label: this.statusDateLabelText,
+        value: this.statusDateText,
+      });
+    }
+
+    return items;
+  }
+
+  /** 截图展示用 webp 地址，缩放层用 -zoom 变体 */
   get screenshots(): GameShotAsset[] {
     const list = Array.isArray(this.game?.img) ? this.game.img : [];
     return list
-      .map((img: any) => {
-        const url = typeof img === 'string' ? img : img?.url;
+      .map((image: any) => {
+        const url = typeof image === 'string' ? image : image?.url;
         if (!url) {
           return null;
         }
+
         const { zoom } = deriveWebpVariants(url);
         return {
           displayUrl: url,
@@ -135,33 +184,37 @@ export class GameDetailDialogComponent {
       );
   }
 
-  /** 点击截图：弹出图片预览（缩放层） */
-  previewShot(event: Event, shot: GameShotAsset): void {
+  get hasScreenshots(): boolean {
+    return this.screenshots.length > 0;
+  }
+
+  /** 点击截图：把全部截图交给预览层，并定位到当前这张 */
+  previewShot(event: Event, index: number): void {
     event.stopPropagation();
-    this.imageService.preview([{ src: shot.zoomUrl }], {
+    const images = this.screenshots.map((shot, shotIndex) => ({
+      src: shot.zoomUrl,
+      alt: `${this.name} 截图 ${shotIndex + 1}`,
+    }));
+    if (images.length === 0) {
+      return;
+    }
+
+    const ref = this.imageService.preview(images, {
       nzZoom: 0.8,
       nzRotate: 0,
+      nzKeyboard: true,
+      nzMaskClosable: true,
     });
-  }
-
-  /** 截图逐张加载：前一张加载完成后开始加载下一张 */
-  onShotLoad(index: number): void {
-    if (
-      index + 1 === this.readyShotCount &&
-      this.readyShotCount < this.screenshots.length
-    ) {
-      this.readyShotCount += 1;
-    }
-  }
-
-  /** 加载失败也继续下一张，避免阻塞加载序列 */
-  onShotError(index: number): void {
-    this.onShotLoad(index);
+    ref.switchTo(Math.max(0, Math.min(index, images.length - 1)));
   }
 
   goToContent(): void {
     if (this.game?.content) {
-      this.externalLink.open(this.game.content);
+      this.externalLink.open(String(this.game.content));
     }
+  }
+
+  close(): void {
+    this.modalRef.close();
   }
 }

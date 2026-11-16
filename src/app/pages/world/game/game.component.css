@@ -1,7 +1,7 @@
 /* 页面外壳（满宽 + 视口高度 + 外边距）走 .fi-screen / .fi-page--flush */
 
 .game-content {
-    width: min(90vw, 1440px);
+    width: min(100%, var(--fi-page-max));
 }
 
 .game-toolbar {
@@ -30,24 +30,289 @@
     font-weight: 800;
 }
 
-.game-grid {
-    width: 100%;
-    transition: opacity var(--fi-motion-normal) var(--fi-ease-standard);
-}
+/* ── 分区 ── */
 
-.game-grid :is(.ant-col, .game-grid__col) {
+.game-sections {
+    width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: var(--fi-space-7);
 }
 
-.game-grid__col {
+.game-section {
+    width: 100%;
+}
+
+.game-section__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--fi-space-4);
+    margin-bottom: var(--fi-space-4);
+}
+
+.game-section__titles {
     min-width: 0;
-    width: 100%;
 }
 
-:host ::ng-deep .game-grid__col flower-game-card {
-    width: 100%;
+.game-section__titles h2 {
+    margin: 0;
+    color: var(--fi-text-heading);
+    font-size: var(--fi-font-size-xl);
+    font-weight: var(--fi-font-weight-semibold);
+    line-height: var(--fi-line-height-tight);
 }
+
+.game-section__meta {
+    margin: var(--fi-space-1) 0 0;
+    color: var(--fi-text-muted);
+    font-size: var(--fi-font-size-sm);
+    line-height: var(--fi-line-height-normal);
+}
+
+.game-section__years {
+    color: var(--fi-text-caption);
+    font-weight: var(--fi-font-weight-bold);
+}
+
+/* ── 正在游玩 / 日期未记录：紧凑横向卡片 ── */
+
+.compact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--fi-space-4);
+}
+
+/* ── 游戏时间轴 ── */
+
+.timeline-legend {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: var(--fi-space-4);
+    color: var(--fi-text-muted);
+    font-size: var(--fi-font-size-xs);
+    line-height: var(--fi-line-height-normal);
+}
+
+.timeline-legend__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fi-space-1);
+    white-space: nowrap;
+}
+
+.timeline-legend__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--fi-primary);
+}
+
+.timeline-legend__dot--hollow {
+    box-sizing: border-box;
+    background: var(--fi-surface);
+    border: 2px solid var(--fi-primary);
+}
+
+.timeline-legend__dash {
+    width: 14px;
+    height: 0;
+    border-top: 2px dashed var(--fi-border-strong);
+}
+
+.game-timeline {
+    --timeline-col-gap: var(--fi-space-5);
+    --timeline-gutter: var(--fi-space-4);
+    --timeline-row-gap: var(--fi-space-5);
+    width: 100%;
+    padding-inline: var(--timeline-gutter);
+}
+
+.timeline-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    column-gap: var(--timeline-col-gap);
+}
+
+.timeline-row + .timeline-row {
+    margin-top: var(--timeline-row-gap);
+}
+
+.timeline-row--reverse {
+    direction: rtl;
+}
+
+.timeline-cell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-bottom: 38px;
+}
+
+.timeline-cell flower-game-card {
+    display: block;
+    width: 100%;
+    direction: ltr;
+}
+
+/* 行内相邻两个节点的水平连接线 */
+.timeline-cell:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    bottom: 24px;
+    inset-inline-start: 50%;
+    width: calc(100% + var(--timeline-col-gap));
+    border-top: 2px solid var(--fi-border-strong);
+    pointer-events: none;
+}
+
+/* 行末：从最后一个节点连到外侧转弯处 */
+.timeline-row:not(.timeline-row--last) .timeline-cell:last-child::before {
+    content: '';
+    position: absolute;
+    bottom: 24px;
+    inset-inline-start: 50%;
+    width: calc(50% + var(--timeline-gutter));
+    border-top: 2px solid var(--fi-border-strong);
+    pointer-events: none;
+}
+
+/* 行首：从外侧转弯处连到第一个节点 */
+.timeline-row:not(.timeline-row--first) .timeline-cell:first-child::after {
+    content: '';
+    position: absolute;
+    bottom: 24px;
+    inset-inline-end: 50%;
+    width: calc(50% + var(--timeline-gutter));
+    border-top: 2px solid var(--fi-border-strong);
+    pointer-events: none;
+}
+
+/* 行末向下转弯：从节点高度落到来下行的顶部 */
+.timeline-row:not(.timeline-row--last)::after {
+    content: '';
+    position: absolute;
+    top: calc(100% - 24px);
+    bottom: calc(-1 * var(--timeline-row-gap));
+    inset-inline-end: calc(-1 * var(--timeline-gutter));
+    border-inline-start: 2px solid var(--fi-border-strong);
+    pointer-events: none;
+}
+
+/* 行首向下接入：从本行顶部落到本行节点高度 */
+.timeline-row:not(.timeline-row--first)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 24px;
+    inset-inline-start: calc(-1 * var(--timeline-gutter));
+    border-inline-start: 2px solid var(--fi-border-strong);
+    pointer-events: none;
+}
+
+/* 正在游玩：时间轴最新端用虚线，表示仍在继续 */
+.timeline-cell--playing:not(:last-child)::before {
+    border-top-style: dashed;
+}
+
+.timeline-row--playing-end:not(.timeline-row--last) .timeline-cell:last-child::before {
+    border-top-style: dashed;
+}
+
+.timeline-row--playing-end:not(.timeline-row--last)::after {
+    border-inline-start-style: dashed;
+}
+
+.timeline-row--playing-start:not(.timeline-row--first)::before {
+    border-inline-start-style: dashed;
+}
+
+.timeline-row--playing-start:not(.timeline-row--first) .timeline-cell:first-child::after {
+    border-top-style: dashed;
+}
+
+.timeline-node {
+    position: absolute;
+    bottom: 19px;
+    left: 50%;
+    z-index: 1;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--fi-primary);
+    box-shadow: 0 0 0 3px var(--fi-surface);
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.timeline-node--abandoned {
+    box-sizing: border-box;
+    background: var(--fi-surface);
+    border: 2px solid var(--fi-primary);
+}
+
+.timeline-node--playing {
+    box-sizing: border-box;
+    background: var(--fi-surface);
+    border: 2px dashed var(--fi-primary);
+}
+
+.timeline-date {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    height: 14px;
+    color: var(--fi-text-muted);
+    font-size: var(--fi-font-size-xs);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    white-space: nowrap;
+    direction: ltr;
+    pointer-events: none;
+}
+
+.timeline-date__same {
+    color: var(--fi-text-muted);
+}
+
+.timeline-date__year {
+    display: inline-flex;
+    align-items: center;
+    height: 14px;
+    padding: 0 4px;
+    border: 1px solid var(--fi-tag-border);
+    border-radius: var(--fi-radius-pill);
+    background: var(--fi-tag-bg);
+    color: var(--fi-tag-text);
+    font-size: var(--fi-font-size-2xs);
+    font-weight: var(--fi-font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: 12px;
+}
+
+.timeline-date__playing {
+    color: var(--fi-primary);
+    font-weight: var(--fi-font-weight-semibold);
+}
+
+.timeline-date__kind {
+    color: var(--fi-text-muted);
+    font-size: var(--fi-font-size-2xs);
+}
+
+.timeline-date__sep {
+    color: var(--fi-text-muted);
+}
+
+/* ── 加载 / 空态 ── */
 
 .game-spin {
     width: 100%;
@@ -67,18 +332,19 @@
 
 /* 空状态文案走 common_ui/css/fi-base.css 的 .fi-empty-note */
 
-@media (min-width: 1200px) {
-    .game-grid--overview>.game-grid__col--overview {
-        flex: 0 0 25%;
-        max-width: 25%;
+@media (max-width: 1023px) {
+    .compact-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-.ant-tag {
-    margin: 0 !important;
+@media (max-width: 480px) {
+    .timeline-date__sep {
+        display: none;
+    }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
     .game-content {
         width: 100%;
@@ -91,5 +357,20 @@
 
     .game-toolbar__spacer {
         display: none;
+    }
+
+    .game-section__head {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .compact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-timeline {
+        --timeline-col-gap: var(--fi-space-3);
+        --timeline-gutter: 10px;
+        --timeline-row-gap: var(--fi-space-4);
     }
 }

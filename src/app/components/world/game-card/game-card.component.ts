@@ -1,73 +1,47 @@
-import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { FlTagDirective } from '../../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlImgFadeDirective } from '../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
+import type { GameImage, GameRecord } from '../../../pages/world/game/game-view.model';
+import { GameRecommendBadgeComponent } from '../game-recommend-badge/game-recommend-badge.component';
 
 @Component({
   selector: 'flower-game-card',
   standalone: true,
-  imports: [
-    NzCardModule,
-    NzTagModule,
-    NzFlexModule,
-    NzTypographyModule,
-    DatePipe,
-    FlTagDirective,
-    FlImgFadeDirective,
-  ],
+  imports: [FlCardDirective, FlImgFadeDirective, GameRecommendBadgeComponent],
   templateUrl: './game-card.component.html',
-  styleUrl: './game-card.component.css'
+  styleUrl: './game-card.component.css',
 })
 export class GameCardComponent {
-  @Input() game: any;
+  @Input() game!: GameRecord;
+  @Input() ariaLabel = '';
   @Output() cardClick = new EventEmitter<MouseEvent>();
 
+  get coverUrl(): string {
+    const cover = this.game?.imgFirst?.[0];
+    if (typeof cover === 'string') {
+      return cover;
+    }
+    if (cover?.url) {
+      return cover.url;
+    }
+
+    const fallback = this.game?.img?.[0];
+    return this.imageUrl(fallback);
+  }
+
+  get initial(): string {
+    return String(this.game?.name ?? '').trim().slice(0, 1) || '游';
+  }
+
   onCardClick(event: MouseEvent): void {
+    event.preventDefault();
     this.cardClick.emit(event);
   }
 
-  get isRecommended(): boolean {
-    return this.game?.recommend === 'recommended';
-  }
-
-  get isNotRecommended(): boolean {
-    return this.game?.recommend === 'not_recommended';
-  }
-
-  get isAverage(): boolean {
-    return this.game?.recommend === 'average';
-  }
-
-  get showTime(): boolean {
-    return this.currentPlayStatus !== 'playing' && this.game?.time !== null && this.game?.time !== undefined;
-  }
-
-  get statusLabel(): string {
-    if (this.currentPlayStatus === 'till_now') {
-      return '至今';
+  private imageUrl(image: GameImage | string | undefined): string {
+    if (typeof image === 'string') {
+      return image;
     }
-    if (this.currentPlayStatus === 'abandoned') {
-      return '弃坑时间';
-    }
-    if (this.currentPlayStatus === 'completed') {
-      return '通关时间';
-    }
-    return '正在努力游玩中';
-  }
-
-  get showStatusDate(): boolean {
-    return this.currentPlayStatus === 'abandoned' || this.currentPlayStatus === 'completed';
-  }
-
-  get displayStatusDate(): string | null | undefined {
-    return this.game?.statusDate ?? this.game?.finishDate;
-  }
-
-  get currentPlayStatus(): 'till_now' | 'abandoned' | 'completed' | 'playing' {
-    return this.game?.playStatus ?? 'completed';
+    return image?.url ?? '';
   }
 }

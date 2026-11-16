@@ -1,0 +1,41 @@
+:host {
+    display: inline-flex;
+    line-height: 0;
+}
+
+.game-recommend-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 1px 6px;
+    border: 1px solid transparent;
+    border-radius: var(--fi-radius-pill);
+    font-family: var(--fi-font-base);
+    font-size: var(--fi-font-size-2xs);
+    font-weight: var(--fi-font-weight-semibold);
+    line-height: 1.5;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.game-recommend-badge nz-icon {
+    font-size: var(--fi-font-size-2xs);
+}
+
+.game-recommend-badge--recommended {
+    background: var(--fi-primary-hover);
+    border-color: var(--fi-primary-hover);
+    color: var(--fi-text-inverse);
+}
+
+.game-recommend-badge--average {
+    background: var(--fi-surface);
+    border-color: var(--fi-border);
+    color: var(--fi-text-caption);
+}
+
+.game-recommend-badge--not-recommended {
+    background: var(--fi-surface-soft);
+    border-color: var(--fi-border);
+    color: var(--fi-text-muted);
+}

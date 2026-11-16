@@ -17,30 +17,112 @@
       <flower-error-state (retry)="getGame()"></flower-error-state>
       } @else {
       @if (data.length > 0) {
-        <nz-row
-          class="game-grid game-grid--overview"
-          [nzGutter]="[20,20]"
-          nzJustify="center"
-          @StaggerList
-        >
-          @for (game of data; track game; let i = $index) {
-            <nz-col
-              class="game-grid__col game-grid__col--overview"
-              [nzXs]="24"
-              [nzSm]="12"
-              [nzMd]="8"
-              [nzLg]="8"
-              [nzXl]="6"
-            >
-              <flower-game-card [game]="game" (cardClick)="openDetailDialog(game, $event)"></flower-game-card>
-            </nz-col>
-          }
-        </nz-row>
+      <div class="game-sections" [class.fi-reveal-in]="!loading">
+        @if (view.timeline.length > 0) {
+        <section class="game-section game-section--timeline">
+          <header class="game-section__head">
+            <div class="game-section__titles">
+              <h2>游戏时间轴</h2>
+              <p class="game-section__meta">
+                {{view.timelineTotal}} 款 · {{view.completedCount}} 通关 ·
+                {{view.abandonedCount}} 弃坑
+                @if (view.playingCount > 0) {
+                <span> · {{view.playingCount}} 正在游玩</span>
+                }
+                @if (view.yearRange) {
+                <span> · <strong class="game-section__years">{{view.yearRange}}</strong></span>
+                }
+              </p>
+            </div>
+            <div class="timeline-legend" aria-hidden="true">
+              <span class="timeline-legend__item">
+                <span class="timeline-legend__dot"></span>通关
+              </span>
+              <span class="timeline-legend__item">
+                <span class="timeline-legend__dot timeline-legend__dot--hollow"></span>弃坑
+              </span>
+              @if (view.playingCount > 0) {
+              <span class="timeline-legend__item">
+                <span class="timeline-legend__dash"></span>正在游玩
+              </span>
+              }
+            </div>
+          </header>
+
+          <div class="game-timeline" [style.--cols]="columns">
+            @for (row of timelineRows; track $index) {
+            <div
+              class="timeline-row"
+              [class.timeline-row--reverse]="row.reverse"
+              [class.timeline-row--first]="row.isFirst"
+              [class.timeline-row--last]="row.isLast"
+              [class.timeline-row--playing-start]="row.startsWithPlaying"
+              [class.timeline-row--playing-end]="row.endsWithPlaying">
+              @for (event of row.items; track event.game.id) {
+              <div class="timeline-cell" [class.timeline-cell--playing]="event.kind === 'playing'">
+                <flower-game-card
+                  [game]="event.game"
+                  [ariaLabel]="event.ariaLabel"
+                  (cardClick)="openDetailDialog(event.game, $event)">
+                </flower-game-card>
+
+                <span
+                  class="timeline-node"
+                  [class.timeline-node--abandoned]="event.kind === 'abandoned'"
+                  [class.timeline-node--playing]="event.kind === 'playing'"
+                  aria-hidden="true"></span>
+
+                <div class="timeline-date">
+                  @if (event.kind === 'playing') {
+                  <span class="timeline-date__playing">{{event.dateLabel}}</span>
+                  } @else if (event.isSameDay) {
+                  <span class="timeline-date__same">同日</span>
+                  } @else if (event.isYearStart) {
+                  <span class="timeline-date__year">{{event.year}}</span>
+                  <time class="timeline-date__md" [attr.datetime]="event.datetime">{{event.shortDate}}</time>
+                  } @else {
+                  <time [attr.datetime]="event.datetime">{{event.dateLabel}}</time>
+                  }
+                  @if (event.kind === 'abandoned') {
+                  <span class="timeline-date__sep" aria-hidden="true">·</span>
+                  <span class="timeline-date__kind">弃坑</span>
+                  }
+                </div>
+              </div>
+              }
+            </div>
+            }
+          </div>
+        </section>
+        }
+
+        @if (view.undated.length > 0) {
+        <section class="game-section">
+          <header class="game-section__head">
+            <div class="game-section__titles">
+              <h2>日期未记录</h2>
+              <p class="game-section__meta">{{view.undated.length}} 款</p>
+            </div>
+          </header>
+          <div class="compact-grid">
+            @for (game of view.undated; track game.id) {
+            <flower-game-compact-card
+              [game]="game"
+              statusText="日期未记录"
+              [metaText]="playingMeta(game)"
+              [ariaLabel]="compactAria(game, '日期未记录')"
+              (cardClick)="openDetailDialog(game, $event)">
+            </flower-game-compact-card>
+            }
+          </div>
+        </section>
+        }
+      </div>
       } @else if (!loading) {
-        <div class="game-empty" nz-flex nzAlign="center" nzJustify="center" nzVertical>
-          <span class="game-empty-icon">🎮</span>
-          <span nz-typography class="fi-empty-note">还没有记录任何游戏</span>
-        </div>
+      <div class="game-empty" nz-flex nzAlign="center" nzJustify="center" nzVertical>
+        <span class="game-empty-icon">🎮</span>
+        <span nz-typography class="fi-empty-note">还没有记录任何游戏</span>
+      </div>
       }
       }
     </nz-spin>

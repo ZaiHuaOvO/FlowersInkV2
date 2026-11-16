@@ -1,66 +1,59 @@
 import { DecimalPipe, isPlatformBrowser } from '@angular/common';
 import { Component, DestroyRef, inject, PLATFORM_ID } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NzAffixModule } from 'ng-zorro-antd/affix';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzImageModule } from 'ng-zorro-antd/image';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { BlogTitleComponent } from '../../../components/blog/blog-title/blog-title.component';
+import { GameCardComponent } from '../../../components/world/game-card/game-card.component';
+import { GameCompactCardComponent } from '../../../components/world/game-compact-card/game-compact-card.component';
 import { WindowService } from '../../../services/window.service';
 import { WorldService } from '../world.service';
-import { GameCardComponent } from '../../../components/world/game-card/game-card.component';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { QuickUp, StaggerList } from '../../../common_ui/animations/animation';
+import { QuickUp } from '../../../common_ui/animations/animation';
 import { CommentService } from '../../../services/comment.service';
 import { articleCommentSource } from '../../../shared/comment/comment-source.factory';
 import type { CommentSource } from '../../../shared/comment/comment.model';
 import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-board/fl-comment-board.component';
 import { FlErrorStateComponent } from '../../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 import { GameDetailDialogComponent } from './game-detail-dialog/game-detail-dialog.component';
-
-type PlayStatus = 'till_now' | 'abandoned' | 'completed' | 'playing';
+import { formatHours, playStatusText as resolvePlayStatusText } from './game-display.util';
+import {
+  buildGameView,
+  chunkTimelineRows,
+  EMPTY_GAME_VIEW,
+  type GameRecord,
+  type GameView,
+  type TimelineRow,
+} from './game-view.model';
 
 @Component({
   selector: 'flower-game',
   standalone: true,
   imports: [
     DecimalPipe,
-    ReactiveFormsModule,
-    FormsModule,
     NzFlexModule,
-    NzIconModule,
     NzTypographyModule,
     BlogTitleComponent,
     NzSpinModule,
     NzModalModule,
-    NzAffixModule,
-    NzImageModule,
-    NzMenuModule,
-    NzTagModule,
-    NzDividerModule,
-    RouterModule,
     GameCardComponent,
-    NzGridModule,
+    GameCompactCardComponent,
     FlCommentBoardComponent,
     FlErrorStateComponent,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
-  animations: [QuickUp, StaggerList],
+  animations: [QuickUp],
 })
 export class GameComponent {
-  data: any[] = [];
+  data: GameRecord[] = [];
+  view: GameView = EMPTY_GAME_VIEW;
+  timelineRows: TimelineRow[] = [];
+  columns = 2;
   loading = true;
   loadError = false;
-  isMobile: boolean = false;
   totalGames = 0;
   totalPlayingTime = 0;
 
@@ -69,10 +62,13 @@ export class GameComponent {
   private readonly commentService = inject(CommentService);
 
   /** 游戏评论是模块级线程，没有 targetId，所以可以在声明时一次性定下来 */
-  readonly commentSource: CommentSource = articleCommentSource(this.commentService, 'game');
+  readonly commentSource: CommentSource = articleCommentSource(
+    this.commentService,
+    'game',
+  );
 
   /** 详情弹窗实例引用（用于关闭后同步路由） */
-  private detailModalRef: any = null;
+  private detailModalRef: NzModalRef | null = null;
   /** 当前弹窗展示的游戏 id */
   private activeDetailId: number | null = null;
   /** 防止路由订阅与点击事件竞态导致重复打开 */
@@ -81,16 +77,27 @@ export class GameComponent {
   private savedListScrollY = 0;
   /** 仅当从列表点击打开弹窗时，关闭后才恢复滚动位置（URL 直达不恢复） */
   private restoreScrollOnClose = false;
+  /** 关闭弹窗后把焦点还给触发的卡片 */
+  private lastTriggerElement: HTMLElement | null = null;
 
   constructor(
-    private world: WorldService,
-    private modal: NzModalService,
-    private window: WindowService,
-    private router: Router,
-    private route: ActivatedRoute,
+    private readonly world: WorldService,
+    private readonly modal: NzModalService,
+    private readonly windowService: WindowService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
   ) {
-    this.window.bindIsMobile(this.destroyRef, (isMobile) => {
-      this.isMobile = isMobile;
+    this.columns = this.getColumns(
+      this.windowService.getWindowWidth() || 1440,
+    );
+
+    this.windowService.bindWindowWidth(this.destroyRef, (width) => {
+      const nextColumns = this.getColumns(width);
+      if (nextColumns === this.columns) {
+        return;
+      }
+      this.columns = nextColumns;
+      this.rebuildRows();
     });
   }
 
@@ -118,9 +125,12 @@ export class GameComponent {
     this.loadError = false;
     this.world.getGameList().subscribe({
       next: (res: any) => {
-        this.data = this.sortGamesByFinishDate(res['data'].games ?? []);
-        this.totalGames = res['data'].totalGames;
-        this.totalPlayingTime = res['data'].totalPlayingTime;
+        const payload = res?.['data'] ?? {};
+        this.data = Array.isArray(payload.games) ? payload.games : [];
+        this.view = buildGameView(this.data);
+        this.rebuildRows();
+        this.totalGames = payload.totalGames ?? this.data.length;
+        this.totalPlayingTime = payload.totalPlayingTime ?? 0;
         this.loading = false;
       },
       error: () => {
@@ -130,11 +140,41 @@ export class GameComponent {
     });
   }
 
+  statusText(game: GameRecord): string {
+    return resolvePlayStatusText(game?.playStatus);
+  }
+
+  playingMeta(game: GameRecord): string {
+    const parts: string[] = [];
+    const platform = String(game?.platform ?? '').trim();
+    if (platform) {
+      parts.push(platform);
+    }
+
+    if (game?.time !== null && game?.time !== undefined) {
+      const hours = formatHours(game.time);
+      if (hours) {
+        parts.push(`${hours} 小时`);
+      }
+    }
+
+    return parts.join(' · ');
+  }
+
+  compactAria(game: GameRecord, statusOverride?: string): string {
+    const status = statusOverride ?? this.statusText(game);
+    const platform = String(game?.platform ?? '').trim();
+    return `《${game?.name ?? ''}》，${status}${platform ? `，${platform}` : ''}`;
+  }
+
   // ---- 详情弹窗 ----
 
   /** 点击卡片：直接打开详情弹窗，并同步路由为 /game/:id */
-  openDetailDialog(game: any, event?: MouseEvent): void {
+  openDetailDialog(game: GameRecord, event?: MouseEvent): void {
     event?.stopPropagation();
+    event?.preventDefault();
+    this.lastTriggerElement =
+      (event?.currentTarget as HTMLElement | null) ?? null;
     this.savedListScrollY = window.scrollY || window.pageYOffset || 0;
     this.restoreScrollOnClose = true;
     // 必须直接打开弹窗，不能只靠路由 paramMap：关闭弹窗时仅 history.replaceState
@@ -178,56 +218,61 @@ export class GameComponent {
     }
   }
 
-  private showDetailModal(game: any): void {
+  private showDetailModal(game: GameRecord): void {
     this.detailModalRef = this.modal.create({
       nzContent: GameDetailDialogComponent,
       nzData: game,
       nzFooter: null,
-      nzWidth: 'min(720px, 92vw)',
+      nzWidth: 'min(960px, 92vw)',
       nzClosable: false,
       nzMaskClosable: true,
+      nzKeyboard: true,
       nzWrapClassName: 'game-detail-modal-wrap',
-      // 顶部对齐（初次加载显示在页面顶部），卡片完整高度由 wrap 滚动浏览
-      nzStyle: { top: 0 },
-      // 关闭自动聚焦：默认 nzAutofocus='auto' 会把焦点移到卡片中部按钮上，
-      // 触发 wrap 自动滚动到中部，导致"顶部→中部→顶部"闪烁
+      // 关闭自动聚焦：弹窗内容自己会把焦点放到关闭按钮上，避免
+      // 默认 nzAutofocus 把焦点移到内容中部、触发滚动。
       nzAutofocus: null,
     });
-    // 打开后重置滚动位置到顶部（确保看到卡片开头）
+    // 打开后重置内部滚动位置到顶部（确保看到封面和标题）
     this.detailModalRef.afterOpen.subscribe(() => this.resetDetailScroll());
     // 关闭弹窗时同步 URL 回 /game，并恢复列表滚动位置（无闪烁）
     this.detailModalRef.afterClose.subscribe(() => {
       this.detailOpening = false;
       this.detailModalRef = null;
       this.activeDetailId = null;
-      const restoreY = this.restoreScrollOnClose ? this.savedListScrollY : 0;
+      const restoreY = this.restoreScrollOnClose ? this.savedListScrollY : null;
       this.restoreScrollOnClose = false;
+      const trigger = this.lastTriggerElement;
+      this.lastTriggerElement = null;
       // 等弹窗彻底关闭、CDK 解锁文档后再同步 URL 与滚动位置。
       // 不用 router.navigate：全局 scrollPositionRestoration:'top' 会在导航完成后
       // 异步把滚动重置到顶部，导致"先到顶再回原位"的闪烁。
       // history.replaceState 只同步地址栏，不触发路由导航，滚动不会被打扰。
       this.waitForModalTeardown(() => {
-        if (isPlatformBrowser(this.platformId) && window.location.pathname !== '/game') {
+        if (
+          isPlatformBrowser(this.platformId) &&
+          window.location.pathname !== '/game'
+        ) {
           window.history.replaceState({}, '', '/game');
         }
-        window.scrollTo({ top: restoreY, behavior: 'instant' });
+        if (restoreY !== null) {
+          window.scrollTo({ top: restoreY, behavior: 'instant' });
+        }
+        trigger?.focus?.({ preventScroll: true });
       });
     });
   }
 
-  /** 打开弹窗后确保定位在顶部：
-   *  已禁用 modal 自动聚焦（nzAutofocus: null），此处仅兜底归零 wrap 滚动，
-   *  避免残留的滚动位置 */
+  /** 打开弹窗后确保内容从顶部开始，避免残留上一次的滚动位置 */
   private resetDetailScroll(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    const wrap = document.querySelector('.game-detail-modal-wrap') as HTMLElement | null;
-    if (!wrap) {
-      return;
+    const wrap = document.querySelector(
+      '.game-detail-modal-wrap',
+    ) as HTMLElement | null;
+    if (wrap) {
+      wrap.scrollTop = 0;
     }
-    wrap.scrollTop = 0;
   }
 
   /**
@@ -251,41 +296,20 @@ export class GameComponent {
     setTimeout(() => this.waitForModalTeardown(callback), 16);
   }
 
-  private sortGamesByFinishDate(games: any[]): any[] {
-    return [...games].sort((a, b) => {
-      const statusPriorityDiff = this.getStatusPriority(a?.playStatus) - this.getStatusPriority(b?.playStatus);
-      if (statusPriorityDiff !== 0) {
-        return statusPriorityDiff;
-      }
-
-      const dateDiff = this.getDateValue(b?.statusDate ?? b?.finishDate) - this.getDateValue(a?.statusDate ?? a?.finishDate);
-      if (dateDiff !== 0) {
-        return dateDiff;
-      }
-
-      return (b?.id ?? 0) - (a?.id ?? 0);
-    });
-  }
-
-  private getDateValue(value: string | null | undefined): number {
-    if (!value) {
-      return 0;
+  private getColumns(width: number): number {
+    if (width >= 1200) {
+      return 6;
     }
-
-    const timestamp = new Date(value).getTime();
-    return Number.isNaN(timestamp) ? 0 : timestamp;
-  }
-
-  private getStatusPriority(status: PlayStatus | undefined): number {
-    if (status === 'playing') {
-      return 0;
+    if (width >= 1024) {
+      return 5;
     }
-    if (status === 'till_now') {
-      return 1;
-    }
-    if (status === 'abandoned' || status === 'completed') {
-      return 2;
+    if (width >= 768) {
+      return 4;
     }
     return 3;
+  }
+
+  private rebuildRows(): void {
+    this.timelineRows = chunkTimelineRows(this.view.timeline, this.columns);
   }
 }
