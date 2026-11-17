@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 486,
+  "total": 488,
   "records": [
+    {
+      "uid": "874e550",
+      "type": "feat",
+      "date": "2026-11-17",
+      "desc": "全站 tooltip 改为即时显示，游戏卡片悬停不再延迟",
+      "important": false,
+      "repo": "site",
+      "sha": "874e550d9bb6d0e56753bd0c5cfd593c514a2a57"
+    },
+    {
+      "uid": "7702c7b",
+      "type": "fix",
+      "date": "2026-11-17",
+      "desc": "游戏详情弹窗的个人评价恢复通栏宽度",
+      "important": false,
+      "repo": "site",
+      "sha": "7702c7b36b30b1b05927a3a395549413accc9536"
+    },
     {
       "uid": "751bae6",
       "type": "feat",
