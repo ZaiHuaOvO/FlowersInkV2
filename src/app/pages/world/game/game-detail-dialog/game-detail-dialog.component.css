@@ -121,7 +121,7 @@
 }
 
 .game-dialog-description {
-    max-width: 65ch;
+    width: 100%;
     margin: 0;
     color: var(--fi-text-body);
     font-size: var(--fi-font-size-lg);
