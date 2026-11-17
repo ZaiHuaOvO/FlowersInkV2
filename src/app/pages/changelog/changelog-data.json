@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 485,
+  "total": 486,
   "records": [
+    {
+      "uid": "751bae6",
+      "type": "feat",
+      "date": "2026-11-17",
+      "desc": "游戏时间轴支持悬停显示游戏名，封面与连接线依次加载",
+      "important": false,
+      "repo": "site",
+      "sha": "751bae637718790db70242a5f4e4ba3ece83778f"
+    },
     {
       "uid": "8e9dd45",
       "type": "feat",
