@@ -559,6 +559,32 @@
         </div>
       </section>
 
+      <!-- ── 即时提示 ───────────────────────────────── -->
+      <section class="ds-section" id="tooltip" @QuickUp>
+        <h2 class="ds-section-title fi-text-title-2">即时提示</h2>
+        <p class="ds-section-desc fi-text-caption">
+          短文本 tooltip 的统一交互：悬停或键盘聚焦当帧出现，没有延迟、没有淡入；
+          pointer-events: none，不遮挡鼠标；上方空间不足时自动翻到下方。
+        </p>
+        <div class="ds-demo-stack" flCard>
+          <div class="ds-subsection">
+            <h3 class="ds-subsection-title fi-text-strong">悬停与聚焦</h3>
+            <div class="ds-demo-row">
+              <fl-button variant="outline" [flTooltip]="'鼠标移上去立刻出现，不会挡住指针'">
+                悬停我
+              </fl-button>
+              <fl-button variant="ghost" [flTooltip]="'键盘 Tab 聚焦也会出现'" [flTooltipPlacement]="'bottom'">
+                切换到我看下方
+              </fl-button>
+            </div>
+            <p class="ds-hint fi-text-caption">
+              用于短文本。图片、富内容或可交互内容继续用专门的浮层，但同样遵循
+              「即时、不挡指针、不被滚动容器裁切」的原则。
+            </p>
+          </div>
+        </div>
+      </section>
+
       <!-- ── 11 提示 ────────────────────────────────── -->
       <section class="ds-section" id="alert" @QuickUp>
         <h2 class="ds-section-title fi-text-title-2">提示</h2>

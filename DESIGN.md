@@ -79,6 +79,7 @@
 | `fl-input` / `nz-input` | 输入框、文本域、select 的统一样式 | hover / focus 环 / disabled / 错误态由 `fi-form.css` 给 |
 | `fl-card` / `flCardHover` | 静态卡片 / 可悬浮卡片 | hover：抬升 2px + 阴影升级 + 底色变化 |
 | `fl-tag` | soft（默认）/ outline / solid；`flTagInteractive` 才可交互 | hover 变色；只有可交互时才抬升 |
+| `flTooltip` | 短文本即时提示；hover / focus 当帧显示 | 无延迟 / 无淡入；`pointer-events: none`；自动上下翻转并夹在视口内 |
 | `fl-alert` | soft / outline / solid × 4 语义 | 标题用压暗语义色，正文统一 `--fi-text-body` |
 | `fl-comment-*` | 评论区（内容 / 卡片 / 编辑器 / 看板） | 样式集中在 `comment.css`，三处渲染共用一套 |
 | 时间轴 / 切换条 / 圆点 | `.fi-simple-timeline` / `.fi-tab-bar` / `.fi-dots` | 圆点跟随主色；切换条需可键盘操作 |
@@ -88,6 +89,7 @@
 - 加载：全站统一 `nz-spin` + 「死机」动图；页面级加载加 `[nzDelay]="600"`，避免一闪而过。
 - 空状态：整页/整块用 `flower-nodata`；列表或侧栏内用 `.fi-empty-note`。
 - 错误必须可区分于「没有数据」，并给重试入口——统一用 `flower-error-state`（`message` + `retry`），不要每页自己写。
+- 即时提示：短文本统一用 `flTooltip`，交互基准来自评论区表情包的名字提示。移入 / 聚焦当帧出现，无延迟、无淡入淡出；浮层挂 `body`、`position: fixed`，不依附滚动容器；`pointer-events: none` 不遮挡指针；空间不足自动上下翻转并夹在视口内；滚动或尺寸变化时隐藏。`nz-tooltip` 只保留给需要富内容或复杂布局的浮层，普通文字提示不再新增。
 
 ---
 

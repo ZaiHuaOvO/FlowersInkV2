@@ -10,6 +10,7 @@
 @import url('app/common_ui/css/fi-dots.css');
 @import url('app/common_ui/css/fi-tag.css');
 @import url('app/common_ui/css/fi-tag-filter.css');
+@import url('app/common_ui/css/fi-tooltip.css');
 @import url('app/common_ui/css/fi-side-toc.css');
 @import url('app/common_ui/css/fi-alert.css');
 @import url('app/common_ui/css/fi-form.css');
@@ -80,12 +81,6 @@ body {
 
 .game-detail-modal-wrap .ant-modal-close {
   display: none !important;
-}
-
-.game-name-tooltip .ant-tooltip-inner {
-  max-width: 240px;
-  white-space: normal;
-  overflow-wrap: anywhere;
 }
 
 @media (max-width: 768px) {

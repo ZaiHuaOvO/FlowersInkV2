@@ -28,6 +28,7 @@ import { FlButtonComponent } from '../../common_ui/fl_ui/fl-button/fl-button.com
 import { FlCardDirective } from '../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlInputDirective } from '../../common_ui/fl_ui/fl-input/fl-input.directive';
 import { FlTagDirective } from '../../common_ui/fl_ui/fl-tag/fl-tag.directive';
+import { FlTooltipDirective } from '../../common_ui/fl_ui/fl-tooltip/fl-tooltip.directive';
 import {
   FlTagFilterComponent,
   TagFilterIcon,
@@ -125,6 +126,7 @@ interface NavSection {
     FlCardDirective,
     FlInputDirective,
     FlTagDirective,
+    FlTooltipDirective,
     FlTagFilterComponent,
     FlCommentCardComponent,
     FlCommentContentComponent,
@@ -190,6 +192,7 @@ export class DesignComponent implements AfterViewInit, OnDestroy {
     { id: 'input', title: '表单' },
     { id: 'card', title: '卡片' },
     { id: 'tag', title: '标签' },
+    { id: 'tooltip', title: '即时提示' },
     { id: 'alert', title: '提示' },
     { id: 'layout', title: '版式容器' },
     { id: 'markdown', title: '正文排版' },

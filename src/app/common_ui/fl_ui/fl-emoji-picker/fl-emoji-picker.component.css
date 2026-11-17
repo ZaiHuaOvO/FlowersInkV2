@@ -44,8 +44,8 @@
 }
 
 /* ── 表情预览浮窗 ──
-   大图 + 底部居中的名字。手写而非 nz-tooltip：没有过渡、没有延迟，
-   移入移出当帧生效；pointer-events: none 让它完全不挡后面的格子。
+   全站即时 tooltip 规范下的富变体：没有过渡、没有延迟，移入移出当帧生效；
+   pointer-events: none 让它完全不挡后面的格子。
    绝对定位在格子正上方（贴近屏幕顶时由 .fe-preview--below 翻到下方），
    且必须挂在 .fe-flow 外面，否则会被滚动容器的 overflow 裁掉。 */
 .fe-preview {

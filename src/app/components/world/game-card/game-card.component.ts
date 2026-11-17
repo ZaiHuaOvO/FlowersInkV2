@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlImgFadeDirective } from '../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
+import { FlTooltipDirective } from '../../../common_ui/fl_ui/fl-tooltip/fl-tooltip.directive';
 import { resolveGameCover } from '../../../pages/world/game/game-display.util';
 import type { GameRecord } from '../../../pages/world/game/game-view.model';
 import { GameRecommendBadgeComponent } from '../game-recommend-badge/game-recommend-badge.component';
@@ -10,7 +10,7 @@ import { GameRecommendBadgeComponent } from '../game-recommend-badge/game-recomm
   selector: 'flower-game-card',
   standalone: true,
   imports: [
-    NzTooltipModule,
+    FlTooltipDirective,
     FlCardDirective,
     FlImgFadeDirective,
     GameRecommendBadgeComponent,

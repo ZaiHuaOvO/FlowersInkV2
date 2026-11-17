@@ -2,11 +2,7 @@
   class="game-tile"
   flCard
   flCardHover
-  nz-tooltip
-  [nzTooltipTitle]="game.name"
-  nzTooltipPlacement="top"
-  [nzTooltipMouseEnterDelay]="0.2"
-  nzTooltipOverlayClassName="game-name-tooltip"
+  [flTooltip]="game.name"
   [attr.href]="'/game/' + game.id"
   [attr.aria-label]="ariaLabel || game.name"
   [attr.aria-disabled]="revealed ? null : 'true'"

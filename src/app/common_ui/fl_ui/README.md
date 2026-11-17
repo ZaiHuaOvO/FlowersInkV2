@@ -414,6 +414,32 @@ readonly sourceFor = memoizeLifeCommentSources(this.lifeService);
 
 内联回复框通过 `<ng-content select="[flCardExtras]">` 投影。
 
+## `fl-tooltip`
+
+全站即时 tooltip 的基础实现，交互基准来自评论区表情包的名字提示。
+
+### 路径
+
+- `src/app/common_ui/fl_ui/fl-tooltip/fl-tooltip.directive.ts`
+- `src/app/common_ui/css/fi-tooltip.css`
+
+### API
+
+| 参数 | 说明 | 类型 | 默认值 |
+|---|---|---|---|
+| `flTooltip` | 短文本内容 | `string` | — |
+| `flTooltipPlacement` | 优先显示方向；空间不足自动翻转 | `'top' \| 'bottom'` | `'top'` |
+
+### 交互约定
+
+- `mouseenter` / `focusin` 当帧显示；`mouseleave` / `focusout` / click 隐藏；没有延迟、没有淡入淡出。
+- 浮层挂在 `body`、`position: fixed`，不依赖滚动容器，不会被 `overflow` 裁切。
+- `pointer-events: none`，永远不遮挡指针。
+- 上方空间不足自动翻到下方；水平和垂直方向都夹在视口内。
+- 滚动或窗口尺寸变化时直接隐藏，避免提示停在过期位置。
+- 只用于短文本。图片 / 富内容浮层（例如表情预览）继续自定义，但遵循同一套即时规范。
+- 新的文字 tooltip 优先用 `flTooltip`；`nz-tooltip` 只保留给富内容或复杂布局。
+
 ## `fl-emoji-picker`
 
 表情选择器，分页由 `EMOJI_PACKS` 驱动：**再花 / 方长 / ฅ•ω•ฅ**。
@@ -431,7 +457,7 @@ readonly sourceFor = memoizeLifeCommentSources(this.lifeService);
 
 ### 交互细节
 
-- **名字提示是手写的**，没用 `nz-tooltip`。ng-zorro 的延迟取值是 `this.mouseEnterDelay || 0.15`，传 `0` 会被当成假值退回默认 150ms，做不到 0 延迟；而且它还有 overlay 淡入动画。手写版移入移出当帧生效（实测 6ms）。提示元素挂在 `.fe-flow` **外面**，否则会被滚动容器的 `overflow` 裁掉。
+- **名字提示沿用全站即时 tooltip 规范**：无延迟、无淡入淡出、`pointer-events: none`，移入移出当帧生效；提示元素挂在 `.fe-flow` **外面**，否则会被滚动容器的 `overflow` 裁掉。通用文字提示用 `fl-tooltip`；本组件的带图预览是同一规范下的富变体。（不使用 `nz-tooltip`：0 延迟会被当作假值回退到 150ms，且带 overlay 动画。）
 - **hover 上移**：移入 0.18s 抬 4px，移出 0.08s 快速归位（基础态写快、hover 态写慢）。表情区顶部留了 4px 内边距，否则第一行上移后会被裁掉。
 - **记住上次用过的分页**：存 `localStorage.fl_emoji_active_pack`，下次打开停在那里；没存过或分页已不存在时回落到第一个（再花）。只在**点选表情**时写入，切分页浏览不算。
 - 弹窗宽度 574px = 10 列 × 54px + 9 × 2px 间距 + 16px 内边距；窄屏由 `max-width: calc(100vw - 24px)` 兜底自动换列。

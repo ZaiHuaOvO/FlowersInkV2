@@ -1,0 +1,25 @@
+/* ============================================================
+   fi-tooltip.css — 全站即时 tooltip
+   Layer: Component
+   Usage: [flTooltip] → body-level .fl-tooltip
+   ============================================================ */
+
+.fl-tooltip {
+  position: fixed;
+  z-index: var(--fi-z-popover-raised);
+  max-width: 260px;
+  padding: 6px 10px;
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-bg-elevated);
+  box-shadow: var(--fi-shadow-soft);
+  color: var(--fi-text);
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-sm);
+  line-height: var(--fi-line-height-normal);
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  visibility: hidden;
+}

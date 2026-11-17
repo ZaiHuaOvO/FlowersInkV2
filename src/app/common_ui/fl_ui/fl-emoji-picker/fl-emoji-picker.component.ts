@@ -131,10 +131,9 @@ function buildTabs(packs: readonly EmojiPack[]): EmojiTab[] {
  * - 图片包 → 发 token `[包名:名字]`，由渲染器换成行内图片
  * - 文字包 → 直接发原文本
  *
- * 名字提示是**手写**的，没用 nz-tooltip：ng-zorro 的延迟取值是
- * `this.mouseEnterDelay || 0.15`，传 0 会被当成假值退回默认的 150ms，
- * 做不到「0 延迟」；而且它还有 overlay 淡入动画。这里直接用 CSS 显示/隐藏，
- * 移入移出都是当帧生效。
+ * 名字提示沿用全站即时 tooltip 规范：没有延迟、没有淡入淡出，移入移出当帧生效；
+ * 提示元素挂在滚动容器外面，pointer-events:none，不挡后面的格子。
+ * 通用文字提示已抽成 fl-tooltip；本组件保留带图的富预览，遵循同一套规范。
  */
 @Component({
   selector: 'fl-emoji-picker',
