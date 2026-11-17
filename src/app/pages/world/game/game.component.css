@@ -152,6 +152,10 @@
     padding-bottom: 38px;
 }
 
+.timeline-cell:not(.timeline-cell--revealed) {
+    pointer-events: none;
+}
+
 .timeline-cell flower-game-card {
     display: block;
     width: 100%;
@@ -234,6 +238,39 @@
     border-top-style: dashed;
 }
 
+/* 依次加载：card 显示后，连接线沿蛇形路径绘制 */
+.timeline-cell::before,
+.timeline-cell::after {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path var(--fi-motion-slow) var(--fi-ease-standard);
+}
+
+.timeline-row--reverse .timeline-cell::before,
+.timeline-row--reverse .timeline-cell::after {
+    clip-path: inset(0 0 0 100%);
+}
+
+.timeline-cell--revealed::before,
+.timeline-cell--revealed::after {
+    clip-path: inset(0 0 0 0);
+}
+
+.timeline-row--reverse .timeline-cell--revealed::before,
+.timeline-row--reverse .timeline-cell--revealed::after {
+    clip-path: inset(0 0 0 0);
+}
+
+.timeline-row::before,
+.timeline-row::after {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path var(--fi-motion-slow) var(--fi-ease-standard);
+}
+
+.timeline-row--start-revealed::before,
+.timeline-row--end-revealed::after {
+    clip-path: inset(0 0 0 0);
+}
+
 .timeline-node {
     position: absolute;
     bottom: 19px;
@@ -310,6 +347,17 @@
 
 .timeline-date__sep {
     color: var(--fi-text-muted);
+}
+
+.timeline-cell .timeline-node,
+.timeline-cell .timeline-date {
+    opacity: 0;
+    transition: opacity var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+.timeline-cell--revealed .timeline-node,
+.timeline-cell--revealed .timeline-date {
+    opacity: 1;
 }
 
 /* ── 加载 / 空态 ── */

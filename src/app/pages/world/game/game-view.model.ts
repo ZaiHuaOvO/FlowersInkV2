@@ -36,6 +36,7 @@ export type TimelineKind = 'completed' | 'abandoned' | 'playing';
 export interface TimelineEvent {
   game: GameRecord;
   kind: TimelineKind;
+  order: number;
   dateLabel: string;
   datetime: string;
   fullDate: string;
@@ -124,7 +125,7 @@ export function buildGameView(games: GameRecord[]): GameView {
   let lastYear = '';
   let lastDate = '';
 
-  const datedEvents = dated.map<TimelineEvent>((game) => {
+  const datedEvents = dated.map<Omit<TimelineEvent, 'order'>>((game) => {
     const fullDate = formatGameDate(game.statusDate);
     const year = fullDate.slice(0, 4);
     const isYearStart = year !== lastYear;
@@ -132,7 +133,7 @@ export function buildGameView(games: GameRecord[]): GameView {
     const kind: TimelineKind =
       game.playStatus === 'abandoned' ? 'abandoned' : 'completed';
 
-    const event: TimelineEvent = {
+    const event: Omit<TimelineEvent, 'order'> = {
       game,
       kind,
       dateLabel: isYearStart ? fullDate : formatGameDateShort(game.statusDate),
@@ -152,7 +153,7 @@ export function buildGameView(games: GameRecord[]): GameView {
     return event;
   });
 
-  const playingEvents = playing.map<TimelineEvent>((game) => {
+  const playingEvents = playing.map<Omit<TimelineEvent, 'order'>>((game) => {
     const statusText = playStatusText(game.playStatus);
     return {
       game,
@@ -168,7 +169,9 @@ export function buildGameView(games: GameRecord[]): GameView {
     };
   });
 
-  const timeline = [...playingEvents, ...datedEvents];
+  const timeline: TimelineEvent[] = [...playingEvents, ...datedEvents].map(
+    (event, order) => ({ ...event, order }),
+  );
 
   const completedCount = datedEvents.filter(
     (event) => event.kind === 'completed',

@@ -1,32 +1,37 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { FlCardDirective } from '../../../common_ui/fl_ui/fl-card/fl-card.directive';
 import { FlImgFadeDirective } from '../../../common_ui/fl_ui/fl-img-fade/fl-img-fade.directive';
-import type { GameImage, GameRecord } from '../../../pages/world/game/game-view.model';
+import { resolveGameCover } from '../../../pages/world/game/game-display.util';
+import type { GameRecord } from '../../../pages/world/game/game-view.model';
 import { GameRecommendBadgeComponent } from '../game-recommend-badge/game-recommend-badge.component';
 
 @Component({
   selector: 'flower-game-card',
   standalone: true,
-  imports: [FlCardDirective, FlImgFadeDirective, GameRecommendBadgeComponent],
+  imports: [
+    NzTooltipModule,
+    FlCardDirective,
+    FlImgFadeDirective,
+    GameRecommendBadgeComponent,
+  ],
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.css',
 })
 export class GameCardComponent {
   @Input() game!: GameRecord;
   @Input() ariaLabel = '';
+  /** 由时间轴队列传入；undefined 时沿用游戏自带封面（设计页等场景） */
+  @Input() coverSrc?: string;
+  @Input() coverLoading = false;
+  @Input() revealed = true;
   @Output() cardClick = new EventEmitter<MouseEvent>();
 
   get coverUrl(): string {
-    const cover = this.game?.imgFirst?.[0];
-    if (typeof cover === 'string') {
-      return cover;
+    if (this.coverSrc !== undefined) {
+      return this.coverSrc;
     }
-    if (cover?.url) {
-      return cover.url;
-    }
-
-    const fallback = this.game?.img?.[0];
-    return this.imageUrl(fallback);
+    return resolveGameCover(this.game);
   }
 
   get initial(): string {
@@ -35,13 +40,9 @@ export class GameCardComponent {
 
   onCardClick(event: MouseEvent): void {
     event.preventDefault();
-    this.cardClick.emit(event);
-  }
-
-  private imageUrl(image: GameImage | string | undefined): string {
-    if (typeof image === 'string') {
-      return image;
+    if (!this.revealed) {
+      return;
     }
-    return image?.url ?? '';
+    this.cardClick.emit(event);
   }
 }

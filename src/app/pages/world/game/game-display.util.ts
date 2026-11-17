@@ -99,3 +99,27 @@ export function formatHours(value: number | null | undefined): string {
   }
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
+
+interface GameCoverSource {
+  imgFirst?: Array<{ url?: string } | string>;
+  img?: Array<{ url?: string } | string>;
+}
+
+/** 封面优先 imgFirst[0]，缺失时回退到第一张截图 */
+export function resolveGameCover(
+  game: GameCoverSource | null | undefined,
+): string {
+  const cover = game?.imgFirst?.[0];
+  if (typeof cover === 'string') {
+    return cover;
+  }
+  if (cover?.url) {
+    return cover.url;
+  }
+
+  const fallback = game?.img?.[0];
+  if (typeof fallback === 'string') {
+    return fallback;
+  }
+  return fallback?.url ?? '';
+}

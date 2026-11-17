@@ -2,13 +2,21 @@
   class="game-tile"
   flCard
   flCardHover
+  nz-tooltip
+  [nzTooltipTitle]="game.name"
+  nzTooltipPlacement="top"
+  [nzTooltipMouseEnterDelay]="0.2"
+  nzTooltipOverlayClassName="game-name-tooltip"
   [attr.href]="'/game/' + game.id"
-  [attr.title]="game.name"
   [attr.aria-label]="ariaLabel || game.name"
+  [attr.aria-disabled]="revealed ? null : 'true'"
+  [attr.tabindex]="revealed ? null : -1"
   (click)="onCardClick($event)"
 >
   <span class="game-tile__cover">
-    @if (coverUrl) {
+    @if (coverLoading) {
+    <span class="game-tile__cover-skeleton" aria-hidden="true"></span>
+    } @else if (coverUrl) {
     <img
       flImgFade
       loading="lazy"
@@ -19,10 +27,13 @@
     } @else {
     <span class="game-tile__cover-empty" aria-hidden="true">{{ initial }}</span>
     }
+
+    @if (!coverLoading) {
     <span class="game-tile__badge">
       <flower-game-recommend-badge
         [recommend]="game.recommend"
       ></flower-game-recommend-badge>
     </span>
+    }
   </span>
 </a>

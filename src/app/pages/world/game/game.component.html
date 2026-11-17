@@ -17,7 +17,7 @@
       <flower-error-state (retry)="getGame()"></flower-error-state>
       } @else {
       @if (data.length > 0) {
-      <div class="game-sections" [class.fi-reveal-in]="!loading">
+      <div class="game-sections">
         @if (view.timeline.length > 0) {
         <section class="game-section game-section--timeline">
           <header class="game-section__head">
@@ -57,12 +57,21 @@
               [class.timeline-row--first]="row.isFirst"
               [class.timeline-row--last]="row.isLast"
               [class.timeline-row--playing-start]="row.startsWithPlaying"
-              [class.timeline-row--playing-end]="row.endsWithPlaying">
+              [class.timeline-row--playing-end]="row.endsWithPlaying"
+              [class.timeline-row--start-revealed]="isRowStartRevealed(row)"
+              [class.timeline-row--end-revealed]="isRowEndRevealed(row)">
               @for (event of row.items; track event.game.id) {
-              <div class="timeline-cell" [class.timeline-cell--playing]="event.kind === 'playing'">
+              <div
+                class="timeline-cell"
+                [class.timeline-cell--playing]="event.kind === 'playing'"
+                [class.timeline-cell--revealed]="revealedIds().has(event.game.id)"
+                [gameReveal]="event">
                 <flower-game-card
                   [game]="event.game"
                   [ariaLabel]="event.ariaLabel"
+                  [coverSrc]="coverSources().get(event.game.id) ?? ''"
+                  [coverLoading]="!revealedIds().has(event.game.id)"
+                  [revealed]="revealedIds().has(event.game.id)"
                   (cardClick)="openDetailDialog(event.game, $event)">
                 </flower-game-card>
 

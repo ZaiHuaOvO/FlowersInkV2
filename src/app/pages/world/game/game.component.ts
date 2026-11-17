@@ -1,5 +1,5 @@
 import { DecimalPipe, isPlatformBrowser } from '@angular/common';
-import { Component, DestroyRef, inject, PLATFORM_ID } from '@angular/core';
+import { Component, DestroyRef, inject, PLATFORM_ID, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
@@ -19,6 +19,8 @@ import { FlCommentBoardComponent } from '../../../common_ui/fl_ui/fl-comment-boa
 import { FlErrorStateComponent } from '../../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
 import { GameDetailDialogComponent } from './game-detail-dialog/game-detail-dialog.component';
 import { formatHours, playStatusText as resolvePlayStatusText } from './game-display.util';
+import { GameRevealDirective } from './game-reveal.directive';
+import { GameTimelineRevealService } from './game-timeline-reveal.service';
 import {
   buildGameView,
   chunkTimelineRows,
@@ -40,9 +42,11 @@ import {
     NzModalModule,
     GameCardComponent,
     GameCompactCardComponent,
+    GameRevealDirective,
     FlCommentBoardComponent,
     FlErrorStateComponent,
   ],
+  providers: [GameTimelineRevealService],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
   animations: [QuickUp],
@@ -56,10 +60,15 @@ export class GameComponent {
   loadError = false;
   totalGames = 0;
   totalPlayingTime = 0;
+  readonly revealedIds = signal<ReadonlySet<number>>(new Set<number>());
+  readonly coverSources = signal<ReadonlyMap<number, string>>(
+    new Map<number, string>(),
+  );
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
   private readonly commentService = inject(CommentService);
+  private readonly revealService = inject(GameTimelineRevealService);
 
   /** 游戏评论是模块级线程，没有 targetId，所以可以在声明时一次性定下来 */
   readonly commentSource: CommentSource = articleCommentSource(
@@ -99,6 +108,30 @@ export class GameComponent {
       this.columns = nextColumns;
       this.rebuildRows();
     });
+
+    this.revealService.revealed$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(({ id, src }) => {
+        this.revealedIds.update((current) => {
+          if (current.has(id)) {
+            return current;
+          }
+          const next = new Set(current);
+          next.add(id);
+          return next;
+        });
+
+        if (src) {
+          this.coverSources.update((current) => {
+            if (current.get(id) === src) {
+              return current;
+            }
+            const next = new Map(current);
+            next.set(id, src);
+            return next;
+          });
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -123,6 +156,14 @@ export class GameComponent {
 
   getGame(): void {
     this.loadError = false;
+    this.loading = true;
+    this.revealService.reset();
+    this.revealedIds.set(new Set<number>());
+    this.coverSources.set(new Map<number, string>());
+    this.data = [];
+    this.view = EMPTY_GAME_VIEW;
+    this.timelineRows = [];
+
     this.world.getGameList().subscribe({
       next: (res: any) => {
         const payload = res?.['data'] ?? {};
@@ -307,6 +348,16 @@ export class GameComponent {
       return 4;
     }
     return 3;
+  }
+
+  isRowStartRevealed(row: TimelineRow): boolean {
+    const first = row.items[0];
+    return !!first && this.revealedIds().has(first.game.id);
+  }
+
+  isRowEndRevealed(row: TimelineRow): boolean {
+    const last = row.items[row.items.length - 1];
+    return !!last && this.revealedIds().has(last.game.id);
   }
 
   private rebuildRows(): void {
