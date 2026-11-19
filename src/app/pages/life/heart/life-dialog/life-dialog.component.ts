@@ -185,11 +185,13 @@ export class LifeDialogComponent implements OnInit {
     const len = this.item!.images.length;
     if (tag === '游戏') {
       if (len === 1) return 'grid-game-one';
-      if (len === 2) return 'grid-game-two';
+      // 2 或 4 张走两列（4 张即 2×2）
+      if (len === 2 || len === 4) return 'grid-game-two';
       return 'grid-game-three';
     }
     if (len === 1) return 'grid-default-one';
-    if (len === 2) return 'grid-default-two';
+    // 2 或 4 张走两列（4 张即 2×2）
+    if (len === 2 || len === 4) return 'grid-default-two';
     return 'grid-default-three';
   }
 
