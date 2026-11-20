@@ -137,6 +137,7 @@
                 </footer>
 
                 <fl-comment-board [source]="sourceFor(item.id)" [title]="null" [collapsible]="true" [previewLimit]="3"
+                  [skipFetchUntilOpen]="item.commentCount === 0"
                   [open]="isCommentOpen(item)" (click)="$event.stopPropagation()"></fl-comment-board>
               </article>
             </article>

@@ -104,6 +104,12 @@ export class FlCommentBoardComponent implements OnInit, OnChanges, OnDestroy {
   /** 强制全部展示（点滴详情弹窗用），此时不出现「展开全部评论」 */
   @Input() showAll = false;
 
+  /**
+   * 首次展开前不拉取评论（点滴列表用：评论数为 0 的条目没必要在页面加载时
+   * 各发一个请求）。置为 true 时必须配合 `open` 使用，展开后才会 fetch。
+   */
+  @Input() skipFetchUntilOpen = false;
+
   /** 评论总数（含本地待审核），供父组件显示角标 */
   @Output() countChange = new EventEmitter<number>();
 
@@ -144,6 +150,9 @@ export class FlCommentBoardComponent implements OnInit, OnChanges, OnDestroy {
   // ---- 展开态 ----
   expanded = false;
 
+  private initialized = false;
+  private hasLoaded = false;
+
   @ViewChild(SimpleCaptchaComponent) captchaComponent?: SimpleCaptchaComponent;
 
   constructor(
@@ -154,7 +163,17 @@ export class FlCommentBoardComponent implements OnInit, OnChanges, OnDestroy {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
+    // 首次输入变更发生在 ngOnInit 之前，那里统一处理，避免初始化时发两遍请求
+    if (!this.initialized) {
+      return;
+    }
+
     if (changes['source'] && this.source) {
+      this.resetAndFetch();
+      return;
+    }
+
+    if (changes['open'] && this.open && !this.hasLoaded && this.source) {
       this.resetAndFetch();
     }
   }
@@ -162,6 +181,7 @@ export class FlCommentBoardComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     this.loadCachedInfo();
     this.editing = !this.hasCachedInfo;
+    this.initialized = true;
     if (this.source) {
       this.resetAndFetch();
     }
@@ -181,7 +201,17 @@ export class FlCommentBoardComponent implements OnInit, OnChanges, OnDestroy {
     this.commentTree = [];
     this.expanded = false;
     this.replyTargetId = null;
+    this.hasLoaded = false;
+
+    if (!this.shouldFetchNow()) {
+      return;
+    }
+
     this.fetchComments();
+  }
+
+  private shouldFetchNow(): boolean {
+    return !this.skipFetchUntilOpen || this.open;
   }
 
   // ---- 身份 ----
@@ -547,6 +577,7 @@ export class FlCommentBoardComponent implements OnInit, OnChanges, OnDestroy {
         this.comments = Array.isArray(raw) ? raw : (raw?.data ?? []);
         this.commentTree = buildCommentTree(this.comments);
         this.loading = false;
+        this.hasLoaded = true;
         this.emitCount();
       },
       error: () => {

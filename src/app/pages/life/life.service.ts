@@ -36,7 +36,13 @@ export class LifeService {
   }
 
   getLifeComments(lifeId: number): Observable<object> {
-    return this.http.get(API.LIFE + `/${lifeId}/comments`);
+    // 点滴列表里每条都有评论板，页面重建/切标签时会重复请求同一接口；
+    // 缓存顺带把并发的重复请求合并成一次。评论本身改动频率低，30 秒足够新。
+    return this.http.getCached(
+      API.LIFE + `/${lifeId}/comments`,
+      undefined,
+      HTTP_CACHE_TTL.LIST,
+    );
   }
 
   createLifeComment(lifeId: number, data: any): Observable<object> {
