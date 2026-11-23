@@ -10,8 +10,8 @@
                 [src]="avatarSrc"
                 referrerpolicy="no-referrer"
                 alt=""
-                width="36"
-                height="36"
+                width="44"
+                height="44"
                 (load)="avatarLoaded = true"
                 (error)="onAvatarError()">
             }
@@ -21,7 +21,7 @@
         </span>
 
         <span class="link-text">
-            <span class="link-name">{{ link.name }}</span>
+            <span class="link-name" [title]="link.name">{{ link.name }}</span>
             @if (link.description) {
             <span class="link-desc">{{ link.description }}</span>
             }

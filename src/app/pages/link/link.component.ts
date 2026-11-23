@@ -31,6 +31,14 @@ interface ArticleItem {
   sourceFavicon?: string;
 }
 
+interface LinkItem {
+  name: string;
+  logo: string;
+  url: string;
+  description: string;
+  email?: string;
+}
+
 @Component({
   selector: 'flower-link',
   standalone: true,
@@ -67,16 +75,18 @@ export class LinkComponent implements OnInit {
   showApplyForm = false;
   email = 'ZyZy1724@gmail.com';
   articleUpdatedAt = '';
-  links: Array<{
-    name: string;
-    logo: string;
-    url: string;
-    description: string;
-    email?: string;
-  }> = [];
+  links: LinkItem[] = [];
   friendArticles: ArticleItem[] = [];
   skeletonCards = [1, 2, 3, 4, 5, 6];
   skeletonArticles = [1, 2, 3, 4, 5];
+
+  /** 指针/键盘焦点指向的朋友；同一时刻只有一个条目是焦点 */
+  hoveredLink: LinkItem | null = null;
+  focusedLink: LinkItem | null = null;
+
+  get activeLink(): LinkItem | null {
+    return this.hoveredLink ?? this.focusedLink;
+  }
 
   // Form validation
   logoPreviewUrl = '';
@@ -145,6 +155,38 @@ export class LinkComponent implements OnInit {
 
   ngOnInit(): void {
     this.injectJsonLd();
+  }
+
+  /* ---------- 友链聚焦：只在离开整个列表时清除，穿过间隙不会闪 ---------- */
+
+  onCardEnter(link: LinkItem): void {
+    // 触屏上的 mouseenter 没有意义，还会让某条一直保持高亮
+    if (this.isHoverCapable()) {
+      this.hoveredLink = link;
+    }
+  }
+
+  onListLeave(): void {
+    this.hoveredLink = null;
+  }
+
+  onCardFocus(link: LinkItem): void {
+    this.focusedLink = link;
+  }
+
+  onListFocusOut(event: FocusEvent): void {
+    const list = event.currentTarget as HTMLElement;
+    const next = event.relatedTarget as Node | null;
+    if (!next || !list.contains(next)) {
+      this.focusedLink = null;
+    }
+  }
+
+  private isHoverCapable(): boolean {
+    return (
+      isPlatformBrowser(this.platformId) &&
+      window.matchMedia?.('(hover: hover) and (pointer: fine)').matches === true
+    );
   }
 
   private injectJsonLd(): void {

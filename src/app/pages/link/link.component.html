@@ -87,9 +87,11 @@
         }
 
         @if (!loading) {
-        <div class="link-list" @StaggerList>
+        <div class="link-list" @StaggerList (mouseleave)="onListLeave()" (focusout)="onListFocusOut($event)">
             @for (link of links; track link) {
-            <flower-link-card class="link-list-item" [link]="link"></flower-link-card>
+            <flower-link-card class="link-list-item" [link]="link"
+                [class.is-active]="activeLink === link" [class.is-dimmed]="!!activeLink && activeLink !== link"
+                (mouseenter)="onCardEnter(link)" (focusin)="onCardFocus(link)"></flower-link-card>
             }
         </div>
         }
