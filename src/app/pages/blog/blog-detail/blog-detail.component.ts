@@ -422,6 +422,7 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.injectHeadingAnchors();
+    this.wrapTables();
     this.bindExternalLinks();
     this.bindImagePreview();
     this.scrollToInitialHash();
@@ -431,7 +432,9 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tryRenderIdeas();
   }
 
-  /** 给 h1-h3 注入可复制/跳转的 # 锚点，并给代码块注入语言标签（供 markdown-zaihua.css 展示） */
+  /**
+   * 给 h1-h3 注入可复制/跳转的 # 锚点，并给代码块注入语言标签（供 markdown-zaihua.css 展示）
+   */
   private injectHeadingAnchors(): void {
     const container = this.el.nativeElement.querySelector('#currentAnchor');
     if (!container) return;
@@ -466,6 +469,30 @@ export class BlogDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (langClass) {
         pre.dataset['lang'] = langClass.replace('language-', '');
       }
+    });
+  }
+
+  /**
+   * 表格外层包一层横向滚动容器：宽表在正文列内滚动，窄表仍撑满。
+   * 内容重新渲染后包装会消失，所以每次都做一次，已包过的不重复包。
+   */
+  private wrapTables(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const container = this.el.nativeElement.querySelector('#currentAnchor');
+    if (!container) return;
+
+    container.querySelectorAll('table').forEach((node: HTMLTableElement) => {
+      const table = node;
+      if (!table.parentElement?.classList.contains('md-table-scroll')) {
+        const wrap = document.createElement('div');
+        wrap.className = 'md-table-scroll';
+        table.parentNode?.insertBefore(wrap, table);
+        wrap.appendChild(table);
+      }
+
+      // 按列数给一个最小宽度：手机上四列以上不再被压成多行小格
+      const columns = table.querySelectorAll('thead th').length || 1;
+      table.style.minWidth = `${columns * 110}px`;
     });
   }
 

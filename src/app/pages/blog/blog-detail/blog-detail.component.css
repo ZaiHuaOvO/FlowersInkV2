@@ -33,6 +33,9 @@
   width: 100%;
   margin-left: 0;
   min-width: 0;
+  /* 阅读列：720px 是「文字」宽度，gutter 另加，避免 740 容器扣完 padding 只剩 650 */
+  --article-gutter: clamp(10px, 1.6vw, 20px);
+  --article-max: calc(720px + var(--article-gutter) * 2);
 }
 
 /* 文章详情顶部标题：比正文和 markdown H1 都大、左对齐，长标题换行也自然 */
@@ -149,18 +152,23 @@
 
 .blog-detail-spin {
   width: 100%;
+  max-width: var(--article-max);
+  margin-inline: auto;
   min-width: 0 !important;
-  padding: 0 clamp(12px, 2.2vw, 24px);
+  padding: 0 var(--article-gutter);
 }
 
 /* 顶部条：左侧返回，右侧想法开关，同一行。
-   左右内边距与 .blog-detail-spin 保持一致，否则按钮会紧贴卡片边缘 */
+   宽度与左右内边距跟正文阅读列一致，按钮不会比正文更宽或贴边 */
 .article-topbar {
   display: flex;
   align-items: center;
   gap: var(--fi-space-3);
-  padding: var(--fi-space-3) clamp(12px, 2.2vw, 24px) var(--fi-space-2);
+  width: 100%;
+  max-width: var(--article-max);
+  margin-inline: auto;
   margin-bottom: var(--fi-space-1);
+  padding: var(--fi-space-3) var(--article-gutter) var(--fi-space-2);
 }
 
 .article-back {
@@ -634,7 +642,7 @@ nz-anchor {
    否则侧栏会撑破列、压到正文上。 */
 @media (min-width: 769px) and (max-width: 1200px) {
   .blog-detail-shell {
-    grid-template-columns: minmax(0, 1fr) clamp(230px, 22vw, 300px);
+    grid-template-columns: minmax(0, 1fr) clamp(210px, 18vw, 280px);
   }
 
   .me {
@@ -656,11 +664,12 @@ nz-anchor {
   .blog-detail-content {
     width: 100%;
     margin-left: 0;
+    --article-gutter: var(--fi-space-3);
   }
 
   .blog-detail-spin {
     min-width: auto !important;
-    padding: 0 var(--fi-space-3);
+    padding: 0 var(--article-gutter);
   }
 
   .copyright-card {

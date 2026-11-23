@@ -103,7 +103,7 @@
           <span nz-typography nzType="secondary">{{ data.date | date:'yyyy年MM月dd日' }}</span>
         </div>
         <div class="idea-host">
-          <markdown id="currentAnchor" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady">
+          <markdown id="currentAnchor" class="article-markdown" [data]="markdownContent" (ready)="generateAnchors()" [clipboard]="markdownReady">
           </markdown>
 
           <!-- 浮层单独一层，不能放进 #currentAnchor：它 overflow-x:hidden，会横向裁掉浮窗 -->
