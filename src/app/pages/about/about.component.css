@@ -126,7 +126,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 26px;
 }
 
 .fi-comment-wall__empty {
@@ -140,92 +140,167 @@
   border-radius: var(--fi-radius-md);
 }
 
-/* ---- 便签本体：颜色 / 倾斜 / 错位 / 图钉位置都由 --fi-note-* 驱动 ---- */
-.fi-note {
+/* ---- 便签本体：纸张 / 倾斜 / 错位 / 固定方式都由属性与 --fi-note-* 驱动 ---- */
+.fi-wall-note {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  min-height: 176px;
-  padding: 30px 22px 20px;
+  min-height: 152px;
+  padding: 24px 20px 18px;
   display: flex;
   flex-direction: column;
   border-radius: 3px 2px 2px 3px;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 52%),
-    radial-gradient(rgba(80, 50, 30, 0.055) 0.5px, transparent 0.5px) 0 0 / 4px 4px repeat,
-    var(--fi-note-bg, #f7e7c8);
+    linear-gradient(135deg, color-mix(in srgb, var(--fi-surface) 24%, transparent), transparent 58%),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--fi-text) 1.6%, transparent) 0 1px, transparent 1px 3px),
+    radial-gradient(color-mix(in srgb, var(--fi-text) 5%, transparent) 0.5px, transparent 0.5px) 0 0 / 4px 4px repeat,
+    var(--fi-note-paper, var(--fi-note-paper-cream));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    0 1px 1px rgba(58, 39, 22, 0.06),
-    0 8px 14px rgba(58, 39, 22, 0.08),
-    0 16px 26px rgba(58, 39, 22, 0.05);
+    var(--fi-note-under, 0 0 0 0 transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--fi-surface) 55%, transparent),
+    0 1px 1px color-mix(in srgb, var(--fi-text) 6%, transparent),
+    0 8px 14px color-mix(in srgb, var(--fi-text) 8%, transparent),
+    0 16px 26px color-mix(in srgb, var(--fi-text) 5%, transparent);
   cursor: default;
   z-index: 1;
   transform: translateY(var(--fi-note-offset, 0px)) rotate(calc(var(--fi-note-tilt, 0) * 1deg));
   transition:
     transform var(--fi-motion-normal) var(--fi-ease-standard),
     box-shadow var(--fi-motion-normal) var(--fi-ease-standard);
+  animation: fi-wall-note-in var(--fi-motion-slow) ease-out var(--fi-note-delay, 0ms) backwards;
 }
 
-/* ---- 右上角微微翘起的纸角，hover 时多掀开一点 ---- */
-.fi-note::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 17px;
-  height: 17px;
-  background: linear-gradient(225deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.3) 52%, rgba(58, 39, 22, 0.16));
-  clip-path: polygon(100% 0, 100% 100%, 0 0);
-  filter: drop-shadow(-1px 1px 1px rgba(58, 39, 22, 0.12));
-  transform-origin: 100% 0;
-  transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
-  z-index: 3;
-  pointer-events: none;
+/* 纸张色：由 TS 按 id 稳定分配，实际色值只在 fi-tokens.css 里维护 */
+.fi-wall-note[data-paper='cream'] {
+  --fi-note-paper: var(--fi-note-paper-cream);
 }
 
-/* ---- Pushpin (bronze, unified across all notes) ---- */
-.fi-note::before {
+.fi-wall-note[data-paper='apricot'] {
+  --fi-note-paper: var(--fi-note-paper-apricot);
+}
+
+.fi-wall-note[data-paper='blush'] {
+  --fi-note-paper: var(--fi-note-paper-blush);
+}
+
+.fi-wall-note[data-paper='oat'] {
+  --fi-note-paper: var(--fi-note-paper-oat);
+}
+
+.fi-wall-note[data-paper='sage'] {
+  --fi-note-paper: var(--fi-note-paper-sage);
+}
+
+/* ---- A. 图钉便签：青铜圆钉 ---- */
+.fi-wall-note[data-style='pin'] {
+  padding-top: 30px;
+}
+
+.fi-wall-note[data-style='pin']::before {
   content: '';
   position: absolute;
-  top: 9px;
+  top: 10px;
   left: calc(50% + var(--fi-note-pin-x, 0px));
   width: 13px;
   height: 13px;
   margin-left: -6.5px;
   border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, #c68d51, #a96f3b 45%, #6f4720 100%);
+  background: radial-gradient(circle at 34% 30%,
+      color-mix(in srgb, var(--fi-primary) 40%, var(--fi-surface)),
+      var(--fi-primary) 46%,
+      color-mix(in srgb, var(--fi-primary) 68%, var(--fi-text)) 100%);
   box-shadow:
-    0 2px 3px rgba(58, 39, 22, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.45),
-    0 0 0 0.5px rgba(255, 255, 255, 0.22);
+    0 2px 3px color-mix(in srgb, var(--fi-text) 30%, transparent),
+    inset 0 1px 1px color-mix(in srgb, var(--fi-surface) 45%, transparent),
+    0 0 0 0.5px color-mix(in srgb, var(--fi-surface) 22%, transparent);
   z-index: 4;
+  pointer-events: none;
   transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
+/* ---- B. 胶带便签：半透明纸胶带横贴顶边 ---- */
+.fi-wall-note[data-style='tape']::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: calc(50% + var(--fi-note-pin-x, 0px));
+  width: 66px;
+  height: 19px;
+  margin-left: -33px;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--fi-surface) 26%, transparent),
+      transparent 46%,
+      color-mix(in srgb, var(--fi-text) 9%, transparent)),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--fi-surface) 15%, transparent) 0 2px, transparent 2px 6px),
+    color-mix(in srgb, var(--fi-tag-border) 62%, transparent);
+  clip-path: polygon(0 8%, 3% 0, 7% 6%, 96% 0, 100% 10%, 98% 92%, 94% 100%, 5% 96%, 1% 88%);
+  transform: rotate(calc(var(--fi-note-tape-angle, 0) * 1deg));
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ---- C. 夹纸便签：双层回形针 + 下面露出的一张薄纸 ---- */
+.fi-wall-note[data-style='clip'] {
+  padding-top: 26px;
+  --fi-note-under: 2px 3px 0 0 color-mix(in srgb, var(--fi-note-paper) 84%, var(--fi-text));
+}
+
+.fi-wall-note[data-style='clip']::before,
+.fi-wall-note[data-style='clip']::after {
+  content: '';
+  position: absolute;
+  left: calc(50% + var(--fi-note-pin-x, 0px));
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--fi-primary) 52%, var(--fi-text));
+  transform: rotate(-7deg);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.fi-wall-note[data-style='clip']::before {
+  top: -11px;
+  width: 13px;
+  height: 34px;
+  margin-left: -6.5px;
+  border-width: 2px;
+  border-radius: 7px 7px 8px 8px / 9px 9px 9px 9px;
+  box-shadow:
+    1px 2px 3px color-mix(in srgb, var(--fi-text) 22%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--fi-surface) 35%, transparent);
+}
+
+.fi-wall-note[data-style='clip']::after {
+  top: -5px;
+  width: 6px;
+  height: 22px;
+  margin-left: -3px;
+  border-width: 1.5px;
+  border-radius: 4px 4px 5px 5px;
+}
+
 /* ---- Content ---- */
-.fi-note__content {
+.fi-wall-note__content {
   margin: 0;
-  flex: 1 1 auto;
   color: var(--fi-text);
-  font-size: 15px;
-  line-height: 1.75;
+  font-size: var(--fi-font-size-lg);
+  line-height: 1.7;
   white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: anywhere;
 }
 
-.fi-note__footer {
-  margin-top: 14px;
-  padding-top: 9px;
+.fi-wall-note__footer {
+  margin-top: 16px;
+  padding-top: 10px;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 10px;
-  border-top: 1px dashed rgba(47, 33, 23, 0.14);
+  border-top: 1px dashed color-mix(in srgb, var(--fi-text) 13%, transparent);
 }
 
-.fi-note__author {
+.fi-wall-note__author {
   font-size: var(--fi-font-size-md);
   font-weight: var(--fi-font-weight-semibold);
   color: var(--fi-text);
@@ -234,9 +309,9 @@
   text-overflow: ellipsis;
 }
 
-.fi-note__link {
+.fi-wall-note__link {
   font-size: var(--fi-font-size-md);
-  color: var(--fi-primary);
+  color: var(--fi-primary-hover);
   cursor: pointer;
   font-weight: var(--fi-font-weight-semibold);
   text-decoration: none;
@@ -246,69 +321,56 @@
   transition: color var(--fi-motion-fast);
 }
 
-.fi-note__link:hover {
-  color: var(--fi-primary-hover);
+.fi-wall-note__link:hover {
+  color: var(--fi-primary-active);
   text-decoration: underline;
 }
 
-.fi-note__date {
+.fi-wall-note__date {
   flex-shrink: 0;
   font-size: var(--fi-font-size-xs);
-  color: var(--fi-text-muted);
+  /* 比 --fi-text-muted 深一档：它在所有纸张色上都只有 3.8~4.4:1 */
+  color: color-mix(in srgb, var(--fi-text) 78%, var(--fi-bg-page));
   font-variant-numeric: tabular-nums;
 }
 
-/* ---- Hover: the paper lifts off the wall, kept subtle ---- */
-/* 保留各自原倾角的 22%，hover 时不会被拉成整齐一致 */
-.fi-note:hover {
-  transform: translateY(-5px) scale(1.025) rotate(calc(var(--fi-note-tilt, 0) * 0.22deg));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    0 3px 6px rgba(58, 39, 22, 0.09),
-    0 12px 20px rgba(58, 39, 22, 0.11),
-    0 22px 36px rgba(58, 39, 22, 0.08);
-  z-index: 10;
-}
+/* ---- Hover：纸被轻轻拿起来。只在真正的悬停设备上生效 ---- */
+@media (hover: hover) and (pointer: fine) {
+  .fi-wall-note:hover {
+    transform: translateY(-4px) rotate(calc(var(--fi-note-tilt, 0) * 0.35deg));
+    box-shadow:
+      var(--fi-note-under, 0 0 0 0 transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--fi-surface) 55%, transparent),
+      0 3px 6px color-mix(in srgb, var(--fi-text) 9%, transparent),
+      0 12px 20px color-mix(in srgb, var(--fi-text) 11%, transparent),
+      0 22px 36px color-mix(in srgb, var(--fi-text) 8%, transparent);
+    z-index: 10;
+  }
 
-.fi-note:hover::before {
-  transform: translateY(-1px);
-}
-
-.fi-note:hover::after {
-  transform: scale(1.4);
-}
-
-/* ---- Entrance stagger：按全局序号铺开，读起来就是从左到右依次出现 ---- */
-.fi-note {
-  animation: fi-note-in 340ms var(--fi-ease-standard) var(--fi-note-delay, 0ms) backwards;
-}
-
-@keyframes fi-note-in {
-  from {
-    opacity: 0;
-    transform: translateY(calc(10px + var(--fi-note-offset, 0px))) scale(0.97) rotate(calc(var(--fi-note-tilt, 0) * 1deg));
+  .fi-wall-note[data-style='pin']:hover::before {
+    transform: translateY(-1px);
   }
 }
 
-.message-pagination {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: var(--fi-space-5);
+/* ---- Entrance：纸已加载就位后纯淡入，逐张铺开但不位移 ---- */
+@keyframes fi-wall-note-in {
+  from {
+    opacity: 0;
+  }
 }
 
 /* ---- Reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
-  .fi-note {
+  .fi-wall-note {
     transition: none;
     animation: none;
   }
 
-  .fi-note:hover {
-    transform: none;
+  .fi-wall-note:hover {
+    transform: translateY(var(--fi-note-offset, 0px)) rotate(calc(var(--fi-note-tilt, 0) * 1deg));
   }
 
-  .fi-note:hover::before {
+  .fi-wall-note[data-style='pin']:hover::before {
     transform: none;
   }
 }
@@ -323,8 +385,8 @@
     gap: 22px;
   }
 
-  .fi-note {
-    padding: 26px 19px 18px;
+  .fi-wall-note {
+    padding: 22px 19px 16px;
   }
 }
 
@@ -337,17 +399,9 @@
     gap: 18px;
   }
 
-  .fi-note {
-    padding: 24px 17px 16px;
+  .fi-wall-note {
+    padding: 20px 17px 16px;
     min-height: 150px;
-  }
-
-  .fi-note:hover {
-    transform: translateY(-4px) scale(1.015) rotate(calc(var(--fi-note-tilt, 0) * 0.22deg));
-  }
-
-  .fi-note__content {
-    font-size: var(--fi-font-size-md);
   }
 }
 

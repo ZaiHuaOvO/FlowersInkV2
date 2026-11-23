@@ -92,6 +92,18 @@ export const COLOR_GROUPS: DesignTokenGroup[] = [
     ],
   },
   {
+    id: 'color-note-paper',
+    title: '留言墙纸张',
+    desc: '关于页留言便签的五种纸色，按留言 id 稳定分配。低饱和暖色，灰绿只做点缀。',
+    tokens: [
+      { name: '--fi-note-paper-cream', usage: '奶油米黄纸（主色）', kind: 'color' },
+      { name: '--fi-note-paper-apricot', usage: '浅杏纸', kind: 'color' },
+      { name: '--fi-note-paper-blush', usage: '淡粉橘纸', kind: 'color' },
+      { name: '--fi-note-paper-oat', usage: '浅燕麦纸', kind: 'color' },
+      { name: '--fi-note-paper-sage', usage: '灰绿纸（点缀）', kind: 'color' },
+    ],
+  },
+  {
     id: 'color-border',
     title: '边框',
     desc: '两档。`--fi-border` 偏冷、用于中性分隔；`--fi-border-strong` 偏暖、用于强调描边。',

@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { EditMessageComponent } from '../../components/about/edit-message/edit-message.component';
 import { GithubContributionsComponent } from '../../components/about/github-contributions/github-contributions.component';
 import { AboutService } from './about.service';
@@ -38,12 +37,20 @@ interface MessageItem {
   createDate: string;
 }
 
+/** 纸张色调，色值落在 fi-tokens.css 的 --fi-note-paper-* */
+type NotePaper = 'cream' | 'apricot' | 'blush' | 'oat' | 'sage';
+
+/** 固定方式：图钉 / 胶带 / 回形针，一张便签只取一种 */
+type NoteStyle = 'pin' | 'tape' | 'clip';
+
 /** 便签的外观全部由留言 id 派生，保证同一条留言在任何时候都是同一个样子 */
 interface NoteLook {
-  bg: string;
+  paper: NotePaper;
+  style: NoteStyle;
   tilt: string;
   offset: string;
   pinX: string;
+  tapeAngle: string;
   delay: string;
 }
 
@@ -51,9 +58,6 @@ interface WallNote {
   item: MessageItem;
   look: NoteLook;
 }
-
-/** 低饱和暖色纸，与站点主题同调 */
-const NOTE_COLORS = ['#f7e7c8', '#f2d3c3', '#d8e2ce', '#d6e2e8', '#e3dce8', '#e9dbc9'];
 
 /** 滚动高亮的判定线：标题顶边进到这条线以上就算「当前区块」 */
 const ACTIVE_LINE = 120;
@@ -65,7 +69,6 @@ const ACTIVE_LINE = 120;
     MarkdownModule,
     NzFlexModule,
     NzSpinModule,
-    NzPaginationModule,
     DatePipe,
     EditMessageComponent,
     GithubContributionsComponent,
@@ -101,8 +104,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   messages = signal<MessageItem[]>([]);
   loadingMessages = true;
   messagesRevealed = false;
-  messagePage = 1;
-  messageCount = 0;
 
   /** 便签墙的实际可用宽度，决定列数 */
   private wallWidth = signal(0);
@@ -335,7 +336,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   }
 
   private wallColumnCount(width: number): number {
-    if (width >= 880) return 4;
     if (width >= 740) return 3;
     if (width >= 470) return 2;
     return 1;
@@ -359,18 +359,36 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   private buildLook(item: MessageItem, index: number, scale: number): NoteLook {
     const random = this.noteRandom(item.id);
-    const color = NOTE_COLORS[Math.floor(random() * NOTE_COLORS.length)];
+    // 样式单独一条随机流，避免「颜色深的恰好都是胶带」这类相关性
+    const styleRandom = this.noteRandom(item.id ^ 0x5bf03635);
+    const styleRoll = styleRandom();
+    const tapeRoll = styleRandom();
+    const paper = this.pickPaper(random());
     const tilt = (random() * 3.4 - 1.7) * scale;
     const offset = (random() * 7 - 3.5) * scale;
     const pinX = random() * 16 - 8;
 
+    const style: NoteStyle =
+      styleRoll < 0.42 ? 'pin' : styleRoll < 0.76 ? 'tape' : 'clip';
+
     return {
-      bg: color,
+      paper,
+      style,
       tilt: tilt.toFixed(2),
       offset: `${offset.toFixed(1)}px`,
       pinX: `${pinX.toFixed(1)}px`,
-      delay: `${Math.min(index * 26, 520)}ms`,
+      tapeAngle: (tapeRoll * 4 - 2).toFixed(2),
+      delay: `${Math.min(index * 22, 400)}ms`,
     };
+  }
+
+  /** 奶油 / 浅杏 / 淡粉橘 / 燕麦 / 灰绿，灰绿只做点缀 */
+  private pickPaper(roll: number): NotePaper {
+    if (roll < 0.28) return 'cream';
+    if (roll < 0.52) return 'apricot';
+    if (roll < 0.74) return 'blush';
+    if (roll < 0.9) return 'oat';
+    return 'sage';
   }
 
   /** mulberry32：同一个 id 永远得到同一串「随机」数 */
@@ -389,11 +407,25 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   loadMessages(): void {
     this.loadingMessages = true;
     this.messagesRevealed = false;
+    this.fetchMessages(1, []);
+  }
+
+  /** 留言墙不分页：按接口返回的 total 把剩余页一并取回 */
+  private fetchMessages(page: number, collected: MessageItem[]): void {
+    const pageSize = 100;
     this.about
-      .getMessageList({ isApproved: true, pageSize: 30, page: this.messagePage })
+      .getMessageList({ isApproved: true, page, pageSize })
       .subscribe((res: any) => {
-        this.messages.set(res['data'].data ?? []);
-        this.messageCount = res['data'].count;
+        const list: MessageItem[] = res['data'].data ?? [];
+        const total: number = res['data'].total ?? 0;
+        const all = collected.concat(list);
+
+        if (list.length && all.length < total) {
+          this.fetchMessages(page + 1, all);
+          return;
+        }
+
+        this.messages.set(all);
         this.loadingMessages = false;
         this.messagesRevealed = true;
       });

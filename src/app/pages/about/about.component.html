@@ -42,20 +42,22 @@
             @for (column of messageColumns(); track $index) {
             <div class="fi-wall-col">
               @for (note of column; track note.item.id) {
-              <article class="fi-note" [style.--fi-note-bg]="note.look.bg" [style.--fi-note-tilt]="note.look.tilt"
-                [style.--fi-note-offset]="note.look.offset" [style.--fi-note-pin-x]="note.look.pinX"
+              <article class="fi-wall-note" [attr.data-style]="note.look.style" [attr.data-paper]="note.look.paper"
+                [style.--fi-note-tilt]="note.look.tilt" [style.--fi-note-offset]="note.look.offset"
+                [style.--fi-note-pin-x]="note.look.pinX" [style.--fi-note-tape-angle]="note.look.tapeAngle"
                 [style.--fi-note-delay]="note.look.delay">
-                <p class="fi-note__content">{{ note.item.content }}</p>
-                <footer class="fi-note__footer">
-                  <span class="fi-note__name">
+                <p class="fi-wall-note__content">{{ note.item.content }}</p>
+                <footer class="fi-wall-note__footer">
+                  <span class="fi-wall-note__name">
                     @if (!note.item.url) {
-                    <span class="fi-note__author">{{ note.item.name }}</span>
+                    <span class="fi-wall-note__author">{{ note.item.name }}</span>
                     }
                     @if (note.item.url) {
-                    <a class="fi-note__link" (click)="navigateToUrl(note.item.url)">{{ note.item.name }}</a>
+                    <a class="fi-wall-note__link" tabindex="0" (click)="navigateToUrl(note.item.url)"
+                      (keydown.enter)="navigateToUrl(note.item.url)">{{ note.item.name }}</a>
                     }
                   </span>
-                  <time class="fi-note__date">{{ note.item.createDate | date:'yyyy-MM-dd' }}</time>
+                  <time class="fi-wall-note__date" [attr.datetime]="note.item.createDate">{{ note.item.createDate | date:'yyyy-MM-dd' }}</time>
                 </footer>
               </article>
               }
@@ -66,8 +68,6 @@
             }
             }
           </div>
-          <nz-pagination class="message-pagination" [nzPageIndex]="messagePage" [nzTotal]="messageCount" nzSimple
-            nzHideOnSinglePage="true"></nz-pagination>
         </div>
       </nz-spin>
     </section>

@@ -228,6 +228,14 @@
   --fi-tag-bg-hover: #ead7bf;  --fi-tag-border-hover: #cda983;
   --fi-tag-text-hover: #6a421f;
 
+  /* 留言墙纸张：低饱和暖色系，按留言 id 稳定分配；灰绿只做点缀。
+     深色文字在这五色上的对比度均 ≥5.5:1（日期用 78% 文字色叠加）。 */
+  --fi-note-paper-cream: #faf3e3;
+  --fi-note-paper-apricot: #f8e6d2;
+  --fi-note-paper-blush: #f7e0d8;
+  --fi-note-paper-oat: #efe7dc;
+  --fi-note-paper-sage: #e4e8da;
+
   /* 状态角标底色（阅读状态、游戏分类）。原先是散落在组件里的 #c79664 / #c4a06d / #8a8a8a，
      配白字只有 2.4~3.5:1；这里统一压深到白字 ≥4.5:1。 */
   --fi-badge-gold: #96683a;
