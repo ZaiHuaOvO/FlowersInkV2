@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 490,
+  "total": 491,
   "records": [
+    {
+      "uid": "dead527",
+      "type": "style",
+      "date": "2026-11-23",
+      "desc": "留言墙重做为三列便签，新增三种固定样式，留言改为一次全部展示",
+      "important": false,
+      "repo": "site",
+      "sha": "dead527ced63ff0b5646974a138e2188a38845ae"
+    },
     {
       "uid": "9aa5cf8",
       "type": "chore",
