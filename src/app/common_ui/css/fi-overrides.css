@@ -204,3 +204,44 @@ nz-content {
   background: var(--fi-primary-active);
   border-color: var(--fi-primary-active);
 }
+
+/* ===== 消息提示（nz-message，全站统一） =====
+   antd 默认是 2px 直角、纯白底、冷蓝/亮绿图标，和站内奶油 + 棕金的浮层语言不符。
+   message 挂在 body 下的 nz-message-container 里，页面作用域样式够不着，只能写全局。
+   落点位置由 app.config.ts 的 message.nzTop 下移到固定顶栏之下（内联样式，CSS 盖不掉）。 */
+.ant-message {
+  z-index: var(--fi-z-toast);
+}
+
+.ant-message .ant-message-notice-content {
+  padding: var(--fi-space-2) var(--fi-space-4);
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-sm);
+  background: var(--fi-surface);
+  color: var(--fi-text);
+  font-family: var(--fi-font-base);
+  font-size: var(--fi-font-size-md);
+  line-height: var(--fi-line-height-normal);
+  box-shadow: var(--fi-shadow);
+}
+
+/* 图标按语义色走站内 token（默认是 antd 的冷蓝与亮绿） */
+.ant-message .ant-message-custom-content .anticon {
+  color: var(--fi-primary);
+}
+
+.ant-message .ant-message-custom-content.ant-message-success .anticon {
+  color: var(--fi-success);
+}
+
+.ant-message .ant-message-custom-content.ant-message-info .anticon {
+  color: var(--fi-info);
+}
+
+.ant-message .ant-message-custom-content.ant-message-warning .anticon {
+  color: var(--fi-warning);
+}
+
+.ant-message .ant-message-custom-content.ant-message-error .anticon {
+  color: var(--fi-danger);
+}

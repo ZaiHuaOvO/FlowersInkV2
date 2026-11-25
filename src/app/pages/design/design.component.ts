@@ -16,6 +16,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -351,6 +352,18 @@ export class DesignComponent implements AfterViewInit, OnDestroy {
   private programmaticScrollTimer?: ReturnType<typeof setTimeout>;
   private readonly host = inject(ElementRef);
   private readonly blog = inject(BlogService);
+  private readonly message = inject(NzMessageService);
+
+  /** /design 的消息提示演示：触发真实的 nz-message，样式即全站样式 */
+  showMessage(type: 'success' | 'info' | 'warning' | 'error'): void {
+    const text = {
+      success: '操作成功，已经保存好了。',
+      info: '这是一条中性的信息提示。',
+      warning: '需要注意一下，但不会阻断操作。',
+      error: '操作失败了，请稍后重试。',
+    }[type];
+    this.message[type](text);
+  }
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: object) {}
 

@@ -631,6 +631,19 @@
               </fl-button>
             </div>
           </div>
+          <div class="ds-subsection">
+            <h3 class="ds-subsection-title fi-text-strong">消息提示 · <code>nz-message</code></h3>
+            <p class="ds-subsection-desc fi-text-caption">
+              复制成功、表单校验这类轻提示统一用它：奶油底、暖色描边与棕金阴影，图标走语义色，
+              出现在固定顶栏下方，不再压住导航。
+            </p>
+            <div class="ds-demo-row">
+              <fl-button (click)="showMessage('success')">成功</fl-button>
+              <fl-button (click)="showMessage('info')">信息</fl-button>
+              <fl-button (click)="showMessage('warning')">警告</fl-button>
+              <fl-button (click)="showMessage('error')">错误</fl-button>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -22,6 +22,9 @@ registerLocaleData(zh);
 // ng-zorro全局配置项
 const ngZorroConfig: NzConfig = {
   pagination: { nzSimple: true },
+  // 消息提示落在固定顶栏下方（48px 顶栏 + 安全区 + 8px），不再压住导航。
+  // ng-zorro 把这个值写成内联 top，CSS 选择器盖不掉，只能在这里给。
+  message: { nzTop: 'calc(48px + var(--fi-safe-top) + var(--fi-space-2))' },
 };
 
 // 用户在系统里开了「减少动态效果」时，干脆不注册 Angular 动画。
