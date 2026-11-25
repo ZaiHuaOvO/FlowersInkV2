@@ -1,0 +1,49 @@
+/* 友链主页面与「申请友链」子页共用的外框。
+
+   两个页面是独立的组件，样式各自内联，所以外框与分区标题只在这里写一份，
+   两份 styleUrl 都引它（同一个视觉作用写第二遍就是错的，见 DESIGN.md §0）。 */
+
+/* 主列宽度沿用博客/归档页的窄版写法：宽屏收到 --fi-page-max-narrow（980px）。
+   友链是一列名片，不需要首页那种宽度，980px 下两列书签行读起来最舒服。 */
+.content {
+    width: min(var(--fi-page-max-narrow), 100%);
+    min-height: 420px;
+    margin-top: var(--fi-space-3);
+    padding: clamp(22px, 3vw, 34px) clamp(18px, 5vw, 48px);
+}
+
+/* ====== 分区标题（代替分割线） ====== */
+.section-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: var(--fi-space-5) 0 var(--fi-space-3);
+    border-bottom: 1px solid var(--fi-border);
+}
+
+.section-icon {
+    font-size: 16px;
+    color: var(--fi-primary);
+    opacity: 0.7;
+}
+
+.section-title {
+    margin: 0;
+    font-size: var(--fi-font-size-xl);
+    font-weight: var(--fi-font-weight-semibold);
+    color: var(--fi-primary-active);
+}
+
+.section-count {
+    margin: 0 0 0 auto;
+    font-size: var(--fi-font-size-sm);
+}
+
+@media (max-width: 768px) {
+    .content {
+        width: 100%;
+        margin-top: var(--fi-space-2);
+        min-height: auto;
+        padding: var(--fi-space-6) var(--fi-space-4);
+    }
+}

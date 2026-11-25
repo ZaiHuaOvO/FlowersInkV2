@@ -1,12 +1,18 @@
-<div class="link-row">
+<div class="link-row" (click)="onRowClick($event)">
     <!-- 可跳转的部分是这一整个 a；评价按钮是它的兄弟节点，所以点评价不会连带跳转 -->
-    <a class="link-main" [href]="link.url" target="_blank" rel="noopener noreferrer">
+    <a class="link-main" [href]="link.url" [attr.target]="isInternal ? null : '_blank'"
+        [attr.rel]="isInternal ? null : 'noopener noreferrer'" (click)="onMainClick($event)">
         <span class="link-logo-wrap">
-            @if (!showFallback && avatarSrc) {
+            @if (link.logoPlaceholder) {
+            <span class="link-logo-placeholder" aria-hidden="true"></span>
+            }
+            @if (!link.logoPlaceholder && !showFallback && avatarSrc) {
             <img
                 loading="lazy"
                 decoding="async"
                 class="link-logo"
+                [class.link-logo--contain]="logoContain"
+                [style.transform]="logoScaleStyle"
                 [src]="avatarSrc"
                 referrerpolicy="no-referrer"
                 alt=""
@@ -15,7 +21,7 @@
                 (load)="avatarLoaded = true"
                 (error)="onAvatarError()">
             }
-            @if (showFallback) {
+            @if (!link.logoPlaceholder && showFallback) {
             <span class="link-logo-fallback">{{ initial }}</span>
             }
         </span>
@@ -28,7 +34,7 @@
         </span>
     </a>
 
-    @if (link.evaluation) {
+    @if (link.evaluation || link.evaluationParts?.length) {
     <div class="link-eval">
         <button
             type="button"
@@ -39,7 +45,20 @@
         <span class="link-eval-bubble">
             <span class="link-eval-inner">
                 <span class="link-eval-label">再花的评价</span>
-                <span class="link-eval-text">{{ link.evaluation }}</span>
+                <span class="link-eval-text">
+                    @if (link.evaluationParts?.length) {
+                    @for (part of link.evaluationParts; track $index) {
+                    @if (part.href) {
+                    <a class="link-eval-link" [href]="part.href" target="_blank"
+                        rel="noopener noreferrer">{{ part.text }}</a>
+                    } @else {
+                    <span [textContent]="part.text"></span>
+                    }
+                    }
+                    } @else {
+                    <span [textContent]="link.evaluation"></span>
+                    }
+                </span>
             </span>
         </span>
     </div>

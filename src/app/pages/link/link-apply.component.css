@@ -1,0 +1,81 @@
+/* 外框（.content）与分区标题（.section-head）在 link-shared.css，
+   这里只放申请页自己的规则说明与表单。 */
+
+/* ====== 申请须知 ====== */
+.link-note {
+    font-size: var(--fi-font-size-lg);
+}
+
+.link-note p {
+    margin-bottom: 6px;
+    line-height: 1.7;
+}
+
+/* 有解释的词：浅一点的波浪下划线，悬停变色并弹出与表单一致的 tooltip */
+.rule-term {
+    color: var(--fi-text);
+    text-decoration: underline wavy;
+    text-decoration-color: color-mix(in srgb, var(--fi-primary) 50%, var(--fi-card-bg));
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    cursor: help;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.rule-term:hover {
+    color: var(--fi-primary-active);
+}
+
+/* ====== 申请表单 ====== */
+.form-field {
+    width: 100%;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 2px;
+    font-size: var(--fi-font-size-sm);
+    font-weight: var(--fi-font-weight-medium);
+    color: var(--fi-text);
+}
+
+/* 可选字段（RSS / 联系邮箱 / 备注）：标签与输入框外框使用更浅的棕色，弱化视觉权重；输入框内部保持白色 */
+.form-field--optional .form-label {
+    color: var(--fi-text-muted);
+    font-weight: var(--fi-font-weight-regular);
+}
+
+.form-field--optional .fl-input-control.ant-input {
+    background-color: var(--fi-form-bg) !important;
+    border-color: var(--fi-form-border) !important;
+    color: var(--fi-text-muted) !important;
+}
+
+.input-with-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.input-with-preview input {
+    flex: 1;
+}
+
+.logo-preview {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid var(--fi-border);
+    background: var(--fi-bg-soft);
+}
+
+.toolbar {
+    padding-top: var(--fi-space-3);
+    width: 100%;
+}
+
+.submit {
+    width: 108px;
+}

@@ -108,7 +108,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() { }
 
   isActive(url: any): boolean {
-    return this.activeRoute === url;
+    // 子路由也算父栏目：/link/apply 时「友链」保持高亮
+    return this.activeRoute === url || this.activeRoute.startsWith(`${url}/`);
   }
 
   isParentActive(URL: any): boolean {

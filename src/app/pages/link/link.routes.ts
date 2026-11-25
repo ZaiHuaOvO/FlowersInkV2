@@ -6,4 +6,10 @@ export const LINK_ROUTES: Routes = [
     title: "花墨 | 友情链接",
     loadComponent: () => import("./link.component").then((m) => m.LinkComponent),
   },
+  {
+    path: "apply",
+    title: "花墨 | 申请友链",
+    loadComponent: () =>
+      import("./link-apply.component").then((m) => m.LinkApplyComponent),
+  },
 ];

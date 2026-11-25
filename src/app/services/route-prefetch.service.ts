@@ -15,6 +15,7 @@ type PrefetchKey =
   | 'about.component'
   | 'link.routes'
   | 'link.component'
+  | 'link.apply'
   | 'life.routes'
   | 'life.heart';
 
@@ -49,6 +50,7 @@ export class RoutePrefetchService {
 
     'link.routes': () => import('../pages/link/link.routes'),
     'link.component': () => import('../pages/link/link.component'),
+    'link.apply': () => import('../pages/link/link-apply.component'),
 
     'life.routes': () => import('../pages/life/life.routes'),
     'life.heart': () => import('../pages/life/heart/heart.component'),
@@ -157,6 +159,10 @@ export class RoutePrefetchService {
 
     if (url.startsWith('/about')) {
       return ['about.routes', 'about.component'];
+    }
+
+    if (url.startsWith('/link/apply')) {
+      return ['link.routes', 'link.apply'];
     }
 
     if (url.startsWith('/link')) {

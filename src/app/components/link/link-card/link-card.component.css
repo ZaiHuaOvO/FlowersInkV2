@@ -69,7 +69,8 @@
     min-width: 44px;
     border-radius: var(--fi-radius-sm);
     overflow: hidden;
-    background: var(--fi-bg-soft);
+    /* 透明底：跟着卡片（含悬停态）走，不再垫一层浅棕方块 */
+    background: transparent;
     transition: opacity var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
@@ -78,6 +79,21 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.link-logo--contain {
+    object-fit: contain;
+}
+
+/* 申请入口：还没有 Logo，用浅虚线框表示「待填入」。
+   卡片本身是浅棕底，占位框填成卡片色（白），才看得出是个空槽。 */
+.link-logo-placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px dashed var(--fi-border-strong);
+    border-radius: var(--fi-radius-sm);
+    background: var(--fi-card-bg);
 }
 
 .link-logo-fallback {
@@ -168,14 +184,14 @@
 
 /* 气泡紧贴按钮下沿（top:100%），视觉间距由内层的 padding-top 造：
    留真缝的话鼠标从按钮移向气泡会闪一下。
-   只读内容，pointer-events: none —— 扫过不该把它弄掉，也不该挡住下面的行。 */
+   评价里带链接（imrss 的「扶苏」），所以整块要能接住指针；
+   气泡本来就是悬停才出现，扫过时挡住下方的行只在展开的这一小块。 */
 .link-eval-bubble {
     position: absolute;
     top: 100%;
     right: 0;
     z-index: 5;
     padding-top: var(--fi-space-2);
-    pointer-events: none;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-4px);
@@ -209,6 +225,46 @@
     line-height: 1.2;
     font-weight: var(--fi-font-weight-semibold);
     color: var(--fi-primary-active);
+}
+
+/* 评价里指向站点的词（如「扶苏」） */
+.link-eval-link {
+    color: var(--fi-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.link-eval-link:hover {
+    color: var(--fi-primary-active);
+}
+
+/* 申请入口：名单末尾的空位名片 —— 很浅的暖底 + 虚线边 + 深棕名字，
+   和普通友链一眼能分开，又不脱离这套卡片的样式语言 */
+:host(.is-apply-entry) .link-row {
+    background: color-mix(in srgb, var(--fi-tag-bg) 55%, var(--fi-card-bg));
+    border: 1px dashed var(--fi-border-strong);
+}
+
+:host(.is-apply-entry) .link-name {
+    color: var(--fi-primary-active);
+}
+
+:host(.is-apply-entry) .link-desc {
+    color: var(--fi-primary);
+}
+
+:host(.is-apply-entry.is-active) .link-row {
+    background: color-mix(in srgb, var(--fi-tag-bg-hover) 55%, var(--fi-card-bg));
+    border-color: var(--fi-tag-border-hover);
+    border-style: solid;
+}
+
+/* 但轮到别的卡片时，它也要一起退后 */
+@media (hover: hover) and (pointer: fine) {
+    :host(.is-apply-entry.is-dimmed) .link-name,
+    :host(.is-apply-entry.is-dimmed) .link-desc {
+        color: var(--fi-text-caption);
+    }
 }
 
 /* 只有悬停（或键盘聚焦）才展开，没有"钉住"状态。

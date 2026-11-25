@@ -1,104 +1,104 @@
-/* 页面外壳（宽度 / 外边距）走 common_ui/css/fi-layout.css 的 .fi-page--flush */
+/* 外框（.content）与分区标题（.section-head）在 link-shared.css，
+   这里只放友链页自己的布局。 */
 
-/* 主列宽度沿用博客/归档页的窄版写法：宽屏收到 --fi-page-max-narrow（980px）。
-   友链是一列人名片，不需要首页那种宽度，980px 下两列书签行读起来最舒服。 */
-.content {
-    width: min(var(--fi-page-max-narrow), 100%);
-    min-height: 420px;
-    margin-top: var(--fi-space-3);
-    padding: clamp(22px, 3vw, 34px) clamp(18px, 5vw, 48px);
+/* ====== 我的站点名片：与友链同一套行样式，整宽、可点击 ====== */
+.self-card {
+    width: 100%;
 }
 
-/* ====== Section headers (replacing dividers) ====== */
-.section-head {
+.self-card-head {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: var(--fi-space-5) 0 var(--fi-space-3);
-    border-bottom: 1px solid var(--fi-border);
-}
-
-.section-icon {
-    font-size: 16px;
-    color: var(--fi-primary);
-    opacity: 0.7;
-}
-
-.section-title {
-    margin: 0;
-    font-size: var(--fi-font-size-xl);
-    font-weight: var(--fi-font-weight-semibold);
-    color: var(--fi-primary-active);
-}
-
-.section-count {
-    margin: 0 0 0 auto;
-    font-size: var(--fi-font-size-sm);
-}
-
-/* ====== 我的信息（平铺，不再套卡片） ====== */
-.profile-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--fi-space-4);
-    padding-bottom: var(--fi-space-3);
-    border-bottom: 1px solid var(--fi-border);
-}
-
-.profile-avatar {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
+    gap: var(--fi-space-4);
+    width: 100%;
+    padding: var(--fi-space-3);
+    background: transparent;
+    border: 1px solid transparent;
     border-radius: var(--fi-radius-sm);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color var(--fi-motion-normal) var(--fi-ease-standard),
+                border-color var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+.self-card-head:hover {
+    background: var(--fi-card-bg-hover);
+    border-color: var(--fi-border);
+}
+
+.self-card-head:focus-visible {
+    outline: 0;
+    border-color: var(--fi-primary);
+    box-shadow: 0 0 0 3px var(--fi-primary-outline);
+}
+
+.self-logo-wrap {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: var(--fi-radius-sm);
+    overflow: hidden;
+    /* 透明底：和卡片颜色一致，不垫浅棕方块 */
+    background: transparent;
+}
+
+.self-logo {
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    background: var(--fi-bg-soft);
 }
 
-.profile-name {
+.self-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fi-space-1);
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.self-name {
     font-size: var(--fi-font-size-lg);
-    color: var(--fi-primary-active);
+    font-weight: var(--fi-font-weight-semibold);
+    line-height: 1.35;
+    color: var(--fi-text);
 }
 
-.profile-badge {
+.self-desc {
+    font-size: var(--fi-font-size-sm);
+    line-height: 1.45;
+    color: var(--fi-text-muted);
+    overflow-wrap: anywhere;
+}
+
+.self-hint {
+    flex-shrink: 0;
     font-size: var(--fi-font-size-xs);
     color: var(--fi-text-muted);
-    background: var(--fi-tag-bg);
-    padding: 2px 8px;
-    border-radius: var(--fi-tag-radius);
     white-space: nowrap;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
-.profile-copy-all {
-    background: none;
-    border: 1px solid var(--fi-border);
-    border-radius: var(--fi-radius-xs);
-    padding: 4px 12px;
-    font-size: var(--fi-font-size-sm);
-    color: var(--fi-text-muted);
-    cursor: pointer;
-    transition: all var(--fi-motion-fast) ease;
-    white-space: nowrap;
-}
-
-.profile-copy-all:hover {
-    border-color: var(--fi-primary);
+.self-card-head:hover .self-hint {
     color: var(--fi-primary);
 }
 
-.profile-copy-all.copied {
-    border-color: var(--fi-success);
-    color: var(--fi-success);
-}
-
-.copied-text {
-    color: var(--fi-success);
-}
-
-.profile-info-list {
+/* 明细面板：点开后就一直留着（再点卡片只复制 JSON，不再收起） */
+.self-panel {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin-top: var(--fi-space-1);
+    padding: var(--fi-space-3);
+    border-top: 1px solid var(--fi-border);
+}
+
+/* 触屏没有悬停，复制按钮常显，否则面板里根本没有可点的复制入口 */
+@media (hover: none) {
+    .self-panel .row-copy-btn {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 .profile-info-row {
@@ -184,98 +184,7 @@
     opacity: 1;
 }
 
-/* ====== 申请须知 / 申请表单（平铺，不再套卡片） ====== */
-/* 表单常驻收起，由这一行的入口按钮展开 */
-.apply-entry {
-    padding-top: var(--fi-space-2);
-}
-
-.form-field {
-    width: 100%;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 2px;
-    font-size: var(--fi-font-size-sm);
-    font-weight: var(--fi-font-weight-medium);
-    color: var(--fi-text);
-}
-
-/* 可选字段（RSS / 联系邮箱 / 备注）：标签与输入框外框使用更浅的棕色，弱化视觉权重；输入框内部保持白色 */
-.form-field--optional .form-label {
-    color: var(--fi-text-muted);
-    font-weight: var(--fi-font-weight-regular);
-}
-
-.form-field--optional .fl-input-control.ant-input {
-    background-color: var(--fi-form-bg) !important;
-    border-color: var(--fi-form-border) !important;
-    color: var(--fi-text-muted) !important;
-}
-
-.input-with-preview {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.input-with-preview input {
-    flex: 1;
-}
-
-.logo-preview {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    border-radius: 6px;
-    object-fit: cover;
-    border: 1px solid var(--fi-border);
-    background: var(--fi-bg-soft);
-}
-
-.toolbar {
-    padding-top: var(--fi-space-3);
-    width: 100%;
-}
-
-.submit {
-    width: 108px;
-}
-
-.link-note {
-    font-size: 15px;
-}
-
-.link-note p {
-    margin-bottom: 6px;
-    line-height: 1.7;
-}
-
-.link-note-sub {
-    font-size: var(--fi-font-size-xs);
-    color: var(--fi-text-muted);
-    margin: 0;
-    line-height: 1.5;
-}
-
-/* 须知末尾的一行小字（附友链观点文章链接） */
-.link-note-foot {
-    font-size: var(--fi-font-size-xs);
-    color: var(--fi-text-muted);
-}
-
-.link-note-foot a {
-    color: var(--fi-text-muted);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-}
-
-.link-note-foot a:hover {
-    color: var(--fi-primary);
-}
-
-/* ====== 朋友们的文章（与书签列表同一套行样式） ====== */
+/* ====== 朋友圈（与书签列表同一套行样式） ====== */
 .article-list {
     display: flex;
     flex-direction: column;
@@ -315,7 +224,9 @@
     min-width: 32px;
     border-radius: var(--fi-radius-sm);
     overflow: hidden;
-    background: var(--fi-bg-soft);
+    /* 透明底：和卡片颜色一致，不垫浅棕方块 */
+    background: transparent;
+    transition: opacity var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
 .article-logo {
@@ -357,6 +268,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 .article-tail {
@@ -366,6 +278,7 @@
     flex-shrink: 0;
     font-size: var(--fi-font-size-xs);
     color: var(--fi-text-muted);
+    transition: color var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 .article-date {
@@ -406,9 +319,30 @@
     .article-row:focus-visible .article-arrow {
         opacity: 1;
     }
+
+    /* 指针停在某一条上时，其余条目退后；只和同一列表里的成员比，
+       好朋友 / 好小区 / 朋友圈三组互不影响。 */
+    .article-row.is-dimmed {
+        filter: saturate(0.6);
+    }
+
+    .article-row.is-dimmed .article-logo-wrap {
+        opacity: 0.55;
+    }
+
+    .article-row.is-dimmed .article-title,
+    .article-row.is-dimmed .article-summary,
+    .article-row.is-dimmed .article-tail {
+        color: var(--fi-text-caption);
+    }
+
+    .article-row.is-dimmed .source-tag {
+        color: var(--fi-text-caption);
+        border-color: var(--fi-border);
+    }
 }
 
-/* ====== 朋友们的书签列表 ====== */
+/* ====== 好朋友 / 好小区的书签列表 ====== */
 .link-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -500,17 +434,15 @@
 
 /* ====== Responsive ====== */
 @media (max-width: 768px) {
-    .content {
-        width: 100%;
-        margin-top: var(--fi-space-2);
-        min-height: auto;
-        padding: var(--fi-space-6) var(--fi-space-4);
+    /* 站点名片：小字提示让到第二行，和名称左对齐（44px Logo + 16px 间距） */
+    .self-card-head {
+        flex-wrap: wrap;
+        row-gap: 4px;
     }
 
-    .profile-card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+    .self-hint {
+        flex-basis: 100%;
+        padding-left: calc(44px + var(--fi-space-4));
     }
 
     /* 必须是 minmax(0, 1fr)：裸 1fr 的最小值是 min-content，行内 nowrap 的
@@ -531,5 +463,19 @@
     .article-tail {
         flex-basis: 100%;
         padding-left: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .article-row,
+    .article-row .article-title,
+    .article-row .article-summary,
+    .article-row .article-tail,
+    .article-logo-wrap {
+        transition: none;
+    }
+
+    .article-row:hover {
+        transform: none;
     }
 }

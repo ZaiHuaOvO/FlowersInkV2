@@ -105,6 +105,10 @@ async function main() {
       renderLinkPage(template, friendLinks),
     ),
     writeFileEnsured(
+      path.join(distRoot, 'link', 'apply', 'index.html'),
+      renderLinkApplyPage(template),
+    ),
+    writeFileEnsured(
       path.join(distRoot, 'welcome', 'index.html'),
       renderWelcomePage(template, blogItems, friendLinks, '/'),
     ),
@@ -405,6 +409,37 @@ function renderLinkPage(template, friendLinks) {
     title: `友情链接 | ${siteName}`,
     description: '花墨友情链接页面，展示已审核的个人博客与独立站点。',
     canonicalPath: '/link',
+    ogType: 'website',
+    body,
+  });
+}
+
+function renderLinkApplyPage(template) {
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>申请友链</h1>
+        <p>友链最终是双向的，交换前请先确认下面的规则。</p>
+      </header>
+      <section class="fi-seo-section">
+        <h2>申请须知</h2>
+        <ul>
+          <li>友链是双向的，申请前请先把花墨加入你的友链。</li>
+          <li>已经与花墨产生了一定的连接，先友后链。</li>
+          <li>博客内容要是花墨感兴趣的，纯技术博客可能不太合适。</li>
+          <li>建站一年以上，且有 24 篇以上的原创内容。</li>
+          <li>不太喜欢 AI 绘画素材或 AI 生成文章占比过高的网站。</li>
+          <li>站点启用 HTTPS、保持更新、视觉与交互良好，会让申请更容易通过。</li>
+        </ul>
+        <p><a href="${withTrailingSlash('/link')}">先去看看花墨的好朋友</a></p>
+      </section>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `申请友链 | ${siteName}`,
+    description: '向花墨申请友情链接之前，先了解友链的申请规则与偏好。',
+    canonicalPath: '/link/apply',
     ogType: 'website',
     body,
   });
