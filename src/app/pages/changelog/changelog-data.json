@@ -5,8 +5,35 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 493,
+  "total": 496,
   "records": [
+    {
+      "uid": "b818f17",
+      "type": "feat",
+      "date": "2026-11-25",
+      "desc": "友链页改版：新增好小区与申请友链页，页脚站外导航缩减为三项",
+      "important": true,
+      "repo": "site",
+      "sha": "b818f170a7308e9210e60a43102e8e23c5bff747"
+    },
+    {
+      "uid": "c72b96d",
+      "type": "style",
+      "date": "2026-11-25",
+      "desc": "全站消息提示改为奶油底暖边、图标用站内语义色",
+      "important": false,
+      "repo": "site",
+      "sha": "c72b96d7135422079f74a05f3ed80cd9eab0a15d"
+    },
+    {
+      "uid": "c31260a",
+      "type": "feat",
+      "date": "2026-11-25",
+      "desc": "朋友圈改为每位好友只展示最新 5 篇",
+      "important": false,
+      "repo": "api",
+      "sha": "c31260ac92b844072a5dc6f882028256e9df9e61"
+    },
     {
       "uid": "d46f86f",
       "type": "style",
