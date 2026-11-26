@@ -70,6 +70,7 @@ export class LinkComponent implements OnInit, OnDestroy {
   loadError = false;
   articleLoading = true;
   email = 'ZyZy1724@gmail.com';
+  rssUrl = 'https://flowersink.com/rss.xml';
   links: LinkItem[] = [];
   friendArticles: ArticleItem[] = [];
   skeletonCards = [1, 2, 3, 4, 5, 6];
@@ -447,6 +448,7 @@ export class LinkComponent implements OnInit, OnDestroy {
       url: 'https://flowersink.com',
       content: '好耶！是再花猫猫头ฅ•ω•ฅ',
       email: this.email,
+      rss: this.rssUrl,
     };
     navigator.clipboard.writeText(JSON.stringify(info, null, 2)).then(() => {
       this.msg.success('已复制友链 JSON');
