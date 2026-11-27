@@ -5,8 +5,17 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 497,
+  "total": 498,
   "records": [
+    {
+      "uid": "2588324",
+      "type": "feat",
+      "date": "2026-11-27",
+      "desc": "首页新增 RSS 订阅按钮，手机端三个按钮等宽居中",
+      "important": false,
+      "repo": "site",
+      "sha": "25883249f7b8a27f36bd6af0f47645abd839cbdf"
+    },
     {
       "uid": "a770711",
       "type": "feat",
