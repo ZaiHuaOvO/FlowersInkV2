@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 500,
+  "total": 502,
   "records": [
+    {
+      "uid": "b7e7100",
+      "type": "fix",
+      "date": "2026-11-27",
+      "desc": "订阅页修正频道排序与滚动，支持悬停看备注，卡片不再变淡",
+      "important": false,
+      "repo": "site",
+      "sha": "b7e71001c029b89ecc5f39b8ecb74034dc861574"
+    },
+    {
+      "uid": "a8308d3",
+      "type": "fix",
+      "date": "2026-11-27",
+      "desc": "订阅源改按最近文章时间排序，移除人工排序字段",
+      "important": false,
+      "repo": "api",
+      "sha": "a8308d338270e98b3a95866916bfb702409be6de"
+    },
     {
       "uid": "28f2622",
       "type": "feat",
