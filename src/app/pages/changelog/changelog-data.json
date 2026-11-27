@@ -5,8 +5,26 @@
     "不复述实现细节，不要照搬 git 提交内容（不列文件名、类名、参数名）",
     "同一批改动只挑用户能感知的写，细节留在 commit 里"
   ],
-  "total": 498,
+  "total": 500,
   "records": [
+    {
+      "uid": "28f2622",
+      "type": "feat",
+      "date": "2026-11-27",
+      "desc": "新增「再花的订阅」页面，按频道汇集博客最新文章",
+      "important": true,
+      "repo": "site",
+      "sha": "28f2622606c94bc1ff3f35d8b0b55aac7746ae48"
+    },
+    {
+      "uid": "631eb9c",
+      "type": "feat",
+      "date": "2026-11-27",
+      "desc": "新增订阅模块，定时抓取 RSS 并生成文章快照",
+      "important": true,
+      "repo": "api",
+      "sha": "631eb9c32535f801b9a3a29fd56cfa0f28d9b57c"
+    },
     {
       "uid": "2588324",
       "type": "feat",
