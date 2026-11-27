@@ -59,6 +59,7 @@ export class SubscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly subscribeService = inject(SubscribeService);
 
   @ViewChild('sentinel') sentinel?: ElementRef<HTMLElement>;
+  @ViewChild('channelView') channelView?: ElementRef<HTMLElement>;
 
   readonly supportsIntersectionObserver =
     typeof IntersectionObserver !== 'undefined';
@@ -74,6 +75,9 @@ export class SubscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   marqueeSources: SubscriptionSourceItem[] = [];
   /** 频道区展开为全部站点；收起时是自动滚动的跑马灯 */
   channelsExpanded = false;
+  /** 箭头视觉状态；收起动画期间它先翻回去，布局等动画结束再切 */
+  channelsArrowExpanded = false;
+  private channelAnimating = false;
 
   articles: SubscriptionArticleItem[] = [];
   total = 0;
@@ -188,9 +192,111 @@ export class SubscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     return index >= this.sources.length;
   }
 
-  /** 展开 / 收起全部站点 */
+  /** 展开 / 收起全部站点；面板高度做平滑过渡 */
   toggleChannels(): void {
-    this.channelsExpanded = !this.channelsExpanded;
+    const view = this.channelView?.nativeElement;
+    if (!view || !isPlatformBrowser(this.platformId)) {
+      this.channelsExpanded = !this.channelsExpanded;
+      this.channelsArrowExpanded = this.channelsExpanded;
+      return;
+    }
+
+    if (this.channelAnimating) {
+      return;
+    }
+
+    if (!this.channelsExpanded) {
+      // 展开：先把当前高度固定住，等展开后的内容渲染完再量目标高度
+      const from = view.getBoundingClientRect().height;
+      this.channelsArrowExpanded = true;
+      this.channelsExpanded = true;
+      this.channelAnimating = true;
+      view.classList.add('is-animating');
+      view.style.height = `${from}px`;
+
+      setTimeout(() => {
+        const to = view.scrollHeight;
+        this.animateChannelView(view, from, to, () => {
+          this.finishChannelAnimation(view);
+        });
+      });
+      return;
+    }
+
+    // 收起：保持展开布局做高度动画，结束后再切回跑马灯
+    this.channelsArrowExpanded = false;
+    const from = view.getBoundingClientRect().height;
+    const to = this.measureCollapsedChannelView(view);
+    this.channelAnimating = true;
+    this.animateChannelView(view, from, to, () => {
+      this.channelsExpanded = false;
+      setTimeout(() => this.finishChannelAnimation(view));
+    });
+  }
+
+  /**
+   * 收起后的频道区高度：跑马灯只占一行，
+   * 直接量一个频道的高度 + 频道条上下 padding。
+   */
+  private measureCollapsedChannelView(view: HTMLElement): number {
+    const strip = view.querySelector<HTMLElement>('.channel-strip');
+    const chip = view.querySelector<HTMLElement>(
+      '.channel:not(.is-duplicate)',
+    );
+    if (!strip || !chip) {
+      return view.getBoundingClientRect().height;
+    }
+    const style = getComputedStyle(strip);
+    const padding =
+      (parseFloat(style.paddingTop) || 0) +
+      (parseFloat(style.paddingBottom) || 0);
+    return chip.getBoundingClientRect().height + padding;
+  }
+
+  private animateChannelView(
+    view: HTMLElement,
+    from: number,
+    to: number,
+    done: () => void,
+  ): void {
+    view.classList.add('is-animating');
+    view.style.transition = 'none';
+    view.style.height = `${from}px`;
+    void view.offsetHeight;
+    view.style.transition = '';
+    view.style.height = `${to}px`;
+
+    let finished = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const finish = (): void => {
+      if (finished) {
+        return;
+      }
+      finished = true;
+      view.removeEventListener('transitionend', onEnd);
+      if (timer !== undefined) {
+        clearTimeout(timer);
+      }
+      done();
+    };
+
+    const onEnd = (event: TransitionEvent): void => {
+      if (event.target === view && event.propertyName === 'height') {
+        finish();
+      }
+    };
+
+    view.addEventListener('transitionend', onEnd);
+    // 后台标签页可能暂停过渡，兜底把状态收尾
+    timer = setTimeout(finish, 420);
+  }
+
+  private finishChannelAnimation(view: HTMLElement): void {
+    view.classList.remove('is-animating');
+    view.style.height = '';
+    view.style.transition = '';
+    this.channelAnimating = false;
   }
 
   relative(timestamp: number): string {
@@ -229,6 +335,8 @@ export class SubscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscribeService.getSources().subscribe({
       next: (res: any) => {
         const data = (res?.data?.data ?? []) as SubscriptionSourceItem[];
+        this.channelsExpanded = false;
+        this.channelsArrowExpanded = false;
         // 频道按各自最新一篇文章的发布时间从新到旧排，没有文章的排最后
         this.sources = [...data].sort(
           (left, right) => (right.latestAt ?? 0) - (left.latestAt ?? 0),

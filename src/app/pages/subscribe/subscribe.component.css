@@ -253,6 +253,18 @@
   display: none;
 }
 
+.channel-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-2);
+}
+
+.channel-view.is-animating {
+  overflow: hidden;
+  will-change: height;
+  transition: height var(--fi-motion-slow) var(--fi-ease-standard);
+}
+
 .channel-sort-note {
   margin: 0;
   text-align: center;
@@ -261,45 +273,52 @@
   color: var(--fi-text-muted);
 }
 
-/* 展开 / 收起：宽一点的下箭头，展开后转向上方 */
+/* 展开 / 收起：裸的宽箭头，不要按钮框 */
 .channel-toggle {
   align-self: center;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: min(380px, 100%);
-  min-height: 32px;
-  padding: 0;
-  border: 1px solid var(--fi-border);
+  min-height: 34px;
+  padding: 6px 24px;
+  border: 0;
   border-radius: var(--fi-radius-pill);
-  background: var(--fi-surface);
+  background: transparent;
   color: var(--fi-text-muted);
   cursor: pointer;
-  transition: background-color var(--fi-motion-fast) var(--fi-ease-standard),
-    border-color var(--fi-motion-fast) var(--fi-ease-standard),
-    color var(--fi-motion-fast) var(--fi-ease-standard),
+  transition: color var(--fi-motion-fast) var(--fi-ease-standard),
     box-shadow var(--fi-motion-fast) var(--fi-ease-standard);
 }
 
 .channel-toggle:hover {
-  background: var(--fi-card-bg-hover);
-  border-color: var(--fi-border-strong);
   color: var(--fi-primary);
 }
 
 .channel-toggle:focus-visible {
   outline: 0;
-  border-color: var(--fi-primary);
+  color: var(--fi-primary);
   box-shadow: 0 0 0 3px var(--fi-primary-outline);
+}
+
+.channel-toggle-arrow {
+  display: flex;
+  transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+.channel-toggle:hover .channel-toggle-arrow {
+  transform: translateY(2px);
+}
+
+.channel-toggle.is-expanded .channel-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+.channel-toggle.is-expanded:hover .channel-toggle-arrow {
+  transform: rotate(180deg) translateY(-2px);
 }
 
 .channel-toggle svg {
   display: block;
-  transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
-}
-
-.channel-toggle.is-expanded svg {
-  transform: rotate(180deg);
 }
 
 .channel {
@@ -839,8 +858,8 @@
   }
 
   .channel-toggle {
-    width: 100%;
     min-height: var(--fi-control-height-lg);
+    padding: 8px 20px;
   }
 
   .article-list,

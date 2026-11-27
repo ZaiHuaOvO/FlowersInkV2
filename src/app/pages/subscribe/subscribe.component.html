@@ -27,60 +27,66 @@
     <!-- 频道只作展示与跳转：按最新更新时间排序，横向慢慢滚动，悬停暂停 -->
     @if (sources.length) {
       <div class="channel-area">
-        <nav class="channel-strip" [class.is-static]="sources.length < 6" [class.is-expanded]="channelsExpanded"
-          aria-label="订阅的博客" [style.--marquee-duration]="marqueeDuration">
-          <div class="channel-track">
-            @for (source of marqueeSources; track $index; let i = $index) {
-              <a
-                class="channel"
-                [class.is-duplicate]="isDuplicateChannel(i)"
-                [href]="source.blogUrl || source.siteUrl"
-                [attr.aria-label]="'打开 ' + source.name + ' 的博客'"
-                [attr.aria-hidden]="isDuplicateChannel(i) ? 'true' : null"
-                [attr.tabindex]="isDuplicateChannel(i) ? -1 : null"
-                [flTooltip]="source.description"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span class="channel-avatar" [ngClass]="accentClass(source.id)">
-                  @if (source.avatar && !isAvatarFailed(source.avatar)) {
-                    <img
-                      [src]="source.avatar"
-                      alt=""
-                      width="22"
-                      height="22"
-                      loading="lazy"
-                      decoding="async"
-                      referrerpolicy="no-referrer"
-                      (error)="markAvatarFailed(source.avatar)"
-                    />
-                  } @else {
-                    <span aria-hidden="true">{{ initial(source.name) }}</span>
-                  }
-                </span>
-                <span class="channel-name">{{ source.name }}</span>
-              </a>
-            }
-          </div>
-        </nav>
+        <div #channelView class="channel-view">
+          <nav class="channel-strip" [class.is-static]="sources.length < 6" [class.is-expanded]="channelsExpanded"
+            aria-label="订阅的博客" [style.--marquee-duration]="marqueeDuration">
+            <div class="channel-track">
+              @for (source of marqueeSources; track $index; let i = $index) {
+                <a
+                  class="channel"
+                  [class.is-duplicate]="isDuplicateChannel(i)"
+                  [href]="source.blogUrl || source.siteUrl"
+                  [attr.aria-label]="'打开 ' + source.name + ' 的博客'"
+                  [attr.aria-hidden]="isDuplicateChannel(i) ? 'true' : null"
+                  [attr.tabindex]="isDuplicateChannel(i) ? -1 : null"
+                  [flTooltip]="source.description"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="channel-avatar" [ngClass]="accentClass(source.id)">
+                    @if (source.avatar && !isAvatarFailed(source.avatar)) {
+                      <img
+                        [src]="source.avatar"
+                        alt=""
+                        width="22"
+                        height="22"
+                        loading="lazy"
+                        decoding="async"
+                        referrerpolicy="no-referrer"
+                        (error)="markAvatarFailed(source.avatar)"
+                      />
+                    } @else {
+                      <span aria-hidden="true">{{ initial(source.name) }}</span>
+                    }
+                  </span>
+                  <span class="channel-name">{{ source.name }}</span>
+                </a>
+              }
+            </div>
+          </nav>
 
-        @if (channelsExpanded) {
-          <p class="channel-sort-note">按最后更新时间排序</p>
+          @if (channelsExpanded) {
+            <p class="channel-sort-note">按最后更新时间排序</p>
+          }
+        </div>
+
+        @if (sources.length >= 6) {
+          <button
+            type="button"
+            class="channel-toggle"
+            [class.is-expanded]="channelsArrowExpanded"
+            [attr.aria-expanded]="channelsArrowExpanded"
+            [attr.aria-label]="channelsArrowExpanded ? '收起全部站点' : '展开全部站点'"
+            (click)="toggleChannels()"
+          >
+            <span class="channel-toggle-arrow" aria-hidden="true">
+              <svg width="80" height="24" viewBox="0 0 80 24" focusable="false">
+                <path d="M6 6 L40 18 L74 6" fill="none" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </button>
         }
-
-        <button
-          type="button"
-          class="channel-toggle"
-          [class.is-expanded]="channelsExpanded"
-          [attr.aria-expanded]="channelsExpanded"
-          [attr.aria-label]="channelsExpanded ? '收起全部站点' : '展开全部站点'"
-          (click)="toggleChannels()"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.4"
-              stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
       </div>
     }
   </header>
