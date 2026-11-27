@@ -171,6 +171,10 @@ async function main() {
       renderDesignPage(template),
     ),
     writeFileEnsured(
+      path.join(distRoot, 'subscribe', 'index.html'),
+      renderSubscribePage(template),
+    ),
+    writeFileEnsured(
       path.join(distRoot, 'donate', 'index.html'),
       renderDonatePage(template),
     ),
@@ -793,6 +797,36 @@ function renderDesignPage(template) {
     description:
       '花墨主站的设计系统展示页：颜色、排版、动效与公共组件都在这儿真实渲染，供开发参考与浏览。',
     canonicalPath: '/design',
+    ogType: 'website',
+    robots: 'noindex,follow',
+    body,
+  });
+}
+
+function renderSubscribePage(template) {
+  // 站长的私人订阅夹：路由公开存在，但导航、页脚都不放入口；noindex、不进 sitemap。
+  // 没有这份外壳时，直接访问 /subscribe 会回落到首页那份 canonical / meta。
+  const body = `
+    <main class="fi-seo-shell">
+      <header class="fi-seo-header">
+        <h1>再花的订阅</h1>
+        <p>再花的私人阅读夹：把喜欢的博客装进一台小收音机，按更新时间从新到旧排列。</p>
+      </header>
+      <section class="fi-seo-section">
+        <h2>这是什么</h2>
+        <ul>
+          <li>站长自己维护的一组 RSS 订阅源</li>
+          <li>文章由服务器定时抓取，页面只读快照</li>
+          <li>这个页面没有站内入口，仅供知道地址的人参观</li>
+        </ul>
+      </section>
+    </main>
+  `;
+
+  return injectSeoHtml(template, {
+    title: `再花的订阅 | ${siteName}`,
+    description: '再花的个人订阅夹：把喜欢的博客聚在这里，按更新时间从新到旧排列。',
+    canonicalPath: '/subscribe',
     ogType: 'website',
     robots: 'noindex,follow',
     body,

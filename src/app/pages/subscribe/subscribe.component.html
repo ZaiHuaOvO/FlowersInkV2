@@ -1,0 +1,198 @@
+<div class="subscribe fi-screen fi-page fi-page--narrow">
+
+  <!-- ====== 收音机面板 ====== -->
+  <header class="hero" @QuickUp>
+    <div class="hero-wave" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+
+    <div class="hero-top">
+      <span class="on-air"><span class="on-air-dot" aria-hidden="true"></span>ON AIR</span>
+      <span class="hero-updated" [flTooltip]="updatedTooltip">快照更新于 {{ updatedText }}</span>
+    </div>
+
+    <div class="hero-main">
+      <h1 class="hero-title">再花的<span class="hero-accent">订阅</span></h1>
+      <p class="hero-desc">把喜欢的博客放在这里。</p>
+    </div>
+
+    <div class="hero-stats">
+      <span class="stat"><strong class="tnum">{{ sources.length }}</strong><span>个频道</span></span>
+      <span class="stat-sep" aria-hidden="true"></span>
+      <span class="stat"><strong class="tnum">{{ total }}</strong><span>篇文章</span></span>
+      <span class="stat-sep" aria-hidden="true"></span>
+      <span class="stat stat-note">🐾 再花的私人阅读夹</span>
+    </div>
+
+    <!-- 频道只作展示与跳转：按最新更新时间排序，横向慢慢滚动，悬停暂停 -->
+    @if (sources.length) {
+      <nav class="channel-strip" [class.is-static]="sources.length < 6" aria-label="订阅的博客"
+        [style.--marquee-duration]="marqueeDuration">
+        <div class="channel-track">
+          @for (source of marqueeSources; track $index; let i = $index) {
+            <a
+              class="channel"
+              [class.is-duplicate]="isDuplicateChannel(i)"
+              [href]="source.blogUrl || source.siteUrl"
+              [attr.aria-label]="'打开 ' + source.name + ' 的博客'"
+              [attr.aria-hidden]="isDuplicateChannel(i) ? 'true' : null"
+              [attr.tabindex]="isDuplicateChannel(i) ? -1 : null"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="channel-avatar" [ngClass]="accentClass(source.id)">
+                @if (source.avatar && !isAvatarFailed(source.avatar)) {
+                  <img
+                    [src]="source.avatar"
+                    alt=""
+                    width="22"
+                    height="22"
+                    loading="lazy"
+                    decoding="async"
+                    referrerpolicy="no-referrer"
+                    (error)="markAvatarFailed(source.avatar)"
+                  />
+                } @else {
+                  <span aria-hidden="true">{{ initial(source.name) }}</span>
+                }
+              </span>
+              <span class="channel-name">{{ source.name }}</span>
+            </a>
+          }
+        </div>
+      </nav>
+    }
+  </header>
+
+  <!-- ====== 文章卡片（无分组标题，直接展示） ====== -->
+  @if (loading && showSkeleton) {
+    <div class="skeleton-list" aria-hidden="true">
+      @for (sk of skeletonCards; track sk) {
+        <div class="skeleton-card">
+          <div class="skeleton-logo"></div>
+          <div class="skeleton-text">
+            <div class="skeleton-line skeleton-line--title"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line skeleton-line--short"></div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (loadError) {
+    <flower-error-state
+      message="订阅没有加载出来"
+      detail="稍等一下再试，或者检查一下网络。"
+      (retry)="reload()"
+    ></flower-error-state>
+  }
+
+  @if (!loading && !loadError && !articles.length) {
+    <div class="feed-empty">
+      <span class="feed-empty-icon" aria-hidden="true">📡</span>
+      <p class="feed-empty-title">订阅夹还是空的</p>
+      <p class="feed-empty-hint">服务器正在抓取第一批文章，或者这里还没有内容。稍后再来看看 🐾</p>
+    </div>
+  }
+
+  @if (articles.length) {
+    <div
+      class="article-list"
+      (mouseleave)="clearHover()"
+      (focusout)="onListFocusOut($event)"
+    >
+      @for (article of articles; track article.id; let i = $index) {
+        <a
+          class="article-card"
+          [class.is-featured]="i === 0"
+          [class.is-active]="activeArticleId === article.id"
+          [class.is-dimmed]="!!activeArticleId && activeArticleId !== article.id"
+          [style.--enter-i]="i % 12"
+          [href]="article.link"
+          target="_blank"
+          rel="noopener noreferrer"
+          (mouseenter)="hoveredArticleId = article.id"
+          (focus)="onArticleFocus(article, $event)"
+        >
+          <span class="article-logo-wrap">
+            @if (article.sourceAvatar && !isAvatarFailed(article.sourceAvatar)) {
+              <img
+                class="article-logo"
+                [src]="article.sourceAvatar"
+                alt=""
+                width="44"
+                height="44"
+                loading="lazy"
+                decoding="async"
+                referrerpolicy="no-referrer"
+                (error)="markAvatarFailed(article.sourceAvatar)"
+              />
+            } @else {
+              <span class="article-logo-fallback" aria-hidden="true">{{ initial(article.sourceName) }}</span>
+            }
+          </span>
+
+          <span class="article-text">
+            <span class="article-title">{{ article.title }}</span>
+
+            @if (article.summary) {
+              <span class="article-summary">{{ article.summary }}</span>
+            }
+
+            <span class="article-foot">
+              <span class="article-source">{{ article.sourceName }}</span>
+              <span class="article-dot" aria-hidden="true">·</span>
+              <time class="article-time" [attr.datetime]="article.publishDate"
+                [flTooltip]="fullDate(article.publishTimestamp)">
+                {{ relative(article.publishTimestamp) }}
+              </time>
+              @if (isFresh(article.publishTimestamp)) {
+                <span class="fresh">NEW</span>
+              }
+
+              <!-- 正常不显示；悬停 / 键盘聚焦时从左往右滑入，离开时向左渐隐 -->
+              <span class="article-read" aria-hidden="true">
+                阅读原文
+                <svg class="read-arrow" width="16" height="8" viewBox="0 0 16 8" focusable="false">
+                  <path d="M0 4h15M11.5 1 15 4l-3.5 3" fill="none" stroke="currentColor"
+                    stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </span>
+          </span>
+        </a>
+      }
+    </div>
+  }
+
+  <!-- 无限滚动哨兵；始终在 DOM 里，观察器才能在首屏就挂上 -->
+  <div #sentinel class="sentinel" aria-hidden="true"></div>
+
+  @if (!supportsIntersectionObserver && hasMore && !loadingMore) {
+    <div class="load-more-wrap">
+      <fl-button variant="outline" size="md" (click)="tryLoadMore()">加载更多</fl-button>
+    </div>
+  }
+
+  @if (loadingMore) {
+    <p class="load-more-status" role="status">
+      正在收台<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    </p>
+  }
+
+  @if (loadMoreError) {
+    <div class="load-more-wrap">
+      <fl-button variant="outline" size="md" (click)="retryLoadMore()">没接上，点我重试</fl-button>
+    </div>
+  }
+
+  @if (!loading && !loadError && !hasMore && articles.length) {
+    <p class="feed-end">收台啦，去喝杯茶 🍵</p>
+  }
+
+  <footer class="subscribe-foot">
+    <span>文章由服务器定时抓取，你看到的都是快照；页面本身不访问外部站点。</span>
+    <span>这个页面没有入口，只有知道地址的人会来。🐾</span>
+  </footer>
+</div>

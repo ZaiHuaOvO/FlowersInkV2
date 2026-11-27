@@ -28,5 +28,7 @@ export const API = {
   MODULE: '/module',
   LINK: '/site/link',
   LINK_ARTICLES: '/site/link/articles',
+  SUBSCRIPTION_ARTICLES: '/subscription/articles',
+  SUBSCRIPTION_SOURCES: '/subscription/sources',
   GITHUB_CONTRIBUTIONS: '/github/contributions',
 };

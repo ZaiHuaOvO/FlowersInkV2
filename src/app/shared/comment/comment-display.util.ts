@@ -1,5 +1,6 @@
 import { md5 } from '../utils/md5.util';
 import { buildQqAvatarUrl, getQqNumber } from '../utils/qq-avatar.util';
+import { relativeTime } from '../utils/relative-time.util';
 import { normalizeWebsiteUrl } from '../utils/website-url.util';
 import {
   ZAIHUA_AVATAR,
@@ -28,27 +29,7 @@ export function displayWebsite(c: CommentItem): string {
 }
 
 /** 相对时间；无法解析的日期按「刚刚」处理（预览态会传空串） */
-export function relativeTime(dateStr: string): string {
-  const then = new Date(dateStr).getTime();
-  if (!Number.isFinite(then)) {
-    return '刚刚';
-  }
-  const diffSec = Math.floor((Date.now() - then) / 1000);
-
-  if (diffSec < 60) {
-    return '刚刚';
-  }
-  if (diffSec < 3600) {
-    return `${Math.floor(diffSec / 60)} 分钟前`;
-  }
-  if (diffSec < 86400) {
-    return `${Math.floor(diffSec / 3600)} 小时前`;
-  }
-  if (diffSec < 2592000) {
-    return `${Math.floor(diffSec / 86400)} 天前`;
-  }
-  return `${Math.floor(diffSec / 2592000)} 个月前`;
-}
+export { relativeTime };
 
 /**
  * 求当前该用的头像来源。结果缓存在 `c._avatar` 上，避免每次变更检测重算。

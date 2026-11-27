@@ -99,6 +99,15 @@ export const routes: Routes = [
       import('./pages/design/design.component').then((m) => m.DesignComponent),
   },
   {
+    // 站长私人订阅夹：站内不放任何入口，只按地址访问；SEO 外壳 noindex
+    path: 'subscribe',
+    title: '花墨 | 再花的订阅',
+    loadComponent: () =>
+      import('./pages/subscribe/subscribe.component').then(
+        (m) => m.SubscribeComponent,
+      ),
+  },
+  {
     path: 'link',
     loadChildren: () =>
       import('./pages/link/link.routes').then((m) => m.LINK_ROUTES),
