@@ -66,10 +66,24 @@
   box-shadow: 0 0 0 3px var(--fi-primary-outline);
 }
 
-.fl-button:disabled {
+/* 链接形态（href）：浏览器默认的 inline 显示撑不开宽度，也带下划线，
+   这里对齐成按钮的块级居中，其余视觉全部复用 .fl-button 的规则 */
+a.fl-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.fl-button:disabled,
+.fl-button--disabled {
   opacity: 0.58;
   cursor: not-allowed;
   transform: none;
+}
+
+.fl-button--disabled {
+  pointer-events: none;
 }
 
 .fl-button--sm {

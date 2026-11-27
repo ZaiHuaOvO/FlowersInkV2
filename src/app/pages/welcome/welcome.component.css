@@ -244,12 +244,30 @@
 }
 
 .hero-actions fl-button {
-    min-width: 124px;
+    min-width: 104px;
     transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .hero-actions fl-button:hover {
     transform: translateY(-3px);
+}
+
+/* RSS 订阅：按内容宽度收窄，不跟两个导航按钮的 124px 对齐；
+   图标与文字同排居中，字号/颜色全部继承 fl-button */
+.hero-actions .hero-rss-btn {
+    min-width: auto;
+}
+
+.hero-rss-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fi-space-1);
+    white-space: nowrap;
+}
+
+.hero-rss-inner flower-rss {
+    display: inline-flex;
+    line-height: 0;
 }
 
 /* ── 向下滚动提示 ── */
@@ -384,8 +402,17 @@
         align-items: center !important;
     }
 
+    /* 三个动作等宽排成一行：中间按钮的正中就是页面中线，整排不会偏左；
+       上限 360px，再宽按钮就变得又扁又空 */
     .hero-actions {
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--fi-space-3);
+        width: min(100%, 360px);
+    }
+
+    .hero-actions fl-button {
+        min-width: 0;
     }
 
     .hero-stats {

@@ -50,7 +50,16 @@
         </div>
         <div class="hero-actions">
           <fl-button routerLink="/about" variant="solid">了解我</fl-button>
-          <fl-button routerLink="/blog/all">看看博客</fl-button>
+          <fl-button routerLink="/blog/all">看博客</fl-button>
+          <!-- 订阅是第三层级动作：ghost 不跟两个导航按钮抢视觉重量；
+               小屏只留 RSS 图标，44px 触控，名字靠 aria-label 兜住 -->
+          <fl-button class="hero-rss-btn" href="/rss.xml" target="_blank" variant="ghost"
+            ariaLabel="订阅 RSS">
+            <span class="hero-rss-inner">
+              <flower-rss variant="bare"></flower-rss>
+              <span class="hero-rss-label">订阅</span>
+            </span>
+          </fl-button>
         </div>
       </div>
     </div>

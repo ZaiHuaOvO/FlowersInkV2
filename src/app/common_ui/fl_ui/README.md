@@ -66,6 +66,7 @@ export class ExampleComponent {}
 <fl-button [routerLink]="['/about']">了解再花</fl-button>
 <fl-button type="submit">发布</fl-button>
 <fl-button [block]="true">铺满容器</fl-button>
+<fl-button href="/rss.xml" target="_blank">订阅</fl-button>
 ```
 
 ### API
@@ -78,6 +79,10 @@ export class ExampleComponent {}
 | `disabled` | 禁用状态 | `boolean` | `false` |
 | `block` | 是否铺满容器 | `boolean` | `false` |
 | `routerLink` | Angular 路由跳转 | `string \| readonly string[] \| any[] \| null` | `null` |
+| `href` | 站点路由之外的地址；传了就渲染成 `<a>` | `string \| null` | `null` |
+| `target` | 链接打开方式（仅 `href` 模式） | `'_blank' \| '_self' \| null` | `null` |
+| `rel` | 链接 rel；`target="_blank"` 时默认 `noopener noreferrer` | `string \| null` | `null` |
+| `ariaLabel` | 可读名称（图标按钮必填） | `string \| null` | `null` |
 
 ### 主题变量
 

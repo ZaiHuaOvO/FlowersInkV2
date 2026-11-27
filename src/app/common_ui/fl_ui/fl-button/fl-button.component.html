@@ -1,3 +1,27 @@
+<!-- 内容只放一处 ng-content，两个分支共用同一份：
+     模板里出现两个默认 ng-content 时，投影只会进其中一个，另一个渲染为空 -->
+<ng-template #content><ng-content></ng-content></ng-template>
+
+@if (href) {
+<a
+  class="fl-button"
+  [class.fl-button--solid]="variant === 'solid'"
+  [class.fl-button--outline]="variant === 'outline'"
+  [class.fl-button--ghost]="variant === 'ghost'"
+  [class.fl-button--sm]="size === 'sm'"
+  [class.fl-button--md]="size === 'md'"
+  [class.fl-button--lg]="size === 'lg'"
+  [class.fl-button--block]="block"
+  [class.fl-button--disabled]="disabled"
+  [href]="disabled ? null : href"
+  [attr.target]="target"
+  [attr.rel]="resolvedRel"
+  [attr.aria-disabled]="disabled || null"
+  [attr.aria-label]="ariaLabel"
+>
+  <ng-container [ngTemplateOutlet]="content"></ng-container>
+</a>
+} @else {
 <button
   class="fl-button"
   [class.fl-button--solid]="variant === 'solid'"
@@ -10,6 +34,8 @@
   [attr.type]="type"
   [disabled]="disabled"
   [routerLink]="routerLink"
+  [attr.aria-label]="ariaLabel"
 >
-  <ng-content></ng-content>
+  <ng-container [ngTemplateOutlet]="content"></ng-container>
 </button>
+}

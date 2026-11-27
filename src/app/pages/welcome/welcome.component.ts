@@ -22,6 +22,7 @@ import { getSafeTopInset } from '../../shared/utils/safe-area.util';
 import { AnnouncementCardComponent } from './announcement-card/announcement-card.component';
 import { AnnouncementDetailComponent } from './announcement-detail/announcement-detail.component';
 import { FlErrorStateComponent } from '../../common_ui/fl_ui/fl-error-state/fl-error-state.component';
+import { RssComponent } from '../../components/website/svg/rss/rss.component';
 
 /**
  * 首页 hero 的入场动画方案，每次加载随机挑一套。
@@ -86,6 +87,7 @@ interface WelcomeStats {
     FlButtonComponent,
     AnnouncementCardComponent,
     FlErrorStateComponent,
+    RssComponent,
   ],
   animations: [SlowUp, QuickUp],
 })

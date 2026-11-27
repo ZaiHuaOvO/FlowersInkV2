@@ -444,7 +444,8 @@
         <h2 class="ds-section-title fi-text-title-2">按钮</h2>
         <p class="ds-section-desc fi-text-caption">
           <code>variant</code>（outline / solid / ghost）× <code>size</code>（sm / md / lg）×
-          <code>disabled</code> × <code>block</code>。<code>routerLink</code> 可直接当路由跳转用。
+          <code>disabled</code> × <code>block</code>。<code>routerLink</code> 可直接当路由跳转用；
+          站外或静态地址传 <code>href</code>，渲染成真正的链接（新窗口会自动补 <code>rel</code>）。
         </p>
 
         <div class="ds-subsection">
@@ -475,6 +476,7 @@
               <fl-button variant="solid">可点</fl-button>
               <fl-button variant="solid" [disabled]="true">禁用</fl-button>
               <fl-button variant="outline" type="submit">type=submit</fl-button>
+              <fl-button variant="ghost" href="/rss.xml" target="_blank">href 链接按钮</fl-button>
             </div>
             <div class="ds-demo-block">
               <fl-button variant="solid" [block]="true">block —— 铺满容器宽度</fl-button>
@@ -896,11 +898,15 @@
         </p>
         <div class="ds-demo-row ds-demo-row--icons ds-demo-row--brand-icons" flCard>
           <flower-rss></flower-rss>
+          <flower-rss variant="bare"></flower-rss>
           <flower-sitemap></flower-sitemap>
           <flower-planet></flower-planet>
           <flower-coffee-icon></flower-coffee-icon>
           <flower-forever></flower-forever>
         </div>
+        <p class="ds-hint fi-text-caption">
+          两个 RSS 是同一组件的两种形态：方框徽标给社交入口那排图标按钮，纯弧线给与文字并排的场合。
+        </p>
         <div class="ds-demo-row ds-demo-row--icons ds-demo-row--ui-icons" flCard>
           <span nz-icon nzType="search" nzTheme="outline"></span>
           <span nz-icon nzType="menu" nzTheme="outline"></span>
