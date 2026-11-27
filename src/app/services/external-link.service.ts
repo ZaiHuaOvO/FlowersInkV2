@@ -15,6 +15,15 @@ const TRUSTED_SUFFIXES = ['flowersink.com', 'gov.cn'];
 const TRUSTED_HOSTS = ['localhost', '127.0.0.1', '[::1]'];
 
 /**
+ * 标记「直接打开、不弹确认」的链接。
+ *
+ * 目前只给订阅页的 RSS 文章卡片用：文章来自服务器预抓取的快照，
+ * 站点挂掉就不会有这条卡片，打开风险足够低；站点/频道跳转仍然走确认。
+ * 这是刻意保留的窄例外，不要扩散到其他外链。
+ */
+const DIRECT_ATTRIBUTE = 'data-external-direct';
+
+/**
  * 全站外链出口。
  *
  * 点击事件用捕获阶段挂在 document 上，因此 markdown 正文、评论、友链卡片、
@@ -84,7 +93,11 @@ export class ExternalLinkService {
 
     const target = event.target as Element | null;
     const anchor = target?.closest?.('a[href]') as HTMLAnchorElement | null;
-    if (!anchor || anchor.hasAttribute('download')) {
+    if (
+      !anchor ||
+      anchor.hasAttribute('download') ||
+      anchor.hasAttribute(DIRECT_ATTRIBUTE)
+    ) {
       return;
     }
 

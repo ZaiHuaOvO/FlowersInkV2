@@ -102,6 +102,7 @@
       @for (article of articles; track article.id; let i = $index) {
         <a
           class="article-card"
+          data-external-direct
           [class.is-featured]="i === 0"
           [style.--enter-i]="i % 12"
           [href]="article.link"
