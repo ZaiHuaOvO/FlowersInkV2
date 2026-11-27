@@ -72,6 +72,8 @@ export class SubscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   sources: SubscriptionSourceItem[] = [];
   /** 横向跑马灯用：两份相同的频道，接成无缝循环 */
   marqueeSources: SubscriptionSourceItem[] = [];
+  /** 频道区展开为全部站点；收起时是自动滚动的跑马灯 */
+  channelsExpanded = false;
 
   articles: SubscriptionArticleItem[] = [];
   total = 0;
@@ -184,6 +186,11 @@ export class SubscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** 跑马灯第二份用于无缝循环；后半段的链接不进入 Tab 顺序 */
   isDuplicateChannel(index: number): boolean {
     return index >= this.sources.length;
+  }
+
+  /** 展开 / 收起全部站点 */
+  toggleChannels(): void {
+    this.channelsExpanded = !this.channelsExpanded;
   }
 
   relative(timestamp: number): string {

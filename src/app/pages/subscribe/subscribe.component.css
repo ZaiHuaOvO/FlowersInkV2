@@ -40,7 +40,7 @@
 .hero-top,
 .hero-main,
 .hero-stats,
-.channel-strip {
+.channel-area {
   position: relative;
   z-index: 1;
 }
@@ -188,6 +188,12 @@
 }
 
 /* ====== 频道：横向慢速跑马灯 ====== */
+.channel-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fi-space-2);
+}
+
 .channel-strip {
   overflow: hidden;
   padding-block: 4px;
@@ -221,6 +227,79 @@
   flex-wrap: wrap;
   justify-content: center;
   animation: none;
+}
+
+/* 展开：停掉跑马灯，所有站点换行铺开 */
+.channel-strip.is-expanded {
+  overflow: visible;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.channel-strip.is-expanded .channel-track {
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--fi-space-2);
+  animation: none;
+  transform: none;
+}
+
+.channel-strip.is-expanded .channel {
+  margin-right: 0;
+}
+
+.channel-strip.is-expanded .channel.is-duplicate {
+  display: none;
+}
+
+.channel-sort-note {
+  margin: 0;
+  text-align: center;
+  font-size: var(--fi-font-size-2xs);
+  line-height: var(--fi-line-height-normal);
+  color: var(--fi-text-muted);
+}
+
+/* 展开 / 收起：宽一点的下箭头，展开后转向上方 */
+.channel-toggle {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(380px, 100%);
+  min-height: 32px;
+  padding: 0;
+  border: 1px solid var(--fi-border);
+  border-radius: var(--fi-radius-pill);
+  background: var(--fi-surface);
+  color: var(--fi-text-muted);
+  cursor: pointer;
+  transition: background-color var(--fi-motion-fast) var(--fi-ease-standard),
+    border-color var(--fi-motion-fast) var(--fi-ease-standard),
+    color var(--fi-motion-fast) var(--fi-ease-standard),
+    box-shadow var(--fi-motion-fast) var(--fi-ease-standard);
+}
+
+.channel-toggle:hover {
+  background: var(--fi-card-bg-hover);
+  border-color: var(--fi-border-strong);
+  color: var(--fi-primary);
+}
+
+.channel-toggle:focus-visible {
+  outline: 0;
+  border-color: var(--fi-primary);
+  box-shadow: 0 0 0 3px var(--fi-primary-outline);
+}
+
+.channel-toggle svg {
+  display: block;
+  transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
+}
+
+.channel-toggle.is-expanded svg {
+  transform: rotate(180deg);
 }
 
 .channel {
@@ -756,6 +835,11 @@
   }
 
   .channel {
+    min-height: var(--fi-control-height-lg);
+  }
+
+  .channel-toggle {
+    width: 100%;
     min-height: var(--fi-control-height-lg);
   }
 
