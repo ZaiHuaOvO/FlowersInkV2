@@ -48,10 +48,8 @@ export class SubscribeService {
   }
 
   getSources(): Observable<object> {
-    return this.http.getCached(
-      API.SUBSCRIPTION_SOURCES,
-      undefined,
-      HTTP_CACHE_TTL.LIST,
-    );
+    // 频道顺序跟着各源的最新文章时间走，不做 GET 缓存：
+    // 后台新增/删除后，刷新页面应立即看到新顺序。
+    return this.http.get(API.SUBSCRIPTION_SOURCES);
   }
 }

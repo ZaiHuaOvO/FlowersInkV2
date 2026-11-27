@@ -37,6 +37,7 @@
               [attr.aria-label]="'打开 ' + source.name + ' 的博客'"
               [attr.aria-hidden]="isDuplicateChannel(i) ? 'true' : null"
               [attr.tabindex]="isDuplicateChannel(i) ? -1 : null"
+              [flTooltip]="source.description"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -97,23 +98,15 @@
   }
 
   @if (articles.length) {
-    <div
-      class="article-list"
-      (mouseleave)="clearHover()"
-      (focusout)="onListFocusOut($event)"
-    >
+    <div class="article-list">
       @for (article of articles; track article.id; let i = $index) {
         <a
           class="article-card"
           [class.is-featured]="i === 0"
-          [class.is-active]="activeArticleId === article.id"
-          [class.is-dimmed]="!!activeArticleId && activeArticleId !== article.id"
           [style.--enter-i]="i % 12"
           [href]="article.link"
           target="_blank"
           rel="noopener noreferrer"
-          (mouseenter)="hoveredArticleId = article.id"
-          (focus)="onArticleFocus(article, $event)"
         >
           <span class="article-logo-wrap">
             @if (article.sourceAvatar && !isAvatarFailed(article.sourceAvatar)) {

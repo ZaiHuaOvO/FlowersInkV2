@@ -38,7 +38,7 @@ interface ArticlePagePayload {
  * 数据全部来自 API 的定时快照：本页只请求自己的接口，绝不在这里实时抓外部 feed。
  *
  * 交互：频道只作展示与跳转（按最新更新时间排序、自动横向滚动、悬停暂停）；
- * 文章卡片沿用友链页的行卡片，悬停一张时其余变淡；
+ * 文章卡片沿用友链页的行卡片，只亮当前悬停 / 聚焦的一张；
  * 首屏 24 条，滚到底自动加载下一页。
  */
 @Component({
@@ -80,10 +80,6 @@ export class SubscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   hasMore = false;
   loadingMore = false;
   loadMoreError = false;
-
-  /** 指针悬停 / 键盘聚焦的卡片：悬停哪张，其余卡片变淡 */
-  hoveredArticleId: number | null = null;
-  focusedArticleId: number | null = null;
 
   /** 加载失败的作者头像地址；同一张卡片重渲染时不再反复请求坏图 */
   private readonly failedAvatars = new Set<string>();
@@ -190,10 +186,6 @@ export class SubscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     return index >= this.sources.length;
   }
 
-  get activeArticleId(): number | null {
-    return this.hoveredArticleId ?? this.focusedArticleId;
-  }
-
   relative(timestamp: number): string {
     return relativeTime(new Date(timestamp).toISOString());
   }
@@ -221,27 +213,6 @@ export class SubscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   markAvatarFailed(url: string | undefined): void {
     if (url) {
       this.failedAvatars.add(url);
-    }
-  }
-
-  // ── 卡片悬停 / 聚焦 ──
-
-  clearHover(): void {
-    this.hoveredArticleId = null;
-  }
-
-  onArticleFocus(article: SubscriptionArticleItem, event: FocusEvent): void {
-    // 鼠标点出来的焦点不算选中：否则点完再挪开鼠标，高亮会一直挂着
-    const target = event.target as HTMLElement | null;
-    this.focusedArticleId =
-      target?.matches(':focus-visible') === true ? article.id : null;
-  }
-
-  onListFocusOut(event: FocusEvent): void {
-    const list = event.currentTarget as HTMLElement | null;
-    const next = event.relatedTarget as Node | null;
-    if (!list || !next || !list.contains(next)) {
-      this.focusedArticleId = null;
     }
   }
 

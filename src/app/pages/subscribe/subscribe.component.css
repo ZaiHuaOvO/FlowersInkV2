@@ -202,9 +202,10 @@
   will-change: transform;
 }
 
-/* 悬停 / 键盘聚焦时暂停，免得点不到在动的链接 */
+/* 悬停或键盘聚焦时暂停，免得点不到在动的链接。
+   只认 :focus-visible：鼠标点过的链接虽然还带着焦点，但滚动不该停在原地。 */
 .channel-strip:hover .channel-track,
-.channel-strip:focus-within .channel-track {
+.channel-strip:has(.channel:focus-visible) .channel-track {
   animation-play-state: paused;
 }
 
@@ -333,14 +334,9 @@
   animation-delay: calc(var(--enter-i, 0) * 35ms);
 }
 
-.article-card.is-active {
-  background: var(--fi-card-bg-hover);
-  border-color: var(--fi-border-strong);
-  box-shadow: var(--fi-shadow-hover);
-}
-
 .article-card:focus-visible {
   outline: 0;
+  background: var(--fi-card-bg-hover);
   border-color: var(--fi-primary);
   box-shadow: 0 0 0 3px var(--fi-primary-outline), var(--fi-shadow-soft);
 }
@@ -387,8 +383,18 @@
   transition: transform var(--fi-motion-normal) var(--fi-ease-standard);
 }
 
-.article-card.is-active .article-text {
+/* 键盘聚焦：与悬停一致地亮起标题、右移文字并露出阅读提示 */
+.article-card:focus-visible .article-text {
   transform: translateX(2px);
+}
+
+.article-card:focus-visible .article-title {
+  color: var(--fi-primary-active);
+}
+
+.article-card:focus-visible .article-read {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .article-title {
@@ -477,37 +483,25 @@
   display: block;
 }
 
-/* ====== 悬停退让：只和同一列表里的成员比 ====== */
+/* ====== 卡片悬停：只亮当前卡片，其余保持不变 ====== */
 @media (hover: hover) and (pointer: fine) {
-  .article-card.is-active .article-title {
+  .article-card:hover {
+    background: var(--fi-card-bg-hover);
+    border-color: var(--fi-border-strong);
+    box-shadow: var(--fi-shadow-hover);
+  }
+
+  .article-card:hover .article-text {
+    transform: translateX(2px);
+  }
+
+  .article-card:hover .article-title {
     color: var(--fi-primary-active);
   }
 
-  .article-card.is-active .article-read {
+  .article-card:hover .article-read {
     opacity: 1;
     transform: translateX(0);
-  }
-
-  .article-card.is-dimmed {
-    background: color-mix(in srgb, var(--fi-card-bg) 40%, transparent);
-    border-color: transparent;
-    box-shadow: none;
-    filter: saturate(0.6);
-  }
-
-  .article-card.is-dimmed .article-logo-wrap {
-    opacity: 0.55;
-  }
-
-  .article-card.is-dimmed .article-title,
-  .article-card.is-dimmed .article-summary,
-  .article-card.is-dimmed .article-source,
-  .article-card.is-dimmed .article-foot {
-    color: var(--fi-text-caption);
-  }
-
-  .article-card.is-dimmed .fresh {
-    opacity: 0.7;
   }
 }
 
